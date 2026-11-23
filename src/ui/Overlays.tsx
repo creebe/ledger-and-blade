@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { APPROACH_INFO, canChoose, checkDetail, dateLabel, PROFESSIONS, resolveEvent, type GameEvent } from '../engine';
+import { useEffect, useState } from 'react';
+import { APPROACH_INFO, canChoose, checkDetail, dateLabel, PROFESSIONS, resolveEvent, track, type GameEvent } from '../engine';
 import { exportSave, importSave, slotInfo, snap, useStore, type ResourceSnap } from '../store';
 import { ChanceBar, Sheet } from './common';
 import { pct } from './format';
@@ -156,6 +156,9 @@ const STAMP: Record<string, string> = { strong: 'Decisive', success: 'Success', 
 
 export function MissionReplay({ id }: { id: string }) {
   const g = useStore((s) => s.game)!;
+  useEffect(() => {
+    useStore.getState().act((d) => track(d, 'journal'));
+  }, [id]);
   const m = [...g.missions, ...g.history].find((x) => x.id === id);
   const [skip, setSkip] = useState(false);
   if (!m?.report) return null;
@@ -389,6 +392,14 @@ export function MenuSheet() {
       </button>
       <h3 className="subhead">Display</h3>
       <ThemeRow />
+      {g && (
+        <div className="row between slot-row">
+          <span className="small">Guildmaster’s Notes (guided objectives)</span>
+          <button className="btn ghost small" onClick={() => useStore.getState().act((d) => void (d.tutorial.enabled = !d.tutorial.enabled))}>
+            {g.tutorial?.enabled ? 'Hide' : 'Show'}
+          </button>
+        </div>
+      )}
       <h3 className="subhead">Game</h3>
       <div className="row wrap gap">
         <button className="btn ghost small" onClick={() => open({ kind: 'help' })}>

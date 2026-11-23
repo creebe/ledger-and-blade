@@ -371,6 +371,7 @@ export interface GameState {
   construction?: { id: FacilityId; toLevel: number; progress: number; weeks: number };
   craftQueue: string[]; // recipe ids waiting to be made
   council: CouncilState;
+  tutorial: { enabled: boolean; done: string[]; counters: Record<string, number>; finished?: boolean };
   insolventWeeks: number;
   charterWeeks: number; // consecutive weeks with the charter in danger
   eventWeeks: Record<string, number>; // last week each event fired

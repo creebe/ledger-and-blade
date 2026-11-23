@@ -2,10 +2,10 @@
 // (shown to the player) or undefined on success.
 import { ITEMS } from './data/items';
 import { describePlan } from './rival';
-import { suppliesNeeded } from './odds';
+import { counteredTags, knownTags, suppliesNeeded } from './odds';
 import { revealCost, rosterCap, tripWeeks } from './buildings';
 import { uid } from './rng';
-import type { Approach, Assignment, Attribute, FactionId, GameState, ItemSlot, MaterialId } from './types';
+import type { Member, Approach, Assignment, Attribute, FactionId, GameState, ItemSlot, MaterialId } from './types';
 import {
   addDispatch,
   addItem,
@@ -21,6 +21,7 @@ import {
   spend,
   earn,
   supplyPrice,
+  track,
 } from './world';
 
 export const INTEL_REVEAL_COST = 2; // base; see revealCost() for the Den discount
@@ -48,6 +49,7 @@ export function hireRecruit(s: GameState, index: number): string | undefined {
   }
   s.members.push(m);
   s.recruits.splice(index, 1);
+  track(s, 'hire');
   addDispatch(s, 'roster', `${m.name} joins the guild`, [`Signed for ${r.signOn} crowns, at ${m.wage}/week.`]);
   return undefined;
 }
@@ -69,6 +71,7 @@ export function setAssignment(s: GameState, id: string, a: Assignment, extra?: {
   if (!m) return 'No such member';
   if (m.status === 'mission') return 'They are on a mission';
   m.assignment = a;
+  if (a !== 'rest') track(s, 'assign');
   if (a === 'train') m.trainAttr = extra?.attr ?? m.trainAttr ?? 'might';
   if (a === 'build' && !s.construction) return 'Nothing is being built';
   if (a === 'scout') {
@@ -96,6 +99,7 @@ export function equip(s: GameState, memberId: string, slot: ItemSlot, itemUid: s
       holder.loadout.consumables = holder.loadout.consumables.filter((c) => c !== itemUid);
     }
   }
+  if (itemUid) track(s, 'equip');
   if (slot === 'consumable') {
     const cons = [...m.loadout.consumables];
     if (itemUid) cons[consumableIndex] = itemUid;
@@ -113,6 +117,7 @@ export function buyItem(s: GameState, defId: string): string | undefined {
   if (s.crowns < price) return `Need ${price} crowns`;
   spend(s, 'Market', price);
   addItem(s, defId);
+  track(s, 'buy');
   return undefined;
 }
 
@@ -131,6 +136,7 @@ export function buySupplies(s: GameState, n: number): string | undefined {
   if (s.crowns < cost) return `Need ${cost} crowns`;
   spend(s, 'Supplies', cost);
   s.supplies += n;
+  track(s, 'supplies');
   s.market.supplies = clamp((s.market.supplies ?? 1) + n * 0.004, 0.6, 1.8);
   return undefined;
 }
@@ -157,6 +163,7 @@ export function revealTag(s: GameState, contractId: string, hiddenIndex: number)
   if (s.intel < cost) return `Need ${cost} intel`;
   s.intel -= cost;
   h.revealed = true;
+  track(s, 'reveal');
   return undefined;
 }
 
@@ -180,6 +187,8 @@ export function dispatchMission(
   const trip = tripWeeks(s, c.travelWeeks);
   if (s.supplies < need) return `Needs ${need} supplies (you have ${s.supplies})`;
   s.supplies -= need;
+  track(s, 'dispatch');
+  if (counteredTags(s, members as Member[], knownTags(c)).size > 0) track(s, 'countered');
   for (const m of members) {
     m!.status = 'mission';
     m!.missionId = undefined;
@@ -209,6 +218,7 @@ export function repayLoan(s: GameState, amount: number): string | undefined {
   const amt = Math.min(amount, Math.ceil(loan.principal));
   if (s.crowns < amt) return `Need ${amt} crowns`;
   spend(s, 'Loan repayment', amt);
+  track(s, 'repay');
   loan.principal -= amt;
   if (loan.principal <= 0.5) {
     s.loans = [];
@@ -223,6 +233,7 @@ export function petition(s: GameState, f: FactionId): string | undefined {
   if (s.influence < PETITION_COST) return `Need ${PETITION_COST} influence`;
   s.influence -= PETITION_COST;
   s.petitioned.push(f);
+  track(s, 'petition');
   applyStanding(s, f, 6);
   if (f === 'ostranders' && !s.flags.ostranders_open) {
     s.flags.ostranders_open = true;
@@ -245,6 +256,7 @@ export function revealRivalPlan(s: GameState): string | undefined {
   if (s.intel < INTEL_RIVAL_COST) return `Need ${INTEL_RIVAL_COST} intel`;
   s.intel -= INTEL_RIVAL_COST;
   plan.revealed = true;
+  track(s, 'spy');
   addDispatch(s, 'rival', 'Your informants report on Hobb & Daughters', [describePlan(s, plan)]);
   return undefined;
 }

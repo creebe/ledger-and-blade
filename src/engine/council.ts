@@ -4,7 +4,7 @@ import { DECREE_BY_ID, DECREES, SEATS } from './data/decrees';
 import { FACTIONS } from './data/factions';
 import { chance, pick, weighted } from './rng';
 import type { AgendaItem, CouncilState, FactionId, GameState, Stance } from './types';
-import { addDispatch, applyClock, applyStanding, clamp, factionName, spend } from './world';
+import { addDispatch, applyClock, applyStanding, clamp, factionName, spend, track } from './world';
 
 const FACTION_IDS = Object.keys(SEATS) as FactionId[];
 export const ANNOUNCE_WEEK = 7; // week of the season the agenda is posted
@@ -48,6 +48,7 @@ export function setPosition(s: GameState, decreeId: string, stance: Stance): str
   const item = s.council.agenda.find((a) => a.id === decreeId);
   if (!item) return 'Not on the agenda';
   item.player = stance;
+  if (stance) track(s, 'stance');
   return undefined;
 }
 
@@ -71,6 +72,7 @@ export function lobby(s: GameState, decreeId: string, f: FactionId, method: Lobb
   }
   item.positions[f] = clamp(item.positions[f] + item.player, -1, 1) as Stance;
   s.council.lobbied[f] = s.week;
+  track(s, 'lobby');
   return undefined;
 }
 

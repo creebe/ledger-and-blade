@@ -140,6 +140,7 @@ export function CouncilSection() {
   const active = c.active.filter((a) => a.untilWeek >= g.week);
   return (
     <Section
+      guide="council"
       title="The Council of Varrow"
       right={
         <span className="meta">

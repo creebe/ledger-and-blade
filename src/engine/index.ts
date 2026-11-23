@@ -8,6 +8,8 @@ export * from './rival';
 export { resolveMission } from './missions';
 export * from './buildings';
 export * from './council';
+export * from './tutorial';
+export type { Objective, GuideTab } from './data/tutorial';
 export { DECREES, DECREE_BY_ID, SEATS, SEAT_NOTE, activeMods } from './data/decrees';
 export type { DecreeDef } from './data/decrees';
 export { RECIPE_BY_ID } from './data/facilities';

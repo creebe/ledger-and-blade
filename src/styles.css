@@ -2361,3 +2361,68 @@ details summary {
   font-weight: 600;
   color: var(--ink-2);
 }
+
+/* Guildmaster's Notes */
+.guide-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  margin: 12px 0;
+}
+.objective {
+  display: flex;
+  gap: 10px;
+  padding: 8px 0;
+  border-top: 1px dotted var(--line);
+}
+.objective.first .obj-box {
+  border-color: var(--accent);
+}
+.obj-box {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
+  border-radius: 4px;
+  border: 1.5px solid var(--ink-2);
+}
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 4px 0 0;
+}
+.guide-nudge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 210px;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  color: var(--ink);
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.guide-nudge span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.guide-nudge .icon {
+  color: var(--accent);
+}
+@keyframes guidepulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+  50% {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+}

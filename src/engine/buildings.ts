@@ -3,7 +3,7 @@ import { FACILITIES, FACILITY_IDS, RECIPE_BY_ID, RECIPES, type FacilityId, type 
 import { ITEMS } from './data/items';
 import { modSum } from './data/decrees';
 import type { GameState, MaterialId } from './types';
-import { addDispatch, addItem, clamp, earn, living, MATERIAL_INFO, materialPrice, spend } from './world';
+import { addDispatch, addItem, clamp, earn, living, MATERIAL_INFO, materialPrice, spend, track } from './world';
 
 export const BASE_UPKEEP = 15;
 
@@ -68,6 +68,7 @@ export function startBuild(s: GameState, id: FacilityId): string | undefined {
   spend(s, 'Construction', next.crowns);
   payMaterials(s, next.materials);
   s.construction = { id, toLevel: level(s, id) + 1, progress: 0, weeks: next.weeks };
+  track(s, 'build');
   addDispatch(s, 'economy', `Work begins on the ${FACILITIES[id].name}`, [`Level ${level(s, id) + 1} will take about ${next.weeks} weeks. Members assigned to Build speed it up.`]);
   return undefined;
 }
@@ -93,6 +94,7 @@ export function queueCraft(s: GameState, recipeId: string): string | undefined {
   spend(s, 'Crafting', r.crowns);
   payMaterials(s, r.materials);
   s.craftQueue.push(r.id);
+  track(s, 'craft');
   return undefined;
 }
 

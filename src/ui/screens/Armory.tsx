@@ -32,6 +32,7 @@ export function ArmoryScreen() {
   return (
     <div className="screen">
       <h1 className="screen-title">Armory</h1>
+      <div data-guide="market">
       <Seg
         value={tab}
         onChange={setTab}
@@ -42,6 +43,7 @@ export function ArmoryScreen() {
           { value: 'materials', label: 'Materials' },
         ]}
       />
+      </div>
 
       {tab === 'market' && (
         <>

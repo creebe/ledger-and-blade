@@ -22,9 +22,9 @@ export function Sheet({ title, children, onClose, footer }: { title: ReactNode; 
   );
 }
 
-export function Section({ title, children, right }: { title?: ReactNode; children: ReactNode; right?: ReactNode }) {
+export function Section({ title, children, right, guide }: { title?: ReactNode; children: ReactNode; right?: ReactNode; guide?: string }) {
   return (
-    <section className="section">
+    <section className="section" data-guide={guide}>
       {(title || right) && (
         <div className="section-head">
           {title && <h3>{title}</h3>}

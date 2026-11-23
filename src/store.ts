@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { produce } from 'immer';
-import { advanceWeek, migrateSave, newGame, type GameState } from './engine';
+import { advanceWeek, checkTutorial, migrateSave, newGame, rewardText, type GameState, type Objective } from './engine';
 
 export type Tab = 'hall' | 'contracts' | 'roster' | 'armory' | 'realm';
 export type Sheet =
@@ -11,6 +11,7 @@ export type Sheet =
   | { kind: 'confirm'; title: string; body: string[]; cost?: string; confirmLabel: string; danger?: boolean; onConfirm: () => void }
   | { kind: 'warnings'; warnings: string[] }
   | { kind: 'menu' }
+  | { kind: 'guide' }
   | { kind: 'help' };
 
 export interface ResourceSnap {
@@ -84,6 +85,8 @@ interface Store {
   tab: Tab;
   sheets: Sheet[];
   toast?: { text: string; id: number };
+  guideTarget?: string;
+  showMe: (o: Objective) => void;
   act: (fn: (g: GameState) => string | undefined | void) => boolean;
   startNew: () => void;
   continueGame: () => void;
@@ -110,8 +113,10 @@ export const useStore = create<Store>((set, get) => ({
     const g = get().game;
     if (!g) return false;
     let err: string | undefined | void;
+    let completed: Objective[] = [];
     const next = produce(g, (draft) => {
       err = fn(draft as GameState);
+      if (!err) completed = checkTutorial(draft as GameState);
     });
     if (err) {
       get().notify(err);
@@ -119,6 +124,10 @@ export const useStore = create<Store>((set, get) => ({
     }
     set({ game: next });
     safeSet(AUTOSAVE, JSON.stringify(next));
+    if (completed.length) {
+      const o = completed[completed.length - 1];
+      window.setTimeout(() => get().notify(`✓ ${o.title}${rewardText(o.reward) ? ` · ${rewardText(o.reward)}` : ''}`), 900);
+    }
     return true;
   },
   startNew: () => {
@@ -160,6 +169,13 @@ export const useStore = create<Store>((set, get) => ({
     set({ sheets: after.gameOver ? [] : [{ kind: 'report', dispatchIds: fresh, week, before }] });
   },
   setTab: (t) => set({ tab: t, sheets: [] }),
+  showMe: (o) => {
+    set({ tab: o.tab, sheets: [], guideTarget: o.guide });
+    get().notify(o.how);
+    window.setTimeout(() => {
+      if (get().guideTarget === o.guide) set({ guideTarget: undefined });
+    }, 4500);
+  },
   open: (s) => set({ sheets: [...get().sheets, s] }),
   close: () => set({ sheets: get().sheets.slice(0, -1) }),
   closeAll: () => set({ sheets: [] }),

@@ -244,6 +244,9 @@ An **epilogue screen** summarizes the fate of members, factions and rivals.
 
 ## 14. UI & UX (portrait, phone)
 
+**Onboarding (implemented):** *Guildmaster's Notes* guides a new player through every system in five short chapters (first steps, your people, knowing what you face, the city, building the guild). Only the next three objectives show; ones that aren't possible yet wait with a reason. The next objective is always in the End Week bar, "Show me" jumps to the screen and highlights the spot, and each objective pays a small reward. It can be hidden from the menu.
+
+
 **Persistent top bar:** Week/Season · Crowns (with weekly ± delta) · Supplies · Influence · Renown · Heat. Tap any of them for a breakdown.
 
 **Bottom tab bar (5 tabs):**

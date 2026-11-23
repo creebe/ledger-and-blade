@@ -3,6 +3,7 @@ import { useStore } from '../../store';
 import { Empty, Section } from '../common';
 import { Icon } from '../icons';
 import { BuildingsSection } from '../Buildings';
+import { GuideCard } from '../Guide';
 
 const KIND_ICON: Record<string, string> = { story: 'quest', mission: 'scroll', economy: 'coin', politics: 'seal', roster: 'people', rival: 'hobbs', warning: 'warn', info: 'info' };
 // only warnings and the story get color; everything else is neutral
@@ -68,6 +69,8 @@ export function HallScreen() {
     <div className="screen">
       <h1 className="screen-title">The Hall</h1>
       <p className="muted">{dateLabel(g.week)}</p>
+
+      <GuideCard compact />
 
       {al.length > 0 && (
         <Section title="Attention">
@@ -154,7 +157,7 @@ export function HallScreen() {
 
       <BuildingsSection />
 
-      <Section title="Debt">
+      <Section title="Debt" guide="debt">
         {loan ? (
           <>
             <p>
@@ -203,7 +206,7 @@ export function HallScreen() {
         )}
       </Section>
 
-      <Section title="Dispatches">
+      <Section title="Dispatches" guide="dispatches">
         {feed.length === 0 && <Empty>Nothing yet.</Empty>}
         {weeks.map((w) => (
           <div key={w}>

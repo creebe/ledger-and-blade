@@ -39,7 +39,7 @@ export function RosterScreen() {
       <p className="muted small">
         {crew.length} members · wages {crew.reduce((s, m) => s + m.wage, 0)}◉/week. Idle members follow their weekly assignment. Tap a member to change gear and orders.
       </p>
-      <Section>
+      <Section guide="roster">
         {crew.map((m) => (
           <button key={m.id} className="member-row" onClick={() => open({ kind: 'member', id: m.id })} style={{ ['--fc' as string]: `var(--ap-${PROFESSION_APPROACH[m.profession]})` }}>
             <div className="card-row">
@@ -71,7 +71,7 @@ export function RosterScreen() {
         ))}
       </Section>
 
-      <Section title="Hiring Hall">
+      <Section title="Hiring Hall" guide="hiring">
         <p className="muted small">New faces arrive each week. Lower Town standing affects their quality and sign-on fee.</p>
         {g.recruits.length === 0 && <Empty>No one is looking for work.</Empty>}
         {g.recruits.map((r, i) => {

@@ -64,6 +64,12 @@ export function spend(state: GameState, category: string, amount: number) {
   state.weekBook.expenses[category] = (state.weekBook.expenses[category] ?? 0) + amount;
 }
 
+/** Record that the player did something (drives Guildmaster's Notes). */
+export function track(state: GameState, key: string) {
+  if (!state.tutorial) return;
+  state.tutorial.counters[key] = (state.tutorial.counters[key] ?? 0) + 1;
+}
+
 export function living(state: GameState): Member[] {
   return state.members.filter((m) => m.status !== 'dead' && m.status !== 'left');
 }

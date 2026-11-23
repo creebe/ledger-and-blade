@@ -2,6 +2,7 @@
 import { TRAITS } from './data/traits';
 import { activeMods, modProduct, modSum } from './data/decrees';
 import { councilNewWeek, freshCouncil, weeklyCouncil } from './council';
+import { freshTutorial } from './tutorial';
 import { denIntel, freshFacilities, healBonus, level, trainCost, trainWeeks, upkeep, weeklyWorkshop } from './buildings';
 import { triggerEvents } from './events';
 import { resolveMission } from './missions';
@@ -22,9 +23,10 @@ import {
   spend,
   earn,
   supplyPrice,
+  track,
 } from './world';
 
-export const SAVE_VERSION = 5;
+export const SAVE_VERSION = 6;
 
 export function freshNpcs(): GameState['npcs'] {
   return {
@@ -57,6 +59,10 @@ export function migrateSave(g: GameState): GameState | null {
   if (g.version === 4) {
     g.council = freshCouncil();
     g.version = 5;
+  }
+  if (g.version === 5) {
+    g.tutorial = freshTutorial();
+    g.version = 6;
   }
   return g.version === SAVE_VERSION ? g : null;
 }
@@ -100,6 +106,7 @@ export function newGame(seed = Date.now() % 2147483647): GameState {
     facilities: freshFacilities(),
     craftQueue: [],
     council: freshCouncil(),
+    tutorial: freshTutorial(),
     insolventWeeks: 0,
     charterWeeks: 0,
     eventWeeks: {},
@@ -238,6 +245,7 @@ export function advanceWeek(s: GameState): string | undefined {
           const all = ['scout', 'skirmisher', 'infiltrator'].includes(m.profession);
           const hidden = c.hidden.filter((h) => !h.revealed);
           for (const h of all ? hidden : hidden.slice(0, 1)) h.revealed = true;
+          if (hidden.length) track(s, 'reveal');
           addDispatch(s, 'info', `${m.name} scouted "${c.title}"`, [
             hidden.length ? `Revealed: ${(all ? hidden : hidden.slice(0, 1)).map((h) => h.trueTag).join(', ')}.` : 'Nothing new was learned.',
           ]);

@@ -14,7 +14,7 @@ import {
   type GameState,
 } from '../src/engine';
 import { runSim } from '../scripts/sim';
-import { buyMaterial, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
+import { buyMaterial, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
 
 const clearEvents = (s: GameState) => {
   while (s.pendingEvents.length) resolveEvent(s, s.pendingEvents[0].uid, 0);
@@ -209,7 +209,7 @@ describe('engine', () => {
     delete s.craftQueue;
     s.version = 3;
     const g = migrateSave(s as never)!;
-    expect(g.version).toBe(5);
+    expect(g.version).toBe(6);
     expect(g.facilities.hall).toBe(1);
     expect(g.craftQueue).toEqual([]);
   });
@@ -250,6 +250,40 @@ describe('engine', () => {
     s.council.active.push({ id: 'grain_levy', untilWeek: s.week + 12 });
     expect(supplyPrice(s)).toBeGreaterThan(base);
     expect(tally({ id: 'x', base: {} as never, positions: { exchequer: 1, weighhouse: -1, ostranders: -1, lowertown: 0 }, player: 0 }).passes).toBe(false); // 3 vs 4
+  });
+
+  it("Guildmaster's Notes complete from real actions and pay out once", () => {
+    const s = newGame(41);
+    clearEvents(s);
+    expect(guideView(s).active[0].id).toBe('first_contract');
+    const c = [...s.board].sort((a, b) => a.travelWeeks - b.travelWeeks)[0];
+    const team = living(s).slice(0, c.minSquad);
+    const crowns = s.crowns;
+    dispatchMission(s, c.id, team.map((m) => m.id), bestApproaches(s, c, team), true);
+    const done = checkTutorial(s).map((o) => o.id);
+    expect(done).toContain('first_contract');
+    expect(s.crowns).toBe(crowns + 20);
+    expect(checkTutorial(s)).toEqual([]); // no double rewards
+    const idle = living(s).find((m) => m.status === 'idle')!;
+    setAssignment(s, idle.id, 'rumors');
+    expect(checkTutorial(s).map((o) => o.id)).toContain('orders');
+  });
+
+  it("every note can be completed, and finishing them all pays the final reward", () => {
+    const s = newGame(42);
+    clearEvents(s);
+    s.influence = 10;
+    s.facilities.forge = 1;
+    s.council.agenda = [{ id: 'grain_levy', base: { exchequer: 1, weighhouse: 0, ostranders: 1, lowertown: -1 }, positions: { exchequer: 1, weighhouse: 0, ostranders: 1, lowertown: -1 }, player: 0 }];
+    s.history.push({ id: 'x' } as never);
+    s.week = 2;
+    for (const k of ['dispatch', 'why', 'assign', 'equip', 'journal', 'reveal', 'countered', 'supplies', 'petition', 'spy', 'stance', 'hire', 'build', 'craft', 'repay']) s.tutorial.counters[k] = 1;
+    const before = s.crowns;
+    const done = checkTutorial(s);
+    expect(done.length).toBe(OBJECTIVES.length);
+    expect(s.tutorial.finished).toBe(true);
+    const rewards = OBJECTIVES.reduce((t, o) => t + (o.reward.crowns ?? 0), 0);
+    expect(s.crowns).toBe(before + rewards + 50);
   });
 
   it('a careful bot usually survives the first season', () => {

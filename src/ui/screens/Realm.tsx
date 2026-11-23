@@ -69,6 +69,7 @@ export function RealmScreen() {
       </Section>
 
       <Section
+        guide="factions"
         title="Powers of Varrow"
         right={
           <span className="meta">
@@ -142,7 +143,7 @@ export function RealmScreen() {
         </button>
       </Section>
 
-      <Section title="Rivals">
+      <Section title="Rivals" guide="rivals">
         <div className="faction" style={{ ['--fc' as string]: RIVALS.hobbs.color }}>
           <div className="row between">
             <b className="meta" style={{ color: 'var(--ink)', fontSize: '1rem' }}>

@@ -6,6 +6,8 @@ import { ConfirmSheet, EventCard, HelpSheet, MenuSheet, MissionReplay, WarningsS
 import { Planner } from './ui/Planner';
 import { useScrollLock, useTheme } from './ui/theme';
 import { Icon } from './ui/icons';
+import { GuideCard, GuideNudge } from './ui/Guide';
+import { Sheet } from './ui/common';
 import { ArmoryScreen } from './ui/screens/Armory';
 import { ContractsScreen } from './ui/screens/Contracts';
 import { HallScreen } from './ui/screens/Hall';
@@ -114,7 +116,8 @@ function EndWeekButton() {
   return (
     <div className="endweek-bar">
       <span className="endweek-info">
-        {warnings.length > 0 ? (
+        <GuideNudge />
+        {g.tutorial?.enabled && !g.tutorial.finished ? null : warnings.length > 0 ? (
           <span className="meta" style={{ color: 'var(--mid)' }}>
             <Icon name="warn" size={14} />
             {warnings.length} to check
@@ -134,6 +137,7 @@ function EndWeekButton() {
       </span>
       <button
         className="endweek"
+        data-guide="endweek"
         onClick={() => {
           if (warnings.length) open({ kind: 'warnings', warnings });
           else endWeek();
@@ -215,6 +219,12 @@ export default function App() {
   const tab = useStore((s) => s.tab);
   const sheets = useStore((s) => s.sheets);
   const toast = useStore((s) => s.toast);
+  const guideTarget = useStore((s) => s.guideTarget);
+  useEffect(() => {
+    if (!guideTarget) return;
+    const t = window.setTimeout(() => document.querySelector(`[data-guide="${guideTarget}"]`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 80);
+    return () => window.clearTimeout(t);
+  }, [guideTarget]);
   useScrollLock(sheets.length > 0 || (!!game && !game.gameOver && game.pendingEvents.length > 0));
 
   if (!game)
@@ -259,10 +269,17 @@ export default function App() {
             return <HelpSheet key={i} />;
           case 'confirm':
             return <ConfirmSheet key={i} {...s} />;
+          case 'guide':
+            return (
+              <Sheet key={i} title="Guildmaster’s Notes">
+                <GuideCard />
+              </Sheet>
+            );
         }
       })}
       {event && <EventCard ev={event} />}
       {toast && <div className="toast">{toast.text}</div>}
+      {guideTarget && <style>{`[data-guide="${guideTarget}"] { animation: guidepulse 1.1s ease-in-out 4; border-radius: 12px; }`}</style>}
     </div>
   );
 }

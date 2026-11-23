@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import {
+  track,
   memberScore,
   APPROACH_INFO,
   bestApproaches,
@@ -260,7 +261,14 @@ export function Planner({ contractId }: { contractId: string }) {
             </div>
             {members.length > 0 && (
               <>
-                <button className="bar-btn" onClick={() => setExpanded(expanded === i ? null : i)} aria-expanded={expanded === i}>
+                <button
+                  className="bar-btn"
+                  onClick={() => {
+                    if (expanded !== i && !game.tutorial?.counters.why) act((d) => track(d, 'why'));
+                    setExpanded(expanded === i ? null : i);
+                  }}
+                  aria-expanded={expanded === i}
+                >
                   <ChanceBar min={p.min} max={p.max} />
                   <span className="small muted">{expanded === i ? 'Hide' : 'Why?'}</span>
                 </button>

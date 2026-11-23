@@ -69,6 +69,7 @@ export function BuildingsSection() {
 
   return (
     <Section
+      guide="buildings"
       title="Buildings"
       right={
         <span className="meta">

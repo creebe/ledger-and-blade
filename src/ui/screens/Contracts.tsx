@@ -80,7 +80,7 @@ export function ContractsScreen() {
         ))}
       </Section>
 
-      <Section title="The Board">
+      <Section title="The Board" guide="board">
         {board.length === 0 && <Empty>No contracts this week.</Empty>}
         {board.map((c) => (
           <ContractCard key={c.id} c={c} g={g} onOpen={() => open({ kind: 'planner', contractId: c.id })} />
