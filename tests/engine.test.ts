@@ -14,7 +14,7 @@ import {
   type GameState,
 } from '../src/engine';
 import { runSim } from '../scripts/sim';
-import { buyMaterial, level, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
+import { buyMaterial, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
 
 const clearEvents = (s: GameState) => {
   while (s.pendingEvents.length) resolveEvent(s, s.pendingEvents[0].uid, 0);
@@ -209,9 +209,47 @@ describe('engine', () => {
     delete s.craftQueue;
     s.version = 3;
     const g = migrateSave(s as never)!;
-    expect(g.version).toBe(4);
+    expect(g.version).toBe(5);
     expect(g.facilities.hall).toBe(1);
     expect(g.craftQueue).toEqual([]);
+  });
+
+  it('the Council posts an agenda, can be lobbied, and votes at the end of the season', () => {
+    const s = newGame(31);
+    s.crowns = 5000; // keep the guild solvent while it does nothing but politics
+    while (s.week < 7) {
+      clearEvents(s);
+      advanceWeek(s);
+    }
+    expect(s.council.agenda.length).toBe(2);
+    const item = s.council.agenda[0];
+    // work for the side the bank opposes or that is undecided-heavy: support it
+    expect(lobby(s, item.id, 'lowertown', 'influence')).toMatch(/position/);
+    setPosition(s, item.id, 1);
+    s.influence = 50;
+    const target = (['exchequer', 'weighhouse', 'ostranders', 'lowertown'] as const).find((f) => item.positions[f] < 1)!;
+    const before = item.positions[target];
+    expect(lobby(s, item.id, target, 'influence')).toBeUndefined();
+    expect(item.positions[target]).toBe(before + 1);
+    expect(lobby(s, item.id, target, 'influence')).toMatch(/already/i);
+    // push everyone over so it passes
+    for (let w = 0; w < 6 && s.council.agenda.length; w++) {
+      for (const f of ['exchequer', 'weighhouse', 'ostranders', 'lowertown'] as const) if (s.council.agenda[0]?.positions[f] !== 1) lobby(s, item.id, f, 'influence');
+      clearEvents(s);
+      advanceWeek(s);
+    }
+    expect(s.council.agenda.length).toBe(0);
+    const record = s.council.history.find((h) => h.id === item.id)!;
+    expect(record.passed).toBe(true);
+    expect(s.council.active.some((a) => a.id === item.id)).toBe(true);
+  });
+
+  it('decrees in force change the economy', () => {
+    const s = newGame(32);
+    const base = supplyPrice(s);
+    s.council.active.push({ id: 'grain_levy', untilWeek: s.week + 12 });
+    expect(supplyPrice(s)).toBeGreaterThan(base);
+    expect(tally({ id: 'x', base: {} as never, positions: { exchequer: 1, weighhouse: -1, ostranders: -1, lowertown: 0 }, player: 0 }).passes).toBe(false); // 3 vs 4
   });
 
   it('a careful bot usually survives the first season', () => {

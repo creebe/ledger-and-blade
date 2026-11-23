@@ -1,5 +1,7 @@
 // The weekly simulation: everything the player set in motion resolves at once.
 import { TRAITS } from './data/traits';
+import { activeMods, modProduct, modSum } from './data/decrees';
+import { councilNewWeek, freshCouncil, weeklyCouncil } from './council';
 import { denIntel, freshFacilities, healBonus, level, trainCost, trainWeeks, upkeep, weeklyWorkshop } from './buildings';
 import { triggerEvents } from './events';
 import { resolveMission } from './missions';
@@ -22,7 +24,7 @@ import {
   supplyPrice,
 } from './world';
 
-export const SAVE_VERSION = 4;
+export const SAVE_VERSION = 5;
 
 export function freshNpcs(): GameState['npcs'] {
   return {
@@ -51,6 +53,10 @@ export function migrateSave(g: GameState): GameState | null {
     g.facilities = freshFacilities();
     g.craftQueue = [];
     g.version = 4;
+  }
+  if (g.version === 4) {
+    g.council = freshCouncil();
+    g.version = 5;
   }
   return g.version === SAVE_VERSION ? g : null;
 }
@@ -93,6 +99,7 @@ export function newGame(seed = Date.now() % 2147483647): GameState {
     npcs: freshNpcs(),
     facilities: freshFacilities(),
     craftQueue: [],
+    council: freshCouncil(),
     insolventWeeks: 0,
     charterWeeks: 0,
     eventWeeks: {},
@@ -264,6 +271,7 @@ export function advanceWeek(s: GameState): string | undefined {
 
   // ---- 3. rival ----
   executeRival(s);
+  weeklyCouncil(s);
 
   // ---- 4. economy ----
   const crew = living(s);
@@ -284,7 +292,7 @@ export function advanceWeek(s: GameState): string | undefined {
     addDispatch(s, 'warning', 'Short of supplies', [`${hungry} member(s) went hungry this week. Morale suffers.`]);
   }
   for (const loan of s.loans) {
-    loan.principal *= 1 + loan.weeklyRate;
+    loan.principal *= 1 + loan.weeklyRate * modProduct(s, 'loanRate');
     if (loan.dueWeek === s.week) {
       const due = Math.min(loan.paymentDue, Math.ceil(loan.principal));
       if (s.crowns >= due) {
@@ -335,7 +343,7 @@ export function advanceWeek(s: GameState): string | undefined {
   }
 
   // ---- 6. heat & politics ----
-  s.heat = clamp(s.heat - (s.factions.exchequer.standing >= 30 ? 3 : 2), 0, 100);
+  s.heat = clamp(s.heat - (s.factions.exchequer.standing >= 30 ? 3 : 2) - modSum(s, 'heatDecay'), 0, 100);
   if (s.heat >= 80) applyStanding(s, 'exchequer', -3);
   const charterDanger = s.factions.exchequer.standing <= -60 || s.heat >= 100;
   s.charterWeeks = charterDanger ? s.charterWeeks + 1 : 0;
@@ -346,6 +354,7 @@ export function advanceWeek(s: GameState): string | undefined {
   }
 
   // ---- 7. world clocks ----
+  for (const m of activeMods(s)) for (const [c, v] of Object.entries(m.clocks ?? {})) applyClock(s, c as never, v!);
   applyClock(s, 'arrears', 0.6 + (s.flags.silver_lost ? 1.2 : 0));
   applyClock(s, 'leverage', 0.3 + s.clocks.arrears / 200);
   applyClock(s, 'unrest', 0.2 + (s.clocks.arrears > 50 ? 0.4 : 0) - (s.factions.lowertown.standing > 30 ? 0.3 : 0));
@@ -382,6 +391,7 @@ export function advanceWeek(s: GameState): string | undefined {
   // ---- 8. new week ----
   s.week += 1;
   s.petitioned = [];
+  councilNewWeek(s);
   s.recruits = s.recruits.filter((r) => r.expiresWeek >= s.week);
   while (s.recruits.length < 3) s.recruits.push(generateRecruit(s));
   refreshMarket(s);

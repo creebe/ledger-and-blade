@@ -88,6 +88,7 @@ function BottomNav() {
   const g = useStore((s) => s.game)!;
   const badge: Partial<Record<Tab, number>> = {
     contracts: g.board.filter((c) => c.story).length,
+    realm: g.council.agenda.filter((a) => a.player === 0).length,
   };
   return (
     <nav className="bottomnav">

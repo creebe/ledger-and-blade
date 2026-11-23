@@ -370,6 +370,7 @@ export interface GameState {
   facilities: Record<FacilityId, number>; // current level of each building
   construction?: { id: FacilityId; toLevel: number; progress: number; weeks: number };
   craftQueue: string[]; // recipe ids waiting to be made
+  council: CouncilState;
   insolventWeeks: number;
   charterWeeks: number; // consecutive weeks with the charter in danger
   eventWeeks: Record<string, number>; // last week each event fired
@@ -379,4 +380,21 @@ export interface GameState {
   gameOver?: { reason: GameOverReason; week: number; text: string };
   nextId: number;
   difficulty: 'standard';
+}
+
+export type Stance = -1 | 0 | 1; // against, undecided, for
+
+export interface AgendaItem {
+  id: string; // decree id
+  base: Record<FactionId, Stance>; // where each faction started
+  positions: Record<FactionId, Stance>; // where they stand now
+  player: Stance; // the guild's declared position
+}
+
+export interface CouncilState {
+  agenda: AgendaItem[];
+  voteWeek?: number;
+  active: { id: string; untilWeek: number }[];
+  lobbied: Partial<Record<FactionId, number>>; // week each faction was last lobbied
+  history: { week: number; id: string; passed: boolean; votesFor: number; votesAgainst: number; player: Stance }[];
 }

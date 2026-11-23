@@ -17,6 +17,7 @@ import {
 import { useStore } from '../../store';
 import { Meter, Section, StandingBar } from '../common';
 import { Icon } from '../icons';
+import { CouncilSection } from '../Council';
 
 const CLOCK_ICON: Record<string, string> = { arrears: 'clock', leverage: 'ostranders', unrest: 'crowd', cointrust: 'coin' };
 
@@ -41,6 +42,8 @@ export function RealmScreen() {
   return (
     <div className="screen">
       <h1 className="screen-title">The Realm</h1>
+
+      <CouncilSection />
 
       <Section title="The Debt">
         <p className="small muted">The realm's crisis moves every week, with or without you. Contracts and choices push these clocks.</p>

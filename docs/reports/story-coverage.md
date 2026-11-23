@@ -15,19 +15,18 @@ None found.
 | ostrander_agent | 2–3 | 100% | 2 / 2 / 3 | 0 |
 | hobbs_arrive | 4–6 | 100% | 4 / 4 / 6 | 0 |
 | bread_riot | 5–7 | 100% | 5 / 7 / 7 | 0 |
-| silver_summons | 7–9 | 99% | 7 / 8 / 9 | 0 |
-| quarter_day | 9–18 | 79% | 9 / 10 / 19 | 1 |
-| act1_slice_end | 12–20 | 73% | 12 / 13 / 19 | 0 |
+| silver_summons | 7–9 | 99% | 7 / 9 / 9 | 0 |
+| quarter_day | 9–18 | 77% | 9 / 10 / 18 | 0 |
+| act1_slice_end | 12–20 | 70% | 12 / 13 / 19 | 0 |
 
 ## The Crown's silver: how it resolved
 
-- declined (Hobbs carried it): 32%
-- guild fell first (bankrupt): 38%
+- declined (Hobbs carried it): 27%
+- delivered: 9%
+- guild fell first (bankrupt): 46%
+- lost: 7%
 - unresolved: 7%
-- abandoned: 4%
-- lost: 5%
-- delivered: 14%
-- guild fell first (collapse): 0%
+- abandoned: 5%
 
 ## Branch coverage
 
@@ -39,23 +38,23 @@ Every conversation node in every story beat was reached.
 - **ostrander_agent/pitch**: Let's talk terms. (50) · What does the bank really want from Varrow? (59) · What happens to the people you collect from? (53) · Why not hire Hobb & Daughters? They do this already. (50)
 - **ostrander_agent/terms**: We'll work for the bank. (75) · We'll take your jobs case by case. (69) · Not today. (68)
 - **hobbs_arrive/root**: Refuse politely (214) · What's in it for me, exactly? (186)
-- **bread_riot/root**: Take the Exchequer's purse and clear the square (126) · Pay the bakers to open their ovens (125) · Bar the doors (136) · Feed them from the guild stores (13)
-- **bread_riot/square**: Break them. (58) · Hold the line. No blood. (68)
-- **silver_summons/root**: "Who knows the route?" (98) · "What does it pay?" (89) · Accept the commission (90) · Decline (115) · Tell him what Vorn let slip about the next treaty (5)
-- **silver_summons/route**: Decline (49) · Accept the commission (43) · Haggle (7) · "What does it pay?" (28) · Tell him what Vorn let slip about the next treaty (3)
-- **quarter_day/root**: Let it go (195) · Swear to the Lower Town (23) · Prove that Hobb skimmed the silver (8) · Stay out of it (19) · Ask for a seat at the Exchequer's table (25) · Offer the bank your services (14) · Accept a purse from the Crown (20) · Accept a Crown writ of good conduct (12)
-- **act1_slice_end/root**: Continue (278)
+- **bread_riot/root**: Take the Exchequer's purse and clear the square (127) · Pay the bakers to open their ovens (124) · Bar the doors (136) · Feed them from the guild stores (13)
+- **bread_riot/square**: Break them. (62) · Hold the line. No blood. (65)
+- **silver_summons/root**: Decline (104) · "Who knows the route?" (101) · "What does it pay?" (89) · Accept the commission (94) · Tell him what Vorn let slip about the next treaty (9)
+- **quarter_day/root**: Let it go (190) · Accept a Crown writ of good conduct (12) · Stay out of it (26) · Accept a purse from the Crown (13) · Offer the bank your services (22) · Swear to the Lower Town (20) · Prove that Hobb skimmed the silver (8) · Ask for a seat at the Exchequer's table (16)
+- **act1_slice_end/root**: Continue (275)
 - **charter/debt**: Let the clerk go and get to work (200)
 - **hobbs_arrive/details**: Sell her the share (60) · Refuse politely (58) · Humiliate her in front of her daughters (68)
-- **silver_summons/pay**: Accept the commission (39) · Haggle (29) · "Who knows the route?" (21) · Decline (29) · Tell him what Vorn let slip about the next treaty (1)
-- **bread_riot/dagny**: "Your ears on the docks." (72) · "Nothing. Eat." (66)
+- **silver_summons/route**: Accept the commission (47) · Decline (47) · "What does it pay?" (29) · Haggle (8) · Tell him what Vorn let slip about the next treaty (5)
+- **bread_riot/dagny**: "Your ears on the docks." (72) · "Nothing. Eat." (65)
+- **silver_summons/pay**: Accept the commission (34) · Haggle (35) · "Who knows the route?" (23) · Decline (27) · Tell him what Vorn let slip about the next treaty (1)
 - **ostrander_agent/want**: Let's talk terms. (17) · Why not hire Hobb & Daughters? They do this already. (10) · What happens to the people you collect from? (8)
 - **ostrander_agent/people**: Why not hire Hobb & Daughters? They do this already. (24) · Let's talk terms. (58) · What does the bank really want from Varrow? (23)
 - **ostrander_agent/hobbs**: Let's talk terms. (57) · What does the bank really want from Varrow? (28) · What happens to the people you collect from? (27)
+- **silver_summons/pay_fail**: Accept the commission (6) · Decline (9) · "Who knows the route?" (4)
 - **ostrander_agent/want_fail**: What happens to the people you collect from? (17) · Let's talk terms. (30) · Why not hire Hobb & Daughters? They do this already. (28)
-- **silver_summons/pay_ok**: Decline (4) · Accept the commission (9) · "Who knows the route?" (4)
-- **silver_summons/pay_fail**: "Who knows the route?" (5) · Accept the commission (3) · Decline (11)
-- **silver_summons/stakes**: "Who knows the route?" (2) · Accept the commission (3) · Decline (2) · "What does it pay?" (2)
+- **silver_summons/pay_ok**: Decline (8) · "Who knows the route?" (5) · Accept the commission (12)
+- **silver_summons/stakes**: Decline (6) · "Who knows the route?" (3) · Accept the commission (3) · "What does it pay?" (2) · Haggle (1)
 
 ## Facts
 
@@ -69,39 +68,39 @@ Every conversation node in every story beat was reached.
 | vorn_slip | 9% | Vorn let slip that the bank wants to draft the next treaty. |
 | hobbs_share | 15% | Sold Marta Hobb a quarter share of contract income. |
 | dagny_contact | 18% | Dagny Fell feeds the guild dock gossip. |
-| dagny_friend | 17% | Dagny Fell respects the guild for feeding the Lower Town for nothing. |
-| fenn_route | 33% | Asked Fenn who knows the convoy route (reveals a danger on accepting). |
-| fenn_stakes | 2% | Told Fenn the bank's real aim; Fenn now trusts the guild. |
+| dagny_friend | 16% | Dagny Fell respects the guild for feeding the Lower Town for nothing. |
+| fenn_route | 34% | Asked Fenn who knows the convoy route (reveals a danger on accepting). |
+| fenn_stakes | 4% | Told Fenn the bank's real aim; Fenn now trusts the guild. |
 | fenn_pay | 30% | Asked Fenn what the commission pays. |
 | fenn_haggled | 5% | Haggled with Fenn and failed. |
-| silver_bonus | 4% | Haggled with Fenn and won +60 crowns on the convoy. |
-| silver_accepted | 47% | Accepted the commission for the Crown's silver. |
-| silver_declined | 53% | Declined the commission; Hobb & Daughters carried the silver. |
-| silver_delivered | 14% | The guild delivered the Crown's silver: the payment was made. |
-| silver_lost | 16% | The Crown's silver was lost or never sent: the Crown defaulted. |
-| silver_abandoned | 6% | Accepted the commission but never sent the convoy. |
-| fenn_ally | 6% | Took a seat at the Exchequer table after the payment. |
+| silver_bonus | 6% | Haggled with Fenn and won +60 crowns on the convoy. |
+| silver_accepted | 49% | Accepted the commission for the Crown's silver. |
+| silver_declined | 50% | Declined the commission; Hobb & Daughters carried the silver. |
+| silver_delivered | 10% | The guild delivered the Crown's silver: the payment was made. |
+| silver_lost | 20% | The Crown's silver was lost or never sent: the Crown defaulted. |
+| silver_abandoned | 7% | Accepted the commission but never sent the convoy. |
+| fenn_ally | 4% | Took a seat at the Exchequer table after the payment. |
 | bank_paid_loan | 2% | Let Ostrander's buy part of the guild's Weighhouse note. |
 
 ## Random events fired
 
-- field_arrival: 1216
-- informant: 280
-- petition: 254
-- brawl: 217
-- peddler: 183
-- lead: 174
-- festival: 145
-- homesick: 124
-- field_shadowed: 99
-- field_bridge: 90
-- raise: 84
-- field_traveler: 81
-- field_guide: 79
-- volunteer: 55
-- dagny_tip: 33
-- field_rivals: 20
-- bank_offer: 19
-- field_deserter: 14
-- field_tracks: 11
-- nightmares: 7
+- field_arrival: 1194
+- petition: 279
+- informant: 270
+- peddler: 206
+- brawl: 199
+- lead: 190
+- festival: 138
+- homesick: 105
+- field_bridge: 95
+- field_shadowed: 90
+- field_traveler: 83
+- raise: 82
+- field_guide: 73
+- volunteer: 60
+- dagny_tip: 31
+- field_rivals: 23
+- field_tracks: 15
+- field_deserter: 15
+- bank_offer: 14
+- nightmares: 8

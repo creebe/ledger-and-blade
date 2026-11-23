@@ -175,6 +175,9 @@ Each facility has levels, a construction cost (Crowns + Materials + weeks), and 
 - **Factions have relationships with each other**, and most of them pivot on the Debt. Taking a collection contract from Ostrander's against one of the Fourteen pleases the bank, angers the nobles, and may please the Lower Town, who like seeing nobles squeezed.
 
 ### 9.2 The Council of Varrow
+
+> **Implemented (v0.6):** nine seats (Exchequer 3, Weighhouse 2, Ostrander's 2 bought seats, Lower Town 2). The agenda (two decrees drawn from eight, weighted by the Debt clocks) is posted in week 7 of each season and voted at the end of week 12. The guild declares a position per decree and can move one faction a week one step toward it: lobbying (Influence, cheaper with high standing), blackmail (Intel, costs standing) or bribery (crowns plus Heat). Hobb & Daughters lobby for the bank. Passed decrees last a season and change prices, pay, loan interest, Heat, upkeep and the clocks. Afterwards, factions on your side gain standing if you won, and those you beat lose it.
+
 Every **season** the Council votes on **Decrees** (e.g. *Debt Levy on Grain, Debasement of the Crown Penny, Sale of Crown Forests, Licensing of Private Collectors, Usury Ban, Martial Law on the Docks*).
 - Factions and rivals lobby. You can spend **Influence**, call in **favors**, or use **blackmail** (from Intel) to shift votes.
 - Decrees change the rules of the economy and missions, for the season or permanently.

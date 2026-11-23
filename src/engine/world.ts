@@ -1,6 +1,7 @@
 import { CONTRACT_TEMPLATES, TEMPLATE_BY_ID, type ContractTemplate } from './data/contracts';
 import { seasonOf } from './data/events';
 import { REGIONS } from './data/factions';
+import { activeMods, modProduct } from './data/decrees';
 import { ITEMS, MARKET_POOL, STAPLES } from './data/items';
 import { PROFESSIONS } from './data/professions';
 import { TRAITS, FIRST_NAMES, LAST_NAMES } from './data/traits';
@@ -214,7 +215,11 @@ export function generateContract(state: GameState, template?: ContractTemplate):
   const favor = standing >= 25 ? 1.15 : standing <= -15 ? 0.85 : 1;
   // pay covers time on the road: longer trips pay more
   const travelBonus = region.travel * 45;
-  const reward = Math.round(((t.baseReward + t.perThreat * threat) * REWARD_SCALE + travelBonus) * favor * (0.9 + nextFloat(state) * 0.2) / 5) * 5;
+  // decrees in force change what some work pays
+  const decreeMult = (activeMods(state).reduce((p, m) => p * (m.rewardPatron?.[patron] ?? 1), 1)) * (t.shady ? modProduct(state, 'shadyReward') : 1);
+  const reward = Math.round(((t.baseReward + t.perThreat * threat) * REWARD_SCALE + travelBonus) * favor * decreeMult * (0.9 + nextFloat(state) * 0.2) / 5) * 5;
+  const onSuccess = JSON.parse(JSON.stringify(t.onSuccess));
+  if (t.shady && onSuccess.heat) onSuccess.heat = Math.round(onSuccess.heat * modProduct(state, 'shadyHeat'));
   const materials: Partial<Record<MaterialId, number>> = {};
   for (const mt of t.materials ?? []) materials[mt.id] = randInt(state, mt.min, mt.max) + Math.floor(threat / 3);
   const contested = !t.story && chance(state, t.contestChance);
@@ -233,7 +238,7 @@ export function generateContract(state: GameState, template?: ContractTemplate):
     phases: t.phases.map((p) => ({ ...p, approaches: [...p.approaches] })),
     reward,
     materials,
-    onSuccess: JSON.parse(JSON.stringify(t.onSuccess)),
+    onSuccess,
     onFailure: JSON.parse(JSON.stringify(t.onFailure)),
     postedWeek: state.week,
     expiresWeek: state.week + (t.story ? 6 : randInt(state, 2, 4)),
@@ -322,13 +327,13 @@ export function priceMultiplier(state: GameState): number {
   // weak coin pushes prices up; Weighhouse friendship pulls them down
   const coin = 1 + (50 - state.clocks.cointrust) / 150;
   const wh = 1 - clamp(state.factions.weighhouse.standing, 0, 50) / 500;
-  return coin * wh;
+  return coin * wh * modProduct(state, 'prices');
 }
 
 export function supplyPrice(state: GameState): number {
   const s = season(state);
   const seasonal = s === 'Winter' ? 1.3 : s === 'Autumn' ? 0.85 : s === 'Spring' ? 1.1 : 1;
-  return Math.max(1, Math.round(SUPPLY_BASE * seasonal * (state.market.supplies ?? 1) * priceMultiplier(state) * 10) / 10);
+  return Math.max(1, Math.round(SUPPLY_BASE * seasonal * (state.market.supplies ?? 1) * priceMultiplier(state) * modProduct(state, 'supplyPrice') * 10) / 10);
 }
 
 export function materialPrice(state: GameState, m: MaterialId): number {

@@ -47,6 +47,8 @@ Every story change goes through these checks. None of them are optional.
 | The Fourteen *(Draft)* | Founding noble families whose castles are the bank's collateral. |
 | The Mudlarks *(Draft)* | River underworld; smuggles around the bank's tolls. |
 
+**The Council of Varrow (Canon):** nine seats. The Exchequer holds 3 (Crown officers), the Weighhouse 2 (merchant aldermen), Ostrander's 2 (seats bought with debt, a sore point in the city), and the Lower Town 2 (porters and trades). It meets every season.
+
 **Rival:** Hobb & Daughters, a family firm of debt collectors on retainer to the bank. *(Draft rivals: The Ninth, The Assay Office.)*
 
 ## 4. Cast

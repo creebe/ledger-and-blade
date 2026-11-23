@@ -1,6 +1,7 @@
 // Guild buildings and crafting: costs, effects and the weekly progress.
 import { FACILITIES, FACILITY_IDS, RECIPE_BY_ID, RECIPES, type FacilityId, type Recipe } from './data/facilities';
 import { ITEMS } from './data/items';
+import { modSum } from './data/decrees';
 import type { GameState, MaterialId } from './types';
 import { addDispatch, addItem, clamp, earn, living, MATERIAL_INFO, materialPrice, spend } from './world';
 
@@ -14,7 +15,7 @@ export function freshFacilities(): Record<FacilityId, number> {
 
 /** Weekly upkeep of the hall and every building. */
 export function upkeep(s: GameState): number {
-  let total = BASE_UPKEEP;
+  let total = BASE_UPKEEP + modSum(s, 'upkeep');
   for (const id of FACILITY_IDS) {
     const lv = level(s, id);
     for (let i = 0; i < lv; i++) total += FACILITIES[id].levels[i].upkeep;
