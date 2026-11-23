@@ -319,7 +319,7 @@ export interface GameEvent {
   missionId?: string; // squad in the field this event is about
 }
 
-export type DispatchKind = 'story' | 'mission' | 'economy' | 'politics' | 'roster' | 'rival' | 'warning' | 'info';
+export type DispatchKind = 'story' | 'mission' | 'economy' | 'politics' | 'roster' | 'rival' | 'warning' | 'info' | 'lore' | 'crier';
 
 export interface Dispatch {
   id: string;
@@ -371,6 +371,9 @@ export interface GameState {
   construction?: { id: FacilityId; toLevel: number; progress: number; weeks: number };
   craftQueue: string[]; // recipe ids waiting to be made
   council: CouncilState;
+  codex: { unlocked: string[]; fresh: string[] };
+  crierSeen: string[];
+  crierRecent: string[];
   tutorial: { enabled: boolean; done: string[]; counters: Record<string, number>; finished?: boolean };
   insolventWeeks: number;
   charterWeeks: number; // consecutive weeks with the charter in danger

@@ -3,11 +3,11 @@ import { useStore } from '../store';
 import { Icon } from './icons';
 
 /** Guildmaster's Notes: the next few things worth learning, with a "Show me". */
-export function GuideCard({ compact }: { compact?: boolean }) {
+export function GuideCard({ compact, force }: { compact?: boolean; force?: boolean }) {
   const g = useStore((s) => s.game)!;
   const act = useStore((s) => s.act);
   const showMe = useStore((s) => s.showMe);
-  if (!g.tutorial?.enabled || g.tutorial.finished) return null;
+  if ((!g.tutorial?.enabled && !force) || g.tutorial.finished) return null;
   const v = guideView(g);
   return (
     <section className="guide-card">
@@ -44,9 +44,14 @@ export function GuideCard({ compact }: { compact?: boolean }) {
           Later: {v.waiting.map((w) => `${w.o.title} (${w.reason.toLowerCase()})`).join(' · ')}
         </p>
       )}
-      <button className="link-btn tiny" onClick={() => act((d) => void (d.tutorial.enabled = false)) && useStore.getState().notify('Notes hidden. Turn them back on from the ☰ menu.')}>
-        Hide these notes
-      </button>
+      <div className="row between">
+        <button className="link-btn tiny" onClick={() => useStore.getState().open({ kind: 'journal', tab: 'notes' })}>
+          All notes, done and upcoming
+        </button>
+        <button className="link-btn tiny" onClick={() => act((d) => void (d.tutorial.enabled = false)) && useStore.getState().notify('Notes card hidden. Progress and rewards still count; find them in the Journal.')}>
+          Hide
+        </button>
+      </div>
     </section>
   );
 }

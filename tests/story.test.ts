@@ -22,6 +22,10 @@ describe('story coherence', () => {
     for (const f of Object.keys(FACTS)) expect(r.factsRead.has(f) || f === 'start_arms' || f === 'bank_paid_loan' || f === 'silver_accepted' || f === 'fenn_ally' || f === 'dagny_friend' || f === 'silver_abandoned').toBe(true);
   });
 
+  it('every Codex entry can be learned through play', () => {
+    expect(r.neverLearned).toEqual([]);
+  });
+
   it('fires every story beat in nearly every surviving game', () => {
     for (const def of STORY_EVENTS) expect(r.beats[def.id].fired / r.runs).toBeGreaterThan(0.6);
   });

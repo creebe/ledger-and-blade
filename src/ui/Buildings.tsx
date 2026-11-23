@@ -23,7 +23,7 @@ import {
   type MaterialId,
 } from '../engine';
 import { useStore } from '../store';
-import { Section } from './common';
+import { Btn, Section } from './common';
 import { Icon } from './icons';
 import { ItemIcon, ItemStats } from './visual';
 
@@ -148,9 +148,9 @@ function FacilityDetail({ id, g, onBuild }: { id: FacilityId; g: GameState; onBu
             <span className="meta">
               <Icon name="clock" size={13} /> {next.weeks} wk · upkeep +{next.upkeep}/wk
             </span>
-            <button
+            <Btn
               className="btn small primary"
-              disabled={!!blocked}
+              blocked={blocked}
               onClick={() =>
                 useStore.getState().confirm({
                   title: `Build ${f.name} level ${lv + 1}?`,
@@ -164,7 +164,7 @@ function FacilityDetail({ id, g, onBuild }: { id: FacilityId; g: GameState; onBu
               }
             >
               {lv === 0 ? 'Build' : 'Upgrade'}
-            </button>
+            </Btn>
           </div>
           {blocked && <p className="tiny warn">{blocked}</p>}
         </>
@@ -240,14 +240,14 @@ export function WorkshopPanel() {
                     </div>
                     <span className="tiny muted">Market price about {market}◉</span>
                   </div>
-                  <button
+                  <Btn
                     className="btn small primary"
-                    disabled={!!blocked}
+                    blocked={blocked}
                     title={blocked}
                     onClick={() => act((d) => queueCraft(d, r.id)) && useStore.getState().notify(`${def.name} queued. It will be ready at the end of the week.`)}
                   >
                     Craft
-                  </button>
+                  </Btn>
                 </div>
               );
             })}

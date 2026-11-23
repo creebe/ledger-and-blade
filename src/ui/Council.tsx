@@ -15,7 +15,7 @@ import {
   type Stance,
 } from '../engine';
 import { useStore } from '../store';
-import { Section, Seg } from './common';
+import { Btn, Section, Seg } from './common';
 import { Icon } from './icons';
 
 const FIDS = Object.keys(SEATS) as FactionId[];
@@ -112,15 +112,15 @@ function DecreeCard({ g, item }: { g: GameState; item: AgendaItem }) {
               </span>
               {item.player !== 0 && p !== item.player && (
                 <span className="cf-actions">
-                  <button className="btn ghost small" disabled={!!blocked || g.influence < c.influence} title={blocked ?? `${c.influence} Influence`} onClick={() => doLobby(f, 'influence')}>
+                  <Btn className="btn ghost small" blocked={blocked ?? (g.influence < c.influence ? `Needs ${c.influence} Influence (you have ${g.influence})` : undefined)} title={blocked ?? `${c.influence} Influence`} onClick={() => doLobby(f, 'influence')}>
                     <Icon name="seal" size={13} /> {c.influence}
-                  </button>
-                  <button className="btn ghost small" disabled={!!blocked || g.intel < c.intel} title={blocked ?? `${c.intel} Intel`} onClick={() => doLobby(f, 'intel')}>
+                  </Btn>
+                  <Btn className="btn ghost small" blocked={blocked ?? (g.intel < c.intel ? `Needs ${c.intel} Intel (you have ${g.intel})` : undefined)} title={blocked ?? `${c.intel} Intel`} onClick={() => doLobby(f, 'intel')}>
                     <Icon name="eye" size={13} /> {c.intel}
-                  </button>
-                  <button className="btn ghost small" disabled={!!blocked || g.crowns < c.crowns} title={blocked ?? `${c.crowns} crowns`} onClick={() => doLobby(f, 'crowns')}>
+                  </Btn>
+                  <Btn className="btn ghost small" blocked={blocked ?? (g.crowns < c.crowns ? `Needs ${c.crowns} crowns (you have ${g.crowns})` : undefined)} title={blocked ?? `${c.crowns} crowns`} onClick={() => doLobby(f, 'crowns')}>
                     <Icon name="coin" size={13} /> {c.crowns}
-                  </button>
+                  </Btn>
                 </span>
               )}
             </div>

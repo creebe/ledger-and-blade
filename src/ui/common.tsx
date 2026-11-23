@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import React, { useState, type ReactNode } from 'react';
 import { FACTIONS, TAGS, type FactionId } from '../engine';
 import { useStore } from '../store';
 import { chanceText } from './format';
@@ -121,5 +121,23 @@ export function Seg<T extends string>({ value, options, onChange }: { value: T; 
         </button>
       ))}
     </div>
+  );
+}
+
+/**
+ * A button that never fails silently: when `blocked` holds a reason, it looks
+ * unavailable but a tap explains why instead of doing nothing.
+ */
+export function Btn({ blocked, onClick, className, children, title, ...rest }: { blocked?: string | false | null; onClick: () => void; className?: string; children: ReactNode; title?: string; style?: React.CSSProperties }) {
+  return (
+    <button
+      {...rest}
+      className={`${className ?? 'btn'} ${blocked ? 'is-blocked' : ''}`}
+      aria-disabled={blocked ? true : undefined}
+      title={blocked || title}
+      onClick={() => (blocked ? useStore.getState().notify(blocked) : onClick())}
+    >
+      {children}
+    </button>
   );
 }

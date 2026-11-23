@@ -3,6 +3,7 @@ import { TRAITS } from './data/traits';
 import { activeMods, modProduct, modSum } from './data/decrees';
 import { councilNewWeek, freshCouncil, weeklyCouncil } from './council';
 import { freshTutorial } from './tutorial';
+import { discoverLore, freshCodex, weeklyCrier } from './codex';
 import { denIntel, freshFacilities, healBonus, level, trainCost, trainWeeks, upkeep, weeklyWorkshop } from './buildings';
 import { triggerEvents } from './events';
 import { resolveMission } from './missions';
@@ -26,7 +27,7 @@ import {
   track,
 } from './world';
 
-export const SAVE_VERSION = 6;
+export const SAVE_VERSION = 7;
 
 export function freshNpcs(): GameState['npcs'] {
   return {
@@ -63,6 +64,12 @@ export function migrateSave(g: GameState): GameState | null {
   if (g.version === 5) {
     g.tutorial = freshTutorial();
     g.version = 6;
+  }
+  if (g.version === 6) {
+    g.codex = freshCodex(g);
+    g.crierSeen = [];
+    g.crierRecent = [];
+    g.version = 7;
   }
   return g.version === SAVE_VERSION ? g : null;
 }
@@ -107,6 +114,9 @@ export function newGame(seed = Date.now() % 2147483647): GameState {
     craftQueue: [],
     council: freshCouncil(),
     tutorial: freshTutorial(),
+    codex: freshCodex(),
+    crierSeen: [],
+    crierRecent: [],
     insolventWeeks: 0,
     charterWeeks: 0,
     eventWeeks: {},
@@ -280,6 +290,8 @@ export function advanceWeek(s: GameState): string | undefined {
   // ---- 3. rival ----
   executeRival(s);
   weeklyCouncil(s);
+  weeklyCrier(s);
+  discoverLore(s);
 
   // ---- 4. economy ----
   const crew = living(s);
@@ -406,6 +418,7 @@ export function advanceWeek(s: GameState): string | undefined {
   refreshBoard(s);
   planRival(s);
   triggerEvents(s);
+  discoverLore(s);
   return undefined;
 }
 

@@ -1,7 +1,9 @@
 import { useRef, useState } from 'react';
 import {
   APPROACH_INFO,
+  awayReason,
   dismissMember,
+  isPreparing,
   equip,
   equippedBy,
   ITEMS,
@@ -20,10 +22,10 @@ import {
   type Member,
 } from '../engine';
 import { useStore } from '../store';
-import { Meter, Sheet } from './common';
+import { Btn, Meter, Sheet } from './common';
 import { cap, SLOT_LABEL } from './format';
 import { Icon } from './icons';
-import { ap, ItemIcon, ItemStats, PROFESSION_APPROACH, Portrait } from './visual';
+import { ap, ItemIcon, ItemStats, PROFESSION_APPROACH, Portrait, readiness } from './visual';
 
 const STATUS_LABEL: Record<Member['status'], string> = {
   idle: 'At the hall',
@@ -53,19 +55,21 @@ export function statusLine(m: Member, game: GameState) {
   return STATUS_LABEL[m.status];
 }
 
-export function MemberMini({ m, selected, onClick, onLongPress, disabled }: { m: Member; selected?: boolean; onClick?: () => void; onLongPress?: () => void; disabled?: boolean }) {
+export function MemberMini({ m, selected, onClick, onLongPress, blocked }: { m: Member; selected?: boolean; onClick?: () => void; onLongPress?: () => void; blocked?: string }) {
+  const g = useStore((s) => s.game)!;
   const timer = useRef<number | undefined>(undefined);
   const long = useRef(false);
-  const prof = PROFESSIONS[m.profession];
+  const r = readiness(m, g);
   return (
     <button
-      className={`member-mini ${selected ? 'selected' : ''} ${disabled ? 'disabled' : ''}`}
+      className={`member-mini ${selected ? 'selected' : ''} ${blocked ? 'is-blocked' : ''}`}
       onClick={() => {
         if (long.current) {
           long.current = false;
           return;
         }
-        if (!disabled || !onLongPress) onClick?.();
+        if (blocked) useStore.getState().notify(blocked);
+        else onClick?.();
       }}
       onPointerDown={() => {
         if (!onLongPress) return;
@@ -84,17 +88,12 @@ export function MemberMini({ m, selected, onClick, onLongPress, disabled }: { m:
       }}
     >
       <span className="row gap">
-        <Portrait m={m} size={32} />
+        <Portrait m={m} size={30} />
         <span className="mm-text">
           <span className="mm-name">{m.name.split(' ')[0]}</span>
-          <span className="mm-prof">{prof.name}</span>
+          <span className={`mm-prof readiness ${r.tone}`}>{r.text === 'Ready' ? PROFESSIONS[m.profession].name : r.text}</span>
         </span>
       </span>
-      <span className="mm-bars">
-        <Meter value={m.health} tone={m.health < 40 ? 'bad' : m.health < 75 ? 'mid' : 'good'} label="Health" />
-        <Meter value={100 - m.fatigue} tone={m.fatigue > 50 ? 'bad' : m.fatigue > 20 ? 'mid' : 'info'} label="Freshness" />
-      </span>
-      {m.status !== 'idle' && <span className="mm-status">{m.status === 'mission' ? 'Away' : 'Hurt'}</span>}
     </button>
   );
 }
@@ -107,7 +106,9 @@ export function MemberSheet({ id }: { id: string }) {
   const m = game.members.find((x) => x.id === id);
   if (!m) return null;
   const prof = PROFESSIONS[m.profession];
-  const locked = m.status === 'mission' || m.status === 'dead' || m.status === 'left';
+  const lockReason = m.status === 'dead' || m.status === 'left' ? `${m.name.split(' ')[0]} is no longer with the guild.` : awayReason(game, m);
+  const locked = !!lockReason || m.status === 'mission';
+  const preparing = isPreparing(game, m);
   const ctx = { tags: [], countered: new Set<string>(), members: [m] };
   const scores = (Object.keys(APPROACH_INFO) as Approach[]).map((a) => ({ a, s: memberScore(game, m, a, ctx).score }));
 
@@ -144,7 +145,12 @@ export function MemberSheet({ id }: { id: string }) {
           <p className="muted small">{prof.blurb}</p>
         </div>
       </div>
-      <p className="small">{statusLine(m, game)}{m.causeOfDeath ? ` · ${m.causeOfDeath}` : ''}</p>
+      <p className="small">
+        {statusLine(m, game)}
+        {m.causeOfDeath ? ` · ${m.causeOfDeath}` : ''}
+      </p>
+      {preparing && <p className="hint">Leaving at the end of this week. You can still change their gear, or cancel the dispatch from Contracts.</p>}
+      {lockReason && m.status === 'mission' && <p className="hint">{lockReason}</p>}
 
       <div className="attrs">
         {(['might', 'finesse', 'wits', 'resolve'] as Attribute[]).map((a) => (
@@ -200,7 +206,7 @@ export function MemberSheet({ id }: { id: string }) {
         {slots.map((sl) => {
           const def = slotItem(sl.uid);
           return (
-            <button key={`${sl.slot}${sl.index}`} className="slot slot-row-v" disabled={locked} onClick={() => setSlotPick({ slot: sl.slot, index: sl.index })}>
+            <Btn key={`${sl.slot}${sl.index}`} className="slot slot-row-v" blocked={lockReason} onClick={() => setSlotPick({ slot: sl.slot, index: sl.index })}>
               {def ? (
                 <ItemIcon def={def} size={20} />
               ) : (
@@ -213,7 +219,7 @@ export function MemberSheet({ id }: { id: string }) {
                 <span className="slot-v">{def ? def.name : 'Empty'}</span>
                 {def && <ItemStats def={def} />}
               </span>
-            </button>
+            </Btn>
           );
         })}
       </div>
@@ -241,10 +247,10 @@ export function MemberSheet({ id }: { id: string }) {
               const def = ITEMS[i.defId];
               const holder = equippedBy(game, i.uid);
               return (
-                <button
+                <Btn
                   key={i.uid}
                   className="pick-item"
-                  disabled={holder?.status === 'mission'}
+                  blocked={holder && holder.id !== m.id ? awayReason(game, holder) : undefined}
                   onClick={() => {
                     if (act((g) => equip(g, m.id, slotPick.slot, i.uid, slotPick.index)))
                       useStore.getState().notify(`${m.name.split(' ')[0]} now carries ${def.name}${holder && holder.id !== m.id ? `, taken from ${holder.name.split(' ')[0]}` : ''}.`);
@@ -261,7 +267,7 @@ export function MemberSheet({ id }: { id: string }) {
                       </span>
                     </span>
                   </span>
-                </button>
+                </Btn>
               );
             })}
           {game.items.filter((i) => ITEMS[i.defId].slot === slotPick.slot).length === 0 && <p className="muted small">None in the armory. Buy some at the market.</p>}

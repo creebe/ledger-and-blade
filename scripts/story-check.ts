@@ -4,6 +4,7 @@
 import { EXCLUSIVE_FACTS, FACTS, type FactId } from '../src/engine/data/facts';
 import { RANDOM_EVENTS, STORY_EVENTS, type EventDef } from '../src/engine/data/events';
 import { ARRIVAL, FIELD_EVENTS } from '../src/engine/data/field';
+import { CODEX, CODEX_BY_ID } from '../src/engine/data/codex';
 import { advanceWeek, bestApproaches, canChoose, dispatchMission, living, newGame, previewMission, type GameState } from '../src/engine';
 import { botTurn } from './sim';
 
@@ -31,6 +32,8 @@ export interface StoryReport {
   neverSet: string[];
   unreachedNodes: string[];
   endings: Record<string, number>; // summary of how the silver arc resolved
+  codexUnlocked: Record<string, number>; // runs in which each entry was learned
+  neverLearned: string[];
 }
 
 function rng(seed: number) {
@@ -58,6 +61,8 @@ export function exploreStory(runs: number, weeks: number): StoryReport {
     neverSet: [],
     unreachedNodes: [],
     endings: {},
+    codexUnlocked: {},
+    neverLearned: [],
   };
   const setAnywhere = new Set<string>();
 
@@ -166,6 +171,11 @@ export function exploreStory(runs: number, weeks: number): StoryReport {
       for (const m of s.history.slice(-3)) for (const p of m.report?.phases ?? []) for (const l of p.story ?? []) checkText(`journal ${m.contract.title}`, l);
     }
     for (const f of setThisRun) report.factsSet[f] = (report.factsSet[f] ?? 0) + 1;
+    for (const id of s.codex.unlocked) {
+      report.codexUnlocked[id] = (report.codexUnlocked[id] ?? 0) + 1;
+      const e = CODEX_BY_ID[id];
+      if (e) checkText(`codex ${id}`, `${e.text} ${e.source(s)}`);
+    }
     // story beats charter (week 1) fires inside newGame, count it
     if (s.eventWeeks.charter === 1 && !report.beats.charter.weeks.includes(-run - 1)) {
       report.beats.charter.fired++;
@@ -175,6 +185,7 @@ export function exploreStory(runs: number, weeks: number): StoryReport {
     report.endings[end] = (report.endings[end] ?? 0) + 1;
   }
 
+  report.neverLearned = CODEX.map((e) => e.id).filter((id) => !report.codexUnlocked[id]);
   report.readNeverSet = [...report.factsRead].filter((f) => !setAnywhere.has(f));
   report.neverSet = Object.keys(FACTS).filter((f) => !setAnywhere.has(f as FactId));
   for (const def of STORY_EVENTS) {
@@ -213,6 +224,8 @@ export function reportMarkdown(r: StoryReport): string {
   for (const [f, desc] of Object.entries(FACTS)) L.push(`| ${f} | ${Math.round(((r.factsSet[f] ?? 0) / r.runs) * 100)}% | ${desc} |`);
   if (r.readNeverSet.length) L.push('', `**Read but never set:** ${r.readNeverSet.join(', ')}`);
   if (r.neverSet.length) L.push('', `**Registered but never set:** ${r.neverSet.join(', ')}`);
+  L.push('', '## Codex', '', '| Entry | Learned in % of games |', '|---|---|');
+  for (const e of CODEX) L.push(`| ${e.title} (${e.category}) | ${Math.round(((r.codexUnlocked[e.id] ?? 0) / r.runs) * 100)}% |`);
   L.push('', '## Random events fired', '');
   for (const [k, v] of Object.entries(r.randomFired).sort((a, b) => b[1] - a[1])) L.push(`- ${k}: ${v}`);
   return L.join('\n') + '\n';

@@ -6,8 +6,8 @@ import { ConfirmSheet, EventCard, HelpSheet, MenuSheet, MissionReplay, WarningsS
 import { Planner } from './ui/Planner';
 import { useScrollLock, useTheme } from './ui/theme';
 import { Icon } from './ui/icons';
-import { GuideCard, GuideNudge } from './ui/Guide';
-import { Sheet } from './ui/common';
+import { GuideNudge } from './ui/Guide';
+import { JournalSheet } from './ui/Journal';
 import { ArmoryScreen } from './ui/screens/Armory';
 import { ContractsScreen } from './ui/screens/Contracts';
 import { HallScreen } from './ui/screens/Hall';
@@ -59,9 +59,15 @@ function TopBar() {
     <header className="topbar">
       <div className="row between">
         <span className="date">{dateLabel(g.week)}</span>
+        <span className="row">
+        <button className="icon-btn journal-btn" onClick={() => open({ kind: 'journal', tab: g.codex.fresh.length ? 'codex' : 'notes' })} aria-label="Journal">
+          <Icon name="book" size={21} />
+          {g.codex.fresh.length > 0 && <span className="dot" />}
+        </button>
         <button className="icon-btn" onClick={() => open({ kind: 'menu' })} aria-label="Menu">
           <Icon name="menu" size={22} />
         </button>
+        </span>
       </div>
       <div className="resources">
         {res.map((r, i) => {
@@ -128,7 +134,7 @@ function EndWeekButton() {
             Ready
           </span>
         )}
-        {away > 0 && (
+        {away > 0 && !(g.tutorial?.enabled && !g.tutorial.finished) && (
           <span className="meta">
             <Icon name="road" size={14} />
             {away} in the field
@@ -270,11 +276,9 @@ export default function App() {
           case 'confirm':
             return <ConfirmSheet key={i} {...s} />;
           case 'guide':
-            return (
-              <Sheet key={i} title="Guildmaster’s Notes">
-                <GuideCard />
-              </Sheet>
-            );
+            return <JournalSheet key={i} tab="notes" />;
+          case 'journal':
+            return <JournalSheet key={i} tab={s.tab} />;
         }
       })}
       {event && <EventCard ev={event} />}

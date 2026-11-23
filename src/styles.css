@@ -2426,3 +2426,131 @@ details summary {
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 55%, transparent);
   }
 }
+
+/* portraits v2: one symbol, one dot */
+.portrait {
+  border-radius: 10px;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  color: var(--ink-2);
+}
+.portrait-dot {
+  position: absolute;
+  right: -3px;
+  top: -3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+}
+.portrait-dot.bad {
+  background: var(--bad);
+}
+.portrait-dot.mid {
+  background: var(--mid);
+}
+.portrait-dot.away {
+  background: var(--ink-2);
+}
+.top-strengths {
+  display: inline-flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.readiness {
+  font-size: 0.85rem;
+}
+.readiness.bad {
+  color: var(--bad);
+}
+.readiness.mid {
+  color: var(--mid);
+}
+
+.is-blocked {
+  opacity: 0.45;
+  cursor: help;
+}
+
+.matrix-box {
+  margin: 8px 0;
+}
+.matrix tr {
+  cursor: pointer;
+}
+.matrix tr.sel td.name {
+  color: var(--accent);
+}
+.matrix tr.unavail {
+  opacity: 0.45;
+}
+.th-btn {
+  background: none;
+  border: none;
+  padding: 2px 6px;
+  color: inherit;
+  cursor: pointer;
+}
+.matrix th.sorted .th-btn {
+  color: var(--ink);
+  font-weight: 700;
+}
+.matrix th.sorted .th-btn::after {
+  content: '↓';
+  font-size: 0.7rem;
+}
+
+.mission-wrap {
+  margin-bottom: 10px;
+}
+.mission-wrap .mission-card {
+  margin-bottom: 0;
+}
+.preparing {
+  display: grid;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px dashed var(--line);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.journal-btn {
+  position: relative;
+}
+.journal-btn .dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.codex-entry {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+.codex-entry.open {
+  border-color: var(--ink-2);
+}
+.dispatch.k-crier {
+  border-left: 1px solid var(--line);
+  font-style: italic;
+}
+
+.endweek-bar .endweek {
+  white-space: nowrap;
+  flex: none;
+}
+.endweek-info {
+  min-width: 0;
+  overflow: hidden;
+}

@@ -20,6 +20,7 @@ Playable now:
 - Member-focused and world random events
 - Decisions in the field: road encounters and arrival reports (re-plan or withdraw)
 - Expedition journals for every mission, plus a service record for each member
+- Journal: Guildmaster's Notes (now, upcoming, done), a Codex of lore learned through play, and the Chronicle; weekly street talk
 - Guildmaster's Notes: a guided sequence of 16 objectives that introduces every system, with "Show me" and small rewards
 - The Council of Varrow: seasonal votes on decrees; lobby, blackmail or bribe factions; decrees reshape the economy
 - Buildings (Great Hall, Forge, Stillroom, Infirmary, Training Yard, Spymaster's Den, Stables) and crafting from mission materials

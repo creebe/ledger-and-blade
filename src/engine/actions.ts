@@ -57,7 +57,7 @@ export function hireRecruit(s: GameState, index: number): string | undefined {
 export function dismissMember(s: GameState, id: string): string | undefined {
   const m = findMember(s, id);
   if (!m || m.status === 'dead' || m.status === 'left') return 'No such member';
-  if (m.status === 'mission') return 'They are on a mission';
+  if (m.status === 'mission') return awayReason(s, m) ?? 'Cancel their dispatch first';
   m.status = 'left';
   m.causeOfDeath = 'Dismissed';
   m.loadout = { consumables: [] };
@@ -69,7 +69,7 @@ export function dismissMember(s: GameState, id: string): string | undefined {
 export function setAssignment(s: GameState, id: string, a: Assignment, extra?: { attr?: Attribute; contractId?: string }) {
   const m = findMember(s, id);
   if (!m) return 'No such member';
-  if (m.status === 'mission') return 'They are on a mission';
+  if (m.status === 'mission') return awayReason(s, m) ?? `${m.name.split(' ')[0]} is heading out this week. Cancel the dispatch to give other orders.`;
   m.assignment = a;
   if (a !== 'rest') track(s, 'assign');
   if (a === 'train') m.trainAttr = extra?.attr ?? m.trainAttr ?? 'might';
@@ -84,13 +84,15 @@ export function setAssignment(s: GameState, id: string, a: Assignment, extra?: {
 export function equip(s: GameState, memberId: string, slot: ItemSlot, itemUid: string | undefined, consumableIndex = 0): string | undefined {
   const m = findMember(s, memberId);
   if (!m) return 'No such member';
-  if (m.status === 'mission') return 'They are on a mission';
+  const away = awayReason(s, m);
+  if (away) return away;
   if (itemUid) {
     const inst = s.items.find((i) => i.uid === itemUid);
     if (!inst) return 'No such item';
     if (ITEMS[inst.defId].slot !== slot) return 'Wrong slot';
     const holder = equippedBy(s, itemUid);
-    if (holder && holder.status === 'mission') return `${holder.name} has it on a mission`;
+    const holderAway = holder && awayReason(s, holder);
+    if (holderAway) return `${holder!.name.split(' ')[0]} has it, and ${holderAway.charAt(0).toLowerCase()}${holderAway.slice(1)}`;
     if (holder) {
       // take it from whoever has it
       if (holder.loadout.weapon === itemUid) holder.loadout.weapon = undefined;
@@ -108,6 +110,41 @@ export function equip(s: GameState, memberId: string, slot: ItemSlot, itemUid: s
   } else {
     m.loadout[slot] = itemUid;
   }
+  return undefined;
+}
+
+/**
+ * A squad dispatched this week is still in the yard until the week ends:
+ * its gear can be changed and the dispatch can be called off.
+ */
+export function isPreparing(s: GameState, m: { status: string; missionId?: string }): boolean {
+  if (m.status !== 'mission') return false;
+  const ms = s.missions.find((x) => x.id === m.missionId);
+  return !!ms && !ms.report && ms.dispatchedWeek === s.week;
+}
+
+/** Why a member's gear can't be touched right now, if it can't. */
+export function awayReason(s: GameState, m: { name: string; status: string; missionId?: string }): string | undefined {
+  if (m.status !== 'mission' || isPreparing(s, m)) return undefined;
+  const ms = s.missions.find((x) => x.id === m.missionId);
+  return ms ? `${m.name.split(' ')[0]} is away on "${ms.contract.title}" until the end of week ${ms.returnWeek}. Gear can't be changed in the field.` : 'They are away';
+}
+
+/** Call off a squad that hasn't left yet: supplies come back and the contract returns to the board. */
+export function cancelDispatch(s: GameState, missionId: string): string | undefined {
+  const ms = s.missions.find((x) => x.id === missionId);
+  if (!ms) return 'No such mission';
+  if (ms.dispatchedWeek !== s.week || ms.report) return 'They have already left';
+  s.supplies += ms.supplies;
+  for (const id of ms.memberIds) {
+    const m = findMember(s, id);
+    if (m) {
+      m.status = 'idle';
+      m.missionId = undefined;
+    }
+  }
+  s.missions = s.missions.filter((x) => x !== ms);
+  if (ms.contract.expiresWeek >= s.week) s.board.unshift(ms.contract);
   return undefined;
 }
 

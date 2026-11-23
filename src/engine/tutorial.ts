@@ -21,7 +21,8 @@ export function rewardText(r: Objective['reward']) {
 /** Complete any objectives whose conditions are now met. Returns newly completed ones. */
 export function checkTutorial(s: GameState): Objective[] {
   const t = s.tutorial;
-  if (!t || !t.enabled || t.finished) return [];
+  // hiding the notes only hides them: progress and rewards continue
+  if (!t || t.finished) return [];
   const fresh: Objective[] = [];
   for (const o of OBJECTIVES) {
     if (t.done.includes(o.id)) continue;

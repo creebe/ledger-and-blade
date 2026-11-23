@@ -15,7 +15,7 @@ import {
   type FactionId,
 } from '../../engine';
 import { useStore } from '../../store';
-import { Meter, Section, StandingBar } from '../common';
+import { Btn, Meter, Section, StandingBar } from '../common';
 import { Icon } from '../icons';
 import { CouncilSection } from '../Council';
 
@@ -37,7 +37,6 @@ export function RealmScreen() {
   const { confirm, notify } = useStore.getState();
   const plan = g.rivals.hobbs.plan;
   const counter = counterCost(g);
-  const story = g.dispatches.filter((d) => d.kind === 'story').reverse();
 
   return (
     <div className="screen">
@@ -100,7 +99,7 @@ export function RealmScreen() {
                 <i>On the Debt:</i> {f.stance}
               </p>
               <p className="tiny muted">{f.perks}</p>
-              <button className="btn ghost small" disabled={g.influence < PETITION_COST || g.petitioned.includes(id)} onClick={() =>
+              <Btn className="btn ghost small" blocked={g.petitioned.includes(id) ? 'Already courted this week. Try again next week.' : g.influence < PETITION_COST ? `Needs ${PETITION_COST} Influence (you have ${g.influence}). Influence comes from contracts, events and Council wins.` : undefined} onClick={() =>
                   confirm({
                     title: `Court ${f.name}?`,
                     body: [
@@ -113,7 +112,7 @@ export function RealmScreen() {
                   })
                 }>
                 {g.petitioned.includes(id) ? 'Petitioned this week' : `Court them (+6) · ${PETITION_COST} Influence`}
-              </button>
+              </Btn>
             </div>
           );
         })}
@@ -130,7 +129,7 @@ export function RealmScreen() {
         <p className="small">
           Heat {g.heat}/100. Shady work draws the Exchequer's attention. Above 30, audits start; above 80, Exchequer standing falls weekly; at 100, your charter is in danger.
         </p>
-        <button className="btn ghost small" disabled={g.influence < HEAT_COST || g.heat === 0} onClick={() =>
+        <Btn className="btn ghost small" blocked={g.heat === 0 ? 'No Heat to cool.' : g.influence < HEAT_COST ? `Needs ${HEAT_COST} Influence (you have ${g.influence})` : undefined} onClick={() =>
             confirm({
               title: 'Grease some palms?',
               body: [`A few quiet payments to the right Exchequer clerks. Heat falls from ${g.heat} to ${Math.max(0, g.heat - 12)}.`],
@@ -140,7 +139,7 @@ export function RealmScreen() {
             })
           }>
           Grease palms (−12 Heat) · {HEAT_COST} Influence
-        </button>
+        </Btn>
       </Section>
 
       <Section title="Rivals" guide="rivals">
@@ -182,9 +181,9 @@ export function RealmScreen() {
               {plan.kind === 'contract' && !plan.countered && <p className="tiny muted">Take the contract yourself before the week ends to deny it to them.</p>}
             </>
           ) : (
-            <button
+            <Btn
               className="btn ghost small"
-              disabled={g.intel < INTEL_RIVAL_COST}
+              blocked={g.intel < INTEL_RIVAL_COST ? `Needs ${INTEL_RIVAL_COST} Intel (you have ${g.intel}). Set members to Gather rumors.` : undefined}
               onClick={() =>
                 confirm({
                   title: "Spy on Hobb & Daughters?",
@@ -196,19 +195,11 @@ export function RealmScreen() {
               }
             >
               Learn their plans this week · {INTEL_RIVAL_COST} Intel
-            </button>
+            </Btn>
           )}
         </div>
       </Section>
 
-      <Section title="Chronicle">
-        {story.map((d) => (
-          <div key={d.id} className="chronicle">
-            <b className="small">{d.title}</b>
-            <p className="small muted">{d.body[0]}</p>
-          </div>
-        ))}
-      </Section>
     </div>
   );
 }

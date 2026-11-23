@@ -79,7 +79,7 @@ Weeks are windows. A beat fires on a random week inside its window, or at the en
 
 ### Branches and the facts they set
 
-- **1. Charter.** Optional: ask about the debt (exposition). Then choose: arm the guild (`start_arms`), a free Arcanist, or +80 crowns.
+- **1. Charter.** No exposition (any guildmaster knows the city's situation; that lives in the Codex as common knowledge). Choose: arm the guild (`start_arms`), a free Arcanist, or +80 crowns.
 - **2. Vorn.** Show her the door (bank −10, Lower Town +6, Vorn −15), or hear her out. You can ask about the people collected from (`vorn_q_people`, Lower Town +2), about the Hobbs (`vorn_q_hobbs`, +1 Intel), and what the bank wants (Guile check: `vorn_slip` on success, `vorn_q_want` on failure). Then the terms: work for the bank (`ostranders_open`, Vorn +15), case by case (`ostranders_open`, Vorn +5), or not today (Vorn −5). Not today can be undone later by courting Ostrander's from the Realm screen, which also sets `ostranders_open`.
 - **3. Marta.** Her greeting changes if bank standing ≥ 8. Choices: refuse; or ask the terms, then sell the share (`hobbs_share`: 25% of contract pay goes to her, the Hobbs compete far less, Marta +15), refuse, or humiliate her (Guile check; Hobbs grow more aggressive either way).
 - **4. Riot.** Feed them (8 supplies) or pay the bakers (35 crowns) → meet Dagny → her ears (`dagny_contact`: occasional Intel tips) or nothing (`dagny_friend`, Lower Town +4). Or take the Exchequer's purse → hold the line without blood (Endurance check) or break the crowd. Or bar the doors.
@@ -108,6 +108,12 @@ Not story beats: they fire for squads on the road (`src/engine/data/field.ts`) a
 - **After the ending (Draft):** the ending reshapes the world, then generated multi-week storylines, player-chosen Ambitions, and legacy/retirement take over.
 
 ---
+
+## 6b. How lore reaches the player (Canon)
+
+- **No lectures.** Characters never explain what any Varrow resident would know. Common knowledge sits in the **Codex** from the start, as reference.
+- **The Codex** (`src/engine/data/codex.ts`) unlocks entries from play: places your squads visit, enemies they face, people you meet, members' own pasts (a veteran in the roster tells you about Cassel Ford), and street talk. Every entry records how the guild learned it.
+- **Heard in Varrow:** one line of street talk a week in the week report, chosen to reflect the Debt clocks, decrees in force and story facts. Some lines unlock Codex entries.
 
 ## 7. Writing rules
 

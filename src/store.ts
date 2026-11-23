@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { produce } from 'immer';
-import { advanceWeek, checkTutorial, migrateSave, newGame, rewardText, type GameState, type Objective } from './engine';
+import { advanceWeek, checkTutorial, discoverLore, migrateSave, newGame, rewardText, type GameState, type Objective } from './engine';
 
 export type Tab = 'hall' | 'contracts' | 'roster' | 'armory' | 'realm';
 export type Sheet =
@@ -12,6 +12,7 @@ export type Sheet =
   | { kind: 'warnings'; warnings: string[] }
   | { kind: 'menu' }
   | { kind: 'guide' }
+  | { kind: 'journal'; tab?: 'notes' | 'codex' | 'chronicle' }
   | { kind: 'help' };
 
 export interface ResourceSnap {
@@ -116,7 +117,10 @@ export const useStore = create<Store>((set, get) => ({
     let completed: Objective[] = [];
     const next = produce(g, (draft) => {
       err = fn(draft as GameState);
-      if (!err) completed = checkTutorial(draft as GameState);
+      if (!err) {
+        completed = checkTutorial(draft as GameState);
+        discoverLore(draft as GameState);
+      }
     });
     if (err) {
       get().notify(err);

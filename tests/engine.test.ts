@@ -14,7 +14,7 @@ import {
   type GameState,
 } from '../src/engine';
 import { runSim } from '../scripts/sim';
-import { buyMaterial, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
+import { buyMaterial, cancelDispatch, discoverLore, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
 
 const clearEvents = (s: GameState) => {
   while (s.pendingEvents.length) resolveEvent(s, s.pendingEvents[0].uid, 0);
@@ -95,16 +95,23 @@ describe('engine', () => {
 
   it('story events are multi-step conversations', () => {
     const s = newGame(5);
-    const ev = s.pendingEvents[0];
-    expect(ev.defId).toBe('charter');
-    // ask about the debt, then continue: the event stays open across nodes
-    resolveEvent(s, ev.uid, 0);
-    expect(s.pendingEvents[0]?.node).toBe('debt');
-    resolveEvent(s, ev.uid, 0);
-    expect(s.pendingEvents[0]?.node).toBe('start');
-    resolveEvent(s, ev.uid, 2); // keep the coin
-    expect(s.pendingEvents.length).toBe(0);
-    const d = s.dispatches[s.dispatches.length - 1];
+    s.crowns = 5000;
+    clearEvents(s);
+    let ev = s.pendingEvents[0];
+    for (let i = 0; i < 4 && !(ev && ev.defId === 'ostrander_agent'); i++) {
+      advanceWeek(s);
+      ev = s.pendingEvents.find((e) => e.defId === 'ostrander_agent')!;
+      if (!ev) clearEvents(s);
+    }
+    expect(ev.defId).toBe('ostrander_agent');
+    resolveEvent(s, ev.uid, 0); // hear her out
+    expect(s.pendingEvents.find((e) => e.uid === ev.uid)?.node).toBe('pitch');
+    const terms = s.pendingEvents.find((e) => e.uid === ev.uid)!.choices.findIndex((c) => c.next === 'terms');
+    resolveEvent(s, ev.uid, terms);
+    resolveEvent(s, ev.uid, 1); // case by case
+    expect(s.pendingEvents.some((e) => e.uid === ev.uid)).toBe(false);
+    expect(s.flags.ostranders_open).toBe(true);
+    const d = s.dispatches.filter((x) => x.title === "A Visitor from Ostrander's").pop()!;
     expect(d.body.length).toBe(3); // the whole conversation is recorded
   });
 
@@ -209,7 +216,7 @@ describe('engine', () => {
     delete s.craftQueue;
     s.version = 3;
     const g = migrateSave(s as never)!;
-    expect(g.version).toBe(6);
+    expect(g.version).toBe(7);
     expect(g.facilities.hall).toBe(1);
     expect(g.craftQueue).toEqual([]);
   });
@@ -284,6 +291,55 @@ describe('engine', () => {
     expect(s.tutorial.finished).toBe(true);
     const rewards = OBJECTIVES.reduce((t, o) => t + (o.reward.crowns ?? 0), 0);
     expect(s.crowns).toBe(before + rewards + 50);
+  });
+
+  it('a squad can be re-geared or called off until the week ends, but not once it has left', () => {
+    const s = newGame(51);
+    clearEvents(s);
+    const c = s.board.find((x) => x.travelWeeks > 0) ?? s.board[0];
+    const team = living(s).slice(0, c.minSquad);
+    const supplies = s.supplies;
+    dispatchMission(s, c.id, team.map((m) => m.id), bestApproaches(s, c, team), true);
+    const spare = s.items.find((i) => !living(s).some((m) => m.loadout.weapon === i.uid || m.loadout.armor === i.uid));
+    expect(equip(s, team[0].id, 'consumable', undefined, 0)).toBeUndefined(); // allowed while preparing
+    expect(cancelDispatch(s, s.missions[0].id)).toBeUndefined();
+    expect(s.supplies).toBe(supplies);
+    expect(s.board.some((x) => x.id === c.id)).toBe(true);
+    expect(team.every((m) => m.status === 'idle')).toBe(true);
+    // send again, end the week: now they're gone
+    dispatchMission(s, c.id, team.map((m) => m.id), bestApproaches(s, c, team), true);
+    advanceWeek(s);
+    clearEvents(s);
+    if (s.missions[0] && !s.missions[0].report) {
+      expect(equip(s, team[0].id, 'weapon', undefined)).toMatch(/away on/);
+      expect(cancelDispatch(s, s.missions[0].id)).toMatch(/already left/);
+    }
+    void spare;
+  });
+
+  it('hiding the notes keeps progress and rewards', () => {
+    const s = newGame(52);
+    clearEvents(s);
+    s.tutorial.enabled = false;
+    const c = s.board[0];
+    const team = living(s).slice(0, c.minSquad);
+    const crowns = s.crowns;
+    dispatchMission(s, c.id, team.map((m) => m.id), bestApproaches(s, c, team), true);
+    expect(checkTutorial(s).map((o) => o.id)).toContain('first_contract');
+    expect(s.crowns).toBe(crowns + 20);
+  });
+
+  it('the Codex starts with common knowledge and grows with play', () => {
+    const s = newGame(53);
+    expect(s.codex.unlocked).toEqual(expect.arrayContaining(['varrow', 'the_debt', 'charters']));
+    expect(s.codex.unlocked).not.toContain('vorn');
+    s.eventWeeks.ostrander_agent = 2;
+    expect(discoverLore(s)).toContain('Factor Maelis Vorn');
+    expect(s.codex.fresh).toContain('vorn');
+    // street talk appears in the week's dispatches
+    clearEvents(s);
+    advanceWeek(s);
+    expect(s.dispatches.some((x) => x.kind === 'crier')).toBe(true);
   });
 
   it('a careful bot usually survives the first season', () => {

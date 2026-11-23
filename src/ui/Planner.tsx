@@ -19,48 +19,104 @@ import {
   type Member,
 } from '../engine';
 import { useStore } from '../store';
-import { ChanceBar, FactionBadge, Sheet, TagChip, ThreatPips } from './common';
+import { ChanceBar, FactionBadge, Seg, Sheet, TagChip, ThreatPips } from './common';
 import { chanceText, signed } from './format';
 import { MemberMini } from './MemberSheet';
 import { Icon } from './icons';
 import { ap, APPROACHES, ApproachChip } from './visual';
 
 /** Who is good at what: members × approaches, with the plan's approaches outlined. */
-function StrengthMatrix({ g, members, used, preview }: { g: GameState; members: Member[]; used: Approach[]; preview: boolean }) {
-  if (!members.length) return null;
-  const rows = members.map((m) => ({ m, s: APPROACHES.map((a) => memberScore(g, m, a, { tags: [], countered: new Set(), members: [m] }).score) }));
+function usePref(key: string, initial: string): [string, (v: string) => void] {
+  const [v, setV] = useState(() => {
+    try {
+      return localStorage.getItem(key) ?? initial;
+    } catch {
+      return initial;
+    }
+  });
+  return [
+    v,
+    (next: string) => {
+      setV(next);
+      try {
+        localStorage.setItem(key, next);
+      } catch {
+        /* ignore */
+      }
+    },
+  ];
+}
+
+/**
+ * Who is good at what: members × approaches. Stays available while you pick a
+ * squad. Show/hide, filter (selected / available / everyone), sort by any
+ * column, and tap a row to add or remove that member.
+ */
+function StrengthMatrix({ g, everyone, selected, used, onToggle, blockedReason }: { g: GameState; everyone: Member[]; selected: string[]; used: Approach[]; onToggle: (m: Member) => void; blockedReason: (m: Member) => string | undefined }) {
+  const [show, setShow] = usePref('lab.matrix.show', '1');
+  const [filter, setFilter] = usePref('lab.matrix.filter', 'available');
+  const [sort, setSort] = useState<number | null>(null);
+  const pool = everyone.filter((m) => (filter === 'selected' ? selected.includes(m.id) : filter === 'available' ? !blockedReason(m) || selected.includes(m.id) : true));
+  const rows = pool.map((m) => ({ m, s: APPROACHES.map((a) => memberScore(g, m, a, { tags: [], countered: new Set(), members: [m] }).score) }));
+  if (sort !== null) rows.sort((a, b) => b.s[sort] - a.s[sort]);
   const max = APPROACHES.map((_, i) => Math.max(1, ...rows.map((r) => r.s[i])));
   return (
-    <div>
-      <p className="tiny muted">{preview ? 'Who is good at what (select members above):' : 'Your squad’s strengths. Outlined columns are used in your plan:'}</p>
-      <table className="matrix">
-        <thead>
-          <tr>
-            <th />
-            {APPROACHES.map((a) => (
-              <th key={a} className={used.includes(a) ? 'used' : ''} style={{ ['--c' as string]: ap(a), color: ap(a) }} title={APPROACH_INFO[a].name}>
-                <Icon name={a} size={16} />
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map(({ m, s }) => (
-            <tr key={m.id}>
-              <td className="name">{m.name.split(' ')[0]}</td>
-              {s.map((v, i) => (
-                <td
-                  key={i}
-                  className={used.includes(APPROACHES[i]) ? 'used' : ''}
-                  style={{ ['--c' as string]: ap(APPROACHES[i]), background: `color-mix(in srgb, ${ap(APPROACHES[i])} ${Math.round((v / max[i]) * 55)}%, var(--paper))` }}
-                >
-                  {v.toFixed(0)}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="matrix-box">
+      <div className="row between">
+        <button className="link-btn small" onClick={() => setShow(show === '1' ? '0' : '1')} aria-expanded={show === '1'}>
+          {show === '1' ? 'Hide' : 'Show'} strengths
+        </button>
+        {show === '1' && (
+          <Seg
+            value={filter}
+            onChange={setFilter}
+            options={[
+              { value: 'selected', label: `Squad (${selected.length})` },
+              { value: 'available', label: 'Free' },
+              { value: 'all', label: 'All' },
+            ]}
+          />
+        )}
+      </div>
+      {show === '1' && (
+        <>
+          <table className="matrix">
+            <thead>
+              <tr>
+                <th />
+                {APPROACHES.map((a, i) => (
+                  <th key={a} className={`${used.includes(a) ? 'used' : ''} ${sort === i ? 'sorted' : ''}`} title={`Sort by ${APPROACH_INFO[a].name}`}>
+                    <button className="th-btn" onClick={() => setSort(sort === i ? null : i)}>
+                      <Icon name={a} size={16} />
+                    </button>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map(({ m, s }) => {
+                const isSel = selected.includes(m.id);
+                const why = blockedReason(m);
+                return (
+                  <tr key={m.id} className={`${isSel ? 'sel' : ''} ${why && !isSel ? 'unavail' : ''}`} onClick={() => (why && !isSel ? useStore.getState().notify(why) : onToggle(m))}>
+                    <td className="name">
+                      {isSel ? '✓ ' : ''}
+                      {m.name.split(' ')[0]}
+                    </td>
+                    {s.map((v, i) => (
+                      <td key={i} className={used.includes(APPROACHES[i]) ? 'used' : ''} style={{ background: `color-mix(in srgb, var(--ink-2) ${Math.round((v / max[i]) * 45)}%, var(--paper))` }}>
+                        {v.toFixed(0)}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          {rows.length === 0 && <p className="tiny muted">Nobody here yet.</p>}
+          <p className="tiny muted">Tap a column to sort, a name to add or remove them. Underlined columns are the ones your plan uses.</p>
+        </>
+      )}
     </div>
   );
 }
@@ -160,6 +216,14 @@ export function Planner({ contractId }: { contractId: string }) {
   const available = crew.filter((m) => m.status === 'idle');
   const busy = crew.filter((m) => m.status !== 'idle');
 
+  const blockedReason = (m: Member): string | undefined => {
+    if (m.status === 'mission') {
+      const ms = game.missions.find((x) => x.id === m.missionId);
+      return ms ? `${m.name.split(' ')[0]} is already committed to "${ms.contract.title}".` : `${m.name.split(' ')[0]} is away.`;
+    }
+    if (m.status === 'recovering' || m.health < 40) return `${m.name.split(' ')[0]} is too badly wounded to go (${m.health} HP). Rest them, or build an Infirmary.`;
+    return undefined;
+  };
   const toggle = (m: Member) => {
     if (selected.includes(m.id)) setSelected(selected.filter((x) => x !== m.id));
     else if (selected.length < c.maxSquad) setSelected([...selected, m.id]);
@@ -222,22 +286,22 @@ export function Planner({ contractId }: { contractId: string }) {
       <h3 className="subhead">Squad</h3>
       <div className="member-pick">
         {available.map((m) => (
-          <MemberMini key={m.id} m={m} selected={selected.includes(m.id)} onClick={() => toggle(m)} onLongPress={() => open({ kind: 'member', id: m.id })} disabled={m.health < 40} />
+          <MemberMini key={m.id} m={m} selected={selected.includes(m.id)} onClick={() => toggle(m)} onLongPress={() => open({ kind: 'member', id: m.id })} blocked={blockedReason(m)} />
         ))}
         {busy.map((m) => (
-          <MemberMini key={m.id} m={m} disabled onClick={() => open({ kind: 'member', id: m.id })} />
+          <MemberMini key={m.id} m={m} blocked={blockedReason(m)} onLongPress={() => open({ kind: 'member', id: m.id })} />
         ))}
       </div>
       {members.length > 0 && (
         <div className="row wrap gap small">
           {members.map((m) => (
             <button key={m.id} className="btn ghost small" onClick={() => open({ kind: 'member', id: m.id })}>
-              ⚙ Gear: {m.name.split(' ')[0]}
+              <Icon name="armor" size={13} /> Gear: {m.name.split(' ')[0]}
             </button>
           ))}
         </div>
       )}
-      <StrengthMatrix g={game} members={members.length ? members : available} used={approaches} preview={!members.length} />
+      <StrengthMatrix g={game} everyone={[...available, ...busy]} selected={selected} used={approaches} onToggle={toggle} blockedReason={blockedReason} />
       {pv.countered.length > 0 && (
         <p className="good small">Prepared for: {pv.countered.map((t) => TAGS[t]?.name).join(', ')}</p>
       )}

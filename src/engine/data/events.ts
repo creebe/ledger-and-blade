@@ -75,44 +75,29 @@ export const STORY_EVENTS: EventDef[] = [
     window: [1, 1],
     title: 'A Charter and a Debt',
     text:
-      "The Exchequer's seal is still warm on your charter. Your guild may now take contracts across the realm. It is also, as of this morning, 800 crowns in debt to the Weighhouse, which financed the hall, the first wages, and the sign over the door.\n\n" +
-      "The clerk who delivered the charter lingers, eyeing the empty racks. Outside, criers announce that the Crown's quarter-day payment to Ostrander's is due in a few weeks.",
+      "The Exchequer's seal is still warm on your charter. As of this morning, Ledger & Blade may take paid work anywhere in the realm. It is also 800 crowns in debt to the Weighhouse, which paid for the hall, the first wages and the sign over the door.\n\n" +
+      "The clerk who brought it glances at the empty weapon racks. \"Quarter-day's in a few weeks,\" he says, as everyone in Varrow does lately. \"Good luck.\"\n\n" +
+      'You have a little coin left over. How do you start?',
     choices: [
-      { label: 'Ask the clerk about the Crown\'s payment', effects: {}, next: 'debt', resultText: '' },
-      { label: 'Thank the clerk and get to work', effects: {}, next: 'start', resultText: '' },
+      {
+        label: 'Arm the guild',
+        detail: 'Gain a Mail Hauberk and 2 Fire Oils',
+        effects: { flag: 'start_arms' },
+        resultText: 'You visit the armorers on Anvil Row. Your people will at least look the part.',
+      },
+      {
+        label: 'Hire an Arcanist',
+        detail: 'A college-trained Arcanist joins for free',
+        effects: { freeRecruit: true },
+        resultText: 'A young Arcanist from the college, short of fees, signs on for the work and the wage.',
+      },
+      {
+        label: 'Keep the coin',
+        detail: '+80 crowns',
+        effects: { crowns: 80 },
+        resultText: 'You lock the coin away. The ledger is the only weapon that never dulls.',
+      },
     ],
-    nodes: {
-      debt: {
-        speaker: 'Exchequer clerk',
-        text:
-          '"You\'ve not heard? Twenty-two years ago the old king lost the war at Cassel Ford. The treaty that ended it made us pay Ostrander\'s bank, which paid our enemies, which… well. Four million crowns, give or take, in quarterly installments until my grandchildren are dead."\n\n' +
-          '"We\'ve not missed a payment yet. We\'ve sold the crown forests, the river tolls and half the royal plate to manage it. If the Crown ever does miss one, the treaty lets the bank collect however it likes. Good luck with your guild."',
-        choices: [{ label: 'Let the clerk go and get to work', effects: {}, next: 'start', resultText: '' }],
-      },
-      start: {
-        text: 'You have a little coin left over after the hall and the first wages. How do you start?',
-        choices: [
-          {
-            label: 'Arm the guild',
-            detail: 'Gain a Mail Hauberk and 2 Fire Oils',
-            effects: { flag: 'start_arms' },
-            resultText: 'You visit the armorers on Anvil Row. Your people will at least look the part.',
-          },
-          {
-            label: 'Hire an Arcanist',
-            detail: 'A college-trained Arcanist joins for free',
-            effects: { freeRecruit: true },
-            resultText: 'A young Arcanist from the college, short of fees, signs on for the work and the wage.',
-          },
-          {
-            label: 'Keep the coin',
-            detail: '+80 crowns',
-            effects: { crowns: 80 },
-            resultText: 'You lock the coin away. The ledger is the only weapon that never dulls.',
-          },
-        ],
-      },
-    },
   },
   {
     id: 'ostrander_agent',

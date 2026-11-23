@@ -1,4 +1,4 @@
-import { FACTIONS, missionWeeks, type Contract, type GameState, type Mission } from '../../engine';
+import { cancelDispatch, FACTIONS, missionWeeks, type Contract, type GameState, type Mission } from '../../engine';
 import { Icon } from '../icons';
 import { CONTRACT_TYPE_ICON, OddsPill, PhaseStrip, Portrait, useBestOdds } from '../visual';
 import { useStore } from '../../store';
@@ -28,7 +28,9 @@ export function MissionTrack({ m, g }: { m: Mission; g: GameState }) {
       ? 'Reaches the objective at the end of this week'
       : `Arrives in ${m.arriveWeek - g.week + 1} weeks`;
 
+  const preparing = m.dispatchedWeek === g.week && !m.report;
   return (
+    <div className="mission-wrap">
     <button className="mission-card" onClick={() => (m.report ? open({ kind: 'mission', id: m.id }) : undefined)}>
       <div className="row between">
         <b>{c.title}</b>
@@ -62,6 +64,35 @@ export function MissionTrack({ m, g }: { m: Mission; g: GameState }) {
         </div>
       )}
     </button>
+    {preparing && (
+      <div className="preparing">
+        <span className="small">Leaving at the end of this week. Gear can still change:</span>
+        <span className="row wrap gap">
+          {m.memberIds.map((id) => {
+            const x = g.members.find((y) => y.id === id)!;
+            return (
+              <button key={id} className="btn ghost small" onClick={() => open({ kind: 'member', id })}>
+                <Icon name="armor" size={13} /> {x.name.split(' ')[0]}
+              </button>
+            );
+          })}
+          <button
+            className="btn ghost small danger"
+            onClick={() =>
+              useStore.getState().confirm({
+                title: 'Cancel this dispatch?',
+                body: [`The squad stays home. The ${m.supplies} supplies they packed go back to the stores, and "${c.title}" returns to the board.`],
+                confirmLabel: 'Cancel dispatch',
+                onConfirm: () => useStore.getState().act((s) => cancelDispatch(s, m.id)) && useStore.getState().notify('Dispatch cancelled. The squad is back in the hall.'),
+              })
+            }
+          >
+            Cancel
+          </button>
+        </span>
+      </div>
+    )}
+    </div>
   );
 }
 

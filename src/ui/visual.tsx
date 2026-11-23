@@ -52,28 +52,45 @@ export function ApproachChip({ a, on, onClick, small }: { a: Approach; on?: bool
   );
 }
 
-function initials(name: string) {
-  const [a, b] = name.split(' ');
-  return `${a?.[0] ?? ''}${b?.[0] ?? ''}`;
+/** Short, scannable readiness for a member: what they can do right now. */
+export function readiness(m: Member, g?: GameState): { text: string; tone: '' | 'mid' | 'bad' } {
+  if (m.status === 'dead') return { text: 'Dead', tone: 'bad' };
+  if (m.status === 'left') return { text: 'Gone', tone: '' };
+  if (m.status === 'mission') {
+    const ms = g?.missions.find((x) => x.id === m.missionId);
+    if (ms && ms.dispatchedWeek === g!.week && !ms.report) return { text: 'Leaving this week', tone: '' };
+    return { text: ms ? `Away · back wk ${ms.returnWeek}` : 'Away', tone: '' };
+  }
+  if (m.health < 40) return { text: `Wounded (${m.health} HP)`, tone: 'bad' };
+  if (m.health < 70) return { text: `Hurt (${m.health} HP)`, tone: 'mid' };
+  if (m.fatigue > 50) return { text: 'Exhausted', tone: 'mid' };
+  if (m.loyalty < 30) return { text: 'Disloyal', tone: 'bad' };
+  if (m.morale < 30) return { text: 'Low morale', tone: 'mid' };
+  return { text: 'Ready', tone: '' };
 }
 
-export function Portrait({ m, size = 44, showStatus = true }: { m: Member; size?: number; showStatus?: boolean }) {
-  const color = ap(PROFESSION_APPROACH[m.profession]);
-  const status =
-    m.status === 'dead' ? { icon: 'skull', c: 'var(--bad)' } : m.status === 'left' ? { icon: 'road', c: 'var(--muted)' } : m.status === 'mission' ? { icon: 'road', c: 'var(--ink-2)' } : m.health < 40 ? { icon: 'bandage', c: 'var(--bad)' } : m.fatigue > 50 ? { icon: 'bolt', c: 'var(--mid)' } : null;
+/** A member's portrait: their Profession's symbol, plus one dot only when something needs attention. */
+export function Portrait({ m, size = 40, showStatus = true }: { m: Member; size?: number; showStatus?: boolean }) {
+  const r = readiness(m);
   return (
-    <span className={`portrait ${m.status === 'dead' ? 'dead' : ''}`} style={{ width: size, height: size, ['--c' as string]: color }} title={`${m.name}, ${PROFESSIONS[m.profession].name}`}>
-      <span className="portrait-init" style={{ fontSize: size * 0.38 }}>
-        {initials(m.name)}
-      </span>
-      <span className="portrait-prof">
-        <Icon name={m.profession} size={Math.max(11, size * 0.3)} />
-      </span>
-      {showStatus && status && (
-        <span className="portrait-status" style={{ color: status.c }}>
-          <Icon name={status.icon} size={Math.max(10, size * 0.28)} />
+    <span className={`portrait ${m.status === 'dead' ? 'dead' : ''}`} style={{ width: size, height: size }} title={`${m.name}, ${PROFESSIONS[m.profession].name}`}>
+      <Icon name={m.profession} size={Math.round(size * 0.55)} />
+      {showStatus && (r.tone || m.status === 'mission') && <span className={`portrait-dot ${r.tone || 'away'}`} />}
+    </span>
+  );
+}
+
+/** A member's two strongest approaches, as plain text. */
+export function TopStrengths({ g, m }: { g: GameState; m: Member }) {
+  const scores = APPROACHES.map((a) => ({ a, s: memberScore(g, m, a, { tags: [], countered: new Set(), members: [m] }).score })).sort((x, y) => y.s - x.s);
+  return (
+    <span className="top-strengths">
+      {scores.slice(0, 2).map(({ a, s }) => (
+        <span key={a} className="meta">
+          <Icon name={a} size={13} />
+          {APPROACH_INFO[a].name} {s.toFixed(0)}
         </span>
-      )}
+      ))}
     </span>
   );
 }

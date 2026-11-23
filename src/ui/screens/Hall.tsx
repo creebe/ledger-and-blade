@@ -1,11 +1,11 @@
 import { dateLabel, upkeep, living, projectLedger, repayLoan, weeklyWages, type Dispatch, type GameState } from '../../engine';
 import { useStore } from '../../store';
-import { Empty, Section } from '../common';
+import { Btn, Empty, Section } from '../common';
 import { Icon } from '../icons';
 import { BuildingsSection } from '../Buildings';
 import { GuideCard } from '../Guide';
 
-const KIND_ICON: Record<string, string> = { story: 'quest', mission: 'scroll', economy: 'coin', politics: 'seal', roster: 'people', rival: 'hobbs', warning: 'warn', info: 'info' };
+const KIND_ICON: Record<string, string> = { lore: 'book', crier: 'ear', story: 'quest', mission: 'scroll', economy: 'coin', politics: 'seal', roster: 'people', rival: 'hobbs', warning: 'warn', info: 'info' };
 // only warnings and the story get color; everything else is neutral
 const KIND_COLOR: Record<string, string> = { story: 'var(--accent)', warning: 'var(--bad)' };
 
@@ -166,10 +166,10 @@ export function HallScreen() {
             </p>
             <div className="row wrap gap">
               {[50, 100, 250].map((n) => (
-                <button
+                <Btn
                   key={n}
                   className="btn ghost small"
-                  disabled={g.crowns < n}
+                  blocked={g.crowns < n ? `Need ${n} crowns (you have ${g.crowns})` : undefined}
                   onClick={() =>
                     useStore.getState().confirm({
                       title: `Repay ${n} crowns early?`,
@@ -181,11 +181,11 @@ export function HallScreen() {
                   }
                 >
                   Repay {n}
-                </button>
+                </Btn>
               ))}
-              <button
+              <Btn
                 className="btn ghost small"
-                disabled={g.crowns < loan.principal}
+                blocked={g.crowns < loan.principal ? `Need ${Math.ceil(loan.principal)} crowns to clear the debt` : undefined}
                 onClick={() =>
                   useStore.getState().confirm({
                     title: 'Clear the whole debt?',
@@ -197,7 +197,7 @@ export function HallScreen() {
                 }
               >
                 Repay all
-              </button>
+              </Btn>
             </div>
             <p className="tiny muted">Paying early reduces the interest that piles up each week. Missing 3 payments means ruin.</p>
           </>
