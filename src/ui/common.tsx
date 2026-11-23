@@ -2,6 +2,7 @@ import { useState, type ReactNode } from 'react';
 import { FACTIONS, TAGS, type FactionId } from '../engine';
 import { useStore } from '../store';
 import { chanceText } from './format';
+import { Icon } from './icons';
 
 export function Sheet({ title, children, onClose, footer }: { title: ReactNode; children: ReactNode; onClose?: () => void; footer?: ReactNode }) {
   const close = useStore((s) => s.close);
@@ -11,7 +12,7 @@ export function Sheet({ title, children, onClose, footer }: { title: ReactNode; 
         <div className="sheet-head">
           <h2>{title}</h2>
           <button className="icon-btn" onClick={onClose ?? close} aria-label="Close">
-            ✕
+            <Icon name="x" size={20} />
           </button>
         </div>
         <div className="sheet-body">{children}</div>
@@ -72,7 +73,7 @@ export function TagChip({ id, hidden, candidates, countered, onClick }: { id?: s
   if (hidden) {
     return (
       <button className="tag hidden" onClick={onClick}>
-        ? {candidates?.map((c) => TAGS[c]?.name ?? c).join(' / ')}
+        <Icon name="info" size={13} /> ? {candidates?.map((c) => TAGS[c]?.name ?? c).join(' / ')}
       </button>
     );
   }
@@ -80,7 +81,8 @@ export function TagChip({ id, hidden, candidates, countered, onClick }: { id?: s
   if (!t) return null;
   return (
     <span className={`tag ${t.kind} ${countered ? 'countered' : ''}`} onClick={() => setOpen(!open)} title={t.description}>
-      {t.icon} {t.name}
+      <Icon name={t.id} size={13} />
+      {t.name}
       {countered && ' ✓'}
       {open && <span className="tag-tip">{t.description}</span>}
     </span>
@@ -91,7 +93,7 @@ export function FactionBadge({ id }: { id: FactionId }) {
   const f = FACTIONS[id];
   return (
     <span className="faction-badge" style={{ ['--fc' as string]: f.color }}>
-      {f.sigil} {f.short}
+      <Icon name={id} size={12} /> {f.short}
     </span>
   );
 }

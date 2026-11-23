@@ -1,6 +1,10 @@
 import { dateLabel, HALL_UPKEEP, living, projectLedger, repayLoan, weeklyWages, type Dispatch, type GameState } from '../../engine';
 import { useStore } from '../../store';
 import { Empty, Section } from '../common';
+import { Icon } from '../icons';
+
+const KIND_ICON: Record<string, string> = { story: 'quest', mission: 'scroll', economy: 'coin', politics: 'seal', roster: 'people', rival: 'hobbs', warning: 'warn', info: 'info' };
+const KIND_COLOR: Record<string, string> = { story: 'var(--accent)', mission: 'var(--gold)', economy: 'var(--r-crowns)', politics: 'var(--r-influence)', roster: 'var(--info)', rival: '#8a5a8e', warning: 'var(--bad)', info: 'var(--ink-2)' };
 
 export function alerts(g: GameState): { tone: 'warn' | 'bad' | 'info'; text: string }[] {
   const out: { tone: 'warn' | 'bad' | 'info'; text: string }[] = [];
@@ -30,7 +34,10 @@ export function DispatchItem({ d }: { d: Dispatch }) {
   const mission = d.missionId ? [...game.missions, ...game.history].find((m) => m.id === d.missionId) : undefined;
   return (
     <article className={`dispatch k-${d.kind}`}>
-      <h4>{d.title}</h4>
+      <h4 className="alert-row">
+        <Icon name={KIND_ICON[d.kind] ?? 'scroll'} size={16} style={{ color: KIND_COLOR[d.kind] ?? 'var(--ink-2)' }} />
+        <span>{d.title}</span>
+      </h4>
       {d.body.map((b, i) => (
         <p key={i}>{b}</p>
       ))}
@@ -64,8 +71,9 @@ export function HallScreen() {
         <Section title="Attention">
           <ul className="alerts">
             {al.map((a, i) => (
-              <li key={i} className={a.tone}>
-                {a.text}
+              <li key={i} className={`${a.tone} alert-row`}>
+                <Icon name={a.tone === 'bad' ? 'warn' : a.tone === 'warn' ? 'info' : 'clock'} size={16} style={{ color: a.tone === 'bad' ? 'var(--bad)' : a.tone === 'warn' ? 'var(--mid)' : 'var(--info)' }} />
+                <span>{a.text}</span>
               </li>
             ))}
           </ul>

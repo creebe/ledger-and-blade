@@ -4,6 +4,8 @@ import { exportSave, importSave, slotInfo, snap, useStore, type ResourceSnap } f
 import { ChanceBar, Sheet } from './common';
 import { pct } from './format';
 import { useTheme } from './theme';
+import { Icon } from './icons';
+import { ap, APPROACHES, ApproachChip, OddsPill } from './visual';
 import { DispatchItem } from './screens/Hall';
 
 export function EventCard({ ev }: { ev: GameEvent }) {
@@ -49,7 +51,7 @@ export function EventCard({ ev }: { ev: GameEvent }) {
                 {c.detail && <span className="small">{c.detail}</span>}
                 {chk && (
                   <span className="small check">
-                    {APPROACH_INFO[c.check!.approach].icon} {APPROACH_INFO[c.check!.approach].name} check: <b>{pct(chk.chance)}</b>
+                    <Icon name={c.check!.approach} size={14} style={{ color: ap(c.check!.approach) }} /> {APPROACH_INFO[c.check!.approach].name} check: <b>{pct(chk.chance)}</b>
                     {chk.who ? ` (${chk.who.split(' ')[0]} tries)` : ' (no one at home to try: your people are away)'}
                   </span>
                 )}
@@ -64,12 +66,12 @@ export function EventCard({ ev }: { ev: GameEvent }) {
 }
 
 const RES_LABEL: { key: keyof ResourceSnap; icon: string; name: string; invert?: boolean }[] = [
-  { key: 'crowns', icon: '◉', name: 'Crowns' },
-  { key: 'supplies', icon: '❦', name: 'Supplies' },
-  { key: 'intel', icon: '👁', name: 'Intel' },
-  { key: 'influence', icon: '✦', name: 'Influence' },
-  { key: 'renown', icon: '★', name: 'Renown' },
-  { key: 'heat', icon: '♨', name: 'Heat', invert: true },
+  { key: 'crowns', icon: 'coin', name: 'Crowns' },
+  { key: 'supplies', icon: 'sack', name: 'Supplies' },
+  { key: 'intel', icon: 'eye', name: 'Intel' },
+  { key: 'influence', icon: 'seal', name: 'Influence' },
+  { key: 'renown', icon: 'star', name: 'Renown' },
+  { key: 'heat', icon: 'flame', name: 'Heat', invert: true },
 ];
 
 export function WeekReport({ dispatchIds, week, before }: { dispatchIds: string[]; week: number; before: ResourceSnap }) {
@@ -96,7 +98,7 @@ export function WeekReport({ dispatchIds, week, before }: { dispatchIds: string[
           const good = c.invert ? c.delta < 0 : c.delta > 0;
           return (
             <span key={c.key} className={`delta-chip ${good ? 'up' : 'down'}`} style={{ animationDelay: `${i * 0.08}s` }}>
-              {c.icon} {c.delta > 0 ? '+' : ''}
+              <Icon name={c.icon} size={14} /> {c.delta > 0 ? '+' : ''}
               {c.delta} <small>{c.name}</small>
             </span>
           );
@@ -176,14 +178,15 @@ export function MissionReplay({ id }: { id: string }) {
           </section>
         )}
         {r.phases.map((p, i) => (
-          <section key={i} className={`phase-card r-${p.result}`} style={next()}>
+          <section key={i} className={`phase-card r-${p.result}`} style={{ ...next(), borderLeft: `4px solid ${ap(p.approach)}` }}>
             <div className="row between">
               <b>
                 {i + 1}. {p.phase}
               </b>
-              <span className="small">
-                {APPROACH_INFO[p.approach].icon} {APPROACH_INFO[p.approach].name}
-                {p.lead ? ` · led by ${name(p.lead)}` : ''}
+              <span className="meta">
+                <Icon name={p.approach} size={14} style={{ color: ap(p.approach) }} />
+                {APPROACH_INFO[p.approach].name}
+                {p.lead ? ` · ${name(p.lead)}` : ''}
               </span>
             </div>
             {(p.story ?? []).map((l, k) => (
@@ -403,6 +406,30 @@ export function HelpSheet() {
           You run <b>Ledger & Blade</b>, a guild in Varrow, a city drowning in the realm's debt to Ostrander's bank. Each turn is one week. Plan freely, then press <b>End Week</b>, and everything you set in motion
           resolves at once.
         </p>
+        <h4>Reading the colors</h4>
+        <div className="legend">
+          {APPROACHES.map((a) => (
+            <div key={a} className="legend-row">
+              <ApproachChip a={a} small />
+              <span className="small muted">{APPROACH_INFO[a].blurb}</span>
+            </div>
+          ))}
+          <div className="legend-row">
+            <span className="tag enemy">
+              <Icon name="soldiers" size={13} /> Enemy
+            </span>
+            <span className="tag env">
+              <Icon name="cold" size={13} /> Terrain
+            </span>
+            <span className="small muted">Tags: what you'll face. Dashed “?” tags are unknown.</span>
+          </div>
+          <div className="legend-row">
+            <OddsPill min={0.8} max={0.8} />
+            <OddsPill min={0.45} max={0.65} />
+            <OddsPill min={0.2} max={0.3} />
+            <span className="small muted">Good, uncertain, poor odds.</span>
+          </div>
+        </div>
         <h4>The ledger</h4>
         <p>
           Wages, hall upkeep and supplies are due every week, and your Weighhouse loan wants a payment every four. Four weeks in the red, or three missed loan payments, and the guild is finished. The Hall shows a

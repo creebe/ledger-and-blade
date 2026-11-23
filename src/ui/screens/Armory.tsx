@@ -17,7 +17,9 @@ import {
 } from '../../engine';
 import { useStore } from '../../store';
 import { Empty, Section, Seg } from '../common';
-import { itemSummary, SLOT_LABEL } from '../format';
+import { SLOT_LABEL } from '../format';
+import { Icon } from '../icons';
+import { ItemIcon, ItemStats } from '../visual';
 
 export function ArmoryScreen() {
   const g = useStore((s) => s.game)!;
@@ -40,7 +42,13 @@ export function ArmoryScreen() {
 
       {tab === 'market' && (
         <>
-          <Section title="Supplies">
+          <Section
+            title={
+              <>
+                <Icon name="sack" size={18} style={{ color: 'var(--r-supplies)' }} /> Supplies
+              </>
+            }
+          >
             <p className="small">
               Food, fodder and lamp-oil. Each member eats 1 a week, and squads carry their own. Price now: <b>{supplyPrice(g)}◉</b> each.
             </p>
@@ -66,9 +74,12 @@ export function ArmoryScreen() {
                     const owned = g.items.filter((i) => i.defId === id).length;
                     return (
                       <div key={id} className="shop-item">
-                        <div>
+                        <ItemIcon def={def} />
+                        <div className="card-main">
                           <b>{def.name}</b> {owned > 0 && <span className="tiny muted">(own {owned})</span>}
-                          <div className="small">{itemSummary(def)}</div>
+                          <div>
+                            <ItemStats def={def} />
+                          </div>
                           <div className="tiny muted">{def.description}</div>
                         </div>
                         <button className="btn small primary" disabled={g.crowns < price} onClick={() => act((d) => buyItem(d, id)) && useStore.getState().notify(`Bought ${def.name} for ${price}◉. It's in Stores: equip it from a member's Gear.`)}>
@@ -98,9 +109,12 @@ export function ArmoryScreen() {
                   const holder = equippedBy(g, i.uid);
                   return (
                     <div key={i.uid} className="shop-item">
-                      <div>
+                      <ItemIcon def={def} />
+                      <div className="card-main">
                         <b>{def.name}</b>
-                        <div className="small">{itemSummary(def)}</div>
+                        <div>
+                          <ItemStats def={def} />
+                        </div>
                         <div className="tiny muted">{holder ? `Held by ${holder.name}` : 'In stores'}</div>
                       </div>
                       <button
@@ -135,7 +149,10 @@ export function ArmoryScreen() {
             const price = Math.round(materialPrice(g, m) * MATERIAL_SELL_RATE);
             return (
               <div key={m} className="shop-item">
-                <div>
+                <span className="item-icon" style={{ ['--c' as string]: 'var(--r-supplies)', width: 34, height: 34 }}>
+                  <Icon name={({ iron: 'anvil', leather: 'armor', timber: 'rough', reagents: 'flask' } as Record<string, string>)[m]} size={20} />
+                </span>
+                <div className="card-main">
                   <b>{MATERIAL_INFO[m].name}</b> <span className="muted">×{g.materials[m]}</span>
                   <div className="tiny muted">Sells for about {price}◉ each</div>
                 </div>

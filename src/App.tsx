@@ -5,6 +5,7 @@ import { MemberSheet } from './ui/MemberSheet';
 import { ConfirmSheet, EventCard, HelpSheet, MenuSheet, MissionReplay, WarningsSheet, WeekReport } from './ui/Overlays';
 import { Planner } from './ui/Planner';
 import { useScrollLock, useTheme } from './ui/theme';
+import { Icon } from './ui/icons';
 import { ArmoryScreen } from './ui/screens/Armory';
 import { ContractsScreen } from './ui/screens/Contracts';
 import { HallScreen } from './ui/screens/Hall';
@@ -12,11 +13,11 @@ import { RealmScreen } from './ui/screens/Realm';
 import { RosterScreen } from './ui/screens/Roster';
 
 const TABS: { id: Tab; label: string; icon: string }[] = [
-  { id: 'hall', label: 'Hall', icon: '⌂' },
-  { id: 'contracts', label: 'Contracts', icon: '✉' },
-  { id: 'roster', label: 'Roster', icon: '☰' },
-  { id: 'armory', label: 'Armory', icon: '⚔' },
-  { id: 'realm', label: 'Realm', icon: '♛' },
+  { id: 'hall', label: 'Hall', icon: 'hall' },
+  { id: 'contracts', label: 'Contracts', icon: 'scroll' },
+  { id: 'roster', label: 'Roster', icon: 'people' },
+  { id: 'armory', label: 'Armory', icon: 'armor' },
+  { id: 'realm', label: 'Realm', icon: 'realm' },
 ];
 
 function TopBar() {
@@ -24,13 +25,13 @@ function TopBar() {
   const open = useStore((s) => s.open);
   const notify = useStore((s) => s.notify);
   const burn = weeklyWages(g) + HALL_UPKEEP;
-  const res: { icon: string; value: string | number; label: string; tone?: string }[] = [
-    { icon: '◉', value: g.crowns, label: `Crowns. Weekly costs: ${burn} (wages ${weeklyWages(g)} + hall ${HALL_UPKEEP}).`, tone: g.crowns < burn ? 'bad' : '' },
-    { icon: '❦', value: g.supplies, label: `Supplies. ${living(g).filter((m) => m.status !== 'mission').length} eaten per week at home; squads carry their own.` },
-    { icon: '👁', value: g.intel, label: 'Intel. Reveal hidden tags and rival plans.' },
-    { icon: '✦', value: g.influence, label: 'Influence. Court factions and cool Heat.' },
-    { icon: '★', value: g.renown, label: 'Renown. Better contracts and goods; rivals take note.' },
-    { icon: '♨', value: g.heat, label: 'Heat. Legal exposure from shady work.', tone: g.heat >= 60 ? 'bad' : g.heat >= 30 ? 'mid' : '' },
+  const res: { icon: string; c: string; value: string | number; label: string; tone?: string }[] = [
+    { icon: 'coin', c: 'crowns', value: g.crowns, label: `Crowns. Weekly costs: ${burn} (wages ${weeklyWages(g)} + hall ${HALL_UPKEEP}).`, tone: g.crowns < burn ? 'bad' : '' },
+    { icon: 'sack', c: 'supplies', value: g.supplies, label: `Supplies. ${living(g).filter((m) => m.status !== 'mission').length} eaten per week at home; squads carry their own.` },
+    { icon: 'eye', c: 'intel', value: g.intel, label: 'Intel. Reveal hidden tags and rival plans.' },
+    { icon: 'seal', c: 'influence', value: g.influence, label: 'Influence. Court factions and cool Heat.' },
+    { icon: 'star', c: 'renown', value: g.renown, label: 'Renown. Better contracts and goods; rivals take note.' },
+    { icon: 'flame', c: 'heat', value: g.heat, label: 'Heat. Legal exposure from shady work.', tone: g.heat >= 60 ? 'bad' : g.heat >= 30 ? 'mid' : '' },
   ];
   // floating +/- numbers whenever a resource changes
   const prev = useRef<Record<string, number> | null>(null);
@@ -57,15 +58,15 @@ function TopBar() {
       <div className="row between">
         <span className="date">{dateLabel(g.week)}</span>
         <button className="icon-btn" onClick={() => open({ kind: 'menu' })} aria-label="Menu">
-          ☰
+          <Icon name="menu" size={22} />
         </button>
       </div>
       <div className="resources">
         {res.map((r, i) => {
           const fl = floats.filter((f) => f.key === keys[i]);
           return (
-            <button key={r.label} className={`res ${r.tone ?? ''} ${fl.length ? 'pulse' : ''}`} onClick={() => notify(r.label)}>
-              <span>{r.icon}</span>
+            <button key={r.label} className={`res ${r.tone ?? ''} ${fl.length ? 'pulse' : ''}`} style={{ ['--rc' as string]: `var(--r-${r.c})` }} onClick={() => notify(r.label)}>
+              <Icon name={r.icon} size={16} />
               <b>{r.value}</b>
               {fl.map((f) => (
                 <i key={f.id} className={`float ${f.good ? 'up' : 'down'}`}>
@@ -92,7 +93,9 @@ function BottomNav() {
     <nav className="bottomnav">
       {TABS.map((t) => (
         <button key={t.id} className={tab === t.id ? 'on' : ''} onClick={() => setTab(t.id)}>
-          <span className="nav-i">{t.icon}</span>
+          <span className="nav-i">
+            <Icon name={t.icon} size={24} />
+          </span>
           <span className="nav-l">{t.label}</span>
           {!!badge[t.id] && <span className="nav-badge">{badge[t.id]}</span>}
         </button>
@@ -105,17 +108,39 @@ function EndWeekButton() {
   const g = useStore((s) => s.game)!;
   const endWeek = useStore((s) => s.endWeek);
   const open = useStore((s) => s.open);
+  const warnings = endWeekWarnings(g);
+  const away = g.missions.length;
   return (
-    <button
-      className="endweek"
-      onClick={() => {
-        const w = endWeekWarnings(g);
-        if (w.length) open({ kind: 'warnings', warnings: w });
-        else endWeek();
-      }}
-    >
-      End Week ▸
-    </button>
+    <div className="endweek-bar">
+      <span className="endweek-info">
+        {warnings.length > 0 ? (
+          <span className="meta" style={{ color: 'var(--mid)' }}>
+            <Icon name="warn" size={14} />
+            {warnings.length} to check
+          </span>
+        ) : (
+          <span className="meta" style={{ color: 'var(--good)' }}>
+            <Icon name="check" size={14} />
+            Ready
+          </span>
+        )}
+        {away > 0 && (
+          <span className="meta">
+            <Icon name="road" size={14} />
+            {away} in the field
+          </span>
+        )}
+      </span>
+      <button
+        className="endweek"
+        onClick={() => {
+          if (warnings.length) open({ kind: 'warnings', warnings });
+          else endWeek();
+        }}
+      >
+        End Week <Icon name="chevron" size={16} />
+      </button>
+    </div>
   );
 }
 
@@ -128,7 +153,7 @@ function Title() {
   return (
     <div className="title-screen">
       <button className="theme-toggle" onClick={toggleTheme} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
-        {theme === 'dark' ? '☀' : '☾'}
+        <Icon name={theme === 'dark' ? 'sun' : 'moon'} size={20} />
       </button>
       <div className="title-art">⚖⚔</div>
       <h1>Ledger &amp; Blade</h1>

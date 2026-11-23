@@ -20,7 +20,9 @@ import {
 } from '../engine';
 import { useStore } from '../store';
 import { Meter, Sheet } from './common';
-import { cap, itemSummary, SLOT_LABEL } from './format';
+import { cap, SLOT_LABEL } from './format';
+import { Icon } from './icons';
+import { ap, ItemIcon, ItemStats, PROFESSION_APPROACH, Portrait } from './visual';
 
 const STATUS_LABEL: Record<Member['status'], string> = {
   idle: 'At the hall',
@@ -79,8 +81,13 @@ export function MemberMini({ m, selected, onClick, onLongPress, disabled }: { m:
         }
       }}
     >
-      <span className="mm-name">{m.name.split(' ')[0]}</span>
-      <span className="mm-prof">{prof.name}</span>
+      <span className="row gap">
+        <Portrait m={m} size={32} />
+        <span className="mm-text">
+          <span className="mm-name">{m.name.split(' ')[0]}</span>
+          <span className="mm-prof">{prof.name}</span>
+        </span>
+      </span>
       <span className="mm-bars">
         <Meter value={m.health} tone={m.health < 40 ? 'bad' : m.health < 75 ? 'mid' : 'good'} label="Health" />
         <Meter value={100 - m.fatigue} tone={m.fatigue > 50 ? 'bad' : m.fatigue > 20 ? 'mid' : 'info'} label="Freshness" />
@@ -117,13 +124,24 @@ export function MemberSheet({ id }: { id: string }) {
 
   return (
     <Sheet title={m.name}>
-      <div className="row between">
-        <span>
-          <b>{prof.name}</b> · Level {m.level} <span className="muted small">({m.xp}/{xpToLevel(m.level)} xp)</span>
-        </span>
-        <span className="muted">{m.wage}◉/wk</span>
+      <div className="card-row">
+        <Portrait m={m} size={60} />
+        <div className="card-main">
+          <div className="row between">
+            <span>
+              <Icon name={m.profession} size={16} style={{ color: ap(PROFESSION_APPROACH[m.profession]) }} /> <b>{prof.name}</b> · Level {m.level}
+            </span>
+            <span className="meta">
+              <Icon name="coin" size={13} />
+              {m.wage}/wk
+            </span>
+          </div>
+          <div className="ap-bar-track" title={`${m.xp}/${xpToLevel(m.level)} xp to next level`} style={{ margin: '4px 0' }}>
+            <span className="ap-bar-fill" style={{ width: `${(m.xp / xpToLevel(m.level)) * 100}%`, background: 'var(--gold)' }} />
+          </div>
+          <p className="muted small">{prof.blurb}</p>
+        </div>
       </div>
-      <p className="muted small">{prof.blurb}</p>
       <p className="small">{statusLine(m, game)}{m.causeOfDeath ? ` · ${m.causeOfDeath}` : ''}</p>
 
       <div className="attrs">
@@ -136,10 +154,10 @@ export function MemberSheet({ id }: { id: string }) {
       </div>
 
       <div className="vitals">
-        <label>Health <Meter value={m.health} tone={m.health < 40 ? 'bad' : m.health < 75 ? 'mid' : 'good'} /> <span>{m.health}</span></label>
-        <label>Fatigue <Meter value={m.fatigue} tone={m.fatigue > 50 ? 'bad' : 'mid'} /> <span>{m.fatigue}</span></label>
-        <label>Morale <Meter value={m.morale} tone={m.morale < 35 ? 'bad' : 'good'} /> <span>{Math.round(m.morale)}</span></label>
-        <label>Loyalty <Meter value={m.loyalty} tone={m.loyalty < 35 ? 'bad' : 'good'} /> <span>{m.loyalty}</span></label>
+        <label><span className="meta"><Icon name="heart" size={14} />Health</span> <Meter value={m.health} tone={m.health < 40 ? 'bad' : m.health < 75 ? 'mid' : 'good'} /> <span>{m.health}</span></label>
+        <label><span className="meta"><Icon name="bolt" size={14} />Fatigue</span> <Meter value={m.fatigue} tone={m.fatigue > 50 ? 'bad' : 'mid'} /> <span>{m.fatigue}</span></label>
+        <label><span className="meta"><Icon name="smile" size={14} />Morale</span> <Meter value={m.morale} tone={m.morale < 35 ? 'bad' : 'good'} /> <span>{Math.round(m.morale)}</span></label>
+        <label><span className="meta"><Icon name="link" size={14} />Loyalty</span> <Meter value={m.loyalty} tone={m.loyalty < 35 ? 'bad' : 'good'} /> <span>{m.loyalty}</span></label>
       </div>
 
       <div className="traits">
@@ -154,9 +172,9 @@ export function MemberSheet({ id }: { id: string }) {
       <h3 className="subhead">Approach strength <span className="muted small">(no tags, current gear)</span></h3>
       <div className="scores">
         {scores.map(({ a, s }) => (
-          <div key={a} className="score">
-            <span>{APPROACH_INFO[a].icon}</span>
-            <b>{s.toFixed(0)}</b>
+          <div key={a} className="score" style={{ color: ap(a), borderColor: `color-mix(in srgb, ${ap(a)} 45%, var(--line))` }}>
+            <Icon name={a} size={18} />
+            <b style={{ color: 'var(--ink)' }}>{s.toFixed(0)}</b>
             <small>{APPROACH_INFO[a].name}</small>
           </div>
         ))}
@@ -180,10 +198,19 @@ export function MemberSheet({ id }: { id: string }) {
         {slots.map((sl) => {
           const def = slotItem(sl.uid);
           return (
-            <button key={`${sl.slot}${sl.index}`} className="slot" disabled={locked} onClick={() => setSlotPick({ slot: sl.slot, index: sl.index })}>
-              <span className="slot-l">{SLOT_LABEL[sl.slot]}</span>
-              <span className="slot-v">{def ? def.name : '—'}</span>
-              {def && <span className="slot-s">{itemSummary(def)}</span>}
+            <button key={`${sl.slot}${sl.index}`} className="slot slot-row-v" disabled={locked} onClick={() => setSlotPick({ slot: sl.slot, index: sl.index })}>
+              {def ? (
+                <ItemIcon def={def} size={20} />
+              ) : (
+                <span className="item-icon empty" style={{ width: 32, height: 32 }}>
+                  <Icon name={sl.slot === 'consumable' ? 'flask' : sl.slot} size={18} />
+                </span>
+              )}
+              <span className="card-main">
+                <span className="slot-l">{SLOT_LABEL[sl.slot]}</span>
+                <span className="slot-v">{def ? def.name : 'Empty'}</span>
+                {def && <ItemStats def={def} />}
+              </span>
             </button>
           );
         })}
@@ -194,7 +221,7 @@ export function MemberSheet({ id }: { id: string }) {
           <div className="row between">
             <h4>Choose {SLOT_LABEL[slotPick.slot].toLowerCase()}</h4>
             <button className="icon-btn" onClick={() => setSlotPick(null)}>
-              ✕
+              <Icon name="x" size={18} />
             </button>
           </div>
           <button
@@ -222,9 +249,16 @@ export function MemberSheet({ id }: { id: string }) {
                     setSlotPick(null);
                   }}
                 >
-                  <b>{def.name}</b>
-                  <span className="small">{itemSummary(def)}</span>
-                  <span className="tiny muted">{holder ? (holder.id === m.id ? 'Equipped' : `Held by ${holder.name.split(' ')[0]}`) : 'In stores'}</span>
+                  <span className="card-row">
+                    <ItemIcon def={def} size={18} />
+                    <span className="card-main">
+                      <b>{def.name}</b>
+                      <ItemStats def={def} />
+                      <span className="tiny muted" style={{ display: 'block' }}>
+                        {holder ? (holder.id === m.id ? 'Equipped' : `Held by ${holder.name.split(' ')[0]}`) : 'In stores'}
+                      </span>
+                    </span>
+                  </span>
                 </button>
               );
             })}
@@ -248,8 +282,13 @@ export function MemberSheet({ id }: { id: string }) {
                   } else if (act((g) => setAssignment(g, m.id, a.id))) useStore.getState().notify(`${m.name.split(' ')[0]}: ${a.label} this week. ${a.blurb}`);
                 }}
               >
-                <b>{a.label}</b>
-                <small>{a.blurb}</small>
+                <span className="card-row">
+                  <Icon name={({ rest: 'rest', train: 'train', rumors: 'ear', labor: 'hammer', scout: 'compass' } as Record<string, string>)[a.id]} size={20} />
+                  <span className="card-main">
+                    <b>{a.label}</b>
+                    <small style={{ display: 'block' }}>{a.blurb}</small>
+                  </span>
+                </span>
               </button>
             ))}
           </div>

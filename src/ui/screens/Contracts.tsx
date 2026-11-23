@@ -1,4 +1,6 @@
-import { APPROACH_INFO, FACTIONS, type GameState, type Mission } from '../../engine';
+import { FACTIONS, type Contract, type GameState, type Mission } from '../../engine';
+import { Icon } from '../icons';
+import { CONTRACT_TYPE_ICON, OddsPill, PhaseStrip, Portrait, useBestOdds } from '../visual';
 import { useStore } from '../../store';
 import { Empty, FactionBadge, Section, TagChip, ThreatPips } from '../common';
 
@@ -41,17 +43,22 @@ export function MissionTrack({ m, g }: { m: Mission; g: GameState }) {
         ))}
       </div>
       <div className="row between small">
-        <span>{status}</span>
-        <span className="muted">
+        <span className="squad-faces">
           {m.memberIds
-            .map((id) => g.members.find((x) => x.id === id)?.name.split(' ')[0])
+            .map((id) => g.members.find((x) => x.id === id))
             .filter(Boolean)
-            .join(', ')}
+            .map((x) => (
+              <Portrait key={x!.id} m={x!} size={30} showStatus={false} />
+            ))}
+        </span>
+        <span className="meta">
+          <Icon name="clock" size={13} />
+          {status}
         </span>
       </div>
       {!m.report && (
-        <div className="tiny muted">
-          Plan: {m.approaches.map((a) => APPROACH_INFO[a].icon + ' ' + APPROACH_INFO[a].name).join(' → ')}
+        <div className="row gap tiny muted" style={{ marginTop: 4 }}>
+          Plan: <PhaseStrip c={c} chosen={m.approaches} />
         </div>
       )}
     </button>
@@ -76,32 +83,67 @@ export function ContractsScreen() {
       <Section title="The Board">
         {board.length === 0 && <Empty>No contracts this week.</Empty>}
         {board.map((c) => (
-          <button key={c.id} className={`contract-card ${c.story ? 'story' : ''}`} onClick={() => open({ kind: 'planner', contractId: c.id })} style={{ ['--fc' as string]: FACTIONS[c.patron].color }}>
-            <div className="row between">
-              <b>{c.title}</b>
-              <span className="reward">◉ {c.reward}</span>
-            </div>
-            <div className="row wrap gap small">
-              <FactionBadge id={c.patron} />
-              <span className="muted">{c.type}</span>
-              <span className="muted">· {c.region}</span>
-              {c.travelWeeks > 0 && <span className="muted">· {c.travelWeeks * 2 + 1} wks</span>}
-            </div>
-            <div className="row between small">
-              <ThreatPips value={c.threat} />
-              <span className={c.expiresWeek <= g.week ? 'warn' : 'muted'}>{c.expiresWeek <= g.week ? 'Expires this week' : `${c.expiresWeek - g.week + 1} wks left`}</span>
-            </div>
-            <div className="tags">
-              {c.tags.map((t) => (
-                <TagChip key={t} id={t} />
-              ))}
-              {c.hidden.map((h, i) => (h.revealed ? <TagChip key={i} id={h.trueTag} /> : <span key={i} className="tag hidden">?</span>))}
-              {c.contestedBy && <span className="tag contested">⚔ Contested</span>}
-              {c.story && <span className="tag story">★ Story</span>}
-            </div>
-          </button>
+          <ContractCard key={c.id} c={c} g={g} onOpen={() => open({ kind: 'planner', contractId: c.id })} />
         ))}
       </Section>
     </div>
+  );
+}
+
+function ContractCard({ c, g, onOpen }: { c: Contract; g: GameState; onOpen: () => void }) {
+  const best = useBestOdds(g, c);
+  const expiring = c.expiresWeek <= g.week;
+  return (
+    <button className={`contract-card ${c.story ? 'story' : ''}`} onClick={onOpen} style={{ ['--fc' as string]: FACTIONS[c.patron].color }}>
+      <div className="card-row">
+        <span className="type-icon" title={c.type}>
+          <Icon name={CONTRACT_TYPE_ICON[c.type] ?? 'scroll'} size={22} />
+        </span>
+        <div className="card-main">
+          <div className="row between">
+            <b>{c.title}</b>
+            <span className="reward">
+              <Icon name="coin" size={14} /> {c.reward}
+            </span>
+          </div>
+          <div className="row wrap gap">
+            <FactionBadge id={c.patron} />
+            <span className="meta">{c.type}</span>
+            <span className="meta">
+              <Icon name={c.travelWeeks ? 'road' : 'urban'} size={13} />
+              {c.region}
+            </span>
+            <span className="meta">
+              <Icon name="clock" size={13} />
+              {c.travelWeeks * 2 + 1}w
+            </span>
+          </div>
+        </div>
+      </div>
+      <div className="row between" style={{ marginTop: 6 }}>
+        <PhaseStrip c={c} />
+        {best ? <OddsPill min={best.min} max={best.max} label="best squad" /> : <span className="meta">Not enough people free</span>}
+      </div>
+      <div className="tags">
+        {c.tags.map((t) => (
+          <TagChip key={t} id={t} />
+        ))}
+        {c.hidden.map((h, i) => (h.revealed ? <TagChip key={i} id={h.trueTag} /> : <span key={i} className="tag hidden">?</span>))}
+        {c.contestedBy && (
+          <span className="tag contested">
+            <Icon name="hobbs" size={13} /> Contested
+          </span>
+        )}
+        {c.story && (
+          <span className="tag story">
+            <Icon name="quest" size={13} /> Story
+          </span>
+        )}
+      </div>
+      <div className="row between small">
+        <ThreatPips value={c.threat} />
+        <span className={expiring ? 'warn' : 'muted'}>{expiring ? 'Expires this week' : `${c.expiresWeek - g.week + 1} wks left`}</span>
+      </div>
+    </button>
   );
 }

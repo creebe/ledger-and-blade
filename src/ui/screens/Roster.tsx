@@ -1,6 +1,28 @@
 import { hireRecruit, ITEMS, living, PROFESSIONS, TRAITS } from '../../engine';
 import { useStore } from '../../store';
-import { Empty, Meter, Section } from '../common';
+import { Empty, Section } from '../common';
+import { Icon } from '../icons';
+import { ApproachBars, PROFESSION_APPROACH, Portrait } from '../visual';
+import type { Member } from '../../engine';
+
+const ASSIGN_ICON: Record<string, string> = { rest: 'rest', train: 'train', rumors: 'ear', labor: 'hammer', scout: 'compass' };
+function statusIcon(m: Member) {
+  if (m.status === 'mission') return 'road';
+  if (m.status === 'recovering') return 'bandage';
+  return ASSIGN_ICON[m.assignment] ?? 'rest';
+}
+
+function Vital({ icon, v, label }: { icon: string; v: number; label: string }) {
+  const c = v < 35 ? 'var(--bad)' : v < 65 ? 'var(--mid)' : 'var(--good)';
+  return (
+    <span className="vm" title={`${label}: ${Math.round(v)}`} style={{ ['--vc' as string]: c }}>
+      <Icon name={icon} size={12} />
+      <span className="ap-bar-track">
+        <span className="ap-bar-fill" style={{ width: `${v}%`, background: c }} />
+      </span>
+    </span>
+  );
+}
 import { ASSIGNMENTS, statusLine } from '../MemberSheet';
 
 export function RosterScreen() {
@@ -18,26 +40,31 @@ export function RosterScreen() {
       </p>
       <Section>
         {crew.map((m) => (
-          <button key={m.id} className="member-row" onClick={() => open({ kind: 'member', id: m.id })}>
-            <div className="row between">
-              <b>{m.name}</b>
-              <span className="small muted">
-                {PROFESSIONS[m.profession].name} · Lv {m.level}
-              </span>
+          <button key={m.id} className="member-row" onClick={() => open({ kind: 'member', id: m.id })} style={{ ['--fc' as string]: `var(--ap-${PROFESSION_APPROACH[m.profession]})` }}>
+            <div className="card-row">
+              <Portrait m={m} size={46} />
+              <div className="card-main">
+                <div className="row between">
+                  <b>{m.name}</b>
+                  <span className="meta">
+                    {PROFESSIONS[m.profession].name} · Lv {m.level}
+                  </span>
+                </div>
+                <ApproachBars g={g} m={m} />
+                <div className="vitals-mini" style={{ marginTop: 5 }}>
+                  <Vital icon="heart" v={m.health} label="Health" />
+                  <Vital icon="bolt" v={100 - m.fatigue} label="Freshness" />
+                  <Vital icon="smile" v={m.morale} label="Morale" />
+                  <Vital icon="link" v={m.loyalty} label="Loyalty" />
+                </div>
+              </div>
             </div>
-            <div className="mr-bars">
-              <span className="tiny">HP</span>
-              <Meter value={m.health} tone={m.health < 40 ? 'bad' : m.health < 75 ? 'mid' : 'good'} />
-              <span className="tiny">Fresh</span>
-              <Meter value={100 - m.fatigue} tone={m.fatigue > 50 ? 'bad' : 'info'} />
-              <span className="tiny">Loyal</span>
-              <Meter value={m.loyalty} tone={m.loyalty < 35 ? 'bad' : 'good'} />
-            </div>
-            <div className="row between small">
-              <span className={m.status === 'idle' ? '' : 'muted'}>
-                {m.status === 'idle' ? `→ ${ASSIGNMENTS.find((a) => a.id === m.assignment)?.label}` : statusLine(m, g)}
+            <div className="row between small" style={{ marginTop: 4 }}>
+              <span className="meta" style={{ color: m.status === 'idle' ? 'var(--ink)' : undefined }}>
+                <Icon name={statusIcon(m)} size={14} />
+                {m.status === 'idle' ? ASSIGNMENTS.find((a) => a.id === m.assignment)?.label : statusLine(m, g)}
               </span>
-              <span className="muted">{m.traits.map((t) => TRAITS[t].name).join(', ')}</span>
+              <span className="meta">{m.traits.map((t) => TRAITS[t].name).join(', ')}</span>
             </div>
           </button>
         ))}
@@ -50,11 +77,17 @@ export function RosterScreen() {
           const m = r.member;
           return (
             <div key={m.id} className="recruit">
-              <div className="row between">
-                <b>{m.name}</b>
-                <span className="small">{PROFESSIONS[m.profession].name}</span>
+              <div className="card-row">
+                <Portrait m={m} size={40} showStatus={false} />
+                <div className="card-main">
+                  <div className="row between">
+                    <b>{m.name}</b>
+                    <span className="meta">{PROFESSIONS[m.profession].name}</span>
+                  </div>
+                  <ApproachBars g={g} m={m} />
+                </div>
               </div>
-              <div className="small">
+              <div className="small" style={{ marginTop: 4 }}>
                 Might {m.attrs.might} · Finesse {m.attrs.finesse} · Wits {m.attrs.wits} · Resolve {m.attrs.resolve}
               </div>
               <div className="small muted">

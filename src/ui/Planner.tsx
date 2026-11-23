@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import {
+  memberScore,
   APPROACH_INFO,
   bestApproaches,
   dispatchMission,
@@ -20,6 +21,48 @@ import { useStore } from '../store';
 import { ChanceBar, FactionBadge, Sheet, TagChip, ThreatPips } from './common';
 import { chanceText, signed } from './format';
 import { MemberMini } from './MemberSheet';
+import { Icon } from './icons';
+import { ap, APPROACHES, ApproachChip } from './visual';
+
+/** Who is good at what: members × approaches, with the plan's approaches outlined. */
+function StrengthMatrix({ g, members, used, preview }: { g: GameState; members: Member[]; used: Approach[]; preview: boolean }) {
+  if (!members.length) return null;
+  const rows = members.map((m) => ({ m, s: APPROACHES.map((a) => memberScore(g, m, a, { tags: [], countered: new Set(), members: [m] }).score) }));
+  const max = APPROACHES.map((_, i) => Math.max(1, ...rows.map((r) => r.s[i])));
+  return (
+    <div>
+      <p className="tiny muted">{preview ? 'Who is good at what (select members above):' : 'Your squad’s strengths. Outlined columns are used in your plan:'}</p>
+      <table className="matrix">
+        <thead>
+          <tr>
+            <th />
+            {APPROACHES.map((a) => (
+              <th key={a} className={used.includes(a) ? 'used' : ''} style={{ ['--c' as string]: ap(a), color: ap(a) }} title={APPROACH_INFO[a].name}>
+                <Icon name={a} size={16} />
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(({ m, s }) => (
+            <tr key={m.id}>
+              <td className="name">{m.name.split(' ')[0]}</td>
+              {s.map((v, i) => (
+                <td
+                  key={i}
+                  className={used.includes(APPROACHES[i]) ? 'used' : ''}
+                  style={{ ['--c' as string]: ap(APPROACHES[i]), background: `color-mix(in srgb, ${ap(APPROACHES[i])} ${Math.round((v / max[i]) * 55)}%, var(--paper))` }}
+                >
+                  {v.toFixed(0)}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
 
 export function ContractHeader({ c, game }: { c: Contract; game: GameState }) {
   const act = useStore((s) => s.act);
@@ -192,6 +235,7 @@ export function Planner({ contractId }: { contractId: string }) {
           ))}
         </div>
       )}
+      <StrengthMatrix g={game} members={members.length ? members : available} used={approaches} preview={!members.length} />
       {pv.countered.length > 0 && (
         <p className="good small">Prepared for: {pv.countered.map((t) => TAGS[t]?.name).join(', ')}</p>
       )}
@@ -200,7 +244,7 @@ export function Planner({ contractId }: { contractId: string }) {
       {members.length === 0 && <p className="hint">Select members to see your odds for each phase.</p>}
       <ol className="phases">
         {pv.phases.map((p, i) => (
-          <li key={i} className="phase">
+          <li key={i} className={`phase ap-${p.approach}`} style={{ ['--c' as string]: ap(p.approach) }}>
             <div className="row between">
               <strong>
                 {i + 1}. {p.phase.name}
@@ -210,14 +254,7 @@ export function Planner({ contractId }: { contractId: string }) {
             <p className="muted small">{p.phase.text}</p>
             <div className="approach-row">
               {p.phase.approaches.map((a) => (
-                <button
-                  key={a}
-                  className={`approach ${a === p.approach ? 'on' : ''}`}
-                  onClick={() => setManual({ ...manual, [i]: a })}
-                  title={APPROACH_INFO[a].blurb}
-                >
-                  {APPROACH_INFO[a].icon} {APPROACH_INFO[a].name}
-                </button>
+                <ApproachChip key={a} a={a} on={a === p.approach} onClick={() => setManual({ ...manual, [i]: a })} />
               ))}
             </div>
             {members.length > 0 && (
