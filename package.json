@@ -1,0 +1,44 @@
+{
+  "name": "ledger-and-blade",
+  "version": "1.0.0",
+  "description": "A turn-based, portrait-first guild management sim set in a medieval fantasy realm.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit -p . && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "sim": "vite-node scripts/run-sim.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/creebe/ledger-and-blade.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/creebe/ledger-and-blade/issues"
+  },
+  "homepage": "https://github.com/creebe/ledger-and-blade#readme",
+  "dependencies": {
+    "immer": "^10.1.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zustand": "^4.5.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11",
+    "vite-plugin-pwa": "^0.21.1",
+    "vitest": "^2.1.8"
+  },
+  "type": "module"
+}
