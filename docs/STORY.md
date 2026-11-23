@@ -117,6 +117,21 @@ Not story beats: they fire for squads on the road (`src/engine/data/field.ts`) a
 
 ## 7. Writing rules
 
+### Sounding like people, not like a machine
+
+Run `npm run style` to flag the habits below. It's advisory: a flag is a prompt to look again, not an automatic fail.
+
+- **No neat morals.** Don't end a scene on a maxim ("The ledger is the only weapon that never dulls"). Stop when the useful part is over.
+- **No narrated subtext.** Not "she says pleasantly, and means something else entirely". Write the line so the reader gets it, or leave it ambiguous.
+- **People talk like people.** Short, plain, sometimes clumsy. They hedge, joke badly, mention practical things (four clerks and a dog), and don't speak in quotable epigrams.
+- **Break the rhythm.** Avoid lists of exactly three and paired sentences of matching length. Vary: one long sentence, then two short ones, or a list of two or four.
+- **Specific, slightly odd details over symbolic ones.** Not a porter spitting at the bank's carriage. Vorn spotting a spelling mistake on your notice board, and later fixing it with her own pen.
+- **One simile per scene, at most,** and only if it's something that speaker would actually say.
+- **No stock adverbs on dialogue** (pleasantly, thinly, dryly, kindly).
+- **No dramatic pauses** ("a beat", "for a long moment").
+- **Characters have their own registers:** Vorn is clipped and practical, Fenn is tired and polite, Marta is chatty and folksy, Dagny is blunt and swears a little.
+
+
 - **Plain, concrete language.** Name the thing: "a porter's hook", not "a weapon of the common folk".
 - **Avoid tired fantasy vocabulary.** No "ward" as a city district; avoid "shadows gather", "ancient evil", "the realm trembles", chosen ones, prophecies. Names should sound like real places and people, not adjective-noun compounds (*Gilded X*, *Iron Y*).
 - **Characters have their own motives.** Everyone wants something reasonable from their own point of view.

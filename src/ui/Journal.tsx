@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { CODEX, CODEX_BY_ID, dateLabel, guideView, OBJECTIVES, rewardText, type CodexCategory } from '../engine';
 import { useStore } from '../store';
 import { Seg, Sheet } from './common';
-import { GuideCard } from './Guide';
+import { GuideCard, ReadyNote, useCollect } from './Guide';
 import { Icon } from './icons';
 
 export type JournalTab = 'notes' | 'codex' | 'chronicle';
@@ -16,6 +16,7 @@ function NotesTab() {
   const waiting = new Map(v.waiting.map((w) => [w.o.id, w.reason]));
   const upcoming = OBJECTIVES.filter((o) => !g.tutorial.done.includes(o.id) && !activeIds.has(o.id));
   const done = OBJECTIVES.filter((o) => g.tutorial.done.includes(o.id));
+  const { collecting, collect } = useCollect();
   const chapters = [...new Set(OBJECTIVES.map((o) => o.chapter))];
   return (
     <>
@@ -61,17 +62,21 @@ function NotesTab() {
         })}
       {view === 'done' &&
         (done.length ? (
-          done.map((o) => (
-            <div key={o.id} className="objective">
-              <Icon name="check" size={16} style={{ color: 'var(--good)', marginTop: 3 }} />
-              <div className="card-main">
-                <b>{o.title}</b>
-                <span className="tiny muted" style={{ display: 'block' }}>
-                  {o.chapter} · earned {rewardText(o.reward)}
-                </span>
+          done.map((o) =>
+            (g.tutorial.claimed ?? []).includes(o.id) ? (
+              <div key={o.id} className="objective">
+                <Icon name="check" size={16} style={{ color: 'var(--muted)', marginTop: 3 }} />
+                <div className="card-main">
+                  <b>{o.title}</b>
+                  <span className="tiny muted" style={{ display: 'block' }}>
+                    {o.chapter} · collected {rewardText(o.reward)}
+                  </span>
+                </div>
               </div>
-            </div>
-          ))
+            ) : (
+              <ReadyNote key={o.id} o={o} collecting={collecting === o.id} onCollect={() => collect(o)} />
+            ),
+          )
         ) : (
           <p className="small muted">Nothing completed yet.</p>
         ))}

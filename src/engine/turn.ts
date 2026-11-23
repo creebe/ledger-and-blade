@@ -27,7 +27,7 @@ import {
   track,
 } from './world';
 
-export const SAVE_VERSION = 7;
+export const SAVE_VERSION = 8;
 
 export function freshNpcs(): GameState['npcs'] {
   return {
@@ -70,6 +70,11 @@ export function migrateSave(g: GameState): GameState | null {
     g.crierSeen = [];
     g.crierRecent = [];
     g.version = 7;
+  }
+  if (g.version === 7) {
+    // rewards were paid automatically before: everything done counts as collected
+    g.tutorial.claimed = [...g.tutorial.done];
+    g.version = 8;
   }
   return g.version === SAVE_VERSION ? g : null;
 }

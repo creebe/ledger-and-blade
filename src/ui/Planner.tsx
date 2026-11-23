@@ -266,6 +266,20 @@ export function Planner({ contractId }: { contractId: string }) {
       title={c.title}
       footer={
         <div className="planner-foot">
+          {members.length > 0 && (
+            <div className="foot-odds" aria-label="Odds for each phase">
+              {pv.phases.map((p, i) => {
+                const tone = p.min >= 0.7 ? 'good' : p.max < 0.4 ? 'bad' : 'mid';
+                const txt = Math.round(p.min * 100) === Math.round(p.max * 100) ? `${Math.round(p.min * 100)}%` : `${Math.round(p.min * 100)}–${Math.round(p.max * 100)}%`;
+                return (
+                  <span key={i} className={`fo ${tone} ${i === pv.phases.length - 1 ? 'goal' : ''}`} title={`${p.phase.name}: ${txt}`}>
+                    <Icon name={p.approach} size={13} />
+                    {txt}
+                  </span>
+                );
+              })}
+            </div>
+          )}
           <div className="row between small">
             <span>
               Supplies {pv.supplies} <span className="muted">(have {game.supplies})</span>

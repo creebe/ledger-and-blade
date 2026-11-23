@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { produce } from 'immer';
-import { advanceWeek, checkTutorial, discoverLore, migrateSave, newGame, rewardText, type GameState, type Objective } from './engine';
+import { advanceWeek, checkTutorial, discoverLore, migrateSave, newGame, type GameState, type Objective } from './engine';
 
 export type Tab = 'hall' | 'contracts' | 'roster' | 'armory' | 'realm';
 export type Sheet =
@@ -130,7 +130,7 @@ export const useStore = create<Store>((set, get) => ({
     safeSet(AUTOSAVE, JSON.stringify(next));
     if (completed.length) {
       const o = completed[completed.length - 1];
-      window.setTimeout(() => get().notify(`✓ ${o.title}${rewardText(o.reward) ? ` · ${rewardText(o.reward)}` : ''}`), 900);
+      window.setTimeout(() => get().notify(`✓ Note done: ${o.title}. Collect your reward from the notes.`), 900);
     }
     return true;
   },

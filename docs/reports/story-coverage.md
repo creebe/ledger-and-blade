@@ -21,7 +21,7 @@ None found.
 
 ## The Crown's silver: how it resolved
 
-- declined (Hobbs carried it): 28%
+- declined (Hobbs carried it): 29%
 - guild fell first (bankrupt): 43%
 - lost: 6%
 - unresolved: 9%
@@ -38,16 +38,16 @@ Every conversation node in every story beat was reached.
 - **ostrander_agent/hobbs**: Let's talk terms. (47) · What does the bank really want from Varrow? (30) · What happens to the people you collect from? (26)
 - **ostrander_agent/terms**: We'll work for the bank. (67) · We'll take your jobs case by case. (74) · Not today. (67)
 - **hobbs_arrive/root**: Refuse politely (196) · What's in it for me, exactly? (204)
-- **bread_riot/root**: Bar the doors (160) · Pay the bakers to open their ovens (96) · Take the Exchequer's purse and clear the square (132) · Feed them from the guild stores (12)
-- **silver_summons/root**: Decline (109) · "What does it pay?" (91) · "Who knows the route?" (93) · Accept the commission (98) · Tell him what Vorn let slip about the next treaty (6)
-- **quarter_day/root**: Let it go (189) · Swear to the Lower Town (22) · Prove that Hobb skimmed the silver (9) · Stay out of it (20) · Offer the bank your services (23) · Ask for a seat at the Exchequer's table (17) · Accept a purse from the Crown (11) · Accept a Crown writ of good conduct (14)
+- **bread_riot/root**: Bar the doors (161) · Pay the bakers to open their ovens (96) · Take the Exchequer's purse and clear the square (131) · Feed them from the guild stores (12)
+- **silver_summons/root**: Decline (108) · "What does it pay?" (92) · "Who knows the route?" (93) · Accept the commission (98) · Tell him what Vorn let slip about the next treaty (6)
+- **quarter_day/root**: Let it go (188) · Swear to the Lower Town (23) · Prove that Hobb skimmed the silver (9) · Stay out of it (19) · Offer the bank your services (24) · Ask for a seat at the Exchequer's table (17) · Accept a purse from the Crown (10) · Accept a Crown writ of good conduct (14)
 - **act1_slice_end/root**: Continue (264)
 - **ostrander_agent/people**: Let's talk terms. (54) · Why not hire Hobb & Daughters? They do this already. (27) · What does the bank really want from Varrow? (20)
 - **hobbs_arrive/details**: Sell her the share (65) · Refuse politely (66) · Humiliate her in front of her daughters (73)
 - **bread_riot/dagny**: "Nothing. Eat." (50) · "Your ears on the docks." (58)
-- **silver_summons/pay**: Accept the commission (23) · Haggle (46) · "Who knows the route?" (23) · Decline (30)
-- **bread_riot/square**: Break them. (57) · Hold the line. No blood. (75)
-- **silver_summons/route**: Decline (40) · Accept the commission (48) · "What does it pay?" (29) · Haggle (7) · Tell him what Vorn let slip about the next treaty (1)
+- **silver_summons/pay**: Accept the commission (23) · Haggle (46) · "Who knows the route?" (23) · Decline (31)
+- **bread_riot/square**: Break them. (57) · Hold the line. No blood. (74)
+- **silver_summons/route**: Decline (39) · Accept the commission (49) · "What does it pay?" (29) · Haggle (7) · Tell him what Vorn let slip about the next treaty (1)
 - **silver_summons/pay_fail**: Accept the commission (15) · "Who knows the route?" (5) · Decline (8)
 - **ostrander_agent/want_fail**: What happens to the people you collect from? (15) · Let's talk terms. (38) · Why not hire Hobb & Daughters? They do this already. (22)
 - **silver_summons/pay_ok**: Decline (10) · Accept the commission (11) · "Who knows the route?" (3) · Tell him what Vorn let slip about the next treaty (1)
@@ -72,10 +72,10 @@ Every conversation node in every story beat was reached.
 | fenn_pay | 31% | Asked Fenn what the commission pays. |
 | fenn_haggled | 7% | Haggled with Fenn and failed. |
 | silver_bonus | 6% | Haggled with Fenn and won +60 crowns on the convoy. |
-| silver_accepted | 49% | Accepted the commission for the Crown's silver. |
+| silver_accepted | 50% | Accepted the commission for the Crown's silver. |
 | silver_declined | 50% | Declined the commission; Hobb & Daughters carried the silver. |
-| silver_delivered | 11% | The guild delivered the Crown's silver: the payment was made. |
-| silver_lost | 17% | The Crown's silver was lost or never sent: the Crown defaulted. |
+| silver_delivered | 10% | The guild delivered the Crown's silver: the payment was made. |
+| silver_lost | 18% | The Crown's silver was lost or never sent: the Crown defaulted. |
 | silver_abandoned | 5% | Accepted the commission but never sent the convoy. |
 | fenn_ally | 4% | Took a seat at the Exchequer table after the payment. |
 | bank_paid_loan | 2% | Let Ostrander's buy part of the guild's Weighhouse note. |
@@ -94,7 +94,7 @@ Every conversation node in every story beat was reached.
 | Drover's Road (Places) | 91% |
 | Harrowmere (Places) | 76% |
 | Kell Mines (Places) | 75% |
-| The Saltfens (Places) | 13% |
+| The Saltfens (Places) | 12% |
 | Port Anselm (Places) | 38% |
 | Factor Maelis Vorn (People) | 100% |
 | Marta Hobb (People) | 100% |
@@ -104,7 +104,7 @@ Every conversation node in every story beat was reached.
 | Fireborn (Foes) | 26% |
 | Hedge-wards (Foes) | 19% |
 | Swarms (Foes) | 28% |
-| Sell-swords (Foes) | 63% |
+| Sell-swords (Foes) | 64% |
 | The Assay Office (Powers & trades) | 100% |
 | Saint Oda's (Powers & trades) | 100% |
 | The Mudlarks (Powers & trades) | 100% |
@@ -112,23 +112,23 @@ Every conversation node in every story beat was reached.
 
 ## Random events fired
 
-- field_arrival: 1195
-- informant: 279
-- petition: 268
-- brawl: 216
+- field_arrival: 1208
+- informant: 282
+- petition: 263
+- brawl: 221
 - peddler: 206
-- lead: 199
+- lead: 203
 - festival: 145
-- homesick: 125
+- homesick: 127
 - field_bridge: 97
-- field_shadowed: 88
-- raise: 87
-- field_traveler: 81
-- field_guide: 62
-- volunteer: 57
-- dagny_tip: 22
-- field_tracks: 20
-- field_deserter: 19
+- field_shadowed: 87
+- raise: 85
+- field_traveler: 82
+- field_guide: 63
+- volunteer: 58
+- dagny_tip: 23
+- field_tracks: 21
+- field_deserter: 17
 - field_rivals: 16
-- bank_offer: 16
+- bank_offer: 15
 - nightmares: 4

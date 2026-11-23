@@ -66,7 +66,7 @@ export const CODEX: CodexEntry[] = [
     title: 'The Treaty of Cassel',
     category: 'History',
     text: "The peace that ended the war made the realm repay what the victors had borrowed from Ostrander's. Its sharpest clause: if the Crown ever misses an installment, the bank may collect however it sees fit. Tolls, mills, castles: everything is collateral.",
-    source: (s) => (s.flags.vorn_slip || s.flags.vorn_q_people ? 'Factor Vorn, who explained it without blinking.' : 'Learned the hard way, when the Crown missed a payment.'),
+    source: (s) => (s.flags.vorn_slip || s.flags.vorn_q_people ? 'Factor Vorn, over a cup of your own tea.' : 'Learned the hard way, when the Crown missed a payment.'),
     unlock: (s) => !!(s.flags.vorn_slip || s.flags.vorn_q_people || s.flags.silver_lost),
   },
   {
@@ -131,7 +131,7 @@ export const CODEX: CodexEntry[] = [
     id: 'vorn',
     title: 'Factor Maelis Vorn',
     category: 'People',
-    text: "Ostrander's chief factor in Varrow. Precise, unhurried and never rude. She is honest in a way that's worse than lying, because she tells you exactly what the bank intends.",
+    text: "Runs Ostrander's office on Quay Street. She doesn't waste words or lose her temper. Ask her what the bank plans to do to you and she'll tell you, straight out. Corrects other people's spelling.",
     source: () => 'She came to your hall.',
     unlock: (s) => fired(s, 'ostrander_agent'),
   },

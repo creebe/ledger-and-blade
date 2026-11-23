@@ -13,7 +13,8 @@
     "test": "vitest run",
     "sim": "vite-node scripts/run-sim.ts",
     "story": "vite-node scripts/run-story.ts",
-    "playthroughs": "vite-node scripts/playthrough.ts"
+    "playthroughs": "vite-node scripts/playthrough.ts",
+    "style": "vite-node scripts/style-lint.ts"
   },
   "repository": {
     "type": "git",

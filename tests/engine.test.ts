@@ -14,7 +14,7 @@ import {
   type GameState,
 } from '../src/engine';
 import { runSim } from '../scripts/sim';
-import { buySupplies, supplyCost, buyMaterial, cancelDispatch, discoverLore, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
+import { claimNote, buySupplies, supplyCost, buyMaterial, cancelDispatch, discoverLore, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
 
 const clearEvents = (s: GameState) => {
   while (s.pendingEvents.length) resolveEvent(s, s.pendingEvents[0].uid, 0);
@@ -216,7 +216,7 @@ describe('engine', () => {
     delete s.craftQueue;
     s.version = 3;
     const g = migrateSave(s as never)!;
-    expect(g.version).toBe(7);
+    expect(g.version).toBe(8);
     expect(g.facilities.hall).toBe(1);
     expect(g.craftQueue).toEqual([]);
   });
@@ -269,8 +269,11 @@ describe('engine', () => {
     dispatchMission(s, c.id, team.map((m) => m.id), bestApproaches(s, c, team), true);
     const done = checkTutorial(s).map((o) => o.id);
     expect(done).toContain('first_contract');
+    expect(s.crowns).toBe(crowns); // nothing paid until collected
+    expect(claimNote(s, 'first_contract')).toBeUndefined();
     expect(s.crowns).toBe(crowns + 20);
-    expect(checkTutorial(s)).toEqual([]); // no double rewards
+    expect(claimNote(s, 'first_contract')).toMatch(/Already/); // no double rewards
+    expect(checkTutorial(s)).toEqual([]);
     const idle = living(s).find((m) => m.status === 'idle')!;
     setAssignment(s, idle.id, 'rumors');
     expect(checkTutorial(s).map((o) => o.id)).toContain('orders');
@@ -288,6 +291,7 @@ describe('engine', () => {
     const before = s.crowns;
     const done = checkTutorial(s);
     expect(done.length).toBe(OBJECTIVES.length);
+    for (const o of OBJECTIVES) claimNote(s, o.id);
     expect(s.tutorial.finished).toBe(true);
     const rewards = OBJECTIVES.reduce((t, o) => t + (o.reward.crowns ?? 0), 0);
     expect(s.crowns).toBe(before + rewards + 50);
@@ -326,6 +330,7 @@ describe('engine', () => {
     const crowns = s.crowns;
     dispatchMission(s, c.id, team.map((m) => m.id), bestApproaches(s, c, team), true);
     expect(checkTutorial(s).map((o) => o.id)).toContain('first_contract');
+    claimNote(s, 'first_contract');
     expect(s.crowns).toBe(crowns + 20);
   });
 

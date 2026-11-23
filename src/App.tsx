@@ -8,6 +8,7 @@ import { useScrollLock, useTheme } from './ui/theme';
 import { Icon } from './ui/icons';
 import { GuideNudge } from './ui/Guide';
 import { JournalSheet } from './ui/Journal';
+import { SheetDepth } from './ui/common';
 import { ArmoryScreen } from './ui/screens/Armory';
 import { ContractsScreen } from './ui/screens/Contracts';
 import { HallScreen } from './ui/screens/Hall';
@@ -258,6 +259,14 @@ export default function App() {
       {sheets.length === 0 && <EndWeekButton />}
       <BottomNav />
       {sheets.map((s, i) => {
+        // panels under the top one stay mounted (keeping their state) but hidden
+        let topFull = -1;
+        sheets.forEach((x, k) => {
+          if (x.kind !== 'confirm') topFull = k;
+        });
+        const hidden = s.kind !== 'confirm' && i < topFull;
+        const depth = sheets.slice(0, i).filter((x) => x.kind !== 'confirm').length;
+        const el = (() => {
         switch (s.kind) {
           case 'planner':
             return <Planner key={i} contractId={s.contractId} />;
@@ -280,6 +289,12 @@ export default function App() {
           case 'journal':
             return <JournalSheet key={i} tab={s.tab} />;
         }
+        })();
+        return (
+          <SheetDepth.Provider key={i} value={depth}>
+            <div style={hidden ? { display: 'none' } : undefined}>{el}</div>
+          </SheetDepth.Provider>
+        );
       })}
       {event && <EventCard ev={event} />}
       {toast && <div className="toast">{toast.text}</div>}

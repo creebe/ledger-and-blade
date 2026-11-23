@@ -95,7 +95,7 @@ export const STORY_EVENTS: EventDef[] = [
         label: 'Keep the coin',
         detail: '+80 crowns',
         effects: { crowns: 80 },
-        resultText: 'You lock the coin away. The ledger is the only weapon that never dulls.',
+        resultText: 'You put it in the strongbox under the stairs. Eighty crowns is eighty crowns.',
       },
     ],
   },
@@ -107,71 +107,72 @@ export const STORY_EVENTS: EventDef[] = [
     chance: 0.6,
     title: "A Visitor from Ostrander's",
     text:
-      "A woman in a sober grey coat waits in your hall, gloves folded on her knee. She introduces herself as Factor Maelis Vorn of Ostrander's, Varrow office.\n\n" +
-      "Through the window, a Lower Town porter spits as he passes the bank's carriage.",
+      "There's a woman from Ostrander's in your front room. She got there before you were up, and she's been reading the notice board while she waited.\n\n" +
+      '"Maelis Vorn. I run the bank\'s office on Quay Street." She nods at the board. "You\'ve spelled \'carriage\' wrong."',
     choices: [
       { label: 'Hear her out', effects: {}, next: 'pitch', resultText: '' },
       {
         label: 'Show her the door',
         detail: "Ostrander's −10, Lower Town +6",
         effects: { standing: { ostranders: -10, lowertown: 6 }, npc: { id: 'vorn', attitude: -15 } },
-        resultText: 'She leaves without argument. By evening the Lower Town taverns are toasting your name. The bank will remember too.',
+        resultText: "She goes without arguing. By evening half the Lower Town has heard you threw the bank's woman out, and people you've never met are buying your crew drinks.",
       },
     ],
     nodes: {
       pitch: {
         speaker: 'Factor Vorn',
         text:
-          '"The bank holds three hundred and twelve debts in Varrow alone: merchants, millers, two counts and a bishop. We have more paper than hands to collect on it."\n\n' +
-          '"We pay on delivery, in coin of honest weight, about a third above what the Crown pays. That is more than the Crown can say. We ask only for reliable work, and no questions of the wrong sort."',
+          '"We\'re owed money all over this city. Three hundred-odd debts at last count, and I\'ve got four clerks and a dog to chase them." She doesn\'t smile, so it\'s hard to tell if the dog is a joke.\n\n' +
+          '"Most of it is knocking on doors and carrying things out. We pay when the job\'s done, and we pay better than the Exchequer. Which, to be fair, isn\'t hard."',
         choices: vornQuestions,
       },
       people: {
         speaker: 'Factor Vorn',
         text:
-          '"They keep their lives. They lose their looms, their warehouses, their second houses." She doesn\'t blink. "Collection is cleaner than the alternative. If the Crown defaults, the treaty lets us close the river. Ask the Lower Town how they\'d like that winter."',
+          '"Nobody gets hurt, if I can help it. They lose whatever they put up against the loan. Sometimes that\'s a loom. Sometimes it\'s the house."\n\n' +
+          '"I know how it looks. But if the Crown stops paying, the treaty lets the bank close the river, and then everyone down there loses something. I\'d rather it was looms."',
         choices: vornQuestions,
       },
       hobbs: {
         speaker: 'Factor Vorn',
         text:
-          '"We do. Marta Hobb charges like a duchess and treats our clients like cattle, and then the clients riot, and then the bank is blamed. The bank prefers… a diversity of suppliers."\n\n' +
-          'She pauses. "She will not thank you for competing. I mention it as a courtesy."',
+          '"We do use them. Marta charges whatever she likes, her girls are rough with people, and when a street riots, it\'s the bank\'s name on the stones." She picks a bit of lint off her sleeve. "I\'d like someone else on the list."\n\n' +
+          '"She won\'t be happy about it, by the way. Better you hear that from me."',
         choices: (s) => [...vornQuestions(s)],
       },
       want: {
         speaker: 'Factor Vorn',
         text:
-          'You let the silence stretch, and she fills it, a little too carefully. "Repayment, of course. And security for repayment: the Anselm port tolls, the Kell silver warrants…" She stops, then decides it costs her nothing. "And, should the Crown ever fail, the right to draft the next treaty."\n\n' +
-          'You note that "should" sounded a great deal like "when".',
+          'You don\'t answer straight away, and she\'s the kind of person who fills a gap. "Getting paid. And something to hold in case we aren\'t: the Anselm tolls, the Kell silver warrants."\n\n' +
+          '"And if the Crown does miss a payment, the treaty says we get to write the next one." She says it the way a clerk reads out a date, then moves straight on to rates.',
         choices: vornQuestions,
       },
       want_fail: {
         speaker: 'Factor Vorn',
-        text: '"Repayment," she says pleasantly. "What else would a bank want?" Whatever she thinks of your question, it doesn\'t show.',
+        text: '"To be repaid," she says. "It\'s a bank." She waits to see if you had a real question.',
         choices: vornQuestions,
       },
       terms: {
         speaker: 'Factor Vorn',
-        text: '"So. Will Ledger & Blade work for the bank?"',
+        text: '"So. Do you want the work?"',
         choices: [
           {
             label: "We'll work for the bank.",
             detail: "Ostrander's +10, Lower Town −5. Unlocks bank contracts.",
             effects: { standing: { ostranders: 10, lowertown: -5 }, flag: 'ostranders_open', npc: { id: 'vorn', attitude: 15 } },
-            resultText: 'Vorn smiles thinly. "We will send work." The porter outside saw her leave your door smiling, and so will everyone he talks to.',
+            resultText: '"Good. You\'ll have something by the end of the week." On her way out she stops at the notice board and fixes your spelling with her own pen.',
           },
           {
             label: "We'll take your jobs case by case.",
             detail: "Ostrander's +3. Unlocks bank contracts.",
             effects: { standing: { ostranders: 3 }, flag: 'ostranders_open', npc: { id: 'vorn', attitude: 5 } },
-            resultText: '"Prudent," says Vorn. "The bank respects prudence. Up to a point."',
+            resultText: '"That\'s what most people say at first." She writes something in a small book and leaves.',
           },
           {
             label: 'Not today.',
             detail: "Ostrander's −2. You can court the bank later from the Realm screen.",
             effects: { standing: { ostranders: -2 }, npc: { id: 'vorn', attitude: -5 } },
-            resultText: '"The offer stands," she says, pulling on her gloves. "Send word when your ledger changes your mind."',
+            resultText: '"Suit yourself. You know where Quay Street is."',
           },
         ],
       },

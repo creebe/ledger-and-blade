@@ -374,7 +374,7 @@ export interface GameState {
   codex: { unlocked: string[]; fresh: string[] };
   crierSeen: string[];
   crierRecent: string[];
-  tutorial: { enabled: boolean; done: string[]; counters: Record<string, number>; finished?: boolean };
+  tutorial: { enabled: boolean; done: string[]; claimed: string[]; counters: Record<string, number>; finished?: boolean };
   insolventWeeks: number;
   charterWeeks: number; // consecutive weeks with the charter in danger
   eventWeeks: Record<string, number>; // last week each event fired
