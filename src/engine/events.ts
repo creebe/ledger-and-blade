@@ -1,11 +1,13 @@
 import { RANDOM_EVENTS, STORY_EVENTS, type EventDef } from './data/events';
+import { ARRIVAL, FIELD_EVENTS, needsArrivalReport, replanned, squadOf } from './data/field';
+import { withdrawMission } from './missions';
 import { TRAITS } from './data/traits';
 import { chanceFrom, counteredTags, squadScore } from './odds';
 import { chance, nextFloat, pick, uid, weighted } from './rng';
 import type { EventChoice, EventEffect, GameEvent, GameState, Member } from './types';
 import { addDispatch, addItem, addStoryContract, applyContractEffect, clamp, createMember, earn, living, spend } from './world';
 
-const DEFS: Record<string, EventDef> = Object.fromEntries([...STORY_EVENTS, ...RANDOM_EVENTS].map((d) => [d.id, d]));
+const DEFS: Record<string, EventDef> = Object.fromEntries([...STORY_EVENTS, ...RANDOM_EVENTS, ARRIVAL, ...FIELD_EVENTS].map((d) => [d.id, d]));
 const storyIds: Record<string, true> = Object.fromEntries(STORY_EVENTS.map((e) => [e.id, true]));
 
 function memberOf(state: GameState, ev: { memberId?: string }): Member | undefined {
@@ -25,13 +27,42 @@ function enterNode(state: GameState, ev: GameEvent, nodeId?: string) {
   ev.choices = choices.filter((c) => (!c.ifFlag || state.flags[c.ifFlag]) && (!c.ifNotFlag || !state.flags[c.ifNotFlag]));
 }
 
-function instantiate(state: GameState, def: EventDef, member?: Member): GameEvent {
-  const ev: GameEvent = { uid: uid(state, 'e'), defId: def.id, title: def.title, text: '', choices: [], week: state.week, transcript: [], memberId: member?.id };
+function instantiate(state: GameState, def: EventDef, member?: Member, missionId?: string): GameEvent {
+  const ev: GameEvent = { uid: uid(state, 'e'), defId: def.id, title: def.title, text: '', choices: [], week: state.week, transcript: [], memberId: member?.id, missionId };
   enterNode(state, ev);
   return ev;
 }
 
+/** Decisions for squads in the field: road encounters and arrival reports. */
+function triggerFieldEvents(state: GameState) {
+  for (const ms of state.missions) {
+    if (ms.report || ms.contract.travelWeeks === 0) continue;
+    if (state.week <= ms.dispatchedWeek || state.week > ms.arriveWeek) continue;
+    if (ms.fieldWeeks?.includes(state.week)) continue;
+    const squad = squadOf(state, ms);
+    if (!squad.length) continue;
+    const who = pick(state, squad);
+    let def: EventDef | undefined;
+    if (state.week === ms.arriveWeek && needsArrivalReport(state, ms)) def = ARRIVAL;
+    else if (chance(state, state.week === ms.arriveWeek ? 0.3 : 0.55)) {
+      const eligible = FIELD_EVENTS.filter((d) => {
+        const last = state.eventWeeks[d.id];
+        if (last !== undefined && state.week - last < (d.cooldown ?? 3)) return false;
+        return (!d.member || d.member(state, who)) && (!d.condition || d.condition(state));
+      });
+      if (eligible.length) def = weighted(state, eligible.map((d) => ({ item: d, weight: d.weight ?? 1 })));
+    }
+    if (!def) continue;
+    ms.fieldWeeks = [...(ms.fieldWeeks ?? []), state.week];
+    state.eventWeeks[def.id] = state.week;
+    const ev = instantiate(state, def, who, ms.id);
+    ev.title = def.id === 'field_arrival' ? `Field report: ${ms.contract.title}` : `On the road: ${def.title}`;
+    state.pendingEvents.push(ev);
+  }
+}
+
 export function triggerEvents(state: GameState) {
+  triggerFieldEvents(state);
   // story beats: each fires once, somewhere inside its window
   for (const def of STORY_EVENTS) {
     if (state.eventWeeks[def.id] !== undefined) continue;
@@ -73,13 +104,15 @@ function homeMembers(state: GameState): Member[] {
   return living(state).filter((m) => m.status !== 'mission');
 }
 
-export function eventCheckChance(state: GameState, choice: EventChoice): number | undefined {
-  return checkDetail(state, choice)?.chance;
+export function eventCheckChance(state: GameState, choice: EventChoice, ev?: GameEvent): number | undefined {
+  return checkDetail(state, choice, ev)?.chance;
 }
 
-export function checkDetail(state: GameState, choice: EventChoice): { chance: number; who?: string } | undefined {
+/** Checks are made by the best member present: the squad for field events, otherwise whoever is at home. */
+export function checkDetail(state: GameState, choice: EventChoice, ev?: GameEvent): { chance: number; who?: string } | undefined {
   if (!choice.check) return undefined;
-  const members = homeMembers(state);
+  const ms = ev?.missionId ? state.missions.find((m) => m.id === ev.missionId) : undefined;
+  const members = ms ? squadOf(state, ms) : homeMembers(state);
   if (!members.length) return { chance: 0.03 };
   let best = 0;
   let who: string | undefined;
@@ -115,7 +148,7 @@ export function resolveEvent(state: GameState, eventUid: string, choiceIndex: nu
   let next = choice.next;
   let checkNote = '';
   if (choice.check) {
-    const p = eventCheckChance(state, choice) ?? 0;
+    const p = eventCheckChance(state, choice, ev) ?? 0;
     const ok = nextFloat(state) < p;
     if (!ok) {
       effects = choice.failEffects ?? {};
@@ -134,7 +167,7 @@ export function resolveEvent(state: GameState, eventUid: string, choiceIndex: nu
   }
   state.pendingEvents = state.pendingEvents.filter((e) => e.uid !== eventUid);
   const summary = (ev.transcript ?? []).map((t) => `▸ ${t.choice}${t.reply ? `: ${t.reply}` : ''}`);
-  addDispatch(state, storyIds[ev.defId] ? 'story' : 'info', ev.title, summary);
+  addDispatch(state, storyIds[ev.defId] ? 'story' : ev.missionId ? 'mission' : 'info', ev.title, summary);
   return undefined;
 }
 
@@ -215,6 +248,10 @@ export function applyEventEffect(state: GameState, e: EventEffect, ev: GameEvent
       if (x.removeTrait) m.traits = m.traits.filter((t) => t !== x.removeTrait);
     }
   }
+  if (e.mission || e.log) {
+    const ms = ev.missionId ? state.missions.find((m) => m.id === ev.missionId) : undefined;
+    if (ms) applyMissionEffect(state, ms, e, lines);
+  }
   if (e.npc) {
     const n = state.npcs[e.npc.id];
     if (e.npc.attitude) n.attitude = clamp(n.attitude + e.npc.attitude, -100, 100);
@@ -233,4 +270,39 @@ export function applyEventEffect(state: GameState, e: EventEffect, ev: GameEvent
       lines.push('Your loan is reduced by 200 crowns.');
     }
   }
+}
+
+function applyMissionEffect(state: GameState, ms: GameState['missions'][number], e: EventEffect, lines: string[]) {
+  const x = e.mission ?? {};
+  const squad = squadOf(state, ms);
+  if (e.log) ms.fieldLog = [...(ms.fieldLog ?? []), e.log];
+  if (x.reveal) {
+    const hidden = ms.contract.hidden.filter((h) => !h.revealed);
+    for (const h of hidden) h.revealed = true;
+    if (hidden.length) lines.push(`Now known: ${hidden.map((h) => h.trueTag).join(', ')}.`);
+  }
+  if (x.tag && !ms.contract.tags.includes(x.tag) && !(ms.extraTags ?? []).includes(x.tag)) {
+    ms.extraTags = [...(ms.extraTags ?? []), x.tag];
+    lines.push(`The squad will also face: ${x.tag}.`);
+  }
+  if (x.chain) ms.chainStart = (ms.chainStart ?? 1) * x.chain;
+  if (x.difficulty) ms.difficultyMult = (ms.difficultyMult ?? 1) * x.difficulty;
+  if (x.reward) ms.bonusReward = (ms.bonusReward ?? 0) + x.reward;
+  if (x.delay) {
+    ms.arriveWeek += x.delay;
+    ms.returnWeek += x.delay;
+    lines.push(`Delayed ${x.delay} week.`);
+  }
+  if (x.supplies) {
+    state.supplies = Math.max(0, state.supplies + x.supplies);
+    lines.push(`${x.supplies > 0 ? '+' : ''}${x.supplies} supplies.`);
+  }
+  if (x.fatigue) for (const m of squad) m.fatigue = clamp(m.fatigue + x.fatigue, 0, 100);
+  if (x.wounds && squad.length) {
+    const v = pick(state, squad);
+    v.health = Math.max(10, v.health - x.wounds);
+    lines.push(`${v.name} was hurt.`);
+  }
+  if (x.approaches === 'best') ms.approaches = replanned(state, ms);
+  if (x.withdraw) withdrawMission(state, ms);
 }

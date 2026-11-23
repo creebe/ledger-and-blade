@@ -223,6 +223,8 @@ An **epilogue screen** summarizes the fate of members, factions and rivals.
 - **Random events** (about 40% of weeks) draw from a weighted pool with conditions and cooldowns. Many are **member-focused**: a named member wants a raise, gets a letter from home, can't sleep after a death, or brings back a tip. These build attachment and pressure the roster.
 - **Every new game is different:** recruits, contracts, hidden tags, market stock, rival behavior, event timing and the random event draw are all seeded per game.
 
+**Decisions in the field:** squads on multi-week trips meet things on the road (a washed-out bridge, riders shadowing them, a deserter selling information, Hobb's people racing them to the same job, bad weather, fresh tracks). Each is a choice with visible costs and checks made by the squad's own members, and it changes the mission: an extra tag, an easier or harder first phase, a delay, a bonus, revealed tags. On arrival, if anything is still unknown or the odds look poor, a **field report** shows what the squad really faces, with the option to switch to a better plan or withdraw before anyone gets hurt. What happened on the road goes into the journal.
+
 **Mission journals:** each mission produces an expedition journal: the road out, every phase (scene-setting from the tags, who led and how, which gear was right or wrong for the job, which preparations paid off), and the road home. Members keep a **service record** of their missions and deeds.
 
 ## 13. Fail States (Hard but fair)

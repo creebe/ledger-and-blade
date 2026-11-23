@@ -25,17 +25,18 @@ export function rollPhase(p: number, r: number): PhaseResult {
 export function resolveMission(state: GameState, mission: Mission): MissionReport {
   const c = mission.contract;
   const squad = mission.memberIds.map((id) => state.members.find((m) => m.id === id)!).filter(Boolean);
-  const tags = trueTags(c);
+  const tags = [...trueTags(c), ...(mission.extraTags ?? []).filter((t) => !trueTags(c).includes(t))];
   const tagDanger = Math.max(1, ...tags.map((t) => TAGS[t]?.danger ?? 1));
   const logs: PhaseLog[] = [];
   const casualties: string[] = [];
   const woundMap = new Map<string, number>();
   const usedDraught = new Set<string>();
-  let chain = 1;
+  let chain = mission.chainStart ?? 1;
   let retreated = false;
 
   const alive = () => squad.filter((m) => !casualties.includes(m.id));
   const outbound = outboundJournal(state, c, squad);
+  outbound.lines.push(...(mission.fieldLog ?? []));
   const leads = new Map<string, string[]>(); // member id -> phases led
   const introduced = new Set<string>();
 
@@ -46,7 +47,7 @@ export function resolveMission(state: GameState, mission: Mission): MissionRepor
     if (members.length === 0) break;
     const ctx: SquadContext = { tags, countered: counteredTags(state, members, tags), members };
     const score = squadScore(state, approach, ctx);
-    const diff = phaseDifficulty(state, c, phase, approach, ctx).value * chain;
+    const diff = phaseDifficulty(state, c, phase, approach, ctx).value * chain * (mission.difficultyMult ?? 1);
     const p = chanceFrom(score.score, diff);
     const result = rollPhase(p, nextFloat(state));
     chain = CHAIN[result];
@@ -144,7 +145,7 @@ export function resolveMission(state: GameState, mission: Mission): MissionRepor
 
   const summary: string[] = [];
   const rewardMult = tier === 'Triumph' ? 1.25 : tier === 'Success' ? 1 : tier === 'Costly Success' ? 0.8 : 0;
-  let reward = Math.round(c.reward * rewardMult);
+  let reward = Math.round(c.reward * rewardMult) + (rewardMult > 0 ? mission.bonusReward ?? 0 : 0);
   const materials: Partial<Record<MaterialId, number>> = {};
   if (rewardMult > 0) {
     for (const [k, v] of Object.entries(c.materials)) {
@@ -263,4 +264,30 @@ export function levelUp(state: GameState, m: Member) {
     m.attrs[attr] = clamp(m.attrs[attr] + 1, 1, 10);
     addDispatch(state, 'roster', `${m.name} reached level ${m.level}`, [`${attr[0].toUpperCase()}${attr.slice(1)} +1. Wage is now ${m.wage}/week.`]);
   }
+}
+
+/** Called off before the objective: nobody is hurt, the job fails, and the patron is annoyed. */
+export function withdrawMission(state: GameState, mission: Mission) {
+  const c = mission.contract;
+  const squad = mission.memberIds.map((id) => state.members.find((m) => m.id === id)!).filter(Boolean);
+  const spent = Math.max(0, state.week - mission.dispatchedWeek);
+  mission.returnWeek = state.week + Math.max(0, spent - 1);
+  state.factions[c.patron].standing = clamp(state.factions[c.patron].standing - 3, -100, 100);
+  const summary = [`Withdrew before the objective. −3 standing with ${factionName(c.patron)}.`];
+  mission.report = {
+    tier: 'Withdrawn',
+    phases: [],
+    casualties: [],
+    wounded: [],
+    reward: 0,
+    materials: {},
+    summary,
+    outbound: { ...outboundJournal(state, c, squad), lines: [...outboundJournal(state, c, squad).lines, ...(mission.fieldLog ?? [])] },
+    homeward: { title: c.travelWeeks ? 'The road home' : 'Home', lines: ['They turned back before the job, on your orders. Nobody said much, but everyone came home.'] },
+  };
+  for (const m of squad) {
+    m.morale = clamp(m.morale - 3, 0, 100);
+    addRecord(m, `Week ${state.week} · "${c.title}": withdrawn on orders.`);
+  }
+  addDispatch(state, 'mission', `Withdrawn: ${c.title}`, [...summary, mission.returnWeek > state.week ? `The squad will be home in ${mission.returnWeek - state.week} week(s).` : 'The squad will be home at the end of the week.'], mission.id);
 }

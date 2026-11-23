@@ -124,6 +124,36 @@ describe('engine', () => {
     expect(team.some((m) => m.record.length > 0)).toBe(true);
   });
 
+  it('squads on the road can be reported on and withdrawn', () => {
+    for (let seed = 1; seed < 60; seed++) {
+      const s = newGame(seed);
+      clearEvents(s);
+      const c = s.board.find((x) => x.travelWeeks > 0 && x.hidden.length > 0);
+      if (!c) continue;
+      const team = living(s).slice(0, Math.max(c.minSquad, 3));
+      if (dispatchMission(s, c.id, team.map((m) => m.id), bestApproaches(s, c, team), true)) continue;
+      // advance to the arrival week, answering anything else that comes up
+      while (s.week < s.missions[0].arriveWeek) {
+        clearEvents(s);
+        advanceWeek(s);
+      }
+      const report = s.pendingEvents.find((e) => e.defId === 'field_arrival');
+      expect(report?.missionId).toBe(s.missions[0].id);
+      const withdraw = report!.choices.findIndex((ch) => ch.effects.mission?.withdraw);
+      resolveEvent(s, report!.uid, withdraw);
+      expect(s.missions[0].report?.tier).toBe('Withdrawn');
+      expect(c.hidden.every((h) => h.revealed)).toBe(false);
+      for (let i = 0; i < 4 && s.missions.length; i++) {
+        clearEvents(s);
+        advanceWeek(s);
+      }
+      expect(team.every((m) => m.status !== 'mission')).toBe(true);
+      expect(team.every((m) => m.status !== 'dead')).toBe(true);
+      return;
+    }
+    throw new Error('no suitable seed found');
+  });
+
   it('a careful bot usually survives the first season', () => {
     const r = runSim(12, 12, 0.6);
     expect(r.survivalRate).toBeGreaterThanOrEqual(0.75);

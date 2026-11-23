@@ -18,7 +18,9 @@ Playable now:
 - Four factions (Exchequer, Weighhouse, Ostrander's, Lower Town), Heat, the four Debt clocks, and the rival Hobb & Daughters
 - Act I story as branching conversations, with variable timing and variants based on earlier choices (first ~12 weeks)
 - Member-focused and world random events
+- Decisions in the field: road encounters and arrival reports (re-plan or withdraw)
 - Expedition journals for every mission, plus a service record for each member
+- Icon set and consistent color coding (approaches, elements, resources); at-a-glance contract odds, roster strengths and a squad strength grid
 - Confirmations before spending resources, floating resource changes, and a week-end resource summary
 - Fail states, autosave + 3 save slots + text export
 

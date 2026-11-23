@@ -94,6 +94,10 @@ Weeks are windows. A beat fires on a random week inside its window, or at the en
 
 ---
 
+## 5b. Field decisions (Canon)
+
+Not story beats: they fire for squads on the road (`src/engine/data/field.ts`) and are covered by the story checker. Characters who can appear: **Isbet Hobb** leads the rival squad in *Hobb's People on the Road* (attitude falls if you sabotage her camp). The arrival report is written from what the squad can see; it never reveals anything the mission wouldn't.
+
 ## 6. Acts II–IV (Draft outline, not yet written)
 
 - **Act II: Default (Year 2).** The Crown must choose: sell the realm piece by piece, tax the Lower Town into revolt, debase the coin, or default. The Council becomes the battlefield (decrees). The Fourteen split. *Braid point:* the Council vote on the Crown's choice. Act I outcomes shape who sits at the table: Fenn's trust, Vorn's attitude, the Lower Town's standing.

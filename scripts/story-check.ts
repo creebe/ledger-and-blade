@@ -3,10 +3,11 @@
 // `npm run story` (which writes docs/reports/story-coverage.md).
 import { EXCLUSIVE_FACTS, FACTS, type FactId } from '../src/engine/data/facts';
 import { RANDOM_EVENTS, STORY_EVENTS, type EventDef } from '../src/engine/data/events';
+import { ARRIVAL, FIELD_EVENTS } from '../src/engine/data/field';
 import { advanceWeek, bestApproaches, canChoose, dispatchMission, living, newGame, previewMission, type GameState } from '../src/engine';
 import { botTurn } from './sim';
 
-const DEFS: Record<string, EventDef> = Object.fromEntries([...STORY_EVENTS, ...RANDOM_EVENTS].map((d) => [d.id, d]));
+const DEFS: Record<string, EventDef> = Object.fromEntries([...STORY_EVENTS, ...RANDOM_EVENTS, ARRIVAL, ...FIELD_EVENTS].map((d) => [d.id, d]));
 const BAD_TEXT = /undefined|NaN|\[object |\{\w+\}|null\b/;
 
 export interface Violation {

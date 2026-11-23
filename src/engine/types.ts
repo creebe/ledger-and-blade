@@ -159,7 +159,7 @@ export interface Contract {
 }
 
 export type PhaseResult = 'strong' | 'success' | 'fail' | 'severe';
-export type OutcomeTier = 'Triumph' | 'Success' | 'Costly Success' | 'Failure' | 'Disaster';
+export type OutcomeTier = 'Triumph' | 'Success' | 'Costly Success' | 'Failure' | 'Disaster' | 'Withdrawn';
 
 export interface PhaseLog {
   phase: string;
@@ -199,6 +199,13 @@ export interface Mission {
   arriveWeek: number;
   returnWeek: number;
   report?: MissionReport;
+  // changes made by decisions on the road
+  extraTags?: TagId[];
+  chainStart?: number; // difficulty multiplier for the first phase
+  difficultyMult?: number; // multiplier for every phase
+  bonusReward?: number;
+  fieldLog?: string[]; // what happened on the road, for the journal
+  fieldWeeks?: number[]; // weeks a field decision already happened
   // equipment consumed snapshot not needed: consumables are removed on dispatch
 }
 
@@ -277,6 +284,22 @@ export interface EventEffect extends ContractEffect {
   wounds?: number; // wounds dealt to a random member
   revealContract?: string; // template id: reveal one hidden tag on that board contract
   member?: { morale?: number; loyalty?: number; health?: number; fatigue?: number; leaves?: boolean; wage?: number; xp?: number; trait?: string; removeTrait?: string };
+  mission?: MissionEffect;
+  log?: string; // line added to the squad's journal
+}
+
+export interface MissionEffect {
+  tag?: TagId; // the squad will face this too
+  chain?: number; // first phase difficulty multiplier
+  difficulty?: number; // all phases difficulty multiplier
+  delay?: number; // weeks added to the trip
+  reward?: number; // extra crowns on success
+  reveal?: boolean; // reveal all hidden tags
+  fatigue?: number; // to every squad member
+  wounds?: number; // to one squad member
+  withdraw?: boolean; // abandon the job and come home
+  approaches?: 'best'; // re-plan with what is now known
+  supplies?: number; // change to guild supplies (bought or found on the road)
 }
 
 export interface GameEvent {
@@ -292,6 +315,7 @@ export interface GameEvent {
   node?: string;
   transcript?: { choice: string; reply: string }[];
   memberId?: string; // member this event is about
+  missionId?: string; // squad in the field this event is about
 }
 
 export type DispatchKind = 'story' | 'mission' | 'economy' | 'politics' | 'roster' | 'rival' | 'warning' | 'info';

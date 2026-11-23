@@ -1385,7 +1385,7 @@ details summary {
   color: var(--paper);
   padding: 9px 14px;
   border-radius: 10px;
-  z-index: 100;
+  z-index: 60; /* above sheets, below event cards and confirmations */
   max-width: calc(100% - 32px);
   font-size: 0.9rem;
   box-shadow: var(--shadow);
@@ -2021,4 +2021,22 @@ details summary {
   display: flex;
   flex-direction: column;
   gap: 2px;
+}
+
+.field-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  margin: 6px 0 4px;
+  border-radius: 10px;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+}
+.t-withdrawn {
+  border-color: var(--muted);
+}
+.t-withdrawn h3 {
+  color: var(--ink-2);
 }
