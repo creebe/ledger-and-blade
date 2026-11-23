@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {
   buyItem,
+  buyMaterial,
   buySupplies,
   equippedBy,
   ITEMS,
@@ -20,11 +21,12 @@ import { Empty, Section, Seg } from '../common';
 import { SLOT_LABEL } from '../format';
 import { Icon } from '../icons';
 import { ItemIcon, ItemStats } from '../visual';
+import { WorkshopPanel } from '../Buildings';
 
 export function ArmoryScreen() {
   const g = useStore((s) => s.game)!;
   const act = useStore((s) => s.act);
-  const [tab, setTab] = useState<'market' | 'stores' | 'materials'>('market');
+  const [tab, setTab] = useState<'market' | 'stores' | 'workshop' | 'materials'>('market');
   const slots: ItemSlot[] = ['weapon', 'armor', 'trinket', 'consumable'];
 
   return (
@@ -36,6 +38,7 @@ export function ArmoryScreen() {
         options={[
           { value: 'market', label: 'Market' },
           { value: 'stores', label: `Stores (${g.items.length})` },
+          { value: 'workshop', label: 'Workshop' },
           { value: 'materials', label: 'Materials' },
         ]}
       />
@@ -142,9 +145,11 @@ export function ArmoryScreen() {
         </Section>
       )}
 
+      {tab === 'workshop' && <WorkshopPanel />}
+
       {tab === 'materials' && (
         <Section>
-          <p className="small muted">Recovered from missions. Crafting arrives in a later update; for now they can be sold. Selling a lot at once drops the price.</p>
+          <p className="small muted">Recovered from missions, or bought here. Used to craft in the Workshop and to build in the Hall. Buying or selling a lot at once moves the price.</p>
           {(Object.keys(MATERIAL_INFO) as MaterialId[]).map((m) => {
             const price = Math.round(materialPrice(g, m) * MATERIAL_SELL_RATE);
             return (
@@ -154,9 +159,12 @@ export function ArmoryScreen() {
                 </span>
                 <div className="card-main">
                   <b>{MATERIAL_INFO[m].name}</b> <span className="muted">×{g.materials[m]}</span>
-                  <div className="tiny muted">Sells for about {price}◉ each</div>
+                  <div className="tiny muted">Buy {materialPrice(g, m)}◉ · sell about {price}◉ each</div>
                 </div>
                 <div className="row gap">
+                  <button className="btn small ghost" disabled={g.crowns < materialPrice(g, m) * 5} onClick={() => act((d) => buyMaterial(d, m, 5))}>
+                    Buy 5 · {materialPrice(g, m) * 5}◉
+                  </button>
                   <button className="btn small ghost" disabled={g.materials[m] < 1} onClick={() => act((d) => sellMaterial(d, m, 1))}>
                     Sell 1
                   </button>

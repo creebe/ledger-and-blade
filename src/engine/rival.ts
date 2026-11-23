@@ -2,6 +2,7 @@
 // name and tries to poach disloyal members. Its plan for the week can be
 // revealed with Intel and sometimes countered.
 import { chance, pick } from './rng';
+import { level } from './buildings';
 import type { GameState, RivalPlan } from './types';
 import { addDispatch, applyStanding, clamp, living } from './world';
 
@@ -18,6 +19,8 @@ export function planRival(state: GameState) {
   } else if (state.week > 3 && chance(state, r.aggression * 0.35)) {
     plan = { kind: 'smear', revealed: false, countered: false };
   }
+  // a well-run Spymaster's Den knows their plans every week
+  if (level(state, 'den') >= 3) plan.revealed = true;
   r.plan = plan;
 }
 

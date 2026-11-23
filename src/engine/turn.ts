@@ -1,5 +1,6 @@
 // The weekly simulation: everything the player set in motion resolves at once.
 import { TRAITS } from './data/traits';
+import { denIntel, freshFacilities, healBonus, level, trainCost, trainWeeks, upkeep, weeklyWorkshop } from './buildings';
 import { triggerEvents } from './events';
 import { resolveMission } from './missions';
 import { executeRival, planRival } from './rival';
@@ -13,7 +14,6 @@ import {
   createMember,
   dateLabel,
   generateRecruit,
-  HALL_UPKEEP,
   living,
   refreshBoard,
   refreshMarket,
@@ -22,7 +22,7 @@ import {
   supplyPrice,
 } from './world';
 
-export const SAVE_VERSION = 3;
+export const SAVE_VERSION = 4;
 
 export function freshNpcs(): GameState['npcs'] {
   return {
@@ -46,6 +46,11 @@ export function migrateSave(g: GameState): GameState | null {
   if (g.version === 2) {
     g.npcs = freshNpcs();
     g.version = 3;
+  }
+  if (g.version === 3) {
+    g.facilities = freshFacilities();
+    g.craftQueue = [];
+    g.version = 4;
   }
   return g.version === SAVE_VERSION ? g : null;
 }
@@ -86,6 +91,8 @@ export function newGame(seed = Date.now() % 2147483647): GameState {
     ledger: [],
     flags: {},
     npcs: freshNpcs(),
+    facilities: freshFacilities(),
+    craftQueue: [],
     insolventWeeks: 0,
     charterWeeks: 0,
     eventWeeks: {},
@@ -143,8 +150,8 @@ export function projectLedger(s: GameState, weeks = 4): Projection[] {
     supplies -= homeCount;
     const shortfall = supplies < 0 ? Math.ceil(-supplies * supplyPrice(s)) : 0;
     if (supplies < 0) supplies = 0;
-    bal += expectedIncome - wages - HALL_UPKEEP - loan - shortfall;
-    out.push({ week, wages, upkeep: HALL_UPKEEP, supplies: homeCount, loan, expectedIncome, balance: Math.round(bal) });
+    bal += expectedIncome - wages - upkeep(s) - loan - shortfall;
+    out.push({ week, wages, upkeep: upkeep(s), supplies: homeCount, loan, expectedIncome, balance: Math.round(bal) });
   }
   return out;
 }
@@ -156,8 +163,8 @@ export function endWeekWarnings(s: GameState): string[] {
   const home = living(s).filter((m) => m.status !== 'mission').length;
   if (s.supplies < home) w.push(`Supplies will run short: ${s.supplies} for ${home} mouths.`);
   const due = s.loans.find((l) => l.dueWeek === s.week);
-  if (due && s.crowns - weeklyWages(s) - HALL_UPKEEP < due.paymentDue) w.push(`You can't cover this week's loan payment of ${due.paymentDue} crowns.`);
-  if (s.crowns - weeklyWages(s) - HALL_UPKEEP < 0) w.push('Wages and upkeep will put you in the red.');
+  if (due && s.crowns - weeklyWages(s) - upkeep(s) < due.paymentDue) w.push(`You can't cover this week's loan payment of ${due.paymentDue} crowns.`);
+  if (s.crowns - weeklyWages(s) - upkeep(s) < 0) w.push('Wages and upkeep will put you in the red.');
   const expiring = s.board.filter((c) => c.expiresWeek === s.week);
   if (expiring.length) w.push(`${expiring.length} contract(s) expire this week.`);
   return w;
@@ -174,7 +181,8 @@ export function advanceWeek(s: GameState): string | undefined {
       continue;
     }
     const frail = m.traits.includes('frail');
-    m.health = clamp(m.health + (frail ? 5 : 9), 0, 100);
+    m.health = clamp(m.health + (frail ? 5 : 9) + healBonus(s), 0, 100);
+    if (level(s, 'infirmary') >= 3) m.fatigue = clamp(m.fatigue - 5, 0, 100);
     m.fatigue = clamp(m.fatigue - 10, 0, 100);
     if (m.status === 'recovering' || m.health < 40) {
       m.status = m.health >= 40 ? 'idle' : 'recovering';
@@ -188,12 +196,13 @@ export function advanceWeek(s: GameState): string | undefined {
         m.morale = clamp(m.morale + 2, 0, 100);
         break;
       case 'train': {
-        if (s.crowns >= 8) {
-          spend(s, 'Training', 8);
+        if (s.crowns >= trainCost(s)) {
+          spend(s, 'Training', trainCost(s));
+          if (level(s, 'yard') >= 3) m.xp += 1;
           m.trainProgress += 1;
           m.fatigue = clamp(m.fatigue + 12, 0, 100);
           const attr = m.trainAttr ?? 'might';
-          if (m.trainProgress >= 3) {
+          if (m.trainProgress >= trainWeeks(s)) {
             m.trainProgress = 0;
             if (m.attrs[attr] < 10) {
               m.attrs[attr] += 1;
@@ -260,7 +269,9 @@ export function advanceWeek(s: GameState): string | undefined {
   const crew = living(s);
   const wages = weeklyWages(s);
   spend(s, 'Wages', wages);
-  spend(s, 'Hall upkeep', HALL_UPKEEP);
+  spend(s, 'Hall & buildings upkeep', upkeep(s));
+  if (denIntel(s)) s.intel += denIntel(s);
+  weeklyWorkshop(s);
   const mouths = crew.filter((m) => m.status !== 'mission').length;
   if (s.supplies >= mouths) s.supplies -= mouths;
   else {

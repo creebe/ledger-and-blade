@@ -9,7 +9,8 @@ import {
   PROFESSIONS,
   setAssignment,
   TRAITS,
-  TRAIN_COST,
+  trainCost,
+  trainWeeks,
   xpToLevel,
   type Approach,
   type Assignment,
@@ -34,9 +35,10 @@ const STATUS_LABEL: Record<Member['status'], string> = {
 
 export const ASSIGNMENTS: { id: Assignment; label: string; blurb: string }[] = [
   { id: 'rest', label: 'Rest', blurb: 'Recover fatigue and wounds faster. Small morale gain.' },
-  { id: 'train', label: 'Train', blurb: `+1 to an attribute every 3 weeks. Costs ${TRAIN_COST} crowns/week and adds fatigue.` },
+  { id: 'train', label: 'Train', blurb: '+1 to an attribute every few weeks. Costs crowns each week and adds fatigue. A Training Yard makes it faster and cheaper.' },
   { id: 'rumors', label: 'Gather rumors', blurb: '+1 Intel per week (+2 for Envoys, Infiltrators and Scouts).' },
   { id: 'labor', label: 'Dock labor', blurb: 'Earn a few crowns based on Might. Tiring and dull.' },
+  { id: 'build', label: 'Build', blurb: 'Help with construction: each builder adds half a week of progress. Tiring.' },
   { id: 'scout', label: 'Scout a contract', blurb: "Reveal a contract's hidden tags by week's end. Scouts, Skirmishers and Infiltrators reveal all of them; others reveal one." },
 ];
 
@@ -270,7 +272,7 @@ export function MemberSheet({ id }: { id: string }) {
         <>
           <h3 className="subhead">This week</h3>
           <div className="assign">
-            {ASSIGNMENTS.map((a) => (
+            {ASSIGNMENTS.filter((a) => a.id !== 'build' || game.construction).map((a) => (
               <button
                 key={a.id}
                 className={`assign-opt ${m.assignment === a.id ? 'on' : ''}`}
@@ -283,10 +285,12 @@ export function MemberSheet({ id }: { id: string }) {
                 }}
               >
                 <span className="card-row">
-                  <Icon name={({ rest: 'rest', train: 'train', rumors: 'ear', labor: 'hammer', scout: 'compass' } as Record<string, string>)[a.id]} size={20} />
+                  <Icon name={({ rest: 'rest', train: 'train', rumors: 'ear', labor: 'hammer', scout: 'compass', build: 'anvil' } as Record<string, string>)[a.id]} size={20} />
                   <span className="card-main">
                     <b>{a.label}</b>
-                    <small style={{ display: 'block' }}>{a.blurb}</small>
+                    <small style={{ display: 'block' }}>
+                      {a.id === 'train' ? `+1 to an attribute every ${trainWeeks(game)} weeks. Costs ${trainCost(game)} crowns a week and adds fatigue.` : a.blurb}
+                    </small>
                   </span>
                 </span>
               </button>
@@ -299,7 +303,7 @@ export function MemberSheet({ id }: { id: string }) {
                   {cap(a)}
                 </button>
               ))}
-              <span className="small muted">Progress {m.trainProgress}/3</span>
+              <span className="small muted">Progress {m.trainProgress}/{trainWeeks(game)}</span>
             </div>
           )}
           {m.assignment === 'scout' && (

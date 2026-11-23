@@ -133,6 +133,9 @@ Squad-level: **Supplies carried, Mounts/Wagon, Kit** (climbing gear, lanterns, f
 
 ## 7. The Guild Hall (facilities)
 
+> **Implemented (v0.5):** Great Hall, Forge, Stillroom, Infirmary, Training Yard, Spymaster's Den, Stables. One project at a time; members assigned to *Build* speed it up; each level adds upkeep. Crafting turns mission materials into gear at the Forge and Stillroom (weekly capacity by level), and materials can be bought at the market. Warehouse, Counting House and Chapel are still to come.
+
+
 Each facility has levels, a construction cost (Crowns + Materials + weeks), and weekly upkeep.
 
 | Facility | Effect |

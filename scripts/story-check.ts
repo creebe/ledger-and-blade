@@ -126,7 +126,7 @@ export function exploreStory(runs: number, weeks: number): StoryReport {
           return sb - sa;
         });
         const team = ranked.slice(0, Math.min(c.maxSquad, idle.length));
-        if (s.supplies < team.length * (c.travelWeeks * 2 + 1)) s.supplies += 20; // explorer only: never blocked on supplies
+        if (s.supplies < team.length * (c.travelWeeks * 2 + 1) + 4) s.supplies += 20; // explorer only: never blocked on supplies
         dispatchMission(s, c.id, team.map((m) => m.id), bestApproaches(s, c, team), rand() < 0.5);
       }
       void before;

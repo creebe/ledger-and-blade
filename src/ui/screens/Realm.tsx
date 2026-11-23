@@ -52,7 +52,7 @@ export function RealmScreen() {
               <div key={c} className="clock">
                 <div className="row between">
                   <b className="meta" style={{ color: 'var(--ink)' }}>
-                    <Icon name={CLOCK_ICON[c]} size={16} style={{ color: bad > 70 ? 'var(--bad)' : bad > 45 ? 'var(--mid)' : 'var(--good)' }} />
+                    <Icon name={CLOCK_ICON[c]} size={16} style={{ color: bad > 70 ? 'var(--bad)' : bad > 45 ? 'var(--mid)' : 'var(--ink-2)' }} />
                     {CLOCKS[c].name}
                   </b>
                   <span>{Math.round(v)}</span>

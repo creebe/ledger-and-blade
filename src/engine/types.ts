@@ -1,6 +1,7 @@
 // Core game types. The engine is pure TypeScript with no UI dependencies.
 import type { FactId, NpcId, NpcStatus } from './data/facts';
-export type { FactId, NpcId, NpcStatus };
+import type { FacilityId } from './data/facilities';
+export type { FactId, NpcId, NpcStatus, FacilityId };
 
 export type Attribute = 'might' | 'finesse' | 'wits' | 'resolve';
 export type Approach = 'assault' | 'stealth' | 'guile' | 'endurance' | 'arcana';
@@ -72,7 +73,7 @@ export interface Loadout {
 }
 
 export type MemberStatus = 'idle' | 'mission' | 'recovering' | 'dead' | 'left';
-export type Assignment = 'rest' | 'train' | 'rumors' | 'labor' | 'scout';
+export type Assignment = 'rest' | 'train' | 'rumors' | 'labor' | 'scout' | 'build';
 
 export interface Member {
   id: string;
@@ -366,6 +367,9 @@ export interface GameState {
   ledger: LedgerEntry[];
   flags: Partial<Record<FactId, boolean>>;
   npcs: Record<NpcId, { status: NpcStatus; attitude: number }>;
+  facilities: Record<FacilityId, number>; // current level of each building
+  construction?: { id: FacilityId; toLevel: number; progress: number; weeks: number };
+  craftQueue: string[]; // recipe ids waiting to be made
   insolventWeeks: number;
   charterWeeks: number; // consecutive weeks with the charter in danger
   eventWeeks: Record<string, number>; // last week each event fired

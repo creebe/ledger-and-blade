@@ -60,7 +60,7 @@ function initials(name: string) {
 export function Portrait({ m, size = 44, showStatus = true }: { m: Member; size?: number; showStatus?: boolean }) {
   const color = ap(PROFESSION_APPROACH[m.profession]);
   const status =
-    m.status === 'dead' ? { icon: 'skull', c: 'var(--bad)' } : m.status === 'left' ? { icon: 'road', c: 'var(--muted)' } : m.status === 'mission' ? { icon: 'road', c: 'var(--info)' } : m.health < 40 ? { icon: 'bandage', c: 'var(--bad)' } : m.fatigue > 50 ? { icon: 'bolt', c: 'var(--mid)' } : null;
+    m.status === 'dead' ? { icon: 'skull', c: 'var(--bad)' } : m.status === 'left' ? { icon: 'road', c: 'var(--muted)' } : m.status === 'mission' ? { icon: 'road', c: 'var(--ink-2)' } : m.health < 40 ? { icon: 'bandage', c: 'var(--bad)' } : m.fatigue > 50 ? { icon: 'bolt', c: 'var(--mid)' } : null;
   return (
     <span className={`portrait ${m.status === 'dead' ? 'dead' : ''}`} style={{ width: size, height: size, ['--c' as string]: color }} title={`${m.name}, ${PROFESSIONS[m.profession].name}`}>
       <span className="portrait-init" style={{ fontSize: size * 0.38 }}>
@@ -104,9 +104,8 @@ export function slotIcon(def: ItemDef) {
 
 export function ItemIcon({ def, size = 22 }: { def: ItemDef; size?: number }) {
   const el = def.element ?? def.grantsElement;
-  const color = el ? `var(--el-${el})` : def.bonus ? ap(Object.keys(def.bonus)[0] as Approach) : 'var(--ink-2)';
   return (
-    <span className="item-icon" style={{ ['--c' as string]: color, width: size + 12, height: size + 12 }}>
+    <span className="item-icon" style={{ ['--el' as string]: el ? `var(--el-${el})` : undefined, width: size + 12, height: size + 12 }}>
       <Icon name={slotIcon(def)} size={size} />
       {el && (
         <span className="item-el">
@@ -119,18 +118,18 @@ export function ItemIcon({ def, size = 22 }: { def: ItemDef; size?: number }) {
 
 /** Compact stat chips for an item: damage, element, armor, bonuses, counters. */
 export function ItemStats({ def }: { def: ItemDef }) {
-  const chips: { key: string; icon?: string; text: string; c?: string }[] = [];
+  const chips: { key: string; icon?: string; text: string; el?: string }[] = [];
   if (def.slot === 'weapon') chips.push({ key: 'dmg', text: `${cap(def.damage)} ${def.power}` });
   const el = def.element ?? def.grantsElement;
-  if (el) chips.push({ key: 'el', icon: el, text: cap(el), c: `var(--el-${el})` });
+  if (el) chips.push({ key: 'el', icon: el, text: cap(el), el: `var(--el-${el})` });
   if (def.slot === 'armor') chips.push({ key: 'arm', icon: 'armor', text: `${cap(def.weight)} · ${def.protection}` });
-  for (const [a, v] of Object.entries(def.bonus ?? {})) chips.push({ key: a, icon: a, text: `${v! > 0 ? '+' : ''}${v}`, c: ap(a as Approach) });
-  for (const t of def.counters ?? []) chips.push({ key: t, icon: t, text: `vs ${TAGS[t]?.name}`, c: 'var(--good)' });
-  if (def.mending) chips.push({ key: 'mend', icon: 'heart', text: 'Saves a life', c: 'var(--good)' });
+  for (const [a, v] of Object.entries(def.bonus ?? {})) chips.push({ key: a, icon: a, text: `${v! > 0 ? '+' : ''}${v} ${APPROACH_INFO[a as Approach].name}` });
+  for (const t of def.counters ?? []) chips.push({ key: t, icon: t, text: `vs ${TAGS[t]?.name}` });
+  if (def.mending) chips.push({ key: 'mend', icon: 'heart', text: 'Saves a life' });
   return (
     <span className="stat-chips">
       {chips.map((c) => (
-        <span key={c.key} className="stat-chip" style={c.c ? { ['--c' as string]: c.c } : undefined}>
+        <span key={c.key} className={`stat-chip ${c.el ? 'el' : ''}`} style={c.el ? { ['--el' as string]: c.el } : undefined}>
           {c.icon && <Icon name={c.icon} size={12} />}
           {c.text}
         </span>

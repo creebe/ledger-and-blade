@@ -14,6 +14,7 @@ import {
   type GameState,
 } from '../src/engine';
 import { runSim } from '../scripts/sim';
+import { buyMaterial, level, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
 
 const clearEvents = (s: GameState) => {
   while (s.pendingEvents.length) resolveEvent(s, s.pendingEvents[0].uid, 0);
@@ -152,6 +153,65 @@ describe('engine', () => {
       return;
     }
     throw new Error('no suitable seed found');
+  });
+
+  it('buildings take time, cost upkeep, and builders speed them up', () => {
+    const s = newGame(21);
+    clearEvents(s);
+    s.crowns = 2000;
+    s.materials = { iron: 50, leather: 50, timber: 50, reagents: 50 };
+    const before = upkeep(s);
+    expect(startBuild(s, 'forge')).toBeUndefined();
+    expect(startBuild(s, 'stillroom')).toMatch(/Already building/);
+    for (const m of living(s).slice(0, 2)) setAssignment(s, m.id, 'build');
+    advanceWeek(s); // 1 + 2 × 0.5 = 2 weeks of progress
+    clearEvents(s);
+    expect(level(s, 'forge')).toBe(0);
+    advanceWeek(s);
+    clearEvents(s);
+    expect(level(s, 'forge')).toBe(1);
+    expect(upkeep(s)).toBe(before + 3);
+    expect(living(s).every((m) => m.assignment !== 'build')).toBe(true);
+  });
+
+  it('crafting turns materials into items at the end of the week, within capacity', () => {
+    const s = newGame(22);
+    clearEvents(s);
+    s.crowns = 2000;
+    s.facilities.forge = 1;
+    s.materials = { iron: 0, leather: 0, timber: 0, reagents: 0 };
+    expect(queueCraft(s, 'arming_sword')).toMatch(/Need 3 Iron/);
+    buyMaterial(s, 'iron', 10);
+    expect(queueCraft(s, 'arming_sword')).toBeUndefined();
+    expect(queueCraft(s, 'mace')).toBeUndefined();
+    expect(queueCraft(s, 'fire_oil')).toMatch(/Stillroom/);
+    const swords = () => s.items.filter((i) => i.defId === 'arming_sword').length;
+    const n = swords();
+    advanceWeek(s);
+    clearEvents(s);
+    expect(swords()).toBe(n + 1); // forge level 1 makes one item a week
+    expect(s.craftQueue).toEqual(['mace']);
+  });
+
+  it('stables shorten trips', () => {
+    const s = newGame(23);
+    expect(tripWeeks(s, 2)).toEqual({ out: 2, back: 2 });
+    s.facilities.stables = 1;
+    expect(tripWeeks(s, 2)).toEqual({ out: 2, back: 1 });
+    s.facilities.stables = 2;
+    expect(tripWeeks(s, 2)).toEqual({ out: 1, back: 1 });
+    expect(tripWeeks(s, 1)).toEqual({ out: 1, back: 0 });
+  });
+
+  it('old saves are upgraded', () => {
+    const s = newGame(24) as unknown as Record<string, unknown>;
+    delete s.facilities;
+    delete s.craftQueue;
+    s.version = 3;
+    const g = migrateSave(s as never)!;
+    expect(g.version).toBe(4);
+    expect(g.facilities.hall).toBe(1);
+    expect(g.craftQueue).toEqual([]);
   });
 
   it('a careful bot usually survives the first season', () => {

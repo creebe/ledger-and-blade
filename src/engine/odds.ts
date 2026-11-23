@@ -6,6 +6,7 @@ import { PROFESSIONS } from './data/professions';
 import { TAGS } from './data/tags';
 import { TRAITS } from './data/traits';
 import { seasonOf } from './data/events';
+import { tripWeeks } from './buildings';
 import type { Approach, Contract, Element, GameState, ItemDef, Member, PhaseDef, TagId } from './types';
 
 export interface Part {
@@ -302,8 +303,15 @@ export function trueTags(contract: Contract): TagId[] {
   return [...contract.tags, ...contract.hidden.map((h) => h.trueTag)];
 }
 
-export function suppliesNeeded(contract: Contract, squadSize: number): number {
-  return squadSize * (contract.travelWeeks * 2 + 1);
+/** Weeks a squad is away: out, the job, and back (stables shorten trips). */
+export function missionWeeks(contract: Contract, s?: GameState): number {
+  if (!s) return contract.travelWeeks * 2 + 1;
+  const t = tripWeeks(s, contract.travelWeeks);
+  return t.out + t.back + 1;
+}
+
+export function suppliesNeeded(contract: Contract, squadSize: number, s?: GameState): number {
+  return squadSize * missionWeeks(contract, s);
 }
 
 export function previewMission(
@@ -370,8 +378,8 @@ export function previewMission(
     phases,
     risk,
     riskValue,
-    supplies: suppliesNeeded(contract, members.length),
-    weeks: contract.travelWeeks * 2 + 1,
+    supplies: suppliesNeeded(contract, members.length, state),
+    weeks: missionWeeks(contract, state),
     countered: [...counteredTags(state, members, [...new Set(allTags)])],
     overall,
   };

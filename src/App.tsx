@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { dateLabel, endWeekWarnings, HALL_UPKEEP, living, weeklyWages } from './engine';
+import { dateLabel, endWeekWarnings, living, upkeep, weeklyWages } from './engine';
 import { hasAutosave, slotInfo, useStore, type Tab } from './store';
 import { MemberSheet } from './ui/MemberSheet';
 import { ConfirmSheet, EventCard, HelpSheet, MenuSheet, MissionReplay, WarningsSheet, WeekReport } from './ui/Overlays';
@@ -24,9 +24,9 @@ function TopBar() {
   const g = useStore((s) => s.game)!;
   const open = useStore((s) => s.open);
   const notify = useStore((s) => s.notify);
-  const burn = weeklyWages(g) + HALL_UPKEEP;
+  const burn = weeklyWages(g) + upkeep(g);
   const res: { icon: string; c: string; value: string | number; label: string; tone?: string }[] = [
-    { icon: 'coin', c: 'crowns', value: g.crowns, label: `Crowns. Weekly costs: ${burn} (wages ${weeklyWages(g)} + hall ${HALL_UPKEEP}).`, tone: g.crowns < burn ? 'bad' : '' },
+    { icon: 'coin', c: 'crowns', value: g.crowns, label: `Crowns. Weekly costs: ${burn} (wages ${weeklyWages(g)} + upkeep ${upkeep(g)}).`, tone: g.crowns < burn ? 'bad' : '' },
     { icon: 'sack', c: 'supplies', value: g.supplies, label: `Supplies. ${living(g).filter((m) => m.status !== 'mission').length} eaten per week at home; squads carry their own.` },
     { icon: 'eye', c: 'intel', value: g.intel, label: 'Intel. Reveal hidden tags and rival plans.' },
     { icon: 'seal', c: 'influence', value: g.influence, label: 'Influence. Court factions and cool Heat.' },

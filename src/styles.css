@@ -2040,3 +2040,261 @@ details summary {
 .t-withdrawn h3 {
   color: var(--ink-2);
 }
+
+/* buildings & workshop */
+.facility-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 6px;
+}
+.facility {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 10px 4px 8px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  cursor: pointer;
+  color: var(--gold);
+}
+.facility .fac-name {
+  color: var(--ink);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.1;
+}
+.facility.unbuilt {
+  color: var(--muted);
+  border-style: dashed;
+}
+.facility.open {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px var(--gold) inset;
+}
+.fac-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 0.6rem;
+  background: var(--gold);
+  color: var(--paper);
+  border-radius: 6px;
+  padding: 0 4px;
+}
+.pips {
+  display: inline-flex;
+  gap: 3px;
+}
+.pips i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid var(--gold);
+}
+.pips i.on {
+  background: var(--gold);
+}
+.facility-detail,
+.build-progress {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+.build-progress {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 0 0 8px;
+}
+.stat-chip.short {
+  --c: var(--bad);
+  color: var(--bad);
+  border-color: var(--bad);
+}
+.stat-chip small {
+  opacity: 0.7;
+  margin-left: 2px;
+}
+.shop-item.locked {
+  opacity: 0.55;
+}
+
+
+/* ---------- v0.4: reserved color ----------
+   Color is kept for meaning the player acts on: good / warning / bad, plus one
+   accent for selection and primary actions. Categories (approaches, professions,
+   resources, tags, slots) are told apart by icon shape and stay neutral ink.
+   Exceptions: an element badge on gear, and a small faction dot. */
+:root,
+:root[data-theme='dark'] {
+  --ap-assault: var(--ink-2);
+  --ap-stealth: var(--ink-2);
+  --ap-guile: var(--ink-2);
+  --ap-endurance: var(--ink-2);
+  --ap-arcana: var(--ink-2);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --ap-assault: var(--ink-2);
+    --ap-stealth: var(--ink-2);
+    --ap-guile: var(--ink-2);
+    --ap-endurance: var(--ink-2);
+    --ap-arcana: var(--ink-2);
+  }
+}
+.res .icon {
+  color: var(--muted);
+}
+.res.bad .icon,
+.res.bad b {
+  color: var(--bad);
+}
+.res.mid .icon,
+.res.mid b {
+  color: var(--mid);
+}
+/* cards: no faction-colored edges or tiles; the story card keeps its gold */
+.contract-card,
+.mission-card,
+.member-row {
+  border-left: 1px solid var(--line);
+}
+.contract-card.story {
+  border-left: 3px solid var(--gold);
+}
+.type-icon {
+  color: var(--ink-2);
+  background: var(--paper-2);
+  border-color: var(--line);
+}
+.faction .type-icon {
+  color: var(--fc);
+}
+/* faction badge: neutral text with a small colored sigil */
+.faction-badge {
+  background: transparent;
+  color: var(--ink-2);
+  border: 1px solid var(--line);
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.faction-badge .icon {
+  color: var(--fc);
+}
+/* tags: neutral; shape tells enemy from terrain */
+.tag.enemy,
+.tag.env {
+  border-color: var(--line);
+}
+.tag.enemy .icon,
+.tag.env .icon {
+  color: var(--ink-2);
+}
+.tag.contested {
+  color: var(--ink-2);
+}
+.tag.contested .icon {
+  color: var(--bad);
+}
+/* meters: neutral when fine, colored only when it needs attention */
+.meter-fill.good,
+.meter-fill.info {
+  background: var(--ink-2);
+}
+/* portraits: neutral ring */
+.portrait {
+  background: var(--paper-2);
+  border-color: var(--line);
+}
+.portrait-prof {
+  border-color: var(--line);
+  color: var(--ink-2);
+}
+/* items: neutral tile; the element badge keeps its color */
+.item-icon {
+  color: var(--ink-2);
+  background: var(--paper-2);
+  border-color: var(--line);
+}
+.item-el {
+  color: var(--el);
+  border-color: var(--el);
+}
+.stat-chip {
+  border-color: var(--line);
+  color: var(--ink-2);
+  background: transparent;
+}
+.stat-chip.el {
+  color: var(--el);
+  border-color: color-mix(in srgb, var(--el) 50%, var(--line));
+}
+/* the strength grid is a single neutral ramp; the plan's columns use the accent */
+.matrix th.used,
+.matrix td.used {
+  outline-color: var(--accent);
+}
+.ap-chip {
+  border-color: var(--line);
+  background: var(--paper);
+}
+.ap-chip .icon {
+  color: var(--ink-2);
+}
+.ap-chip.on {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+.facility {
+  color: var(--ink-2);
+}
+.facility.open {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent) inset;
+}
+.pips i {
+  border-color: var(--ink-2);
+}
+.pips i.on {
+  background: var(--ink-2);
+}
+.speaker {
+  color: var(--ink-2);
+}
+
+.reward {
+  color: var(--ink);
+}
+.reward .icon {
+  color: var(--muted);
+}
+.choice .check {
+  color: var(--ink-2);
+}
+.dispatch.k-mission,
+.dispatch.k-rival {
+  border-left: 1px solid var(--line);
+}
+
+.matrix th.used,
+.matrix td.used {
+  outline: none;
+}
+.matrix th.used {
+  color: var(--ink);
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+.phase.ap-assault,
+.phase.ap-stealth,
+.phase.ap-guile,
+.phase.ap-endurance,
+.phase.ap-arcana {
+  border-left: 1px solid var(--line);
+}

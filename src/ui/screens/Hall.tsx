@@ -1,10 +1,12 @@
-import { dateLabel, HALL_UPKEEP, living, projectLedger, repayLoan, weeklyWages, type Dispatch, type GameState } from '../../engine';
+import { dateLabel, upkeep, living, projectLedger, repayLoan, weeklyWages, type Dispatch, type GameState } from '../../engine';
 import { useStore } from '../../store';
 import { Empty, Section } from '../common';
 import { Icon } from '../icons';
+import { BuildingsSection } from '../Buildings';
 
 const KIND_ICON: Record<string, string> = { story: 'quest', mission: 'scroll', economy: 'coin', politics: 'seal', roster: 'people', rival: 'hobbs', warning: 'warn', info: 'info' };
-const KIND_COLOR: Record<string, string> = { story: 'var(--accent)', mission: 'var(--gold)', economy: 'var(--r-crowns)', politics: 'var(--r-influence)', roster: 'var(--info)', rival: '#8a5a8e', warning: 'var(--bad)', info: 'var(--ink-2)' };
+// only warnings and the story get color; everything else is neutral
+const KIND_COLOR: Record<string, string> = { story: 'var(--accent)', warning: 'var(--bad)' };
 
 export function alerts(g: GameState): { tone: 'warn' | 'bad' | 'info'; text: string }[] {
   const out: { tone: 'warn' | 'bad' | 'info'; text: string }[] = [];
@@ -72,7 +74,7 @@ export function HallScreen() {
           <ul className="alerts">
             {al.map((a, i) => (
               <li key={i} className={`${a.tone} alert-row`}>
-                <Icon name={a.tone === 'bad' ? 'warn' : a.tone === 'warn' ? 'info' : 'clock'} size={16} style={{ color: a.tone === 'bad' ? 'var(--bad)' : a.tone === 'warn' ? 'var(--mid)' : 'var(--info)' }} />
+                <Icon name={a.tone === 'bad' ? 'warn' : a.tone === 'warn' ? 'info' : 'clock'} size={16} style={{ color: a.tone === 'bad' ? 'var(--bad)' : a.tone === 'warn' ? 'var(--mid)' : 'var(--ink-2)' }} />
                 <span>{a.text}</span>
               </li>
             ))}
@@ -85,15 +87,15 @@ export function HallScreen() {
           <div>
             <span className="muted small">Weekly costs</span>
             <b>
-              {weeklyWages(g) + HALL_UPKEEP}◉
+              {weeklyWages(g) + upkeep(g)}◉
             </b>
             <span className="tiny muted">
-              wages {weeklyWages(g)} + hall {HALL_UPKEEP}
+              wages {weeklyWages(g)} + upkeep {upkeep(g)}
             </span>
           </div>
           <div>
             <span className="muted small">This week so far</span>
-            <b className={sum(book.income) - sum(book.expenses) < 0 ? 'neg' : 'pos'}>
+            <b className={sum(book.income) - sum(book.expenses) < 0 ? 'neg' : sum(book.income) - sum(book.expenses) > 0 ? 'pos' : ''}>
               {sum(book.income) - sum(book.expenses) >= 0 ? '+' : ''}
               {sum(book.income) - sum(book.expenses)}◉
             </b>
@@ -101,7 +103,7 @@ export function HallScreen() {
           {last && (
             <div>
               <span className="muted small">Last week</span>
-              <b className={sum(last.income) - sum(last.expenses) < 0 ? 'neg' : 'pos'}>
+              <b className={sum(last.income) - sum(last.expenses) < 0 ? 'neg' : sum(last.income) - sum(last.expenses) > 0 ? 'pos' : ''}>
                 {sum(last.income) - sum(last.expenses) >= 0 ? '+' : ''}
                 {sum(last.income) - sum(last.expenses)}◉
               </b>
@@ -150,6 +152,8 @@ export function HallScreen() {
         )}
       </Section>
 
+      <BuildingsSection />
+
       <Section title="Debt">
         {loan ? (
           <>
@@ -166,7 +170,7 @@ export function HallScreen() {
                   onClick={() =>
                     useStore.getState().confirm({
                       title: `Repay ${n} crowns early?`,
-                      body: [`Your debt falls from ${Math.ceil(loan.principal)} to ${Math.ceil(loan.principal - n)}, saving about ${Math.round(n * loan.weeklyRate * 10) / 10}◉ interest every week.`, `Make sure you can still cover wages: ${weeklyWages(g) + HALL_UPKEEP}◉ a week.`],
+                      body: [`Your debt falls from ${Math.ceil(loan.principal)} to ${Math.ceil(loan.principal - n)}, saving about ${Math.round(n * loan.weeklyRate * 10) / 10}◉ interest every week.`, `Make sure you can still cover wages: ${weeklyWages(g) + upkeep(g)}◉ a week.`],
                       cost: `Treasury ${g.crowns} → ${g.crowns - n}`,
                       confirmLabel: `Repay ${n}`,
                       onConfirm: () => act((d) => repayLoan(d, n)),

@@ -3,6 +3,7 @@
 import { ITEMS } from './data/items';
 import { describePlan } from './rival';
 import { suppliesNeeded } from './odds';
+import { revealCost, rosterCap, tripWeeks } from './buildings';
 import { uid } from './rng';
 import type { Approach, Assignment, Attribute, FactionId, GameState, ItemSlot, MaterialId } from './types';
 import {
@@ -22,7 +23,7 @@ import {
   supplyPrice,
 } from './world';
 
-export const INTEL_REVEAL_COST = 2;
+export const INTEL_REVEAL_COST = 2; // base; see revealCost() for the Den discount
 export const INTEL_RIVAL_COST = 2;
 export const PETITION_COST = 3;
 export const HEAT_COST = 4;
@@ -34,7 +35,7 @@ export function hireRecruit(s: GameState, index: number): string | undefined {
   const r = s.recruits[index];
   if (!r) return 'Recruit is gone';
   if (s.crowns < r.signOn) return `Need ${r.signOn} crowns to sign them`;
-  if (living(s).length >= 12) return 'The hall is full (12 members)';
+  if (living(s).length >= rosterCap(s)) return `The hall is full (${rosterCap(s)} members). Expand the Great Hall.`;
   spend(s, 'Recruitment', r.signOn);
   const m = r.member;
   m.joinedWeek = s.week;
@@ -69,6 +70,7 @@ export function setAssignment(s: GameState, id: string, a: Assignment, extra?: {
   if (m.status === 'mission') return 'They are on a mission';
   m.assignment = a;
   if (a === 'train') m.trainAttr = extra?.attr ?? m.trainAttr ?? 'might';
+  if (a === 'build' && !s.construction) return 'Nothing is being built';
   if (a === 'scout') {
     if (!extra?.contractId) return 'Choose a contract to scout';
     m.scoutTarget = extra.contractId;
@@ -151,8 +153,9 @@ export function revealTag(s: GameState, contractId: string, hiddenIndex: number)
   if (!c) return 'No such contract';
   const h = c.hidden[hiddenIndex];
   if (!h || h.revealed) return 'Already known';
-  if (s.intel < INTEL_REVEAL_COST) return `Need ${INTEL_REVEAL_COST} intel`;
-  s.intel -= INTEL_REVEAL_COST;
+  const cost = revealCost(s);
+  if (s.intel < cost) return `Need ${cost} intel`;
+  s.intel -= cost;
   h.revealed = true;
   return undefined;
 }
@@ -173,7 +176,8 @@ export function dispatchMission(
     if (!m || m.status !== 'idle') return `${m?.name ?? 'A member'} is not available`;
     if (m.health < 40) return `${m.name} is too badly wounded`;
   }
-  const need = suppliesNeeded(c, memberIds.length);
+  const need = suppliesNeeded(c, memberIds.length, s);
+  const trip = tripWeeks(s, c.travelWeeks);
   if (s.supplies < need) return `Needs ${need} supplies (you have ${s.supplies})`;
   s.supplies -= need;
   for (const m of members) {
@@ -190,8 +194,8 @@ export function dispatchMission(
     retreatOnCritical,
     supplies: need,
     dispatchedWeek: s.week,
-    arriveWeek: s.week + c.travelWeeks,
-    returnWeek: s.week + c.travelWeeks * 2,
+    arriveWeek: s.week + trip.out,
+    returnWeek: s.week + trip.out + trip.back,
   });
   s.board = s.board.filter((x) => x.id !== c.id);
   // members scouting this contract can stop

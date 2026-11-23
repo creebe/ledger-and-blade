@@ -5,7 +5,7 @@ import { Icon } from '../icons';
 import { ApproachBars, PROFESSION_APPROACH, Portrait } from '../visual';
 import type { Member } from '../../engine';
 
-const ASSIGN_ICON: Record<string, string> = { rest: 'rest', train: 'train', rumors: 'ear', labor: 'hammer', scout: 'compass' };
+const ASSIGN_ICON: Record<string, string> = { rest: 'rest', train: 'train', rumors: 'ear', labor: 'hammer', scout: 'compass', build: 'anvil' };
 function statusIcon(m: Member) {
   if (m.status === 'mission') return 'road';
   if (m.status === 'recovering') return 'bandage';
@@ -13,7 +13,8 @@ function statusIcon(m: Member) {
 }
 
 function Vital({ icon, v, label }: { icon: string; v: number; label: string }) {
-  const c = v < 35 ? 'var(--bad)' : v < 65 ? 'var(--mid)' : 'var(--good)';
+  // neutral when fine; color only when it needs attention
+  const c = v < 30 ? 'var(--bad)' : v < 50 ? 'var(--mid)' : 'var(--ink-2)';
   return (
     <span className="vm" title={`${label}: ${Math.round(v)}`} style={{ ['--vc' as string]: c }}>
       <Icon name={icon} size={12} />

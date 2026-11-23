@@ -17,7 +17,7 @@ None found.
 | bread_riot | 5–7 | 100% | 5 / 7 / 7 | 0 |
 | silver_summons | 7–9 | 99% | 7 / 8 / 9 | 0 |
 | quarter_day | 9–18 | 79% | 9 / 10 / 19 | 1 |
-| act1_slice_end | 12–20 | 72% | 12 / 13 / 19 | 0 |
+| act1_slice_end | 12–20 | 73% | 12 / 13 / 19 | 0 |
 
 ## The Crown's silver: how it resolved
 
@@ -26,7 +26,7 @@ None found.
 - unresolved: 7%
 - abandoned: 4%
 - lost: 5%
-- delivered: 13%
+- delivered: 14%
 - guild fell first (collapse): 0%
 
 ## Branch coverage
@@ -43,7 +43,7 @@ Every conversation node in every story beat was reached.
 - **bread_riot/square**: Break them. (58) · Hold the line. No blood. (68)
 - **silver_summons/root**: "Who knows the route?" (98) · "What does it pay?" (89) · Accept the commission (90) · Decline (115) · Tell him what Vorn let slip about the next treaty (5)
 - **silver_summons/route**: Decline (49) · Accept the commission (43) · Haggle (7) · "What does it pay?" (28) · Tell him what Vorn let slip about the next treaty (3)
-- **quarter_day/root**: Let it go (195) · Swear to the Lower Town (23) · Prove that Hobb skimmed the silver (8) · Stay out of it (19) · Ask for a seat at the Exchequer's table (25) · Offer the bank your services (14) · Accept a purse from the Crown (20) · Accept a Crown writ of good conduct (11)
+- **quarter_day/root**: Let it go (195) · Swear to the Lower Town (23) · Prove that Hobb skimmed the silver (8) · Stay out of it (19) · Ask for a seat at the Exchequer's table (25) · Offer the bank your services (14) · Accept a purse from the Crown (20) · Accept a Crown writ of good conduct (12)
 - **act1_slice_end/root**: Continue (278)
 - **charter/debt**: Let the clerk go and get to work (200)
 - **hobbs_arrive/details**: Sell her the share (60) · Refuse politely (58) · Humiliate her in front of her daughters (68)
@@ -85,23 +85,23 @@ Every conversation node in every story beat was reached.
 
 ## Random events fired
 
-- field_arrival: 1222
+- field_arrival: 1216
 - informant: 280
-- petition: 258
-- brawl: 220
+- petition: 254
+- brawl: 217
 - peddler: 183
-- lead: 171
-- festival: 144
-- homesick: 127
-- field_shadowed: 101
-- field_bridge: 91
-- raise: 85
+- lead: 174
+- festival: 145
+- homesick: 124
+- field_shadowed: 99
+- field_bridge: 90
+- raise: 84
 - field_traveler: 81
 - field_guide: 79
-- volunteer: 58
-- dagny_tip: 34
+- volunteer: 55
+- dagny_tip: 33
 - field_rivals: 20
-- bank_offer: 18
+- bank_offer: 19
 - field_deserter: 14
-- field_tracks: 10
-- nightmares: 6
+- field_tracks: 11
+- nightmares: 7

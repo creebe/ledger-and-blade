@@ -196,7 +196,7 @@ export function MissionReplay({ id }: { id: string }) {
           </section>
         )}
         {r.phases.map((p, i) => (
-          <section key={i} className={`phase-card r-${p.result}`} style={{ ...next(), borderLeft: `4px solid ${ap(p.approach)}` }}>
+          <section key={i} className={`phase-card r-${p.result}`} style={next()}>
             <div className="row between">
               <b>
                 {i + 1}. {p.phase}

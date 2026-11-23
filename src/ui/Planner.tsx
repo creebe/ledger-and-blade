@@ -4,7 +4,7 @@ import {
   APPROACH_INFO,
   bestApproaches,
   dispatchMission,
-  INTEL_REVEAL_COST,
+  revealCost,
   living,
   PROFESSIONS,
   previewMission,
@@ -70,6 +70,7 @@ export function ContractHeader({ c, game }: { c: Contract; game: GameState }) {
   const reveal = (i: number) => {
     const h = c.hidden[i];
     const { confirm, notify } = useStore.getState();
+    const INTEL_REVEAL_COST = revealCost(game);
     if (game.intel < INTEL_REVEAL_COST) {
       notify(`Revealing costs ${INTEL_REVEAL_COST} Intel and you have ${game.intel}. Set members to Gather Rumors, or send a Scout ahead.`);
       return;
@@ -120,7 +121,7 @@ export function ContractHeader({ c, game }: { c: Contract; game: GameState }) {
         )}
       </div>
       {c.hidden.some((h) => !h.revealed) && (
-        <p className="hint">Unknown tags make the odds a range. Tap a “?” to reveal it for {INTEL_REVEAL_COST} Intel (you have {game.intel}), or send a Scout ahead from the Roster.</p>
+        <p className="hint">Unknown tags make the odds a range. Tap a “?” to reveal it for {revealCost(game)} Intel (you have {game.intel}), or send a Scout ahead from the Roster.</p>
       )}
       {c.contestedBy && <p className="warn">⚔ Hobb & Daughters want this one. It may not last the week.</p>}
       <p className="muted small">

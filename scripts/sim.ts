@@ -15,6 +15,11 @@ import {
   sellMaterial,
   setAssignment,
   suppliesNeeded,
+  buyMaterial,
+  materialPrice,
+  canBuild,
+  nextLevel,
+  startBuild,
   type GameState,
   type Member,
   type MaterialId,
@@ -48,7 +53,7 @@ export function botTurn(s: GameState, opts: { minChance: number; chooser?: (s: G
       if (!best || ch > best.chance + 0.03) best = { members: team, chance: ch };
     }
     if (best && best.chance >= opts.minChance) {
-      const need = suppliesNeeded(c, best.members.length);
+      const need = suppliesNeeded(c, best.members.length, s);
       if (s.supplies < need + 4) buySupplies(s, need + 4 - s.supplies);
       const ids = best.members.map((m) => m.id);
       dispatchMission(s, c.id, ids, bestApproaches(s, c, best.members), true);
@@ -57,6 +62,20 @@ export function botTurn(s: GameState, opts: { minChance: number; chooser?: (s: G
   // supplies for home
   const home = living(s).filter((m) => m.status !== 'mission').length;
   if (s.supplies < home * 3) buySupplies(s, home * 3 - s.supplies);
+  // build when flush: only if the whole project, materials included, leaves a cushion
+  if (!process.env.NOBUILD && !s.construction && s.crowns > 800) {
+    // only buildings this bot actually benefits from (it never trains or crafts)
+    for (const id of ['infirmary', 'den', 'stables'] as const) {
+      const next = nextLevel(s, id);
+      if (!next) continue;
+      const shortfall = (Object.keys(next.materials) as MaterialId[]).map((m) => ({ m, n: Math.max(0, (next.materials[m] ?? 0) - s.materials[m]) }));
+      const cost = next.crowns + shortfall.reduce((t, x) => t + x.n * materialPrice(s, x.m), 0);
+      if (s.crowns - cost < 500) continue;
+      for (const x of shortfall) if (x.n) buyMaterial(s, x.m, x.n);
+      if (!canBuild(s, id)) startBuild(s, id);
+      break;
+    }
+  }
   // hire when flush
   if (s.crowns > 450 && living(s).length < 7 && s.recruits.length) hireRecruit(s, 0);
   // assignments

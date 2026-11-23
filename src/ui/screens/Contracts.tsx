@@ -1,4 +1,4 @@
-import { FACTIONS, type Contract, type GameState, type Mission } from '../../engine';
+import { FACTIONS, missionWeeks, type Contract, type GameState, type Mission } from '../../engine';
 import { Icon } from '../icons';
 import { CONTRACT_TYPE_ICON, OddsPill, PhaseStrip, Portrait, useBestOdds } from '../visual';
 import { useStore } from '../../store';
@@ -115,7 +115,7 @@ function ContractCard({ c, g, onOpen }: { c: Contract; g: GameState; onOpen: () 
             </span>
             <span className="meta">
               <Icon name="clock" size={13} />
-              {c.travelWeeks * 2 + 1}w
+              {missionWeeks(c, g)}w
             </span>
           </div>
         </div>
