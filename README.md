@@ -16,7 +16,11 @@ Playable now:
 - Missions with travel time that run concurrently, phase-by-phase resolution, and an animated strip-map report
 - Intel (rumors, scouting, revealing tags and rival plans), market with fluctuating prices, recruitment, training
 - Four factions (Exchequer, Weighhouse, Ostrander's, Lower Town), Heat, the four Debt clocks, and the rival Hobb & Daughters
-- Act I story beats (first ~12 weeks), random events, fail states, autosave + 3 save slots + text export
+- Act I story as branching conversations, with variable timing and variants based on earlier choices (first ~12 weeks)
+- Member-focused and world random events
+- Expedition journals for every mission, plus a service record for each member
+- Confirmations before spending resources, floating resource changes, and a week-end resource summary
+- Fail states, autosave + 3 save slots + text export
 
 ## Development
 

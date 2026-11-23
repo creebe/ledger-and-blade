@@ -94,6 +94,14 @@ export function equippedBy(state: GameState, itemUid: string): Member | undefine
 
 // ---------------- Members ----------------
 
+/** First names stay unique among the guild and the hiring hall, so journals read clearly. */
+function uniqueName(state: GameState): string {
+  const taken = new Set([...living(state), ...state.recruits.map((r) => r.member)].map((m) => m.name.split(' ')[0]));
+  let firstName = pick(state, FIRST_NAMES);
+  for (let i = 0; i < 20 && taken.has(firstName); i++) firstName = pick(state, FIRST_NAMES);
+  return `${firstName} ${pick(state, LAST_NAMES)}`;
+}
+
 export function createMember(state: GameState, profession: ProfessionId, quality = 0): Member {
   const prof = PROFESSIONS[profession];
   const attrs = { ...prof.base };
@@ -108,7 +116,7 @@ export function createMember(state: GameState, profession: ProfessionId, quality
   const wage = prof.wage + traits.reduce((s, t) => s + (TRAITS[t].wage ?? 0), 0);
   const m: Member = {
     id: uid(state, 'm'),
-    name: `${pick(state, FIRST_NAMES)} ${pick(state, LAST_NAMES)}`,
+    name: uniqueName(state),
     profession,
     attrs,
     level: 1,
@@ -126,6 +134,7 @@ export function createMember(state: GameState, profession: ProfessionId, quality
     weeksUnpaid: 0,
     joinedWeek: state.week,
     missions: 0,
+    record: [],
   };
   for (const g of prof.startingGear) {
     const id = addItem(state, g);

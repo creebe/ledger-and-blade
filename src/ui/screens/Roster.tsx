@@ -64,7 +64,22 @@ export function RosterScreen() {
                 <span className="small">
                   Wage {m.wage}◉/wk · leaves in {r.expiresWeek - g.week + 1} wk
                 </span>
-                <button className="btn small primary" disabled={g.crowns < r.signOn} onClick={() => act((d) => hireRecruit(d, i))}>
+                <button
+                  className="btn small primary"
+                  disabled={g.crowns < r.signOn}
+                  onClick={() =>
+                    useStore.getState().confirm({
+                      title: `Hire ${m.name}?`,
+                      body: [
+                        `${PROFESSIONS[m.profession].name}. ${PROFESSIONS[m.profession].blurb}`,
+                        `Weekly costs rise from ${crew.reduce((s, x) => s + x.wage, 0) + 15}◉ to ${crew.reduce((s, x) => s + x.wage, 0) + 15 + m.wage}◉ (wage ${m.wage}).`,
+                      ],
+                      cost: `Sign-on fee ${r.signOn}◉ · treasury ${g.crowns} → ${g.crowns - r.signOn}`,
+                      confirmLabel: 'Hire',
+                      onConfirm: () => act((d) => hireRecruit(d, i)) && useStore.getState().notify(`${m.name} joins the guild, with their gear.`),
+                    })
+                  }
+                >
                   Hire {r.signOn}◉
                 </button>
               </div>

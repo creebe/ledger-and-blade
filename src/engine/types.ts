@@ -95,6 +95,7 @@ export interface Member {
   weeksUnpaid: number;
   joinedWeek: number;
   missions: number;
+  record: string[]; // service record: notable deeds
   diedWeek?: number;
   causeOfDeath?: string;
 }
@@ -164,6 +165,13 @@ export interface PhaseLog {
   chance: number;
   result: PhaseResult;
   lines: string[];
+  story?: string[]; // narrative of how the phase played out
+  lead?: string; // member id who led the phase
+}
+
+export interface JournalSection {
+  title: string;
+  lines: string[];
 }
 
 export interface MissionReport {
@@ -174,6 +182,8 @@ export interface MissionReport {
   reward: number;
   materials: Partial<Record<MaterialId, number>>;
   summary: string[];
+  outbound?: JournalSection; // the road there
+  homeward?: JournalSection; // the road back
 }
 
 export interface Mission {
@@ -235,6 +245,18 @@ export interface EventChoice {
   failEffects?: EventEffect;
   resultText: string;
   failText?: string;
+  // continue the conversation at this node instead of closing the event
+  next?: string;
+  failNext?: string;
+  // only show this choice if a flag is set / not set
+  ifFlag?: string;
+  ifNotFlag?: string;
+}
+
+export interface EventNode {
+  text: string;
+  choices: EventChoice[];
+  speaker?: string;
 }
 
 export interface EventEffect extends ContractEffect {
@@ -250,6 +272,8 @@ export interface EventEffect extends ContractEffect {
   grantItem?: string;
   freeRecruit?: boolean;
   wounds?: number; // wounds dealt to a random member
+  revealContract?: string; // template id: reveal one hidden tag on that board contract
+  member?: { morale?: number; loyalty?: number; health?: number; fatigue?: number; leaves?: boolean; wage?: number; xp?: number; trait?: string; removeTrait?: string };
 }
 
 export interface GameEvent {
@@ -259,6 +283,12 @@ export interface GameEvent {
   text: string;
   choices: EventChoice[];
   week: number;
+  speaker?: string;
+  // branching conversation state
+  nodes?: Record<string, EventNode>;
+  node?: string;
+  transcript?: { choice: string; reply: string }[];
+  memberId?: string; // member this event is about
 }
 
 export type DispatchKind = 'story' | 'mission' | 'economy' | 'politics' | 'roster' | 'rival' | 'warning' | 'info';

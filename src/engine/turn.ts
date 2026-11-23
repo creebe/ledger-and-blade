@@ -22,7 +22,19 @@ import {
   supplyPrice,
 } from './world';
 
-export const SAVE_VERSION = 1;
+export const SAVE_VERSION = 2;
+
+/** Upgrade older saves in place. Returns null if the save can't be used. */
+export function migrateSave(g: GameState): GameState | null {
+  if (!g || typeof g.week !== 'number') return null;
+  if (g.version === 1) {
+    for (const m of g.members) m.record = m.record ?? [];
+    for (const r of g.recruits) r.member.record = r.member.record ?? [];
+    for (const e of g.pendingEvents) e.transcript = e.transcript ?? [];
+    g.version = 2;
+  }
+  return g.version === SAVE_VERSION ? g : null;
+}
 
 export function newGame(seed = Date.now() % 2147483647): GameState {
   const s: GameState = {

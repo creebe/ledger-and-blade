@@ -162,6 +162,19 @@ export function MemberSheet({ id }: { id: string }) {
         ))}
       </div>
 
+      <h3 className="subhead">Service record</h3>
+      {(m.record ?? []).length === 0 ? (
+        <p className="small muted">No missions yet. Joined in week {m.joinedWeek}.</p>
+      ) : (
+        <ul className="record">
+          {[...(m.record ?? [])].reverse().map((r, i) => (
+            <li key={i} className="small">
+              {r}
+            </li>
+          ))}
+        </ul>
+      )}
+
       <h3 className="subhead">Gear</h3>
       <div className="slots">
         {slots.map((sl) => {
@@ -204,7 +217,8 @@ export function MemberSheet({ id }: { id: string }) {
                   className="pick-item"
                   disabled={holder?.status === 'mission'}
                   onClick={() => {
-                    act((g) => equip(g, m.id, slotPick.slot, i.uid, slotPick.index));
+                    if (act((g) => equip(g, m.id, slotPick.slot, i.uid, slotPick.index)))
+                      useStore.getState().notify(`${m.name.split(' ')[0]} now carries ${def.name}${holder && holder.id !== m.id ? `, taken from ${holder.name.split(' ')[0]}` : ''}.`);
                     setSlotPick(null);
                   }}
                 >
@@ -231,7 +245,7 @@ export function MemberSheet({ id }: { id: string }) {
                     const target = game.board.find((c) => c.hidden.some((h) => !h.revealed));
                     if (!target) return useStore.getState().notify('No contract has anything left to scout');
                     act((g) => setAssignment(g, m.id, 'scout', { contractId: m.scoutTarget && g.board.some((c) => c.id === m.scoutTarget) ? m.scoutTarget : target.id }));
-                  } else act((g) => setAssignment(g, m.id, a.id));
+                  } else if (act((g) => setAssignment(g, m.id, a.id))) useStore.getState().notify(`${m.name.split(' ')[0]}: ${a.label} this week. ${a.blurb}`);
                 }}
               >
                 <b>{a.label}</b>
@@ -266,12 +280,18 @@ export function MemberSheet({ id }: { id: string }) {
       {!locked && (
         <button
           className="btn danger ghost block"
-          onClick={() => {
-            if (confirm(`Dismiss ${m.name}? Their gear stays in the armory.`)) {
-              act((g) => dismissMember(g, m.id));
-              close();
-            }
-          }}
+          onClick={() =>
+            useStore.getState().confirm({
+              title: `Dismiss ${m.name}?`,
+              body: [`They leave the guild for good. Their gear stays in the armory, and you save ${m.wage}◉ a week.`, 'The others will notice (morale −3).'],
+              confirmLabel: 'Dismiss',
+              danger: true,
+              onConfirm: () => {
+                act((g) => dismissMember(g, m.id));
+                close();
+              },
+            })
+          }
         >
           Dismiss from the guild
         </button>

@@ -220,6 +220,10 @@ export function petition(s: GameState, f: FactionId): string | undefined {
   s.influence -= PETITION_COST;
   s.petitioned.push(f);
   applyStanding(s, f, 6);
+  if (f === 'ostranders' && !s.flags.ostranders_open) {
+    s.flags.ostranders_open = true;
+    addDispatch(s, 'politics', "Ostrander's will send work", ['Factor Vorn accepts your overture. Bank contracts will now appear on the board.']);
+  }
   return undefined;
 }
 

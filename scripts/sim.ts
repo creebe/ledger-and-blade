@@ -22,7 +22,8 @@ import {
 
 export function botTurn(s: GameState, opts: { minChance: number }) {
   // events: take the first affordable choice
-  for (const ev of [...s.pendingEvents]) {
+  for (let guard = 0; s.pendingEvents.length && guard < 30; guard++) {
+    const ev = s.pendingEvents[0];
     // avoid obviously ruinous choices (selling a share of income)
     const ok = ev.choices.map((c, i) => ({ c, i })).filter(({ c }) => !canChoose(s, c) && c.effects.flag !== 'hobbs_share');
     const pickIdx = ok.find(({ c }) => (c.effects.crowns ?? 0) >= 0)?.i ?? ok[0]?.i ?? 0;

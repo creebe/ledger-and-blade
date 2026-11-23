@@ -46,7 +46,7 @@ export function ArmoryScreen() {
             </p>
             <div className="row wrap gap">
               {[5, 10, 20].map((n) => (
-                <button key={n} className="btn ghost small" onClick={() => act((d) => buySupplies(d, n))}>
+                <button key={n} className="btn ghost small" onClick={() => act((d) => buySupplies(d, n)) && useStore.getState().notify(`Bought ${n} supplies. You now have ${g.supplies + n}.`)}>
                   +{n} for {Math.ceil(supplyPrice(g) * n)}◉
                 </button>
               ))}
@@ -71,7 +71,7 @@ export function ArmoryScreen() {
                           <div className="small">{itemSummary(def)}</div>
                           <div className="tiny muted">{def.description}</div>
                         </div>
-                        <button className="btn small primary" disabled={g.crowns < price} onClick={() => act((d) => buyItem(d, id))}>
+                        <button className="btn small primary" disabled={g.crowns < price} onClick={() => act((d) => buyItem(d, id)) && useStore.getState().notify(`Bought ${def.name} for ${price}◉. It's in Stores: equip it from a member's Gear.`)}>
                           {price}◉
                         </button>
                       </div>
@@ -106,9 +106,16 @@ export function ArmoryScreen() {
                       <button
                         className="btn small ghost"
                         disabled={holder?.status === 'mission'}
-                        onClick={() => {
-                          if (!holder || confirm(`${holder.name} is using this. Sell it anyway?`)) act((d) => sellItem(d, i.uid));
-                        }}
+                        onClick={() =>
+                          useStore.getState().confirm({
+                            title: `Sell ${def.name}?`,
+                            body: [holder ? `${holder.name} is using it, and will be left without it.` : 'It goes back to the market for half its price.'],
+                            cost: `+${Math.round(def.price * SELL_RATE)}◉`,
+                            confirmLabel: 'Sell',
+                            danger: !!holder,
+                            onConfirm: () => act((d) => sellItem(d, i.uid)),
+                          })
+                        }
                       >
                         Sell {Math.round(def.price * SELL_RATE)}◉
                       </button>

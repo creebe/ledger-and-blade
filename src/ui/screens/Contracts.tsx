@@ -7,7 +7,7 @@ export function MissionTrack({ m, g }: { m: Mission; g: GameState }) {
   const open = useStore((s) => s.open);
   const c = m.contract;
   const travel = c.travelWeeks;
-  type Node = { label: string; kind: 'town' | 'road' | 'phase'; done: boolean; current?: boolean; result?: string };
+  type Node = { label: string; kind: 'town' | 'road' | 'site'; done: boolean; current?: boolean; result?: string };
   const nodes: Node[] = [];
   // each node is tied to the week it happens in
   const at = (week: number) => ({ done: g.week > week, current: g.week === week });
@@ -15,7 +15,7 @@ export function MissionTrack({ m, g }: { m: Mission; g: GameState }) {
   for (let i = 0; i < travel; i++) nodes.push({ label: 'Road', kind: 'road', ...at(m.dispatchedWeek + i) });
   c.phases.forEach((p, i) => {
     const log = m.report?.phases[i];
-    nodes.push({ label: p.name, kind: 'phase', done: !!m.report, current: !m.report && g.week === m.arriveWeek, result: log?.result ?? (m.report ? 'skipped' : undefined) });
+    nodes.push({ label: p.name, kind: 'site', done: !!m.report, current: !m.report && g.week === m.arriveWeek, result: log?.result ?? (m.report ? 'skipped' : undefined) });
   });
   for (let i = 0; i < travel; i++) nodes.push({ label: 'Road', kind: 'road', ...at(m.arriveWeek + 1 + i) });
   nodes.push({ label: 'Home', kind: 'town', done: false });

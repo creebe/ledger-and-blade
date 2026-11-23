@@ -92,6 +92,38 @@ describe('engine', () => {
     expect(team.every((m) => m.status !== 'mission')).toBe(true);
   });
 
+  it('story events are multi-step conversations', () => {
+    const s = newGame(5);
+    const ev = s.pendingEvents[0];
+    expect(ev.defId).toBe('charter');
+    // ask about the debt, then continue: the event stays open across nodes
+    resolveEvent(s, ev.uid, 0);
+    expect(s.pendingEvents[0]?.node).toBe('debt');
+    resolveEvent(s, ev.uid, 0);
+    expect(s.pendingEvents[0]?.node).toBe('start');
+    resolveEvent(s, ev.uid, 2); // keep the coin
+    expect(s.pendingEvents.length).toBe(0);
+    const d = s.dispatches[s.dispatches.length - 1];
+    expect(d.body.length).toBe(3); // the whole conversation is recorded
+  });
+
+  it('missions produce a journal and a service record', () => {
+    const s = newGame(13);
+    clearEvents(s);
+    const c = [...s.board].sort((a, b) => a.travelWeeks - b.travelWeeks)[0];
+    const team = living(s).slice(0, c.maxSquad);
+    dispatchMission(s, c.id, team.map((m) => m.id), bestApproaches(s, c, team), false);
+    for (let i = 0; i <= c.travelWeeks * 2 + 1; i++) {
+      clearEvents(s);
+      advanceWeek(s);
+    }
+    const r = s.history[0].report!;
+    expect(r.outbound?.lines.length).toBeGreaterThan(0);
+    expect(r.homeward?.lines.length).toBeGreaterThan(0);
+    expect(r.phases.every((p) => (p.story ?? []).length > 0)).toBe(true);
+    expect(team.some((m) => m.record.length > 0)).toBe(true);
+  });
+
   it('a careful bot usually survives the first season', () => {
     const r = runSim(12, 12, 0.6);
     expect(r.survivalRate).toBeGreaterThanOrEqual(0.75);

@@ -3,6 +3,7 @@ import { TAGS } from './data/tags';
 import { chanceFrom, counteredTags, itemDef, phaseDifficulty, squadScore, trueTags, type SquadContext } from './odds';
 import { nextFloat, pick } from './rng';
 import type { GameState, MaterialId, Member, Mission, MissionReport, OutcomeTier, PhaseLog, PhaseResult } from './types';
+import { addRecord, homewardJournal, outboundJournal, phaseStory } from './narrative';
 import { addDispatch, applyContractEffect, earn, clamp, factionName, MATERIAL_INFO, removeItem, xpToLevel, ATTRS } from './world';
 
 const RESULT_TEXT: Record<PhaseResult, string> = {
@@ -34,6 +35,9 @@ export function resolveMission(state: GameState, mission: Mission): MissionRepor
   let retreated = false;
 
   const alive = () => squad.filter((m) => !casualties.includes(m.id));
+  const outbound = outboundJournal(state, c, squad);
+  const leads = new Map<string, string[]>(); // member id -> phases led
+  const introduced = new Set<string>();
 
   for (let i = 0; i < c.phases.length; i++) {
     const phase = c.phases[i];
@@ -97,7 +101,22 @@ export function resolveMission(state: GameState, mission: Mission): MissionRepor
       m.fatigue = clamp(m.fatigue + 6, 0, 100);
       m.xp += result === 'strong' || result === 'success' ? 2 : 1;
     }
-    logs.push({ phase: phase.name, approach, chance: p, result, lines });
+    const leadEntry = [...score.members].sort((a, b) => b.score - a.score)[0];
+    const lead = members.find((m) => m.id === leadEntry?.id) ?? members[0];
+    const story = phaseStory(state, {
+      contract: c,
+      phaseIndex: i,
+      approach,
+      result,
+      squad: members,
+      lead,
+      tags,
+      countered: ctx.countered,
+      scores: score.members.map((x) => ({ id: x.id, score: x.score })),
+      introduced,
+    });
+    if (result === 'strong' || result === 'success') leads.set(lead.id, [...(leads.get(lead.id) ?? []), phase.name]);
+    logs.push({ phase: phase.name, approach, chance: p, result, lines, story, lead: lead.id });
 
     const isLast = i === c.phases.length - 1;
     if (!isLast && mission.retreatOnCritical && alive().some((m) => m.health <= 25)) {
@@ -170,11 +189,20 @@ export function resolveMission(state: GameState, mission: Mission): MissionRepor
       m.status = 'dead';
       m.diedWeek = state.week;
       m.causeOfDeath = `Killed on "${c.title}"`;
+      addRecord(m, `Week ${state.week} · Fell on "${c.title}".`);
       for (const uid of [m.loadout.weapon, m.loadout.armor, m.loadout.trinket]) if (uid && nextFloat(state) < 0.5) removeItem(state, uid);
       continue;
     }
     m.morale = clamp(m.morale + moraleDelta - casualties.length * 10, 0, 100);
     m.missions += 1;
+    {
+      const led = leads.get(m.id);
+      const hurt = woundMap.get(m.id);
+      const bits = [led?.length ? `led ${led.join(' and ')}` : '', hurt && hurt >= 25 ? 'badly wounded' : '', usedDraught.size && m.loadout.consumables.some((u) => usedDraught.has(u)) ? 'saved by a draught' : '']
+        .filter(Boolean)
+        .join('; ');
+      addRecord(m, `Week ${state.week} · "${c.title}": ${tier}${bits ? ` (${bits})` : ''}.`);
+    }
     for (const uid of [...m.loadout.consumables]) {
       const d = itemDef(state, uid);
       // healing draughts only vanish if used
@@ -195,6 +223,14 @@ export function resolveMission(state: GameState, mission: Mission): MissionRepor
     reward,
     materials,
     summary,
+    outbound,
+    homeward: homewardJournal(
+      state,
+      c,
+      squad,
+      squad.filter((m) => casualties.includes(m.id)),
+      tier,
+    ),
   };
   mission.report = report;
 

@@ -1,7 +1,8 @@
+import { useEffect, useRef, useState } from 'react';
 import { dateLabel, endWeekWarnings, HALL_UPKEEP, living, weeklyWages } from './engine';
 import { hasAutosave, slotInfo, useStore, type Tab } from './store';
 import { MemberSheet } from './ui/MemberSheet';
-import { EventCard, HelpSheet, MenuSheet, MissionReplay, WarningsSheet, WeekReport } from './ui/Overlays';
+import { ConfirmSheet, EventCard, HelpSheet, MenuSheet, MissionReplay, WarningsSheet, WeekReport } from './ui/Overlays';
 import { Planner } from './ui/Planner';
 import { ArmoryScreen } from './ui/screens/Armory';
 import { ContractsScreen } from './ui/screens/Contracts';
@@ -30,6 +31,26 @@ function TopBar() {
     { icon: '★', value: g.renown, label: 'Renown. Better contracts and goods; rivals take note.' },
     { icon: '♨', value: g.heat, label: 'Heat. Legal exposure from shady work.', tone: g.heat >= 60 ? 'bad' : g.heat >= 30 ? 'mid' : '' },
   ];
+  // floating +/- numbers whenever a resource changes
+  const prev = useRef<Record<string, number> | null>(null);
+  const [floats, setFloats] = useState<{ id: number; key: string; delta: number; good: boolean }[]>([]);
+  const fid = useRef(0);
+  const values: Record<string, number> = { crowns: g.crowns, supplies: g.supplies, intel: g.intel, influence: g.influence, renown: g.renown, heat: g.heat };
+  useEffect(() => {
+    const p = prev.current;
+    prev.current = values;
+    if (!p) return;
+    const fresh = Object.keys(values)
+      .filter((k) => Math.round((values[k] - p[k]) * 10) !== 0)
+      .map((k) => ({ id: ++fid.current, key: k, delta: Math.round((values[k] - p[k]) * 10) / 10, good: k === 'heat' ? values[k] < p[k] : values[k] > p[k] }));
+    if (!fresh.length) return;
+    setFloats((f) => [...f, ...fresh]);
+    const ids = fresh.map((f) => f.id);
+    window.setTimeout(() => setFloats((f) => f.filter((x) => !ids.includes(x.id))), 1600);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [g.crowns, g.supplies, g.intel, g.influence, g.renown, g.heat]);
+  const keys = ['crowns', 'supplies', 'intel', 'influence', 'renown', 'heat'];
+
   return (
     <header className="topbar">
       <div className="row between">
@@ -39,12 +60,21 @@ function TopBar() {
         </button>
       </div>
       <div className="resources">
-        {res.map((r) => (
-          <button key={r.label} className={`res ${r.tone ?? ''}`} onClick={() => notify(r.label)}>
-            <span>{r.icon}</span>
-            <b>{r.value}</b>
-          </button>
-        ))}
+        {res.map((r, i) => {
+          const fl = floats.filter((f) => f.key === keys[i]);
+          return (
+            <button key={r.label} className={`res ${r.tone ?? ''} ${fl.length ? 'pulse' : ''}`} onClick={() => notify(r.label)}>
+              <span>{r.icon}</span>
+              <b>{r.value}</b>
+              {fl.map((f) => (
+                <i key={f.id} className={`float ${f.good ? 'up' : 'down'}`}>
+                  {f.delta > 0 ? '+' : ''}
+                  {f.delta}
+                </i>
+              ))}
+            </button>
+          );
+        })}
       </div>
     </header>
   );
@@ -188,13 +218,15 @@ export default function App() {
           case 'mission':
             return <MissionReplay key={i} id={s.id} />;
           case 'report':
-            return <WeekReport key={i} dispatchIds={s.dispatchIds} week={s.week} />;
+            return <WeekReport key={i} dispatchIds={s.dispatchIds} week={s.week} before={s.before} />;
           case 'warnings':
             return <WarningsSheet key={i} warnings={s.warnings} />;
           case 'menu':
             return <MenuSheet key={i} />;
           case 'help':
             return <HelpSheet key={i} />;
+          case 'confirm':
+            return <ConfirmSheet key={i} {...s} />;
         }
       })}
       {event && <EventCard ev={event} />}

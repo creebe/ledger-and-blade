@@ -1,50 +1,64 @@
 import { RANDOM_EVENTS, STORY_EVENTS, type EventDef } from './data/events';
+import { TRAITS } from './data/traits';
 import { chanceFrom, counteredTags, squadScore } from './odds';
 import { chance, nextFloat, pick, uid, weighted } from './rng';
 import type { EventChoice, EventEffect, GameEvent, GameState, Member } from './types';
-import {
-  addDispatch,
-  addItem,
-  addStoryContract,
-  applyContractEffect,
-  clamp,
-  createMember,
-  earn,
-  living,
-  spend,
-} from './world';
+import { addDispatch, addItem, addStoryContract, applyContractEffect, clamp, createMember, earn, living, spend } from './world';
 
-function instantiate(state: GameState, def: EventDef): GameEvent {
-  return {
-    uid: uid(state, 'e'),
-    defId: def.id,
-    title: def.title,
-    text: typeof def.text === 'function' ? def.text(state) : def.text,
-    choices: typeof def.choices === 'function' ? def.choices(state) : def.choices,
-    week: state.week,
-  };
+const DEFS: Record<string, EventDef> = Object.fromEntries([...STORY_EVENTS, ...RANDOM_EVENTS].map((d) => [d.id, d]));
+const storyIds: Record<string, true> = Object.fromEntries(STORY_EVENTS.map((e) => [e.id, true]));
+
+function memberOf(state: GameState, ev: { memberId?: string }): Member | undefined {
+  return ev.memberId ? state.members.find((m) => m.id === ev.memberId) : undefined;
+}
+
+/** Fill the event's visible text, speaker and choices from its current node. */
+function enterNode(state: GameState, ev: GameEvent, nodeId?: string) {
+  const def = DEFS[ev.defId];
+  const m = memberOf(state, ev);
+  const node = nodeId ? def.nodes?.[nodeId] : undefined;
+  const src = node ?? def;
+  ev.node = nodeId;
+  ev.text = typeof src.text === 'function' ? src.text(state, m) : src.text;
+  ev.speaker = src.speaker;
+  const choices = typeof src.choices === 'function' ? src.choices(state, m) : src.choices;
+  ev.choices = choices.filter((c) => (!c.ifFlag || state.flags[c.ifFlag]) && (!c.ifNotFlag || !state.flags[c.ifNotFlag]));
+}
+
+function instantiate(state: GameState, def: EventDef, member?: Member): GameEvent {
+  const ev: GameEvent = { uid: uid(state, 'e'), defId: def.id, title: def.title, text: '', choices: [], week: state.week, transcript: [], memberId: member?.id };
+  enterNode(state, ev);
+  return ev;
 }
 
 export function triggerEvents(state: GameState) {
+  // story beats: each fires once, somewhere inside its window
   for (const def of STORY_EVENTS) {
     if (state.eventWeeks[def.id] !== undefined) continue;
-    if ((def.week ?? 0) > state.week) continue;
+    const [from, to] = def.window ?? [1, 1];
+    if (state.week < from) continue;
     if (def.condition && !def.condition(state)) continue;
+    const forced = state.week >= to;
+    if (!forced && !chance(state, def.chance ?? 0.45)) continue;
     state.eventWeeks[def.id] = state.week;
     state.pendingEvents.push(instantiate(state, def));
     return; // at most one story beat per week
   }
   if (state.week <= 2) return;
   if (!chance(state, 0.4)) return;
-  const eligible = RANDOM_EVENTS.filter((d) => {
+  const eligible: { def: EventDef; members: Member[] }[] = [];
+  for (const d of RANDOM_EVENTS) {
     const last = state.eventWeeks[d.id];
-    if (last !== undefined && state.week - last < (d.cooldown ?? 6)) return false;
-    return !d.condition || d.condition(state);
-  });
+    if (last !== undefined && state.week - last < (d.cooldown ?? 6)) continue;
+    if (d.condition && !d.condition(state)) continue;
+    const members = d.member ? living(state).filter((m) => d.member!(state, m)) : [];
+    if (d.member && !members.length) continue;
+    eligible.push({ def: d, members });
+  }
   if (!eligible.length) return;
-  const def = weighted(state, eligible.map((d) => ({ item: d, weight: d.weight ?? 1 })));
-  state.eventWeeks[def.id] = state.week;
-  state.pendingEvents.push(instantiate(state, def));
+  const choice = weighted(state, eligible.map((e) => ({ item: e, weight: e.def.weight ?? 1 })));
+  state.eventWeeks[choice.def.id] = state.week;
+  state.pendingEvents.push(instantiate(state, choice.def, choice.members.length ? pick(state, choice.members) : undefined));
 }
 
 /** Members at home who can handle an event check. */
@@ -53,16 +67,23 @@ function homeMembers(state: GameState): Member[] {
 }
 
 export function eventCheckChance(state: GameState, choice: EventChoice): number | undefined {
+  return checkDetail(state, choice)?.chance;
+}
+
+export function checkDetail(state: GameState, choice: EventChoice): { chance: number; who?: string } | undefined {
   if (!choice.check) return undefined;
   const members = homeMembers(state);
-  if (!members.length) return 0.03;
-  // the best single member makes the attempt
+  if (!members.length) return { chance: 0.03 };
   let best = 0;
+  let who: string | undefined;
   for (const m of members) {
     const s = squadScore(state, choice.check.approach, { tags: ['urban'], countered: counteredTags(state, [m], []), members: [m] }).score;
-    best = Math.max(best, s);
+    if (s > best) {
+      best = s;
+      who = m.name;
+    }
   }
-  return chanceFrom(best, choice.check.difficulty);
+  return { chance: chanceFrom(best, choice.check.difficulty), who };
 }
 
 export function canChoose(state: GameState, choice: EventChoice): string | undefined {
@@ -84,42 +105,53 @@ export function resolveEvent(state: GameState, eventUid: string, choiceIndex: nu
   if (blocked) return blocked;
   let effects = choice.effects;
   let text = choice.resultText;
+  let next = choice.next;
+  let checkNote = '';
   if (choice.check) {
     const p = eventCheckChance(state, choice) ?? 0;
     const ok = nextFloat(state) < p;
     if (!ok) {
       effects = choice.failEffects ?? {};
-      text = choice.failText ?? 'It did not go well.';
+      text = choice.failText ?? '';
+      next = choice.failNext ?? choice.next;
     }
-    text = `(${ok ? 'Success' : 'Failure'} at ${Math.round(p * 100)}%) ${text}`;
+    checkNote = `${ok ? 'Success' : 'Failure'} at ${Math.round(p * 100)}%`;
   }
   const lines: string[] = [];
-  applyEventEffect(state, effects, ev.defId, lines);
+  applyEventEffect(state, effects, ev, lines);
+  ev.transcript = [...(ev.transcript ?? []), { choice: choice.label, reply: [checkNote && `(${checkNote})`, text, ...lines].filter(Boolean).join(' ') }];
+
+  if (next && DEFS[ev.defId]?.nodes?.[next]) {
+    enterNode(state, ev, next);
+    return undefined;
+  }
   state.pendingEvents = state.pendingEvents.filter((e) => e.uid !== eventUid);
-  addDispatch(state, ev.defId in storyIds ? 'story' : 'info', `${ev.title}: ${choice.label}`, [text, ...lines]);
+  const summary = (ev.transcript ?? []).map((t) => `▸ ${t.choice}${t.reply ? `: ${t.reply}` : ''}`);
+  addDispatch(state, storyIds[ev.defId] ? 'story' : 'info', ev.title, summary);
   return undefined;
 }
 
-const storyIds: Record<string, true> = Object.fromEntries(STORY_EVENTS.map((e) => [e.id, true]));
-
-export function applyEventEffect(state: GameState, e: EventEffect, sourceId: string, lines: string[]) {
+export function applyEventEffect(state: GameState, e: EventEffect, ev: GameEvent, lines: string[]) {
+  const sourceId = ev.defId;
   if (e.crowns) {
     if (e.crowns > 0) earn(state, 'Events', e.crowns);
     else spend(state, 'Events', -e.crowns);
-    lines.push(`${e.crowns > 0 ? '+' : ''}${e.crowns} crowns`);
+    lines.push(`${e.crowns > 0 ? '+' : ''}${e.crowns} crowns.`);
   }
   if (e.supplies) {
     state.supplies = Math.max(0, state.supplies + e.supplies);
-    lines.push(`${e.supplies > 0 ? '+' : ''}${e.supplies} supplies`);
+    lines.push(`${e.supplies > 0 ? '+' : ''}${e.supplies} supplies.`);
   }
   if (e.intel) {
     state.intel = Math.max(0, state.intel + e.intel);
-    lines.push(`${e.intel > 0 ? '+' : ''}${e.intel} intel`);
+    lines.push(`${e.intel > 0 ? '+' : ''}${e.intel} intel.`);
   }
-  applyContractEffect(state, e, lines);
+  const cl: string[] = [];
+  applyContractEffect(state, e, cl);
+  lines.push(...cl.map((l) => `${l}.`));
   if (e.morale) for (const m of living(state)) m.morale = clamp(m.morale + e.morale, 0, 100);
   if (e.loyalty) for (const m of living(state)) m.loyalty = clamp(m.loyalty + e.loyalty, 0, 100);
-  if (e.rivalRenown) state.rivals.hobbs.renown += e.rivalRenown;
+  if (e.rivalRenown) state.rivals.hobbs.renown = Math.max(0, state.rivals.hobbs.renown + e.rivalRenown);
   if (e.rivalAggression) state.rivals.hobbs.aggression = clamp(state.rivals.hobbs.aggression + e.rivalAggression, 0, 1);
   if (e.grantItem) {
     addItem(state, e.grantItem);
@@ -127,7 +159,19 @@ export function applyEventEffect(state: GameState, e: EventEffect, sourceId: str
   }
   if (e.unlockContract) {
     addStoryContract(state, e.unlockContract);
+    if (e.unlockContract === 'silver_convoy' && state.flags.silver_bonus) {
+      const c = state.board.find((x) => x.templateId === 'silver_convoy');
+      if (c) c.reward += 60;
+    }
     lines.push('New contract on the board.');
+  }
+  if (e.revealContract) {
+    const c = state.board.find((x) => (e.revealContract === 'any' || x.templateId === e.revealContract) && x.hidden.some((h) => !h.revealed));
+    const h = c?.hidden.find((x) => !x.revealed);
+    if (c && h) {
+      h.revealed = true;
+      lines.push(`Revealed on "${c.title}": ${h.trueTag}.`);
+    }
   }
   if (e.freeRecruit) {
     const m = createMember(state, sourceId === 'charter' ? 'arcanist' : pick(state, ['skirmisher', 'scout', 'vanguard', 'marksman'] as const));
@@ -144,6 +188,24 @@ export function applyEventEffect(state: GameState, e: EventEffect, sourceId: str
       const v = pick(state, pool);
       v.health = Math.max(10, v.health - e.wounds);
       lines.push(`${v.name} was hurt.`);
+    }
+  }
+  if (e.member) {
+    const m = memberOf(state, ev);
+    if (m) {
+      const x = e.member;
+      if (x.morale) m.morale = clamp(m.morale + x.morale, 0, 100);
+      if (x.loyalty) m.loyalty = clamp(m.loyalty + x.loyalty, 0, 100);
+      if (x.health) m.health = clamp(m.health + x.health, 5, 100);
+      if (x.fatigue) m.fatigue = clamp(m.fatigue + x.fatigue, 0, 100);
+      if (x.wage) m.wage += x.wage;
+      if (x.xp) m.xp += x.xp;
+      // traits from events are a coin flip, never guaranteed
+      if (x.trait && !m.traits.includes(x.trait) && chance(state, 0.4)) {
+        m.traits.push(x.trait);
+        lines.push(`${m.name.split(' ')[0]} is now ${TRAITS[x.trait]?.name ?? x.trait}.`);
+      }
+      if (x.removeTrait) m.traits = m.traits.filter((t) => t !== x.removeTrait);
     }
   }
   if (e.flag) {

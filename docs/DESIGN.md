@@ -215,9 +215,15 @@ Rival interactions: contract bidding wars, poaching members, sabotage (countered
 
 An **epilogue screen** summarizes the fate of members, factions and rivals.
 
-## 12. Events
+## 12. Events & Story Delivery
 
-Weekly **event cards** (procedural + story): a member caught brawling, a plague outbreak, a noble's daughter wants to join, a rival's agent offers a deal, a caravan disappears. Most offer 2–4 choices with visible costs, and some outcomes depend on stats/skills/traits (with shown odds).
+**Structure: a scripted spine with variable timing, plus procedural texture.**
+- **Story beats** are hand-written and happen for everyone, but each fires inside a *window* of weeks (e.g. weeks 4–6) with a per-week chance, and many depend on world state (e.g. the bread riot needs Unrest to be high enough). Text and options vary with earlier choices and flags (Hobb's greeting changes if you've been working for the bank, and Quarter Day plays out three different ways).
+- **Conversations:** story events are branching dialogues. Asking questions costs nothing but can earn Intel, Influence or flags that open options later (what Vorn lets slip can be used with Fenn). Some questions are skill checks made by your best member at home.
+- **Random events** (about 40% of weeks) draw from a weighted pool with conditions and cooldowns. Many are **member-focused**: a named member wants a raise, gets a letter from home, can't sleep after a death, or brings back a tip. These build attachment and pressure the roster.
+- **Every new game is different:** recruits, contracts, hidden tags, market stock, rival behavior, event timing and the random event draw are all seeded per game.
+
+**Mission journals:** each mission produces an expedition journal: the road out, every phase (scene-setting from the tags, who led and how, which gear was right or wrong for the job, which preparations paid off), and the road home. Members keep a **service record** of their missions and deeds.
 
 ## 13. Fail States (Hard but fair)
 

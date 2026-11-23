@@ -30,6 +30,7 @@ function standingWord(v: number) {
 export function RealmScreen() {
   const g = useStore((s) => s.game)!;
   const act = useStore((s) => s.act);
+  const { confirm, notify } = useStore.getState();
   const plan = g.rivals.hobbs.plan;
   const counter = counterCost(g);
   const story = g.dispatches.filter((d) => d.kind === 'story').reverse();
@@ -79,7 +80,18 @@ export function RealmScreen() {
                 <i>On the Debt:</i> {f.stance}
               </p>
               <p className="tiny muted">{f.perks}</p>
-              <button className="btn ghost small" disabled={g.influence < PETITION_COST || g.petitioned.includes(id)} onClick={() => act((d) => petition(d, id))}>
+              <button className="btn ghost small" disabled={g.influence < PETITION_COST || g.petitioned.includes(id)} onClick={() =>
+                  confirm({
+                    title: `Court ${f.name}?`,
+                    body: [
+                      `You call in favors, send gifts and attend the right dinners. Standing with ${f.name} rises by 6 (now ${v}).`,
+                      id === 'ostranders' && !g.flags.ostranders_open ? 'This also tells Factor Vorn you are open to bank work.' : 'You can court each faction once a week.',
+                    ],
+                    cost: `Costs ${PETITION_COST} Influence · you have ${g.influence}`,
+                    confirmLabel: `Spend ${PETITION_COST} Influence`,
+                    onConfirm: () => act((d) => petition(d, id)) && notify(`${f.name}: standing ${v} → ${Math.min(100, v + 6)}`),
+                  })
+                }>
                 {g.petitioned.includes(id) ? 'Petitioned this week' : `Court them (+6) · ${PETITION_COST} Influence`}
               </button>
             </div>
@@ -92,7 +104,15 @@ export function RealmScreen() {
         <p className="small">
           Heat {g.heat}/100. Shady work draws the Exchequer's attention. Above 30, audits start; above 80, Exchequer standing falls weekly; at 100, your charter is in danger.
         </p>
-        <button className="btn ghost small" disabled={g.influence < HEAT_COST || g.heat === 0} onClick={() => act((d) => coolHeat(d))}>
+        <button className="btn ghost small" disabled={g.influence < HEAT_COST || g.heat === 0} onClick={() =>
+            confirm({
+              title: 'Grease some palms?',
+              body: [`A few quiet payments to the right Exchequer clerks. Heat falls from ${g.heat} to ${Math.max(0, g.heat - 12)}.`],
+              cost: `Costs ${HEAT_COST} Influence · you have ${g.influence}`,
+              confirmLabel: `Spend ${HEAT_COST} Influence`,
+              onConfirm: () => act((d) => coolHeat(d)) && notify(`Heat ${g.heat} → ${Math.max(0, g.heat - 12)}`),
+            })
+          }>
           Grease palms (−12 Heat) · {HEAT_COST} Influence
         </button>
       </Section>
@@ -114,7 +134,18 @@ export function RealmScreen() {
               <p className="warn small">This week: {describePlan(g, plan)}</p>
               {plan.countered && <p className="good small">Countered.</p>}
               {counter && (
-                <button className="btn ghost small" onClick={() => act((d) => counterRivalPlan(d))}>
+                <button
+                  className="btn ghost small"
+                  onClick={() =>
+                    confirm({
+                      title: 'Counter Hobb & Daughters?',
+                      body: [counter.label + '.', 'Their plan for this week will come to nothing.'],
+                      cost: counter.influence ? `Costs ${counter.influence} Influence · you have ${g.influence}` : `Costs ${counter.crowns} crowns · you have ${g.crowns}`,
+                      confirmLabel: 'Counter them',
+                      onConfirm: () => act((d) => counterRivalPlan(d)) && notify('Countered. Their plan for this week is foiled.'),
+                    })
+                  }
+                >
                   {counter.label}
                   {counter.influence ? ` · ${counter.influence} Influence` : ''}
                 </button>
@@ -122,7 +153,19 @@ export function RealmScreen() {
               {plan.kind === 'contract' && !plan.countered && <p className="tiny muted">Take the contract yourself before the week ends to deny it to them.</p>}
             </>
           ) : (
-            <button className="btn ghost small" disabled={g.intel < INTEL_RIVAL_COST} onClick={() => act((d) => revealRivalPlan(d))}>
+            <button
+              className="btn ghost small"
+              disabled={g.intel < INTEL_RIVAL_COST}
+              onClick={() =>
+                confirm({
+                  title: "Spy on Hobb & Daughters?",
+                  body: ['Your informants will learn what the Hobbs intend this week: a contract they want, a member they are courting, or rumors they are spreading. Some plans can then be countered.'],
+                  cost: `Costs ${INTEL_RIVAL_COST} Intel · you have ${g.intel}`,
+                  confirmLabel: `Spend ${INTEL_RIVAL_COST} Intel`,
+                  onConfirm: () => act((d) => revealRivalPlan(d)),
+                })
+              }
+            >
               Learn their plans this week · {INTEL_RIVAL_COST} Intel
             </button>
           )}

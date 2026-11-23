@@ -704,7 +704,7 @@ details summary {
   height: 8px;
   margin-top: 3px;
 }
-.node.phase .dot {
+.node.site .dot {
   border-radius: 3px;
   transform: rotate(45deg);
 }
@@ -1329,7 +1329,8 @@ details summary {
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  bottom: calc(var(--nav-h) + 80px + env(safe-area-inset-bottom));
+  top: calc(96px + env(safe-area-inset-top));
+  width: max-content;
   background: var(--ink);
   color: var(--paper);
   padding: 9px 14px;
@@ -1348,4 +1349,221 @@ details summary {
     animation-duration: 0.01ms !important;
     animation-delay: 0ms !important;
   }
+}
+
+/* ---------- v0.2: feedback & storytelling ---------- */
+.chance-fill {
+  transition: width 0.35s ease-out;
+}
+.chance-range {
+  transition: left 0.35s ease-out, width 0.35s ease-out;
+}
+
+/* resource floaters */
+.res {
+  position: relative;
+  overflow: visible;
+}
+.res.pulse {
+  animation: respulse 0.6s ease-out;
+}
+@keyframes respulse {
+  30% {
+    transform: scale(1.12);
+    border-color: var(--gold);
+  }
+}
+.float {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.85rem;
+  pointer-events: none;
+  white-space: nowrap;
+  animation: floatup 1.5s ease-out forwards;
+  text-shadow: 0 0 3px var(--paper);
+}
+.float.up {
+  color: var(--good);
+}
+.float.down {
+  color: var(--bad);
+}
+@keyframes floatup {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -6px);
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 18px);
+  }
+}
+
+/* revealed tag flash */
+.flash .tag {
+  animation: flash 0.7s ease-out 3;
+}
+@keyframes flash {
+  50% {
+    background: var(--gold);
+    color: #fff;
+    transform: scale(1.12);
+  }
+}
+
+/* confirm */
+.confirm-card {
+  max-width: 420px;
+  width: 100%;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+  animation: rise 0.18s ease-out;
+  display: grid;
+  gap: 6px;
+}
+.confirm-card h3 {
+  font-size: 1.45rem;
+  color: var(--accent);
+}
+.cost {
+  font-weight: 700;
+  background: var(--paper-2);
+  border: 1px dashed var(--gold);
+  border-radius: 8px;
+  padding: 6px 10px;
+  margin: 6px 0 8px;
+  font-size: 0.9rem;
+}
+
+/* conversations */
+.transcript {
+  border-left: 2px solid var(--line);
+  padding-left: 10px;
+  margin: 8px 0 12px;
+  max-height: 32vh;
+  overflow-y: auto;
+}
+.exchange .you {
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 0;
+}
+.exchange .reply {
+  color: var(--ink-2);
+  margin-top: 2px;
+}
+.event-node {
+  animation: rise 0.3s ease-out;
+}
+.speaker {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--gold);
+  margin-bottom: 0;
+}
+.choices .choice {
+  animation: rise 0.3s ease-out both;
+}
+.choices .choice:nth-child(2) {
+  animation-delay: 0.05s;
+}
+.choices .choice:nth-child(3) {
+  animation-delay: 0.1s;
+}
+.choices .choice:nth-child(4) {
+  animation-delay: 0.15s;
+}
+.choice.talk {
+  border-style: dashed;
+}
+.choice .check {
+  color: var(--info);
+}
+
+/* week report */
+.delta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 4px 0 10px;
+}
+.delta-chip {
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  animation: rise 0.35s ease-out both;
+}
+.delta-chip small {
+  font-weight: 400;
+  color: var(--muted);
+}
+.delta-chip.up {
+  color: var(--good);
+  border-color: color-mix(in srgb, var(--good) 45%, var(--line));
+}
+.delta-chip.down {
+  color: var(--bad);
+  border-color: color-mix(in srgb, var(--bad) 45%, var(--line));
+}
+
+/* expedition journal */
+.journal {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+.j-section {
+  padding: 0 4px;
+}
+.j-head {
+  font-size: 1.1rem;
+  color: var(--ink-2);
+  font-style: italic;
+  animation: rise 0.4s ease-out both;
+}
+.j-line {
+  animation: inkin 0.5s ease-out both;
+  font-size: 0.95rem;
+}
+.j-line.wound {
+  color: var(--bad);
+}
+@keyframes inkin {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+    filter: blur(2px);
+  }
+}
+.phase-card .stamp {
+  top: 8px;
+  right: auto;
+  left: auto;
+  position: relative;
+  display: inline-block;
+  margin: 4px 0;
+}
+.record {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-left: 2px solid var(--gold);
+  padding-left: 10px;
+}
+.record li {
+  margin-bottom: 3px;
 }

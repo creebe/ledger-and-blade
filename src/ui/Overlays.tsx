@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { APPROACH_INFO, canChoose, dateLabel, eventCheckChance, resolveEvent, type GameEvent } from '../engine';
-import { exportSave, importSave, slotInfo, useStore } from '../store';
+import { APPROACH_INFO, canChoose, checkDetail, dateLabel, PROFESSIONS, resolveEvent, type GameEvent } from '../engine';
+import { exportSave, importSave, slotInfo, snap, useStore, type ResourceSnap } from '../store';
 import { ChanceBar, Sheet } from './common';
 import { pct } from './format';
 import { DispatchItem } from './screens/Hall';
@@ -8,25 +8,48 @@ import { DispatchItem } from './screens/Hall';
 export function EventCard({ ev }: { ev: GameEvent }) {
   const g = useStore((s) => s.game)!;
   const act = useStore((s) => s.act);
+  const member = ev.memberId ? g.members.find((m) => m.id === ev.memberId) : undefined;
+  const transcript = ev.transcript ?? [];
   return (
     <div className="event-backdrop">
       <div className="event-card" role="dialog" aria-modal="true">
-        <p className="tiny muted">{dateLabel(g.week)}</p>
+        <p className="tiny muted">
+          {dateLabel(g.week)}
+          {member ? ` · ${member.name}, ${PROFESSIONS[member.profession].name}` : ''}
+        </p>
         <h2>{ev.title}</h2>
-        {ev.text.split('\n\n').map((p, i) => (
-          <p key={i}>{p}</p>
-        ))}
-        <div className="choices">
+        {transcript.length > 0 && (
+          <div className="transcript">
+            {transcript.map((t, i) => (
+              <div key={i} className="exchange">
+                <p className="you">▸ {t.choice}</p>
+                {t.reply && <p className="reply small">{t.reply}</p>}
+              </div>
+            ))}
+          </div>
+        )}
+        <div className="event-node" key={ev.node ?? 'root'}>
+          {ev.speaker && <p className="speaker">{ev.speaker}</p>}
+          {ev.text.split('\n\n').map((p, i) => (
+            <p key={i}>{p}</p>
+          ))}
+        </div>
+        <div className="choices" key={`c-${ev.node ?? 'root'}-${transcript.length}`}>
           {ev.choices.map((c, i) => {
             const blocked = canChoose(g, c);
-            const chance = eventCheckChance(g, c);
+            const chk = checkDetail(g, c);
+            const leadsOn = !!c.next;
             return (
-              <button key={i} className="choice" disabled={!!blocked} onClick={() => act((d) => resolveEvent(d, ev.uid, i))}>
-                <b>{c.label}</b>
+              <button key={i} className={`choice ${leadsOn ? 'talk' : ''}`} disabled={!!blocked} onClick={() => act((d) => resolveEvent(d, ev.uid, i))}>
+                <b>
+                  {leadsOn && !c.detail ? '💬 ' : ''}
+                  {c.label}
+                </b>
                 {c.detail && <span className="small">{c.detail}</span>}
-                {chance !== undefined && (
-                  <span className="small">
-                    {APPROACH_INFO[c.check!.approach].icon} {APPROACH_INFO[c.check!.approach].name} check: <b>{pct(chance)}</b> (your best at home)
+                {chk && (
+                  <span className="small check">
+                    {APPROACH_INFO[c.check!.approach].icon} {APPROACH_INFO[c.check!.approach].name} check: <b>{pct(chk.chance)}</b>
+                    {chk.who ? ` (${chk.who.split(' ')[0]} tries)` : ' (no one at home to try: your people are away)'}
                   </span>
                 )}
                 {blocked && <span className="small bad">{blocked}</span>}
@@ -39,29 +62,69 @@ export function EventCard({ ev }: { ev: GameEvent }) {
   );
 }
 
-export function WeekReport({ dispatchIds, week }: { dispatchIds: string[]; week: number }) {
+const RES_LABEL: { key: keyof ResourceSnap; icon: string; name: string; invert?: boolean }[] = [
+  { key: 'crowns', icon: '◉', name: 'Crowns' },
+  { key: 'supplies', icon: '❦', name: 'Supplies' },
+  { key: 'intel', icon: '👁', name: 'Intel' },
+  { key: 'influence', icon: '✦', name: 'Influence' },
+  { key: 'renown', icon: '★', name: 'Renown' },
+  { key: 'heat', icon: '♨', name: 'Heat', invert: true },
+];
+
+export function WeekReport({ dispatchIds, week, before }: { dispatchIds: string[]; week: number; before: ResourceSnap }) {
   const g = useStore((s) => s.game)!;
   const close = useStore((s) => s.close);
   const items = g.dispatches.filter((d) => dispatchIds.includes(d.id));
+  const after = snap(g);
   const last = g.ledger[g.ledger.length - 1];
-  const net = last ? Object.values(last.income).reduce((a, b) => a + b, 0) - Object.values(last.expenses).reduce((a, b) => a + b, 0) : 0;
+  const changes = RES_LABEL.map((r) => ({ ...r, delta: Math.round((after[r.key] - before[r.key]) * 10) / 10 })).filter((r) => r.delta !== 0);
+  const missions = items.filter((d) => d.kind === 'mission');
+  const rest = items.filter((d) => d.kind !== 'mission');
   return (
     <Sheet
-      title={`Week report · ${dateLabel(week)}`}
+      title={`End of week · ${dateLabel(week)}`}
       footer={
         <button className="btn primary block" onClick={close}>
           Begin {dateLabel(g.week)}
         </button>
       }
     >
+      <div className="delta-row">
+        {changes.length === 0 && <span className="muted small">No change to your resources.</span>}
+        {changes.map((c, i) => {
+          const good = c.invert ? c.delta < 0 : c.delta > 0;
+          return (
+            <span key={c.key} className={`delta-chip ${good ? 'up' : 'down'}`} style={{ animationDelay: `${i * 0.08}s` }}>
+              {c.icon} {c.delta > 0 ? '+' : ''}
+              {c.delta} <small>{c.name}</small>
+            </span>
+          );
+        })}
+      </div>
       {last && (
-        <p className={net < 0 ? 'bad' : 'good'}>
-          Net {net >= 0 ? '+' : ''}
-          {net}◉ this week. Treasury: {g.crowns}◉
-        </p>
+        <details className="small">
+          <summary>Where the crowns went</summary>
+          <ul className="parts">
+            {Object.entries(last.income).map(([k, v]) => (
+              <li key={k}>
+                {k} <span>+{v}</span>
+              </li>
+            ))}
+            {Object.entries(last.expenses).map(([k, v]) => (
+              <li key={k} className="neg">
+                {k} <span>−{v}</span>
+              </li>
+            ))}
+          </ul>
+        </details>
       )}
+      {missions.length > 0 && <h3 className="subhead">From the field</h3>}
+      {missions.map((d) => (
+        <DispatchItem key={d.id} d={d} />
+      ))}
+      {rest.length > 0 && <h3 className="subhead">News</h3>}
       {items.length === 0 && <p className="muted">A quiet week.</p>}
-      {items.map((d) => (
+      {rest.map((d) => (
         <DispatchItem key={d.id} d={d} />
       ))}
     </Sheet>
@@ -76,12 +139,21 @@ export function MissionReplay({ id }: { id: string }) {
   const [skip, setSkip] = useState(false);
   if (!m?.report) return null;
   const r = m.report;
-  const step = skip ? 0 : 1.1;
+  // reveal one line at a time, like a journal being read aloud
+  let t = 0;
+  const LINE = skip ? 0 : 0.55;
+  const next = (extra = 0) => {
+    const at = t;
+    t += LINE + extra;
+    return { animationDelay: `${at}s` };
+  };
+  const name = (mid?: string) => g.members.find((x) => x.id === mid)?.name.split(' ')[0];
+  const squad = m.memberIds.map((x) => g.members.find((y) => y.id === x)).filter(Boolean);
   return (
     <Sheet title={m.contract.title}>
       <div className="row between small">
         <span className="muted">
-          {m.contract.region} · {m.memberIds.map((x) => g.members.find((y) => y.id === x)?.name.split(' ')[0]).join(', ')}
+          {m.contract.region} · {squad.map((x) => (x!.status === 'dead' ? `✝ ${x!.name.split(' ')[0]}` : x!.name.split(' ')[0])).join(', ')}
         </span>
         {!skip && (
           <button className="btn ghost small" onClick={() => setSkip(true)}>
@@ -89,34 +161,68 @@ export function MissionReplay({ id }: { id: string }) {
           </button>
         )}
       </div>
-      <div className="replay strip vertical">
-        {r.phases.map((p, i) => (
-          <div key={i} className={`phase-card r-${p.result}`} style={{ animationDelay: `${i * step}s` }}>
-            <div className="row between">
-              <b>{p.phase}</b>
-              <span className="small">
-                {APPROACH_INFO[p.approach].icon} {APPROACH_INFO[p.approach].name}
-              </span>
-            </div>
-            <ChanceBar min={p.chance} max={p.chance} animate={!skip} />
-            <span className="stamp" style={{ animationDelay: `${i * step + (skip ? 0 : 0.7)}s` }}>
-              {STAMP[p.result]}
-            </span>
-            {p.lines.slice(1).map((l, k) => (
-              <p key={k} className="small">
+      <div className="journal">
+        {r.outbound && (
+          <section className="j-section">
+            <h4 className="j-head" style={next()}>
+              {r.outbound.title}
+            </h4>
+            {r.outbound.lines.map((l, i) => (
+              <p key={i} className="j-line" style={next()}>
                 {l}
               </p>
             ))}
-          </div>
+          </section>
+        )}
+        {r.phases.map((p, i) => (
+          <section key={i} className={`phase-card r-${p.result}`} style={next()}>
+            <div className="row between">
+              <b>
+                {i + 1}. {p.phase}
+              </b>
+              <span className="small">
+                {APPROACH_INFO[p.approach].icon} {APPROACH_INFO[p.approach].name}
+                {p.lead ? ` · led by ${name(p.lead)}` : ''}
+              </span>
+            </div>
+            {(p.story ?? []).map((l, k) => (
+              <p key={k} className="j-line" style={next()}>
+                {l}
+              </p>
+            ))}
+            <div className="j-line" style={next()}>
+              <ChanceBar min={p.chance} max={p.chance} animate={!skip} />
+            </div>
+            <span className="stamp" style={next(0.2)}>
+              {STAMP[p.result]}
+            </span>
+            {p.lines.slice(1).map((l, k) => (
+              <p key={k} className="j-line wound small" style={next()}>
+                {l}
+              </p>
+            ))}
+          </section>
         ))}
         {r.phases.length < m.contract.phases.length && (
-          <div className="phase-card r-skipped" style={{ animationDelay: `${r.phases.length * step}s` }}>
+          <section className="phase-card r-skipped" style={next()}>
             <b>Withdrawn</b>
             <p className="small muted">The remaining phases were abandoned.</p>
-          </div>
+          </section>
+        )}
+        {r.homeward && (
+          <section className="j-section">
+            <h4 className="j-head" style={next()}>
+              {r.homeward.title}
+            </h4>
+            {r.homeward.lines.map((l, i) => (
+              <p key={i} className="j-line" style={next()}>
+                {l}
+              </p>
+            ))}
+          </section>
         )}
       </div>
-      <div className={`outcome t-${r.tier.replace(' ', '-').toLowerCase()}`} style={{ animationDelay: `${r.phases.length * step + 0.3}s` }}>
+      <div className={`outcome t-${r.tier.replace(' ', '-').toLowerCase()}`} style={next()}>
         <h3>{r.tier}</h3>
         {r.summary.map((s, i) => (
           <p key={i} className="small">
@@ -125,6 +231,37 @@ export function MissionReplay({ id }: { id: string }) {
         ))}
       </div>
     </Sheet>
+  );
+}
+
+export function ConfirmSheet({ title, body, cost, confirmLabel, danger, onConfirm }: { title: string; body: string[]; cost?: string; confirmLabel: string; danger?: boolean; onConfirm: () => void }) {
+  const close = useStore((s) => s.close);
+  return (
+    <div className="event-backdrop" onClick={close}>
+      <div className="confirm-card" role="alertdialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
+        <h3>{title}</h3>
+        {body.map((b, i) => (
+          <p key={i} className="small">
+            {b}
+          </p>
+        ))}
+        {cost && <p className="cost">{cost}</p>}
+        <div className="row gap">
+          <button className="btn ghost block" onClick={close}>
+            Cancel
+          </button>
+          <button
+            className={`btn block ${danger ? 'danger' : 'primary'}`}
+            onClick={() => {
+              close();
+              onConfirm();
+            }}
+          >
+            {confirmLabel}
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -179,11 +316,29 @@ export function MenuSheet() {
             </span>
             <span className="row gap">
               {g && (
-                <button className="btn ghost small" onClick={() => (!info || confirm('Overwrite this slot?')) && saveSlot(n)}>
+                <button
+                  className="btn ghost small"
+                  onClick={() =>
+                    info
+                      ? useStore.getState().confirm({ title: `Overwrite slot ${n}?`, body: `Slot ${n} holds a save from week ${info.week}. It will be replaced with your current game.`, confirmLabel: 'Overwrite', danger: true, onConfirm: () => saveSlot(n) })
+                      : saveSlot(n)
+                  }
+                >
                   Save
                 </button>
               )}
-              <button className="btn ghost small" disabled={!info} onClick={() => confirm('Load this save? Unsaved progress since your last save in a slot is still kept in the autosave until you end a week.') && loadSlot(n)}>
+              <button
+                className="btn ghost small"
+                disabled={!info}
+                onClick={() =>
+                  useStore.getState().confirm({
+                    title: `Load slot ${n}?`,
+                    body: g ? 'Your current game will be replaced by this save. Anything not saved to a slot will be lost.' : 'Load this save?',
+                    confirmLabel: 'Load',
+                    onConfirm: () => loadSlot(n),
+                  })
+                }
+              >
                 Load
               </button>
             </span>

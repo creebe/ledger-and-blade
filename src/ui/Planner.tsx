@@ -23,6 +23,31 @@ import { MemberMini } from './MemberSheet';
 
 export function ContractHeader({ c, game }: { c: Contract; game: GameState }) {
   const act = useStore((s) => s.act);
+  const [flash, setFlash] = useState<number | null>(null);
+  const reveal = (i: number) => {
+    const h = c.hidden[i];
+    const { confirm, notify } = useStore.getState();
+    if (game.intel < INTEL_REVEAL_COST) {
+      notify(`Revealing costs ${INTEL_REVEAL_COST} Intel and you have ${game.intel}. Set members to Gather Rumors, or send a Scout ahead.`);
+      return;
+    }
+    confirm({
+      title: 'Reveal a hidden danger?',
+      body: [
+        `Your informants will find out which of these you'll face: ${h.candidates.map((t) => TAGS[t]?.name ?? t).join(', ')}.`,
+        'Knowing turns the odds range into an exact number, and tells you what gear to bring.',
+      ],
+      cost: `Costs ${INTEL_REVEAL_COST} Intel · you have ${game.intel}, leaving ${game.intel - INTEL_REVEAL_COST}`,
+      confirmLabel: `Spend ${INTEL_REVEAL_COST} Intel`,
+      onConfirm: () => {
+        if (act((g) => revealTag(g, c.id, i))) {
+          setFlash(i);
+          window.setTimeout(() => setFlash(null), 2200);
+          notify(`Revealed: ${TAGS[h.trueTag]?.name}. ${TAGS[h.trueTag]?.description}`);
+        }
+      },
+    });
+  };
   return (
     <div className="contract-head">
       <div className="row wrap gap">
@@ -43,17 +68,11 @@ export function ContractHeader({ c, game }: { c: Contract; game: GameState }) {
         ))}
         {c.hidden.map((h, i) =>
           h.revealed ? (
-            <TagChip key={`h${i}`} id={h.trueTag} />
+            <span key={`h${i}`} className={flash === i ? 'flash' : ''}>
+              <TagChip id={h.trueTag} />
+            </span>
           ) : (
-            <TagChip
-              key={`h${i}`}
-              hidden
-              candidates={h.candidates}
-              onClick={() => {
-                if (game.intel < INTEL_REVEAL_COST) useStore.getState().notify(`Revealing costs ${INTEL_REVEAL_COST} Intel. Assign members to gather rumors or scout.`);
-                else act((g) => revealTag(g, c.id, i));
-              }}
-            />
+            <TagChip key={`h${i}`} hidden candidates={h.candidates} onClick={() => reveal(i)} />
           ),
         )}
       </div>
@@ -104,6 +123,20 @@ export function Planner({ contractId }: { contractId: string }) {
 
   const canSend = members.length >= c.minSquad && game.supplies >= pv.supplies;
   const dispatch = () => {
+    if (pv.risk === 'High' || pv.risk === 'Deadly' || pv.overall.max < 0.4) {
+      useStore.getState().confirm({
+        title: pv.risk === 'Deadly' ? 'This could get people killed' : 'Send them anyway?',
+        body: [
+          `Risk: ${pv.risk}. The objective succeeds ${chanceText(pv.overall.min, pv.overall.max)} of the time.`,
+          'Failed phases wound people, and wounds can kill. Better gear, a different approach, or revealing hidden tags may improve the odds.',
+        ],
+        confirmLabel: 'Dispatch',
+        danger: true,
+        onConfirm: send,
+      });
+    } else send();
+  };
+  const send = () => {
     const ok = act((g) => {
       const err = dispatchMission(g, c.id, selected, approaches, retreat);
       if (!err) for (const id of selected) setAssignment(g, id, 'rest');
@@ -111,7 +144,11 @@ export function Planner({ contractId }: { contractId: string }) {
     });
     if (ok) {
       closeAll();
-      useStore.getState().notify(`Squad dispatched to ${c.region}`);
+      useStore.getState().notify(
+        `${members.map((m) => m.name.split(' ')[0]).join(', ')} set out for ${c.region} carrying ${pv.supplies} supplies. ${
+          c.travelWeeks ? `They arrive in ${c.travelWeeks} week${c.travelWeeks > 1 ? 's' : ''}.` : 'Results at the end of this week.'
+        }`,
+      );
     }
   };
 

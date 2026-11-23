@@ -151,11 +151,36 @@ export function HallScreen() {
             </p>
             <div className="row wrap gap">
               {[50, 100, 250].map((n) => (
-                <button key={n} className="btn ghost small" disabled={g.crowns < n} onClick={() => act((d) => repayLoan(d, n))}>
+                <button
+                  key={n}
+                  className="btn ghost small"
+                  disabled={g.crowns < n}
+                  onClick={() =>
+                    useStore.getState().confirm({
+                      title: `Repay ${n} crowns early?`,
+                      body: [`Your debt falls from ${Math.ceil(loan.principal)} to ${Math.ceil(loan.principal - n)}, saving about ${Math.round(n * loan.weeklyRate * 10) / 10}◉ interest every week.`, `Make sure you can still cover wages: ${weeklyWages(g) + HALL_UPKEEP}◉ a week.`],
+                      cost: `Treasury ${g.crowns} → ${g.crowns - n}`,
+                      confirmLabel: `Repay ${n}`,
+                      onConfirm: () => act((d) => repayLoan(d, n)),
+                    })
+                  }
+                >
                   Repay {n}
                 </button>
               ))}
-              <button className="btn ghost small" disabled={g.crowns < loan.principal} onClick={() => act((d) => repayLoan(d, Math.ceil(loan.principal)))}>
+              <button
+                className="btn ghost small"
+                disabled={g.crowns < loan.principal}
+                onClick={() =>
+                  useStore.getState().confirm({
+                    title: 'Clear the whole debt?',
+                    body: ['The Weighhouse returns your note, and the guild owes nothing.'],
+                    cost: `Treasury ${g.crowns} → ${g.crowns - Math.ceil(loan.principal)}`,
+                    confirmLabel: 'Repay all',
+                    onConfirm: () => act((d) => repayLoan(d, Math.ceil(loan.principal))),
+                  })
+                }
+              >
                 Repay all
               </button>
             </div>

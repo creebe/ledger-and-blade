@@ -1,16 +1,35 @@
 import { create } from 'zustand';
 import { produce } from 'immer';
-import { advanceWeek, newGame, SAVE_VERSION, type GameState } from './engine';
+import { advanceWeek, migrateSave, newGame, type GameState } from './engine';
 
 export type Tab = 'hall' | 'contracts' | 'roster' | 'armory' | 'realm';
 export type Sheet =
   | { kind: 'planner'; contractId: string }
   | { kind: 'member'; id: string }
   | { kind: 'mission'; id: string }
-  | { kind: 'report'; dispatchIds: string[]; week: number }
+  | { kind: 'report'; dispatchIds: string[]; week: number; before: ResourceSnap }
+  | { kind: 'confirm'; title: string; body: string[]; cost?: string; confirmLabel: string; danger?: boolean; onConfirm: () => void }
   | { kind: 'warnings'; warnings: string[] }
   | { kind: 'menu' }
   | { kind: 'help' };
+
+export interface ResourceSnap {
+  crowns: number;
+  supplies: number;
+  intel: number;
+  influence: number;
+  renown: number;
+  heat: number;
+}
+
+export const snap = (g: GameState): ResourceSnap => ({
+  crowns: g.crowns,
+  supplies: g.supplies,
+  intel: g.intel,
+  influence: g.influence,
+  renown: g.renown,
+  heat: g.heat,
+});
 
 const AUTOSAVE = 'lab.autosave';
 const SLOT = (n: number) => `lab.slot${n}`;
@@ -33,9 +52,7 @@ function safeSet(key: string, value: string) {
 export function parseSave(text: string | null): GameState | null {
   if (!text) return null;
   try {
-    const g = JSON.parse(text) as GameState;
-    if (!g || typeof g.week !== 'number' || g.version !== SAVE_VERSION) return null;
-    return g;
+    return migrateSave(JSON.parse(text) as GameState);
   } catch {
     return null;
   }
@@ -80,6 +97,7 @@ interface Store {
   close: () => void;
   closeAll: () => void;
   notify: (text: string) => void;
+  confirm: (opts: { title: string; body: string[] | string; cost?: string; confirmLabel?: string; danger?: boolean; onConfirm: () => void }) => void;
 }
 
 let toastId = 0;
@@ -132,18 +150,26 @@ export const useStore = create<Store>((set, get) => ({
   endWeek: () => {
     const g = get().game;
     if (!g) return;
-    const before = new Set(g.dispatches.map((d) => d.id));
+    const seen = new Set(g.dispatches.map((d) => d.id));
     const week = g.week;
+    const before = snap(g);
     const ok = get().act((d) => advanceWeek(d));
     if (!ok) return;
     const after = get().game!;
-    const fresh = after.dispatches.filter((d) => !before.has(d.id)).map((d) => d.id);
-    set({ sheets: after.gameOver ? [] : [{ kind: 'report', dispatchIds: fresh, week }] });
+    const fresh = after.dispatches.filter((d) => !seen.has(d.id)).map((d) => d.id);
+    set({ sheets: after.gameOver ? [] : [{ kind: 'report', dispatchIds: fresh, week, before }] });
   },
   setTab: (t) => set({ tab: t, sheets: [] }),
   open: (s) => set({ sheets: [...get().sheets, s] }),
   close: () => set({ sheets: get().sheets.slice(0, -1) }),
   closeAll: () => set({ sheets: [] }),
+  confirm: (o) =>
+    set({
+      sheets: [
+        ...get().sheets,
+        { kind: 'confirm', title: o.title, body: Array.isArray(o.body) ? o.body : [o.body], cost: o.cost, confirmLabel: o.confirmLabel ?? 'Confirm', danger: o.danger, onConfirm: o.onConfirm },
+      ],
+    }),
   notify: (text) => {
     const id = ++toastId;
     set({ toast: { text, id } });
