@@ -164,7 +164,7 @@ export function Planner({ contractId }: { contractId: string }) {
             <span>
               Takes {pv.weeks} week{pv.weeks > 1 ? 's' : ''}
             </span>
-            <span className={`risk risk-${pv.risk.toLowerCase()}`}>Risk: {pv.risk}</span>
+            {members.length > 0 ? <span className={`risk risk-${pv.risk.toLowerCase()}`}>Risk: {pv.risk}</span> : <span className="muted">Risk: —</span>}
           </div>
           <button className="btn primary block" disabled={!canSend} onClick={dispatch}>
             {members.length < c.minSquad ? `Select at least ${c.minSquad}` : game.supplies < pv.supplies ? 'Not enough supplies' : `Dispatch squad (${members.length})`}

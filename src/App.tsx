@@ -4,6 +4,7 @@ import { hasAutosave, slotInfo, useStore, type Tab } from './store';
 import { MemberSheet } from './ui/MemberSheet';
 import { ConfirmSheet, EventCard, HelpSheet, MenuSheet, MissionReplay, WarningsSheet, WeekReport } from './ui/Overlays';
 import { Planner } from './ui/Planner';
+import { useScrollLock, useTheme } from './ui/theme';
 import { ArmoryScreen } from './ui/screens/Armory';
 import { ContractsScreen } from './ui/screens/Contracts';
 import { HallScreen } from './ui/screens/Hall';
@@ -123,8 +124,12 @@ function Title() {
   const sheets = useStore((s) => s.sheets);
   const auto = hasAutosave();
   const slots = [1, 2, 3].map((n) => ({ n, info: slotInfo(n) })).filter((x) => x.info);
+  const [theme, toggleTheme] = useTheme();
   return (
     <div className="title-screen">
+      <button className="theme-toggle" onClick={toggleTheme} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
+        {theme === 'dark' ? '☀' : '☾'}
+      </button>
       <div className="title-art">⚖⚔</div>
       <h1>Ledger &amp; Blade</h1>
       <p className="tagline">The realm owes a fortune. Everyone needs a blade. Keep your books balanced.</p>
@@ -184,6 +189,7 @@ export default function App() {
   const tab = useStore((s) => s.tab);
   const sheets = useStore((s) => s.sheets);
   const toast = useStore((s) => s.toast);
+  useScrollLock(sheets.length > 0 || (!!game && !game.gameOver && game.pendingEvents.length > 0));
 
   if (!game)
     return (

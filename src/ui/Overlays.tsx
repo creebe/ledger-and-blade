@@ -3,6 +3,7 @@ import { APPROACH_INFO, canChoose, checkDetail, dateLabel, PROFESSIONS, resolveE
 import { exportSave, importSave, slotInfo, snap, useStore, type ResourceSnap } from '../store';
 import { ChanceBar, Sheet } from './common';
 import { pct } from './format';
+import { useTheme } from './theme';
 import { DispatchItem } from './screens/Hall';
 
 export function EventCard({ ev }: { ev: GameEvent }) {
@@ -365,6 +366,8 @@ export function MenuSheet() {
       >
         Import
       </button>
+      <h3 className="subhead">Display</h3>
+      <ThemeRow />
       <h3 className="subhead">Game</h3>
       <div className="row wrap gap">
         <button className="btn ghost small" onClick={() => open({ kind: 'help' })}>
@@ -377,6 +380,18 @@ export function MenuSheet() {
         )}
       </div>
     </Sheet>
+  );
+}
+
+function ThemeRow() {
+  const [theme, toggle] = useTheme();
+  return (
+    <div className="row between slot-row">
+      <span className="small">Theme: {theme === 'dark' ? 'Dark' : 'Light'}</span>
+      <button className="btn ghost small" onClick={toggle}>
+        Switch to {theme === 'dark' ? '☀ light' : '☾ dark'}
+      </button>
+    </div>
   );
 }
 
