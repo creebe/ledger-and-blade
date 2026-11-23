@@ -1,8 +1,7 @@
 name: Test & deploy to GitHub Pages
 
+# Manual only: run from the Actions tab (or on request) to republish.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:

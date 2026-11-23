@@ -32,4 +32,4 @@ The simulation lives in `src/engine/` (pure TypeScript, deterministic seeded RNG
 
 ## Deployment
 
-`.github/workflows/deploy.yml` tests, builds and deploys to GitHub Pages on every push to `main`. One-time setup: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+`.github/workflows/deploy.yml` tests, builds and deploys to GitHub Pages. It runs only when started manually (Actions tab → "Test & deploy to GitHub Pages" → Run workflow); pushes do not trigger it. One-time setup: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
