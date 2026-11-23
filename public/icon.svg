@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#2b2118"/>
+  <rect x="36" y="36" width="440" height="440" rx="70" fill="none" stroke="#a07a1f" stroke-width="10"/>
+  <!-- ledger -->
+  <path d="M136 150h120v250H150a14 14 0 0 1-14-14z" fill="#f3ead7"/>
+  <path d="M256 150h120v236a14 14 0 0 1-14 14H256z" fill="#e6d8b8"/>
+  <path d="M168 200h64M168 236h64M168 272h64M168 308h48M280 200h64M280 236h64M280 272h48" stroke="#8c7a62" stroke-width="9" stroke-linecap="round"/>
+  <!-- blade -->
+  <path d="M256 70l20 40v250h-40V110z" fill="#cfd4d8" stroke="#2b2118" stroke-width="6"/>
+  <rect x="200" y="356" width="112" height="22" rx="8" fill="#8c2f1e"/>
+  <rect x="244" y="378" width="24" height="56" rx="6" fill="#5e4f3f"/>
+  <circle cx="256" cy="446" r="16" fill="#a07a1f"/>
+</svg>

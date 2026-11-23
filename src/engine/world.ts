@@ -178,6 +178,8 @@ export function generateContract(state: GameState, template?: ContractTemplate):
         // world state nudges what's on offer
         if (tp.patrons.includes('ostranders')) w *= 1 + state.clocks.leverage / 60;
         if (tp.patrons.includes('lowertown')) w *= 1 + state.clocks.unrest / 80;
+        // keep the board varied
+        if (state.board.some((c) => c.templateId === tp.id)) w *= 0.2;
         return { item: tp, weight: w };
       }),
     );
