@@ -105,7 +105,7 @@ export function BuildingsSection() {
           const lv = level(g, id);
           const building = c?.id === id;
           return (
-            <button key={id} className={`facility ${open === id ? 'open' : ''} ${lv === 0 ? 'unbuilt' : ''}`} onClick={() => setOpen(open === id ? null : id)}>
+            <button key={id} className={`facility tappable-tile ${open === id ? 'open' : ''} ${lv === 0 ? 'unbuilt' : ''}`} onClick={() => setOpen(open === id ? null : id)}>
               <Icon name={f.icon} size={22} />
               <span className="fac-name">{f.name}</span>
               <Pips value={lv} max={f.levels.length} />

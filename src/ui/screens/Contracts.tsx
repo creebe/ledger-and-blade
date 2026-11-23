@@ -1,8 +1,20 @@
+import type React from 'react';
 import { cancelDispatch, FACTIONS, missionWeeks, type Contract, type GameState, type Mission } from '../../engine';
 import { Icon } from '../icons';
 import { CONTRACT_TYPE_ICON, OddsPill, PhaseStrip, Portrait, useBestOdds } from '../visual';
 import { useStore } from '../../store';
 import { Empty, FactionBadge, Section, TagChip, ThreatPips } from '../common';
+
+/** Tappable only once there's a report to read; otherwise a plain panel. */
+function MissionShell({ report, onOpen, children }: { report: boolean; onOpen: () => void; children: React.ReactNode }) {
+  return report ? (
+    <button className="mission-card tappable" onClick={onOpen}>
+      {children}
+    </button>
+  ) : (
+    <div className="mission-card">{children}</div>
+  );
+}
 
 /** The strip-map: depart, travel, the phases on site, return home. */
 export function MissionTrack({ m, g }: { m: Mission; g: GameState }) {
@@ -31,7 +43,7 @@ export function MissionTrack({ m, g }: { m: Mission; g: GameState }) {
   const preparing = m.dispatchedWeek === g.week && !m.report;
   return (
     <div className="mission-wrap">
-    <button className="mission-card" onClick={() => (m.report ? open({ kind: 'mission', id: m.id }) : undefined)}>
+    <MissionShell report={!!m.report} onOpen={() => open({ kind: 'mission', id: m.id })}>
       <div className="row between">
         <b>{c.title}</b>
         <span className="small muted">{c.region}</span>
@@ -58,12 +70,13 @@ export function MissionTrack({ m, g }: { m: Mission; g: GameState }) {
           {status}
         </span>
       </div>
+      {m.report && <div className="tiny" style={{ marginTop: 4 }}>Tap to read the journal</div>}
       {!m.report && (
         <div className="row gap tiny muted" style={{ marginTop: 4 }}>
           Plan: <PhaseStrip c={c} chosen={m.approaches} />
         </div>
       )}
-    </button>
+    </MissionShell>
     {preparing && (
       <div className="preparing">
         <span className="small">Leaving at the end of this week. Gear can still change:</span>
@@ -125,7 +138,7 @@ function ContractCard({ c, g, onOpen }: { c: Contract; g: GameState; onOpen: () 
   const best = useBestOdds(g, c);
   const expiring = c.expiresWeek <= g.week;
   return (
-    <button className={`contract-card ${c.story ? 'story' : ''}`} onClick={onOpen} style={{ ['--fc' as string]: FACTIONS[c.patron].color }}>
+    <button className={`contract-card tappable ${c.story ? 'story' : ''}`} onClick={onOpen} style={{ ['--fc' as string]: FACTIONS[c.patron].color }}>
       <div className="card-row">
         <span className="type-icon" title={c.type}>
           <Icon name={CONTRACT_TYPE_ICON[c.type] ?? 'scroll'} size={22} />

@@ -191,7 +191,7 @@ export function PhaseStrip({ c, chosen }: { c: Contract; chosen?: Approach[] }) 
   return (
     <span className="phase-strip" aria-label="Phases and possible approaches">
       {c.phases.map((p, i) => (
-        <span key={i} className={`ps-step ${i === c.phases.length - 1 ? 'objective' : ''}`} title={`${p.name}: ${p.approaches.map((a) => APPROACH_INFO[a].name).join(' or ')}`}>
+        <span key={i} className={`ps-step ${i === c.phases.length - 1 ? 'ps-goal' : ''}`} title={`${p.name}: ${p.approaches.map((a) => APPROACH_INFO[a].name).join(' or ')}`}>
           {(chosen ? [chosen[i]] : p.approaches).map((a) => (
             <span key={a} className="ps-ap" style={{ color: ap(a) }}>
               <Icon name={a} size={14} />

@@ -67,7 +67,7 @@ export function RosterScreen() {
         {crew.map((m) => {
           const r = readiness(m, g);
           return (
-            <button key={m.id} className="member-row" onClick={() => open({ kind: 'member', id: m.id })}>
+            <button key={m.id} className="member-row tappable" onClick={() => open({ kind: 'member', id: m.id })}>
               <div className="card-row" style={{ alignItems: 'center' }}>
                 <Portrait m={m} size={40} />
                 <div className="card-main">

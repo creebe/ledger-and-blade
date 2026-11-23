@@ -168,8 +168,17 @@ export function sellItem(s: GameState, itemUid: string): string | undefined {
   return undefined;
 }
 
+/** Bulk buying is cheaper: 5% off from 10, 10% off from 20, 15% off from 40. */
+export function supplyDiscount(n: number): number {
+  return n >= 40 ? 0.15 : n >= 20 ? 0.1 : n >= 10 ? 0.05 : 0;
+}
+
+export function supplyCost(s: GameState, n: number): number {
+  return Math.ceil(supplyPrice(s) * n * (1 - supplyDiscount(n)));
+}
+
 export function buySupplies(s: GameState, n: number): string | undefined {
-  const cost = Math.ceil(supplyPrice(s) * n);
+  const cost = supplyCost(s, n);
   if (s.crowns < cost) return `Need ${cost} crowns`;
   spend(s, 'Supplies', cost);
   s.supplies += n;

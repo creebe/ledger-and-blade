@@ -23,7 +23,7 @@ export function GuideCard({ compact, force }: { compact?: boolean; force?: boole
         <span className="ap-bar-fill" style={{ width: `${(v.done / v.total) * 100}%`, background: 'var(--accent)' }} />
       </div>
       {v.active.map((o, i) => (
-        <div key={o.id} className={`objective ${i === 0 ? 'first' : ''}`}>
+        <div key={o.id} className={`objective tappable ${i === 0 ? 'first' : ''}`} role="button" tabIndex={0} onClick={() => showMe(o)} onKeyDown={(e) => e.key === 'Enter' && showMe(o)}>
           <span className="obj-box" aria-hidden />
           <div className="card-main">
             <b>{o.title}</b>
@@ -31,9 +31,7 @@ export function GuideCard({ compact, force }: { compact?: boolean; force?: boole
             {!compact && <p className="tiny muted">{o.why}</p>}
             <div className="row between">
               <span className="tiny muted">{rewardText(o.reward)}</span>
-              <button className="btn ghost small" onClick={() => showMe(o)}>
-                Show me <Icon name="chevron" size={14} />
-              </button>
+
             </div>
           </div>
         </div>

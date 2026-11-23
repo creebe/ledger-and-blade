@@ -1779,7 +1779,7 @@ details summary {
 .ps-step + .ps-step::before {
   content: '';
 }
-.ps-step.objective {
+.ps-step.ps-goal {
   border-color: var(--gold);
 }
 .ps-ap {
@@ -2553,4 +2553,73 @@ details summary {
 .endweek-info {
   min-width: 0;
   overflow: hidden;
+}
+
+/* ---------- one rule for cards ----------
+   Tappable: raised card with a chevron and a press state.
+   Information only: flat outlined panel, no shadow, no chevron. */
+.dispatch,
+.shop-item,
+.faction,
+.clock,
+.recruit,
+.decree,
+.phase,
+.ledger-grid > div,
+.build-progress,
+.facility-detail,
+.guide-card,
+.mission-card:not(.tappable),
+.phase-card {
+  box-shadow: none;
+  background: transparent;
+}
+.tappable {
+  position: relative;
+  padding-right: 32px !important;
+  cursor: pointer;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  transition: transform 0.08s ease, background 0.15s ease;
+}
+.tappable::after {
+  content: '';
+  position: absolute;
+  right: 13px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: translateY(-50%) rotate(-45deg);
+}
+.tappable:active {
+  transform: scale(0.99);
+  background: var(--paper-2);
+}
+.codex-entry.tappable.open::after {
+  transform: translateY(-50%) rotate(45deg);
+}
+.objective.tappable {
+  border-radius: 8px;
+  box-shadow: none;
+  background: transparent;
+  padding-left: 4px;
+}
+.objective.tappable::after {
+  top: 22px;
+}
+.objective.tappable:active {
+  background: var(--paper-2);
+}
+.tappable-tile {
+  box-shadow: var(--shadow);
+}
+.tappable-tile:active {
+  transform: scale(0.97);
+}
+/* timeline: room for the current-node ring */
+.strip {
+  padding-top: 8px;
+  padding-bottom: 6px;
 }

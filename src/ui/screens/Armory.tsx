@@ -4,6 +4,8 @@ import {
   buyItem,
   buyMaterial,
   buySupplies,
+  supplyCost,
+  supplyDiscount,
   equippedBy,
   ITEMS,
   itemPrice,
@@ -38,8 +40,8 @@ export function ArmoryScreen() {
         value={tab}
         onChange={setTab}
         options={[
-          { value: 'market', label: 'Market' },
-          { value: 'stores', label: `Stores (${g.items.length})` },
+          { value: 'market', label: 'Shop' },
+          { value: 'stores', label: `Inventory (${g.items.length})` },
           { value: 'workshop', label: 'Workshop' },
           { value: 'materials', label: 'Materials' },
         ]}
@@ -56,12 +58,12 @@ export function ArmoryScreen() {
             }
           >
             <p className="small">
-              Food, fodder and lamp-oil. Each member eats 1 a week, and squads carry their own. Price now: <b>{supplyPrice(g)}◉</b> each.
+              Food, fodder and lamp-oil. Each member eats 1 a week, and squads carry their own. Bigger orders are cheaper. Price now: <b>{supplyPrice(g)}◉</b> each.
             </p>
             <div className="row wrap gap">
-              {[5, 10, 20].map((n) => (
-                <button key={n} className="btn ghost small" onClick={() => act((d) => buySupplies(d, n)) && useStore.getState().notify(`Bought ${n} supplies. You now have ${g.supplies + n}.`)}>
-                  +{n} for {Math.ceil(supplyPrice(g) * n)}◉
+              {[5, 10, 20, 40].map((n) => (
+                <button key={n} className="btn ghost small" onClick={() => act((d) => buySupplies(d, n)) && useStore.getState().notify(`Bought ${n} supplies for ${supplyCost(g, n)} crowns. You now have ${g.supplies + n}.`)}>
+                  +{n} · {supplyCost(g, n)}◉{supplyDiscount(n) ? <small className="good"> −{Math.round(supplyDiscount(n) * 100)}%</small> : null}
                 </button>
               ))}
             </div>

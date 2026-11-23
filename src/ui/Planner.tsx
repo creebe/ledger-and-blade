@@ -307,7 +307,7 @@ export function Planner({ contractId }: { contractId: string }) {
       )}
 
       <h3 className="subhead">Plan of action</h3>
-      {members.length === 0 && <p className="hint">Select members to see your odds for each phase.</p>}
+      {members.length === 0 && <p className="hint">Select members to see your odds for each phase, then tap “Why?” to see how each number is built.</p>}
       <ol className="phases">
         {pv.phases.map((p, i) => (
           <li key={i} className={`phase ap-${p.approach}`} style={{ ['--c' as string]: ap(p.approach) }}>

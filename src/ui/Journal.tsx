@@ -103,7 +103,7 @@ function CodexTab() {
               {cat} <span className="tiny muted">{known.length < all.length ? `· ${all.length - known.length} undiscovered` : ''}</span>
             </h4>
             {known.map((e) => (
-              <button key={e.id} className={`codex-entry ${open === e.id ? 'open' : ''}`} onClick={() => setOpen(open === e.id ? null : e.id)}>
+              <button key={e.id} className={`codex-entry tappable ${open === e.id ? 'open' : ''}`} onClick={() => setOpen(open === e.id ? null : e.id)}>
                 <span className="row between">
                   <b>{e.title}</b>
                   {fresh.has(e.id) && <span className="badge">New</span>}

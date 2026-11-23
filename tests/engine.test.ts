@@ -14,7 +14,7 @@ import {
   type GameState,
 } from '../src/engine';
 import { runSim } from '../scripts/sim';
-import { buyMaterial, cancelDispatch, discoverLore, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
+import { buySupplies, supplyCost, buyMaterial, cancelDispatch, discoverLore, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
 
 const clearEvents = (s: GameState) => {
   while (s.pendingEvents.length) resolveEvent(s, s.pendingEvents[0].uid, 0);
@@ -340,6 +340,16 @@ describe('engine', () => {
     clearEvents(s);
     advanceWeek(s);
     expect(s.dispatches.some((x) => x.kind === 'crier')).toBe(true);
+  });
+
+  it('buying supplies in bulk is cheaper per unit', () => {
+    const s = newGame(61);
+    expect(supplyCost(s, 40) / 40).toBeLessThan(supplyCost(s, 20) / 20);
+    expect(supplyCost(s, 20) / 20).toBeLessThan(supplyCost(s, 5) / 5);
+    const before = s.crowns;
+    const quoted = supplyCost(s, 20);
+    buySupplies(s, 20);
+    expect(before - s.crowns).toBe(quoted);
   });
 
   it('a careful bot usually survives the first season', () => {
