@@ -129,6 +129,8 @@ Run `npm run style` to flag the habits below. It's advisory: a flag is a prompt 
 - **One simile per scene, at most,** and only if it's something that speaker would actually say.
 - **No stock adverbs on dialogue** (pleasantly, thinly, dryly, kindly).
 - **No dramatic pauses** ("a beat", "for a long moment").
+- **Touchstone: *Darkest Dungeon*.** Borrow its grim, dry wit, its strong concrete verbs, and its sense that every win costs something. Keep our tone a notch lighter and more human, since this is a city of debts, not a crypt.
+- **Complete sentences.** Don't lean on clipped fragments for punch ("Steel. Blood. Debt."). A short sentence now and then is fine, but it should still be a sentence. Get variety from mixing long and short sentences, not from chopping them up.
 - **Characters have their own registers:** Vorn is clipped and practical, Fenn is tired and polite, Marta is chatty and folksy, Dagny is blunt and swears a little.
 
 

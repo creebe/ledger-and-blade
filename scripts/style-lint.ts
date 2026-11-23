@@ -20,6 +20,24 @@ const RULES: { id: string; why: string; re: RegExp }[] = [
   { id: 'not-but', why: '"Not X, but Y" / "X, not Y" reversals.', re: /\bnot [^.,]{1,30}, but\b|, not [a-z]+\b[.]/i },
   { id: 'pause-beat', why: 'Stage-direction pauses used for drama.', re: /\bA pause\b|\ba beat\b|for a long moment|for a moment/i },
   { id: 'quotable', why: 'Dialogue that sounds like a line written to be quoted.', re: /"[^"]{0,60}\b(the ledger|the realm|the bank)\b[^"]{0,40}(always|never|wins|remembers)/i },
+  {
+    id: 'fragments',
+    why: 'Clipped fragments in a row for punch. Use complete sentences of varied length.',
+    // two or more consecutive sentences of three words or fewer
+    re: {
+      test: (s: string) => {
+        // cost and effect summaries are meant to be terse
+        if (/[+−-]\d|\d+%|\bcheck\b|Unlocks|standing/i.test(s)) return false;
+        const sentences = s.replace(/^['"`]|['"`]$/g, '').split(/(?<=[.!?])\s+/);
+        let run = 0;
+        for (const x of sentences) {
+          run = x.trim().split(/\s+/).length <= 3 ? run + 1 : 0;
+          if (run >= 2) return true;
+        }
+        return false;
+      },
+    } as unknown as RegExp,
+  },
 ];
 
 let total = 0;

@@ -206,7 +206,7 @@ export const STORY_EVENTS: EventDef[] = [
         choices: [
           {
             label: 'Sell her the share',
-            detail: '+150 crowns now, Weighhouse +6. She takes 25% of all contract pay. Renown −3. Hobbs stop competing.',
+            detail: '+150 crowns now, Weighhouse +6. She takes 25% of all contract pay. Renown −3. The Hobbs compete far less.',
             effects: { crowns: 150, renown: -3, rivalRenown: 5, rivalAggression: -0.35, flag: 'hobbs_share', standing: { weighhouse: 6 }, npc: { id: 'marta', attitude: 15 } },
             resultText: 'Marta counts out the coin herself. "A pleasure doing business." Your people don\'t meet your eye that evening.',
           },
