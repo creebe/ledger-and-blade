@@ -1,6 +1,6 @@
 # Game Design Document — *Working title: "Ledger & Blade"*
 
-> Status: **Draft v0.2 — for review.** Everything here is a proposal. Items marked **[Q]** are open questions for you.
+> Status: **Draft v0.3 — for review.** Everything here is a proposal. Items marked **[Q]** are open questions for you.
 
 ---
 
@@ -12,7 +12,7 @@ You are the **Guildmaster** (an abstract "you", never on the field) of a newly c
 
 Each week you read the dispatches, balance the ledger, send squads into the field, place spies, and court (or cross) the powers of the realm. Then you end the turn and watch everything you set in motion resolve at once.
 
-**Tone:** in between. The politics and money are grounded, morally grey and human-scale. Magic exists but is rare, costly and dangerous, and it becomes more important as the story goes on.
+**Tone:** in between. The politics and money are grounded, morally grey and human-scale. **Magic is common and works like a science or trade:** it is studied in colleges, practised by licensed professionals, sold by the dose, and built into everyday industry (forges, lamps, medicine, mills). It is powerful, but it is never free: it costs reagents, training, and time, and it can be regulated, taxed, and fought over like any other resource. There is no supernatural plot; magic is part of the economy, not a mystery.
 
 **Feel:** a management sim where every decision touches several systems. The game never hides the math from a careful player. It rewards gathering intel, reading the numbers, and planning a few weeks ahead.
 
@@ -114,7 +114,7 @@ Phases chain: a strong Approach (e.g. good stealth) lowers the Engagement diffic
 
 ### 6.3 Tags, matchups & elements (rewards preparation)
 - **Damage types:** Slash, Pierce, Blunt. Enemies resist/are weak to them (e.g. *Armored*: resists Slash, weak to Blunt; *Swarm*: weak to Blunt & Fire; *Spectral*: immune to physical without Holy/Starsilver).
-- **Elements:** **Fire, Frost, Storm, Holy, Shadow** — applied via runes, oils, enchanted weapons, spells. Elemental matchups give large bonuses or penalties.
+- **Elements:** **Fire, Frost, Storm, Holy, Shadow** — applied via runes, oils, enchanted weapons, spells. Elemental matchups give large bonuses or penalties. Because magic is an industry, elemental gear and spell-work are bought, crafted and licensed like any other goods: enchanting needs an Arcanist on staff or a contract with a college, uses Reagents, and is regulated (some elements, such as Shadow, may need a licence or be banned by decree).
 - **Environment tags:** *Cold, Swamp, Underground/Dark, Urban, Night, Plague, Consecrated Ground*. Each one penalizes the unprepared (e.g. *Cold* without furs → fatigue & Endurance penalty; *Dark* without lanterns/darkvision → Stealth+, Assault−).
 - **Hidden tags:** Unscouted missions show some tags as **"?"**. Odds are then shown as a **range** (e.g. 45–80%). Spending Intel, sending a Scout ahead, or buying rumors narrows the range. **This is the main reward for careful players.**
 
@@ -164,12 +164,12 @@ Each facility has levels, a construction cost (Crowns + Materials + weeks), and 
 | **The Weighhouse** | Merchants who control the city's official scales and measures | Split: some act as Ostrander's local agents and profit from it | Loans, trade routes, market discounts |
 | **Saint Oda's** | Hospital church running the almshouses; preaches that usury is sin | Opposed to the bank on moral grounds | Healing, relics, sanctuary, interest-free "charitable" loans with obligations attached |
 | **The Fourteen** | Founding noble families with hereditary seats | Their castles and lands are the collateral being foreclosed | Influence, land, prestige, private wars |
-| **The Commonalty** *(placeholder name)* | The city's laborers and small trades | They pay the taxes that service the debt and are close to riot | Recruits, Renown, cheap labor, strikes and riots |
+| **The Lower Town** | The city's laborers and small trades | They pay the taxes that service the debt and are close to riot | Recruits, Renown, cheap labor, strikes and riots |
 | **The Mudlarks** | The river underworld | They profit from smuggling around the bank's tolls and embargoes | Smuggling, information, dirty work, and Heat |
 | **Ostrander's** | The foreign bank itself, with offices in Varrow and agents everywhere | It *is* the debt | Cheap loans with strings, lucrative collection contracts, leverage over every other faction |
 
 - **Standing (−100 to +100)** per faction. Thresholds unlock contracts, prices and perks, or bring hostility (refused service, ambushes, legal attacks).
-- **Factions have relationships with each other**, and most of them pivot on the Debt. Taking a collection contract from Ostrander's against one of the Fourteen pleases the bank, angers the nobles, and may please the Commonalty, who like seeing nobles squeezed.
+- **Factions have relationships with each other**, and most of them pivot on the Debt. Taking a collection contract from Ostrander's against one of the Fourteen pleases the bank, angers the nobles, and may please the Lower Town, who like seeing nobles squeezed.
 
 ### 9.2 The Council of Varrow
 Every **season** the Council votes on **Decrees** (e.g. *Debt Levy on Grain, Debasement of the Crown Penny, Sale of Crown Forests, Licensing of Private Collectors, Usury Ban, Martial Law on the Docks*).
@@ -180,7 +180,7 @@ Every **season** the Council votes on **Decrees** (e.g. *Debt Levy on Grain, Deb
 The realm's position is tracked by **world clocks** that advance every week and react to what you and others do:
 - **Arrears**: how far behind the Crown is on its payments.
 - **Leverage**: how much of the realm Ostrander's owns (offices, castles, tolls, mortgages).
-- **Unrest**: how close the Commonalty is to open revolt.
+- **Unrest**: how close the Lower Town is to open revolt.
 - **Coin Trust**: whether people still trust the Crown Penny. Debasement makes it fall, which raises market prices.
 
 The guild can play every side: collect for the bank, smuggle for the Mudlarks, guard Exchequer silver convoys, or hide the Fourteen's treasures from foreclosure. Different sides pay best at different times.
@@ -191,7 +191,7 @@ Three AI rivals with distinct personalities and goals, each running a simplified
 
 - **The Ninth**: a disbanded royal company gone private, made up of veterans of the lost war. They are bitter, proud and dangerous. They bid low on combat work, poach your veterans, and want revenge on the bank, even if it costs the realm.
 - **Hobb & Daughters**: a family firm of debt collectors on retainer to Ostrander's. They are rich, ruthless and well-connected, and they win contracts with money and blackmail.
-- **The Assay Office**: the city's reagent-testers and coin-assayers, gone private. They are scholarly and secretive, and they outbid you on relics and lore. They know more about the Crown Penny, and about Ostrander's ink, than anyone should.
+- **The Assay Office**: the city's reagent-testers and coin-assayers, gone private. They are scholarly and secretive, and they outbid you on relics and lore. They certify every reagent and enchantment sold in Varrow, and they know more about the Crown Penny's true silver content than anyone should.
 
 Rival interactions: contract bidding wars, poaching members, sabotage (countered via your Spymaster), smear campaigns, temporary alliances, and mergers or hostile takeovers in the late game. Rivals can rise, fall, or be destroyed, by you or by events. Rivals can go into debt too, and **you can buy their debt**.
 
@@ -200,11 +200,9 @@ Rival interactions: contract bidding wars, poaching members, sabotage (countered
 | Act | Span | Arc | Key decisions |
 |---|---|---|---|
 | **I: The First Collection** | Year 1 | Ostrander's collectors arrive in force. The Crown misses a payment and the first foreclosures begin. Your guild is chartered into the chaos, already owing money, and everyone wants to hire you. | Who funds your guild? Your first collection job, or your first refusal. The first clash with Hobb & Daughters. |
-| **II: Default** | Year 2 | The Crown must choose: sell the realm piece by piece, tax the Commonalty into revolt, debase the coin, or default. The Council becomes a battlefield. The Fourteen split between selling out and resisting. | Which path you push the Council toward, and which faction you're willing to sacrifice. |
+| **II: Default** | Year 2 | The Crown must choose: sell the realm piece by piece, tax the Lower Town into revolt, debase the coin, or default. The Council becomes a battlefield. The Fourteen split between selling out and resisting. | Which path you push the Council toward, and which faction you're willing to sacrifice. |
 | **III: The War of Collection** | Year 3 | Ostrander's stops negotiating. It hires foreign companies (and maybe your rivals), blockades the river and seizes the tolls. Trade collapses and prices spike. Your guild becomes a blockade-runner, a defender, or the bank's own blade. | Whose side you fight on, and what you'll risk your people for. |
-| **IV: Settlement** | Year 4 | The twist: Ostrander's has creditors of its own, and they are worse (see below). The debt was never only about money. The realm's fate is settled. | The final terms; endings. |
-
-**The twist (draft, [Q]):** Ostrander's founders built the bank on **bound ink**: contracts written in it truly compel the people who sign them. It is one of the few kinds of magic left in the world. The war-treaty that created the realm's debt was signed in it. The bank's own debt is owed to whatever sold its founders the ink, and that creditor is now collecting too. This brings magic into the endgame without turning the game into a monster story: breaking a bound debt has a real, supernatural cost.
+| **IV: Settlement** | Year 4 | The turn: Ostrander's is overextended across half a dozen realms, and its own investors start to panic. The realm's debt notes are now being **sold off and traded**, and whoever holds them holds Varrow: Hobb & Daughters, the Weighhouse, the Fourteen, or your guild. The realm's fate is settled by who ends up holding the paper. | The final terms; endings. |
 
 **Story missions** are large, multi-phase operations that may need several squads plus companies at once (escorting the Crown's last silver to the coast, a heist on Ostrander's vault, holding the river chain during the blockade).
 
@@ -245,7 +243,7 @@ Weekly **event cards** (procedural + story): a member caught brawling, a plague 
 
 **Squad Planner** (key screen): member cards across the top → slot editor in the middle → **phase odds bar** at the bottom that updates live, with tap-to-see breakdowns.
 
-**Mission presentation (visual, but not tactics):** no hex map and no unit-by-unit movement. Each active mission is shown as an **expedition track**, a stylized route drawn like a ledger margin or pilgrim's map strip. The phases are stops along it and the squad's tokens move along it week by week. When a phase resolves, it plays as a short animated **phase card**: the odds bar fills, the result is stamped (*Triumph*, *Costly*, *Failure*…), and wound or loot icons drop in, followed by a written log line. It is quick to watch, skippable, and always backed by the full text log. Art can grow over time (portraits, location vignettes) without changing the system. **[Q] Does this direction work for you?**
+**Mission presentation (visual, but not tactics):** no hex map and no unit-by-unit movement. Each active mission is shown as an **expedition track**, a stylized route drawn like a ledger margin or pilgrim's map strip. The phases are stops along it and the squad's tokens move along it week by week. When a phase resolves, it plays as a short animated **phase card**: the odds bar fills, the result is stamped (*Triumph*, *Costly*, *Failure*…), and wound or loot icons drop in, followed by a written log line. It is quick to watch, skippable, and always backed by the full text log. Art can grow over time (portraits, location vignettes) without changing the system. *(Agreed for now; revisit once playable.)*
 
 Style: parchment and ink with heraldic color accents. Text-forward, iconography for tags, minimal art at first (heraldic sigils and icon glyphs). Supports dark mode.
 
@@ -271,10 +269,8 @@ Style: parchment and ink with heraldic color accents. Text-forward, iconography 
 
 ## 17. Decisions & Open Questions
 
-**Decided:** tone is in between · working names *Ledger & Blade* and *Varrow* · the Guildmaster is an abstract "you" · campaign of ~200 turns · keep the app-store option open (Capacitor) · premise A, *The Note Comes Due* · member classes are called **Professions**.
+**Decided:** tone is in between · working names *Ledger & Blade* and *Varrow* · the Guildmaster is an abstract "you" · campaign of ~200 turns · keep the app-store option open (Capacitor) · premise A, *The Note Comes Due* · member classes are called **Professions** · Commons faction is **The Lower Town** · the bank is **Ostrander's** · magic is common and works like a science/trade; no supernatural twist · expedition-track missions for now.
 
 **Open [Q]:**
-1. Name for the Commons faction (placeholder *The Commonalty*).
-2. The **bound ink** twist: keep it, or keep the story entirely mundane?
-3. Does the **expedition track** mission presentation (section 14) feel right?
-4. Name for the foreign bank (*Ostrander's*) and its home city.
+1. Home city/country of Ostrander's.
+2. Revisit the expedition-track mission presentation once it's playable.
