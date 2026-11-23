@@ -63,7 +63,7 @@ Individuals you recruit, gear and send on missions. Target roster: 6–20.
 
 - **Attributes (1–10):** Might, Finesse, Wits, Resolve
 - **Vitals:** Health (wounds), Fatigue, Morale, Loyalty
-- **Calling** (class): Vanguard, Skirmisher, Marksman, Arcanist, Chaplain, Scout, Envoy, Infiltrator. Callings set growth and which skills they can learn.
+- **Profession** (class): Vanguard, Skirmisher, Marksman, Arcanist, Chaplain, Scout, Envoy, Infiltrator. Professions set growth and which skills they can learn.
 - **Skills** (ranked 0–5) gained via XP and training: e.g. *Shieldwall, Ambush, Fieldcraft, Warding, Mending, Lockcraft, Silver Tongue, Lore*.
 - **Traits** (2–3, some hidden until discovered): *Greedy, Brave, Drunkard, Veteran of the Marches, Afraid of the Dark, Noble-born (Old Houses like them)*.
 - **Relationships:** pairs can become *Bonded* (bonus together) or *Rivals* (penalty together).
