@@ -1,4 +1,6 @@
 // Core game types. The engine is pure TypeScript with no UI dependencies.
+import type { FactId, NpcId, NpcStatus } from './data/facts';
+export type { FactId, NpcId, NpcStatus };
 
 export type Attribute = 'might' | 'finesse' | 'wits' | 'resolve';
 export type Approach = 'assault' | 'stealth' | 'guile' | 'endurance' | 'arcana';
@@ -248,9 +250,9 @@ export interface EventChoice {
   // continue the conversation at this node instead of closing the event
   next?: string;
   failNext?: string;
-  // only show this choice if a flag is set / not set
-  ifFlag?: string;
-  ifNotFlag?: string;
+  // only show this choice if a fact is set / not set
+  ifFlag?: FactId;
+  ifNotFlag?: FactId;
 }
 
 export interface EventNode {
@@ -266,7 +268,8 @@ export interface EventEffect extends ContractEffect {
   morale?: number; // all members
   loyalty?: number;
   unlockContract?: string; // template id, added to the board
-  flag?: string;
+  flag?: FactId;
+  npc?: { id: NpcId; attitude?: number; status?: NpcStatus };
   rivalRenown?: number;
   rivalAggression?: number;
   grantItem?: string;
@@ -337,7 +340,8 @@ export interface GameState {
   pendingEvents: GameEvent[];
   dispatches: Dispatch[];
   ledger: LedgerEntry[];
-  flags: Record<string, boolean>;
+  flags: Partial<Record<FactId, boolean>>;
+  npcs: Record<NpcId, { status: NpcStatus; attitude: number }>;
   insolventWeeks: number;
   charterWeeks: number; // consecutive weeks with the charter in danger
   eventWeeks: Record<string, number>; // last week each event fired

@@ -22,7 +22,17 @@ import {
   supplyPrice,
 } from './world';
 
-export const SAVE_VERSION = 2;
+export const SAVE_VERSION = 3;
+
+export function freshNpcs(): GameState['npcs'] {
+  return {
+    vorn: { status: 'alive', attitude: 0 },
+    fenn: { status: 'alive', attitude: 0 },
+    marta: { status: 'alive', attitude: 0 },
+    isbet: { status: 'alive', attitude: 0 },
+    dagny: { status: 'alive', attitude: 0 },
+  };
+}
 
 /** Upgrade older saves in place. Returns null if the save can't be used. */
 export function migrateSave(g: GameState): GameState | null {
@@ -32,6 +42,10 @@ export function migrateSave(g: GameState): GameState | null {
     for (const r of g.recruits) r.member.record = r.member.record ?? [];
     for (const e of g.pendingEvents) e.transcript = e.transcript ?? [];
     g.version = 2;
+  }
+  if (g.version === 2) {
+    g.npcs = freshNpcs();
+    g.version = 3;
   }
   return g.version === SAVE_VERSION ? g : null;
 }
@@ -71,6 +85,7 @@ export function newGame(seed = Date.now() % 2147483647): GameState {
     dispatches: [],
     ledger: [],
     flags: {},
+    npcs: freshNpcs(),
     insolventWeeks: 0,
     charterWeeks: 0,
     eventWeeks: {},

@@ -11,7 +11,9 @@
     "build": "tsc --noEmit -p . && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "sim": "vite-node scripts/run-sim.ts"
+    "sim": "vite-node scripts/run-sim.ts",
+    "story": "vite-node scripts/run-story.ts",
+    "playthroughs": "vite-node scripts/playthrough.ts"
   },
   "repository": {
     "type": "git",

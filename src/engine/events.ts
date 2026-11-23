@@ -38,6 +38,8 @@ export function triggerEvents(state: GameState) {
     const [from, to] = def.window ?? [1, 1];
     if (state.week < from) continue;
     if (def.condition && !def.condition(state)) continue;
+    if (!npcsAvailable(state, def)) continue;
+    if ((def.after ?? []).some((id) => state.eventWeeks[id] === undefined || state.eventWeeks[id] === state.week)) continue;
     const forced = state.week >= to;
     if (!forced && !chance(state, def.chance ?? 0.45)) continue;
     state.eventWeeks[def.id] = state.week;
@@ -51,6 +53,7 @@ export function triggerEvents(state: GameState) {
     const last = state.eventWeeks[d.id];
     if (last !== undefined && state.week - last < (d.cooldown ?? 6)) continue;
     if (d.condition && !d.condition(state)) continue;
+    if (!npcsAvailable(state, d)) continue;
     const members = d.member ? living(state).filter((m) => d.member!(state, m)) : [];
     if (d.member && !members.length) continue;
     eligible.push({ def: d, members });
@@ -59,6 +62,10 @@ export function triggerEvents(state: GameState) {
   const choice = weighted(state, eligible.map((e) => ({ item: e, weight: e.def.weight ?? 1 })));
   state.eventWeeks[choice.def.id] = state.week;
   state.pendingEvents.push(instantiate(state, choice.def, choice.members.length ? pick(state, choice.members) : undefined));
+}
+
+export function npcsAvailable(state: GameState, def: EventDef): boolean {
+  return (def.npcs ?? []).every((id) => state.npcs[id]?.status === 'alive');
 }
 
 /** Members at home who can handle an event check. */
@@ -207,6 +214,11 @@ export function applyEventEffect(state: GameState, e: EventEffect, ev: GameEvent
       }
       if (x.removeTrait) m.traits = m.traits.filter((t) => t !== x.removeTrait);
     }
+  }
+  if (e.npc) {
+    const n = state.npcs[e.npc.id];
+    if (e.npc.attitude) n.attitude = clamp(n.attitude + e.npc.attitude, -100, 100);
+    if (e.npc.status) n.status = e.npc.status;
   }
   if (e.flag) {
     state.flags[e.flag] = true;

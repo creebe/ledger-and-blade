@@ -1,4 +1,4 @@
-import type { ContractEffect, FactionId, MaterialId, PhaseDef, Season, TagId } from '../types';
+import type { FactId, ContractEffect, FactionId, MaterialId, PhaseDef, Season, TagId } from '../types';
 
 export interface ContractTemplate {
   id: string;
@@ -21,7 +21,7 @@ export interface ContractTemplate {
   minSquad: number;
   maxSquad: number;
   weight: number;
-  requiresFlag?: string;
+  requiresFlag?: FactId;
   story?: boolean;
   shady?: boolean;
 }

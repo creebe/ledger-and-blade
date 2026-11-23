@@ -14,25 +14,36 @@ function fill(tpl: string, vars: Record<string, string>): string {
   return tpl.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? '');
 }
 
-const ENEMY_SETUP: Record<string, string[]> = {
+// Scene-setting lines. `not`/`only` keep a line out of places it doesn't fit.
+interface Line {
+  t: string;
+  not?: string[];
+  only?: string[];
+}
+const ENEMY_SETUP: Record<string, Line[]> = {
   beasts: [
-    'Yellow eyes in the bracken: a pack, bigger than anyone had said.',
-    'Spoor everywhere, and the stink of wet fur on the wind.',
-    'Something large circled them in the dark, patient as a debt-collector.',
+    { t: 'Yellow eyes in the bracken: a pack, bigger than anyone had said.', not: ['urban', 'dark'] },
+    { t: 'Spoor everywhere, and the stink of wet fur on the wind.', not: ['urban'] },
+    { t: 'Something large circled them in the dark, patient as a debt-collector.' },
   ],
-  armored: [
-    'The defenders wore good mail, better than anyone in Varrow could afford these days.',
-    'Steel glinted behind the barricade: armored men, and plenty of them.',
+  armored: [{ t: 'The defenders wore good mail, better than anyone in Varrow could afford these days.' }, { t: 'Steel glinted behind the barricade: armored men, and plenty of them.' }],
+  swarm: [{ t: 'The walls moved: carrion-beetles, thousands of them, clicking in the lamplight.' }, { t: 'Rats poured from the drains like grey water.' }],
+  thugs: [{ t: 'Hired knives in patched coats, more bored than dangerous.' }, { t: 'A dozen dockside bruisers, paid by the day, and not paid enough.', only: ['urban'] }, { t: 'A dozen roadside bruisers, paid by the day, and not paid enough.', not: ['urban'] }],
+  soldiers: [
+    { t: 'Sell-swords in matched colors, moving like men who had done this before.' },
+    { t: 'Crossbows on the ridge, held by drilled hands.', not: ['urban', 'dark'] },
+    { t: 'Crossbows at the windows, held by drilled hands.', only: ['urban'] },
   ],
-  swarm: ['The walls moved: carrion-beetles, thousands of them, clicking in the lamplight.', 'Rats poured from the drains like grey water.'],
-  thugs: ['Hired knives in patched coats, more bored than dangerous.', 'A dozen dockside bruisers, paid by the day, and not paid enough.'],
-  soldiers: ['Sell-swords in matched colors, moving like men who had done this before.', 'Crossbows on the ridge, held by drilled hands.'],
-  guards: ['Sentries walked the walls in pairs, lanterns swinging.', 'The guards were awake, alert, and counting heads.'],
-  warded: ['Pale sigils shimmered on every door. Someone had paid a hedge-wizard well.', 'The air tasted of copper and thunder: wards, and fresh ones.'],
-  trolls: ['The troll rose out of the gloom like a hill deciding to stand.', 'It was twice the height of a man, and the wounds from the last guild to try were already closed.'],
-  fireborn: ['Heat rolled out of the dark, and something with a salamander\'s grin rolled with it.', 'Drakelings glowing like coals nested in the old galleries.'],
-  crowd: ['The crowd pressed close, angry and hungry, with stones in their fists.', 'Hundreds of faces, every one of them watching your people.'],
+  guards: [{ t: 'Sentries walked their rounds in pairs, lanterns swinging.' }, { t: 'The guards were awake, alert, and counting heads.' }],
+  warded: [{ t: 'Pale sigils shimmered on every door. Someone had paid a hedge-wizard well.' }, { t: 'The air tasted of copper and thunder: wards, and fresh ones.' }],
+  trolls: [{ t: 'The troll rose out of the gloom like a hill deciding to stand.' }, { t: 'It was twice the height of a man, and the wounds from the last guild to try were already closed.' }],
+  fireborn: [{ t: "Heat rolled out of the dark, and something with a salamander's grin rolled with it." }, { t: 'Drakelings glowing like coals nested in the old galleries.', only: ['dark'] }],
+  crowd: [{ t: 'The crowd pressed close, angry and hungry, with stones in their fists.' }, { t: 'Hundreds of faces, every one of them watching your people.' }],
 };
+
+function fits(l: Line, tags: TagId[]) {
+  return !(l.not ?? []).some((t) => tags.includes(t)) && (!l.only || l.only.some((t) => tags.includes(t)));
+}
 
 const ENV_SETUP: Record<string, string[]> = {
   cold: ['Frost rimed every buckle, and breath smoked.', 'The wind off the hills cut through wool like a blade.'],
@@ -111,18 +122,20 @@ export function phaseStory(state: GameState, p: PhaseStoryInput): string[] {
   const out: string[] = [];
   const enemies = p.tags.filter((t) => TAGS[t]?.kind === 'enemy');
   const envs = p.tags.filter((t) => TAGS[t]?.kind === 'env');
-  const phase = p.contract.phases[p.phaseIndex];
 
   // Scene-setting on the first phase, and when the fighting starts
   if (p.phaseIndex === 0 && envs.length) out.push(pick(state, ENV_SETUP[pick(state, envs)] ?? ['They arrived.']));
-  // introduce each enemy once, when the fighting (or the objective) starts
-  const isFight = p.approach === 'assault' || p.approach === 'arcana' || phase.danger >= 1;
+  // introduce each enemy once, at the real encounter: the most dangerous phase
+  // (or earlier, if the squad chose to fight before then)
+  const dangers = p.contract.phases.map((x) => x.danger);
+  const encounter = dangers.indexOf(Math.max(...dangers));
+  const fighting = p.approach === 'assault' || p.approach === 'arcana';
   const fresh = enemies.filter((t) => !p.introduced.has(t));
-  if (fresh.length && (isFight || p.phaseIndex === p.contract.phases.length - 1)) {
+  if (fresh.length && (p.phaseIndex === encounter || (fighting && p.phaseIndex < encounter))) {
     const t = fresh[0];
     p.introduced.add(t);
-    const pool = ENEMY_SETUP[t];
-    if (pool) out.push(pick(state, pool));
+    const pool = (ENEMY_SETUP[t] ?? []).filter((l) => fits(l, p.tags));
+    if (pool.length) out.push(pick(state, pool).t);
   }
 
   const ok = p.result === 'strong' || p.result === 'success';

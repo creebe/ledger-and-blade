@@ -257,6 +257,19 @@ export function addStoryContract(state: GameState, templateId: string) {
 }
 
 export function refreshBoard(state: GameState) {
+  // a story contract that expires unattended still has consequences
+  for (const c of state.board.filter((x) => x.story && x.expiresWeek < state.week)) {
+    const lines: string[] = [];
+    applyContractEffect(state, c.onFailure, lines);
+    if (c.templateId === 'silver_convoy') {
+      state.flags.silver_abandoned = true;
+      state.flags.silver_lost = true;
+      addDispatch(state, 'story', "The Crown's silver never left Varrow", [
+        "You accepted the commission, but no squad was ever sent. The wagons sat in the Exchequer yard until it was too late to reach the ships. The Crown has missed its payment.",
+        ...lines,
+      ]);
+    } else addDispatch(state, 'story', `"${c.title}" was left undone`, lines);
+  }
   state.board = state.board.filter((c) => c.expiresWeek >= state.week);
   const target = 4 + (state.renown >= 15 ? 1 : 0);
   let guard = 0;

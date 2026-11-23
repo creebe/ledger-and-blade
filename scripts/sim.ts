@@ -20,13 +20,13 @@ import {
   type MaterialId,
 } from '../src/engine';
 
-export function botTurn(s: GameState, opts: { minChance: number }) {
+export function botTurn(s: GameState, opts: { minChance: number; chooser?: (s: GameState, ev: GameState['pendingEvents'][number]) => number }) {
   // events: take the first affordable choice
   for (let guard = 0; s.pendingEvents.length && guard < 30; guard++) {
     const ev = s.pendingEvents[0];
     // avoid obviously ruinous choices (selling a share of income)
     const ok = ev.choices.map((c, i) => ({ c, i })).filter(({ c }) => !canChoose(s, c) && c.effects.flag !== 'hobbs_share');
-    const pickIdx = ok.find(({ c }) => (c.effects.crowns ?? 0) >= 0)?.i ?? ok[0]?.i ?? 0;
+    const pickIdx = opts.chooser ? opts.chooser(s, ev) : (ok.find(({ c }) => (c.effects.crowns ?? 0) >= 0)?.i ?? ok[0]?.i ?? 0);
     resolveEvent(s, ev.uid, pickIdx);
   }
   // sell materials

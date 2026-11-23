@@ -1,0 +1,12 @@
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { exploreStory, reportMarkdown } from './story-check';
+const runs = Number(process.argv[2] ?? 400);
+const weeks = Number(process.argv[3] ?? 18);
+const r = exploreStory(runs, weeks);
+mkdirSync('docs/reports', { recursive: true });
+writeFileSync('docs/reports/story-coverage.md', reportMarkdown(r));
+console.log(`violations: ${r.violations.length}; unreached: ${r.unreachedNodes.length}; read-never-set: ${r.readNeverSet.join(',') || 'none'}; never-set: ${r.neverSet.join(',') || 'none'}`);
+const kinds: Record<string, number> = {};
+for (const v of r.violations) kinds[v.kind] = (kinds[v.kind] ?? 0) + 1;
+console.log(kinds, r.violations.slice(0, 8));
+console.log('endings', r.endings);

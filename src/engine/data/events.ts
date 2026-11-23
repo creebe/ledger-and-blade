@@ -1,4 +1,4 @@
-import type { EventChoice, GameState, Member } from '../types';
+import type { EventChoice, GameState, Member, NpcId } from '../types';
 
 type Txt = string | ((s: GameState, m?: Member) => string);
 type Choices = EventChoice[] | ((s: GameState, m?: Member) => EventChoice[]);
@@ -17,12 +17,16 @@ export interface EventDef {
   story?: boolean;
   // story beats fire somewhere inside this window of weeks (forced on the last week)
   window?: [number, number];
+  // story beats that must have fired first (keeps the narrative in order)
+  after?: string[];
   chance?: number; // per-week chance inside the window (default 0.45)
   condition?: (s: GameState) => boolean;
   weight?: number; // random event weight
   cooldown?: number; // weeks before it can recur
   // member-focused events pick one eligible member
   member?: (s: GameState, m: Member) => boolean;
+  // named characters who appear; the event won't fire unless they're all alive
+  npcs?: NpcId[];
   choices: Choices;
   nodes?: Record<string, EventNodeDef>;
 }
@@ -38,13 +42,15 @@ const vornQuestions = (s: GameState): EventChoice[] =>
   [
     !s.flags.vorn_q_people && {
       label: 'What happens to the people you collect from?',
-      effects: { flag: 'vorn_q_people' },
+      detail: 'Lower Town +2 (the porter outside hears you ask)',
+      effects: { flag: 'vorn_q_people', standing: { lowertown: 2 } },
       next: 'people',
       resultText: '',
     },
     !s.flags.vorn_q_hobbs && {
       label: 'Why not hire Hobb & Daughters? They do this already.',
-      effects: { flag: 'vorn_q_hobbs' },
+      detail: '+1 Intel on your rival',
+      effects: { flag: 'vorn_q_hobbs', intel: 1 },
       next: 'hobbs',
       resultText: '',
     },
@@ -111,6 +117,7 @@ export const STORY_EVENTS: EventDef[] = [
   {
     id: 'ostrander_agent',
     story: true,
+    npcs: ['vorn'],
     window: [2, 3],
     chance: 0.6,
     title: "A Visitor from Ostrander's",
@@ -122,7 +129,7 @@ export const STORY_EVENTS: EventDef[] = [
       {
         label: 'Show her the door',
         detail: "Ostrander's −10, Lower Town +6",
-        effects: { standing: { ostranders: -10, lowertown: 6 } },
+        effects: { standing: { ostranders: -10, lowertown: 6 }, npc: { id: 'vorn', attitude: -15 } },
         resultText: 'She leaves without argument. By evening the Lower Town taverns are toasting your name. The bank will remember too.',
       },
     ],
@@ -166,19 +173,19 @@ export const STORY_EVENTS: EventDef[] = [
           {
             label: "We'll work for the bank.",
             detail: "Ostrander's +10, Lower Town −5. Unlocks bank contracts.",
-            effects: { standing: { ostranders: 10, lowertown: -5 }, flag: 'ostranders_open' },
+            effects: { standing: { ostranders: 10, lowertown: -5 }, flag: 'ostranders_open', npc: { id: 'vorn', attitude: 15 } },
             resultText: 'Vorn smiles thinly. "We will send work." The porter outside saw her leave your door smiling, and so will everyone he talks to.',
           },
           {
             label: "We'll take your jobs case by case.",
             detail: "Ostrander's +3. Unlocks bank contracts.",
-            effects: { standing: { ostranders: 3 }, flag: 'ostranders_open' },
+            effects: { standing: { ostranders: 3 }, flag: 'ostranders_open', npc: { id: 'vorn', attitude: 5 } },
             resultText: '"Prudent," says Vorn. "The bank respects prudence. Up to a point."',
           },
           {
             label: 'Not today.',
             detail: "Ostrander's −2. You can court the bank later from the Realm screen.",
-            effects: { standing: { ostranders: -2 } },
+            effects: { standing: { ostranders: -2 }, npc: { id: 'vorn', attitude: -5 } },
             resultText: '"The offer stands," she says, pulling on her gloves. "Send word when your ledger changes your mind."',
           },
         ],
@@ -188,6 +195,8 @@ export const STORY_EVENTS: EventDef[] = [
   {
     id: 'hobbs_arrive',
     story: true,
+    after: ['ostrander_agent'],
+    npcs: ['marta', 'isbet'],
     window: [4, 6],
     chance: 0.5,
     title: 'Hobb & Daughters',
@@ -200,7 +209,7 @@ export const STORY_EVENTS: EventDef[] = [
     speaker: 'Marta Hobb',
     choices: [
       { label: "What's in it for me, exactly?", effects: {}, next: 'details', resultText: '' },
-      { label: 'Refuse politely', detail: 'Hobbs become more aggressive.', effects: { rivalAggression: 0.15 }, resultText: '"Pity," she says, and means something else entirely.' },
+      { label: 'Refuse politely', detail: 'Hobbs become more aggressive.', effects: { rivalAggression: 0.15, npc: { id: 'marta', attitude: -5 } }, resultText: '"Pity," she says, and means something else entirely.' },
     ],
     nodes: {
       details: {
@@ -212,21 +221,21 @@ export const STORY_EVENTS: EventDef[] = [
           {
             label: 'Sell her the share',
             detail: '+150 crowns now, Weighhouse +6. She takes 25% of all contract pay. Renown −3. Hobbs stop competing.',
-            effects: { crowns: 150, renown: -3, rivalRenown: 5, rivalAggression: -0.35, flag: 'hobbs_share', standing: { weighhouse: 6 } },
+            effects: { crowns: 150, renown: -3, rivalRenown: 5, rivalAggression: -0.35, flag: 'hobbs_share', standing: { weighhouse: 6 }, npc: { id: 'marta', attitude: 15 } },
             resultText: 'Marta counts out the coin herself. "A pleasure doing business." Your people don\'t meet your eye that evening.',
           },
           {
             label: 'Refuse politely',
             detail: 'Hobbs become more aggressive.',
-            effects: { rivalAggression: 0.15 },
+            effects: { rivalAggression: 0.15, npc: { id: 'marta', attitude: -5 } },
             resultText: '"Pity," she says, and means something else entirely.',
           },
           {
             label: 'Humiliate her in front of her daughters',
             detail: 'Guile check. Success: Renown +4. Failure: Renown −2. Either way, Hobbs grow much more aggressive.',
             check: { approach: 'guile', difficulty: 13 },
-            effects: { renown: 4, rivalAggression: 0.2 },
-            failEffects: { renown: -2, rivalAggression: 0.35 },
+            effects: { renown: 4, rivalAggression: 0.2, npc: { id: 'marta', attitude: -25 } },
+            failEffects: { renown: -2, rivalAggression: 0.35, npc: { id: 'marta', attitude: -10 } },
             resultText: 'Your answer is quoted in every tavern by nightfall. Marta Hobb leaves without her smile, and Isbet looks back from the door.',
             failText: 'Marta laughs at you, kindly, which is worse. The story spreads, and you are the joke.',
           },
@@ -237,20 +246,29 @@ export const STORY_EVENTS: EventDef[] = [
   {
     id: 'bread_riot',
     story: true,
-    window: [5, 8],
-    chance: 0.4,
+    npcs: ['dagny'],
+    window: [5, 7],
+    chance: 0.45,
     condition: (s) => s.clocks.unrest >= 31 || s.week >= 7,
     title: 'Bread and Stones',
     text:
       "The debt levy on grain took effect at dawn. By noon the Lower Town has overturned two bakers' carts and is stoning the Weighhouse windows. A delegation of porters is at your door, and so is an Exchequer clerk with a purse.",
     choices: [
       {
-        label: 'Feed them',
-        detail: 'Give 12 Supplies. Lower Town +10, Unrest −5.',
-        requires: { supplies: 12 },
-        effects: { supplies: -12, standing: { lowertown: 10 }, clocks: { unrest: -5 }, renown: 1 },
+        label: 'Feed them from the guild stores',
+        detail: 'Give 8 Supplies. Lower Town +10, Unrest −5.',
+        requires: { supplies: 8 },
+        effects: { supplies: -8, standing: { lowertown: 10 }, clocks: { unrest: -5 }, renown: 1 },
         next: 'dagny',
         resultText: 'Your people hand out bread from the guild stores. The crowd thins.',
+      },
+      {
+        label: 'Pay the bakers to open their ovens',
+        detail: '−35 crowns. Lower Town +8, Unrest −4.',
+        requires: { crowns: 35 },
+        effects: { crowns: -35, standing: { lowertown: 8 }, clocks: { unrest: -4 } },
+        next: 'dagny',
+        resultText: 'You buy out three bakeries for the afternoon. The smell of bread does what no cudgel could.',
       },
       {
         label: 'Take the Exchequer\'s purse and clear the square',
@@ -276,13 +294,13 @@ export const STORY_EVENTS: EventDef[] = [
           {
             label: '"Your ears on the docks."',
             detail: '+2 Intel now. Dagny becomes a contact.',
-            effects: { intel: 2, flag: 'dagny_contact' },
+            effects: { intel: 2, flag: 'dagny_contact', npc: { id: 'dagny', attitude: 10 } },
             resultText: '"Done. The docks hear everything, eventually. You\'ll hear it sooner."',
           },
           {
             label: '"Nothing. Eat."',
             detail: 'Lower Town +4',
-            effects: { standing: { lowertown: 4 }, flag: 'dagny_friend' },
+            effects: { standing: { lowertown: 4 }, flag: 'dagny_friend', npc: { id: 'dagny', attitude: 25 } },
             resultText: 'She stares at you for a long moment, then laughs. "Mad. All right." She tells the story in every tavern on the river.',
           },
         ],
@@ -312,7 +330,9 @@ export const STORY_EVENTS: EventDef[] = [
   {
     id: 'silver_summons',
     story: true,
-    window: [7, 8],
+    after: ['ostrander_agent'],
+    npcs: ['fenn'],
+    window: [7, 9],
     chance: 0.5,
     title: 'Summoned to the Exchequer',
     speaker: 'Lord Treasurer Aubrey Fenn',
@@ -354,8 +374,10 @@ export const STORY_EVENTS: EventDef[] = [
   {
     id: 'quarter_day',
     story: true,
-    window: [9, 11],
-    chance: 0.6,
+    after: ['silver_summons'],
+    // fires soon after the silver's fate is known, however long the convoy took
+    window: [9, 18],
+    chance: 0.7,
     condition: (s) => !!(s.flags.silver_delivered || s.flags.silver_lost || s.flags.silver_declined),
     title: 'Quarter Day',
     text: (s) =>
@@ -401,7 +423,8 @@ export const STORY_EVENTS: EventDef[] = [
   {
     id: 'act1_slice_end',
     story: true,
-    window: [12, 13],
+    after: ['quarter_day'],
+    window: [12, 20],
     chance: 0.6,
     title: 'End of the Season',
     text: (s) =>
@@ -423,7 +446,7 @@ function summonsChoices(s: GameState): EventChoice[] {
       !s.flags.fenn_stakes && {
         label: 'Tell him what Vorn let slip about the next treaty',
         detail: 'Exchequer +4, Influence +2',
-        effects: { flag: 'fenn_stakes', standing: { exchequer: 4 }, influence: 2 },
+        effects: { flag: 'fenn_stakes', standing: { exchequer: 4 }, influence: 2, npc: { id: 'fenn', attitude: 15 } },
         next: 'stakes',
         resultText: '',
       },
@@ -435,7 +458,7 @@ function summonsChoices(s: GameState): EventChoice[] {
         detail: 'Guile check. Success: +60 crowns on the contract.',
         check: { approach: 'guile', difficulty: 14 },
         effects: { flag: 'silver_bonus' },
-        failEffects: { flag: 'fenn_haggled', standing: { exchequer: -2 } },
+        failEffects: { flag: 'fenn_haggled', standing: { exchequer: -2 }, npc: { id: 'fenn', attitude: -5 } },
         next: 'pay_ok',
         failNext: 'pay_fail',
         resultText: '',
@@ -451,7 +474,7 @@ function summonsChoices(s: GameState): EventChoice[] {
     {
       label: 'Decline',
       detail: 'Exchequer −12. The Crown will find someone else, probably Hobb & Daughters.',
-      effects: { standing: { exchequer: -12 }, rivalRenown: 4, flag: 'silver_declined', clocks: { arrears: 4 } },
+      effects: { standing: { exchequer: -12 }, rivalRenown: 4, flag: 'silver_declined', clocks: { arrears: 4 }, npc: { id: 'fenn', attitude: -15 } },
       resultText: 'Fenn nods once. "I see." The commission goes to Hobb & Daughters by evening.',
     },
   ];
@@ -550,6 +573,7 @@ export const RANDOM_EVENTS: EventDef[] = [
   },
   {
     id: 'dagny_tip',
+    npcs: ['dagny'],
     title: 'Word from the Docks',
     weight: 2,
     cooldown: 6,
@@ -638,6 +662,7 @@ export const RANDOM_EVENTS: EventDef[] = [
   },
   {
     id: 'bank_offer',
+    npcs: ['vorn'],
     title: 'An Offer from the Bank',
     weight: 1.5,
     cooldown: 12,
