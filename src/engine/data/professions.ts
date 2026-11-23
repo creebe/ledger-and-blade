@@ -17,7 +17,7 @@ export const PROFESSIONS: Record<ProfessionId, ProfessionDef> = {
   vanguard: {
     id: 'vanguard',
     name: 'Vanguard',
-    blurb: 'Front-line fighter. Holds the line and carries heavy armor without complaint.',
+    blurb: 'A front-line fighter who can carry heavy armor all day without complaining.',
     base: { might: 7, finesse: 4, wits: 3, resolve: 6 },
     aptitude: { assault: 4, endurance: 3 },
     wage: 9,
@@ -26,7 +26,7 @@ export const PROFESSIONS: Record<ProfessionId, ProfessionDef> = {
   skirmisher: {
     id: 'skirmisher',
     name: 'Skirmisher',
-    blurb: 'Fast, mobile fighter. Strikes from the flanks and fights well in rough country.',
+    blurb: 'A quick fighter who works the flanks and is at home in rough country.',
     base: { might: 5, finesse: 7, wits: 4, resolve: 4 },
     aptitude: { assault: 2, stealth: 2, endurance: 1 },
     wage: 8,
@@ -35,7 +35,7 @@ export const PROFESSIONS: Record<ProfessionId, ProfessionDef> = {
   marksman: {
     id: 'marksman',
     name: 'Marksman',
-    blurb: 'Bow or crossbow specialist. Deadly against beasts and anything that can be seen first.',
+    blurb: 'A bow or crossbow specialist, at their best against anything they can see coming.',
     base: { might: 4, finesse: 7, wits: 5, resolve: 4 },
     aptitude: { assault: 3, stealth: 1 },
     wage: 9,
@@ -44,7 +44,7 @@ export const PROFESSIONS: Record<ProfessionId, ProfessionDef> = {
   arcanist: {
     id: 'arcanist',
     name: 'Arcanist',
-    blurb: 'College-trained spellworker. Turns reagents into fire, frost and lightning, at a price.',
+    blurb: 'Trained at the college to turn reagents into fire or frost on demand, and paid accordingly.',
     base: { might: 2, finesse: 4, wits: 8, resolve: 5 },
     aptitude: { arcana: 5, guile: 1 },
     arcane: true,
@@ -54,7 +54,7 @@ export const PROFESSIONS: Record<ProfessionId, ProfessionDef> = {
   chaplain: {
     id: 'chaplain',
     name: 'Chaplain',
-    blurb: 'Field physician and wardwright of Saint Oda\'s. Keeps the squad alive and steady.',
+    blurb: 'Trained as a field physician at Saint Oda\'s. Keeps people alive, and keeps them calm while doing it.',
     base: { might: 4, finesse: 3, wits: 6, resolve: 7 },
     aptitude: { endurance: 2, arcana: 2, guile: 1 },
     arcane: true,
@@ -64,7 +64,7 @@ export const PROFESSIONS: Record<ProfessionId, ProfessionDef> = {
   scout: {
     id: 'scout',
     name: 'Scout',
-    blurb: 'Pathfinder and tracker. Sees trouble before it sees you.',
+    blurb: 'A tracker and pathfinder, good at noticing things before they turn into problems.',
     base: { might: 4, finesse: 6, wits: 6, resolve: 4 },
     aptitude: { stealth: 3, endurance: 2 },
     wage: 8,
@@ -73,7 +73,7 @@ export const PROFESSIONS: Record<ProfessionId, ProfessionDef> = {
   envoy: {
     id: 'envoy',
     name: 'Envoy',
-    blurb: 'Negotiator, liar, charmer. Wins fights that never happen.',
+    blurb: 'Talks the squad out of trouble, usually for less than a fight would have cost.',
     base: { might: 3, finesse: 4, wits: 7, resolve: 6 },
     aptitude: { guile: 3, endurance: 1 },
     wage: 11,
@@ -82,7 +82,7 @@ export const PROFESSIONS: Record<ProfessionId, ProfessionDef> = {
   infiltrator: {
     id: 'infiltrator',
     name: 'Infiltrator',
-    blurb: 'Locks, rooftops and knives. Goes where the squad cannot.',
+    blurb: 'Good with locks and rooftops, and with a knife when it comes to that.',
     base: { might: 4, finesse: 8, wits: 5, resolve: 3 },
     aptitude: { stealth: 4, guile: 2 },
     wage: 10,

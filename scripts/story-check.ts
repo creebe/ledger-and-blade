@@ -9,7 +9,7 @@ import { advanceWeek, bestApproaches, canChoose, dispatchMission, living, newGam
 import { botTurn } from './sim';
 
 const DEFS: Record<string, EventDef> = Object.fromEntries([...STORY_EVENTS, ...RANDOM_EVENTS, ARRIVAL, ...FIELD_EVENTS].map((d) => [d.id, d]));
-const BAD_TEXT = /undefined|NaN|\[object |\{\w+\}|null\b/;
+const BAD_TEXT = /undefined|NaN|\[object |\{\w+\}|\$\{|null\b/;
 
 export interface Violation {
   seed: number;

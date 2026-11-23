@@ -74,13 +74,13 @@ export const ARRIVAL: EventDef = {
         label: `Change the plan: ${best.map((a) => APPROACH_INFO[a].name).join(' → ')}`,
         detail: `Objective ${pct(alt.objective)}, hardest phase ${pct(alt.weakest)}`,
         effects: { mission: { reveal: true, approaches: 'best' }, log: 'New orders reached them before the job: they changed their approach.' },
-        resultText: 'A rider carries the new orders. They will arrive in time.',
+        resultText: 'You send a rider with new orders. He should reach them in time.',
       });
     out.push({
       label: 'Withdraw and come home',
       detail: `Nobody gets hurt. The contract fails and ${ms.contract.patron === 'ostranders' ? "Ostrander's" : 'the patron'} is annoyed (−3).`,
       effects: { mission: { withdraw: true } },
-      resultText: 'You call them home. Better a bruised reputation than a funeral.',
+      resultText: 'You send a rider to call them home.',
     });
     return out;
   },
@@ -97,7 +97,7 @@ export const FIELD_EVENTS: EventDef[] = [
     title: 'The Bridge Is Out',
     weight: 2,
     member: onRoad,
-    text: (s, m) => `${first(m)} sends a rider: the spring floods took the bridge on the road to ${missionOf(s, m)?.contract.region}. The squad waits for your word.`,
+    text: (s, m) => `${first(m)} sends a rider back. The river is up, and the bridge on the road to ${missionOf(s, m)?.contract.region} has gone. The squad is waiting for your word.`,
     choices: (s, m) => {
       const ms = missionOf(s, m);
       const p = squadCheck(s, ms, 'endurance', 8 + (ms?.contract.threat ?? 3));
@@ -110,8 +110,8 @@ export const FIELD_EVENTS: EventDef[] = [
           check: { approach: 'endurance', difficulty: 8 + (ms?.contract.threat ?? 3) },
           effects: { log: 'They forded the flooded river, roped together.' },
           failEffects: { mission: { wounds: 14, fatigue: 15 }, log: 'Fording the river nearly drowned one of them.' },
-          resultText: 'Roped together, they make it across.',
-          failText: 'The current takes someone off their feet. They are dragged out, half-drowned.',
+          resultText: 'They rope themselves together and get across, soaked to the chest.',
+          failText: 'The current takes someone off their feet, and it takes the rest of them to drag the poor soul out.',
         },
       ];
     },
@@ -121,19 +121,19 @@ export const FIELD_EVENTS: EventDef[] = [
     title: 'A Deserter on the Road',
     weight: 2,
     member: (s, m) => onRoad(s, m) && !!missionOf(s, m)?.contract.hidden.some((h) => !h.revealed),
-    text: (s, m) => `A frightened man flags down the squad near ${missionOf(s, m)?.contract.region}. He says he ran from the very people they're going to face, and he'll talk, for a price.`,
+    text: (s, m) => `A nervous man flags the squad down near ${missionOf(s, m)?.contract.region}. He says he ran from the people they're on their way to deal with, and he'll tell them what he knows if they make it worth his while.`,
     choices: (s, m) => {
       const ms = missionOf(s, m);
       const p = squadCheck(s, ms, 'guile', 11);
       return [
-        { label: 'Pay him', detail: '−20 crowns. Reveals what the squad will face.', requires: { crowns: 20 }, effects: { crowns: -20, mission: { reveal: true }, log: 'A deserter sold them the truth about what lay ahead.' }, resultText: 'He talks, fast and frightened.' },
+        { label: 'Pay him', detail: '−20 crowns. Reveals what the squad will face.', requires: { crowns: 20 }, effects: { crowns: -20, mission: { reveal: true }, log: 'A deserter sold them the truth about what lay ahead.' }, resultText: 'He talks fast and keeps looking back down the road.' },
         {
           label: 'Talk it out of him',
           detail: `Guile check (${pct(p)}). Success reveals everything for free.`,
           check: { approach: 'guile', difficulty: 11 },
           effects: { mission: { reveal: true }, log: `${first(m)} talked a deserter into telling them what lay ahead.` },
           failEffects: { heat: 2 },
-          resultText: 'A little kindness and a lot of ale, and he tells them everything.',
+          resultText: 'A couple of drinks later, he tells them everything he knows and a good deal he doesn\'t.',
           failText: 'He takes fright and bolts into the trees.',
         },
         { label: 'Send him on his way', effects: {}, resultText: 'The squad moves on.' },
@@ -145,7 +145,7 @@ export const FIELD_EVENTS: EventDef[] = [
     title: 'Followed',
     weight: 2,
     member: onRoad,
-    text: (_s, m) => `${first(m)} reports that riders have shadowed the squad for two days, always just out of reach. Someone wants to know they're coming.`,
+    text: (_s, m) => `${first(m)} reports that a pair of riders have kept pace with the squad for two days, staying just out of bowshot. Somebody wants to know when they arrive.`,
     choices: (s, m) => {
       const ms = missionOf(s, m);
       const t = ms?.contract.threat ?? 3;
@@ -179,7 +179,7 @@ export const FIELD_EVENTS: EventDef[] = [
     title: 'A Local Guide',
     weight: 1.5,
     member: onRoad,
-    text: (s, m) => `An old drover offers to guide the squad to ${missionOf(s, m)?.contract.region} by the back ways: faster, drier, and out of sight.`,
+    text: (s, m) => `An old drover offers to take the squad to ${missionOf(s, m)?.contract.region} by the sheep tracks, which he swears are quicker and drier than the road.`,
     choices: [
       { label: 'Hire the guide', detail: '−25 crowns. The squad arrives fresher and better placed (every phase a little easier).', requires: { crowns: 25 }, effects: { crowns: -25, mission: { difficulty: 0.94, fatigue: -15 }, log: 'An old drover guided them by the back ways.' }, resultText: 'The drover knows every sheep-track in the hills.' },
       { label: 'Decline', effects: {}, resultText: 'They keep to the road.' },
@@ -193,7 +193,7 @@ export const FIELD_EVENTS: EventDef[] = [
     text: (_s, m) => `${first(m)}'s squad finds a carter by the road with a broken leg and an overturned wagon. Bandits, he says, two days ago.`,
     choices: [
       { label: 'Help him', detail: '−3 supplies. Renown +1, the squad feels good about it (morale).', requires: { supplies: 3 }, effects: { supplies: -3, renown: 1, mission: { fatigue: 5 }, log: 'They stopped to splint a carter\'s leg and right his wagon.' }, resultText: 'He promises to tell everyone in the next town.' },
-      { label: 'Leave him', effects: {}, resultText: 'Someone else will come along. Probably.' },
+      { label: 'Leave him', effects: {}, resultText: 'Somebody else will be along, probably.' },
     ],
   },
   {
@@ -215,8 +215,8 @@ export const FIELD_EVENTS: EventDef[] = [
           check: { approach: 'endurance', difficulty: 8 + t },
           effects: { mission: { reward: bonus }, log: 'They raced Hobb & Daughters to the job, and won.' },
           failEffects: { mission: { fatigue: 20 }, log: 'They raced Hobb & Daughters and wore themselves out.' },
-          resultText: 'Your people get there first. The patron is impressed.',
-          failText: 'Your people arrive blown and footsore.',
+          resultText: 'Your people get there first, and the patron notices.',
+          failText: 'They lose the race and arrive with blistered feet anyway.',
         },
         {
           label: 'Slip into their camp at night',
@@ -236,7 +236,7 @@ export const FIELD_EVENTS: EventDef[] = [
     title: 'The Weather Turns',
     weight: 2,
     member: (s, m) => onRoad(s, m) && ['Autumn', 'Winter'].includes(seasonOf(s.week)),
-    text: (s, m) => `${seasonOf(s.week) === 'Winter' ? 'Snow' : 'Freezing rain'} closes in on the road. ${first(m)} asks whether to push on or take shelter.`,
+    text: (s, m) => `${seasonOf(s.week) === 'Winter' ? 'Snow' : 'Freezing rain'} has set in on the road. ${first(m)} wants to know whether to push on or find somewhere dry.`,
     choices: (s, m) => [
       { label: 'Push on', detail: 'Everyone arrives tired (fatigue +15).', effects: { mission: { fatigue: 15 }, log: 'They marched through the storm.' }, resultText: 'Heads down, they keep walking.' },
       { label: 'Shelter and wait', detail: `One week's delay. Costs ${squadOf(s, missionOf(s, m)).length} supplies.`, effects: { mission: { delay: 1, supplies: -squadOf(s, missionOf(s, m)).length }, log: 'They sat out the storm in a shepherd\'s hut.' }, resultText: 'They find a shepherd\'s hut and wait it out.' },

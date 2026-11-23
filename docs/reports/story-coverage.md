@@ -46,7 +46,7 @@ Every conversation node in every story beat was reached.
 - **hobbs_arrive/details**: Sell her the share (65) · Refuse politely (66) · Humiliate her in front of her daughters (73)
 - **bread_riot/dagny**: "Nothing. Eat." (50) · "Your ears on the docks." (58)
 - **silver_summons/pay**: Accept the commission (23) · Haggle (46) · "Who knows the route?" (23) · Decline (31)
-- **bread_riot/square**: Break them. (57) · Hold the line. No blood. (74)
+- **bread_riot/square**: Break them up (57) · Hold the line without drawing blood (74)
 - **silver_summons/route**: Decline (39) · Accept the commission (49) · "What does it pay?" (29) · Haggle (7) · Tell him what Vorn let slip about the next treaty (1)
 - **silver_summons/pay_fail**: Accept the commission (15) · "Who knows the route?" (5) · Decline (8)
 - **ostrander_agent/want_fail**: What happens to the people you collect from? (15) · Let's talk terms. (38) · Why not hire Hobb & Daughters? They do this already. (22)

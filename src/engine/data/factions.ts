@@ -19,7 +19,7 @@ export const FACTIONS: Record<FactionId, FactionDef> = {
     color: '#7a2e2e',
     sigil: '♛',
     who: "The Crown's treasury and officers, effectively the government of the realm.",
-    stance: 'Desperate to keep paying without losing the realm. It will squeeze anyone to do it.',
+    stance: 'It is desperate to keep paying the bank without losing the realm, and it will squeeze anyone to manage it.',
     perks: 'Holds your charter. At −60 or below, the charter is at risk. Heat falls faster when standing is high.',
   },
   weighhouse: {
@@ -29,7 +29,7 @@ export const FACTIONS: Record<FactionId, FactionDef> = {
     color: '#8a6a1f',
     sigil: '⚖',
     who: "Merchants who control the city's official scales and measures. They hold your guild's loan.",
-    stance: "Split. Some members act as Ostrander's local agents and profit from it.",
+    stance: "Divided. Some members act as Ostrander's local agents and profit from it.",
     perks: 'Better standing lowers market prices (up to 10%). Your loan is owed to them.',
   },
   ostranders: {
@@ -57,7 +57,7 @@ export const FACTIONS: Record<FactionId, FactionDef> = {
 export const RIVALS: Record<RivalId, { name: string; who: string; color: string; sigil: string }> = {
   hobbs: {
     name: 'Hobb & Daughters',
-    who: "A family firm of debt collectors on retainer to Ostrander's. Rich, ruthless and well-connected, run by old Marta Hobb and her three daughters.",
+    who: "A family firm of debt collectors on retainer to Ostrander's. Old Marta Hobb runs it with her three daughters, and the bank pays them very well.",
     color: '#5b3b5e',
     sigil: '⚔',
   },

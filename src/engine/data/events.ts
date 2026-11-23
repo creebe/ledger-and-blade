@@ -187,34 +187,34 @@ export const STORY_EVENTS: EventDef[] = [
     chance: 0.5,
     title: 'Hobb & Daughters',
     text: (s) =>
-      "Old Marta Hobb arrives with two of her daughters and an umbrella she uses as a walking stick. Hobb & Daughters have collected debts in Varrow for thirty years.\n\n" +
+      "Marta Hobb lets herself in, leaning on a black umbrella she doesn't need, with two of her daughters behind her. Hobb & Daughters have been collecting debts in Varrow for thirty years, and Marta has done most of the talking for all of them.\n\n" +
       (s.factions.ostranders.standing >= 8
-        ? '"I hear you\'ve been taking the bank\'s coin," she says pleasantly. "That coin used to come to me. So let\'s be friends before we have to be anything else."\n\n'
-        : '"New guilds come and go," she says pleasantly. "Most go."\n\n') +
-      '"I\'d like to buy a share in yours: a quarter of your contract income, paid to me. In return, my girls stay off your patch."',
+        ? '"Now, I hear you\'ve been doing little jobs for the bank," she says, settling into your best chair. "Those used to be my little jobs. I thought we should have a chat before anybody gets upset."\n\n'
+        : '"I like to call on the new guilds," she says, settling into your best chair. "Most of them don\'t last the year, and I like to have said hello."\n\n') +
+      '"So here\'s my offer. You pay me a quarter of what your contracts bring in, and my girls leave your work alone. Everybody stays friends."',
     speaker: 'Marta Hobb',
     choices: [
       { label: "What's in it for me, exactly?", effects: {}, next: 'details', resultText: '' },
-      { label: 'Refuse politely', detail: 'Hobbs become more aggressive.', effects: { rivalAggression: 0.15, npc: { id: 'marta', attitude: -5 } }, resultText: '"Pity," she says, and means something else entirely.' },
+      { label: 'Refuse politely', detail: 'Hobbs become more aggressive.', effects: { rivalAggression: 0.15, npc: { id: 'marta', attitude: -5 } }, resultText: '"Suit yourself, dear." She takes her time getting up, and Isbet holds the door for her.' },
     ],
     nodes: {
       details: {
         speaker: 'Marta Hobb',
         text:
-          '"Peace, dear. My girls stop bidding against you. And I have friends at the Weighhouse, who are less fond of you than they might be. A word from me, and your loan officer smiles."\n\n' +
-          'Her eldest daughter, Isbet, studies your sword-rack like she\'s pricing it.',
+          '"Peace and quiet, dear. My girls stop bidding against you. And I play cards with two of the Weighhouse aldermen, who aren\'t very fond of you at the moment. I could fix that."\n\n' +
+          'Her eldest, Isbet, has wandered over to your weapon rack and is turning one of your swords over in her hands, checking the edge.',
         choices: [
           {
             label: 'Sell her the share',
             detail: '+150 crowns now, Weighhouse +6. She takes 25% of all contract pay. Renown −3. The Hobbs compete far less.',
             effects: { crowns: 150, renown: -3, rivalRenown: 5, rivalAggression: -0.35, flag: 'hobbs_share', standing: { weighhouse: 6 }, npc: { id: 'marta', attitude: 15 } },
-            resultText: 'Marta counts out the coin herself. "A pleasure doing business." Your people don\'t meet your eye that evening.',
+            resultText: 'Marta counts out the coins herself, one at a time, and has Isbet write you a receipt. It\'s quiet at supper that night.',
           },
           {
             label: 'Refuse politely',
             detail: 'Hobbs become more aggressive.',
             effects: { rivalAggression: 0.15, npc: { id: 'marta', attitude: -5 } },
-            resultText: '"Pity," she says, and means something else entirely.',
+            resultText: '"Suit yourself, dear." She takes her time getting up, and Isbet holds the door for her.',
           },
           {
             label: 'Humiliate her in front of her daughters',
@@ -222,8 +222,8 @@ export const STORY_EVENTS: EventDef[] = [
             check: { approach: 'guile', difficulty: 13 },
             effects: { renown: 4, rivalAggression: 0.2, npc: { id: 'marta', attitude: -25 } },
             failEffects: { renown: -2, rivalAggression: 0.35, npc: { id: 'marta', attitude: -10 } },
-            resultText: 'Your answer is quoted in every tavern by nightfall. Marta Hobb leaves without her smile, and Isbet looks back from the door.',
-            failText: 'Marta laughs at you, kindly, which is worse. The story spreads, and you are the joke.',
+            resultText: 'You say something about the umbrella that makes her youngest daughter snort before she can stop herself. Marta doesn\'t laugh. By evening the line is being repeated in taverns all along the river.',
+            failText: 'Marta laughs, leans over and pats your hand. That\'s the part people repeat for the rest of the week.',
           },
         ],
       },
@@ -238,7 +238,7 @@ export const STORY_EVENTS: EventDef[] = [
     condition: (s) => s.clocks.unrest >= 31 || s.week >= 7,
     title: 'Bread and Stones',
     text:
-      "The debt levy on grain took effect at dawn. By noon the Lower Town has overturned two bakers' carts and is stoning the Weighhouse windows. A delegation of porters is at your door, and so is an Exchequer clerk with a purse.",
+      "The grain levy came in at dawn. By noon the Lower Town had overturned two bakers' carts and broken most of the Weighhouse windows. Now there are porters at your door asking for help, and an Exchequer clerk behind them holding a purse.",
     choices: [
       {
         label: 'Feed them from the guild stores',
@@ -246,7 +246,7 @@ export const STORY_EVENTS: EventDef[] = [
         requires: { supplies: 8 },
         effects: { supplies: -8, standing: { lowertown: 10 }, clocks: { unrest: -5 }, renown: 1 },
         next: 'dagny',
-        resultText: 'Your people hand out bread from the guild stores. The crowd thins.',
+        resultText: 'Your people hand out loaves from the stores, and the crowd in the street thins out as word gets round.',
       },
       {
         label: 'Pay the bakers to open their ovens',
@@ -254,60 +254,60 @@ export const STORY_EVENTS: EventDef[] = [
         requires: { crowns: 35 },
         effects: { crowns: -35, standing: { lowertown: 8 }, clocks: { unrest: -4 } },
         next: 'dagny',
-        resultText: 'You buy out three bakeries for the afternoon. The smell of bread does what no cudgel could.',
+        resultText: 'You pay three bakeries to keep their ovens going all afternoon. It turns out to be hard to throw stones with your mouth full.',
       },
       {
         label: 'Take the Exchequer\'s purse and clear the square',
         detail: '+60 crowns, Exchequer +5, Lower Town −5. What happens next is up to you.',
         effects: { crowns: 60, standing: { exchequer: 5, lowertown: -5 } },
         next: 'square',
-        resultText: 'Your people take up cudgels and shields and march on the bread market.',
+        resultText: 'Your people pick up cudgels and shields and head for the bread market.',
       },
       {
         label: 'Bar the doors',
         detail: 'Unrest +4.',
         effects: { clocks: { unrest: 4 } },
-        resultText: 'You wait it out. The riot burns itself out by nightfall, leaving your people restless and the city angrier.',
+        resultText: 'You lock up and wait. It\'s over by nightfall, the city is angrier than before, and your crew spent the day listening to it through the shutters.',
       },
     ],
     nodes: {
       dagny: {
         speaker: 'Dagny Fell, Porters\' Fraternity',
         text:
-          'A broad woman with a porter\'s hook on her belt stays behind when the others leave.\n\n' +
-          '"Dagny Fell. I carry for the Fraternity. Nobody\'s fed us in a long time without wanting something." She weighs you up. "So what do you want?"',
+          'One of the porters stays behind when the rest have gone, a big woman with a cargo hook hanging from her belt.\n\n' +
+          '"Dagny Fell. I carry for the Fraternity." She looks round your hall. "Nobody feeds us for free, so what do you want for it?"',
         choices: [
           {
             label: '"Your ears on the docks."',
             detail: '+2 Intel now. Dagny becomes a contact.',
             effects: { intel: 2, flag: 'dagny_contact', npc: { id: 'dagny', attitude: 10 } },
-            resultText: '"Done. The docks hear everything, eventually. You\'ll hear it sooner."',
+            resultText: '"All right. If something comes off a boat, I\'ll know about it, and then you will too."',
           },
           {
             label: '"Nothing. Eat."',
             detail: 'Lower Town +4',
             effects: { standing: { lowertown: 4 }, flag: 'dagny_friend', npc: { id: 'dagny', attitude: 25 } },
-            resultText: 'She stares at you for a long moment, then laughs. "Mad. All right." She tells the story in every tavern on the river.',
+            resultText: 'She looks at you as if you\'ve said something stupid, then laughs. "You\'re mad. All right." By the end of the week she has told the story in every tavern on the river.',
           },
         ],
       },
       square: {
-        text: 'The bread market is packed. Someone throws a stone that cracks off a shield. The crowd surges, waiting to see what you\'ll do.',
+        text: 'The bread market is packed. A stone bounces off somebody\'s shield, and the crowd pushes forward to see what you\'ll do about it.',
         choices: [
           {
-            label: 'Hold the line. No blood.',
+            label: 'Hold the line without drawing blood',
             detail: 'Endurance check. Success: Unrest −2, Exchequer +3. Failure: someone is hurt, Unrest +2.',
             check: { approach: 'endurance', difficulty: 9 },
             effects: { clocks: { unrest: -2 }, standing: { exchequer: 3 } },
             failEffects: { wounds: 20, clocks: { unrest: 2 } },
-            resultText: 'Your people stand like a wall until the crowd tires. Not one cudgel swings. Even the porters grudgingly respect it.',
-            failText: 'The line breaks under the press. Someone goes down under the boots before you restore order.',
+            resultText: 'Your people lock shields and stand there taking the shoving until the crowd gets bored and goes home. Nobody swings a cudgel. Even the porters admit it took some nerve.',
+            failText: 'The line gives way. One of yours ends up on the ground under a lot of boots before you get things back in hand.',
           },
           {
-            label: 'Break them.',
+            label: 'Break them up',
             detail: 'Exchequer +5, Lower Town −6, Unrest +3, Heat +3',
             effects: { standing: { exchequer: 5, lowertown: -6 }, clocks: { unrest: 3 }, heat: 3 },
-            resultText: 'It is over in minutes. The Exchequer clerk is delighted. The Lower Town will remember whose cudgels they were.',
+            resultText: 'It\'s over in a few minutes, and the Exchequer clerk is delighted. The Lower Town knows exactly whose cudgels they were.',
           },
         ],
       },
@@ -323,36 +323,36 @@ export const STORY_EVENTS: EventDef[] = [
     title: 'Summoned to the Exchequer',
     speaker: 'Lord Treasurer Aubrey Fenn',
     text:
-      'Lord Treasurer Aubrey Fenn receives you in a cold office stripped of its tapestries. They were sold last month.\n\n' +
-      '"The quarter payment is due. We have the silver: three wagons, the last of the Crown plate. It must reach Port Anselm and the bank\'s ships. My own guard can\'t be trusted. Half of them are owed back pay by the people who want it stolen."',
+      'Lord Treasurer Aubrey Fenn sees you in an office with pale squares on the walls where the tapestries used to hang. He apologizes for the cold.\n\n' +
+      '"The quarter payment is due, and for once we have it: three wagons of silver, most of what\'s left of the Crown plate. It has to reach Port Anselm and the bank\'s ships. I\'d send my own guard, but half of them are owed back pay by the sort of people who\'d like to see it stolen."',
     choices: (s) => summonsChoices(s),
     nodes: {
       route: {
         speaker: 'Lord Treasurer Fenn',
         text:
-          '"Who knows the route? My clerks. The guard captain. And the bank\'s factor, Vorn, because the bank insists on knowing everything." He rubs his eyes. "If I were robbing it, I\'d hit the ford at Wenmouth. It\'s the only place the road can\'t be seen from either side."',
+          '"My clerks know the route. So does the guard captain, and so does Vorn, because the bank insists on knowing everything." He rubs his eyes. "If I wanted to rob it, I\'d try the ford at Wenmouth. You can\'t see that stretch of road from either side."',
         choices: (s) => summonsChoices(s),
       },
       stakes: {
         speaker: 'Lord Treasurer Fenn',
         text:
-          'You repeat what Vorn let slip about the bank drafting the next treaty. Fenn goes very still.\n\n' +
-          '"So that\'s it. They don\'t want the silver. They want us to miss the payment." He looks at you differently now. "You\'ve done the Crown a service already. I\'ll remember it."',
+          'You tell him what Vorn said about the bank writing the next treaty. Fenn puts his pen down.\n\n' +
+          '"So they\'d rather we missed it. That explains a few things." He looks at you properly for the first time. "Thank you. I won\'t forget that."',
         choices: (s) => summonsChoices(s),
       },
       pay: {
         speaker: 'Lord Treasurer Fenn',
-        text: '"Two hundred and twenty crowns, paid from what\'s left of the treasury after the payment. Which is very little."',
+        text: '"Two hundred and twenty crowns. It comes out of whatever\'s left after the payment, and I should warn you there isn\'t much left after the payment."',
         choices: (s) => summonsChoices(s),
       },
       pay_ok: {
         speaker: 'Lord Treasurer Fenn',
-        text: '"…Fine. Two hundred and eighty. Don\'t tell the guard captain." He writes it down himself.',
+        text: '"All right, two hundred and eighty. Please don\'t mention it to the guard captain." He writes it down himself.',
         choices: (s) => summonsChoices(s),
       },
       pay_fail: {
         speaker: 'Lord Treasurer Fenn',
-        text: '"The realm is bleeding and you\'re haggling over bandages." He doesn\'t raise the fee.',
+        text: '"Everyone is being squeezed this year, including me. Two hundred and twenty."',
         choices: (s) => summonsChoices(s),
       },
     },
@@ -368,16 +368,16 @@ export const STORY_EVENTS: EventDef[] = [
     title: 'Quarter Day',
     text: (s) =>
       s.flags.silver_delivered
-        ? 'The bells ring at noon: the Crown\'s payment has been received at Port Anselm. For one more quarter, the realm is solvent.\n\nA royal courier arrives at your hall with a letter in Fenn\'s own hand, and a choice.'
+        ? 'At noon the cathedral bells ring to say the payment has been received at Port Anselm. The realm has paid its way for one more quarter.\n\nA royal courier brings you a letter from Fenn, written in his own hand. He wants to thank you, and he has something to offer.'
         : s.flags.silver_lost
-          ? 'The bells do not ring. For the first time in twenty-two years, the Crown has missed a payment to Ostrander\'s.\n\nBy evening, bank factors are walking the city with lists. Factor Vorn sends a note asking to see you.'
-          : 'The bells ring at noon: the Crown\'s payment arrived at Port Anselm, delivered by Hobb & Daughters. The criers praise Marta Hobb\'s name.\n\nDagny Fell, or someone like her, slips you a note: the wagons arrived lighter than they left.',
+          ? 'Noon comes and the bells stay quiet. For the first time in twenty-two years, the Crown has missed a payment to Ostrander\'s.\n\nBy evening the bank\'s clerks are going door to door with lists, and a note from Vorn asks whether you have a minute.'
+          : 'At noon the bells ring. The payment reached Port Anselm, carried by Hobb & Daughters, and the criers are making a great deal of Marta\'s name.\n\nThat night somebody slips a note under your door. The wagons reached the coast a good deal lighter than they were when they left.',
     choices: (s) =>
       s.flags.silver_delivered
         ? [
-            { label: 'Accept a purse from the Crown', detail: '+100 crowns', effects: { crowns: 100 }, resultText: 'Fenn has scraped it from somewhere. You suspect his own pocket.' },
-            { label: 'Accept a Crown writ of good conduct', detail: 'Heat −20, Exchequer +6', effects: { heat: -20, standing: { exchequer: 6 } }, resultText: 'The writ hangs over your door. Watchmen nod to your people now.' },
-            { label: 'Ask for a seat at the Exchequer\'s table', detail: 'Influence +4', effects: { influence: 4, flag: 'fenn_ally' }, resultText: '"Done," says Fenn. "You\'ll find the table is mostly debt."' },
+            { label: 'Accept a purse from the Crown', detail: '+100 crowns', effects: { crowns: 100 }, resultText: 'Fenn has found it somewhere. You suspect it\'s his own money.' },
+            { label: 'Accept a Crown writ of good conduct', detail: 'Heat −20, Exchequer +6', effects: { heat: -20, standing: { exchequer: 6 } }, resultText: 'You hang the writ by the door, and the watch starts nodding to your people in the street.' },
+            { label: 'Ask for a seat at the Exchequer\'s table', detail: 'Influence +4', effects: { influence: 4, flag: 'fenn_ally' }, resultText: '"Done," Fenn writes back. "I\'m afraid you\'ll find it\'s mostly arguing about money."' },
           ]
         : s.flags.silver_lost
           ? [
@@ -385,15 +385,15 @@ export const STORY_EVENTS: EventDef[] = [
                 label: 'Offer the bank your services',
                 detail: "Ostrander's +8, Lower Town −6. Unlocks bank contracts.",
                 effects: { standing: { ostranders: 8, lowertown: -6 }, flag: 'ostranders_open' },
-                resultText: 'Vorn is unsurprised. "The ledger always wins, in the end."',
+                resultText: 'Vorn doesn\'t seem surprised to see you. "Good. We\'re about to be very busy."',
               },
               {
                 label: 'Swear to the Lower Town',
                 detail: "Lower Town +8, Ostrander's −8",
                 effects: { standing: { lowertown: 8, ostranders: -8 } },
-                resultText: 'You send Vorn\'s note back unopened, with a loaf of bread. The Lower Town hears of it within the hour.',
+                resultText: 'You send Vorn\'s note back unopened, with a loaf of bread. The Lower Town hears about it within the hour.',
               },
-              { label: 'Stay out of it', effects: {}, resultText: 'The city holds its breath. So do you.' },
+              { label: 'Stay out of it', effects: {}, resultText: 'You stay in, like most of the city. Nobody sleeps much.' },
             ]
           : [
               {
@@ -401,9 +401,9 @@ export const STORY_EVENTS: EventDef[] = [
                 detail: 'Spend 3 Intel. Exchequer +10, Hobb & Daughters lose renown.',
                 requires: { intel: 3 },
                 effects: { intel: -3, standing: { exchequer: 10 }, rivalRenown: -6 },
-                resultText: 'Your evidence reaches Fenn. Marta Hobb pays back every coin, with interest. She will not forget you.',
+                resultText: 'Your evidence goes to Fenn, and Marta Hobb pays back every coin with interest. She also sends you a cake, which nobody eats.',
               },
-              { label: 'Let it go', effects: {}, resultText: 'Some fights are not worth the coin.' },
+              { label: 'Let it go', effects: {}, resultText: 'You let it go. There will be other fights.' },
             ],
   },
   {
@@ -421,7 +421,7 @@ export const STORY_EVENTS: EventDef[] = [
             ? "The Crown's silver never reached the coast. The realm has defaulted for the first time, and Ostrander's factors are walking the city with lists."
             : "The Crown's silver went to the coast without you."
       }\n\nThis is the end of the current prototype's scripted story. The world keeps turning: contracts, rivals, the debt and the market all continue, so keep building your guild.`,
-    choices: [{ label: 'Continue', effects: {}, resultText: 'The ledger never closes.' }],
+    choices: [{ label: 'Continue', effects: {}, resultText: 'Back to work.' }],
   },
 ];
 
@@ -455,13 +455,13 @@ function summonsChoices(s: GameState): EventChoice[] {
         ? "Adds \"The Crown's Last Silver\". Fenn's tip reveals one of its dangers."
         : "Adds the story contract \"The Crown's Last Silver\".",
       effects: { unlockContract: 'silver_convoy', standing: { exchequer: 3 }, flag: 'silver_accepted', ...(s.flags.fenn_route ? { revealContract: 'silver_convoy' } : {}) },
-      resultText: '"Good," says Fenn, and for a moment looks very tired. "Choose your people carefully."',
+      resultText: '"Thank you." He looks very tired. "Pick your people carefully. Somebody out there knows the route."',
     },
     {
       label: 'Decline',
       detail: 'Exchequer −12. The Crown will find someone else, probably Hobb & Daughters.',
       effects: { standing: { exchequer: -12 }, rivalRenown: 4, flag: 'silver_declined', clocks: { arrears: 4 }, npc: { id: 'fenn', attitude: -15 } },
-      resultText: 'Fenn nods once. "I see." The commission goes to Hobb & Daughters by evening.',
+      resultText: 'Fenn nods. "I understand." By evening the commission has gone to Hobb & Daughters.',
     },
   ];
   return c.filter(Boolean) as EventChoice[];
@@ -479,11 +479,11 @@ export const RANDOM_EVENTS: EventDef[] = [
     cooldown: 6,
     member: (_s, m) => m.status === 'idle',
     text: (_s, m) =>
-      `${m?.name} put a Weighhouse clerk through the window of the Copper Kettle.${m?.traits.includes('hotheaded') ? ' Nobody who knows them is surprised.' : ''} The clerk is demanding compensation, and the watch is asking questions.`,
+      `${m?.name} has put a Weighhouse clerk through the front window of the Copper Kettle.${m?.traits.includes('hotheaded') ? ' Nobody who knows them is surprised.' : ''} The clerk wants compensation, and the watch would like a word.`,
     choices: (_s, m) => [
-      { label: 'Pay the damages', detail: '−25 crowns', requires: { crowns: 25 }, effects: { crowns: -25 }, resultText: 'Coin smooths it over.' },
-      { label: `Dock ${first(m)}'s wages`, detail: `${first(m)}: loyalty −12. Weighhouse +2`, effects: { member: { loyalty: -12 }, standing: { weighhouse: 2 } }, resultText: 'Discipline is maintained, and resented.' },
-      { label: `Stand by ${first(m)}`, detail: `Weighhouse −4, Heat +3. ${first(m)}: loyalty +10. Everyone: morale +4`, effects: { standing: { weighhouse: -4 }, heat: 3, morale: 4, member: { loyalty: 10 } }, resultText: 'Your people cheer. The Weighhouse does not.' },
+      { label: 'Pay the damages', detail: '−25 crowns', requires: { crowns: 25 }, effects: { crowns: -25 }, resultText: 'You pay the glazier and the clerk, and the watch loses interest.' },
+      { label: `Dock ${first(m)}'s wages`, detail: `${first(m)}: loyalty −12. Weighhouse +2`, effects: { member: { loyalty: -12 }, standing: { weighhouse: 2 } }, resultText: 'They take it without arguing, but they don\'t like it.' },
+      { label: `Stand by ${first(m)}`, detail: `Weighhouse −4, Heat +3. ${first(m)}: loyalty +10. Everyone: morale +4`, effects: { standing: { weighhouse: -4 }, heat: 3, morale: 4, member: { loyalty: 10 } }, resultText: 'Your crew cheer. The Weighhouse sends a letter.' },
     ],
   },
   {
@@ -494,19 +494,19 @@ export const RANDOM_EVENTS: EventDef[] = [
     member: (_s, m) => m.status === 'idle' && (m.traits.includes('greedy') || m.level >= 3),
     speaker: 'Your member',
     text: (_s, m) =>
-      `${m?.name} catches you in the counting-room. "I've bled for this guild${m && m.missions > 0 ? ` on ${m.missions} contract${m.missions > 1 ? 's' : ''}` : ''}. Hobb's people get two crowns a week more than I do."`,
+      `${m?.name} catches you in the counting-room. "I've bled for this guild${m && m.missions > 0 ? ` on ${m.missions} contract${m.missions > 1 ? 's' : ''}` : ''}, and I hear Hobb's people get two crowns a week more than I do."`,
     choices: (_s, m) => [
-      { label: 'Grant the raise', detail: `${first(m)}: wage +2/week, loyalty +15`, effects: { member: { wage: 2, loyalty: 15 } }, resultText: 'They nod, satisfied, and the matter is closed.' },
+      { label: 'Grant the raise', detail: `${first(m)}: wage +2/week, loyalty +15`, effects: { member: { wage: 2, loyalty: 15 } }, resultText: 'They nod and go back to work, looking pleased with themselves.' },
       {
         label: 'Bargain',
         detail: 'Guile check. Success: +1 wage, loyalty +10. Failure: loyalty −10.',
         check: { approach: 'guile', difficulty: 12 },
         effects: { member: { wage: 1, loyalty: 10 } },
         failEffects: { member: { loyalty: -10 } },
-        resultText: 'You meet in the middle, and both of you feel you won.',
-        failText: 'You overplay your hand. They leave without a word.',
+        resultText: 'You meet in the middle. Neither of you is entirely happy, which is probably fair.',
+        failText: 'You push too hard, and they walk out halfway through your sentence.',
       },
-      { label: 'Refuse', detail: `${first(m)}: loyalty −15`, effects: { member: { loyalty: -15 } }, resultText: '"Fine," they say. It is clearly not fine.' },
+      { label: 'Refuse', detail: `${first(m)}: loyalty −15`, effects: { member: { loyalty: -15 } }, resultText: '"Fine," they say, and leave without closing the door.' },
     ],
   },
   {
@@ -515,11 +515,11 @@ export const RANDOM_EVENTS: EventDef[] = [
     weight: 1.2,
     cooldown: 12,
     member: (_s, m) => m.status === 'idle',
-    text: (_s, m) => `A letter arrives for ${m?.name}: their mother is sick in Harrowmere, and the physician wants paying in advance.`,
+    text: (_s, m) => `A letter comes for ${m?.name}. Their mother is ill in Harrowmere, and the physician wants paying before he'll come out.`,
     choices: (_s, m) => [
-      { label: 'Pay the physician', detail: `−20 crowns. ${first(m)}: loyalty +20, morale +10`, requires: { crowns: 20 }, effects: { crowns: -20, member: { loyalty: 20, morale: 10 } }, resultText: `${first(m)} doesn't say much, but they don't forget it either.` },
-      { label: 'Give them time off', detail: `${first(m)}: fatigue resets, but they are hurt to the bone with worry (health −20)`, effects: { member: { fatigue: -100, health: -20, morale: 5 } }, resultText: 'They ride for Harrowmere and come back hollow-eyed but grateful.' },
-      { label: 'The guild needs them here', detail: `${first(m)}: loyalty −8, morale −12`, effects: { member: { loyalty: -8, morale: -12 } }, resultText: 'They stay. Their mind does not.' },
+      { label: 'Pay the physician', detail: `−20 crowns. ${first(m)}: loyalty +20, morale +10`, requires: { crowns: 20 }, effects: { crowns: -20, member: { loyalty: 20, morale: 10 } }, resultText: `${first(m)} doesn't say much about it, but they work twice as hard that week.` },
+      { label: 'Give them time off', detail: `${first(m)}: fully rested, but the worry wears them down (health −20)`, effects: { member: { fatigue: -100, health: -20, morale: 5 } }, resultText: 'They ride for Harrowmere and come back a week later, thin and grateful.' },
+      { label: 'The guild needs them here', detail: `${first(m)}: loyalty −8, morale −12`, effects: { member: { loyalty: -8, morale: -12 } }, resultText: 'They stay, but you catch them reading the letter again at supper.' },
     ],
   },
   {
@@ -531,14 +531,14 @@ export const RANDOM_EVENTS: EventDef[] = [
     member: (s, m) => m.status === 'idle' && m.missions > 0 && s.members.some((d) => d.status === 'dead' && (d.diedWeek ?? -99) >= s.week - 6),
     text: (s, m) => {
       const dead = s.members.filter((d) => d.status === 'dead').sort((a, b) => (b.diedWeek ?? 0) - (a.diedWeek ?? 0))[0];
-      return `${m?.name} hasn't slept properly since ${dead?.name ?? 'the funeral'} died. They sit up in the hall at night, cleaning the same blade over and over.`;
+      return `${m?.name} hasn't slept properly since ${dead?.name ?? 'the funeral'} died. You keep finding them in the hall after midnight, cleaning a blade that's already clean.`;
     },
     choices: (s, m) => [
       ...(living(s).some((x) => x.profession === 'chaplain' && x.id !== m?.id)
-        ? [{ label: 'Send the Chaplain to talk with them', detail: `${first(m)}: morale +18`, effects: { member: { morale: 18 } }, resultText: 'They talk until dawn. Something heavy is set down.' }]
+        ? [{ label: 'Send the Chaplain to talk with them', detail: `${first(m)}: morale +18`, effects: { member: { morale: 18 } }, resultText: `They talk until it gets light. The next morning ${first(m)} eats breakfast for the first time in a week.` }]
         : []),
-      { label: 'Drink with them', detail: `${first(m)}: morale +10. Might pick up a habit.`, effects: { member: { morale: 10, trait: 'drunkard' } }, resultText: 'You drink to the dead until the candles gutter.' },
-      { label: 'Tell them to toughen up', detail: `${first(m)}: morale −10, loyalty −5, but they might come out Brave`, effects: { member: { morale: -10, loyalty: -5, trait: 'brave' } }, resultText: 'They take it badly, then take it to heart.' },
+      { label: 'Drink with them', detail: `${first(m)}: morale +10. Might pick up a habit.`, effects: { member: { morale: 10, trait: 'drunkard' } }, resultText: 'You drink to the dead until the candles go out, and neither of you is much use the next morning.' },
+      { label: 'Tell them to toughen up', detail: `${first(m)}: morale −10, loyalty −5, but they might come out Brave`, effects: { member: { morale: -10, loyalty: -5, trait: 'brave' } }, resultText: "They take it badly. A few days later they're the first one up for drill." },
     ],
   },
   {
@@ -550,11 +550,11 @@ export const RANDOM_EVENTS: EventDef[] = [
     member: (_s, m) => m.status === 'idle' && ['envoy', 'infiltrator', 'scout'].includes(m.profession),
     text: (s, m) => {
       const c = s.board.find((x) => x.hidden.some((h) => !h.revealed));
-      return `${m?.name} comes back from the taverns smelling of cheap ale. "Heard something about that job, "${c?.title}". Want me to dig?"`;
+      return `${m?.name} comes back from the taverns smelling of cheap ale. "I heard something about that job, '${c?.title}'. Want me to go back and dig?"`;
     },
     choices: (_s, m) => [
-      { label: 'Dig', detail: `Reveals a hidden tag. ${first(m)}: fatigue +15`, effects: { revealContract: 'any', member: { fatigue: 15, xp: 1 } }, resultText: 'They dig, and they find it.' },
-      { label: 'Not now', effects: {}, resultText: 'They shrug and go back to their ale.' },
+      { label: 'Dig', detail: `Reveals a hidden tag. ${first(m)}: fatigue +15`, effects: { revealContract: 'any', member: { fatigue: 15, xp: 1 } }, resultText: 'They go back out that night and come home with a name and a story.' },
+      { label: 'Not now', effects: {}, resultText: 'They shrug and go back to the tavern anyway.' },
     ],
   },
   {
@@ -565,18 +565,18 @@ export const RANDOM_EVENTS: EventDef[] = [
     cooldown: 6,
     condition: (s) => !!s.flags.dagny_contact,
     speaker: 'Dagny Fell',
-    text: 'A porter\'s boy brings a scrap of sacking with three words chalked on it, and Dagny\'s mark.',
-    choices: [{ label: 'Read it', detail: '+2 Intel', effects: { intel: 2 }, resultText: 'Dock gossip, but useful dock gossip.' }],
+    text: 'A porter\'s boy brings round a scrap of sacking with a few words chalked on it, and Dagny\'s mark underneath.',
+    choices: [{ label: 'Read it', detail: '+2 Intel', effects: { intel: 2 }, resultText: 'It\'s mostly dock gossip, but some of it is useful.' }],
   },
   {
     id: 'informant',
     title: 'A Mudlark Informant',
     weight: 2,
     cooldown: 4,
-    text: 'A river-child with sharp eyes offers to sell what she has heard on the docks.',
+    text: 'A girl from the river, maybe ten years old and filthy to the knees, says she\'ll tell you what she\'s heard on the docks if you make it worth her while.',
     choices: [
-      { label: 'Pay her', detail: '−15 crowns, +3 Intel', requires: { crowns: 15 }, effects: { crowns: -15, intel: 3 }, resultText: 'She talks fast and knows more than she should.' },
-      { label: 'Send her off', effects: {}, resultText: 'She shrugs and goes to find a better buyer, possibly Hobb & Daughters.' },
+      { label: 'Pay her', detail: '−15 crowns, +3 Intel', requires: { crowns: 15 }, effects: { crowns: -15, intel: 3 }, resultText: 'She talks fast, and she knows things a ten-year-old shouldn\'t.' },
+      { label: 'Send her off', effects: {}, resultText: 'She shrugs and goes off to find someone who will pay. Possibly Marta Hobb.' },
     ],
   },
   {
@@ -584,10 +584,10 @@ export const RANDOM_EVENTS: EventDef[] = [
     title: 'A Petition at the Gate',
     weight: 2,
     cooldown: 5,
-    text: "A widow from the Lower Town asks for help. The bank's collectors took her husband's tools, and her children are hungry.",
+    text: "A widow from the Lower Town is waiting at your gate. The bank's collectors took her husband's tools last month, and she has three children to feed.",
     choices: [
-      { label: 'Give supplies', detail: '−6 Supplies, Lower Town +4, Renown +1', requires: { supplies: 6 }, effects: { supplies: -6, standing: { lowertown: 4 }, renown: 1 }, resultText: 'Word spreads that your guild remembers where it came from.' },
-      { label: 'Turn her away', detail: 'Lower Town −1', effects: { standing: { lowertown: -1 } }, resultText: 'She goes without a word.' },
+      { label: 'Give supplies', detail: '−6 Supplies, Lower Town +4, Renown +1', requires: { supplies: 6 }, effects: { supplies: -6, standing: { lowertown: 4 }, renown: 1 }, resultText: 'She thanks you and goes. By the weekend half the street knows about it.' },
+      { label: 'Turn her away', detail: 'Lower Town −1', effects: { standing: { lowertown: -1 } }, resultText: 'She goes without arguing. Your gatekeeper watches her all the way down the street.' },
     ],
   },
   {
@@ -596,19 +596,19 @@ export const RANDOM_EVENTS: EventDef[] = [
     weight: 4,
     cooldown: 6,
     condition: (s) => s.heat >= 30,
-    text: 'Exchequer clerks arrive with ledgers and a list of questions about your recent "night work".',
+    text: 'Two Exchequer clerks turn up with ledgers and a long list of questions about your recent "night work".',
     choices: [
-      { label: 'Pay the fine', detail: '−50 crowns, Heat −15', requires: { crowns: 50 }, effects: { crowns: -50, heat: -15 }, resultText: 'The clerks leave satisfied.' },
+      { label: 'Pay the fine', detail: '−50 crowns, Heat −15', requires: { crowns: 50 }, effects: { crowns: -50, heat: -15 }, resultText: 'The clerks take the money, give you a receipt and leave.' },
       {
         label: 'Talk them round',
         detail: 'Guile check. Success: Heat −10. Failure: Heat +10, Exchequer −6.',
         check: { approach: 'guile', difficulty: 14 },
         effects: { heat: -10 },
         failEffects: { heat: 10, standing: { exchequer: -6 } },
-        resultText: 'By the end of the afternoon, the clerks are apologizing for the inconvenience.',
-        failText: 'The clerks write everything down, and then write some more.',
+        resultText: 'By the end of the afternoon the clerks are apologizing for wasting your time.',
+        failText: 'The clerks write down everything you say and ask to see the stores.',
       },
-      { label: 'Stonewall', detail: 'Exchequer −8', effects: { standing: { exchequer: -8 } }, resultText: 'They leave empty-handed, and angry.' },
+      { label: 'Stonewall', detail: 'Exchequer −8', effects: { standing: { exchequer: -8 } }, resultText: 'They leave with nothing, and they make a note of that too.' },
     ],
   },
   {
@@ -616,10 +616,10 @@ export const RANDOM_EVENTS: EventDef[] = [
     title: 'An Assay-Peddler',
     weight: 1.5,
     cooldown: 8,
-    text: 'A traveling peddler with an Assay Office license, slightly out of date, offers a fire-keyed focus at a steep discount. It may or may not be stolen.',
+    text: 'A peddler with an Assay Office license that expired last spring offers you a fire-keyed focus for well under the going price. He doesn\'t say where he got it, and you don\'t ask.',
     choices: [
-      { label: 'Buy it', detail: '−55 crowns, gain an Ember Focus, Heat +2', requires: { crowns: 55 }, effects: { crowns: -55, grantItem: 'ember_focus', heat: 2 }, resultText: 'It works perfectly. Better not to ask where it came from.' },
-      { label: 'Decline', effects: {}, resultText: 'The peddler moves on.' },
+      { label: 'Buy it', detail: '−55 crowns, gain an Ember Focus, Heat +2', requires: { crowns: 55 }, effects: { crowns: -55, grantItem: 'ember_focus', heat: 2 }, resultText: 'It works perfectly, which somehow makes it more suspicious.' },
+      { label: 'Decline', effects: {}, resultText: 'He tries the guild across the street.' },
     ],
   },
   {
@@ -628,10 +628,10 @@ export const RANDOM_EVENTS: EventDef[] = [
     weight: 1.2,
     cooldown: 10,
     condition: (s) => s.factions.lowertown.standing >= 10,
-    text: "A Lower Town youth has heard of your guild and wants to join. They'll work for low wages and a roof.",
+    text: "A kid from the Lower Town, sixteen at most, has heard about your guild and wants in. They'll work for a bed and a small wage.",
     choices: [
-      { label: 'Take them in', detail: 'A free recruit joins', effects: { freeRecruit: true, standing: { lowertown: 2 } }, resultText: "They're green, but eager." },
-      { label: 'Send them home', effects: {}, resultText: 'They leave disappointed.' },
+      { label: 'Take them in', detail: 'A free recruit joins', effects: { freeRecruit: true, standing: { lowertown: 2 } }, resultText: "They're green, but they turn up early every day." },
+      { label: 'Send them home', effects: {}, resultText: 'They leave disappointed, and try Hobb & Daughters next.' },
     ],
   },
   {
@@ -640,10 +640,10 @@ export const RANDOM_EVENTS: EventDef[] = [
     weight: 3,
     cooldown: 40,
     condition: (s) => seasonOf(s.week) === 'Summer',
-    text: "The city celebrates Saint Oda's feast. The guilds of Varrow traditionally put on a show of generosity.",
+    text: "It's Saint Oda's feast, when the guilds of Varrow are expected to be generous in public.",
     choices: [
-      { label: 'Host a feast', detail: '−40 crowns, Renown +3, morale +10', requires: { crowns: 40 }, effects: { crowns: -40, renown: 3, morale: 10, standing: { lowertown: 3 } }, resultText: 'Your hall is full of song until dawn.' },
-      { label: 'Give your people the day off', detail: 'morale +5', effects: { morale: 5 }, resultText: 'A quiet, pleasant day.' },
+      { label: 'Host a feast', detail: '−40 crowns, Renown +3, morale +10', requires: { crowns: 40 }, effects: { crowns: -40, renown: 3, morale: 10, standing: { lowertown: 3 } }, resultText: 'The hall is full until dawn, and somebody breaks a bench.' },
+      { label: 'Give your people the day off', detail: 'morale +5', effects: { morale: 5 }, resultText: 'Most of them sleep until noon.' },
     ],
   },
   {
@@ -654,10 +654,10 @@ export const RANDOM_EVENTS: EventDef[] = [
     cooldown: 12,
     condition: (s) => s.factions.ostranders.standing >= 15 && s.loans.length > 0,
     speaker: 'Factor Vorn',
-    text: 'Factor Vorn offers to buy your Weighhouse note. The bank would pay off 200 crowns of your debt, and in return expects "first refusal on your services".',
+    text: 'Vorn offers to buy part of your Weighhouse loan. The bank would pay off 200 crowns of it. In return, she says, the bank would expect "first refusal" on your time.',
     choices: [
-      { label: 'Accept', detail: "Loan −200, Ostrander's +5, Weighhouse −8, Lower Town −4", effects: { flag: 'bank_paid_loan', standing: { ostranders: 5, weighhouse: -8, lowertown: -4 } }, resultText: 'Your debt is lighter, and someone else holds the rest of the leash.' },
-      { label: 'Decline', detail: "Ostrander's −2", effects: { standing: { ostranders: -2 } }, resultText: '"As you wish," says Vorn.' },
+      { label: 'Accept', detail: "Loan −200, Ostrander's +5, Weighhouse −8, Lower Town −4", effects: { flag: 'bank_paid_loan', standing: { ostranders: 5, weighhouse: -8, lowertown: -4 } }, resultText: 'Your debt is lighter, and you now owe some of it to the bank.' },
+      { label: 'Decline', detail: "Ostrander's −2", effects: { standing: { ostranders: -2 } }, resultText: '"Fine," says Vorn, and writes something in her small book.' },
     ],
   },
 ];

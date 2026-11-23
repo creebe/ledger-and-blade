@@ -22,23 +22,48 @@ interface Line {
 }
 const ENEMY_SETUP: Record<string, Line[]> = {
   beasts: [
-    { t: 'Yellow eyes in the bracken: a pack, bigger than anyone had said.', not: ['urban', 'dark'] },
-    { t: 'Spoor everywhere, and the stink of wet fur on the wind.', not: ['urban'] },
-    { t: 'Something large circled them in the dark, patient as a debt-collector.' },
+    { t: 'There were more wolves than the drovers had said, and they had stopped being afraid of people some time ago.', not: ['urban', 'dark'] },
+    { t: 'The tracks were everywhere, and the smell reached them a good while before the animals did.', not: ['urban'] },
+    { t: 'Something big kept pace with them in the dark, and it was in no hurry.' },
   ],
-  armored: [{ t: 'The defenders wore good mail, better than anyone in Varrow could afford these days.' }, { t: 'Steel glinted behind the barricade: armored men, and plenty of them.' }],
-  swarm: [{ t: 'The walls moved: carrion-beetles, thousands of them, clicking in the lamplight.' }, { t: 'Rats poured from the drains like grey water.' }],
-  thugs: [{ t: 'Hired knives in patched coats, more bored than dangerous.' }, { t: 'A dozen dockside bruisers, paid by the day, and not paid enough.', only: ['urban'] }, { t: 'A dozen roadside bruisers, paid by the day, and not paid enough.', not: ['urban'] }],
+  armored: [
+    { t: 'The men waiting for them wore good mail, better than anyone in Varrow can afford these days.' },
+    { t: 'There was steel behind the barricade, and a lot of it.' },
+  ],
+  swarm: [
+    { t: 'The walls were covered in carrion-beetles, and the noise they made was worse than the sight of them.' },
+    { t: 'Rats came out of the drains faster than anyone could count them.' },
+  ],
+  thugs: [
+    { t: 'The opposition turned out to be hired knives in patched coats, who looked more bored than dangerous.' },
+    { t: 'Somebody had hired a dozen dockside bruisers by the day, and hadn\'t paid them enough to care.', only: ['urban'] },
+    { t: 'Somebody had hired a dozen bruisers off the road by the day, and hadn\'t paid them enough to care.', not: ['urban'] },
+  ],
   soldiers: [
-    { t: 'Sell-swords in matched colors, moving like men who had done this before.' },
-    { t: 'Crossbows on the ridge, held by drilled hands.', not: ['urban', 'dark'] },
-    { t: 'Crossbows at the windows, held by drilled hands.', only: ['urban'] },
+    { t: 'The sell-swords waiting for them wore matching colors and kept proper intervals, which was a bad sign.' },
+    { t: 'There were crossbowmen on the ridge, and they knew how to use them.', not: ['urban', 'dark'] },
+    { t: 'There were crossbowmen at the upstairs windows, and they knew how to use them.', only: ['urban'] },
   ],
-  guards: [{ t: 'Sentries walked their rounds in pairs, lanterns swinging.' }, { t: 'The guards were awake, alert, and counting heads.' }],
-  warded: [{ t: 'Pale sigils shimmered on every door. Someone had paid a hedge-wizard well.' }, { t: 'The air tasted of copper and thunder: wards, and fresh ones.' }],
-  trolls: [{ t: 'The troll rose out of the gloom like a hill deciding to stand.' }, { t: 'It was twice the height of a man, and the wounds from the last guild to try were already closed.' }],
-  fireborn: [{ t: "Heat rolled out of the dark, and something with a salamander's grin rolled with it." }, { t: 'Drakelings glowing like coals nested in the old galleries.', only: ['dark'] }],
-  crowd: [{ t: 'The crowd pressed close, angry and hungry, with stones in their fists.' }, { t: 'Hundreds of faces, every one of them watching your people.' }],
+  guards: [
+    { t: 'The sentries walked their rounds in pairs and actually looked around while they did it.' },
+    { t: 'The guards were awake and sober, which nobody had planned for.' },
+  ],
+  warded: [
+    { t: 'Every door had pale marks scratched into it. Somebody had paid a hedge-wizard well.' },
+    { t: 'The air near the doors tasted of copper. The wards were fresh.' },
+  ],
+  trolls: [
+    { t: 'The troll stood up from under the bridge, and kept standing up for longer than seemed reasonable.' },
+    { t: 'It was twice the height of a man, and the scars from the last guild that tried had already healed over.' },
+  ],
+  fireborn: [
+    { t: 'The heat hit them before they saw anything, and then they saw the salamanders.' },
+    { t: 'Drakelings had nested in the old galleries, and the rock around them was warm to the touch.', only: ['dark'] },
+  ],
+  crowd: [
+    { t: 'The crowd pressed in close. Most of them were hungry and some of them had stones.' },
+    { t: 'There were hundreds of people in the street, and all of them were watching your squad.' },
+  ],
 };
 
 function fits(l: Line, tags: TagId[]) {
@@ -46,45 +71,49 @@ function fits(l: Line, tags: TagId[]) {
 }
 
 const ENV_SETUP: Record<string, string[]> = {
-  cold: ['Frost rimed every buckle, and breath smoked.', 'The wind off the hills cut through wool like a blade.'],
-  swamp: ['Black water to the knee, and every step a negotiation with the mud.', 'Fever-mist lay on the fens like a wet sheet.'],
-  dark: ['Beyond the lantern-light, the dark was absolute.', 'They went down into the dark, counting steps.'],
-  night: ['A moonless night, which was either a blessing or a curse.', 'They moved after midnight, when honest folk were abed.'],
-  urban: ['Varrow\'s alleys, narrow and crooked and full of windows.', 'Washing lines, gutters and a hundred pairs of eyes.'],
-  rough: ['Scree and broken ground, with a sheer drop to one side.', 'The path was more of a rumor than a road.'],
-  open_road: ['Open country with no cover for a mile in any direction.', 'The road ran straight and bare under a wide sky.'],
-  plague: ['Chalk crosses on the doors. Fever in the village.', 'People coughed behind shutters as they passed.'],
+  cold: ['It was cold enough that the buckles froze, and everyone could see their breath.', 'The wind came off the hills and went straight through wool.'],
+  swamp: ['The water was black and knee-deep, and the mud tried to keep their boots.', 'There was a fever-mist over the fens that never quite lifted.'],
+  dark: ['Past the lanterns there was nothing to see at all.', 'They went down into the dark, counting the steps so they could find their way back.'],
+  night: ['There was no moon, which helped and hurt in about equal measure.', 'They went after midnight, when anyone sensible was asleep.'],
+  urban: ["Varrow's back alleys are narrow and crooked, and every one of them has windows.", 'The streets were full of washing lines and people with nothing better to do than watch.'],
+  rough: ['The path was loose scree with a long drop on one side.', 'The road on the map turned out to be more of a suggestion.'],
+  open_road: ['It was open country, with nowhere to hide for a mile in any direction.', 'The road ran straight across bare ground under a wide sky.'],
+  plague: ['There were chalk crosses on half the doors, and the village was quiet.', 'People were coughing behind their shutters as the squad went by.'],
 };
 
 const ACTION: Record<Approach, { ok: string[]; bad: string[] }> = {
   assault: {
     ok: [
-      '{lead} led the charge{weapon}, with {ally} at their shoulder.',
-      '{lead} struck first{weapon}, and the rest followed in a wedge of steel.',
-      'It was short and ugly. {lead} broke the first rush{weapon}, and the second never came.',
+      '{lead} went in first{weapon}, with {ally} right behind.',
+      '{lead} hit them before they were ready{weapon}, and the others followed.',
+      'It was short and ugly. {lead} broke the first rush{weapon}, and there wasn\'t a second.',
     ],
-    bad: ['{lead} went in hard{weapon}, but the line buckled.', 'The fight turned against them. {ally} was dragged down and had to be hauled back by the collar.', 'They fought, and they bled for every yard.'],
+    bad: [
+      '{lead} went in hard{weapon}, but the others couldn\'t keep the line.',
+      'It went badly. {ally} was pulled down and had to be dragged back by the collar.',
+      'They won ground and lost it again, and it cost them each time.',
+    ],
   },
   stealth: {
-    ok: ['{lead} found the gap, a drainage cut and a blind corner, and led them through single file.', 'Not a stone turned. {lead} counted the patrols, and they slipped between them like smoke.'],
-    bad: ["{clumsy}'s {armor} rang on stone like a church bell.", '{lead} misjudged the ground, and something heard them.', '{clumsy} stepped on something that crunched. Every head turned.'],
+    ok: ['{lead} found a way through, along a drainage cut and round a blind corner, and brought the others after one at a time.', '{lead} counted the patrols and timed it, and they got through without anyone looking up.'],
+    bad: ["{clumsy}'s {armor} scraped the wall, and in that quiet it was very loud.", '{lead} misjudged the ground, and somebody heard them.', '{clumsy} stepped on something that crunched, and every head turned.'],
   },
   guile: {
-    ok: ['{lead} did the talking, all charm and borrowed authority, and the door opened.', '{lead} told a lie so good that the listener repeated it to the next man.', '{lead} found the right price for the right person.'],
-    bad: ["{lead}'s story had a hole in it, and someone found it.", 'The bribe was taken, and the favor was not given.', '{lead} talked too long, and the listener grew suspicious.'],
+    ok: ['{lead} did the talking, with enough borrowed authority that nobody thought to ask for papers.', "{lead} told a lie good enough that the man repeated it to his own sergeant.", '{lead} worked out who could be paid, and how much.'],
+    bad: ["{lead}'s story had a hole in it, and somebody found it.", 'They took the bribe and then did nothing they\'d been paid for.', '{lead} talked for too long, and the man started asking questions back.'],
   },
   endurance: {
-    ok: ['They marched hard and kept together. {lead} set the pace, and nobody fell behind.', '{lead} kept them moving when the others wanted to stop.'],
-    bad: ['{weakest} fell behind, and the others had to wait.', 'Blisters, cramps and short tempers. They arrived late and spent.'],
+    ok: ['They kept a hard pace, and {lead} made sure nobody fell behind.', '{lead} kept them walking at the point where the others wanted to stop.'],
+    bad: ['{weakest} fell behind, and the rest had to wait.', 'By the time they arrived they had blisters, cramp and very short tempers.'],
   },
   arcana: {
-    ok: ['{lead} drew a sigil in the air{element}, and the problem simply… stopped.', "{lead}'s spellwork{element} did what blades could not."],
-    bad: ["{lead}'s spell guttered like a damp match.", 'The reagents were wrong, or the wards were stronger. The working failed.'],
+    ok: ['{lead} drew a sign in the air{element}, and the problem went away.', "{lead}'s spellwork{element} did what the blades couldn't."],
+    bad: ["{lead}'s spell fizzled out halfway.", 'Either the reagents were bad or the wards were better. The working failed.'],
   },
 };
 
-const STRONG = [' A textbook piece of work.', ' The others would be talking about it for weeks.', ' It could hardly have gone better.'];
-const SEVERE = [' Then everything went wrong at once.', ' It turned into a disaster.', ' Nobody would talk about it afterward.'];
+const STRONG = [' It was about as clean as these things get.', ' The others talked about it for days afterwards.', ' Nobody could have done it much better.'];
+const SEVERE = [' After that, everything went wrong at once.', ' It turned into a disaster.', ' Nobody wanted to talk about it afterwards.'];
 
 const ELEMENT_WORD: Record<Element, string> = { fire: 'fire', frost: 'frost', storm: 'lightning', radiant: 'radiance', shadow: 'shadow' };
 
@@ -170,12 +199,12 @@ export function phaseStory(state: GameState, p: PhaseStoryInput): string[] {
     const best = mults.reduce((a, b) => (b.mult > a.mult ? b : a));
     const worst = mults.reduce((a, b) => (b.mult < a.mult ? b : a));
     if (best.mult >= 1.2 && best.w) out.push(`${first(best.m)}'s ${best.e ? `${ELEMENT_WORD[best.e]}-keyed ` : ''}${best.w.name.toLowerCase()} was exactly the right tool against the ${TAGS[tag].name.toLowerCase()}.`);
-    else if (worst.mult <= 0.8 && worst.w && ADVICE[tag]) out.push(`${first(worst.m)}'s ${worst.w.name.toLowerCase()} did little against the ${TAGS[tag].name.toLowerCase()}. In hindsight, ${ADVICE[tag]}.`);
+    else if (worst.mult <= 0.8 && worst.w && ADVICE[tag]) out.push(`${first(worst.m)}'s ${worst.w.name.toLowerCase()} did little against the ${TAGS[tag].name.toLowerCase()}. Next time, ${ADVICE[tag]}.`);
   }
   if (p.approach === 'arcana' && enemies.length && el) {
     const mult = damageMultiplier(p.tags, p.countered, el);
-    if (mult >= 1.3) out.push(`The ${ELEMENT_WORD[el]} found the weakness in the ${TAGS[enemies[0]].name.toLowerCase()}.`);
-    else if (mult <= 0.6 && ADVICE[enemies[0]]) out.push(`The ${ELEMENT_WORD[el]} barely troubled them. In hindsight, ${ADVICE[enemies[0]]}.`);
+    if (mult >= 1.3) out.push(`The ${ELEMENT_WORD[el]} did real damage to the ${TAGS[enemies[0]].name.toLowerCase()}.`);
+    else if (mult <= 0.6 && ADVICE[enemies[0]]) out.push(`The ${ELEMENT_WORD[el]} barely bothered them. Next time, ${ADVICE[enemies[0]]}.`);
   }
 
   // Preparation: counters that paid off, and penalties nobody prepared for
@@ -185,42 +214,42 @@ export function phaseStory(state: GameState, p: PhaseStoryInput): string[] {
     if (p.countered.has(t)) {
       const carrier = p.squad.find((m) => memberItems(state, m).some((it) => def.counteredBy?.includes(it.id)));
       const item = carrier && memberItems(state, carrier).find((it) => def.counteredBy?.includes(it.id));
-      if (carrier && item) out.push(`The ${item.name.toLowerCase()} ${first(carrier)} packed made all the difference.`);
-      else if (def.counterProfession) out.push(`Having a ${def.counterProfession} along kept the ${def.name.toLowerCase()} at bay.`);
+      if (carrier && item) out.push(`${first(carrier)} had packed ${item.name.toLowerCase().startsWith('fen') ? '' : 'a '}${item.name.toLowerCase()}, and it turned out to matter.`);
+      else if (def.counterProfession) out.push(`Having a ${def.counterProfession} along meant the ${def.name.toLowerCase()} never got a grip on them.`);
     } else if ((def.approach?.[p.approach] ?? 0) > 0 && !ok) {
       const fix = def.counteredBy?.map((id) => ITEMS[id]?.name).filter(Boolean)[0];
-      if (fix) out.push(`Nobody had packed ${fix.toLowerCase()}s, and the ${def.name.toLowerCase()} told.`);
+      if (fix) out.push(`Nobody had thought to pack ${fix.toLowerCase()}s, and the ${def.name.toLowerCase()} wore them down.`);
     }
   }
   return out;
 }
 
 const ROAD = [
-  '{a} and {b} argued over the map until {c} found the drover\'s track.',
-  'Rain for two days. {a} kept the fire going with wet wood and stubbornness.',
-  "They passed a burned toll-house with Ostrander's mark still on the door.",
+  "{a} and {b} argued over the map until {c} found the drovers' track.",
+  'It rained for two days, and {a} kept the fire going with wet wood out of pure stubbornness.',
+  "They passed a burned-out toll-house with Ostrander's mark still painted on the door.",
   '{a} shot a hare, {b} burned it, and everyone ate it anyway.',
-  'A farmer sold them eggs and told them about the war, at length.',
-  '{a} sang marching songs until {b} threatened violence.',
-  'A Crown courier galloped past without stopping. {a} wondered aloud what the news was.',
-  'They slept in a barn that smelled of better years.',
+  'A farmer sold them eggs and then told them about the war for an hour.',
+  '{a} sang marching songs until {b} threatened to throw them in a ditch.',
+  'A Crown courier galloped past without stopping, and {a} spent the next mile guessing what the news was.',
+  'They slept one night in a barn that had seen better years.',
 ];
 
 const TRAIT_ROAD: Record<string, string> = {
   drunkard: '{x} found a wayside inn and had to be fetched out of it.',
-  bookish: '{x} read by firelight and corrected everyone\'s pronunciation of Harrowmere.',
-  hotheaded: '{x} picked a fight with a carter over the right of way.',
-  veteran: '{x} went quiet when they passed the old battlefield.',
-  greedy: '{x} spent the evening working out their share.',
-  brave: '{x} took the night watch nobody wanted.',
-  frail: '{x} was coughing by the second day.',
+  bookish: "{x} read by firelight and corrected everyone's pronunciation of Harrowmere.",
+  hotheaded: '{x} got into an argument with a carter about who had right of way.',
+  veteran: '{x} went quiet when they passed the old battlefield, and nobody pushed.',
+  greedy: '{x} spent an evening working out what their share would come to.',
+  brave: '{x} took the night watch that nobody wanted.',
+  frail: '{x} had a cough by the second day.',
 };
 
 const SEASON_ROAD: Record<string, string> = {
-  Winter: 'Snow on the high road. They walked in each other\'s footprints.',
-  Summer: 'Dust, flies and long light evenings.',
-  Autumn: 'Wet leaves, cold mornings and the smell of woodsmoke.',
-  Spring: 'Mud to the ankle and the first green in the hedges.',
+  Winter: 'There was snow on the high road, and they walked in each other\'s footprints.',
+  Summer: 'It was dusty and full of flies, and the evenings stayed light until late.',
+  Autumn: 'The leaves were wet, the mornings were cold, and every village smelled of woodsmoke.',
+  Spring: 'The mud came up to their ankles, and the hedges were just starting to turn green.',
 };
 
 function roadLines(state: GameState, squad: Member[], days: number, season = true): string[] {
@@ -245,7 +274,7 @@ function roadLines(state: GameState, squad: Member[], days: number, season = tru
 
 export function outboundJournal(state: GameState, c: Contract, squad: Member[]): JournalSection {
   if (c.travelWeeks === 0) {
-    return { title: 'Across Varrow', lines: [`They left the hall at dusk and crossed the city to ${c.region === 'Varrow' ? 'the job' : c.region}, ${squad.map(first).join(', ')}.`] };
+    return { title: 'Across Varrow', lines: [`${squad.map(first).join(', ').replace(/, ([^,]*)$/, ' and $1')} left the hall at dusk and walked across the city to the job.`] };
   }
   return { title: `The road to ${c.region}`, lines: roadLines(state, squad, c.travelWeeks) };
 }
@@ -263,14 +292,14 @@ export function homewardJournal(state: GameState, c: Contract, squad: Member[], 
   if (alive.length && c.travelWeeks > 0) lines.push(...roadLines(state, alive, 1, false).slice(-1));
   lines.push(
     tier === 'Triumph'
-      ? 'They came home loud, with heavier purses and a story to tell.'
+      ? 'They came home loud, with heavy purses and a story they would tell for weeks.'
       : tier === 'Success'
-        ? 'They came home tired and paid.'
+        ? 'They came home tired, and paid.'
         : tier === 'Costly Success'
-          ? 'The job was done, but nobody felt much like celebrating.'
+          ? 'The job was done, but nobody felt like celebrating.'
           : tier === 'Failure'
-            ? 'Nobody talked much on the way home.'
-            : 'It was a long, silent walk home.',
+            ? 'Nobody said much on the way home.'
+            : 'It was a long walk home, and a quiet one.',
   );
   return { title: c.travelWeeks > 0 ? 'The road home' : 'Home', lines };
 }
