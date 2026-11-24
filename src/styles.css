@@ -3257,6 +3257,7 @@ details summary {
   line-height: 1.1;
 }
 .date-pill {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -3272,6 +3273,12 @@ details summary {
   font-weight: 700;
   cursor: pointer;
   box-shadow: var(--shadow);
+}
+/* a taller hit area than the pill itself, so it is easy to tap */
+.date-pill::before {
+  content: '';
+  position: absolute;
+  inset: -5px 0;
 }
 .date-pill .icon {
   color: var(--ink-2);
@@ -3316,7 +3323,6 @@ details summary {
 /* a resource the next Date asks about: a progress line under its chip */
 .res.has-goal {
   border-color: color-mix(in srgb, var(--ink-2) 60%, var(--line));
-  overflow: hidden;
 }
 .res-goal {
   position: absolute;
@@ -3457,6 +3463,10 @@ details summary {
   display: block;
   margin-top: 8px;
 }
+.date-card.date-card-static {
+  padding-right: 14px;
+  cursor: default;
+}
 .date-card.due-now {
   border-color: color-mix(in srgb, var(--mid) 60%, var(--line));
 }
@@ -3558,7 +3568,7 @@ details summary {
 }
 .endweek-foot {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: auto 1fr;
   gap: 8px;
 }
 .hold-btn {
@@ -3605,8 +3615,8 @@ details summary {
   display: inline-flex;
   align-items: center;
   gap: 3px;
-  min-height: 32px;
-  padding: 4px 10px;
+  min-height: 40px;
+  padding: 4px 12px;
   border: 1px solid color-mix(in srgb, var(--paper) 50%, transparent);
   border-radius: 999px;
   background: transparent;
@@ -3617,12 +3627,18 @@ details summary {
 }
 /* a cost chip you're short of links to where to get more */
 .stat-chip-go {
+  position: relative;
   font: inherit;
   font-size: var(--fs-s);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 3px;
+}
+.stat-chip-go::before {
+  content: '';
+  position: absolute;
+  inset: -9px -2px;
 }
 /* where a link lands */
 .nav-pulse {

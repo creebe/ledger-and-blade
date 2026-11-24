@@ -7,6 +7,17 @@ import { Icon } from '../kit/icons';
 import { ASSIGNMENTS } from '../kit/members';
 import { DateCard } from '../panels/DateCard';
 
+/** What members at home are doing, for the summary line. */
+const DOING: Record<string, string> = {
+  rest: 'resting',
+  train: 'training',
+  rumors: 'gathering rumors',
+  labor: 'working the docks',
+  guard: 'guarding the hall',
+  build: 'building',
+  scout: 'scouting',
+};
+
 /**
  * The last look before the week resolves: warnings first, then what's locked
  * in, then the next Date. Ending the week takes a press-and-hold.
@@ -92,19 +103,19 @@ export function EndWeekSheet() {
         {orders.length > 0 && (
           <li>
             <Icon name="people" size={14} />
-            <span>At home: {orders.map((x) => `${x.n} on ${x.a.label.toLowerCase()}`).join(', ')}.</span>
+            <span>At home: {orders.map((x) => `${x.n} ${DOING[x.a.id]}`).join(', ')}.</span>
           </li>
         )}
         {g.construction && (
           <li>
             <Icon name="bricks" size={14} />
-            <span>Building goes on, about {wk(Math.max(1, Math.ceil((g.construction.weeks - g.construction.progress) / buildersSpeed(g))))} left.</span>
+            <span>Building continues, with about {wk(Math.max(1, Math.ceil((g.construction.weeks - g.construction.progress) / buildersSpeed(g))))} left.</span>
           </li>
         )}
         {g.craftQueue.length > 0 && (
           <li>
             <Icon name="anvil" size={14} />
-            <span>The workshop finishes {plural(g.craftQueue.length, 'item')}.</span>
+            <span>The workshop works through its queue of {plural(g.craftQueue.length, 'item')}.</span>
           </li>
         )}
         {voting && (

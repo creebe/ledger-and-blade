@@ -165,7 +165,7 @@ export function HallScreen() {
                 <Btn
                   key={n}
                   className="btn ghost small"
-                  blocked={short(g, 'crowns', n, `Repaying ${n}`)}
+                  blocked={short(g, 'crowns', n, 'That repayment')}
                   onClick={() =>
                     useStore.getState().confirm({
                       title: `Repay ${n} crowns early?`,

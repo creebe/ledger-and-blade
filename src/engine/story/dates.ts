@@ -185,7 +185,8 @@ export function dateTargets(s: GameState, a: ActiveDate = s.dates.current!): Dat
         return { label: `Keep Heat under ${t.below}`, now: `${s.heat} now`, met, frac: met ? 1 : clamp(1 - (s.heat - t.below) / 40, 0, 1), resource: 'heat' };
       case 'standing': {
         const v = s.factions[t.faction].standing;
-        return { label: `Raise ${FACTIONS[t.faction].short} standing to ${t.at}`, now: `${v} now`, met, frac: f(v + 100, t.at + 100) };
+        // progress over the last 25 points below the target, so a long way off reads as a long way off
+        return { label: `Raise ${FACTIONS[t.faction].short} standing to ${t.at}`, now: `${v} now`, met, frac: clamp((v - (t.at - 25)) / 25, 0, 1) };
       }
       case 'contracts': {
         const n = contractsSince(s, a.setWeek);

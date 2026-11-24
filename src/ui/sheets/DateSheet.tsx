@@ -16,12 +16,12 @@ export function DateSheet() {
   return (
     <Sheet title="Dates">
       <p className="small muted">
-        A Date is a day on the guild's calendar worth preparing for. Meet every target by then and it pays. Miss one and it costs. The next Date is always in view, though events
-        can call one off.
+        A Date is a day on the guild's calendar worth preparing for. If every target is met when it arrives, the guild collects the reward, and if any one is missed, it pays the
+        cost. The next Date is always in view, though events can call one off.
       </p>
       {c ? (
         <>
-          <DateCard label="Next date" />
+          <DateCard label="Next Date" still />
           {projected !== undefined && (
             <p className="small date-projection">
               <Icon name="coin" size={14} /> If nothing changes, the treasury will hold about {crowns(projected)} when that week closes.
@@ -55,13 +55,13 @@ export function DateSheet() {
           <div className="date-next">
             <b>{next.title}</b>
             <span className="small muted"> · {next.who}</span>
-            <p className="tiny muted">Expected next. The story may change it before then.</p>
+            <p className="tiny muted">This one is expected next, but events may change it.</p>
           </div>
         </>
       )}
       {past.length > 0 && (
         <>
-          <h3 className="subhead">Past dates</h3>
+          <h3 className="subhead">Past Dates</h3>
           <ul className="date-past">
             {past.map((p, i) => (
               <li key={i} className={`small outcome-${p.outcome}`}>

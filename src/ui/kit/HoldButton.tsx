@@ -38,6 +38,16 @@ export function HoldButton({ onConfirm, children, hint, className }: { onConfirm
       }}
       onPointerUp={() => stop(true)}
       onPointerCancel={() => stop(false)}
+      onPointerMove={(e) => {
+        // sliding off the button lets go without confirming
+        if (!holding) return;
+        const r = e.currentTarget.getBoundingClientRect();
+        if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) stop(false);
+      }}
+      onClick={(e) => {
+        // a click with no pointer behind it comes from a screen reader or switch control
+        if (e.detail === 0) onConfirm();
+      }}
       onContextMenu={(e) => e.preventDefault()}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {

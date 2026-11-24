@@ -13,15 +13,19 @@ function Dot({ g }: { g: GameState }) {
   return color ? <i className="date-dot" style={{ background: color }} aria-hidden /> : null;
 }
 
-/** The current Date as a card: tap for the full sheet. `compact` drops the description. */
-export function DateCard({ compact, label = 'Next date' }: { compact?: boolean; label?: string }) {
+/**
+ * The current Date as a card: tap for the full sheet. `compact` drops the description.
+ * `still` makes it a flat panel, for use inside the Date sheet itself.
+ */
+export function DateCard({ compact, label = 'Next Date', still }: { compact?: boolean; label?: string; still?: boolean }) {
   const g = useStore((s) => s.game)!;
   const open = useStore((s) => s.open);
   const c = currentDate(g);
   if (!c) return null;
   const done = c.targets.filter((t) => t.met).length;
+  const Tag = still ? 'div' : 'button';
   return (
-    <button className={`date-card tappable ${c.weeksLeft === 0 ? 'due-now' : ''}`} onClick={() => open({ kind: 'date' })}>
+    <Tag className={`date-card ${still ? 'date-card-static' : 'tappable'} ${c.weeksLeft === 0 ? 'due-now' : ''}`} onClick={still ? undefined : () => open({ kind: 'date' })}>
       <span className="date-card-head">
         <span className="date-kicker">
           <Icon name="date" size={14} /> {label}
@@ -55,7 +59,7 @@ export function DateCard({ compact, label = 'Next date' }: { compact?: boolean; 
       <span className="date-score small muted">
         {c.targets.length === 1 ? (done ? 'Met so far.' : 'Not met yet.') : done === c.targets.length ? 'Every target met so far.' : `${done} of ${c.targets.length} targets met so far.`}
       </span>
-    </button>
+    </Tag>
   );
 }
 
@@ -68,7 +72,7 @@ export function DatePill() {
   const done = c.targets.filter((t) => t.met).length;
   const all = done === c.targets.length;
   return (
-    <button className={`date-pill ${c.weeksLeft === 0 ? 'now' : ''} ${all ? 'all-met' : ''}`} onClick={() => open({ kind: 'date' })} aria-label={`Next date: ${c.def.title}, ${dueText(c.weeksLeft)}. ${done} of ${c.targets.length} targets met.`}>
+    <button className={`date-pill ${c.weeksLeft === 0 ? 'now' : ''} ${all ? 'all-met' : ''}`} onClick={() => open({ kind: 'date' })} aria-label={`Next Date: ${c.def.title}, ${dueText(c.weeksLeft)}. ${done} of ${c.targets.length} targets met.`}>
       <Icon name="date" size={14} />
       <span className="date-pill-title">{c.def.title}</span>
       <span className="date-pill-due">{c.weeksLeft === 0 ? 'this week' : `${c.weeksLeft} wk`}</span>
