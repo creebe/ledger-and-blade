@@ -2,6 +2,43 @@
 
 Newest first. Each entry says what changed for a player, why (quoting the owner's feedback where it came from playtesting), and what was and wasn't checked. The live site is https://creebe.github.io/ledger-and-blade/ and is only republished on the owner's word; each entry notes whether it is live.
 
+## v0.11.0 (2026-11-24): The UI audit, built
+Fewer taps for the things you do every week, and colors, icons and type that mean one thing each. The owner asked for a UI/UX audit (`docs/audits/ui-ux.md`) and then to build every recommendation in it: "Go with all of your recommendations and proposals".
+- **Fewer taps:**
+  - The planner has a Best squad button, which takes a three-person contract from 6 taps to 4. When supplies are short, the planner offers to buy them and keeps the squad picked.
+  - Weekly orders can be set from a chip on each Roster row, and the member sheet shows orders first.
+  - The Realm has sub-tabs: Council, Powers, Rivals and The Debt.
+  - Hall alerts, and "N to check" on the End Week bar, take you where they point.
+  - Squads in the field are one-line rows on Contracts, so the Board stays on the first screen.
+- **Clearer at a glance:**
+  - Gold now means Story only, warnings are orange, and titles are ink instead of red.
+  - Every icon has one meaning, and "Guard the hall" has its own.
+  - Nine type sizes replace 30, and numbers in the heading font read correctly.
+  - Crowns, weeks, minus signs and dates are written one way everywhere.
+  - Resources are labelled in the first season, and Roster and Hall have badges.
+- **Rules kept:** every purchase asks for confirmation, blocked buttons say why, small controls have bigger tap areas, and the notice no longer covers sheet content.
+- **Renamed:** the Hall's "Debt" section is now The Loan.
+- **Fixes:** the hire confirmation now uses the real upkeep, and "(s)" plurals are gone from game messages.
+- Checked:
+  - `npm run check` and the build pass.
+  - The UI, writing and engine reviewers ran, and their fixes are in.
+  - Browser checks at 390 and 360 px in both themes, on early, mid and late saves, with no console errors.
+- Not checked:
+  - iOS Safari.
+  - The balance sim, because no numbers changed.
+- Still open: while a sheet is open, the notice covers its title for about 3 seconds. In the light theme, the warning orange is still fairly close to the bad red.
+- Not live.
+
+## v0.10.2 (2026-11-24): A little more pay
+Every contract pays about 10% more, which makes the first year a little more forgiving. The owner asked to ease difficulty back toward where it was before the new cast and rivals: "Yes, please ease it back toward 70%."
+- Contract pay goes from ×1.5 to ×1.65 (`REWARD_SCALE` in `core/tuning.ts`). Nothing else changes. The target range in the guide and the balance reviewer moves from 55–65% to 65–75%.
+- Checked:
+  - Balance bot over 400 games: careful bot's first-year survival went from 58% to 69%, and the middle bot's from 54% to 64%. Average deaths stay low (0.06 a year for the careful bot).
+  - A sweep over 300 games put ×1.6 at 67% and ×1.7 at 75%.
+  - Tests, the story checker and the build pass.
+- Not checked: a real player's feel for it. Bankruptcy is still the main way to lose.
+- **Live** (republished on the owner's word, 2026-11-24). This deploy also brought v0.8.2 to v0.10.1 to the live site.
+
 ## v0.10.1 (2026-11-24): Clean house
 No change to how the game plays. The owner asked for "a thorough code clean up pass and reorganize anything necessary to make it easier to continue development".
 - The engine is in area folders (core, people, missions, economy, politics, rivals, story, data), and the screens are in kit, screens, sheets and panels. The two catch-all files (`world.ts` and `turn.ts`) are split up, and the weekly turn is a list of named phases.
@@ -31,8 +68,8 @@ No change to how the game plays. The owner asked for "a thorough code clean up p
 ## v0.8.2 (2026-11-23)
 Collectable note rewards, sticky odds in the planner, full-height panels with Back, and a writing-style pass. Not live.
 
-## v0.8.1 (2026-11-23): live
-Clearer tap targets, bulk supply discounts, renamed Armory tabs. **This is the version on the live site.**
+## v0.8.1 (2026-11-23)
+Clearer tap targets, bulk supply discounts, renamed Armory tabs. Was the live version until v0.10.2.
 
 ## v0.8.0 (2026-11-23)
 The Journal (notes, Codex, Chronicle), lore through play and street talk, a compact roster and a sortable strength grid.
