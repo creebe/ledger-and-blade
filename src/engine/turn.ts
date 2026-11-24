@@ -3,7 +3,7 @@ import { TRAITS } from './data/traits';
 import { activeMods, modProduct, modSum } from './data/decrees';
 import { councilNewWeek, freshCouncil, weeklyCouncil } from './council';
 import { freshTutorial } from './tutorial';
-import { discoverLore, freshCodex, weeklyCrier } from './codex';
+import { discoverLore, freshCodex, weeklyCrier, weeklyJory } from './codex';
 import { denIntel, freshFacilities, healBonus, level, trainCost, trainWeeks, upkeep, weeklyWorkshop } from './buildings';
 import { triggerEvents } from './events';
 import { resolveMission } from './missions';
@@ -27,7 +27,7 @@ import {
   track,
 } from './world';
 
-export const SAVE_VERSION = 8;
+export const SAVE_VERSION = 9;
 
 export function freshNpcs(): GameState['npcs'] {
   return {
@@ -36,6 +36,33 @@ export function freshNpcs(): GameState['npcs'] {
     marta: { status: 'alive', attitude: 0 },
     isbet: { status: 'alive', attitude: 0 },
     dagny: { status: 'alive', attitude: 0 },
+    coster: { status: 'alive', attitude: 0 },
+    brune: { status: 'alive', attitude: 0 },
+    aske: { status: 'alive', attitude: 0 },
+    pask: { status: 'alive', attitude: 0 },
+    mayne: { status: 'alive', attitude: 0 },
+    plaice: { status: 'alive', attitude: 0 },
+    jory: { status: 'alive', attitude: 0 },
+  };
+}
+
+export function freshRivals(): GameState['rivals'] {
+  return {
+    hobbs: { id: 'hobbs', name: 'Hobb & Daughters', crowns: 2000, renown: 20, strength: 10, aggression: 0.4, contractsWon: 0, active: true },
+    ninth: { id: 'ninth', name: 'The Ninth', crowns: 600, renown: 14, strength: 12, aggression: 0.25, contractsWon: 0, active: false },
+    assay: { id: 'assay', name: 'The Assay Office', crowns: 1200, renown: 18, strength: 4, aggression: 0.2, contractsWon: 0, active: false },
+  };
+}
+
+export function freshFactions(): GameState['factions'] {
+  return {
+    exchequer: { id: 'exchequer', standing: 10 },
+    weighhouse: { id: 'weighhouse', standing: 5 },
+    ostranders: { id: 'ostranders', standing: 0 },
+    lowertown: { id: 'lowertown', standing: 0 },
+    oda: { id: 'oda', standing: 0 },
+    fourteen: { id: 'fourteen', standing: 0 },
+    mudlarks: { id: 'mudlarks', standing: 0 },
   };
 }
 
@@ -76,6 +103,14 @@ export function migrateSave(g: GameState): GameState | null {
     g.tutorial.claimed = [...g.tutorial.done];
     g.version = 8;
   }
+  if (g.version === 8) {
+    // the wider cast: new characters, factions met in the story, more rivals
+    g.npcs = { ...freshNpcs(), ...g.npcs };
+    g.factions = { ...freshFactions(), ...g.factions };
+    const fresh = freshRivals();
+    g.rivals = { ...fresh, ...g.rivals, hobbs: { ...g.rivals.hobbs, active: true } };
+    g.version = 9;
+  }
   return g.version === SAVE_VERSION ? g : null;
 }
 
@@ -97,15 +132,8 @@ export function newGame(seed = Date.now() % 2147483647): GameState {
     items: [],
     board: [],
     missions: [],
-    factions: {
-      exchequer: { id: 'exchequer', standing: 10 },
-      weighhouse: { id: 'weighhouse', standing: 5 },
-      ostranders: { id: 'ostranders', standing: 0 },
-      lowertown: { id: 'lowertown', standing: 0 },
-    },
-    rivals: {
-      hobbs: { id: 'hobbs', name: 'Hobb & Daughters', crowns: 2000, renown: 20, strength: 10, aggression: 0.4, contractsWon: 0 },
-    },
+    factions: freshFactions(),
+    rivals: freshRivals(),
     clocks: { arrears: 30, leverage: 25, unrest: 30, cointrust: 60 },
     loans: [{ lender: 'weighhouse', principal: 800, weeklyRate: 0.01, paymentDue: 48, dueWeek: 6, missed: 0 }],
     market: { supplies: 1, iron: 1, leather: 1, timber: 1, reagents: 1 },
@@ -148,6 +176,25 @@ export function newGame(seed = Date.now() % 2147483647): GameState {
   planRival(s);
   triggerEvents(s);
   return s;
+}
+
+/** Saint Oda's sisters look in on the guild's wounded. */
+export function odaHeal(s: GameState): number {
+  const st = s.factions.oda?.standing ?? 0;
+  return st >= 40 ? 4 : st >= 20 ? 2 : 0;
+}
+
+/** Weekly effects of standing with the factions met in the story. */
+function factionPerks(s: GameState) {
+  if ((s.factions.fourteen?.standing ?? 0) >= 25 && s.week % 4 === 0) {
+    s.influence += 1;
+    addDispatch(s, 'politics', 'A word from the Fourteen', ['One of the old families mentioned your guild favorably at court. Influence +1.']);
+  }
+  if ((s.factions.mudlarks?.standing ?? 0) <= -25 && s.supplies >= 4 && chance(s, 0.25)) {
+    const lost = Math.min(s.supplies, randInt(s, 2, 5));
+    s.supplies -= lost;
+    addDispatch(s, 'warning', 'Something went missing', [`The back door of the stores was found open this morning, and ${lost} supplies have gone. Nobody on the river saw a thing.`]);
+  }
 }
 
 export interface Projection {
@@ -210,7 +257,7 @@ export function advanceWeek(s: GameState): string | undefined {
       continue;
     }
     const frail = m.traits.includes('frail');
-    m.health = clamp(m.health + (frail ? 5 : 9) + healBonus(s), 0, 100);
+    m.health = clamp(m.health + (frail ? 5 : 9) + healBonus(s) + odaHeal(s), 0, 100);
     if (level(s, 'infirmary') >= 3) m.fatigue = clamp(m.fatigue - 5, 0, 100);
     m.fatigue = clamp(m.fatigue - 10, 0, 100);
     if (m.status === 'recovering' || m.health < 40) {
@@ -296,6 +343,7 @@ export function advanceWeek(s: GameState): string | undefined {
   executeRival(s);
   weeklyCouncil(s);
   weeklyCrier(s);
+  weeklyJory(s);
   discoverLore(s);
 
   // ---- 4. economy ----
@@ -368,6 +416,7 @@ export function advanceWeek(s: GameState): string | undefined {
   }
 
   // ---- 6. heat & politics ----
+  factionPerks(s);
   s.heat = clamp(s.heat - (s.factions.exchequer.standing >= 30 ? 3 : 2) - modSum(s, 'heatDecay'), 0, 100);
   if (s.heat >= 80) applyStanding(s, 'exchequer', -3);
   const charterDanger = s.factions.exchequer.standing <= -60 || s.heat >= 100;

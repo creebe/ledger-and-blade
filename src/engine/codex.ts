@@ -1,6 +1,6 @@
 // Codex discovery and the weekly street talk.
-import { CODEX, CRIER } from './data/codex';
-import { weighted } from './rng';
+import { CODEX, CRIER, JORY } from './data/codex';
+import { chance, weighted } from './rng';
 import type { GameState } from './types';
 import { addDispatch } from './world';
 
@@ -25,6 +25,18 @@ export function discoverLore(s: GameState): string[] {
 }
 
 /** One line of street talk a week, reflecting the state of the city. */
+/** About one week in four, Jory has something to say. */
+export function weeklyJory(s: GameState) {
+  if (s.npcs.jory?.status !== 'alive' || !chance(s, 0.25)) return;
+  const recent = (s.crierRecent ??= []);
+  const pool = JORY.filter((c) => !recent.includes(c.id) && (!c.when || c.when(s)));
+  if (!pool.length) return;
+  const line = weighted(s, pool.map((c) => ({ item: c, weight: c.weight ?? 1 })));
+  recent.push(line.id);
+  if (recent.length > 10) recent.shift();
+  addDispatch(s, 'info', 'In the hall', [line.text]);
+}
+
 export function weeklyCrier(s: GameState) {
   const seen = (s.crierSeen ??= []);
   const recent = (s.crierRecent ??= []);

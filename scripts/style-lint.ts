@@ -4,6 +4,9 @@ import { readFileSync } from 'node:fs';
 
 const FILES = [
   'src/engine/data/events.ts',
+  'src/engine/data/cast.ts',
+  'src/engine/data/facts.ts',
+  'src/engine/data/factions.ts',
   'src/engine/data/field.ts',
   'src/engine/data/codex.ts',
   'src/engine/data/contracts.ts',
@@ -53,7 +56,7 @@ for (const f of FILES) {
         if (r.re.test(s)) {
           total++;
           byRule[r.id] = (byRule[r.id] ?? 0) + 1;
-          (samples[r.id] ??= []).length < 4 && samples[r.id].push(`${f}:${i + 1}  ${s.slice(1, 110)}`);
+          (samples[r.id] ??= []).length < (process.env.ALL ? 999 : 4) && samples[r.id].push(`${f}:${i + 1}  ${s.slice(1, 110)}`);
         }
       }
     }

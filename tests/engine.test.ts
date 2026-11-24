@@ -216,9 +216,25 @@ describe('engine', () => {
     delete s.craftQueue;
     s.version = 3;
     const g = migrateSave(s as never)!;
-    expect(g.version).toBe(8);
+    expect(g.version).toBe(9);
     expect(g.facilities.hall).toBe(1);
     expect(g.craftQueue).toEqual([]);
+  });
+
+  it('version 8 saves gain the new cast, factions and rivals', () => {
+    const s = newGame(25) as unknown as { [k: string]: unknown; npcs: Record<string, unknown>; factions: Record<string, unknown>; rivals: Record<string, { active?: boolean }> };
+    for (const k of ['coster', 'brune', 'aske', 'pask', 'mayne', 'plaice', 'jory']) delete s.npcs[k];
+    for (const k of ['oda', 'fourteen', 'mudlarks']) delete s.factions[k];
+    delete s.rivals.ninth;
+    delete s.rivals.assay;
+    delete s.rivals.hobbs.active;
+    s.version = 8;
+    const g = migrateSave(s as never)!;
+    expect(g.version).toBe(9);
+    expect(g.npcs.pask.status).toBe('alive');
+    expect(g.factions.oda.standing).toBe(0);
+    expect(g.rivals.hobbs.active).toBe(true);
+    expect(g.rivals.ninth.active).toBe(false);
   });
 
   it('the Council posts an agenda, can be lobbied, and votes at the end of the season', () => {

@@ -11,8 +11,11 @@ import {
   PETITION_COST,
   revealRivalPlan,
   RIVALS,
+  activeRivals,
+  factionKnown,
   type ClockId,
   type FactionId,
+  type RivalId,
 } from '../../engine';
 import { useStore } from '../../store';
 import { Btn, Meter, Section, StandingBar } from '../common';
@@ -35,8 +38,6 @@ export function RealmScreen() {
   const g = useStore((s) => s.game)!;
   const act = useStore((s) => s.act);
   const { confirm, notify } = useStore.getState();
-  const plan = g.rivals.hobbs.plan;
-  const counter = counterCost(g);
 
   return (
     <div className="screen">
@@ -76,7 +77,7 @@ export function RealmScreen() {
           </span>
         }
       >
-        {(Object.keys(FACTIONS) as FactionId[]).map((id) => {
+        {(Object.keys(FACTIONS) as FactionId[]).filter((id) => factionKnown(g, id)).map((id) => {
           const f = FACTIONS[id];
           const v = g.factions[id].standing;
           return (
@@ -143,63 +144,85 @@ export function RealmScreen() {
       </Section>
 
       <Section title="Rivals" guide="rivals">
-        <div className="faction" style={{ ['--fc' as string]: RIVALS.hobbs.color }}>
-          <div className="row between">
-            <b className="meta" style={{ color: 'var(--ink)', fontSize: '1rem' }}>
-              <span className="type-icon" style={{ width: 32, height: 32 }}>
-                <Icon name="hobbs" size={18} />
-              </span>
-              {RIVALS.hobbs.name}
-            </b>
-            <span className="small">Renown {Math.round(g.rivals.hobbs.renown)} (you: {g.renown})</span>
-          </div>
-          <p className="small">{RIVALS.hobbs.who}</p>
-          <p className="small muted">
-            Contracts taken from under you: {g.rivals.hobbs.contractsWon} · Aggression: {g.rivals.hobbs.aggression >= 0.65 ? 'High' : g.rivals.hobbs.aggression >= 0.35 ? 'Moderate' : 'Low'}
-          </p>
-          {plan?.revealed ? (
-            <>
-              <p className="warn small">This week: {describePlan(g, plan)}</p>
-              {plan.countered && <p className="good small">Countered.</p>}
-              {counter && (
-                <button
-                  className="btn ghost small"
-                  onClick={() =>
-                    confirm({
-                      title: 'Counter Hobb & Daughters?',
-                      body: [counter.label + '.', 'Their plan for this week will come to nothing.'],
-                      cost: counter.influence ? `Costs ${counter.influence} Influence · you have ${g.influence}` : `Costs ${counter.crowns} crowns · you have ${g.crowns}`,
-                      confirmLabel: 'Counter them',
-                      onConfirm: () => act((d) => counterRivalPlan(d)) && notify('Countered. Their plan for this week is foiled.'),
-                    })
-                  }
-                >
-                  {counter.label}
-                  {counter.influence ? ` · ${counter.influence} Influence` : ''}
-                </button>
-              )}
-              {plan.kind === 'contract' && !plan.countered && <p className="tiny muted">Take the contract yourself before the week ends to deny it to them.</p>}
-            </>
-          ) : (
+        {activeRivals(g).map((id) => (
+          <RivalCard key={id} id={id} />
+        ))}
+      </Section>
+
+    </div>
+  );
+}
+
+function RivalCard({ id }: { id: RivalId }) {
+  const g = useStore((s) => s.game)!;
+  const act = useStore((s) => s.act);
+  const { confirm, notify } = useStore.getState();
+  const r = g.rivals[id];
+  const info = RIVALS[id];
+  const plan = r.plan;
+  const counter = counterCost(g, id);
+  const spyBody: Record<RivalId, string> = {
+    hobbs: 'Your informants will learn what the Hobbs intend this week: a contract they want, a member they are courting, or rumors they are spreading. Some plans can then be countered.',
+    ninth: 'Your informants will learn what the Ninth intend this week: a contract they want, or one of your people Mayne is trying to hire. Both can be dealt with.',
+    assay: 'Your informants will learn whether the Assay Office means to take a contract or inspect your stillroom this week. An inspection can be put off.',
+  };
+  return (
+    <div className="faction" style={{ ['--fc' as string]: info.color }}>
+      <div className="row between">
+        <b className="meta" style={{ color: 'var(--ink)', fontSize: '1rem' }}>
+          <span className="type-icon" style={{ width: 32, height: 32 }}>
+            <Icon name={id} size={18} />
+          </span>
+          {info.name}
+        </b>
+        <span className="small">Renown {Math.round(r.renown)} (you: {g.renown})</span>
+      </div>
+      <p className="small">{info.who}</p>
+      <p className="small muted">
+        Contracts taken from under you: {r.contractsWon} · Aggression: {r.aggression >= 0.65 ? 'High' : r.aggression >= 0.35 ? 'Moderate' : 'Low'}
+        {id === 'assay' && (g.flags.assay_licensed ? ' · Licensed' : ' · Not licensed')}
+      </p>
+      {plan?.revealed ? (
+        <>
+          <p className="warn small">This week: {describePlan(g, plan, id)}</p>
+          {plan.countered && <p className="good small">Countered.</p>}
+          {counter && (
             <Btn
               className="btn ghost small"
-              blocked={g.intel < INTEL_RIVAL_COST ? `Needs ${INTEL_RIVAL_COST} Intel (you have ${g.intel}). Set members to Gather rumors.` : undefined}
+              blocked={counter.crowns && g.crowns < counter.crowns ? `Needs ${counter.crowns} crowns (you have ${g.crowns})` : counter.influence && g.influence < counter.influence ? `Needs ${counter.influence} Influence (you have ${g.influence})` : undefined}
               onClick={() =>
                 confirm({
-                  title: "Spy on Hobb & Daughters?",
-                  body: ['Your informants will learn what the Hobbs intend this week: a contract they want, a member they are courting, or rumors they are spreading. Some plans can then be countered.'],
-                  cost: `Costs ${INTEL_RIVAL_COST} Intel · you have ${g.intel}`,
-                  confirmLabel: `Spend ${INTEL_RIVAL_COST} Intel`,
-                  onConfirm: () => act((d) => revealRivalPlan(d)),
+                  title: `Counter ${info.name}?`,
+                  body: [counter.label + '.', 'Their plan for this week will come to nothing.'],
+                  cost: counter.influence ? `Costs ${counter.influence} Influence · you have ${g.influence}` : `Costs ${counter.crowns} crowns · you have ${g.crowns}`,
+                  confirmLabel: 'Counter them',
+                  onConfirm: () => act((d) => counterRivalPlan(d, id)) && notify('Countered. Their plan for this week is foiled.'),
                 })
               }
             >
-              Learn their plans this week · {INTEL_RIVAL_COST} Intel
+              {counter.label}
+              {counter.influence ? ` · ${counter.influence} Influence` : ''}
             </Btn>
           )}
-        </div>
-      </Section>
-
+          {plan.kind === 'contract' && !plan.countered && <p className="tiny muted">Take the contract yourself before the week ends to deny it to them.</p>}
+        </>
+      ) : (
+        <Btn
+          className="btn ghost small"
+          blocked={g.intel < INTEL_RIVAL_COST ? `Needs ${INTEL_RIVAL_COST} Intel (you have ${g.intel}). Set members to Gather rumors.` : undefined}
+          onClick={() =>
+            confirm({
+              title: `Spy on ${info.name}?`,
+              body: [spyBody[id]],
+              cost: `Costs ${INTEL_RIVAL_COST} Intel · you have ${g.intel}`,
+              confirmLabel: `Spend ${INTEL_RIVAL_COST} Intel`,
+              onConfirm: () => act((d) => revealRivalPlan(d, id)),
+            })
+          }
+        >
+          Learn their plans this week · {INTEL_RIVAL_COST} Intel
+        </Btn>
+      )}
     </div>
   );
 }

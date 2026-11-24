@@ -71,10 +71,12 @@ export function triggerEvents(state: GameState) {
     if (def.condition && !def.condition(state)) continue;
     if (!npcsAvailable(state, def)) continue;
     if ((def.after ?? []).some((id) => state.eventWeeks[id] === undefined || state.eventWeeks[id] === state.week)) continue;
+    const focus = def.member ? living(state).filter((m) => def.member!(state, m)).sort((a, b) => b.level - a.level || b.xp - a.xp)[0] : undefined;
+    if (def.member && !focus) continue;
     const forced = state.week >= to;
     if (!forced && !chance(state, def.chance ?? 0.45)) continue;
     state.eventWeeks[def.id] = state.week;
-    state.pendingEvents.push(instantiate(state, def));
+    state.pendingEvents.push(instantiate(state, def, focus));
     return; // at most one story beat per week
   }
   if (state.week <= 2) return;
@@ -191,8 +193,22 @@ export function applyEventEffect(state: GameState, e: EventEffect, ev: GameEvent
   lines.push(...cl.map((l) => `${l}.`));
   if (e.morale) for (const m of living(state)) m.morale = clamp(m.morale + e.morale, 0, 100);
   if (e.loyalty) for (const m of living(state)) m.loyalty = clamp(m.loyalty + e.loyalty, 0, 100);
-  if (e.rivalRenown) state.rivals.hobbs.renown = Math.max(0, state.rivals.hobbs.renown + e.rivalRenown);
-  if (e.rivalAggression) state.rivals.hobbs.aggression = clamp(state.rivals.hobbs.aggression + e.rivalAggression, 0, 1);
+  const rival = state.rivals[e.rival ?? 'hobbs'];
+  if (e.rivalRenown) rival.renown = Math.max(0, rival.renown + e.rivalRenown);
+  if (e.rivalAggression) rival.aggression = clamp(rival.aggression + e.rivalAggression, 0, 1);
+  if (e.unflag) delete state.flags[e.unflag];
+  for (const f of e.flags ?? []) {
+    state.flags[f] = true;
+    if (f === 'ninth_active') state.rivals.ninth.active = true;
+    if (f === 'assay_active') state.rivals.assay.active = true;
+  }
+  if (e.addTag) {
+    const { template, tag } = e.addTag;
+    const c = state.board.find((x) => x.templateId === template);
+    const ms = state.missions.find((x) => x.contract.templateId === template && !x.report);
+    if (c && !c.tags.includes(tag)) c.tags.push(tag);
+    else if (ms && !ms.contract.tags.includes(tag) && !(ms.extraTags ?? []).includes(tag)) ms.extraTags = [...(ms.extraTags ?? []), tag];
+  }
   if (e.grantItem) {
     addItem(state, e.grantItem);
     lines.push('Item added to the armory.');
@@ -246,16 +262,23 @@ export function applyEventEffect(state: GameState, e: EventEffect, ev: GameEvent
         lines.push(`${m.name.split(' ')[0]} is now ${TRAITS[x.trait]?.name ?? x.trait}.`);
       }
       if (x.removeTrait) m.traits = m.traits.filter((t) => t !== x.removeTrait);
+      if (x.leaves && m.status !== 'mission') {
+        m.status = 'left';
+        m.causeOfDeath = 'Left the guild';
+        m.loadout = { consumables: [] };
+        lines.push(`${m.name} leaves the guild. Their gear stays in the armory.`);
+      }
     }
   }
   if (e.mission || e.log) {
     const ms = ev.missionId ? state.missions.find((m) => m.id === ev.missionId) : undefined;
     if (ms) applyMissionEffect(state, ms, e, lines);
   }
-  if (e.npc) {
-    const n = state.npcs[e.npc.id];
-    if (e.npc.attitude) n.attitude = clamp(n.attitude + e.npc.attitude, -100, 100);
-    if (e.npc.status) n.status = e.npc.status;
+  for (const x of [e.npc, ...(e.npcs ?? [])]) {
+    if (!x) continue;
+    const n = state.npcs[x.id];
+    if (x.attitude) n.attitude = clamp(n.attitude + x.attitude, -100, 100);
+    if (x.status) n.status = x.status;
   }
   if (e.flag) {
     state.flags[e.flag] = true;
@@ -265,6 +288,8 @@ export function applyEventEffect(state: GameState, e: EventEffect, ev: GameEvent
       addItem(state, 'fire_oil');
       lines.push('A Mail Hauberk and 2 Fire Oils are added to the armory.');
     }
+    if (e.flag === 'ninth_active') state.rivals.ninth.active = true;
+    if (e.flag === 'assay_active') state.rivals.assay.active = true;
     if (e.flag === 'bank_paid_loan' && state.loans[0]) {
       state.loans[0].principal = Math.max(0, state.loans[0].principal - 200);
       lines.push('Your loan is reduced by 200 crowns.');

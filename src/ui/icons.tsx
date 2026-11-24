@@ -69,6 +69,11 @@ const P: Record<string, string> = {
   ostranders: 'M3 21h18 M4 10h16 M12 3l9 5H3z M6 10v8 M10 10v8 M14 10v8 M18 10v8',
   lowertown: 'M12 3v10a4 4 0 1 1-4 4 M9 3h6',
   hobbs: 'M3 12a9 9 0 0 1 18 0z M12 12v7a2 2 0 0 1-4 0 M12 3v-1',
+  oda: 'M12 3v18 M6 9h12 M8 21h8',
+  fourteen: 'M5 21V8h2V5h2v3h2V5h2v3h2V5h2v3h2v13z M10 21v-5h4v5',
+  mudlarks: 'M12 3a2 2 0 1 0 0 4a2 2 0 1 0 0-4 M12 7v14 M8 11h8 M4 14a8 8 0 0 0 16 0',
+  ninth: 'M5 21V3 M5 4h12l-3 4l3 4H5',
+  assay: 'M9 3h6 M10 3v6l-5 10a1.5 1.5 0 0 0 1.3 2h11.4a1.5 1.5 0 0 0 1.3-2l-5-10V3 M7.5 15h9',
   // navigation & misc
   hall: 'M3 11l9-7l9 7 M5 10v10h14V10 M10 20v-6h4v6',
   scroll: 'M6 3h8l4 4v14H6z M14 3v4h4 M9 11h6 M9 14.5h6 M9 18h4',

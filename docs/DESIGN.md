@@ -171,6 +171,8 @@ Each facility has levels, a construction cost (Crowns + Materials + weeks), and 
 | **The Mudlarks** | The river underworld | They profit from smuggling around the bank's tolls and embargoes | Smuggling, information, dirty work, and Heat |
 | **Ostrander's** | The foreign bank itself, with offices in Varrow and agents everywhere | It *is* the debt | Cheap loans with strings, lucrative collection contracts, leverage over every other faction |
 
+> **Implemented (v0.9):** all seven factions are in the game. Saint Oda's, the Fourteen and the Mudlarks appear on the Realm screen once the guild has met their character in the story (Sister Brune, Lady Aske, Wenna Pask). Each then offers its own contracts. Perks: Saint Oda's heals your wounded faster (+2 health a week at 20 standing, +4 at 40). The Fourteen give +1 Influence every four weeks at 25 or more. The Mudlarks cut supply prices by 10% at 20 or more, and steal from your stores at −25 or worse. The three have no Council seats yet; the Council stays at nine seats until Act II.
+
 - **Standing (−100 to +100)** per faction. Thresholds unlock contracts, prices and perks, or bring hostility (refused service, ambushes, legal attacks).
 - **Factions have relationships with each other**, and most of them pivot on the Debt. Taking a collection contract from Ostrander's against one of the Fourteen pleases the bank, angers the nobles, and may please the Lower Town, who like seeing nobles squeezed.
 
@@ -198,6 +200,8 @@ Three AI rivals with distinct personalities and goals, each running a simplified
 - **The Ninth**: a disbanded royal company gone private, made up of veterans of the lost war. They are bitter, proud and dangerous. They bid low on combat work, poach your veterans, and want revenge on the bank, even if it costs the realm.
 - **Hobb & Daughters**: a family firm of debt collectors on retainer to Ostrander's. They are rich, ruthless and well-connected, and they win contracts with money and blackmail.
 - **The Assay Office**: the city's reagent-testers and coin-assayers, gone private. They are scholarly and secretive, and they outbid you on relics and lore. They certify every reagent and enchantment sold in Varrow, and they know more about the Crown Penny's true silver content than anyone should.
+
+> **Implemented (v0.9):** all three rivals are in the game. Hobb & Daughters compete from the start. The Ninth become active when Captain Mayne arrives (Act I, around week 12): they take fighting work and try to hire your fighters and senior members. The Assay Office becomes active after Master Assayer Plaice's visit: it takes arcane work and inspects guilds that keep a stillroom or keyed foci, fining them unless they hold a license. Each contested contract is claimed by the rival whose taste fits it best. Every rival's weekly plan can be spied on with Intel, and most plans can be countered.
 
 Rival interactions: contract bidding wars, poaching members, sabotage (countered via your Spymaster), smear campaigns, temporary alliances, and mergers or hostile takeovers in the late game. Rivals can rise, fall, or be destroyed, by you or by events. Rivals can go into debt too, and **you can buy their debt**.
 

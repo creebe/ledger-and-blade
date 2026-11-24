@@ -20,8 +20,11 @@ export type ProfessionId =
   | 'envoy'
   | 'infiltrator';
 
-export type FactionId = 'exchequer' | 'weighhouse' | 'ostranders' | 'lowertown';
-export type RivalId = 'hobbs';
+/** The four factions that hold seats on the Council of Varrow. */
+export type CouncilFaction = 'exchequer' | 'weighhouse' | 'ostranders' | 'lowertown';
+/** Every faction, including those met during the story (no Council seats). */
+export type FactionId = CouncilFaction | 'oda' | 'fourteen' | 'mudlarks';
+export type RivalId = 'hobbs' | 'ninth' | 'assay';
 export type MaterialId = 'iron' | 'leather' | 'timber' | 'reagents';
 
 export type TagId = string;
@@ -126,6 +129,7 @@ export interface ContractEffect {
   heat?: number;
   renown?: number;
   influence?: number;
+  loan?: number; // change to the guild's loan principal
 }
 
 export interface HiddenTag {
@@ -223,11 +227,12 @@ export interface Rival {
   strength: number; // abstract roster power
   aggression: number; // 0-1
   contractsWon: number;
+  active: boolean; // rivals met during the story start inactive
   plan?: RivalPlan;
 }
 
 export interface RivalPlan {
-  kind: 'contract' | 'smear' | 'poach' | 'none';
+  kind: 'contract' | 'smear' | 'poach' | 'inspect' | 'none';
   target?: string; // contract id or member id
   revealed: boolean;
   countered: boolean;
@@ -278,8 +283,13 @@ export interface EventEffect extends ContractEffect {
   unlockContract?: string; // template id, added to the board
   flag?: FactId;
   npc?: { id: NpcId; attitude?: number; status?: NpcStatus };
+  npcs?: { id: NpcId; attitude?: number; status?: NpcStatus }[]; // further characters affected
   rivalRenown?: number;
   rivalAggression?: number;
+  rival?: RivalId; // which rival rivalRenown/rivalAggression apply to (default Hobb & Daughters)
+  flags?: FactId[]; // further facts set by the same choice
+  unflag?: FactId; // a fact that stops being true
+  addTag?: { template: string; tag: TagId }; // a danger added to that contract, on the board or in the field
   grantItem?: string;
   freeRecruit?: boolean;
   wounds?: number; // wounds dealt to a random member
@@ -390,8 +400,8 @@ export type Stance = -1 | 0 | 1; // against, undecided, for
 
 export interface AgendaItem {
   id: string; // decree id
-  base: Record<FactionId, Stance>; // where each faction started
-  positions: Record<FactionId, Stance>; // where they stand now
+  base: Record<CouncilFaction, Stance>; // where each faction started
+  positions: Record<CouncilFaction, Stance>; // where they stand now
   player: Stance; // the guild's declared position
 }
 
@@ -399,6 +409,6 @@ export interface CouncilState {
   agenda: AgendaItem[];
   voteWeek?: number;
   active: { id: string; untilWeek: number }[];
-  lobbied: Partial<Record<FactionId, number>>; // week each faction was last lobbied
+  lobbied: Partial<Record<CouncilFaction, number>>; // week each faction was last lobbied
   history: { week: number; id: string; passed: boolean; votesFor: number; votesAgainst: number; player: Stance }[];
 }

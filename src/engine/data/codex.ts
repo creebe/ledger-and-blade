@@ -139,7 +139,7 @@ export const CODEX: CodexEntry[] = [
     id: 'marta',
     title: 'Marta Hobb',
     category: 'People',
-    text: 'Thirty years collecting debts in Varrow. Grandmotherly, pleasant, and never seen without her umbrella. Her eldest daughter Isbet prices everything she looks at, including people.',
+    text: 'Marta has collected debts in Varrow for thirty years, and nobody has seen her without her umbrella. She calls everyone "dear" and remembers their mothers. Her eldest daughter Isbet prices everything she looks at, including people.',
     source: () => 'She visited, with her daughters.',
     unlock: (s) => fired(s, 'hobbs_arrive'),
   },
@@ -158,6 +158,62 @@ export const CODEX: CodexEntry[] = [
     text: "Head of the Exchequer, in an office with nothing left on the walls. He is a decent man and a tired one, and he ran out of options some time ago. He has kept the payments going for six years on willpower and the Crown's silverware.",
     source: () => 'He summoned you.',
     unlock: (s) => fired(s, 'silver_summons'),
+  },
+  {
+    id: 'jory',
+    title: 'Jory Abbot',
+    category: 'People',
+    text: "The hall's clerk. He came with the building, along with the leak in the roof, and has kept its books through three guildmasters. He doesn't give advice unless you ask for it, and then only in the form of a remark about the weather.",
+    source: () => 'He came with the hall.',
+    unlock: () => true,
+  },
+  {
+    id: 'coster',
+    title: 'Alderman Piet Coster',
+    category: 'People',
+    text: 'Master of the city scales and the man who holds your loan. He carries a brass balance in a velvet box and weighs coins before he accepts them. He believes in honest weights, and in coming out of the Debt richer than he went in, and he does not see why those should conflict.',
+    source: () => 'He came about your loan.',
+    unlock: (s) => fired(s, 'coster_interest'),
+  },
+  {
+    id: 'brune',
+    title: 'Sister Agathe Brune',
+    category: 'People',
+    text: "Almoner of Saint Oda's. She counts the almshouse beds every night and the firewood every morning. She preaches against usury on Sundays and takes the bank's donations on Mondays, and she will tell you so if you ask.",
+    source: () => 'She came to ask for fever salts.',
+    unlock: (s) => !!s.flags.met_oda,
+  },
+  {
+    id: 'pask',
+    title: 'Wenna Pask',
+    category: 'People',
+    text: 'She runs the low-tide market on the river flats below Fish Quay, where things that fell off barges are sold. She is quick and funny, and you have never heard her answer a question directly.',
+    source: () => 'She invited you onto the flats at low tide.',
+    unlock: (s) => !!s.flags.met_mudlarks,
+  },
+  {
+    id: 'mayne',
+    title: 'Captain Rufus Mayne',
+    category: 'People',
+    text: 'Commands the Ninth, a royal regiment disbanded under article nine of the treaty and paid off in Crown Pennies. Mayne was a sergeant at Cassel Ford. He is loud and friendly, and he never stops recruiting.',
+    source: () => 'He tried to hire one of your people.',
+    unlock: (s) => !!s.flags.ninth_active,
+  },
+  {
+    id: 'plaice',
+    title: 'Master Assayer Corwin Plaice',
+    category: 'People',
+    text: 'Runs the Assay Office. He licenses every reagent and enchantment sold in Varrow, and he can quote the clause that covers each of them. He has never been seen in a hurry.',
+    source: () => 'He came to inspect the guild.',
+    unlock: (s) => !!s.flags.assay_active,
+  },
+  {
+    id: 'aske',
+    title: 'Lady Honora Aske',
+    category: 'People',
+    text: "Head of one of the Fourteen. Her castle at Aske is pledged to the bank, and she has only recently had to learn what things cost. She is charming and generous, and she usually forgets to say how much she's paying until afterwards.",
+    source: () => 'She asked you to move her family silver.',
+    unlock: (s) => !!s.flags.met_fourteen,
   },
   // ---- Foes ----
   {
@@ -267,4 +323,37 @@ export const CRIER: CrierLine[] = [
   { id: 'fair', text: "The summer wool fair at Harrowmere is smaller than last year. The buyers from the coast didn't come.", when: (s) => ((s.week - 1) % 48) >= 12 && ((s.week - 1) % 48) < 24 },
   { id: 'default_talk', text: 'Since the missed payment, every tavern argument ends the same way: who will the bank take first?', when: (s) => !!s.flags.silver_lost, weight: 3 },
   { id: 'paid_talk', text: "People are still talking about the silver reaching the coast. Somebody wrote a song about it. It isn't good, but it's popular.", when: (s) => !!s.flags.silver_delivered, weight: 3, once: true },
+];
+
+// ---------------------------------------------------------------------------
+// In the hall: Jory Abbot's occasional remarks in the week report
+// ---------------------------------------------------------------------------
+
+export interface HallLine {
+  id: string;
+  text: string;
+  when?: (s: GameState) => boolean;
+  weight?: number;
+}
+
+const home = (s: GameState) => s.members.filter((m) => m.status !== 'dead' && m.status !== 'left' && m.status !== 'mission');
+const crew = (s: GameState) => s.members.filter((m) => m.status !== 'dead' && m.status !== 'left');
+
+export const JORY: HallLine[] = [
+  { id: 'j_candles', text: 'Jory has started weighing the candles before he lights them.', when: (s) => s.crowns < 60, weight: 3 },
+  { id: 'j_loan', text: 'Jory reminds you that the Weighhouse payment is due this week, and that he reminded you last week too.', when: (s) => s.loans.some((l) => l.dueWeek - s.week <= 1), weight: 2 },
+  { id: 'j_watch', text: "Jory says a man from the watch has walked past the hall four times today, and he's starting to recognize the hat.", when: (s) => s.heat >= 40, weight: 3 },
+  { id: 'j_renown', text: "Jory says people have started spelling the guild's name right in their letters. He thinks this is a good sign.", when: (s) => s.renown >= 15 },
+  { id: 'j_candle', text: "Jory has left a candle burning in the hall. He doesn't say who it's for.", when: (s) => s.members.some((m) => m.status === 'dead' && (m.diedWeek ?? -99) >= s.week - 1), weight: 4 },
+  { id: 'j_pegs', text: 'Jory says the hall has run out of pegs for coats, and asks whether he should buy more pegs or hire fewer people.', when: (s) => crew(s).length >= 8 },
+  { id: 'j_stores', text: 'Jory says the stores are low, and that the rats noticed before you did.', when: (s) => s.supplies < home(s).length * 2, weight: 2 },
+  { id: 'j_quiet', text: 'Jory says supper was very quiet tonight, and asks whether somebody has died or is about to.', when: (s) => crew(s).length > 0 && crew(s).reduce((a, m) => a + m.morale, 0) / crew(s).length < 35, weight: 2 },
+  { id: 'j_still', text: "Jory says the stillroom smells like a burned shoe, and wants to know whether that's normal.", when: (s) => (s.facilities.stillroom ?? 0) >= 1 },
+  { id: 'j_letter', text: "Jory has pinned Fenn's letter to the wall above his desk, next to a recipe for eel pie.", when: (s) => s.eventWeeks.fenn_letter !== undefined },
+  { id: 'j_tapestry', text: 'Jory dusts the tapestry every morning with a goose feather. He says it was like that when he found it.', when: (s) => !!s.flags.tapestry_bought },
+  { id: 'j_back_door', text: 'Jory has put a second bolt on the back door of the stores, and a bell on the first one.', when: (s) => (s.factions.mudlarks?.standing ?? 0) <= -25, weight: 2 },
+  { id: 'j_lines', text: 'Jory spent the morning re-ruling the ledger. He says the old lines were crooked, and that he drew them himself when he was young.' },
+  { id: 'j_stove', text: 'Jory says this is the coldest the hall has been since the second guildmaster, who sold the stove.', when: (s) => (s.week - 1) % 48 >= 36 },
+  { id: 'j_hobbs', text: "Jory says one of the Hobb girls has been sitting in the window of the Copper Kettle all week, and that she's very good at not looking at the hall.", when: (s) => s.rivals.hobbs.aggression >= 0.6 },
+  { id: 'j_mayne', text: 'Jory says Captain Mayne bought him a drink, and that he has never been recruited so pleasantly in his life.', when: (s) => !!s.flags.ninth_active },
 ];

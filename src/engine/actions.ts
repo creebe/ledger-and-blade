@@ -5,7 +5,8 @@ import { describePlan } from './rival';
 import { counteredTags, knownTags, suppliesNeeded } from './odds';
 import { revealCost, rosterCap, tripWeeks } from './buildings';
 import { uid } from './rng';
-import type { Member, Approach, Assignment, Attribute, FactionId, GameState, ItemSlot, MaterialId } from './types';
+import type { Member, Approach, Assignment, Attribute, FactionId, GameState, ItemSlot, MaterialId, RivalId } from './types';
+import { RIVALS } from './data/factions';
 import {
   addDispatch,
   addItem,
@@ -296,28 +297,29 @@ export function coolHeat(s: GameState): string | undefined {
   return undefined;
 }
 
-export function revealRivalPlan(s: GameState): string | undefined {
-  const plan = s.rivals.hobbs.plan;
+export function revealRivalPlan(s: GameState, id: RivalId = 'hobbs'): string | undefined {
+  const plan = s.rivals[id].plan;
   if (!plan || plan.revealed) return 'Already known';
   if (s.intel < INTEL_RIVAL_COST) return `Need ${INTEL_RIVAL_COST} intel`;
   s.intel -= INTEL_RIVAL_COST;
   plan.revealed = true;
   track(s, 'spy');
-  addDispatch(s, 'rival', 'Your informants report on Hobb & Daughters', [describePlan(s, plan)]);
+  addDispatch(s, 'rival', `Your informants report on ${RIVALS[id].name}`, [describePlan(s, plan, id)]);
   return undefined;
 }
 
-export function counterCost(s: GameState): { label: string; crowns?: number; influence?: number } | undefined {
-  const plan = s.rivals.hobbs.plan;
+export function counterCost(s: GameState, id: RivalId = 'hobbs'): { label: string; crowns?: number; influence?: number } | undefined {
+  const plan = s.rivals[id].plan;
   if (!plan || !plan.revealed || plan.countered) return undefined;
   if (plan.kind === 'smear') return { label: 'Call in favors to quash the rumors', influence: 2 };
-  if (plan.kind === 'poach') return { label: 'Pay a loyalty bonus (25 crowns)', crowns: 25 };
+  if (plan.kind === 'poach') return id === 'ninth' ? { label: 'Match the Ninth\'s offer (35 crowns)', crowns: 35 } : { label: 'Pay a loyalty bonus (25 crowns)', crowns: 25 };
+  if (plan.kind === 'inspect') return { label: 'Have an Exchequer friend delay the visit', influence: 2 };
   return undefined;
 }
 
-export function counterRivalPlan(s: GameState): string | undefined {
-  const cost = counterCost(s);
-  const plan = s.rivals.hobbs.plan;
+export function counterRivalPlan(s: GameState, id: RivalId = 'hobbs'): string | undefined {
+  const cost = counterCost(s, id);
+  const plan = s.rivals[id].plan;
   if (!cost || !plan) return 'Nothing to counter';
   if (cost.crowns && s.crowns < cost.crowns) return `Need ${cost.crowns} crowns`;
   if (cost.influence && s.influence < cost.influence) return `Need ${cost.influence} influence`;

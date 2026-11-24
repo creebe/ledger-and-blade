@@ -1,5 +1,6 @@
 import { APPROACH_INFO, PROFESSIONS } from './data/professions';
 import { TAGS } from './data/tags';
+import { TEMPLATE_BY_ID } from './data/contracts';
 import { chanceFrom, counteredTags, itemDef, phaseDifficulty, squadScore, trueTags, type SquadContext } from './odds';
 import { nextFloat, pick } from './rng';
 import type { GameState, MaterialId, Member, Mission, MissionReport, OutcomeTier, PhaseLog, PhaseResult } from './types';
@@ -179,9 +180,9 @@ export function resolveMission(state: GameState, mission: Mission): MissionRepor
     }
   }
 
-  if (c.templateId === 'silver_convoy') {
-    state.flags[rewardMult > 0 ? 'silver_delivered' : 'silver_lost'] = true;
-  }
+  const tpl = TEMPLATE_BY_ID[c.templateId];
+  const outcomeFlag = rewardMult > 0 ? tpl?.successFlag : tpl?.failFlag;
+  if (outcomeFlag) state.flags[outcomeFlag] = true;
 
   // morale, casualties, consumables
   const moraleDelta = tier === 'Triumph' ? 10 : tier === 'Success' ? 6 : tier === 'Costly Success' ? 0 : tier === 'Failure' ? -8 : -15;

@@ -1,11 +1,11 @@
 // The Council of Varrow: decrees, who backs them, and what they change.
 // activeMods() is pure (types and data only) so world/turn code can read it
 // without import cycles.
-import type { ClockId, FactionId, GameState, Stance } from '../types';
+import type { ClockId, CouncilFaction, FactionId, GameState, Stance } from '../types';
 export type { Stance };
 
-export const SEATS: Record<FactionId, number> = { exchequer: 3, weighhouse: 2, ostranders: 2, lowertown: 2 };
-export const SEAT_NOTE: Record<FactionId, string> = {
+export const SEATS: Record<CouncilFaction, number> = { exchequer: 3, weighhouse: 2, ostranders: 2, lowertown: 2 };
+export const SEAT_NOTE: Record<CouncilFaction, string> = {
   exchequer: 'Crown officers',
   weighhouse: 'Merchant aldermen',
   ostranders: 'Seats bought with debt',
@@ -27,10 +27,10 @@ export interface DecreeMods {
 export interface DecreeDef {
   id: string;
   title: string;
-  sponsor: FactionId;
+  sponsor: CouncilFaction;
   text: string;
   effects: string[]; // what happens if it passes (player-facing)
-  positions: Record<FactionId, Stance>;
+  positions: Record<CouncilFaction, Stance>;
   weight: (s: GameState) => number; // how likely it is to reach the agenda
   mods?: DecreeMods;
   once?: Partial<Record<ClockId, number>>; // immediate clock change on passing

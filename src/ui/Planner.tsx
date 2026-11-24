@@ -17,6 +17,7 @@ import {
   type Contract,
   type GameState,
   type Member,
+  RIVALS,
 } from '../engine';
 import { useStore } from '../store';
 import { ChanceBar, FactionBadge, Seg, Sheet, TagChip, ThreatPips } from './common';
@@ -180,7 +181,7 @@ export function ContractHeader({ c, game }: { c: Contract; game: GameState }) {
       {c.hidden.some((h) => !h.revealed) && (
         <p className="hint">Unknown tags make the odds a range. Tap a “?” to reveal it for {revealCost(game)} Intel (you have {game.intel}), or send a Scout ahead from the Roster.</p>
       )}
-      {c.contestedBy && <p className="warn">⚔ Hobb & Daughters want this one. It may not last the week.</p>}
+      {c.contestedBy && <p className="warn">{RIVALS[c.contestedBy].name} {c.contestedBy !== 'assay' ? 'want' : 'wants'} this one. It may not last the week.</p>}
       <p className="muted small">
         Expires {c.expiresWeek <= game.week ? 'this week' : `in ${c.expiresWeek - game.week + 1} weeks`} · squad {c.minSquad}–{c.maxSquad}
       </p>

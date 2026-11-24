@@ -1,6 +1,6 @@
-# Cast proposal (for review)
+# Cast proposal
 
-Nothing here is in the game yet. Names, roles and scenes are all open to change.
+**Status:** approved. The Act I scenes are in the game (`src/engine/data/cast.ts`), along with the three new factions and two new rivals. The Act II and III scenes listed below are still to be written. The story bible (`docs/STORY.md`, sections 4 and 5) is the canonical record of what is in the game.
 
 The scripted story currently covers weeks 1 to 20 of a 200-week campaign, with five named characters and seven scenes. The goal is that every faction and rival has a face, and that each character comes back often enough for your earlier choices to show.
 

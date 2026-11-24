@@ -22,7 +22,7 @@ export interface StoryReport {
   runs: number;
   weeks: number;
   violations: Violation[];
-  beats: Record<string, { fired: number; weeks: number[]; late: number }>;
+  beats: Record<string, { fired: number; weeks: number[]; late: number; eligible: number }>;
   randomFired: Record<string, number>;
   nodesVisited: Record<string, Set<string>>; // event id -> nodes seen ('root' included)
   choicesTaken: Record<string, Record<string, number>>; // event/node -> label -> count
@@ -34,6 +34,13 @@ export interface StoryReport {
   endings: Record<string, number>; // summary of how the silver arc resolved
   codexUnlocked: Record<string, number>; // runs in which each entry was learned
   neverLearned: string[];
+  reached: number[]; // reached[w]: games still running at the start of week w
+}
+
+/** Games still running when a beat's window closed (or at the horizon): the fair denominator for how often it fires. */
+export function beatRate(r: StoryReport, id: string): number {
+  const b = r.beats[id];
+  return b.eligible ? b.fired / b.eligible : 0;
 }
 
 function rng(seed: number) {
@@ -51,7 +58,7 @@ export function exploreStory(runs: number, weeks: number): StoryReport {
     runs,
     weeks,
     violations: [],
-    beats: Object.fromEntries(STORY_EVENTS.map((e) => [e.id, { fired: 0, weeks: [], late: 0 }])),
+    beats: Object.fromEntries(STORY_EVENTS.map((e) => [e.id, { fired: 0, weeks: [], late: 0, eligible: 0 }])),
     randomFired: {},
     nodesVisited: {},
     choicesTaken: {},
@@ -63,6 +70,7 @@ export function exploreStory(runs: number, weeks: number): StoryReport {
     endings: {},
     codexUnlocked: {},
     neverLearned: [],
+    reached: [],
   };
   const setAnywhere = new Set<string>();
 
@@ -181,6 +189,12 @@ export function exploreStory(runs: number, weeks: number): StoryReport {
       report.beats.charter.fired++;
       report.beats.charter.weeks.push(1);
     }
+    const lastWeek = s.gameOver ? s.gameOver.week : s.week;
+    for (let w = 1; w <= lastWeek; w++) report.reached[w] = (report.reached[w] ?? 0) + 1;
+    for (const def of STORY_EVENTS) {
+      const end = Math.min(def.window?.[1] ?? 1, weeks);
+      if (s.eventWeeks[def.id] !== undefined || lastWeek > end) report.beats[def.id].eligible++;
+    }
     const end = s.gameOver ? `guild fell first (${s.gameOver.reason})` : s.flags.silver_delivered ? 'delivered' : s.flags.silver_abandoned ? 'abandoned' : s.flags.silver_lost ? 'lost' : s.flags.silver_declined ? 'declined (Hobbs carried it)' : 'unresolved';
     report.endings[end] = (report.endings[end] ?? 0) + 1;
   }
@@ -207,11 +221,11 @@ export function reportMarkdown(r: StoryReport): string {
   for (const [k, vs] of Object.entries(byKind)) {
     L.push(`- **${k}** ×${vs.length}: ${[...new Set(vs.map((v) => v.detail))].slice(0, 5).join('; ')} (e.g. seed ${vs[0].seed}, week ${vs[0].week})`);
   }
-  L.push('', '## Story beats', '', '| Beat | Window | Fired in | Week (min / median / max) | After window |', '|---|---|---|---|---|');
+  L.push('', '## Story beats', '', '| Beat | Window | Fired in (of games still running) | Week (min / median / max) | After window |', '|---|---|---|---|---|');
   for (const def of STORY_EVENTS) {
     const b = r.beats[def.id];
     const w = def.window ?? [1, 1];
-    L.push(`| ${def.id} | ${w[0]}–${w[1]} | ${Math.round((b.fired / r.runs) * 100)}% | ${b.weeks.length ? `${Math.min(...b.weeks)} / ${median(b.weeks)} / ${Math.max(...b.weeks)}` : '—'} | ${b.late} |`);
+    L.push(`| ${def.id} | ${w[0]}–${w[1]} | ${Math.round(beatRate(r, def.id) * 100)}% | ${b.weeks.length ? `${Math.min(...b.weeks)} / ${median(b.weeks)} / ${Math.max(...b.weeks)}` : '—'} | ${b.late} |`);
   }
   L.push('', "## The Crown's silver: how it resolved", '');
   for (const [k, v] of Object.entries(r.endings)) L.push(`- ${k}: ${Math.round((v / r.runs) * 100)}%`);

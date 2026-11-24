@@ -7,7 +7,7 @@ import { NPCS } from '../src/engine/data/facts';
 import { APPROACH_INFO, advanceWeek, canChoose, CLOCKS, dateLabel, FACTIONS, living, newGame, PROFESSIONS, type GameState } from '../src/engine';
 import { botTurn } from './sim';
 
-const weeks = Number(process.argv[2] ?? 16);
+const weeks = Number(process.argv[2] ?? 26);
 const SEEDS = [
   { seed: 1111, style: 'pragmatic (takes the first sensible option)' },
   { seed: 2222, style: 'curious (asks every question before deciding)' },

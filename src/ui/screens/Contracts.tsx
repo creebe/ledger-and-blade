@@ -1,5 +1,5 @@
 import type React from 'react';
-import { cancelDispatch, FACTIONS, missionWeeks, type Contract, type GameState, type Mission } from '../../engine';
+import { cancelDispatch, FACTIONS, RIVALS, missionWeeks, type Contract, type GameState, type Mission } from '../../engine';
 import { Icon } from '../icons';
 import { CONTRACT_TYPE_ICON, OddsPill, PhaseStrip, Portrait, useBestOdds } from '../visual';
 import { useStore } from '../../store';
@@ -175,7 +175,7 @@ function ContractCard({ c, g, onOpen }: { c: Contract; g: GameState; onOpen: () 
         {c.hidden.map((h, i) => (h.revealed ? <TagChip key={i} id={h.trueTag} /> : <span key={i} className="tag hidden">?</span>))}
         {c.contestedBy && (
           <span className="tag contested">
-            <Icon name="hobbs" size={13} /> Contested
+            <Icon name={c.contestedBy} size={13} /> {RIVALS[c.contestedBy].short}
           </span>
         )}
         {c.story && (

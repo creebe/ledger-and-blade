@@ -3,10 +3,10 @@
 import { DECREE_BY_ID, DECREES, SEATS } from './data/decrees';
 import { FACTIONS } from './data/factions';
 import { chance, pick, weighted } from './rng';
-import type { AgendaItem, CouncilState, FactionId, GameState, Stance } from './types';
+import type { AgendaItem, CouncilState, CouncilFaction, GameState, Stance } from './types';
 import { addDispatch, applyClock, applyStanding, clamp, factionName, spend, track } from './world';
 
-const FACTION_IDS = Object.keys(SEATS) as FactionId[];
+const FACTION_IDS = Object.keys(SEATS) as CouncilFaction[];
 export const ANNOUNCE_WEEK = 7; // week of the season the agenda is posted
 export const VOTE_WEEK = 12; // the vote happens at the end of this week
 
@@ -29,7 +29,7 @@ export function tally(item: AgendaItem) {
   return { votesFor, votesAgainst, undecided, passes: votesFor > votesAgainst };
 }
 
-export function lobbyCost(s: GameState, f: FactionId) {
+export function lobbyCost(s: GameState, f: CouncilFaction) {
   const st = s.factions[f].standing;
   const influence = Math.max(1, 2 + (st < 0 ? 1 : 0) + (st <= -30 ? 1 : 0) - (st >= 30 ? 1 : 0));
   return { influence, intel: 3, crowns: 50 };
@@ -37,7 +37,7 @@ export function lobbyCost(s: GameState, f: FactionId) {
 
 export type LobbyMethod = 'influence' | 'intel' | 'crowns';
 
-export function canLobby(s: GameState, item: AgendaItem, f: FactionId): string | undefined {
+export function canLobby(s: GameState, item: AgendaItem, f: CouncilFaction): string | undefined {
   if (!item.player) return 'Declare the guild’s position first';
   if (item.positions[f] === item.player) return 'Already on your side';
   if (s.council.lobbied[f] === s.week) return `${FACTIONS[f].short} has already been lobbied this week`;
@@ -52,7 +52,7 @@ export function setPosition(s: GameState, decreeId: string, stance: Stance): str
   return undefined;
 }
 
-export function lobby(s: GameState, decreeId: string, f: FactionId, method: LobbyMethod): string | undefined {
+export function lobby(s: GameState, decreeId: string, f: CouncilFaction, method: LobbyMethod): string | undefined {
   const item = s.council.agenda.find((a) => a.id === decreeId);
   if (!item) return 'Not on the agenda';
   const err = canLobby(s, item, f);

@@ -1,6 +1,6 @@
 import { CONTRACT_TEMPLATES, TEMPLATE_BY_ID, type ContractTemplate } from './data/contracts';
 import { seasonOf } from './data/events';
-import { REGIONS } from './data/factions';
+import { REGIONS, factionKnown } from './data/factions';
 import { activeMods, modProduct } from './data/decrees';
 import { ITEMS, MARKET_POOL, STAPLES } from './data/items';
 import { PROFESSIONS } from './data/professions';
@@ -19,6 +19,7 @@ import type {
   Member,
   ProfessionId,
   Recruit,
+  RivalId,
 } from './types';
 
 export const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
@@ -179,7 +180,7 @@ function eligibleTemplates(state: GameState): ContractTemplate[] {
     if (t.story || t.weight <= 0) return false;
     if (t.requiresFlag && !state.flags[t.requiresFlag]) return false;
     // patrons who hate you stop offering work
-    if (t.patrons.every((p) => state.factions[p].standing <= -30)) return false;
+    if (t.patrons.every((p) => state.factions[p].standing <= -30 || !factionKnown(state, p))) return false;
     return true;
   });
 }
@@ -199,7 +200,7 @@ export function generateContract(state: GameState, template?: ContractTemplate):
         return { item: tp, weight: w };
       }),
     );
-  const patrons = t.patrons.filter((p) => state.factions[p].standing > -30);
+  const patrons = t.patrons.filter((p) => state.factions[p].standing > -30 && factionKnown(state, p));
   const patron: FactionId = pick(state, patrons.length ? patrons : t.patrons);
   const regionId = pick(state, t.regions);
   const region = REGIONS[regionId];
@@ -228,7 +229,7 @@ export function generateContract(state: GameState, template?: ContractTemplate):
   if (t.shady && onSuccess.heat) onSuccess.heat = Math.round(onSuccess.heat * modProduct(state, 'shadyHeat'));
   const materials: Partial<Record<MaterialId, number>> = {};
   for (const mt of t.materials ?? []) materials[mt.id] = randInt(state, mt.min, mt.max) + Math.floor(threat / 3);
-  const contested = !t.story && chance(state, t.contestChance);
+  const contestedBy = !t.story && chance(state, t.contestChance) ? pickContester(state, t) : undefined;
   return {
     id: uid(state, 'c'),
     templateId: t.id,
@@ -248,11 +249,25 @@ export function generateContract(state: GameState, template?: ContractTemplate):
     onFailure: JSON.parse(JSON.stringify(t.onFailure)),
     postedWeek: state.week,
     expiresWeek: state.week + (t.story ? 6 : randInt(state, 2, 4)),
-    contestedBy: contested ? 'hobbs' : undefined,
+    contestedBy,
     story: t.story,
     minSquad: t.minSquad,
     maxSquad: t.maxSquad,
   };
+}
+
+/** Which active rival wants this job: each has its own taste in work. */
+function pickContester(state: GameState, t: ContractTemplate): RivalId | undefined {
+  const approaches = new Set(t.phases.flatMap((p) => p.approaches));
+  const taste: Record<RivalId, number> = {
+    // Isbet's private arrangement keeps her firm off the river work
+    hobbs: (t.type === 'Collection' || t.type === 'Escort' || t.patrons.includes('ostranders') ? 3 : 1) * (state.flags.isbet_pact ? 0.35 : 1),
+    ninth: approaches.has('assault') ? (t.type === 'Hunt' || t.type === 'Escort' ? 3 : 1.5) : 0.3,
+    assay: approaches.has('arcana') || t.materials?.some((m) => m.id === 'reagents') ? 2.5 : 0,
+  };
+  const pool = (Object.keys(taste) as RivalId[]).filter((r) => state.rivals[r]?.active && taste[r] > 0);
+  if (!pool.length) return undefined;
+  return weighted(state, pool.map((r) => ({ item: r, weight: taste[r] })));
 }
 
 /** Contracts grow more dangerous as time passes and the guild's renown grows. */
@@ -272,14 +287,10 @@ export function refreshBoard(state: GameState) {
   for (const c of state.board.filter((x) => x.story && x.expiresWeek < state.week)) {
     const lines: string[] = [];
     applyContractEffect(state, c.onFailure, lines);
-    if (c.templateId === 'silver_convoy') {
-      state.flags.silver_abandoned = true;
-      state.flags.silver_lost = true;
-      addDispatch(state, 'story', "The Crown's silver never left Varrow", [
-        "You accepted the commission, but no squad was ever sent. The wagons sat in the Exchequer yard until it was too late to reach the ships. The Crown has missed its payment.",
-        ...lines,
-      ]);
-    } else addDispatch(state, 'story', `"${c.title}" was left undone`, lines);
+    const t = TEMPLATE_BY_ID[c.templateId];
+    for (const f of t?.expireFlags ?? []) state.flags[f] = true;
+    if (t?.expire) addDispatch(state, 'story', t.expire.title, [t.expire.text, ...lines]);
+    else addDispatch(state, 'story', `"${c.title}" was left undone`, lines);
   }
   state.board = state.board.filter((c) => c.expiresWeek >= state.week);
   const target = 4 + (state.renown >= 15 ? 1 : 0);
@@ -317,6 +328,10 @@ export function applyContractEffect(state: GameState, e: ContractEffect, lines?:
     state.influence = Math.max(0, state.influence + e.influence);
     lines?.push(`Influence ${e.influence > 0 ? '+' : ''}${e.influence}`);
   }
+  if (e.loan && state.loans[0]) {
+    state.loans[0].principal = Math.max(0, state.loans[0].principal + e.loan);
+    lines?.push(`Loan ${e.loan > 0 ? '+' : '−'}${Math.abs(e.loan)} crowns`);
+  }
 }
 
 const FACTION_NAMES: Record<FactionId, string> = {
@@ -324,6 +339,9 @@ const FACTION_NAMES: Record<FactionId, string> = {
   weighhouse: 'the Weighhouse',
   ostranders: "Ostrander's",
   lowertown: 'the Lower Town',
+  oda: "Saint Oda's",
+  fourteen: 'the Fourteen',
+  mudlarks: 'the Mudlarks',
 };
 export const factionName = (f: FactionId) => FACTION_NAMES[f];
 
@@ -339,7 +357,9 @@ export function priceMultiplier(state: GameState): number {
 export function supplyPrice(state: GameState): number {
   const s = season(state);
   const seasonal = s === 'Winter' ? 1.3 : s === 'Autumn' ? 0.85 : s === 'Spring' ? 1.1 : 1;
-  return Math.max(1, Math.round(SUPPLY_BASE * seasonal * (state.market.supplies ?? 1) * priceMultiplier(state) * modProduct(state, 'supplyPrice') * 10) / 10);
+  // the river market undercuts the Weighhouse for friends of the Mudlarks
+  const river = state.factions.mudlarks?.standing >= 20 ? 0.9 : 1;
+  return Math.max(1, Math.round(SUPPLY_BASE * seasonal * (state.market.supplies ?? 1) * priceMultiplier(state) * modProduct(state, 'supplyPrice') * river * 10) / 10);
 }
 
 export function materialPrice(state: GameState, m: MaterialId): number {

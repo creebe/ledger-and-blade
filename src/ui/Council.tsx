@@ -9,7 +9,7 @@ import {
   setPosition,
   tally,
   type AgendaItem,
-  type FactionId,
+  type CouncilFaction,
   type GameState,
   type LobbyMethod,
   type Stance,
@@ -18,11 +18,11 @@ import { useStore } from '../store';
 import { Btn, Section, Seg } from './common';
 import { Icon } from './icons';
 
-const FIDS = Object.keys(SEATS) as FactionId[];
+const FIDS = Object.keys(SEATS) as CouncilFaction[];
 const STANCE: Record<string, string> = { '1': 'For', '0': 'Undecided', '-1': 'Against' };
 
 function Seats({ item }: { item: AgendaItem }) {
-  const seats: { f: FactionId; p: Stance }[] = [];
+  const seats: { f: CouncilFaction; p: Stance }[] = [];
   for (const p of [1, 0, -1] as Stance[]) for (const f of FIDS) if (item.positions[f] === p) for (let i = 0; i < SEATS[f]; i++) seats.push({ f, p });
   return (
     <span className="seats" aria-label="Council seats">
@@ -40,7 +40,7 @@ function DecreeCard({ g, item }: { g: GameState; item: AgendaItem }) {
   const winning = item.player !== 0 && (item.player > 0) === t.passes;
   const verdict = t.passes ? 'Passes as things stand' : 'Fails as things stand';
 
-  const doLobby = (f: FactionId, method: LobbyMethod) => {
+  const doLobby = (f: CouncilFaction, method: LobbyMethod) => {
     const c = lobbyCost(g, f);
     const name = FACTIONS[f].name;
     const toward = item.player > 0 ? 'toward supporting it' : 'toward opposing it';

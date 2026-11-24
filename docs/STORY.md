@@ -43,18 +43,39 @@ Every story change goes through these checks. None of them are optional.
 | The Weighhouse | Merchants; split. Some act as Ostrander's local agents. They hold the guild's 800-crown loan. |
 | Ostrander's | It is the Debt. Wants repayment, and the right to write the next treaty. |
 | The Lower Town | Pays the taxes that service the debt; close to riot. |
-| Saint Oda's *(Draft: not yet in game)* | Hospital church that runs the almshouses; preaches against usury. |
-| The Fourteen *(Draft)* | Founding noble families whose castles are the bank's collateral. |
-| The Mudlarks *(Draft)* | River underworld; smuggles around the bank's tolls. |
+| Saint Oda's | Hospital church that runs the almshouse and fever ward. Preaches against usury and takes the bank's donations to buy firewood. Known once you meet Sister Brune. |
+| The Fourteen | Founding noble families whose castles are the bank's collateral. Known once you meet Lady Aske. |
+| The Mudlarks | River scavengers and smugglers who go round the bank's toll chain. Known once you meet Wenna Pask. |
 
 **The Council of Varrow (Canon):** nine seats. The Exchequer holds 3 (Crown officers), the Weighhouse 2 (merchant aldermen), Ostrander's 2 (seats bought with debt, a sore point in the city), and the Lower Town 2 (porters and trades). It meets every season.
 
-**Rival:** Hobb & Daughters, a family firm of debt collectors on retainer to the bank. *(Draft rivals: The Ninth, The Assay Office.)*
+**Rivals (Canon):**
+- **Hobb & Daughters**, a family firm of debt collectors on retainer to the bank. Active from the start.
+- **The Ninth**, a royal regiment disbanded under article nine of the treaty and paid off in Crown Pennies, now a free company. Active once Captain Mayne arrives.
+- **The Assay Office**, which licenses every reagent, focus and enchantment and tests the silver in the Crown Penny. Active once Master Assayer Plaice visits.
+
+Saint Oda's, the Fourteen and the Mudlarks have no Council seats. *(Draft: whether they gain seats is an Act II question.)*
 
 ## 4. Cast
 
+Every faction and rival has a face. Each character has a want that is reasonable from their side, a register of their own, and a thread of scenes that react to earlier choices. Full voice notes: `docs/CAST-PROPOSAL.md`.
+
 | Id | Character | Who they are | Voice | Canon so far |
 |---|---|---|---|---|
+| `vorn` | **Factor Maelis Vorn**, Ostrander's | Runs the bank's office on Quay Street | Clipped and practical; corrects spelling; honest in a way that is not the same as being on your side | Offers bank work. May let slip the bank wants to write the next treaty. Visits about the silver's timing (*The Notice Board*). Offers to buy part of your loan. |
+| `fenn` | **Lord Treasurer Aubrey Fenn**, Exchequer | Runs the treasury | Tired and polite; apologizes before asking | Commissions the Crown's silver. Writes after the bread riot. Asks you to sell the last tapestry, the Siege of Carrow. |
+| `marta` | **Marta Hobb**, Hobb & Daughters | Head of the firm for thirty years | Chatty and folksy; remembers your members' mothers | Offers to buy a quarter share. Sends a cake when a member reaches level 3. |
+| `isbet` | **Isbet Hobb** | Marta's eldest daughter and heir | Says little, mostly numbers | Offers a private split of the river work behind Marta's back. Audits the share and offers to sell it back. *(Draft: a rival in her own right in Act II.)* |
+| `dagny` | **Dagny Fell**, Porters' Fraternity | Carrier with a cargo hook on her belt | Blunt; doesn't say thank you | Meets the guild at the bread riot. Asks for help with her brother Ansel. |
+| `coster` | **Alderman Piet Coster**, Weighhouse | Master of the city scales; holds your loan | Fussy and exact; brings his own brass balance | Offers to cut the loan if you prove Hesketh's short weights. Takes the bank's loan offer personally. Tied by the river strongbox to an insurance fraud. |
+| `brune` | **Sister Agathe Brune**, Saint Oda's | Almoner of the almshouse | Brisk; God in passing, firewood in detail | Needs fever salts from the Saltfens. Asks your advice about the bank's donation. |
+| `pask` | **Wenna Pask**, Mudlarks | Runs the low-tide market on the river flats | Quick and funny; never answers directly | Offers a route round the toll chain. Shows you what was in the river strongbox. |
+| `mayne` | **Captain Rufus Mayne**, the Ninth | Was a sergeant at Cassel Ford | Loud, friendly, always recruiting | Tries to hire your best fighter. Knows any Cassel Ford veteran in your roster. |
+| `plaice` | **Master Assayer Corwin Plaice**, Assay Office | Licenses all magic in Varrow | Pedantic and patient; quotes clauses | Inspects the guild and offers a license. |
+| `aske` | **Lady Honora Aske**, the Fourteen | Head of a founding family; castle pledged to the bank | Charming and careless with money | Asks you to move the family silver before the assessors arrive. |
+| `jory` | **Jory Abbot**, the guild | The hall's clerk through three guildmasters | Dry; gives advice only as remarks | Remarks in the week report ("In the hall"). Asks how to record the dead. |
+
+---|---|---|---|---|
 | `vorn` | **Factor Maelis Vorn**, Ostrander's | The bank's chief factor in Varrow | Cool, precise, never raises her voice; honest in a way that's worse than lying | Offers the guild bank work. May let slip that the bank wants to draft the next treaty. Knows the silver convoy's route. |
 | `fenn` | **Lord Treasurer Aubrey Fenn**, Exchequer | Runs the treasury | Tired, decent, dry; out of options and knows it | Commissions the guild to carry the Crown's silver. Can come to trust the guild. |
 | `marta` | **Marta Hobb**, Hobb & Daughters | Matriarch of the firm, collecting for 30 years | Pleasant, grandmotherly, utterly ruthless; carries an umbrella as a walking stick | Offers to buy a quarter share of the guild's income. |
@@ -69,29 +90,58 @@ Weeks are windows. A beat fires on a random week inside its window, or at the en
 
 | # | Beat | Window | After | Condition | Characters |
 |---|---|---|---|---|---|
-| 1 | `charter` A Charter and a Debt | 1 | — | — | (Exchequer clerk) |
+| 1 | `charter` A Charter and a Debt | 1 | — | — | (Exchequer clerk), Jory |
 | 2 | `ostrander_agent` A Visitor from Ostrander's | 2–3 | — | — | Vorn |
-| 3 | `hobbs_arrive` Hobb & Daughters | 4–6 | 2 | — | Marta, Isbet |
-| 4 | `bread_riot` Bread and Stones | 5–7 | — | Unrest ≥ 31 or week ≥ 7 | Dagny |
-| 5 | `silver_summons` Summoned to the Exchequer | 7–9 | 2 | — | Fenn |
-| 6 | `quarter_day` Quarter Day | 9–18 | 5 | The silver's fate is known | (varies) |
-| 7 | `act1_slice_end` End of the Season | 12–20 | 6 | — | — |
+| 3 | `coster_interest` The Man with the Scales | 3–5 | — | — | Coster |
+| 4 | `hobbs_arrive` Hobb & Daughters | 4–6 | 2 | — | Marta, Isbet |
+| 5 | `bread_riot` Bread and Stones | 5–7 | — | Unrest ≥ 31 or week ≥ 7 | Dagny |
+| 6 | `silver_summons` Summoned to the Exchequer | 7–9 | 2 | — | Fenn |
+| 7 | `pask_chain` Under the Chain | 6–10 | — | — | Pask |
+| 8 | `brune_salts` Fever Salts | 8–11 | — | — | Brune |
+| 9 | `mayne_offer` An Offer for Your Best | 10–14 | — | An idle fighter or senior member | Mayne |
+| 10 | `vorn_board` The Notice Board | 10–14 | 2, 6 | Silver accepted and not yet resolved | Vorn |
+| 11 | `dagny_brother` Dagny Asks | 11–15 | 5 | Met Dagny | Dagny |
+| 12 | `isbet_kettle` The Copper Kettle | 12–16 | 4 | — | Isbet |
+| 13 | `quarter_day` Quarter Day | 9–18 | 6 | The silver's fate is known | (varies) |
+| 14 | `plaice_inspection` Clause Eleven | 12–18 | — | — | Plaice |
+| 15 | `fenn_tapestry` The Last Tapestry | 15–20 | 13 | — | Fenn |
+| 16 | `aske_plate` The Family Silver | 17–22 | 13 | — | Aske |
+| 17 | `act1_slice_end` Half a Year | 22–26 | 13, 15, 16 | — | — |
+
+Only one beat fires a week. Beats whose window closes first are checked first (`STORY_EVENTS` is sorted by window end).
 
 ### Branches and the facts they set
 
 - **1. Charter.** No exposition (any guildmaster knows the city's situation; that lives in the Codex as common knowledge). Choose: arm the guild (`start_arms`), a free Arcanist, or +80 crowns.
 - **2. Vorn.** Show her the door (bank −10, Lower Town +6, Vorn −15), or hear her out. You can ask about the people collected from (`vorn_q_people`, Lower Town +2), about the Hobbs (`vorn_q_hobbs`, +1 Intel), and what the bank wants (Guile check: `vorn_slip` on success, `vorn_q_want` on failure). Then the terms: work for the bank (`ostranders_open`, Vorn +15), case by case (`ostranders_open`, Vorn +5), or not today (Vorn −5). Not today can be undone later by courting Ostrander's from the Realm screen, which also sets `ostranders_open`.
-- **3. Marta.** Her greeting changes if bank standing ≥ 8. Choices: refuse; or ask the terms, then sell the share (`hobbs_share`: 25% of contract pay goes to her, the Hobbs compete far less, Marta +15), refuse, or humiliate her (Guile check; Hobbs grow more aggressive either way).
-- **4. Riot.** Feed them (8 supplies) or pay the bakers (35 crowns) → meet Dagny → her ears (`dagny_contact`: occasional Intel tips) or nothing (`dagny_friend`, Lower Town +4). Or take the Exchequer's purse → hold the line without blood (Endurance check) or break the crowd. Or bar the doors.
-- **5. Fenn.** You can ask who knows the route (`fenn_route`: reveals a convoy danger when you accept), pass on what Vorn let slip if you learned it (`vorn_slip` → `fenn_stakes`: Fenn +15, Influence +2), ask the pay (`fenn_pay`), then haggle (Guile check: `silver_bonus` +60, or `fenn_haggled`). Then accept (`silver_accepted`, adds the story contract) or decline (`silver_declined`; Hobb & Daughters carry it, Fenn −15).
+- **4. Marta.** Her greeting changes if bank standing ≥ 8. Choices: refuse; or ask the terms, then sell the share (`hobbs_share`: 25% of contract pay goes to her, the Hobbs compete far less, Marta +15), refuse, or humiliate her (Guile check; Hobbs grow more aggressive either way).
+- **5. Riot.** Feed them (8 supplies) or pay the bakers (35 crowns) → meet Dagny → her ears (`dagny_contact`: occasional Intel tips) or nothing (`dagny_friend`, Lower Town +4). Or take the Exchequer's purse → hold the line without blood (Endurance check) or break the crowd. Or bar the doors.
+- **6. Fenn.** You can ask who knows the route (`fenn_route`: reveals a convoy danger when you accept), pass on what Vorn let slip if you learned it (`vorn_slip` → `fenn_stakes`: Fenn +15, Influence +2), ask the pay (`fenn_pay`), then haggle (Guile check: `silver_bonus` +60, or `fenn_haggled`). Then accept (`silver_accepted`, adds the story contract) or decline (`silver_declined`; Hobb & Daughters carry it, Fenn −15).
 - **The Crown's Last Silver** (story contract, threat 4, Port Anselm). Success sets `silver_delivered` (Arrears −15). Failure sets `silver_lost` (Arrears +12; the Crown defaults). Letting it expire sets `silver_abandoned` and `silver_lost`.
-- **6. Quarter Day: the act's braid point.** One of three versions:
+- **13. Quarter Day: the act's braid point.** One of three versions:
   - *Delivered:* Fenn offers a purse, a writ of good conduct (Heat −20), or a seat at the Exchequer table (`fenn_ally`, Influence +4).
   - *Lost or abandoned:* the first default in 22 years. Vorn sends for you: serve the bank, swear to the Lower Town, or stay out.
   - *Declined:* the Hobbs delivered it, lighter than it left. You can spend 3 Intel to prove they skimmed.
-- **7. End of the season.** Summarizes the silver outcome. In this prototype the scripted story stops here.
+
+- **3. Coster.** Ask about Hesketh's buyers (+1 Intel). Take the job (`coster_job`, story contract *Short Weight at Hesketh's*: success `weights_exposed`, Weighhouse +6, Lower Town +4, loan −40; failure or expiry `weights_failed`), haggle (Guile: `coster_terms`, loan −20 now), or decline.
+- **7. Pask.** Buy through her (`met_mudlarks`, `pask_deal`: Mudlarks +22, Heat +4), buy one cartload, report her (`pask_reported`: Mudlarks −30, which brings thefts), or say no. Her opening line changes with how you handled the riot (`riot_fed`, `riot_broken`).
+- **8. Brune.** Fetch the salts (`met_oda`, `salts_accepted`, story contract *Salts for Saint Oda's*: `salts_delivered` / `salts_failed`), give 40 crowns, or refuse. You can ask about the bank's donations (`brune_q_bank`).
+- **9. Mayne.** Picks your most senior idle fighter. Ask about the Ninth (`mayne_q_ford`). Match his offer (wage +2), let the member decide (they leave if loyalty < 50), or hold them to contract. Any choice sets `ninth_active`.
+- **10. Vorn's notice board.** Her greeting depends on `vorn_fixed_board`. Tell her the convoy's timing (`vorn_told`: the convoy gains a Soldiers danger), lie (Guile), ask whether the bank wants it to fail (needs `vorn_slip` or `vorn_q_want`; sets `vorn_honest`, reveals a convoy danger), or refuse.
+- **11. Dagny.** Take the story contract *Ansel Fell at the Chain* (`ansel_freed` / `ansel_lost`), ask Pask for the chain-house plan (needs `pask_deal`), pay his fine (−90 crowns, `ansel_freed`), or refuse (her dock tips stop: clears `dagny_contact`).
+- **12. Isbet.** Agree to the split (`isbet_pact`: the Hobbs contest far less river work) or tell Marta (`isbet_betrayed`).
+- **14. Plaice.** Buy the license (`assay_licensed`), bribe him (Guile), have the Exchequer stay it (Influence), or take your chances. Any choice sets `assay_active`.
+- **15. Fenn's tapestry.** Opening changes with the silver's fate. Carry it to Harrowmere (story contract: `tapestry_sold` / `tapestry_lost`), lend the Crown 150 and hang it in your hall (`tapestry_bought`), or refuse.
+- **16. Aske.** Move the silver (`met_fourteen`, illegal story contract: `aske_plate_saved` / `aske_plate_lost`), tell the assessors (`aske_betrayed`), or stay out.
+- **17. Half a Year.** Summarizes the silver and the other threads that resolved.
+
+**Follow-ups** (random events that fire once, when their conditions hold): `marta_cake` (a member reaches level 3; the card depends on Marta's attitude), `hobbs_audit` (`hobbs_share`: buy it back for 250), `coster_bank` (`bank_paid_loan`), `pask_strongbox` (met Pask, not reported: buy `coster_ledger`), `coster_page` (`coster_ledger`: lean on him for loan −150, expose him (`coster_exposed`), or sell the page to Vorn), `brune_donation` (met Brune and bank work open), `fenn_letter` (text depends on the riot flags), `jory_page` (after the first death).
+
+**Story contracts** carry their own outcome facts (`successFlag`, `failFlag`, `expireFlags` in `contracts.ts`), so a contract that is accepted and never sent still resolves the story.
 
 ### Facts that can never be true together
+
+See `EXCLUSIVE_FACTS` in `facts.ts`. Besides the silver pairs: the three riot outcomes, `weights_exposed`/`weights_failed`, `pask_deal`/`pask_reported`, `salts_delivered`/`salts_failed`, `isbet_pact`/`isbet_betrayed`, `ansel_freed`/`ansel_lost`, the three tapestry outcomes and the three Aske outcomes.
 `silver_delivered` ⟂ `silver_lost` · `silver_delivered` ⟂ `silver_declined` · `silver_accepted` ⟂ `silver_declined` · `silver_bonus` ⟂ `fenn_haggled` · `vorn_slip` ⟂ `vorn_q_want` · `dagny_contact` ⟂ `dagny_friend`
 
 ---
@@ -113,6 +163,7 @@ Not story beats: they fire for squads on the road (`src/engine/data/field.ts`) a
 
 - **No lectures.** Characters never explain what any Varrow resident would know. Common knowledge sits in the **Codex** from the start, as reference.
 - **The Codex** (`src/engine/data/codex.ts`) unlocks entries from play: places your squads visit, enemies they face, people you meet, members' own pasts (a veteran in the roster tells you about Cassel Ford), and street talk. Every entry records how the guild learned it.
+- **In the hall:** about one week in four, Jory Abbot remarks on the state of the guild (low funds, Heat, a death, a crowded hall). Lines are in `JORY` in `codex.ts` and never explain the world.
 - **Heard in Varrow:** one line of street talk a week in the week report, chosen to reflect the Debt clocks, decrees in force and story facts. Some lines unlock Codex entries.
 
 ## 7. Writing rules
@@ -131,7 +182,7 @@ Run `npm run style` to flag the habits below. It's advisory: a flag is a prompt 
 - **No dramatic pauses** ("a beat", "for a long moment").
 - **Touchstone: *Darkest Dungeon*.** Borrow its grim, dry wit, its strong concrete verbs, and its sense that every win costs something. Keep our tone a notch lighter and more human, since this is a city of debts, not a crypt.
 - **Complete sentences.** Don't lean on clipped fragments for punch ("Steel. Blood. Debt."). A short sentence now and then is fine, but it should still be a sentence. Get variety from mixing long and short sentences, not from chopping them up.
-- **Characters have their own registers:** Vorn is clipped and practical, Fenn is tired and polite, Marta is chatty and folksy, Dagny is blunt and swears a little.
+- **Characters have their own registers:** Vorn is clipped and practical, Fenn is tired and polite, Marta is chatty and folksy, Dagny is blunt and swears a little. Coster is fussy about exact amounts, Brune is brisk and practical, Pask never answers a question directly, Mayne is loud and friendly, Plaice reads clauses aloud, Lady Aske is charming and vague about money, and Jory only ever makes remarks.
 
 
 - **Plain, concrete language.** Name the thing: "a porter's hook", not "a weapon of the common folk".

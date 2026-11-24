@@ -1,4 +1,5 @@
 import type { EventChoice, GameState, Member, NpcId } from '../types';
+import { CAST_RANDOM, CAST_STORY } from './cast';
 
 type Txt = string | ((s: GameState, m?: Member) => string);
 type Choices = EventChoice[] | ((s: GameState, m?: Member) => EventChoice[]);
@@ -68,7 +69,7 @@ const vornQuestions = (s: GameState): EventChoice[] =>
     { label: "Let's talk terms.", effects: {}, next: 'terms', resultText: '' },
   ].filter(Boolean) as EventChoice[];
 
-export const STORY_EVENTS: EventDef[] = [
+const CORE_STORY: EventDef[] = [
   {
     id: 'charter',
     story: true,
@@ -76,7 +77,8 @@ export const STORY_EVENTS: EventDef[] = [
     title: 'A Charter and a Debt',
     text:
       "The Exchequer's seal is still warm on your charter. As of this morning, Ledger & Blade may take paid work anywhere in the realm. It is also 800 crowns in debt to the Weighhouse, which paid for the hall, the first wages and the sign over the door.\n\n" +
-      "The clerk who brought it glances at the empty weapon racks. \"Quarter-day's in a few weeks,\" he says, as everyone in Varrow does lately. \"Good luck.\"\n\n" +
+      'The hall came with a clerk, Jory Abbot, who has kept its books through three guildmasters and has already found the leak in the roof.\n\n' +
+      "The Exchequer man who brought the charter glances at the empty weapon racks. \"Quarter-day's in a few weeks,\" he says, as everyone in Varrow does lately. \"Good luck.\"\n\n" +
       'You have a little coin left over. How do you start?',
     choices: [
       {
@@ -159,7 +161,7 @@ export const STORY_EVENTS: EventDef[] = [
           {
             label: "We'll work for the bank.",
             detail: "Ostrander's +10, Lower Town −5. Unlocks bank contracts.",
-            effects: { standing: { ostranders: 10, lowertown: -5 }, flag: 'ostranders_open', npc: { id: 'vorn', attitude: 15 } },
+            effects: { standing: { ostranders: 10, lowertown: -5 }, flag: 'ostranders_open', flags: ['vorn_fixed_board'], npc: { id: 'vorn', attitude: 15 } },
             resultText: '"Good. You\'ll have something by the end of the week." On her way out she stops at the notice board and fixes your spelling with her own pen.',
           },
           {
@@ -244,7 +246,7 @@ export const STORY_EVENTS: EventDef[] = [
         label: 'Feed them from the guild stores',
         detail: 'Give 8 Supplies. Lower Town +10, Unrest −5.',
         requires: { supplies: 8 },
-        effects: { supplies: -8, standing: { lowertown: 10 }, clocks: { unrest: -5 }, renown: 1 },
+        effects: { supplies: -8, standing: { lowertown: 10 }, clocks: { unrest: -5 }, renown: 1, flag: 'riot_fed' },
         next: 'dagny',
         resultText: 'Your people hand out loaves from the stores, and the crowd in the street thins out as word gets round.',
       },
@@ -252,7 +254,7 @@ export const STORY_EVENTS: EventDef[] = [
         label: 'Pay the bakers to open their ovens',
         detail: '−35 crowns. Lower Town +8, Unrest −4.',
         requires: { crowns: 35 },
-        effects: { crowns: -35, standing: { lowertown: 8 }, clocks: { unrest: -4 } },
+        effects: { crowns: -35, standing: { lowertown: 8 }, clocks: { unrest: -4 }, flag: 'riot_fed' },
         next: 'dagny',
         resultText: 'You pay three bakeries to keep their ovens going all afternoon. It turns out to be hard to throw stones with your mouth full.',
       },
@@ -298,15 +300,15 @@ export const STORY_EVENTS: EventDef[] = [
             label: 'Hold the line without drawing blood',
             detail: 'Endurance check. Success: Unrest −2, Exchequer +3. Failure: someone is hurt, Unrest +2.',
             check: { approach: 'endurance', difficulty: 9 },
-            effects: { clocks: { unrest: -2 }, standing: { exchequer: 3 } },
-            failEffects: { wounds: 20, clocks: { unrest: 2 } },
+            effects: { clocks: { unrest: -2 }, standing: { exchequer: 3 }, flag: 'riot_held' },
+            failEffects: { wounds: 20, clocks: { unrest: 2 }, flag: 'riot_broken' },
             resultText: 'Your people lock shields and stand there taking the shoving until the crowd gets bored and goes home. Nobody swings a cudgel. Even the porters admit it took some nerve.',
             failText: 'The line gives way. One of yours ends up on the ground under a lot of boots before you get things back in hand.',
           },
           {
             label: 'Break them up',
             detail: 'Exchequer +5, Lower Town −6, Unrest +3, Heat +3',
-            effects: { standing: { exchequer: 5, lowertown: -6 }, clocks: { unrest: 3 }, heat: 3 },
+            effects: { standing: { exchequer: 5, lowertown: -6 }, clocks: { unrest: 3 }, heat: 3, flag: 'riot_broken' },
             resultText: 'It\'s over in a few minutes, and the Exchequer clerk is delighted. The Lower Town knows exactly whose cudgels they were.',
           },
         ],
@@ -370,7 +372,9 @@ export const STORY_EVENTS: EventDef[] = [
       s.flags.silver_delivered
         ? 'At noon the cathedral bells ring to say the payment has been received at Port Anselm. The realm has paid its way for one more quarter.\n\nA royal courier brings you a letter from Fenn, written in his own hand. He wants to thank you, and he has something to offer.'
         : s.flags.silver_lost
-          ? 'Noon comes and the bells stay quiet. For the first time in twenty-two years, the Crown has missed a payment to Ostrander\'s.\n\nBy evening the bank\'s clerks are going door to door with lists, and a note from Vorn asks whether you have a minute.'
+          ? 'Noon comes and the bells stay quiet. For the first time in twenty-two years, the Crown has missed a payment to Ostrander\'s.\n\nBy evening the bank\'s clerks are going door to door with lists, and a note from Vorn asks whether you have a minute.' +
+            (s.flags.vorn_honest ? ' At the bottom she has written, "I did tell you which stretch of road to watch."' : '') +
+            (s.flags.vorn_told ? ' You remember giving her the date the wagons would leave, and wonder who she gave it to.' : '')
           : 'At noon the bells ring. The payment reached Port Anselm, carried by Hobb & Daughters, and the criers are making a great deal of Marta\'s name.\n\nThat night somebody slips a note under your door. The wagons reached the coast a good deal lighter than they were when they left.',
     choices: (s) =>
       s.flags.silver_delivered
@@ -409,21 +413,40 @@ export const STORY_EVENTS: EventDef[] = [
   {
     id: 'act1_slice_end',
     story: true,
-    after: ['quarter_day'],
-    window: [12, 20],
+    after: ['quarter_day', 'fenn_tapestry', 'aske_plate'],
+    window: [22, 26],
     chance: 0.6,
-    title: 'End of the Season',
-    text: (s) =>
-      `The first season of your guild is over. ${
-        s.flags.silver_delivered
-          ? "The Crown's silver reached Port Anselm, and the realm has a few more months of grace. In the Exchequer, people now know your guild's name."
-          : s.flags.silver_lost
-            ? "The Crown's silver never reached the coast. The realm has defaulted for the first time, and Ostrander's factors are walking the city with lists."
-            : "The Crown's silver went to the coast without you."
-      }\n\nThis is the end of the current prototype's scripted story. The world keeps turning: contracts, rivals, the debt and the market all continue, so keep building your guild.`,
+    title: 'Half a Year',
+    text: (s) => {
+      const silver = s.flags.silver_delivered
+        ? "The Crown's silver reached Port Anselm, and the realm has a few more months of grace. In the Exchequer, people know your guild's name now."
+        : s.flags.silver_lost
+          ? "The Crown's silver never reached the coast. The realm has defaulted for the first time, and Ostrander's factors are walking the city with lists."
+          : "The Crown's silver went to the coast without you.";
+      const people = [
+        s.flags.ansel_freed && 'Ansel Fell is back on the docks, and Dagny makes sure everyone knows who got him out.',
+        s.flags.ansel_lost && 'Ansel Fell is on a galley somewhere off Anselm.',
+        s.flags.salts_delivered && "The fever in Saint Oda's almshouse has broken, and the Sisters pray for the guild by name.",
+        s.flags.salts_failed && "Saint Oda's buried more people than usual this season.",
+        s.flags.salts_accepted && !s.flags.salts_delivered && !s.flags.salts_failed && 'The Sisters of Saint Oda\'s are still waiting for their salts.',
+        s.flags.aske_plate_saved && "Two hundred years of Aske silver is sitting under straw in a barn on the Drover's Road.",
+        s.flags.aske_betrayed && 'The Fourteen have stopped inviting your guild to anything.',
+        s.flags.tapestry_bought && 'The Siege of Carrow hangs in your hall, and visitors stop to look at it.',
+        s.flags.isbet_pact && 'Isbet Hobb keeps her half of the beer mat in her purse.',
+        s.flags.coster_exposed && 'Alderman Coster has left Varrow.',
+      ].filter(Boolean);
+      return (
+        `Half a year has passed since the Exchequer sealed your charter. ${silver}` +
+        (people.length ? `\n\n${people.join(' ')}` : '') +
+        "\n\nThis is where the prototype's scripted story ends for now. Contracts, rivals, the Council and the Debt all carry on, and so does the guild."
+      );
+    },
     choices: [{ label: 'Continue', effects: {}, resultText: 'Back to work.' }],
   },
 ];
+
+/** Every Act I beat. Beats whose window closes first are checked first, since only one fires a week. */
+export const STORY_EVENTS: EventDef[] = [...CORE_STORY, ...CAST_STORY].sort((a, b) => (a.window?.[1] ?? 0) - (b.window?.[1] ?? 0));
 
 function summonsChoices(s: GameState): EventChoice[] {
   const c: (EventChoice | false)[] = [
@@ -471,7 +494,7 @@ function summonsChoices(s: GameState): EventChoice[] {
 // Random events (world and people)
 // ---------------------------------------------------------------------------
 
-export const RANDOM_EVENTS: EventDef[] = [
+const WORLD_EVENTS: EventDef[] = [
   {
     id: 'brawl',
     title: 'A Tavern Brawl',
@@ -661,6 +684,8 @@ export const RANDOM_EVENTS: EventDef[] = [
     ],
   },
 ];
+
+export const RANDOM_EVENTS: EventDef[] = [...WORLD_EVENTS, ...CAST_RANDOM];
 
 export function seasonOf(week: number): 'Spring' | 'Summer' | 'Autumn' | 'Winter' {
   const w = (week - 1) % 48;

@@ -1,7 +1,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { exploreStory, reportMarkdown } from './story-check';
 const runs = Number(process.argv[2] ?? 400);
-const weeks = Number(process.argv[3] ?? 18);
+const weeks = Number(process.argv[3] ?? 30);
 const r = exploreStory(runs, weeks);
 mkdirSync('docs/reports', { recursive: true });
 writeFileSync('docs/reports/story-coverage.md', reportMarkdown(r));
