@@ -24,7 +24,7 @@ Branch `claude/story-doc`. Docs and a script only; no file under `src/` changed.
 
 - `npm run check` passes: 42 tests, the story checker reports 0 violations, 0 unreached nodes and no unused facts. The style flags are advisory and come from existing game text.
 - The thread-map drawing was looked at as rendered.
-- One helper exported the World text tab and compared it line by line with the snapshot; it matched.
+- The World text tab was exported and compared line by line with the snapshot; it matched. The Reports and interface tab was checked where the import had changed text: an `&amp;` and a `[^,]` that read as a footnote were restored by hand. The Story threads tab was not read back in full, but its beat numbers were checked and one stale number was fixed.
 
 ## Open
 
