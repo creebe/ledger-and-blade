@@ -14,7 +14,7 @@ import {
   type GameState,
 } from '../src/engine';
 import { runSim } from '../scripts/sim';
-import { SAVE_VERSION, BACKERS, CIRCUMSTANCE_BY_ID, claimNote, buySupplies, supplyCost, buyMaterial, cancelDispatch, discoverLore, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
+import { earnFame, fameTier, triggerEvents, SAVE_VERSION, BACKERS, CIRCUMSTANCE_BY_ID, claimNote, buySupplies, supplyCost, buyMaterial, cancelDispatch, discoverLore, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
 
 const clearEvents = (s: GameState) => {
   while (s.pendingEvents.length) resolveEvent(s, s.pendingEvents[0].uid, 0);
@@ -219,6 +219,23 @@ describe('engine', () => {
     expect(g.version).toBe(SAVE_VERSION);
     expect(g.facilities.hall).toBe(1);
     expect(g.craftQueue).toEqual([]);
+  });
+
+  it('a member who earns enough fame becomes a Legend, is named by the street and gets a signature', () => {
+    const s = newGame(41);
+    s.pendingEvents = [];
+    const m = s.members[0];
+    Object.assign(m, { fame: 118, level: 5, missions: 25 });
+    const c = s.board[0];
+    earnFame(s, m, { contract: { ...c, threat: 5 }, tier: 'Triumph', tags: c.tags, led: [{ approach: 'guile', result: 'strong', danger: 1 }] });
+    expect(fameTier(m)).toBe(3);
+    triggerEvents(s);
+    const ev = s.pendingEvents.find((e) => e.defId === 'legend_named')!;
+    expect(ev).toBeTruthy();
+    resolveEvent(s, ev.uid, 0);
+    resolveEvent(s, ev.uid, 0);
+    expect(m.epithet).toBeTruthy();
+    expect(m.signature).toBe('known_face');
   });
 
   it('campaigns start from different circumstances, and a seed always gives the same start', () => {

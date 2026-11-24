@@ -2,6 +2,7 @@
 import type { FactId, NpcId, NpcStatus } from './data/facts';
 import type { FacilityId } from './data/facilities';
 import type { BackerId } from './data/starts';
+import type { Feat } from './legends';
 export type { FactId, NpcId, NpcStatus, FacilityId, BackerId };
 
 export type Attribute = 'might' | 'finesse' | 'wits' | 'resolve';
@@ -103,6 +104,10 @@ export interface Member {
   joinedWeek: number;
   missions: number;
   record: string[]; // service record: notable deeds
+  fame?: number; // earned from deeds (see legends.ts)
+  feats?: Feat[]; // the deeds people talk about
+  epithet?: string; // the name the street gave a Legend
+  signature?: string; // a Legend's signature ability
   diedWeek?: number;
   causeOfDeath?: string;
 }
@@ -295,7 +300,7 @@ export interface EventEffect extends ContractEffect {
   freeRecruit?: boolean;
   wounds?: number; // wounds dealt to a random member
   revealContract?: string; // template id: reveal one hidden tag on that board contract
-  member?: { morale?: number; loyalty?: number; health?: number; fatigue?: number; leaves?: boolean; wage?: number; xp?: number; trait?: string; removeTrait?: string };
+  member?: { morale?: number; loyalty?: number; health?: number; fatigue?: number; leaves?: boolean; wage?: number; xp?: number; trait?: string; removeTrait?: string; epithet?: string; signature?: string };
   mission?: MissionEffect;
   log?: string; // line added to the squad's journal
 }
@@ -374,6 +379,7 @@ export interface GameState {
   market: Record<string, number>; // price multipliers for supplies/materials/items
   marketBias?: Record<string, number>; // where prices settle this campaign (default 1)
   start: { backer: BackerId; circumstances: string[] }; // how this campaign began
+  pendingLegends?: string[]; // members who just became Legends, waiting to be named
   stock: string[]; // item def ids for sale this week
   pendingEvents: GameEvent[];
   dispatches: Dispatch[];

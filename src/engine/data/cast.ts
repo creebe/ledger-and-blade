@@ -2,6 +2,7 @@
 // that react to what the guild did earlier. See docs/STORY.md, sections 4 and 5.
 import type { EventChoice, GameState, Member } from '../types';
 import type { EventDef } from './events';
+import { epithetOptions, signatureOptions, SIGNATURES } from '../legends';
 
 const first = (m?: Member) => (m ? m.name.split(' ')[0] : 'They');
 const fired = (s: GameState, id: string) => s.eventWeeks[id] !== undefined;
@@ -773,5 +774,39 @@ export const CAST_RANDOM: EventDef[] = [
         resultText: 'He does it with a ruler, so that the line is straight.',
       },
     ],
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Queued by the engine for a particular member, not drawn at random
+// ---------------------------------------------------------------------------
+
+export const QUEUED_EVENTS: EventDef[] = [
+  {
+    id: 'legend_named',
+    title: 'A Name in the Streets',
+    speaker: 'Jory Abbot',
+    text: (_s, m) =>
+      `People have started calling ${m?.name} something. Jory has heard two versions in the Copper Kettle, and asks which one should go in the roll.\n\n` +
+      '"The other one will stick anyway," he says, "but it helps to have it written down."',
+    choices: (_s, m) =>
+      m
+        ? epithetOptions(m).map((name) => ({ label: `"${name}"`, detail: 'The name the guild will use', effects: { member: { epithet: name } }, next: 'signature', resultText: `Jory writes it in the roll in his best hand: ${name}.` }))
+        : [],
+    nodes: {
+      signature: {
+        speaker: 'Jory Abbot',
+        text: (_s, m) => `${first(m)} has done this long enough to have a way of doing it. Jory wants to know what the rest of the guild will learn to count on.`,
+        choices: (_s, m) =>
+          m
+            ? signatureOptions(m).map((id) => ({
+                label: SIGNATURES[id].name,
+                detail: SIGNATURES[id].text,
+                effects: { member: { signature: id } },
+                resultText: `Within a month, the newer members are copying ${first(m)} without noticing.`,
+              }))
+            : [],
+      },
+    },
   },
 ];

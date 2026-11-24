@@ -2,6 +2,7 @@
 // difficulty. The same functions drive the planner preview and the actual
 // resolution, so the odds the player sees are the odds that get rolled.
 import { ITEMS } from './data/items';
+import { legendAura } from './legends';
 import { PROFESSIONS } from './data/professions';
 import { TAGS } from './data/tags';
 import { TRAITS } from './data/traits';
@@ -157,6 +158,10 @@ export function memberScore(state: GameState, m: Member, approach: Approach, ctx
       add(`${weight === 'heavy' ? 'Heavy' : 'Medium'} armor in ${def.name}`, -def.heavyArmorPenalty * (weight === 'heavy' ? 1.5 : 1));
     }
   }
+
+  // a Legend in the squad lifts everyone at their signature approach
+  const aura = legendAura(ctx.members, approach);
+  if (aura) add(aura.from.id === m.id ? aura.sig.name : `With ${aura.from.epithet ?? aura.from.name}`, aura.sig.bonus ?? 0);
 
   // condition
   if (m.fatigue > 0) add('Fatigue', -m.fatigue / (approach === 'endurance' ? 15 : 30));

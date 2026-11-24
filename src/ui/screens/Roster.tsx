@@ -1,4 +1,4 @@
-import { hireRecruit, ITEMS, living, PROFESSIONS, rosterCap, TRAITS } from '../../engine';
+import { FAME_TIERS, fameTier, hireRecruit, ITEMS, living, PROFESSIONS, rosterCap, TRAITS } from '../../engine';
 import { useStore } from '../../store';
 import { useState } from 'react';
 import { Btn, Empty, Section, Seg } from '../common';
@@ -72,7 +72,14 @@ export function RosterScreen() {
                 <Portrait m={m} size={40} />
                 <div className="card-main">
                   <div className="row between">
-                    <b>{m.name}</b>
+                    <b>
+                      {m.name}
+                      {fameTier(m) > 0 && (
+                        <span className="fame-tag" title={FAME_TIERS[fameTier(m)].name}>
+                          <Icon name="star" size={11} /> {m.epithet ? `"${m.epithet}"` : FAME_TIERS[fameTier(m)].name}
+                        </span>
+                      )}
+                    </b>
                     <span className={`readiness ${r.tone}`}>{r.text}</span>
                   </div>
                   <div className="row between">

@@ -11,8 +11,6 @@ import type {
   ClockId,
   Contract,
   ContractEffect,
-  Dispatch,
-  DispatchKind,
   FactionId,
   GameState,
   MaterialId,
@@ -22,7 +20,9 @@ import type {
   RivalId,
 } from './types';
 
-export const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
+export { addDispatch, clamp, living } from './util';
+import { addDispatch, clamp, living } from './util';
+
 export const ATTRS: Attribute[] = ['might', 'finesse', 'wits', 'resolve'];
 
 export const MATERIAL_INFO: Record<MaterialId, { name: string; base: number }> = {
@@ -45,13 +45,6 @@ export function dateLabel(week: number): string {
   return `${seasonOf(week)} · Week ${wInSeason} · Year ${year}`;
 }
 
-export function addDispatch(state: GameState, kind: DispatchKind, title: string, body: string[] = [], missionId?: string): Dispatch {
-  const d: Dispatch = { id: uid(state, 'd'), week: state.week, kind, title, body, missionId };
-  state.dispatches.push(d);
-  // keep the log bounded
-  if (state.dispatches.length > 200) state.dispatches.splice(0, state.dispatches.length - 200);
-  return d;
-}
 
 export function earn(state: GameState, category: string, amount: number) {
   if (amount === 0) return;
@@ -71,9 +64,6 @@ export function track(state: GameState, key: string) {
   state.tutorial.counters[key] = (state.tutorial.counters[key] ?? 0) + 1;
 }
 
-export function living(state: GameState): Member[] {
-  return state.members.filter((m) => m.status !== 'dead' && m.status !== 'left');
-}
 
 export function addItem(state: GameState, defId: string): string {
   const id = uid(state, 'i');

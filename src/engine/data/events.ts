@@ -443,6 +443,8 @@ const CORE_STORY: EventDef[] = [
         s.flags.tapestry_bought && 'The Siege of Carrow hangs in your hall, and visitors stop to look at it.',
         s.flags.isbet_pact && 'Isbet Hobb keeps her half of the beer mat in her purse.',
         s.flags.coster_exposed && 'Alderman Coster has left Varrow.',
+        s.flags.coster_job && s.flags.weights_exposed && "Hesketh's bushels are full measure again, and the bakers know who to thank.",
+        s.flags.coster_terms && !s.flags.coster_exposed && 'Coster still mentions the twenty crowns he took off your note, usually when he wants something.',
       ].filter(Boolean);
       return (
         `Half a year has passed since the Exchequer sealed your charter. ${silver}` +

@@ -3,6 +3,7 @@ import { CODEX, CRIER, JORY } from './data/codex';
 import { chance, weighted } from './rng';
 import type { GameState } from './types';
 import { addDispatch } from './world';
+import { legendTalk } from './legends';
 
 export function freshCodex(s?: GameState): GameState['codex'] {
   return { unlocked: CODEX.filter((e) => e.category === 'Common knowledge' || (s ? e.unlock(s) : false)).map((e) => e.id), fresh: [] };
@@ -38,6 +39,11 @@ export function weeklyJory(s: GameState) {
 }
 
 export function weeklyCrier(s: GameState) {
+  const legend = chance(s, 0.3) ? legendTalk(s) : undefined;
+  if (legend) {
+    addDispatch(s, 'crier', 'Heard in Varrow', [legend]);
+    return;
+  }
   const seen = (s.crierSeen ??= []);
   const recent = (s.crierRecent ??= []);
   const pool = CRIER.filter((c) => !(c.once && seen.includes(c.id)) && !recent.includes(c.id) && (!c.when || c.when(s)));

@@ -38,7 +38,11 @@ function planFor(state: GameState, id: RivalId): RivalPlan {
   if (id === 'hobbs') {
     const disloyal = living(state).filter((m) => m.loyalty < 45 && m.status !== 'mission');
     if (contested.length && chance(state, 0.45 + r.aggression * 0.4)) return takeContract()!;
-    if (disloyal.length && chance(state, 0.3 + r.aggression * 0.3)) return { kind: 'poach', target: pick(state, disloyal).id, revealed: false, countered: false };
+    if (disloyal.length && chance(state, 0.3 + r.aggression * 0.3)) {
+      // the famous are worth more to a rival than the merely unhappy
+      const famous = disloyal.filter((m) => (m.fame ?? 0) >= 75);
+      return { kind: 'poach', target: pick(state, famous.length ? famous : disloyal).id, revealed: false, countered: false };
+    }
     if (state.week > 3 && chance(state, r.aggression * 0.35)) return { kind: 'smear', revealed: false, countered: false };
     return none;
   }
@@ -47,7 +51,7 @@ function planFor(state: GameState, id: RivalId): RivalPlan {
     const targets = living(state).filter((m) => m.status !== 'mission' && m.loyalty < 55 && (FIGHTERS.includes(m.profession) || m.level >= 3));
     if (contested.length && chance(state, 0.25 + r.aggression * 0.3)) return takeContract()!;
     if (targets.length && chance(state, 0.15 + r.aggression * 0.25)) {
-      const best = targets.reduce((a: Member, b: Member) => (b.level > a.level ? b : a));
+      const best = targets.reduce((a: Member, b: Member) => ((b.fame ?? 0) * 0.2 + b.level > (a.fame ?? 0) * 0.2 + a.level ? b : a));
       return { kind: 'poach', target: best.id, revealed: false, countered: false };
     }
     return none;

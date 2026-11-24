@@ -20,6 +20,9 @@ import {
   type GameState,
   type ItemSlot,
   type Member,
+  fameTier,
+  FAME_TIERS,
+  SIGNATURES,
 } from '../engine';
 import { useStore } from '../store';
 import { Btn, Meter, Sheet } from './common';
@@ -145,6 +148,7 @@ export function MemberSheet({ id }: { id: string }) {
           <p className="muted small">{prof.blurb}</p>
         </div>
       </div>
+      <FameBlock m={m} />
       <p className="small">
         {statusLine(m, game)}
         {m.causeOfDeath ? ` · ${m.causeOfDeath}` : ''}
@@ -346,5 +350,41 @@ export function MemberSheet({ id }: { id: string }) {
         </button>
       )}
     </Sheet>
+  );
+}
+
+/** Standing in the city: fame tier, the name the street uses, a Legend's signature, and the stories told about them. */
+function FameBlock({ m }: { m: Member }) {
+  const tier = fameTier(m);
+  const fame = m.fame ?? 0;
+  const next = FAME_TIERS[Math.min(3, tier + 1)];
+  const stories = (m.feats ?? []).filter((f) => f.text);
+  const sig = m.signature ? SIGNATURES[m.signature] : undefined;
+  if (!fame && !stories.length) return null;
+  return (
+    <div className={`fame-block ${tier === 3 ? 'legend' : ''}`}>
+      <div className="row between">
+        <b className="meta">
+          <Icon name="star" size={14} />
+          {m.epithet ? `"${m.epithet}"` : tier ? FAME_TIERS[tier].name : 'Not yet known'}
+          {m.epithet && <span className="muted small"> · Legendary</span>}
+        </b>
+        <span className="tiny muted">{tier < 3 ? `Fame ${fame}/${next.min}${next.name === 'Legendary' ? ', level 5 and 25 missions' : ''}` : `Fame ${fame}`}</span>
+      </div>
+      {sig && (
+        <p className="small">
+          <b>{sig.name}.</b> {sig.text}
+        </p>
+      )}
+      {stories.length > 0 && (
+        <ul className="record">
+          {[...stories].reverse().slice(0, 4).map((f, i) => (
+            <li key={i} className="small">
+              Week {f.week}: people tell {f.text}.
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }

@@ -5,6 +5,7 @@ export * from './actions';
 export * from './events';
 export * from './turn';
 export * from './rival';
+export * from './legends';
 export { BACKERS, CIRCUMSTANCE_BY_ID } from './data/starts';
 export { resolveMission } from './missions';
 export * from './buildings';

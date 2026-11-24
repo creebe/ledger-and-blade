@@ -1,6 +1,8 @@
 import { APPROACH_INFO, PROFESSIONS } from './data/professions';
 import { TAGS } from './data/tags';
 import { TEMPLATE_BY_ID } from './data/contracts';
+import { earnFame, mournLegend, squadHas } from './legends';
+import type { Approach } from './types';
 import { chanceFrom, counteredTags, itemDef, phaseDifficulty, squadScore, trueTags, type SquadContext } from './odds';
 import { nextFloat, pick } from './rng';
 import type { GameState, MaterialId, Member, Mission, MissionReport, OutcomeTier, PhaseLog, PhaseResult } from './types';
@@ -39,6 +41,8 @@ export function resolveMission(state: GameState, mission: Mission): MissionRepor
   const outbound = outboundJournal(state, c, squad);
   outbound.lines.push(...(mission.fieldLog ?? []));
   const leads = new Map<string, string[]>(); // member id -> phases led
+  const ledInfo = new Map<string, { approach: Approach; result: PhaseResult; danger: number }[]>(); // for fame
+  const guarded = squadHas(squad, 'nobody_dies');
   const introduced = new Set<string>();
 
   for (let i = 0; i < c.phases.length; i++) {
@@ -74,7 +78,7 @@ export function resolveMission(state: GameState, mission: Mission): MissionRepor
       const idx = Math.floor(nextFloat(state) * pool.length);
       const victim = pool.splice(idx, 1)[0];
       const prot = itemDef(state, victim.loadout.armor)?.protection ?? 0;
-      const wound = Math.round(base * mult * (0.6 + nextFloat(state) * 0.8) * Math.max(0.4, 1 - prot * 0.07));
+      const wound = Math.round(base * mult * (0.6 + nextFloat(state) * 0.8) * Math.max(0.4, 1 - prot * 0.07) * (guarded ? 0.75 : 1));
       if (wound <= 0) continue;
       victim.health -= wound;
       woundMap.set(victim.id, (woundMap.get(victim.id) ?? 0) + wound);
@@ -118,6 +122,7 @@ export function resolveMission(state: GameState, mission: Mission): MissionRepor
       introduced,
     });
     if (result === 'strong' || result === 'success') leads.set(lead.id, [...(leads.get(lead.id) ?? []), phase.name]);
+    ledInfo.set(lead.id, [...(ledInfo.get(lead.id) ?? []), { approach, result, danger: phase.danger }]);
     logs.push({ phase: phase.name, approach, chance: p, result, lines, story, lead: lead.id });
 
     const isLast = i === c.phases.length - 1;
@@ -146,7 +151,8 @@ export function resolveMission(state: GameState, mission: Mission): MissionRepor
 
   const summary: string[] = [];
   const rewardMult = tier === 'Triumph' ? 1.25 : tier === 'Success' ? 1 : tier === 'Costly Success' ? 0.8 : 0;
-  let reward = Math.round(c.reward * rewardMult) + (rewardMult > 0 ? mission.bonusReward ?? 0 : 0);
+  const fee = squadHas(squad, 'worth_the_fee') ? 1.1 : 1;
+  let reward = Math.round(c.reward * rewardMult * fee) + (rewardMult > 0 ? mission.bonusReward ?? 0 : 0);
   const materials: Partial<Record<MaterialId, number>> = {};
   if (rewardMult > 0) {
     for (const [k, v] of Object.entries(c.materials)) {
@@ -171,6 +177,10 @@ export function resolveMission(state: GameState, mission: Mission): MissionRepor
       state.renown += 2;
       summary.push('Renown +2 for a flawless job');
     }
+    if (squadHas(squad, 'draws_a_crowd')) {
+      state.renown += 1;
+      summary.push('Renown +1: people came out to watch');
+    }
   } else {
     applyContractEffect(state, c.onFailure, summary);
     if (tier === 'Disaster') {
@@ -192,6 +202,7 @@ export function resolveMission(state: GameState, mission: Mission): MissionRepor
       m.diedWeek = state.week;
       m.causeOfDeath = `Killed on "${c.title}"`;
       addRecord(m, `Week ${state.week} · Fell on "${c.title}".`);
+      mournLegend(state, m);
       for (const uid of [m.loadout.weapon, m.loadout.armor, m.loadout.trinket]) if (uid && nextFloat(state) < 0.5) removeItem(state, uid);
       continue;
     }
@@ -212,6 +223,7 @@ export function resolveMission(state: GameState, mission: Mission): MissionRepor
       removeItem(state, uid);
     }
     levelUp(state, m);
+    earnFame(state, m, { contract: c, tier, tags, led: ledInfo.get(m.id) ?? [] });
   }
   if (casualties.length) {
     for (const m of state.members) if (m.status !== 'dead' && m.status !== 'left' && !squad.includes(m)) m.morale = clamp(m.morale - 5 * casualties.length, 0, 100);

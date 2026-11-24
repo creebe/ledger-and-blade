@@ -1,4 +1,5 @@
 import { RANDOM_EVENTS, STORY_EVENTS, type EventDef } from './data/events';
+import { QUEUED_EVENTS } from './data/cast';
 import { ARRIVAL, FIELD_EVENTS, needsArrivalReport, replanned, squadOf } from './data/field';
 import { withdrawMission } from './missions';
 import { TRAITS } from './data/traits';
@@ -7,7 +8,7 @@ import { chance, nextFloat, pick, uid, weighted } from './rng';
 import type { EventChoice, EventEffect, GameEvent, GameState, Member } from './types';
 import { addDispatch, addItem, addStoryContract, applyContractEffect, clamp, createMember, earn, living, spend } from './world';
 
-const DEFS: Record<string, EventDef> = Object.fromEntries([...STORY_EVENTS, ...RANDOM_EVENTS, ARRIVAL, ...FIELD_EVENTS].map((d) => [d.id, d]));
+const DEFS: Record<string, EventDef> = Object.fromEntries([...STORY_EVENTS, ...RANDOM_EVENTS, ARRIVAL, ...FIELD_EVENTS, ...QUEUED_EVENTS].map((d) => [d.id, d]));
 const storyIds: Record<string, true> = Object.fromEntries(STORY_EVENTS.map((e) => [e.id, true]));
 
 function memberOf(state: GameState, ev: { memberId?: string }): Member | undefined {
@@ -63,6 +64,12 @@ function triggerFieldEvents(state: GameState) {
 
 export function triggerEvents(state: GameState) {
   triggerFieldEvents(state);
+  // a new Legend is named the week after they earn it
+  for (const id of state.pendingLegends ?? []) {
+    const m = state.members.find((x) => x.id === id && x.status !== 'dead' && x.status !== 'left');
+    if (m) state.pendingEvents.push(instantiate(state, DEFS.legend_named, m));
+  }
+  state.pendingLegends = [];
   // story beats: each fires once, somewhere inside its window
   for (const def of STORY_EVENTS) {
     if (state.eventWeeks[def.id] !== undefined) continue;
@@ -262,6 +269,8 @@ export function applyEventEffect(state: GameState, e: EventEffect, ev: GameEvent
         lines.push(`${m.name.split(' ')[0]} is now ${TRAITS[x.trait]?.name ?? x.trait}.`);
       }
       if (x.removeTrait) m.traits = m.traits.filter((t) => t !== x.removeTrait);
+      if (x.epithet) m.epithet = x.epithet;
+      if (x.signature) m.signature = x.signature;
       if (x.leaves && m.status !== 'mission') {
         m.status = 'left';
         m.causeOfDeath = 'Left the guild';
