@@ -28,7 +28,7 @@ Materials and prices carry their colors in the Armory, and Heat has a new icon. 
   They show wherever materials appear: the Materials tab, recipe costs and building costs. The new drawings mean the colors never land on the Rough terrain tag, the Forge or consumables, which used to share those icons.
 - **Prices.** Prices in the Armory and the Workshop show a small gold coin instead of the ◉ text. On red buy buttons, the coin sits on a pale disc so it stays readable. Cost chips put the coin after the number, as prices do.
 - **Materials tab.** Its rows no longer squeeze: the buy and sell buttons sit on their own line.
-- **Heat.** Heat is now a rising chart. The owner asked for it after the lantern and four other drawings didn't work.
+- **Heat.** Heat is now a gauge creeping toward the red. The owner picked it from a third round of drawings, after the lantern and a rising chart didn't work.
 - **Checked:**
   - `npm run check`.
   - Browser screenshots of the Shop, Materials and Workshop tabs, in dark and light.
