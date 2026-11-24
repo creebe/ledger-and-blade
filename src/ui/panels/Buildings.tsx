@@ -23,13 +23,13 @@ import {
   type MaterialId,
 } from '../../engine';
 import { useStore } from '../../store';
-import { Btn, Section } from '../kit/common';
+import { Btn, Price, Section } from '../kit/common';
 import { Icon } from '../kit/icons';
 import { ItemIcon, ItemStats } from '../kit/visual';
 import { crowns as crownsText, wk } from '../kit/format';
 import { type Blocked, firstShort, getMore, type Res } from '../kit/shortfall';
 
-const MATERIAL_ICON: Record<MaterialId, string> = { iron: 'anvil', leather: 'hide', timber: 'rough', reagents: 'flask' };
+const MATERIAL_ICON: Record<MaterialId, string> = { iron: 'iron', leather: 'leather', timber: 'timber', reagents: 'reagents' };
 
 /** Cost chips that turn red when you don't have enough; a short chip is a link to get more. */
 function CostChips({ g, crowns, materials, check = true }: { g: GameState; crowns?: number; materials: Partial<Record<MaterialId, number>>; check?: boolean }) {
@@ -52,8 +52,8 @@ function CostChips({ g, crowns, materials, check = true }: { g: GameState; crown
           check && g.crowns < crowns,
           'crowns',
           <>
-            <Icon name="coin" size={12} />
             {crowns}
+            <Icon name="coin" size={12} />
           </>,
           `Crowns: need ${crowns}, have ${g.crowns}`,
         )}
@@ -268,7 +268,7 @@ export function WorkshopPanel() {
                     <div style={{ marginTop: 3 }}>
                       <CostChips g={g} crowns={r.crowns} materials={r.materials} check={!locked} />
                     </div>
-                    <span className="tiny muted">Market price about {crownsText(market)}</span>
+                    <span className="tiny muted">Market price about <Price n={market} /></span>
                   </div>
                   <Btn
                     className="btn small primary"

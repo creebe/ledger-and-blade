@@ -2,6 +2,40 @@
 
 Newest first. Each entry says what changed for a player, why (quoting the owner's feedback where it came from playtesting), and what was and wasn't checked. The live site is https://creebe.github.io/ledger-and-blade/ and is only republished on the owner's word; each entry notes whether it is live.
 
+## v0.12.2 (2026-11-24): The look, decided
+The owner asked to "take a good look at typography and the major colors such as the dark mode background color ... I want to make sure it's intentionally decided at this point." Every color and type choice is now written down with its reason in `docs/DESIGN-TOKENS.md`, and a test guards it.
+- **Light theme.** Small grey notes, the Story gold and the good green are a shade darker, so all text reads at 4.5:1 or better. The look barely changes.
+- **Dark theme.** Primary buttons (End Week, Dispatch, Hire) are a deeper red with light text: 5.7:1, up from 4.1. Red text and outlines, such as the active tab, are a touch brighter, so they read on cards.
+- **Fonts.**
+  - Italics use the body face's real italic instead of a slanted fake. That covers contract descriptions, street talk and empty states.
+  - Bold is named as what it already rendered as: 600 for the body face, 700 for headings.
+- **No change:** the dark background (#17130f, a warm near-black like an unlit hall), the surfaces, the faces and the size scale. They're now recorded as decisions.
+- **Checked:**
+  - `npm run check`.
+  - A new theme test checks that every text color is 4.5:1 or better in both themes and that the two copies of the dark theme match.
+  - Screenshots in both themes.
+- **Not checked:** iOS Safari.
+- **Not live.**
+
+## v0.12.1 (2026-11-24): Colors in the Armory, and a new Heat icon
+Materials and prices carry their colors in the Armory, and Heat has a new icon. The owner said: "I was thinking the icon colors would be present in the Armory views too. And can we change the Heat icon? The thermometer seems too silly."
+- **Materials.** Iron, Leather, Timber and Reagents each have their own icon and color:
+  - Iron: a slate ingot;
+  - Leather: a tan hide;
+  - Timber: a wooden log;
+  - Reagents: a rose mortar.
+
+  They show wherever materials appear: the Materials tab, recipe costs and building costs. The new drawings mean the colors never land on the Rough terrain tag, the Forge or consumables, which used to share those icons.
+- **Prices.** Prices in the Armory and the Workshop show a small gold coin instead of the ◉ text. On red buy buttons, the coin sits on a pale disc so it stays readable. Cost chips put the coin after the number, as prices do.
+- **Materials tab.** Its rows no longer squeeze: the buy and sell buttons sit on their own line.
+- **Heat.** Heat is now a gauge creeping toward the red. The owner picked it from a third round of drawings, after the lantern and a rising chart didn't work.
+- **Checked:**
+  - `npm run check`.
+  - Browser screenshots of the Shop, Materials and Workshop tabs, in dark and light.
+  - The UI reviewer at 390 and 360 px: the new colors are 4.9–9.1:1 against the background, and nothing else picked up a material color.
+- **Not checked:** iOS Safari.
+- **Not live.**
+
 ## v0.12.0 (2026-11-24): Dates, and a careful end of week
 A checkpoint you can reach in one sitting, a harder-to-fumble End Week, shortcuts to whatever you're short of, and colored resource icons. The owner asked for "a more tangible goal the player can strive for in shorter terms than the entire 4-year campaign ... something that the player can reasonably reach in a single play session", for missing-resource alerts to "bring us to a place where we can acquire the resource", for "a confirmation loop when ending a week", and for color on the resource icons.
 - **Dates.** One dated checkpoint is always 3–6 weeks ahead, and the next is already in view.
