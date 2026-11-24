@@ -121,3 +121,16 @@ Nothing else is loaded. Asking for any other weight or style makes the browser f
 - Use an existing token. A new color needs a meaning that isn't covered, a light and a dark value, and the owner's yes.
 - Text colors must reach 4.5:1 on `--bg` and `--paper` in both themes. Add them to `tests/theme.test.ts`.
 - Put new dark values in **both** dark blocks in `styles.css`, the `prefers-color-scheme` one and the `[data-theme='dark']` one. The test checks they match.
+
+## 8. Alternatives considered
+
+On 2026-11-24 the owner compared the current look with three full alternatives, rendered on the real Hall and Contracts screens in both themes. The images are `docs/previews/v0.12.2/alternatives-*.jpg`. **The owner kept the current look.**
+
+| Set | Faces | Palette | Why it was passed over |
+|---|---|---|---|
+| 1. Candlelit ledger (kept) | Source Serif 4 / Cormorant Garamond | Warm brown, cream ink, one red | — |
+| 2. Old print | EB Garamond / IM Fell English | Oxblood and bone | The most period feel. Small text is harder to read on a phone, and IM Fell has only old-style numerals, so a 1 looks like ı. |
+| 3. Slate & brass | Alegreya / Alegreya SC | Cool blue-grey with brass | A colder, more official mood. Small-caps headings shout, and it loses the candlelit warmth. |
+| 4. Modern guild | Source Sans 3 / Fraunces | The current palette | The easiest to read, but a sans body text makes the game feel like an app rather than a ledger. |
+
+The **Heat** icon was chosen the same way. The owner went through three rounds of drawings (a thermometer, a lantern, a rising chart, then six more) and picked the **gauge**, a dial creeping toward the red.
