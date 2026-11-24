@@ -10,7 +10,7 @@ Every contract pays about 10% more, which makes the first year a little more for
   - A sweep over 300 games put ×1.6 at 67% and ×1.7 at 75%.
   - Tests, the story checker and the build pass.
 - Not checked: a real player's feel for it. Bankruptcy is still the main way to lose.
-- Not live yet.
+- **Live** (republished on the owner's word, 2026-11-24). This deploy also brought v0.8.2 to v0.10.1 to the live site.
 
 ## v0.10.1 (2026-11-24): Clean house
 No change to how the game plays. The owner asked for "a thorough code clean up pass and reorganize anything necessary to make it easier to continue development".
@@ -41,8 +41,8 @@ No change to how the game plays. The owner asked for "a thorough code clean up p
 ## v0.8.2 (2026-11-23)
 Collectable note rewards, sticky odds in the planner, full-height panels with Back, and a writing-style pass. Not live.
 
-## v0.8.1 (2026-11-23): live
-Clearer tap targets, bulk supply discounts, renamed Armory tabs. **This is the version on the live site.**
+## v0.8.1 (2026-11-23)
+Clearer tap targets, bulk supply discounts, renamed Armory tabs. Was the live version until v0.10.2.
 
 ## v0.8.0 (2026-11-23)
 The Journal (notes, Codex, Chronicle), lore through play and street talk, a compact roster and a sortable strength grid.
