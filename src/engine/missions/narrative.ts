@@ -1,12 +1,12 @@
 // Turns mission mechanics into a readable expedition journal. Every line is
 // grounded in what actually happened: who led, which gear mattered, which tags
 // helped or hurt, so the journal doubles as feedback for the next plan.
-import { ITEMS } from './data/items';
-import { TAGS } from './data/tags';
+import { ITEMS } from '../data/items';
+import { TAGS } from '../data/tags';
 import { damageMultiplier, itemDef, memberItems } from './odds';
-import { nextFloat, pick } from './rng';
-import { seasonOf } from './data/events';
-import type { Approach, Contract, Element, GameState, JournalSection, Member, OutcomeTier, PhaseResult, TagId } from './types';
+import { nextFloat, pick } from '../core/rng';
+import { seasonOf } from '../data/events';
+import type { Approach, Contract, Element, GameState, JournalSection, Member, OutcomeTier, PhaseResult, TagId } from '../core/types';
 
 const first = (m?: Member) => (m ? m.name.split(' ')[0] : 'someone');
 

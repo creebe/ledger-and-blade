@@ -1,4 +1,4 @@
-import type { EventChoice, GameState, Member, NpcId } from '../types';
+import type { EventChoice, GameState, Member, NpcId } from '../core/types';
 import { CAST_RANDOM, CAST_STORY } from './cast';
 
 type Txt = string | ((s: GameState, m?: Member) => string);

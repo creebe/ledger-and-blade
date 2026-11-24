@@ -1,11 +1,14 @@
 // Guild buildings and crafting: costs, effects and the weekly progress.
-import { FACILITIES, FACILITY_IDS, RECIPE_BY_ID, RECIPES, type FacilityId, type Recipe } from './data/facilities';
-import { ITEMS } from './data/items';
-import { modSum } from './data/decrees';
-import type { GameState, MaterialId } from './types';
-import { addDispatch, addItem, clamp, earn, living, MATERIAL_INFO, materialPrice, spend, track } from './world';
+import { FACILITIES, FACILITY_IDS, RECIPE_BY_ID, RECIPES, type FacilityId, type Recipe } from '../data/facilities';
+import { ITEMS } from '../data/items';
+import { modSum } from '../data/decrees';
+import type { GameState, MaterialId } from '../core/types';
+import { addDispatch, clamp, living } from '../core/util';
+import { addItem } from './items';
+import { earn, spend, track } from '../core/effects';
+import { MATERIAL_INFO, materialPrice } from './market';
+import { BASE_UPKEEP } from '../core/tuning';
 
-export const BASE_UPKEEP = 15;
 
 export const level = (s: GameState, id: FacilityId) => s.facilities?.[id] ?? FACILITIES[id].start;
 

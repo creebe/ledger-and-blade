@@ -1,14 +1,18 @@
-import { APPROACH_INFO, PROFESSIONS } from './data/professions';
-import { TAGS } from './data/tags';
-import { TEMPLATE_BY_ID } from './data/contracts';
-import { earnFame, mournLegend, squadHas } from './legends';
-import { raiseFeud, resolveOperation } from './war';
-import type { Approach } from './types';
+import { APPROACH_INFO, PROFESSIONS } from '../data/professions';
+import { TAGS } from '../data/tags';
+import { TEMPLATE_BY_ID } from '../data/contracts';
+import { earnFame, mournLegend, squadHas } from '../people/legends';
+import { raiseFeud, resolveOperation } from '../rivals/war';
+import type { Approach } from '../core/types';
 import { chanceFrom, counteredTags, itemDef, phaseDifficulty, squadScore, trueTags, type SquadContext } from './odds';
-import { nextFloat, pick } from './rng';
-import type { GameState, MaterialId, Member, Mission, MissionReport, OutcomeTier, PhaseLog, PhaseResult } from './types';
+import { nextFloat, pick } from '../core/rng';
+import type { GameState, MaterialId, Member, Mission, MissionReport, OutcomeTier, PhaseLog, PhaseResult } from '../core/types';
 import { addRecord, homewardJournal, outboundJournal, phaseStory } from './narrative';
-import { addDispatch, applyContractEffect, earn, clamp, factionName, MATERIAL_INFO, removeItem, xpToLevel, ATTRS } from './world';
+import { addDispatch, clamp } from '../core/util';
+import { applyContractEffect, earn, factionName } from '../core/effects';
+import { MATERIAL_INFO } from '../economy/market';
+import { removeItem } from '../economy/items';
+import { xpToLevel, ATTRS } from '../people/members';
 
 const RESULT_TEXT: Record<PhaseResult, string> = {
   strong: 'Decisive success',

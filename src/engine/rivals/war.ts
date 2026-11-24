@@ -6,22 +6,25 @@
 // Defenses: hall guards, the Spymaster's Den, scouts and bigger squads on the
 // road, loyal members, and diplomacy (truces, tribute, pacts).
 // Open war in the streets draws Heat: the Exchequer blames everyone.
-import { level, rosterCap } from './buildings';
-import { NPCS } from './data/facts';
-import { RIVALS } from './data/factions';
-import { TEMPLATE_BY_ID } from './data/contracts';
-import { mournLegend } from './legends';
-import { chanceFrom, counteredTags, squadScore } from './odds';
-import { chance, pick, randInt } from './rng';
-import type { Approach, Contract, GameState, NpcId, ProfessionId, RivalId } from './types';
-import { addDispatch, clamp, living } from './util';
-import { applyStanding, createMember, generateContract, spend } from './world';
+import { level, rosterCap } from '../economy/buildings';
+import { NPCS } from '../data/facts';
+import { RIVALS } from '../data/factions';
+import { TEMPLATE_BY_ID } from '../data/contracts';
+import { mournLegend } from '../people/legends';
+import { chanceFrom, counteredTags, squadScore } from '../missions/odds';
+import { chance, pick, randInt } from '../core/rng';
+import type { Approach, Contract, GameState, NpcId, ProfessionId, RivalId } from '../core/types';
+import { addDispatch, clamp, living } from '../core/util';
+import { applyStanding, spend } from '../core/effects';
+import { createMember } from '../people/members';
+import { generateContract } from '../economy/board';
+import { FEUD_AT, SWEEP_COST, WAR_AT } from '../core/tuning';
 
 export const STAGES = ['Competition', 'Feud', 'Open war'] as const;
 
 export function feudStage(state: GameState, id: RivalId): 0 | 1 | 2 {
   const f = state.rivals[id].feud ?? 0;
-  return f >= 60 ? 2 : f >= 25 ? 1 : 0;
+  return f >= WAR_AT ? 2 : f >= FEUD_AT ? 1 : 0;
 }
 
 export const inTruce = (state: GameState, id: RivalId) => (state.rivals[id].truceUntil ?? 0) >= state.week;
@@ -554,7 +557,6 @@ export function weeklyWar(state: GameState) {
 }
 
 /** Sweep the hall for spies (Intel). Finds any planted spy with a good chance. */
-export const SWEEP_COST = 3;
 export function sweepForSpies(state: GameState): string | undefined {
   if (state.intel < SWEEP_COST) return `Needs ${SWEEP_COST} Intel`;
   state.intel -= SWEEP_COST;

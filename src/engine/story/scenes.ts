@@ -1,16 +1,18 @@
-import { RANDOM_EVENTS, STORY_EVENTS, type EventDef } from './data/events';
-import { QUEUED_EVENTS } from './data/cast';
-import { raiseFeud } from './war';
-import { ARRIVAL, FIELD_EVENTS, needsArrivalReport, replanned, squadOf } from './data/field';
-import { withdrawMission } from './missions';
-import { TRAITS } from './data/traits';
-import { chanceFrom, counteredTags, squadScore } from './odds';
-import { chance, nextFloat, pick, uid, weighted } from './rng';
-import type { EventChoice, EventEffect, GameEvent, GameState, Member } from './types';
-import { addDispatch, addItem, addStoryContract, applyContractEffect, clamp, createMember, earn, living, spend } from './world';
+import { EVENT_DEFS, STORY_IDS } from '../data/registry';
+import { RANDOM_EVENTS, STORY_EVENTS, type EventDef } from '../data/events';
+import { raiseFeud } from '../rivals/war';
+import { ARRIVAL, FIELD_EVENTS, needsArrivalReport, replanned, squadOf } from '../data/field';
+import { withdrawMission } from '../missions/missions';
+import { TRAITS } from '../data/traits';
+import { chanceFrom, counteredTags, squadScore } from '../missions/odds';
+import { chance, nextFloat, pick, uid, weighted } from '../core/rng';
+import type { EventChoice, EventEffect, GameEvent, GameState, Member } from '../core/types';
+import { addDispatch, clamp, living } from '../core/util';
+import { addItem } from '../economy/items';
+import { addStoryContract } from '../economy/board';
+import { applyContractEffect, earn, spend } from '../core/effects';
+import { createMember } from '../people/members';
 
-const DEFS: Record<string, EventDef> = Object.fromEntries([...STORY_EVENTS, ...RANDOM_EVENTS, ARRIVAL, ...FIELD_EVENTS, ...QUEUED_EVENTS].map((d) => [d.id, d]));
-const storyIds: Record<string, true> = Object.fromEntries(STORY_EVENTS.map((e) => [e.id, true]));
 
 function memberOf(state: GameState, ev: { memberId?: string }): Member | undefined {
   return ev.memberId ? state.members.find((m) => m.id === ev.memberId) : undefined;
@@ -18,7 +20,7 @@ function memberOf(state: GameState, ev: { memberId?: string }): Member | undefin
 
 /** Fill the event's visible text, speaker and choices from its current node. */
 function enterNode(state: GameState, ev: GameEvent, nodeId?: string) {
-  const def = DEFS[ev.defId];
+  const def = EVENT_DEFS[ev.defId];
   const m = memberOf(state, ev);
   const node = nodeId ? def.nodes?.[nodeId] : undefined;
   const src = node ?? def;
@@ -68,7 +70,7 @@ export function triggerEvents(state: GameState) {
   // a new Legend is named the week after they earn it
   for (const id of state.pendingLegends ?? []) {
     const m = state.members.find((x) => x.id === id && x.status !== 'dead' && x.status !== 'left');
-    if (m) state.pendingEvents.push(instantiate(state, DEFS.legend_named, m));
+    if (m) state.pendingEvents.push(instantiate(state, EVENT_DEFS.legend_named, m));
   }
   state.pendingLegends = [];
   // story beats: each fires once, somewhere inside its window
@@ -171,13 +173,13 @@ export function resolveEvent(state: GameState, eventUid: string, choiceIndex: nu
   applyEventEffect(state, effects, ev, lines);
   ev.transcript = [...(ev.transcript ?? []), { choice: choice.label, reply: [checkNote && `(${checkNote})`, text, ...lines].filter(Boolean).join(' ') }];
 
-  if (next && DEFS[ev.defId]?.nodes?.[next]) {
+  if (next && EVENT_DEFS[ev.defId]?.nodes?.[next]) {
     enterNode(state, ev, next);
     return undefined;
   }
   state.pendingEvents = state.pendingEvents.filter((e) => e.uid !== eventUid);
   const summary = (ev.transcript ?? []).map((t) => `▸ ${t.choice}${t.reply ? `: ${t.reply}` : ''}`);
-  addDispatch(state, storyIds[ev.defId] ? 'story' : ev.missionId ? 'mission' : 'info', ev.title, summary);
+  addDispatch(state, STORY_IDS[ev.defId] ? 'story' : ev.missionId ? 'mission' : 'info', ev.title, summary);
   return undefined;
 }
 

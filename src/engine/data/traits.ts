@@ -1,4 +1,4 @@
-import type { Approach } from '../types';
+import type { Approach } from '../core/types';
 
 export interface TraitDef {
   id: string;

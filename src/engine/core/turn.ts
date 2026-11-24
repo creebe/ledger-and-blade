@@ -1,236 +1,20 @@
-// The weekly simulation: everything the player set in motion resolves at once.
-import { TRAITS } from './data/traits';
-import { activeMods, modProduct, modSum } from './data/decrees';
-import { councilNewWeek, freshCouncil, weeklyCouncil } from './council';
-import { freshTutorial } from './tutorial';
-import { discoverLore, freshCodex, weeklyCrier, weeklyJory } from './codex';
-import { denIntel, freshFacilities, healBonus, level, trainCost, trainWeeks, upkeep, weeklyWorkshop } from './buildings';
-import { triggerEvents } from './events';
-import { resolveMission } from './missions';
-import { executeRival, planRival } from './rival';
-import { weeklyWar } from './war';
-import { chance, pick, randInt } from './rng';
-import { BACKERS, CIRCUMSTANCE_BY_ID, CIRCUMSTANCE_GROUPS, CIRCUMSTANCES } from './data/starts';
-import type { BackerId, FactionId, GameState } from './types';
-import {
-  addDispatch,
-  applyClock,
-  applyStanding,
-  clamp,
-  createMember,
-  dateLabel,
-  generateRecruit,
-  living,
-  refreshBoard,
-  refreshMarket,
-  spend,
-  earn,
-  supplyPrice,
-  track,
-} from './world';
-
-export const SAVE_VERSION = 11;
-
-export function freshNpcs(): GameState['npcs'] {
-  return {
-    vorn: { status: 'alive', attitude: 0 },
-    fenn: { status: 'alive', attitude: 0 },
-    marta: { status: 'alive', attitude: 0 },
-    isbet: { status: 'alive', attitude: 0 },
-    dagny: { status: 'alive', attitude: 0 },
-    coster: { status: 'alive', attitude: 0 },
-    brune: { status: 'alive', attitude: 0 },
-    aske: { status: 'alive', attitude: 0 },
-    pask: { status: 'alive', attitude: 0 },
-    mayne: { status: 'alive', attitude: 0 },
-    plaice: { status: 'alive', attitude: 0 },
-    jory: { status: 'alive', attitude: 0 },
-  };
-}
-
-export function freshRivals(): GameState['rivals'] {
-  return {
-    hobbs: { id: 'hobbs', name: 'Hobb & Daughters', crowns: 2000, renown: 20, strength: 10, aggression: 0.4, contractsWon: 0, active: true, feud: 0 },
-    ninth: { id: 'ninth', name: 'The Ninth', crowns: 600, renown: 14, strength: 12, aggression: 0.25, contractsWon: 0, active: false, feud: 0 },
-    assay: { id: 'assay', name: 'The Assay Office', crowns: 1200, renown: 18, strength: 4, aggression: 0.2, contractsWon: 0, active: false, feud: 0 },
-  };
-}
-
-export function freshFactions(): GameState['factions'] {
-  return {
-    exchequer: { id: 'exchequer', standing: 10 },
-    weighhouse: { id: 'weighhouse', standing: 5 },
-    ostranders: { id: 'ostranders', standing: 0 },
-    lowertown: { id: 'lowertown', standing: 0 },
-    oda: { id: 'oda', standing: 0 },
-    fourteen: { id: 'fourteen', standing: 0 },
-    mudlarks: { id: 'mudlarks', standing: 0 },
-  };
-}
-
-/** Upgrade older saves in place. Returns null if the save can't be used. */
-export function migrateSave(g: GameState): GameState | null {
-  if (!g || typeof g.week !== 'number') return null;
-  if (g.version === 1) {
-    for (const m of g.members) m.record = m.record ?? [];
-    for (const r of g.recruits) r.member.record = r.member.record ?? [];
-    for (const e of g.pendingEvents) e.transcript = e.transcript ?? [];
-    g.version = 2;
-  }
-  if (g.version === 2) {
-    g.npcs = freshNpcs();
-    g.version = 3;
-  }
-  if (g.version === 3) {
-    g.facilities = freshFacilities();
-    g.craftQueue = [];
-    g.version = 4;
-  }
-  if (g.version === 4) {
-    g.council = freshCouncil();
-    g.version = 5;
-  }
-  if (g.version === 5) {
-    g.tutorial = freshTutorial();
-    g.version = 6;
-  }
-  if (g.version === 6) {
-    g.codex = freshCodex(g);
-    g.crierSeen = [];
-    g.crierRecent = [];
-    g.version = 7;
-  }
-  if (g.version === 7) {
-    // rewards were paid automatically before: everything done counts as collected
-    g.tutorial.claimed = [...g.tutorial.done];
-    g.version = 8;
-  }
-  if (g.version === 8) {
-    // the wider cast: new characters, factions met in the story, more rivals
-    g.npcs = { ...freshNpcs(), ...g.npcs };
-    g.factions = { ...freshFactions(), ...g.factions };
-    const fresh = freshRivals();
-    g.rivals = { ...fresh, ...g.rivals, hobbs: { ...g.rivals.hobbs, active: true } };
-    g.version = 9;
-  }
-  if (g.version === 9) {
-    // campaigns before varied starts began like a merchant-backed guild
-    g.start = { backer: 'merchant', circumstances: [] };
-    g.version = 10;
-  }
-  if (g.version === 10) {
-    for (const r of Object.values(g.rivals)) r.feud = r.feud ?? 0;
-    g.version = 11;
-  }
-  return g.version === SAVE_VERSION ? g : null;
-}
-
-export function newGame(seed = Date.now() % 2147483647): GameState {
-  const s: GameState = {
-    version: SAVE_VERSION,
-    seed,
-    rng: seed,
-    week: 1,
-    crowns: 300,
-    supplies: 40,
-    intel: 2,
-    influence: 3,
-    renown: 5,
-    heat: 0,
-    materials: { iron: 0, leather: 0, timber: 0, reagents: 0 },
-    members: [],
-    recruits: [],
-    items: [],
-    board: [],
-    missions: [],
-    factions: freshFactions(),
-    rivals: freshRivals(),
-    clocks: { arrears: 30, leverage: 25, unrest: 30, cointrust: 60 },
-    loans: [{ lender: 'weighhouse', principal: 800, weeklyRate: 0.01, paymentDue: 48, dueWeek: 6, missed: 0 }],
-    market: { supplies: 1, iron: 1, leather: 1, timber: 1, reagents: 1 },
-    start: { backer: 'merchant', circumstances: [] },
-    stock: [],
-    pendingEvents: [],
-    dispatches: [],
-    ledger: [],
-    flags: {},
-    npcs: freshNpcs(),
-    facilities: freshFacilities(),
-    craftQueue: [],
-    council: freshCouncil(),
-    tutorial: freshTutorial(),
-    codex: freshCodex(),
-    crierSeen: [],
-    crierRecent: [],
-    insolventWeeks: 0,
-    charterWeeks: 0,
-    eventWeeks: {},
-    weekBook: { income: {}, expenses: {} },
-    history: [],
-    petitioned: [],
-    nextId: 0,
-    difficulty: 'standard',
-  };
-  // burn a few values so nearby seeds diverge
-  for (let i = 0; i < 5; i++) randInt(s, 0, 1);
-  rollStart(s);
-  const backer = BACKERS[s.start.backer];
-  for (const r of backer.roster) {
-    const m = createMember(s, r.profession);
-    m.loyalty = 70;
-    if (r.trait && !m.traits.includes(r.trait)) m.traits = [r.trait, ...m.traits].slice(0, 2);
-    s.members.push(m);
-  }
-  s.recruits = [generateRecruit(s), generateRecruit(s)];
-  refreshMarket(s);
-  refreshBoard(s);
-  addDispatch(s, 'story', 'The guild is founded', [
-    `${dateLabel(1)}. Four people, a drafty hall on Tallow Street, and a debt of ${backer.loan} crowns.`,
-    `Backed by: ${backer.name}. ${backer.text}`,
-    ...s.start.circumstances.map((id) => `${CIRCUMSTANCE_BY_ID[id].title}. ${CIRCUMSTANCE_BY_ID[id].text}`),
-  ]);
-  planRival(s);
-  triggerEvents(s);
-  return s;
-}
-
-/** Saint Oda's sisters look in on the guild's wounded. */
-export function odaHeal(s: GameState): number {
-  const st = s.factions.oda?.standing ?? 0;
-  return st >= 40 ? 4 : st >= 20 ? 2 : 0;
-}
-
-/** Weekly effects of standing with the factions met in the story. */
-function factionPerks(s: GameState) {
-  if ((s.factions.fourteen?.standing ?? 0) >= 25 && s.week % 4 === 0) {
-    s.influence += 1;
-    addDispatch(s, 'politics', 'A word from the Fourteen', ['One of the old families mentioned your guild favorably at court. Influence +1.']);
-  }
-  if ((s.factions.mudlarks?.standing ?? 0) <= -25 && s.supplies >= 4 && chance(s, 0.25)) {
-    const lost = Math.min(s.supplies, randInt(s, 2, 5));
-    s.supplies -= lost;
-    addDispatch(s, 'warning', 'Something went missing', [`The back door of the stores was found open this morning, and ${lost} supplies have gone. Nobody on the river saw a thing.`]);
-  }
-}
-
-/** Roll who backed the guild and the state of Varrow at the start, from the campaign seed. */
-function rollStart(s: GameState) {
-  const backer = pick(s, Object.keys(BACKERS) as BackerId[]);
-  const circumstances = CIRCUMSTANCE_GROUPS.map((g) => pick(s, CIRCUMSTANCES.filter((c) => c.group === g)).id);
-  s.start = { backer, circumstances };
-  const b = BACKERS[backer];
-  s.crowns = b.crowns;
-  s.supplies = b.supplies ?? s.supplies;
-  s.materials.reagents += b.reagents ?? 0;
-  s.loans = [{ lender: 'weighhouse', principal: b.loan, weeklyRate: 0.01, paymentDue: Math.round(b.loan * 0.06), dueWeek: 6, missed: 0 }];
-  for (const [f, v] of Object.entries(b.standing ?? {})) s.factions[f as FactionId].standing += v!;
-  if (backer === 'college') {
-    s.rivals.assay.active = true;
-    s.flags.assay_active = true;
-  }
-  for (const id of circumstances) CIRCUMSTANCE_BY_ID[id].apply(s);
-  for (const k of Object.keys(s.marketBias ?? {})) s.market[k] = s.marketBias![k];
-}
+import { TRAITS } from '../data/traits';
+import { activeMods, modProduct, modSum } from '../data/decrees';
+import { councilNewWeek, weeklyCouncil } from '../politics/council';
+import { discoverLore, weeklyCrier, weeklyJory } from '../story/codex';
+import { denIntel, healBonus, level, trainCost, trainWeeks, upkeep, weeklyWorkshop } from '../economy/buildings';
+import { triggerEvents } from '../story/scenes';
+import { resolveMission } from '../missions/missions';
+import { executeRival, planRival } from '../rivals/rival';
+import { weeklyWar } from '../rivals/war';
+import { chance } from './rng';
+import type { GameState } from './types';
+import { addDispatch, clamp, living } from './util';
+import { applyClock, applyStanding, earn, spend, track } from './effects';
+import { generateRecruit } from '../people/members';
+import { refreshBoard } from '../economy/board';
+import { refreshMarket, supplyPrice } from '../economy/market';
+import { factionPerks, odaHeal } from '../politics/factions';
 
 export interface Projection {
   week: number;
@@ -284,8 +68,21 @@ export function endWeekWarnings(s: GameState): string[] {
 export function advanceWeek(s: GameState): string | undefined {
   if (s.gameOver) return 'The game is over';
   if (s.pendingEvents.length) return 'Answer the waiting dispatches first';
+  homePhase(s);
+  missionPhase(s);
+  worldPhase(s);
+  economyPhase(s);
+  memberPhase(s);
+  politicsPhase(s);
+  clocksPhase(s);
+  closeLedger(s);
+  if (checkGameOver(s)) return undefined;
+  startNewWeek(s);
+  return undefined;
+}
 
-  // ---- 1. home assignments ----
+/** Members at home rest, train, gather rumors, labor or scout. */
+function homePhase(s: GameState) {
   for (const m of living(s)) {
     if (m.status === 'mission') {
       m.fatigue = clamp(m.fatigue + 3, 0, 100);
@@ -357,8 +154,10 @@ export function advanceWeek(s: GameState): string | undefined {
       }
     }
   }
+}
 
-  // ---- 2. missions ----
+/** Squads that arrive resolve their jobs; squads that are home again report back. */
+function missionPhase(s: GameState) {
   for (const mission of s.missions) {
     if (!mission.report && mission.arriveWeek <= s.week) resolveMission(s, mission);
   }
@@ -377,16 +176,20 @@ export function advanceWeek(s: GameState): string | undefined {
       if (s.history.length > 30) s.history.shift();
     }
   }
+}
 
-  // ---- 3. rival ----
+/** Rivals act, feuds move, the Council sits, and the city talks. */
+function worldPhase(s: GameState) {
   executeRival(s);
   weeklyWar(s);
   weeklyCouncil(s);
   weeklyCrier(s);
   weeklyJory(s);
   discoverLore(s);
+}
 
-  // ---- 4. economy ----
+/** Wages, upkeep, workshops, supplies and the loan. */
+function economyPhase(s: GameState) {
   const crew = living(s);
   const wages = weeklyWages(s);
   spend(s, 'Wages', wages);
@@ -441,8 +244,11 @@ export function advanceWeek(s: GameState): string | undefined {
     s.insolventWeeks = 0;
     for (const m of crew) m.weeksUnpaid = 0;
   }
+}
 
-  // ---- 5. members: loyalty & morale drift, desertion ----
+/** Loyalty and morale drift; the unhappy may desert. */
+function memberPhase(s: GameState) {
+  const crew = living(s);
   for (const m of crew) {
     if (m.morale < 30) m.loyalty = clamp(m.loyalty - 2, 0, 100);
     else if (m.morale > 65 && m.weeksUnpaid === 0) m.loyalty = clamp(m.loyalty + 1, 0, 100);
@@ -454,8 +260,10 @@ export function advanceWeek(s: GameState): string | undefined {
       addDispatch(s, 'roster', `${m.name} has deserted`, ['They left in the night.']);
     }
   }
+}
 
-  // ---- 6. heat & politics ----
+/** Faction perks, Heat, and the charter. */
+function politicsPhase(s: GameState) {
   factionPerks(s);
   s.heat = clamp(s.heat - (s.factions.exchequer.standing >= 30 ? 3 : 2) - modSum(s, 'heatDecay'), 0, 100);
   if (s.heat >= 80) applyStanding(s, 'exchequer', -3);
@@ -466,20 +274,26 @@ export function advanceWeek(s: GameState): string | undefined {
       `The Exchequer is preparing to revoke your charter. Weeks remaining: ${6 - s.charterWeeks}. Raise Exchequer standing above −60 and keep Heat below 100.`,
     ]);
   }
+}
 
-  // ---- 7. world clocks ----
+/** Decrees and the Debt move the world clocks. */
+function clocksPhase(s: GameState) {
   for (const m of activeMods(s)) for (const [c, v] of Object.entries(m.clocks ?? {})) applyClock(s, c as never, v!);
   applyClock(s, 'arrears', 0.6 + (s.flags.silver_lost ? 1.2 : 0));
   applyClock(s, 'leverage', 0.3 + s.clocks.arrears / 200);
   applyClock(s, 'unrest', 0.2 + (s.clocks.arrears > 50 ? 0.4 : 0) - (s.factions.lowertown.standing > 30 ? 0.3 : 0));
   applyClock(s, 'cointrust', -0.15 - (s.clocks.arrears > 60 ? 0.3 : 0));
+}
 
-  // ---- ledger ----
+/** Write the week into the ledger. */
+function closeLedger(s: GameState) {
   s.ledger.push({ week: s.week, income: s.weekBook.income, expenses: s.weekBook.expenses, balance: s.crowns });
   if (s.ledger.length > 52) s.ledger.shift();
   s.weekBook = { income: {}, expenses: {} };
+}
 
-  // ---- fail states ----
+/** Ends the game if the guild is bankrupt, has lost its charter, or has nobody left. Returns true if it did. */
+function checkGameOver(s: GameState): boolean {
   const loan = s.loans[0];
   if (s.insolventWeeks >= 4 || (loan && loan.missed >= 3)) {
     s.gameOver = {
@@ -487,7 +301,7 @@ export function advanceWeek(s: GameState): string | undefined {
       week: s.week,
       text: 'The Weighhouse bailiffs arrive at dawn with a writ. The hall, the armory and the sign over the door are seized. Ledger & Blade is finished.',
     };
-    return undefined;
+    return true;
   }
   if (s.charterWeeks >= 6) {
     s.gameOver = {
@@ -495,14 +309,17 @@ export function advanceWeek(s: GameState): string | undefined {
       week: s.week,
       text: 'A herald nails the Exchequer\'s writ to your door: your charter is revoked. Without it, every contract is a crime. The guild disbands.',
     };
-    return undefined;
+    return true;
   }
   if (living(s).length === 0 && s.crowns < 40) {
     s.gameOver = { reason: 'collapse', week: s.week, text: 'No one is left to answer the door. The guild is a name on an old ledger.' };
-    return undefined;
+    return true;
   }
+  return false;
+}
 
-  // ---- 8. new week ----
+/** Turn the page: new recruits, market, board, rival plans and events. */
+function startNewWeek(s: GameState) {
   s.week += 1;
   s.petitioned = [];
   councilNewWeek(s);
@@ -513,7 +330,6 @@ export function advanceWeek(s: GameState): string | undefined {
   planRival(s);
   triggerEvents(s);
   discoverLore(s);
-  return undefined;
 }
 
 // re-exported helpers so the UI can use one import

@@ -1,9 +1,9 @@
 // Codex discovery and the weekly street talk.
-import { CODEX, CRIER, JORY } from './data/codex';
-import { chance, weighted } from './rng';
-import type { GameState } from './types';
-import { addDispatch } from './world';
-import { legendTalk } from './legends';
+import { CODEX, CRIER, JORY } from '../data/codex';
+import { chance, weighted } from '../core/rng';
+import type { GameState } from '../core/types';
+import { addDispatch } from '../core/util';
+import { legendTalk } from '../people/legends';
 
 export function freshCodex(s?: GameState): GameState['codex'] {
   return { unlocked: CODEX.filter((e) => e.category === 'Common knowledge' || (s ? e.unlock(s) : false)).map((e) => e.id), fresh: [] };

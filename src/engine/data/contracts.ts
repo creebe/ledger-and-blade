@@ -1,4 +1,4 @@
-import type { FactId, ContractEffect, FactionId, MaterialId, PhaseDef, Season, TagId } from '../types';
+import type { FactId, ContractEffect, FactionId, MaterialId, PhaseDef, Season, TagId } from '../core/types';
 
 export interface ContractTemplate {
   id: string;

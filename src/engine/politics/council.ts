@@ -1,10 +1,11 @@
 // The Council of Varrow: a seasonal vote on two decrees. The guild declares a
 // position and spends Influence, Intel or crowns to move factions' seats.
-import { DECREE_BY_ID, DECREES, SEATS } from './data/decrees';
-import { FACTIONS } from './data/factions';
-import { chance, pick, weighted } from './rng';
-import type { AgendaItem, CouncilState, CouncilFaction, GameState, Stance } from './types';
-import { addDispatch, applyClock, applyStanding, clamp, factionName, spend, track } from './world';
+import { DECREE_BY_ID, DECREES, SEATS } from '../data/decrees';
+import { FACTIONS } from '../data/factions';
+import { chance, pick, weighted } from '../core/rng';
+import type { AgendaItem, CouncilState, CouncilFaction, GameState, Stance } from '../core/types';
+import { addDispatch, clamp } from '../core/util';
+import { applyClock, applyStanding, factionName, spend, track } from '../core/effects';
 
 const FACTION_IDS = Object.keys(SEATS) as CouncilFaction[];
 export const ANNOUNCE_WEEK = 7; // week of the season the agenda is posted

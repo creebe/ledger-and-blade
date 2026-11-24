@@ -2,11 +2,11 @@
 // from deeds, not experience: leading phases well, flawless jobs, story work,
 // dangerous foes and coming home from disasters. Three tiers: Known, Renowned,
 // Legendary. A Legend gets a name from the street and a signature ability.
-import { APPROACH_INFO } from './data/professions';
-import { TAGS } from './data/tags';
-import { pick } from './rng';
-import type { Approach, Contract, GameState, Member, OutcomeTier, PhaseResult } from './types';
-import { addDispatch, clamp, living } from './util';
+import { TAGS } from '../data/tags';
+import { pick } from '../core/rng';
+import type { Approach, Contract, GameState, Member, OutcomeTier, PhaseResult } from '../core/types';
+import { addDispatch, clamp, living } from '../core/util';
+import { FAME_KNOWN, FAME_LEGENDARY, FAME_RENOWNED, LEGEND_NEEDS } from '../core/tuning';
 
 export interface Feat {
   week: number;
@@ -18,13 +18,11 @@ export interface Feat {
 
 export const FAME_TIERS = [
   { name: '', min: 0 },
-  { name: 'Known', min: 20 },
-  { name: 'Renowned', min: 75 },
-  { name: 'Legendary', min: 120 },
+  { name: 'Known', min: FAME_KNOWN },
+  { name: 'Renowned', min: FAME_RENOWNED },
+  { name: 'Legendary', min: FAME_LEGENDARY },
 ] as const;
 
-/** Legendary also needs a long record, not just one lucky year. */
-const LEGEND_NEEDS = { level: 5, missions: 25 };
 
 export function fameTier(m: Member): number {
   const f = m.fame ?? 0;
@@ -34,7 +32,6 @@ export function fameTier(m: Member): number {
   return 0;
 }
 
-export const fameName = (m: Member) => FAME_TIERS[fameTier(m)].name;
 
 // ---------------------------------------------------------------------------
 // Signature abilities
@@ -229,4 +226,3 @@ export function legendTalk(state: GameState): string | undefined {
   return pick(state, frames);
 }
 
-export const approachName = (a: Approach) => APPROACH_INFO[a].name;

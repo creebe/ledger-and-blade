@@ -3,11 +3,12 @@
 // - The Ninth (once Captain Mayne arrives): take fighting work and recruit hard.
 // - The Assay Office (once Plaice takes notice): takes arcane work and inspects your stillroom.
 // Each week's plan can be revealed with Intel and sometimes countered.
-import { chance, pick } from './rng';
-import { level } from './buildings';
-import { RIVALS } from './data/factions';
-import type { GameState, Member, RivalId, RivalPlan } from './types';
-import { addDispatch, applyStanding, clamp, living, spend } from './world';
+import { chance, pick } from '../core/rng';
+import { level } from '../economy/buildings';
+import { RIVALS } from '../data/factions';
+import type { GameState, Member, RivalId, RivalPlan } from '../core/types';
+import { addDispatch, clamp, living } from '../core/util';
+import { applyStanding, spend } from '../core/effects';
 import { describeHostile, executeHostile, hostilePlan, inTruce } from './war';
 
 export const RIVAL_IDS: RivalId[] = ['hobbs', 'ninth', 'assay'];

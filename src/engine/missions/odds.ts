@@ -1,14 +1,14 @@
 // Odds model: how a squad's members, gear and approach compare with a phase's
 // difficulty. The same functions drive the planner preview and the actual
 // resolution, so the odds the player sees are the odds that get rolled.
-import { ITEMS } from './data/items';
-import { legendAura } from './legends';
-import { PROFESSIONS } from './data/professions';
-import { TAGS } from './data/tags';
-import { TRAITS } from './data/traits';
-import { seasonOf } from './data/events';
-import { tripWeeks } from './buildings';
-import type { Approach, Contract, Element, GameState, ItemDef, Member, PhaseDef, TagId } from './types';
+import { ITEMS } from '../data/items';
+import { legendAura } from '../people/legends';
+import { PROFESSIONS } from '../data/professions';
+import { TAGS } from '../data/tags';
+import { TRAITS } from '../data/traits';
+import { seasonOf } from '../data/events';
+import { tripWeeks } from '../economy/buildings';
+import type { Approach, Contract, Element, GameState, ItemDef, Member, PhaseDef, TagId } from '../core/types';
 
 export interface Part {
   label: string;

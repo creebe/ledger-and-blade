@@ -1,7 +1,8 @@
 // Guildmaster's Notes: completion checks and rewards.
-import { FINAL_REWARD, OBJECTIVES, type Objective } from './data/tutorial';
-import type { GameState } from './types';
-import { addDispatch, earn } from './world';
+import { FINAL_REWARD, OBJECTIVES, type Objective } from '../data/tutorial';
+import type { GameState } from '../core/types';
+import { addDispatch } from '../core/util';
+import { earn } from '../core/effects';
 
 export function freshTutorial(enabled = true): GameState['tutorial'] {
   return { enabled, done: [], claimed: [], counters: {} };

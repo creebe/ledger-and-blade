@@ -1,8 +1,8 @@
 // The wider cast of Act I: a face for every faction and rival, and follow-ups
 // that react to what the guild did earlier. See docs/STORY.md, sections 4 and 5.
-import type { EventChoice, GameState, Member } from '../types';
+import type { EventChoice, GameState, Member } from '../core/types';
 import type { EventDef } from './events';
-import { epithetOptions, signatureOptions, SIGNATURES } from '../legends';
+import { epithetOptions, signatureOptions, SIGNATURES } from '../people/legends';
 
 const first = (m?: Member) => (m ? m.name.split(' ')[0] : 'They');
 const fired = (s: GameState, id: string) => s.eventWeeks[id] !== undefined;

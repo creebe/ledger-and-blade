@@ -1,8 +1,8 @@
 // Core game types. The engine is pure TypeScript with no UI dependencies.
-import type { FactId, NpcId, NpcStatus } from './data/facts';
-import type { FacilityId } from './data/facilities';
-import type { BackerId } from './data/starts';
-import type { Feat } from './legends';
+import type { FactId, NpcId, NpcStatus } from '../data/facts';
+import type { FacilityId } from '../data/facilities';
+import type { BackerId } from '../data/starts';
+import type { Feat } from '../people/legends';
 export type { FactId, NpcId, NpcStatus, FacilityId, BackerId };
 
 export type Attribute = 'might' | 'finesse' | 'wits' | 'resolve';
@@ -39,7 +39,6 @@ export interface Attributes {
 }
 
 export type ItemSlot = 'weapon' | 'armor' | 'trinket' | 'consumable';
-export type Quality = 'crude' | 'standard' | 'fine' | 'masterwork';
 
 export interface ItemDef {
   id: string;
