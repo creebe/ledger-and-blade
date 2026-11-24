@@ -2763,3 +2763,47 @@ details summary {
 .fo.goal {
   border-color: var(--gold);
 }
+
+/* ---------- v0.10: new guild screen ---------- */
+.new-guild {
+  justify-content: flex-start;
+  padding-top: 32px;
+}
+.start-card {
+  width: 100%;
+  text-align: left;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.start-card h3 {
+  margin: 2px 0 6px;
+}
+.start-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin: 0;
+}
+.start-line {
+  margin-top: 8px;
+}
+.seed-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+.seed-input {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font: inherit;
+  font-size: 0.9rem;
+}

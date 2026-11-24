@@ -377,7 +377,8 @@ export function refreshMarket(state: GameState) {
   for (const k of ['supplies', 'iron', 'leather', 'timber', 'reagents']) {
     const cur = state.market[k] ?? 1;
     // drift back toward 1 with noise
-    state.market[k] = clamp(cur + (1 - cur) * 0.3 + (nextFloat(state) - 0.5) * 0.12, 0.6, 1.8);
+    const target = state.marketBias?.[k] ?? 1;
+    state.market[k] = clamp(cur + (target - cur) * 0.3 + (nextFloat(state) - 0.5) * 0.12, 0.5, 1.8);
   }
   const pool = MARKET_POOL.filter((p) => state.renown >= p.minRenown && !STAPLES.includes(p.id)).map((p) => p.id);
   const stock = new Set<string>(STAPLES);

@@ -89,7 +89,7 @@ interface Store {
   guideTarget?: string;
   showMe: (o: Objective) => void;
   act: (fn: (g: GameState) => string | undefined | void) => boolean;
-  startNew: () => void;
+  startNew: (seed?: number) => void;
   continueGame: () => void;
   loadGame: (g: GameState) => void;
   saveSlot: (n: number) => void;
@@ -134,8 +134,8 @@ export const useStore = create<Store>((set, get) => ({
     }
     return true;
   },
-  startNew: () => {
-    const g = newGame();
+  startNew: (seed) => {
+    const g = newGame(seed);
     safeSet(AUTOSAVE, JSON.stringify(g));
     set({ game: g, tab: 'hall', sheets: [] });
   },

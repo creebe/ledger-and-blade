@@ -32,6 +32,14 @@ export interface EventDef {
   nodes?: Record<string, EventNodeDef>;
 }
 
+/** One line in the charter scene about who put up the money. */
+const BACKER_LINE: Record<string, string> = {
+  veterans: 'The money came from four old soldiers and their back pay. Two of them have already argued about where the weapon racks should go.',
+  merchant: 'The money came from a wool merchant on the Weighhouse, who has sent a list of his wagons and the dates they leave.',
+  coop: 'The money came from the porters and small trades of the Lower Town, in coins so small that it took Jory two days to count them.',
+  college: 'The money came from two Arcanists who left the college after the fire. One of them still smells faintly of smoke.',
+};
+
 const living = (s: GameState) => s.members.filter((m) => m.status !== 'dead' && m.status !== 'left');
 const first = (m?: Member) => (m ? m.name.split(' ')[0] : 'They');
 
@@ -75,8 +83,9 @@ const CORE_STORY: EventDef[] = [
     story: true,
     window: [1, 1],
     title: 'A Charter and a Debt',
-    text:
-      "The Exchequer's seal is still warm on your charter. As of this morning, Ledger & Blade may take paid work anywhere in the realm. It is also 800 crowns in debt to the Weighhouse, which paid for the hall, the first wages and the sign over the door.\n\n" +
+    text: (s) =>
+      `The Exchequer's seal is still warm on your charter. As of this morning, Ledger & Blade may take paid work anywhere in the realm. It is also ${s.loans[0]?.principal ?? 800} crowns in debt to the Weighhouse, which paid for the hall, the first wages and the sign over the door.\n\n` +
+      `${BACKER_LINE[s.start?.backer ?? 'merchant']}\n\n` +
       'The hall came with a clerk, Jory Abbot, who has kept its books through three guildmasters and has already found the leak in the roof.\n\n' +
       "The Exchequer man who brought the charter glances at the empty weapon racks. \"Quarter-day's in a few weeks,\" he says, as everyone in Varrow does lately. \"Good luck.\"\n\n" +
       'You have a little coin left over. How do you start?',

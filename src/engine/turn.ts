@@ -8,8 +8,9 @@ import { denIntel, freshFacilities, healBonus, level, trainCost, trainWeeks, upk
 import { triggerEvents } from './events';
 import { resolveMission } from './missions';
 import { executeRival, planRival } from './rival';
-import { chance, randInt } from './rng';
-import type { GameState } from './types';
+import { chance, pick, randInt } from './rng';
+import { BACKERS, CIRCUMSTANCE_BY_ID, CIRCUMSTANCE_GROUPS, CIRCUMSTANCES } from './data/starts';
+import type { BackerId, FactionId, GameState } from './types';
 import {
   addDispatch,
   applyClock,
@@ -27,7 +28,7 @@ import {
   track,
 } from './world';
 
-export const SAVE_VERSION = 9;
+export const SAVE_VERSION = 10;
 
 export function freshNpcs(): GameState['npcs'] {
   return {
@@ -111,6 +112,11 @@ export function migrateSave(g: GameState): GameState | null {
     g.rivals = { ...fresh, ...g.rivals, hobbs: { ...g.rivals.hobbs, active: true } };
     g.version = 9;
   }
+  if (g.version === 9) {
+    // campaigns before varied starts began like a merchant-backed guild
+    g.start = { backer: 'merchant', circumstances: [] };
+    g.version = 10;
+  }
   return g.version === SAVE_VERSION ? g : null;
 }
 
@@ -137,6 +143,7 @@ export function newGame(seed = Date.now() % 2147483647): GameState {
     clocks: { arrears: 30, leverage: 25, unrest: 30, cointrust: 60 },
     loans: [{ lender: 'weighhouse', principal: 800, weeklyRate: 0.01, paymentDue: 48, dueWeek: 6, missed: 0 }],
     market: { supplies: 1, iron: 1, leather: 1, timber: 1, reagents: 1 },
+    start: { backer: 'merchant', circumstances: [] },
     stock: [],
     pendingEvents: [],
     dispatches: [],
@@ -161,17 +168,21 @@ export function newGame(seed = Date.now() % 2147483647): GameState {
   };
   // burn a few values so nearby seeds diverge
   for (let i = 0; i < 5; i++) randInt(s, 0, 1);
-  for (const p of ['vanguard', 'skirmisher', 'scout', 'envoy'] as const) {
-    const m = createMember(s, p);
+  rollStart(s);
+  const backer = BACKERS[s.start.backer];
+  for (const r of backer.roster) {
+    const m = createMember(s, r.profession);
     m.loyalty = 70;
+    if (r.trait && !m.traits.includes(r.trait)) m.traits = [r.trait, ...m.traits].slice(0, 2);
     s.members.push(m);
   }
   s.recruits = [generateRecruit(s), generateRecruit(s)];
   refreshMarket(s);
   refreshBoard(s);
   addDispatch(s, 'story', 'The guild is founded', [
-    `${dateLabel(1)}. Four people, a drafty hall on Tallow Street, and a debt.`,
-    'Read the contract board, choose your squads carefully, and watch the ledger.',
+    `${dateLabel(1)}. Four people, a drafty hall on Tallow Street, and a debt of ${backer.loan} crowns.`,
+    `Backed by: ${backer.name}. ${backer.text}`,
+    ...s.start.circumstances.map((id) => `${CIRCUMSTANCE_BY_ID[id].title}. ${CIRCUMSTANCE_BY_ID[id].text}`),
   ]);
   planRival(s);
   triggerEvents(s);
@@ -195,6 +206,25 @@ function factionPerks(s: GameState) {
     s.supplies -= lost;
     addDispatch(s, 'warning', 'Something went missing', [`The back door of the stores was found open this morning, and ${lost} supplies have gone. Nobody on the river saw a thing.`]);
   }
+}
+
+/** Roll who backed the guild and the state of Varrow at the start, from the campaign seed. */
+function rollStart(s: GameState) {
+  const backer = pick(s, Object.keys(BACKERS) as BackerId[]);
+  const circumstances = CIRCUMSTANCE_GROUPS.map((g) => pick(s, CIRCUMSTANCES.filter((c) => c.group === g)).id);
+  s.start = { backer, circumstances };
+  const b = BACKERS[backer];
+  s.crowns = b.crowns;
+  s.supplies = b.supplies ?? s.supplies;
+  s.materials.reagents += b.reagents ?? 0;
+  s.loans = [{ lender: 'weighhouse', principal: b.loan, weeklyRate: 0.01, paymentDue: Math.round(b.loan * 0.06), dueWeek: 6, missed: 0 }];
+  for (const [f, v] of Object.entries(b.standing ?? {})) s.factions[f as FactionId].standing += v!;
+  if (backer === 'college') {
+    s.rivals.assay.active = true;
+    s.flags.assay_active = true;
+  }
+  for (const id of circumstances) CIRCUMSTANCE_BY_ID[id].apply(s);
+  for (const k of Object.keys(s.marketBias ?? {})) s.market[k] = s.marketBias![k];
 }
 
 export interface Projection {

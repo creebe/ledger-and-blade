@@ -14,7 +14,7 @@ import {
   type GameState,
 } from '../src/engine';
 import { runSim } from '../scripts/sim';
-import { claimNote, buySupplies, supplyCost, buyMaterial, cancelDispatch, discoverLore, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
+import { SAVE_VERSION, BACKERS, CIRCUMSTANCE_BY_ID, claimNote, buySupplies, supplyCost, buyMaterial, cancelDispatch, discoverLore, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
 
 const clearEvents = (s: GameState) => {
   while (s.pendingEvents.length) resolveEvent(s, s.pendingEvents[0].uid, 0);
@@ -216,9 +216,26 @@ describe('engine', () => {
     delete s.craftQueue;
     s.version = 3;
     const g = migrateSave(s as never)!;
-    expect(g.version).toBe(9);
+    expect(g.version).toBe(SAVE_VERSION);
     expect(g.facilities.hall).toBe(1);
     expect(g.craftQueue).toEqual([]);
+  });
+
+  it('campaigns start from different circumstances, and a seed always gives the same start', () => {
+    const backers = new Set<string>();
+    const seen = new Set<string>();
+    for (let seed = 1; seed <= 80; seed++) {
+      const s = newGame(seed);
+      backers.add(s.start.backer);
+      for (const c of s.start.circumstances) seen.add(c);
+      expect(s.start.circumstances.length).toBe(4);
+      expect(s.members.length).toBe(4);
+      expect(s.loans[0].principal).toBe(BACKERS[s.start.backer].loan);
+    }
+    expect(backers.size).toBe(4);
+    expect(seen.size).toBe(Object.keys(CIRCUMSTANCE_BY_ID).length);
+    expect(newGame(777).start).toEqual(newGame(777).start);
+    expect(newGame(777).members.map((m) => m.name)).toEqual(newGame(777).members.map((m) => m.name));
   });
 
   it('version 8 saves gain the new cast, factions and rivals', () => {
@@ -230,7 +247,7 @@ describe('engine', () => {
     delete s.rivals.hobbs.active;
     s.version = 8;
     const g = migrateSave(s as never)!;
-    expect(g.version).toBe(9);
+    expect(g.version).toBe(SAVE_VERSION);
     expect(g.npcs.pask.status).toBe('alive');
     expect(g.factions.oda.standing).toBe(0);
     expect(g.rivals.hobbs.active).toBe(true);

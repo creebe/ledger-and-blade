@@ -1,7 +1,8 @@
 // Core game types. The engine is pure TypeScript with no UI dependencies.
 import type { FactId, NpcId, NpcStatus } from './data/facts';
 import type { FacilityId } from './data/facilities';
-export type { FactId, NpcId, NpcStatus, FacilityId };
+import type { BackerId } from './data/starts';
+export type { FactId, NpcId, NpcStatus, FacilityId, BackerId };
 
 export type Attribute = 'might' | 'finesse' | 'wits' | 'resolve';
 export type Approach = 'assault' | 'stealth' | 'guile' | 'endurance' | 'arcana';
@@ -371,6 +372,8 @@ export interface GameState {
   clocks: Record<ClockId, number>; // 0-100
   loans: Loan[];
   market: Record<string, number>; // price multipliers for supplies/materials/items
+  marketBias?: Record<string, number>; // where prices settle this campaign (default 1)
+  start: { backer: BackerId; circumstances: string[] }; // how this campaign began
   stock: string[]; // item def ids for sale this week
   pendingEvents: GameEvent[];
   dispatches: Dispatch[];

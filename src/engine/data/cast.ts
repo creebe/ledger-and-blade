@@ -186,9 +186,9 @@ export const CAST_STORY: EventDef[] = [
     chance: 0.5,
     title: 'The Man with the Scales',
     speaker: 'Alderman Piet Coster',
-    text:
+    text: (s) =>
       'Alderman Piet Coster of the Weighhouse arrives with a clerk carrying a small brass balance in a velvet box. He sets it on your table, levels it with a coin and only then sits down.\n\n' +
-      '"Your first payment on the note falls due in week six: forty-eight crowns. I mention it because most new guilds forget, and then I have to send men, and the men charge me by the hour."\n\n' +
+      `"Your first payment on the note falls due in week six: ${s.loans[0]?.paymentDue ?? 48} crowns. I mention it because most new guilds forget, and then I have to send men, and the men charge me by the hour."\n\n` +
       'He taps the balance. "I also have a small job, if you want it."',
     choices: [
       { label: "What's the job?", effects: {}, next: 'job', resultText: '' },
@@ -426,7 +426,9 @@ export const CAST_STORY: EventDef[] = [
     text: (s) =>
       (s.facilities.stillroom
         ? 'A thin man with a leather satchel is standing in your stillroom when you come down in the morning. He has already taken the lids off three jars.\n\n"Corwin Plaice, Master Assayer. Your door was open, which under section four of the Reagents Charter counts as an invitation." He holds up a jar. "None of these are labelled to standard."'
-        : 'A thin man with a leather satchel is waiting in your yard, reading the sign over your door.\n\n"Corwin Plaice, Master Assayer. I\'m making a list of the guilds in Varrow that use licensed magic." He looks over your hall. "You aren\'t on it yet. Everyone is, sooner or later."') +
+        : s.start?.backer === 'college'
+          ? 'A thin man with a leather satchel is waiting in your yard, reading the sign over your door.\n\n"Corwin Plaice, Master Assayer. I knew your founders at the college. I wrote the report on the fire." He looks over your hall. "I\'ve kept your guild on my list since the day you were chartered."'
+          : 'A thin man with a leather satchel is waiting in your yard, reading the sign over your door.\n\n"Corwin Plaice, Master Assayer. I\'m making a list of the guilds in Varrow that use licensed magic." He looks over your hall. "You aren\'t on it yet. Everyone is, sooner or later."') +
       '\n\n"Under clause eleven, any guild that keeps reagents or keyed foci must hold a license from the Assay Office. The license is sixty crowns a year. The fine for not holding one is assessed at the time of inspection." He seems to enjoy saying "assessed".',
     choices: (s) =>
       [

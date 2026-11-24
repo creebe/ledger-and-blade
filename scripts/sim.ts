@@ -93,6 +93,7 @@ function score(s: GameState, c: GameState['board'][number], team: Member[]) {
 
 export function runSim(games: number, weeks: number, minChance = 0.5) {
   const results = { survived: 0, bankrupt: 0, charter: 0, collapse: 0, crowns: 0, deaths: 0, missions: 0, wins: 0, renown: 0, members: 0 };
+  const byStart: Record<string, [number, number]> = {}; // backer or circumstance -> [survived, games]
   for (let g = 0; g < games; g++) {
     const s = newGame(1000 + g * 7919);
     for (let w = 0; w < weeks && !s.gameOver; w++) {
@@ -106,6 +107,11 @@ export function runSim(games: number, weeks: number, minChance = 0.5) {
     }
     if (s.gameOver) results[s.gameOver.reason] += 1;
     else results.survived += 1;
+    for (const k of [s.start.backer, ...s.start.circumstances]) {
+      const e = (byStart[k] ??= [0, 0]);
+      e[0] += s.gameOver ? 0 : 1;
+      e[1] += 1;
+    }
     results.crowns += s.crowns;
     results.renown += s.renown;
     results.deaths += s.members.filter((m) => m.status === 'dead').length;
@@ -118,6 +124,7 @@ export function runSim(games: number, weeks: number, minChance = 0.5) {
     games,
     weeks,
     survivalRate: results.survived / games,
+    byStart: Object.fromEntries(Object.entries(byStart).map(([k, [w, n]]) => [k, `${Math.round((w / n) * 100)}% of ${n}`])),
     bankrupt: results.bankrupt,
     charter: results.charter,
     collapse: results.collapse,

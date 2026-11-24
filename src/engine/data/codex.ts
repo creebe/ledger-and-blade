@@ -3,6 +3,7 @@
 // learned through play: places visited, enemies faced, people met, members'
 // own pasts, and talk in the streets. Each entry says how it was learned.
 import type { GameState, TagId } from '../types';
+import { hasStart } from './starts';
 
 export type CodexCategory = 'Common knowledge' | 'History' | 'Places' | 'People' | 'Foes' | 'Powers & trades';
 
@@ -305,6 +306,14 @@ export interface CrierLine {
 const decree = (s: GameState, id: string) => s.council.active.some((a) => a.id === id && a.untilWeek >= s.week);
 
 export const CRIER: CrierLine[] = [
+  // lines that reflect how this campaign began
+  { id: 'start_iron', text: 'The armorers on Anvil Row have started taking old horseshoes in part payment.', when: (s) => hasStart(s, 'iron_short'), weight: 2 },
+  { id: 'start_reagents', text: 'Apothecaries on Still Lane are selling fen salts by the bucket, and complaining about it.', when: (s) => hasStart(s, 'reagent_glut'), weight: 2 },
+  { id: 'start_timber', text: "Barges of fresh-cut oak go past the chain every morning, every log stamped with Ostrander's mark.", when: (s) => hasStart(s, 'timber_cheap'), weight: 2 },
+  { id: 'start_bread', text: 'A baker on Fish Quay has started selling half-loaves, and charging three quarters for them.', when: (s) => hasStart(s, 'grain_dear'), weight: 2 },
+  { id: 'start_coop', text: 'Porters on the river steps point out your hall to strangers and tell them who paid for it.', when: (s) => s.start?.backer === 'coop', once: true },
+  { id: 'start_college', text: 'Students at the college have a song about the fire. Your founders have asked them not to sing it near the hall.', when: (s) => s.start?.backer === 'college', once: true },
+  { id: 'start_veterans', text: 'Old soldiers drink to your guild at the Copper Kettle, mostly because your founders are buying.', when: (s) => s.start?.backer === 'veterans', once: true },
   { id: 'veteran_song', text: 'A one-legged veteran outside the Copper Kettle sings about Cassel Ford for coppers. Nobody joins in on the chorus.', once: true, weight: 3 },
   { id: 'assay_fees', text: 'The Assay Office has raised its fees on reagent warrants again. Arcanists are grumbling in the college yards.', once: true },
   { id: 'almshouse', text: "Saint Oda's almshouse turned people away at the gate this week, for the first time anyone can remember.", once: true },
