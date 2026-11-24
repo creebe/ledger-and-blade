@@ -364,14 +364,13 @@ function FameBlock({ m }: { m: Member }) {
   if (!fame && !stories.length) return null;
   return (
     <div className={`fame-block ${tier === 3 ? 'legend' : ''}`}>
-      <div className="row between">
-        <b className="meta">
-          <Icon name="star" size={14} />
-          {m.epithet ? `"${m.epithet}"` : tier ? FAME_TIERS[tier].name : 'Not yet known'}
-          {m.epithet && <span className="muted small"> · Legendary</span>}
-        </b>
-        <span className="tiny muted">{tier < 3 ? `Fame ${fame}/${next.min}${next.name === 'Legendary' ? ', level 5 and 25 missions' : ''}` : `Fame ${fame}`}</span>
-      </div>
+      <b className="meta">
+        <Icon name="star" size={14} />
+        {m.epithet ? `${m.epithet}, a Legend of Varrow` : tier ? FAME_TIERS[tier].name : 'Not yet known'}
+      </b>
+      <p className="tiny muted fame-line">
+        {tier < 3 ? `Fame ${fame} of ${next.min} to be ${next.name}${next.name === 'Legendary' ? ' (also needs level 5 and 25 missions)' : ''}.` : `Fame ${fame}.`}
+      </p>
       {sig && (
         <p className="small">
           <b>{sig.name}.</b> {sig.text}

@@ -25,6 +25,22 @@ Each week you read the dispatches, balance the ledger, send squads into the fiel
 5. **A story you take part in, not one you watch.** The Debt crisis and the bank's collection progress with or without you; your guild can tip the scales.
 6. **Phone-first.** Portrait, one-thumb, short sessions (a turn is 1–3 minutes), and deep sessions are just as rewarding.
 
+## 2b. How a campaign begins
+
+> **Implemented (v0.10):** every campaign rolls its start from the seed. The new-guild screen shows it, with a re-roll and a field to type a seed.
+> - **Backer** (who paid for the charter), which sets the starting roster, crowns, loan and standings:
+>   - *Old soldiers:* two Cassel Ford veterans, little cash, a small loan.
+>   - *A Weighhouse merchant:* lots of cash, a large loan, the Lower Town wary.
+>   - *A Lower Town co-op:* cheap goodwill below the walls, extra supplies, the Exchequer wary.
+>   - *Disgraced Arcanists:* an Arcanist and a Chaplain, spare reagents, and the Assay Office watching from day one.
+> - **Four circumstances**, one from each group:
+>   - *The Debt:* a coin crisis, a city near riot, the bank's grip, or a quiet spring.
+>   - *The market:* iron scarce, reagents cheap, bread dear, or timber cheap. These set where prices settle all campaign.
+>   - *Politics:* a decree already in force, a doubtful Exchequer, a friendly bank, or friends in the Lower Town.
+>   - *The rivals:* hungry, busy elsewhere, or business as usual.
+>
+> The story is the same in every campaign, but the charter scene, Coster, Plaice and the street talk react to the start. In balance tests every backer survives the first year 54–66% of the time with a careful bot.
+
 ## 3. Time & Turn Structure
 
 - **1 turn = 1 week.** 4 weeks = 1 month, 3 months = 1 season, 4 seasons = 1 year.
@@ -73,6 +89,13 @@ Individuals you recruit, gear and send on missions. Target roster: 6–20.
 - **Relationships:** pairs can become *Bonded* (bonus together) or *Rivals* (penalty together).
 - **Wage** scales with level; **Loyalty** drops if unpaid, overworked, or if the guild acts against their values → desertion or betrayal (they may join a rival).
 - **Permadeath.** Injuries can become permanent *scars* (stat loss or new traits).
+
+> **Implemented (v0.10): Legends.** Members earn **fame** from deeds rather than experience: leading phases well (more for a strong result), flawless jobs, story contracts, beating dangerous foes, and coming home from disasters. The deeds people talk about are kept as feats.
+> - **Tiers:** Known (20), Renowned (75; wage +2, rivals start making offers) and Legendary (120 fame, level 5 and 25 missions; wage +3, Renown +4).
+> - **Naming:** a new Legend is named by the street. You choose between a nickname from how they work ("Quiet Maud", "Honest Godwin", "Lucky" for surviving two disasters) and a place from their best deed ("Maud of the Saltfens").
+> - **Signature ability:** you choose between their approach's squad aura (+1.5 to everyone at that approach) and a general ability: a quarter less harm to the squad, +10% pay, or Renown on every success.
+> - **Elsewhere:** Legends feature in street talk. A Renowned or Legendary member's death costs the whole guild morale.
+> - **Rarity:** in tests, about one Legend per campaign by the end of year two.
 
 ### 5.2 Companies (macro: the rank and file)
 Generic units counted by headcount, not individually managed:
@@ -202,6 +225,41 @@ Three AI rivals with distinct personalities and goals, each running a simplified
 - **The Assay Office**: the city's reagent-testers and coin-assayers, gone private. They are scholarly and secretive, and they outbid you on relics and lore. They certify every reagent and enchantment sold in Varrow, and they know more about the Crown Penny's true silver content than anyone should.
 
 > **Implemented (v0.9):** all three rivals are in the game. Hobb & Daughters compete from the start. The Ninth become active when Captain Mayne arrives (Act I, around week 12): they take fighting work and try to hire your fighters and senior members. The Assay Office becomes active after Master Assayer Plaice's visit: it takes arcane work and inspects guilds that keep a stillroom or keyed foci, fining them unless they hold a license. Each contested contract is claimed by the rival whose taste fits it best. Every rival's weekly plan can be spied on with Intel, and most plans can be countered.
+
+> **Implemented (v0.10): guild wars.** Each rival has a **feud** level (0–100) with three stages: Competition, Feud (25+) and Open war (60+).
+>
+> **How feuds grow:** a feud rises when either side hurts the other, or when you complete a job a rival wanted. It creeps up when an aggressive rival sees your renown catching up with theirs, and cools slowly otherwise. In tests about a third of games reach a feud in year one without provocation. Open war almost always needs the player to push.
+>
+> **Your operations:**
+> - *Any stage:* plant a spy (their plans every week, plus Intel), or smear them.
+> - *Feud:* hire away a seasoned member, or hit one of their jobs. Hitting a job is a mission on your board.
+> - *Open war:* raid their shipment, or kill a leader (Marta, then Isbet; Mayne; Plaice). Both are missions.
+>
+> **Killing a leader:**
+> - If Marta is killed, Isbet takes over, colder and more aggressive.
+> - If both Marta and Isbet die, Hobb & Daughters closes.
+> - If Mayne is killed, the Ninth break up, and your veterans resent it.
+> - If Plaice is killed, the Assay Office goes dormant for a season, then returns under a new head. The Exchequer is angered.
+>
+> **Diplomacy:** a truce (8 weeks), paying them off, or a pact against another rival (16 weeks, plus that rival's plans).
+>
+> **Their moves:**
+> - plant a spy in your hall (it leaks Intel and makes ambushes likelier);
+> - ambush squads on the road;
+> - rob your stores;
+> - bribe disloyal members;
+> - set fire to your workshops;
+> - have members murdered, preferring famous ones.
+>
+> **Defenses:**
+> - a **Guard the hall** duty (each guard +25% hall defense);
+> - the Spymaster's Den (catches spies and adds defense);
+> - a scout in the squad, and squads of four or more, against ambushes;
+> - keeping members loyal;
+> - searching the hall for spies (Intel);
+> - counters to any revealed plan.
+>
+> **Heat:** open war adds Heat every week, and operations add more.
 
 Rival interactions: contract bidding wars, poaching members, sabotage (countered via your Spymaster), smear campaigns, temporary alliances, and mergers or hostile takeovers in the late game. Rivals can rise, fall, or be destroyed, by you or by events. Rivals can go into debt too, and **you can buy their debt**.
 

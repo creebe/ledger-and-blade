@@ -56,6 +56,12 @@ Every story change goes through these checks. None of them are optional.
 
 Saint Oda's, the Fourteen and the Mudlarks have no Council seats. *(Draft: whether they gain seats is an Act II question.)*
 
+## 3b. Starts, Legends and wars (Canon)
+
+- **Starts.** The backer and circumstances are canon for that campaign only (`src/engine/data/starts.ts`). Scenes may react to them but must work for every start. The story checker plays many seeds, so every combination is exercised.
+- **Legends** are named by the street in the `legend_named` scene (`QUEUED_EVENTS` in `cast.ts`). Feats are written as "how {first} ..." so they can be dropped into street talk.
+- **Named characters can die in a guild war:** Marta, Isbet, Mayne and Plaice. Any beat that needs a dead character does not fire (`npcs` on `EventDef`). Write later beats so they still make sense if one of them is gone, and give the rival a successor or an ending (`afterLeaderDies` in `war.ts`).
+
 ## 4. Cast
 
 Every faction and rival has a face. Each character has a want that is reasonable from their side, a register of their own, and a thread of scenes that react to earlier choices. Full voice notes: `docs/CAST-PROPOSAL.md`.
