@@ -204,7 +204,7 @@ function economyPhase(s: GameState) {
       m.morale = clamp(m.morale - 10, 0, 100);
       m.fatigue = clamp(m.fatigue + 10, 0, 100);
     }
-    addDispatch(s, 'warning', 'Short of supplies', [`${hungry} member(s) went hungry this week. Morale suffers.`]);
+    addDispatch(s, 'warning', 'Short of supplies', [hungry === 1 ? '1 member went hungry this week. Morale suffers.' : `${hungry} members went hungry this week. Morale suffers.`]);
   }
   for (const loan of s.loans) {
     loan.principal *= 1 + loan.weeklyRate * modProduct(s, 'loanRate');
