@@ -33,7 +33,7 @@ None found.
 
 - guild fell first (bankrupt): 74%
 - declined (Hobbs carried it): 15%
-- delivered: 3%
+- delivered: 4%
 - lost: 2%
 - abandoned: 2%
 - unresolved: 4%
@@ -183,21 +183,21 @@ Every conversation node in every story beat was reached.
 
 ## Random events fired
 
-- field_arrival: 1883
+- field_arrival: 1884
 - petition: 167
 - brawl: 163
 - informant: 145
 - field_bridge: 128
 - field_shadowed: 117
 - lead: 116
-- field_traveler: 104
+- field_traveler: 105
 - fenn_letter: 101
 - peddler: 96
+- homesick: 85
 - festival: 84
-- homesick: 84
 - field_guide: 82
 - marta_cake: 74
-- pask_strongbox: 73
+- pask_strongbox: 72
 - raise: 69
 - volunteer: 46
 - brune_donation: 35

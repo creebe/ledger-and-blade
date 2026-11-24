@@ -37,7 +37,9 @@ export interface DateDef {
   met: string;
   missed: string;
   /** a twist: the Date is called off before it arrives */
-  cancel?: { when: (s: GameState) => boolean; text: string };
+  cancel?: { when: (s: GameState) => boolean; text: string | ((s: GameState) => string) };
+  /** called off this way if a character in `npcs` is no longer alive while it's current */
+  gone?: string;
 }
 
 const weeklyCosts = (s: GameState) => living(s).reduce((n, m) => n + m.wage, 0) + upkeep(s);
@@ -61,8 +63,9 @@ export const DATES: DateDef[] = [
     targets: (s) => [{ kind: 'loanPaid' }, { kind: 'crowns', at: round10(weeklyCosts(s)) }],
     reward: { standing: { weighhouse: 4 }, influence: 1 },
     cost: { standing: { weighhouse: -5 }, renown: -1 },
-    met: 'The clerk counted the payment twice, initialled it and left. Coster sends word that he is pleased, as far as he is ever pleased.',
+    met: 'The clerk counted the payment twice and initialled the receipt in two places. Coster sends word that the sum was correct to the penny, and that he has noted the date.',
     missed: 'The clerk went back to the Weighhouse with less than he came for. Coster has written the guild into his book in red ink, which he keeps for this.',
+    gone: "Coster's clerk did not come. The Weighhouse masters are going through Coster's own books, and the guild's payment goes to them as usual.",
   },
   {
     id: 'exchequer_list',
@@ -81,7 +84,7 @@ export const DATES: DateDef[] = [
     ],
     reward: { standing: { exchequer: 5 }, influence: 2 },
     cost: { standing: { exchequer: -3 } },
-    met: "Ledger & Blade is on the Exchequer's list, just below a firm of rat-catchers. The Lord Treasurer's office now knows the name.",
+    met: "Ledger & Blade is on the Exchequer's list, just below a firm of rat-catchers. Fenn's clerks have the guild's charter number on file now.",
     missed: 'The list went to the Lord Treasurer without the guild on it. Jory checked, and the rat-catchers made it.',
   },
   {
@@ -91,14 +94,14 @@ export const DATES: DateDef[] = [
     weight: 3,
     cooldown: 8,
     text: () =>
-      'The nine seats vote at the end of the season. A guild that backs the winners gets asked to dinner. A guild that backs the losers gets asked for its charter number.',
+      "The nine seats vote at the end of the season. The aldermen remember which guilds backed the winning side, and they keep a list of the charter numbers of the ones that didn't.",
     available: (s) => s.council.agenda.length > 0 && s.council.voteWeek !== undefined && s.council.voteWeek - s.week >= 2,
     due: (s) => s.council.voteWeek,
     targets: () => [{ kind: 'council' }],
     reward: { influence: 3, renown: 2 },
     cost: { renown: -2 },
-    met: 'The guild backed a winner, and the aldermen noticed. Two of them have already sent work they would rather not be seen giving.',
-    missed: 'The votes went the other way, or the guild never said which way it wanted them. Either way, nobody at the Council needs to remember its name.',
+    met: 'The guild backed a winner, and the aldermen noticed. Two of them now say the guild\'s name correctly.',
+    missed: "The votes went the other way, or the guild never said which way it wanted them. Either way, two aldermen have stopped answering the guild's letters.",
   },
   {
     id: 'treasurer_visit',
@@ -110,7 +113,7 @@ export const DATES: DateDef[] = [
     lead: [5, 6],
     weight: 3,
     text: () =>
-      'Fenn is coming to see the hall for himself. He would like to find a guild the Crown can be seen with, which means friendly books and not much Heat.',
+      'Fenn is coming to see the hall for himself. He would like to find a guild the Crown can be seen with, which means good standing with the Exchequer and not much Heat.',
     available: (s) => s.eventWeeks.silver_summons !== undefined && !s.flags.silver_lost,
     targets: () => [
       { kind: 'standing', faction: 'exchequer', at: 10 },
@@ -118,11 +121,11 @@ export const DATES: DateDef[] = [
     ],
     reward: { influence: 3, standing: { exchequer: 4 } },
     cost: { standing: { exchequer: -4 } },
-    met: 'Fenn stayed an hour, drank the bad wine without comment and left a letter of introduction. He apologized for the letter being so short.',
+    met: 'Fenn stayed an hour and drank the bad wine without comment. On his way out he left a letter of introduction, and apologized for it being so short.',
     missed: "Fenn kept his visit short and his coat on. His secretary took notes, and you'd rather not know what they say.",
     cancel: {
       when: (s) => !!s.flags.silver_lost,
-      text: "Fenn sent his apologies. The Crown has missed its payment, and the Lord Treasurer isn't visiting anyone this season.",
+      text: "Fenn sent his apologies and put the visit off. The silver didn't reach the coast, and the Lord Treasurer has spent the week on Quay Street.",
     },
   },
   {
@@ -143,8 +146,8 @@ export const DATES: DateDef[] = [
     ],
     reward: { crowns: 80, standing: { ostranders: 5 } },
     cost: { standing: { ostranders: -5 } },
-    met: 'Vorn read every page, corrected two sums in your favor and sent over a retainer. She did not say well done. The retainer said it for her.',
-    missed: "Vorn closed the ledger after the third page. She said the bank would be in touch, in the tone the bank uses when it won't be.",
+    met: 'Vorn read every page and corrected two sums in your favor. A retainer came the next morning, with a note from her that said "Adequate."',
+    missed: "Vorn closed the ledger after the third page and said the bank would be in touch. She didn't take a copy.",
   },
   {
     id: 'oda_fair',
@@ -163,8 +166,8 @@ export const DATES: DateDef[] = [
     ],
     reward: { supplies: -15, renown: 3, standing: { oda: 5, lowertown: 2 } },
     cost: { standing: { oda: -3 } },
-    met: "The guild's carts reached the green before the bishop's did. Sister Brune wrote the guild's name at the top of her list, then crossed it out and wrote it bigger.",
-    missed: "The fair went on without much from the guild. Sister Brune said nothing, which from her is worse than a sermon.",
+    met: "The guild's carts reached the green before the Weighhouse's did. Sister Brune wrote the guild's name at the top of her list, then crossed it out and wrote it bigger.",
+    missed: 'The fair went on without much from the guild. Sister Brune wrote its name near the bottom of her list, just under a baker who sent one loaf.',
   },
   {
     id: 'auditors',
@@ -180,7 +183,7 @@ export const DATES: DateDef[] = [
     reward: { standing: { exchequer: 3 }, influence: 1 },
     cost: { heat: 8, standing: { exchequer: -3 } },
     met: 'The auditors found the guild dull, which was the idea. They left early to audit someone more interesting.',
-    missed: 'The auditors found enough to write down and more to ask about. They will be back, and so will their questions.',
+    missed: 'The auditors found enough to write down and more to ask about. They took two of the ledgers away and gave a receipt for one.',
   },
   {
     id: 'porters_feast',
@@ -190,13 +193,13 @@ export const DATES: DateDef[] = [
     cooldown: 30,
     lead: [4, 6],
     text: (s) =>
-      `The porters eat together once a season, and they only invite people they trust to carry something heavy. ${alive(s, 'dagny') && (s.flags.dagny_friend || s.flags.dagny_contact) ? 'Dagny says the guild might be asked.' : 'The guild has not been asked yet.'}`,
+      `The porters eat together a few times a year, and they only invite people they trust to carry something heavy. ${alive(s, 'dagny') && (s.flags.dagny_friend || s.flags.dagny_contact) ? 'Dagny says the guild might be asked.' : 'The guild has not been asked yet.'}`,
     available: (s) => s.week >= 8 && s.clocks.unrest < 80,
     targets: (s) => [{ kind: 'standing', faction: 'lowertown', at: Math.max(10, Math.min(45, s.factions.lowertown.standing + 6)) }],
     reward: { standing: { lowertown: 3 }, intel: 2, morale: 3 },
     cost: { standing: { lowertown: -3 } },
     met: "The guild was asked, and went. Nobody made a speech. Two porters told your people things about the docks you'd have paid for.",
-    missed: 'The feast went ahead without the guild. In the Lower Town, not being asked is an answer.',
+    missed: 'The feast went ahead without the guild. Word from the docks is that the porters roasted two pigs, and nobody mentioned the guild once.',
     cancel: {
       when: (s) => s.clocks.unrest >= 85,
       text: 'The feast was called off. The Lower Town is too angry this season to sit down together, even to eat.',
@@ -207,17 +210,18 @@ export const DATES: DateDef[] = [
     title: 'The Weighhouse Reviews the Note',
     who: 'Alderman Coster',
     faction: 'weighhouse',
-    cooldown: 36,
+    cooldown: 24,
     npcs: ['coster'],
     lead: [5, 6],
     text: () =>
-      'Coster reviews every note on his books twice a year, with his brass balance on the desk. A guild that has paid down its debt gets a kinder rate. A guild that has not gets a reason.',
+      "Coster reviews every note on his books twice a year, with his brass balance on the desk. If the guild has paid the Weighhouse well since the last review, he lowers the rate, and if it hasn't, he raises it and explains why at length.",
     available: (s) => s.week >= 14 && s.loans.length > 0 && s.loans[0].principal >= 200,
-    targets: () => [{ kind: 'repaid', amount: 100 }],
+    targets: () => [{ kind: 'repaid', amount: 120 }],
     reward: { loanRate: -0.002, standing: { weighhouse: 2 } },
     cost: { loanRate: 0.002 },
-    met: 'Coster weighed the payments, approved of them and lowered the rate on the note. He looked as though it hurt him slightly.',
+    met: 'Coster weighed the payments on his balance and, after a long sigh, lowered the rate on the note.',
     missed: "Coster raised the rate on the note. He was very sorry about it, and he wrote the new figure down before he said so.",
+    gone: "The review was called off. The Weighhouse masters are going through Coster's own books this month, and nobody has time for the guild's.",
   },
   {
     id: 'muster',
@@ -227,12 +231,12 @@ export const DATES: DateDef[] = [
     cooldown: 30,
     lead: [5, 6],
     text: () =>
-      'Once a season the Crown counts the swords for hire in Varrow, on the green, in public. The free companies send their best and stand up straight.',
+      'Every so often the Crown counts the swords for hire in Varrow, on the green, in public. The free companies send their best and stand up straight.',
     available: (s) => s.week >= 10,
     targets: (s) => [{ kind: 'members', count: Math.max(5, Math.min(8, living(s).length + 1)), seniors: 2 }],
-    reward: { renown: 3, crowns: 60 },
+    reward: { renown: 3, influence: 1 },
     cost: { renown: -2 },
-    met: "The officers counted the guild, wrote it down and paid the muster fee. Two children followed your people home, which Jory says is how fame starts.",
+    met: 'The officers counted the guild and wrote it down near the top. Two children followed your people home, which Jory says is how fame starts.',
     missed: "The guild looked thin on the green next to the free companies. The officers counted it anyway, without much interest.",
   },
   {
@@ -242,13 +246,13 @@ export const DATES: DateDef[] = [
     cooldown: 40,
     npcs: ['jory'],
     text: (s) =>
-      `Jory wants the stores full before winter closes the roads and doubles the price of bread: ${Math.max(20, living(s).length * 4)} supplies, at least.`,
+      `Jory has pinned a note to the larder door. Winter closes the roads and drives up the price of bread, and he would like ${Math.max(20, living(s).length * 4)} supplies in store before it does.`,
     available: (s) => seasonOf(s.week) === 'Autumn' && seasonWeek(s.week) <= 8,
     due: (s) => s.week + (12 - seasonWeek(s.week)),
     targets: (s) => [{ kind: 'supplies', at: Math.max(20, living(s).length * 4) }],
     reward: { morale: 4 },
     cost: { morale: -4 },
-    met: 'The stores are full, and the hall smells of smoked fish. Nobody complains about the smell, because nobody is hungry.',
+    met: "The stores are full, and the hall smells of smoked fish. Jory has hung the onions from the rafters, where he says the rats can't reach them.",
     missed: 'Winter came before the stores were full. Jory has started counting the bread out loud at supper.',
   },
   {
@@ -260,16 +264,19 @@ export const DATES: DateDef[] = [
     npcs: ['marta'],
     lead: [4, 5],
     text: () =>
-      "Marta Hobb has told half the Copper Kettle that her daughters will be better known than your guild by the end of the month. She has put money on it, so she means it.",
+      "Marta Hobb has told half the Copper Kettle that her daughters will be better known than your guild by the end of the month. She has put twenty crowns on it with the landlord.",
     available: (s) => s.week >= 12 && s.rivals.hobbs.active,
     targets: () => [{ kind: 'renownAbove', rival: 'hobbs' }],
     reward: { renown: 3, influence: 1 },
     cost: { renown: -2 },
-    met: "Marta paid her bets in full and sent the guild a cake with the money. The cake was very good. The note with it was not.",
+    met: "Marta paid her bets in full and sent the guild a cake. The cake was very good, and the note with it said she'd win the next one.",
     missed: 'Marta collected on her wager in the Copper Kettle, loudly, while two of your people were drinking there.',
     cancel: {
       when: (s) => !alive(s, 'marta'),
-      text: "Marta's wager died with her. Isbet paid out every bet herself, without a word.",
+      text: (s) =>
+        alive(s, 'isbet')
+          ? 'With Marta dead, the wager is off. Isbet paid back all thirty-one bets herself and kept a receipt for each.'
+          : "With Marta dead, the wager is off. Her younger daughters paid back the bets on their way to the coast.",
     },
   },
 ];

@@ -9,6 +9,7 @@ import type { ActiveDate, DateStakes, DateTarget, DatesState, GameState } from '
 import { addDispatch, clamp, living } from '../core/util';
 import { applyStanding, earn, spend } from '../core/effects';
 import { tally } from '../politics/council';
+import { upkeep } from '../economy/buildings';
 
 const SUCCESS = ['Triumph', 'Success', 'Costly Success'];
 const MIN_LEAD = 2; // a Date is never set less than this many weeks ahead
@@ -78,8 +79,11 @@ export function datesPhase(s: GameState) {
     s.dates.current = undefined;
     return;
   }
-  if (d.cancel?.when(s)) {
-    addDispatch(s, 'date', `${d.title}: called off`, [d.cancel.text]);
+  // a twist, or a character it names is gone: the Date is called off
+  const gone = (d.npcs ?? []).some((id) => s.npcs[id]?.status !== 'alive');
+  if (d.cancel?.when(s) || gone) {
+    const text = d.cancel?.when(s) ? d.cancel.text : (d.gone ?? `${d.who} will not be coming after all.`);
+    addDispatch(s, 'date', `${d.title}: called off`, [typeof text === 'function' ? text(s) : text]);
     s.dates.past.push({ id: a.id, week: s.week, outcome: 'cancelled' });
     s.dates.current = undefined;
     return;
@@ -92,6 +96,14 @@ export function datesPhase(s: GameState) {
   s.dates.past.push({ id: a.id, week: s.week, outcome: met ? 'met' : 'missed' });
   s.dates.current = undefined;
 }
+
+/** Crowns the guild itself has paid the Weighhouse since a week: payments due and early repayments, not story cuts. */
+function paidSince(s: GameState, week: number) {
+  const loanSpend = (e: Record<string, number>) => (e['Loan payment'] ?? 0) + (e['Loan repayment'] ?? 0);
+  return s.ledger.filter((l) => l.week >= week).reduce((n, l) => n + loanSpend(l.expenses), 0) + loanSpend(s.weekBook.expenses);
+}
+
+const weeklyCosts = (s: GameState) => living(s).reduce((n, m) => n + m.wage, 0) + upkeep(s);
 
 function contractsSince(s: GameState, week: number) {
   return s.history.filter((m) => m.returnWeek >= week && m.report && SUCCESS.includes(m.report.tier)).length;
@@ -107,7 +119,8 @@ function targetMet(s: GameState, a: ActiveDate, t: DateTarget, final: boolean): 
     case 'loanPaid':
       if (!loan) return true;
       if (final) return loan.missed === a.base.missed;
-      return loan.missed === a.base.missed && (loan.dueWeek > a.dueWeek || s.crowns >= loan.paymentDue);
+      // wages and upkeep are paid before the loan, so count them first
+      return loan.missed === a.base.missed && (loan.dueWeek > a.dueWeek || s.crowns - weeklyCosts(s) >= loan.paymentDue);
     case 'crowns':
       return s.crowns >= t.at;
     case 'supplies':
@@ -127,7 +140,7 @@ function targetMet(s: GameState, a: ActiveDate, t: DateTarget, final: boolean): 
       return crew.length >= t.count && crew.filter((m) => m.level >= 3).length >= t.seniors;
     }
     case 'repaid':
-      return a.base.principal - (loan?.principal ?? 0) >= t.amount;
+      return !loan || paidSince(s, a.setWeek) >= t.amount;
     case 'council':
       if (final) return s.council.history.some((h) => h.week >= a.setWeek && h.player !== 0 && h.passed === h.player > 0);
       return s.council.agenda.some((item) => item.player !== 0 && tally(item).passes === item.player > 0);
@@ -189,8 +202,8 @@ export function dateTargets(s: GameState, a: ActiveDate = s.dates.current!): Dat
         };
       }
       case 'repaid': {
-        const paid = Math.max(0, Math.round(a.base.principal - (loan?.principal ?? 0)));
-        return { label: `Pay ${t.amount} crowns off the loan`, now: `${paid} of ${t.amount}`, met, frac: f(paid, t.amount), resource: 'crowns' };
+        const paid = loan ? paidSince(s, a.setWeek) : t.amount;
+        return { label: `Pay the Weighhouse ${t.amount} crowns, due payments included`, now: `${paid} of ${t.amount}`, met, frac: f(paid, t.amount), resource: 'crowns' };
       }
       case 'council': {
         const backed = s.council.agenda.filter((i) => i.player !== 0).length;
@@ -230,7 +243,7 @@ export function stakesLines(st: DateStakes): string[] {
   if (st.renown) out.push(`${sign(st.renown)} Renown`);
   if (st.heat) out.push(`${sign(st.heat)} Heat`);
   for (const [f, v] of Object.entries(st.standing ?? {})) if (v) out.push(`${sign(v)} ${FACTIONS[f as keyof typeof FACTIONS].short} standing`);
-  if (st.morale) out.push(`${sign(st.morale)} morale for everyone`);
+  if (st.morale) out.push(`${sign(st.morale)} morale for everyone at home`);
   if (st.loanRate) out.push(st.loanRate < 0 ? 'a lower rate on the loan' : 'a higher rate on the loan');
   return out;
 }
@@ -243,6 +256,7 @@ function applyStakes(s: GameState, st: DateStakes) {
   if (st.renown) s.renown = Math.max(0, s.renown + st.renown);
   if (st.heat) s.heat = clamp(s.heat + st.heat, 0, 100);
   for (const [f, v] of Object.entries(st.standing ?? {})) if (v) applyStanding(s, f as keyof typeof FACTIONS, v);
-  if (st.morale) for (const m of living(s)) m.morale = clamp(m.morale + st.morale, 0, 100);
+  // morale changes reach the people at home, not squads on the road
+  if (st.morale) for (const m of living(s).filter((x) => x.status !== 'mission')) m.morale = clamp(m.morale + st.morale, 0, 100);
   if (st.loanRate && s.loans[0]) s.loans[0].weeklyRate = clamp(Math.round((s.loans[0].weeklyRate + st.loanRate) * 1000) / 1000, 0.004, 0.03);
 }
