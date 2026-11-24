@@ -21,6 +21,7 @@ Every story change goes through these checks. None of them are optional.
    - an event that leaves the player with no choice they can afford.
 5. **The coverage report** (`npm run story` → `docs/reports/story-coverage.md`) shows when each beat really fires, how often each branch is taken, and how story arcs resolve.
 6. **Sample playthroughs** (`npm run playthroughs` → `docs/playthroughs/`) are full games written out as a player would read them. They're the final check on whether the story reads well.
+7. **The story document** (`npm run story-export` → `docs/story/all-writing.md`) lists all the game's writing by thread, with each scene's triggers and the facts that link it to later scenes. The owner's editable copy, and how their comments come back into the code, are described in `docs/story/README.md`.
 
 **Structure rule: braided, not tree-shaped.** Choices split the story, but each act rejoins at a small number of key beats. Those beats read the state of the world (facts, the Debt clocks, faction standing, character attitudes) and change their text and options to match. This keeps the number of branches manageable while choices still clearly matter.
 

@@ -32,7 +32,7 @@ Lord Treasurer Fenn, the Exchequer. The act's spine: the charter, the commission
 
 ### Summoned to the Exchequer
 
-`silver_summons` · Story beat 7 · data/events.ts:328
+`silver_summons` · Story beat 6 · data/events.ts:328
 
 **When:** Weeks 7–9; after A Visitor from Ostrander's (`ostrander_agent`); needs alive: Lord Treasurer Aubrey Fenn; 50% a week inside the window.
 
@@ -246,7 +246,7 @@ _Speaker: Lord Treasurer Aubrey Fenn_
 
 ### Quarter Day
 
-`quarter_day` · Story beat 9 · data/events.ts:372
+`quarter_day` · Story beat 13 · data/events.ts:372
 
 **When:** Weeks 9–18; after Summoned to the Exchequer (`silver_summons`); when (silver_delivered or silver_lost or silver_declined); 70% a week inside the window.
 

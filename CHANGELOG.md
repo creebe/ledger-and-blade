@@ -2,6 +2,14 @@
 
 Newest first. Each entry says what changed for a player, why (quoting the owner's feedback where it came from playtesting), and what was and wasn't checked. The live site is https://creebe.github.io/ledger-and-blade/ and is only republished on the owner's word; each entry notes whether it is live.
 
+## Unreleased (docs only, not live): the story document
+No change to the game. The owner asked for "an organized document with all of the writing in the game, preferably with ways for me to view and follow potential story threads and connections", which they can edit and comment on.
+- **`npm run story-export`** (`scripts/story-export.ts`) reads the scene, content, rules and interface source and writes `docs/story/all-writing.md`: every scene by story thread in act order, with what triggers it, what each choice sets, and which later scenes read those facts; then contracts, the Codex, street talk, Dates, tutorial objectives, starts, Legends, names, report lines and interface text. Templated text keeps its placeholders, and text that changes with the story shows every version.
+- **The owner's copy** is a Claude Doc with comments and inline editing. `docs/story/README.md` says how a later session reads the comments and edits and turns them into code, and why re-running the export never wipes them (`docs/story/doc-snapshot/` is the baseline).
+- **Found:** seven story outcomes that nothing reacts to yet, such as `tapestry_sold` and `isbet_betrayed`. No broken or unreachable conversation nodes.
+- **Checked:** `npm run check`. The game's behavior is untouched: no file under `src/` changed.
+- **Not live:** docs and a script only, no version bump.
+
 ## v0.12.0 (2026-11-24): Dates, and a careful end of week
 A checkpoint you can reach in one sitting, a harder-to-fumble End Week, shortcuts to whatever you're short of, and colored resource icons. The owner asked for "a more tangible goal the player can strive for in shorter terms than the entire 4-year campaign ... something that the player can reasonably reach in a single play session", for missing-resource alerts to "bring us to a place where we can acquire the resource", for "a confirmation loop when ending a week", and for color on the resource icons.
 - **Dates.** One dated checkpoint is always 3–6 weeks ahead, and the next is already in view.

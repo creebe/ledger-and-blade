@@ -168,6 +168,7 @@ function render(ctx: Ctx, n: ts.Node | undefined): string {
   }
   if (ts.isArrowFunction(u) || ts.isFunctionExpression(u) || ts.isFunctionDeclaration(u) || ts.isMethodDeclaration(u)) return renderFn(ctx, u as ts.FunctionLikeDeclaration);
   if (ts.isIdentifier(u) && (u.text === 'undefined' || u.text === 'null')) return '';
+  if (ts.isIdentifier(u) && (u.text === 'undefined' || u.text === 'null')) return '';
   if (ts.isIdentifier(u)) {
     const local = ctx.locals.get(u.text);
     if (local && (isStringy(local) || isFnLike(local))) return render(ctx, local);
@@ -359,7 +360,6 @@ function rawChoices(ctx: Ctx, n: ts.Node | undefined, shownIf: string[] = [], de
     }
     return out;
   }
-  if (ts.isIdentifier(u) && (u.text === 'undefined' || u.text === 'null')) return '';
   if (ts.isIdentifier(u)) {
     const local = ctx.locals.get(u.text);
     if (local) return rawChoices(ctx, local, shownIf, depth + 1);
@@ -706,7 +706,14 @@ const SCENES: Scene[] = [
 ];
 for (const s of SCENES) s.thread = THREAD_OF[s.id] ?? (s.kind === 'road' ? 'road' : 'world');
 const SCENE_BY_ID = Object.fromEntries(SCENES.map((s) => [s.id, s]));
-const BEAT_NO = Object.fromEntries([...STORY_EVENTS].sort((a, b) => (a.window?.[0] ?? 0) - (b.window?.[0] ?? 0) || (a.window?.[1] ?? 0) - (b.window?.[1] ?? 0)).map((d, i) => [d.id, i + 1]));
+// beat numbers as in the story bible's Act I table (docs/STORY.md §5); any beat
+// not listed there is numbered after them, by window
+const BIBLE_ORDER = ['charter', 'ostrander_agent', 'coster_interest', 'hobbs_arrive', 'bread_riot', 'silver_summons', 'pask_chain', 'brune_salts', 'mayne_offer', 'vorn_board', 'dagny_brother', 'isbet_kettle', 'quarter_day', 'plaice_inspection', 'fenn_tapestry', 'aske_plate', 'act1_slice_end'];
+const BEAT_NO: Record<string, number> = Object.fromEntries(
+  [...STORY_EVENTS]
+    .sort((a, b) => (BIBLE_ORDER.indexOf(a.id) + 1 || 99) - (BIBLE_ORDER.indexOf(b.id) + 1 || 99) || (a.window?.[0] ?? 0) - (b.window?.[0] ?? 0))
+    .map((d, i) => [d.id, i + 1]),
+);
 function sceneRef(id: string) {
   const d = [...STORY_EVENTS, ...RANDOM_EVENTS, ARRIVAL, ...FIELD_EVENTS, ...QUEUED_EVENTS].find((x) => x.id === id);
   return d ? `${d.title} (\`${id}\`)` : `\`${id}\``;
@@ -824,10 +831,14 @@ for (const s of SCENES) {
   for (const n of s.nodes) if (!n.choices.length && !n.sameAs) PROBLEMS.push(`Scene \`${s.id}\`, node \`${n.key}\`: no choices could be read from the source (they may be built in a way the export can't follow).`);
   for (const n of s.nodes) if (!n.text.trim()) PROBLEMS.push(`Scene \`${s.id}\`, node \`${n.key}\`: no text could be read from the source.`);
 }
-for (const f of Object.keys(FACTS)) {
-  if (!SETTERS[f]) PROBLEMS.push(`Fact \`${f}\` is never set by any scene, contract or rule the export can see.`);
-  if (!READERS[f]) PROBLEMS.push(`Fact \`${f}\` is set, but no scene, contract, Date, Codex entry, street talk or rule reads it yet (only the story checker's contradiction test does). An outcome the story doesn't react to.`);
-}
+for (const f of Object.keys(FACTS)) if (!SETTERS[f]) PROBLEMS.push(`Fact \`${f}\` is never set by any scene, contract or rule the export can see.`);
+const unread = Object.keys(FACTS).filter((f) => SETTERS[f] && !READERS[f]);
+if (unread.length)
+  PROBLEMS.push(
+    `${unread.length} outcomes are set but nothing in the game reacts to them yet: no scene, contract, Date, Codex entry, street talk or rule reads them (only the story checker's contradiction test does). ` +
+      unread.map((f) => `\`${f}\` (${FACTS[f as keyof typeof FACTS].replace(/\.$/, '')}; set by ${(SETTERS[f] ?? []).map((r) => r.title).join(', ')})`).join('; ') +
+      '. Half a Year, the act summary, mentions none of them.',
+  );
 for (const t of CONTRACT_TEMPLATES.filter((c) => c.story)) if (!CONTRACT_THREAD[t.id]) PROBLEMS.push(`Story contract \`${t.id}\` is not added by any scene choice.`);
 
 // ---------------------------------------------------------------------------
@@ -836,7 +847,7 @@ for (const t of CONTRACT_TEMPLATES.filter((c) => c.story)) if (!CONTRACT_THREAD[
 
 type Flavor = 'repo' | 'doc';
 const slug = (s: string) => s.toLowerCase().replace(/[^\w\s-]/g, '').trim().replace(/\s+/g, '-');
-function link(flavor: Flavor, title: string, id: string) {
+function link(flavor: Flavor, title: string, _id: string) {
   // GitHub anchors in the repo copy; the doc uses the scene title in bold plus its id
   return flavor === 'repo' ? `[${title}](#${slug(title)})` : `**${title}**`;
 }
@@ -1144,7 +1155,9 @@ function sections(fl: Flavor): Section[] {
   }
   // problems
   {
-    const L = ['## Possibly broken or orphaned', '', PROBLEMS.length ? 'Found while extracting. Each is worth a look, but some are by design.' : 'Nothing found.', '', ...PROBLEMS.map((p) => `- ${p}`), ''];
+    const branchProblems = PROBLEMS.filter((p) => p.startsWith('Scene'));
+    const L = ['## Possibly broken or orphaned', '', PROBLEMS.length ? 'Found while extracting. Each is worth a look, but some may be by design.' : 'Nothing found.', '', ...PROBLEMS.map((p) => `- ${p}`), ''];
+    if (!branchProblems.length) L.push('Every choice in every scene leads to a node that exists, and every node has a choice leading to it.', '');
     L.push('### Facts that can never be true together', '', ...EXCLUSIVE_FACTS.map((g) => `- ${g.map(factLine).join(' ⟂ ')}`), '');
     S.push({ key: 'problems', md: L.join('\n') });
   }
@@ -1184,14 +1197,26 @@ function widget(): string {
     rows.push({ key: `h-${t.id}`, thread: t.id, start: 0, end: 0, title: t.name, header: true });
     for (const s of sc) if (s.def.window) rows.push({ key: s.id, thread: t.id, start: s.def.window[0], end: s.def.window[1], title: s.title });
     const follows = sc.filter((s) => !s.def.window);
-    if (follows.length) rows.push({ key: `f-${t.id}`, thread: t.id, start: 0, end: 0, title: `Follow-ups: ${follows.map((s) => s.title).join(', ')}`, follow: true });
+    if (follows.length) {
+      const lines: string[] = [];
+      let line = 'Follow-ups:';
+      for (const f of follows.map((s) => s.title)) {
+        const add = `${line === 'Follow-ups:' ? ' ' : ', '}${f}`;
+        if ((line + add).length > 84) {
+          lines.push(line + ',');
+          line = f;
+        } else line += add;
+      }
+      lines.push(line);
+      lines.forEach((l, i) => rows.push({ key: `f-${t.id}${i ? `-${i + 1}` : ''}`, thread: t.id, start: 0, end: 0, title: l, follow: true }));
+    }
   }
   const data = rows.filter((r) => !r.header && !r.follow).map((r) => `{key:'${r.key}', start:${r.start}, end:${r.end}}`).join(',');
   const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/'/g, '’');
   let y = 96;
   const pos: Record<string, number> = {};
   for (const r of rows) {
-    y += r.header ? 30 : 22;
+    y += r.header ? 30 : r.follow && /-\d+$/.test(r.key) ? 16 : 22;
     pos[r.key] = y;
   }
   const H = y + 36;
@@ -1200,7 +1225,7 @@ function widget(): string {
       const id = r.key.replace(/[^\w-]/g, '-').slice(0, 60);
       if (r.header) return `<text data-claude-text-id='${id}' x='24' y='${pos[r.key] + 4}' fontSize='13' fontWeight='600' fill={ink}>${esc(r.title)}</text>`;
       if (r.follow) {
-        const t = r.title.length > 110 ? r.title.slice(0, 107) + '…' : r.title;
+        const t = r.title;
         return `<text data-claude-text-id='${id}' x='36' y='${pos[r.key] + 4}' fontSize='11' fill={quiet}>${esc(t)}</text>`;
       }
       return `<text data-claude-text-id='${id}' x='36' y='${pos[r.key] + 4}' fontSize='11.5' fill={ink}>${BEAT_NO[r.key]}. ${esc(r.title)}</text>`;
@@ -1208,17 +1233,17 @@ function widget(): string {
     .join('');
   const ypos = Object.entries(pos)
     .filter(([k]) => SCENE_BY_ID[k])
-    .map(([k, v]) => `${k}:${v}`)
+    .map(([k, v]) => `['${k}', ${v}]`)
     .join(',');
   return (
     `export default () => <claude.Visualize data-claude-component='act1-thread-map' sources={{rows:{kind:'data', data:[${data}]}}}>{({rows, datum}) => { ` +
-    `const x0 = 268, x1 = 728, lo = 1, hi = 26; const X = w => x0 + (w - lo) / (hi - lo) * (x1 - x0); const Y = {${ypos}}; ` +
+    `const x0 = 268, x1 = 728, lo = 1, hi = 26; const X = w => x0 + (w - lo) / (hi - lo) * (x1 - x0); const ys = [${ypos}]; const Y = k => (ys.find(p => p.at(0) === k) ?? [k, 0]).at(1); ` +
     `const ticks = [1, 5, 10, 15, 20, 26]; const edge = 'var(--cds-chart-axis)', grid = 'var(--cds-chart-grid)', accent = 'var(--cds-chart-categorical-1)', ink = 'var(--cds-text-primary)', quiet = 'var(--cds-text-secondary)'; ` +
     `return <svg viewBox='0 0 760 ${H}' role='img' aria-label='Act I runs as ten threads that braid at Quarter Day' fontSize='12'>` +
     `<text data-claude-text-id='title' x='24' y='30' fontSize='15' fontWeight='600' fill={ink}>Act I runs as ten threads that braid at Quarter Day</text>` +
     `<text data-claude-text-id='subtitle' x='24' y='50' fontSize='11.5' fill={quiet}>Each bar is the window of weeks a story beat can fire in. Follow-ups fire any week once their facts are set.</text>` +
     `<g data-claude-anchor='week-axis'>{ticks.map(w => <g key={w}><line x1={X(w)} x2={X(w)} y1='88' y2='${H - 20}' stroke={grid}/><text x={X(w)} y='80' textAnchor='middle' fontSize='11' fill={quiet}>wk {w}</text></g>)}<line x1={x0} x2={x1} y1='88' y2='88' stroke={edge} strokeWidth='1.25'/></g>` +
-    `{rows.map(r => { const y = Y[r.key] ?? 0, braid = r.key === 'quarter_day'; return <g key={r.key} data-claude-anchor={\`beat-\${r.key}\`}><rect x={X(r.start) - 4} y={y - 6} width={Math.max(8, X(r.end) - X(r.start) + 8)} height='12' rx='6' fill={braid ? accent : edge} fillOpacity={braid ? 0.3 : 0.14} stroke={braid ? accent : edge} strokeWidth={braid ? 2 : 1} {...datum(r)}/></g>; })}` +
+    `{rows.map(r => { const y = Y(r.key), braid = r.key === 'quarter_day'; return <g key={r.key} data-claude-anchor={\`beat-\${r.key}\`}><rect x={X(r.start) - 4} y={y - 6} width={Math.max(8, X(r.end) - X(r.start) + 8)} height='12' rx='6' fill={braid ? accent : edge} fillOpacity={braid ? 0.3 : 0.14} stroke={braid ? accent : edge} strokeWidth={braid ? 2 : 1} {...datum(r)}/></g>; })}` +
     labels +
     `</svg>; }}</claude.Visualize>;`
   );

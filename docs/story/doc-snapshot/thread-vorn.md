@@ -107,7 +107,7 @@ _Same choices as node `pitch` (one shared menu)._
 
 ### The Notice Board
 
-`vorn_board` · Story beat 11 · data/cast.ts:306
+`vorn_board` · Story beat 10 · data/cast.ts:306
 
 **When:** Weeks 10–14; after A Visitor from Ostrander's (`ostrander_agent`), Summoned to the Exchequer (`silver_summons`); when silver_accepted and not silver_delivered and not silver_lost; needs alive: Factor Maelis Vorn; 50% a week inside the window.
 

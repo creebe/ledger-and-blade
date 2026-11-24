@@ -4,7 +4,7 @@ Wenna Pask. The low-tide market round the toll chain and the river strongbox.
 
 ### Under the Chain
 
-`pask_chain` · Story beat 6 · data/cast.ts:218
+`pask_chain` · Story beat 7 · data/cast.ts:218
 
 **When:** Weeks 6–10; needs alive: Wenna Pask; 45% a week inside the window.
 

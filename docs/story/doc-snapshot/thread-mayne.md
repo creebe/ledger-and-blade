@@ -4,7 +4,7 @@ Captain Rufus Mayne. The disbanded regiment, recruiting from your roster.
 
 ### An Offer for Your Best
 
-`mayne_offer` · Story beat 10 · data/cast.ts:280
+`mayne_offer` · Story beat 9 · data/cast.ts:280
 
 **When:** Weeks 10–14; picks a member where m.status is 'idle' and (FIGHTERS.includes(m.profession) or m.level >= 2); needs alive: Captain Rufus Mayne; 45% a week inside the window.
 

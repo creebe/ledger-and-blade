@@ -59,7 +59,7 @@ Dagny Fell, Porters' Fraternity. The bread riot, the dock tips and Dagny's broth
 
 ### Dagny Asks
 
-`dagny_brother` · Story beat 12 · data/cast.ts:353
+`dagny_brother` · Story beat 11 · data/cast.ts:353
 
 **When:** Weeks 11–15; after Bread and Stones (`bread_riot`); when (dagny_contact or dagny_friend); needs alive: Dagny Fell; 50% a week inside the window.
 

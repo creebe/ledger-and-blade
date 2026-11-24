@@ -124,14 +124,14 @@ flowchart LR
 
 | Thread | Who | Scenes in order |
 |---|---|---|
-| The Crown's silver | Lord Treasurer Fenn, the Exchequer | 1. A Charter and a Debt (wk 1–1) → 7. Summoned to the Exchequer (wk 7–9) → 9. Quarter Day (wk 9–18) → 15. The Last Tapestry (wk 15–20) → 17. Half a Year (wk 22–26) → The Exchequer Audits (follow-up) → A Letter from Fenn (follow-up) |
-| Ostrander's | Factor Maelis Vorn | 2. A Visitor from Ostrander's (wk 2–3) → 11. The Notice Board (wk 10–14) → An Offer from the Bank (follow-up) |
+| The Crown's silver | Lord Treasurer Fenn, the Exchequer | 1. A Charter and a Debt (wk 1–1) → 6. Summoned to the Exchequer (wk 7–9) → 13. Quarter Day (wk 9–18) → 15. The Last Tapestry (wk 15–20) → 17. Half a Year (wk 22–26) → The Exchequer Audits (follow-up) → A Letter from Fenn (follow-up) |
+| Ostrander's | Factor Maelis Vorn | 2. A Visitor from Ostrander's (wk 2–3) → 10. The Notice Board (wk 10–14) → An Offer from the Bank (follow-up) |
 | The Weighhouse | Alderman Piet Coster | 3. The Man with the Scales (wk 3–5) → Coster Takes It Personally (follow-up) → Coster's Page (follow-up) |
-| Hobb & Daughters | Marta and Isbet Hobb | 4. Hobb & Daughters (wk 4–6) → 13. The Copper Kettle (wk 12–16) → A Cake from Hobb & Daughters (follow-up) → Isbet Checks the Books (follow-up) |
-| The Lower Town | Dagny Fell, Porters' Fraternity | 5. Bread and Stones (wk 5–7) → 12. Dagny Asks (wk 11–15) → Word from the Docks (follow-up) |
-| The Mudlarks | Wenna Pask | 6. Under the Chain (wk 6–10) → A Mudlark Informant (follow-up) → What Came Up in the Strongbox (follow-up) |
+| Hobb & Daughters | Marta and Isbet Hobb | 4. Hobb & Daughters (wk 4–6) → 12. The Copper Kettle (wk 12–16) → A Cake from Hobb & Daughters (follow-up) → Isbet Checks the Books (follow-up) |
+| The Lower Town | Dagny Fell, Porters' Fraternity | 5. Bread and Stones (wk 5–7) → 11. Dagny Asks (wk 11–15) → Word from the Docks (follow-up) |
+| The Mudlarks | Wenna Pask | 7. Under the Chain (wk 6–10) → A Mudlark Informant (follow-up) → What Came Up in the Strongbox (follow-up) |
 | Saint Oda's | Sister Agathe Brune | 8. Fever Salts (wk 8–11) → Saint Oda's Feast (follow-up) → The Bank's Gift (follow-up) |
-| The Ninth | Captain Rufus Mayne | 10. An Offer for Your Best (wk 10–14) |
+| The Ninth | Captain Rufus Mayne | 9. An Offer for Your Best (wk 10–14) |
 | The Assay Office | Master Assayer Corwin Plaice | 14. Clause Eleven (wk 12–18) → An Assay-Peddler (follow-up) |
 | The Fourteen | Lady Honora Aske | 16. The Family Silver (wk 17–22) |
 | The hall | Jory Abbot and the members | A Tavern Brawl (follow-up) → A Matter of Wages (follow-up) → A Letter from Home (follow-up) → Bad Nights (follow-up) → A Volunteer (follow-up) → A Page in the Roll (follow-up) → A Name in the Streets (queued) |
@@ -212,7 +212,7 @@ Lord Treasurer Fenn, the Exchequer. The act's spine: the charter, the commission
 
 ### Summoned to the Exchequer
 
-`silver_summons` · Story beat 7 · data/events.ts:328
+`silver_summons` · Story beat 6 · data/events.ts:328
 
 **When:** Weeks 7–9; after A Visitor from Ostrander's (`ostrander_agent`); needs alive: Lord Treasurer Aubrey Fenn; 50% a week inside the window.
 
@@ -426,7 +426,7 @@ _Speaker: Lord Treasurer Aubrey Fenn_
 
 ### Quarter Day
 
-`quarter_day` · Story beat 9 · data/events.ts:372
+`quarter_day` · Story beat 13 · data/events.ts:372
 
 **When:** Weeks 9–18; after Summoned to the Exchequer (`silver_summons`); when (silver_delivered or silver_lost or silver_declined); 70% a week inside the window.
 
@@ -684,7 +684,7 @@ _Same choices as node `pitch` (one shared menu)._
 
 ### The Notice Board
 
-`vorn_board` · Story beat 11 · data/cast.ts:306
+`vorn_board` · Story beat 10 · data/cast.ts:306
 
 **When:** Weeks 10–14; after A Visitor from Ostrander's (`ostrander_agent`), Summoned to the Exchequer (`silver_summons`); when silver_accepted and not silver_delivered and not silver_lost; needs alive: Factor Maelis Vorn; 50% a week inside the window.
 
@@ -905,7 +905,7 @@ _Speaker: Marta Hobb_
 
 ### The Copper Kettle
 
-`isbet_kettle` · Story beat 13 · data/cast.ts:396
+`isbet_kettle` · Story beat 12 · data/cast.ts:396
 
 **When:** Weeks 12–16; after Hobb & Daughters (`hobbs_arrive`); needs alive: Isbet Hobb; 45% a week inside the window.
 
@@ -1053,7 +1053,7 @@ Dagny Fell, Porters' Fraternity. The bread riot, the dock tips and Dagny's broth
 
 ### Dagny Asks
 
-`dagny_brother` · Story beat 12 · data/cast.ts:353
+`dagny_brother` · Story beat 11 · data/cast.ts:353
 
 **When:** Weeks 11–15; after Bread and Stones (`bread_riot`); when (dagny_contact or dagny_friend); needs alive: Dagny Fell; 50% a week inside the window.
 
@@ -1125,7 +1125,7 @@ Wenna Pask. The low-tide market round the toll chain and the river strongbox.
 
 ### Under the Chain
 
-`pask_chain` · Story beat 6 · data/cast.ts:218
+`pask_chain` · Story beat 7 · data/cast.ts:218
 
 **When:** Weeks 6–10; needs alive: Wenna Pask; 45% a week inside the window.
 
@@ -1330,7 +1330,7 @@ Captain Rufus Mayne. The disbanded regiment, recruiting from your roster.
 
 ### An Offer for Your Best
 
-`mayne_offer` · Story beat 10 · data/cast.ts:280
+`mayne_offer` · Story beat 9 · data/cast.ts:280
 
 **When:** Weeks 10–14; picks a member where m.status is 'idle' and (FIGHTERS.includes(m.profession) or m.level >= 2); needs alive: Captain Rufus Mayne; 45% a week inside the window.
 
@@ -4012,15 +4012,11 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 
 ## Possibly broken or orphaned
 
-Found while extracting. Each is worth a look, but some are by design.
+Found while extracting. Each is worth a look, but some may be by design.
 
-- Fact `silver_abandoned` is set, but no scene, contract, Date, Codex entry, street talk or rule reads it yet (only the story checker's contradiction test does). An outcome the story doesn't react to.
-- Fact `fenn_ally` is set, but no scene, contract, Date, Codex entry, street talk or rule reads it yet (only the story checker's contradiction test does). An outcome the story doesn't react to.
-- Fact `weights_failed` is set, but no scene, contract, Date, Codex entry, street talk or rule reads it yet (only the story checker's contradiction test does). An outcome the story doesn't react to.
-- Fact `isbet_betrayed` is set, but no scene, contract, Date, Codex entry, street talk or rule reads it yet (only the story checker's contradiction test does). An outcome the story doesn't react to.
-- Fact `tapestry_sold` is set, but no scene, contract, Date, Codex entry, street talk or rule reads it yet (only the story checker's contradiction test does). An outcome the story doesn't react to.
-- Fact `tapestry_lost` is set, but no scene, contract, Date, Codex entry, street talk or rule reads it yet (only the story checker's contradiction test does). An outcome the story doesn't react to.
-- Fact `aske_plate_lost` is set, but no scene, contract, Date, Codex entry, street talk or rule reads it yet (only the story checker's contradiction test does). An outcome the story doesn't react to.
+- 7 outcomes are set but nothing in the game reacts to them yet: no scene, contract, Date, Codex entry, street talk or rule reads them (only the story checker's contradiction test does). `silver_abandoned` (Accepted the commission but never sent the convoy; set by silver_convoy); `fenn_ally` (Took a seat at the Exchequer table after the payment; set by Quarter Day); `weights_failed` (Failed to prove the short weights at Hesketh's; set by false_weights); `isbet_betrayed` (Told Marta about Isbet's offer; set by The Copper Kettle); `tapestry_sold` (Sold the Exchequer's last tapestry quietly in Harrowmere; set by last_tapestry); `tapestry_lost` (Lost the Exchequer's last tapestry on the road; set by last_tapestry); `aske_plate_lost` (Lost the Aske family silver on the way out; set by aske_plate). Half a Year, the act summary, mentions none of them.
+
+Every choice in every scene leads to a node that exists, and every node has a choice leading to it.
 
 ### Facts that can never be true together
 

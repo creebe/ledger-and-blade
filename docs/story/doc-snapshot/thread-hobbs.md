@@ -44,7 +44,7 @@ _Speaker: Marta Hobb_
 
 ### The Copper Kettle
 
-`isbet_kettle` · Story beat 13 · data/cast.ts:396
+`isbet_kettle` · Story beat 12 · data/cast.ts:396
 
 **When:** Weeks 12–16; after Hobb & Daughters (`hobbs_arrive`); needs alive: Isbet Hobb; 45% a week inside the window.
 

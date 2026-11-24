@@ -4,14 +4,14 @@ The game has 17 Act I story beats across 11 character threads, plus 31 follow-up
 
 | Thread | Who | Scenes in order |
 |---|---|---|
-| The Crown's silver | Lord Treasurer Fenn, the Exchequer | 1. A Charter and a Debt (wk 1–1) → 7. Summoned to the Exchequer (wk 7–9) → 9. Quarter Day (wk 9–18) → 15. The Last Tapestry (wk 15–20) → 17. Half a Year (wk 22–26) → The Exchequer Audits (follow-up) → A Letter from Fenn (follow-up) |
-| Ostrander's | Factor Maelis Vorn | 2. A Visitor from Ostrander's (wk 2–3) → 11. The Notice Board (wk 10–14) → An Offer from the Bank (follow-up) |
+| The Crown's silver | Lord Treasurer Fenn, the Exchequer | 1. A Charter and a Debt (wk 1–1) → 6. Summoned to the Exchequer (wk 7–9) → 13. Quarter Day (wk 9–18) → 15. The Last Tapestry (wk 15–20) → 17. Half a Year (wk 22–26) → The Exchequer Audits (follow-up) → A Letter from Fenn (follow-up) |
+| Ostrander's | Factor Maelis Vorn | 2. A Visitor from Ostrander's (wk 2–3) → 10. The Notice Board (wk 10–14) → An Offer from the Bank (follow-up) |
 | The Weighhouse | Alderman Piet Coster | 3. The Man with the Scales (wk 3–5) → Coster Takes It Personally (follow-up) → Coster's Page (follow-up) |
-| Hobb & Daughters | Marta and Isbet Hobb | 4. Hobb & Daughters (wk 4–6) → 13. The Copper Kettle (wk 12–16) → A Cake from Hobb & Daughters (follow-up) → Isbet Checks the Books (follow-up) |
-| The Lower Town | Dagny Fell, Porters' Fraternity | 5. Bread and Stones (wk 5–7) → 12. Dagny Asks (wk 11–15) → Word from the Docks (follow-up) |
-| The Mudlarks | Wenna Pask | 6. Under the Chain (wk 6–10) → A Mudlark Informant (follow-up) → What Came Up in the Strongbox (follow-up) |
+| Hobb & Daughters | Marta and Isbet Hobb | 4. Hobb & Daughters (wk 4–6) → 12. The Copper Kettle (wk 12–16) → A Cake from Hobb & Daughters (follow-up) → Isbet Checks the Books (follow-up) |
+| The Lower Town | Dagny Fell, Porters' Fraternity | 5. Bread and Stones (wk 5–7) → 11. Dagny Asks (wk 11–15) → Word from the Docks (follow-up) |
+| The Mudlarks | Wenna Pask | 7. Under the Chain (wk 6–10) → A Mudlark Informant (follow-up) → What Came Up in the Strongbox (follow-up) |
 | Saint Oda's | Sister Agathe Brune | 8. Fever Salts (wk 8–11) → Saint Oda's Feast (follow-up) → The Bank's Gift (follow-up) |
-| The Ninth | Captain Rufus Mayne | 10. An Offer for Your Best (wk 10–14) |
+| The Ninth | Captain Rufus Mayne | 9. An Offer for Your Best (wk 10–14) |
 | The Assay Office | Master Assayer Corwin Plaice | 14. Clause Eleven (wk 12–18) → An Assay-Peddler (follow-up) |
 | The Fourteen | Lady Honora Aske | 16. The Family Silver (wk 17–22) |
 | The hall | Jory Abbot and the members | A Tavern Brawl (follow-up) → A Matter of Wages (follow-up) → A Letter from Home (follow-up) → Bad Nights (follow-up) → A Volunteer (follow-up) → A Page in the Roll (follow-up) → A Name in the Streets (queued) |
