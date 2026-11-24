@@ -23,7 +23,6 @@ export const FAME_TIERS = [
   { name: 'Legendary', min: FAME_LEGENDARY },
 ] as const;
 
-
 export function fameTier(m: Member): number {
   const f = m.fame ?? 0;
   if (f >= FAME_TIERS[3].min && m.level >= LEGEND_NEEDS.level && m.missions >= LEGEND_NEEDS.missions) return 3;
@@ -31,7 +30,6 @@ export function fameTier(m: Member): number {
   if (f >= FAME_TIERS[1].min) return 1;
   return 0;
 }
-
 
 // ---------------------------------------------------------------------------
 // Signature abilities

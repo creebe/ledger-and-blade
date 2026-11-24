@@ -9,7 +9,6 @@ import { earn, spend, track } from '../core/effects';
 import { MATERIAL_INFO, materialPrice } from './market';
 import { BASE_UPKEEP } from '../core/tuning';
 
-
 export const level = (s: GameState, id: FacilityId) => s.facilities?.[id] ?? FACILITIES[id].start;
 
 export function freshFacilities(): Record<FacilityId, number> {

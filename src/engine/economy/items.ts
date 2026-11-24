@@ -25,5 +25,3 @@ export function equippedBy(state: GameState, itemUid: string): Member | undefine
       (m.loadout.weapon === itemUid || m.loadout.armor === itemUid || m.loadout.trinket === itemUid || m.loadout.consumables.includes(itemUid)),
   );
 }
-
-// ---------------- Members ----------------

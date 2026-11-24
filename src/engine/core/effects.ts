@@ -62,5 +62,3 @@ const FACTION_NAMES: Record<FactionId, string> = {
 };
 
 export const factionName = (f: FactionId) => FACTION_NAMES[f];
-
-// ---------------- Market ----------------

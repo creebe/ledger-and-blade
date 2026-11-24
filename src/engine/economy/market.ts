@@ -13,7 +13,6 @@ export const MATERIAL_INFO: Record<MaterialId, { name: string; base: number }> =
   reagents: { name: 'Reagents', base: 12 },
 };
 
-
 export function priceMultiplier(state: GameState): number {
   // weak coin pushes prices up; Weighhouse friendship pulls them down
   const coin = 1 + (50 - state.clocks.cointrust) / 150;
@@ -36,8 +35,6 @@ export function materialPrice(state: GameState, m: MaterialId): number {
 export function itemPrice(state: GameState, defId: string): number {
   return Math.round(ITEMS[defId].price * priceMultiplier(state));
 }
-
-
 
 export function refreshMarket(state: GameState) {
   for (const k of ['supplies', 'iron', 'leather', 'timber', 'reagents']) {

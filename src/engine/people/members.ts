@@ -78,5 +78,3 @@ export function generateRecruit(state: GameState): Recruit {
 export function xpToLevel(level: number) {
   return 8 + level * 4;
 }
-
-// ---------------- Contracts ----------------

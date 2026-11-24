@@ -121,7 +121,7 @@ export function newGame(seed = Date.now() % 2147483647): GameState {
 }
 
 /** Roll who backed the guild and the state of Varrow at the start, from the campaign seed. */
-export function rollStart(s: GameState) {
+function rollStart(s: GameState) {
   const backer = pick(s, Object.keys(BACKERS) as BackerId[]);
   const circumstances = CIRCUMSTANCE_GROUPS.map((g) => pick(s, CIRCUMSTANCES.filter((c) => c.group === g)).id);
   s.start = { backer, circumstances };

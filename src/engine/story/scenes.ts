@@ -13,7 +13,6 @@ import { addStoryContract } from '../economy/board';
 import { applyContractEffect, earn, spend } from '../core/effects';
 import { createMember } from '../people/members';
 
-
 function memberOf(state: GameState, ev: { memberId?: string }): Member | undefined {
   return ev.memberId ? state.members.find((m) => m.id === ev.memberId) : undefined;
 }

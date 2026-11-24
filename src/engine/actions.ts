@@ -13,7 +13,6 @@ import { applyStanding, spend, earn, track } from './core/effects';
 import { itemPrice, materialPrice, supplyPrice } from './economy/market';
 import { HEAT_COST, INTEL_RIVAL_COST, MATERIAL_SELL_RATE, PETITION_COST, SELL_RATE } from './core/tuning';
 
-
 const findMember = (s: GameState, id: string) => s.members.find((m) => m.id === id);
 
 export function hireRecruit(s: GameState, index: number): string | undefined {

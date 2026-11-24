@@ -132,5 +132,3 @@ export function refreshBoard(state: GameState) {
     state.board.push(generateContract(state));
   }
 }
-
-// ---------------- Effects ----------------
