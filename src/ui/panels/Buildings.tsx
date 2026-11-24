@@ -27,28 +27,56 @@ import { Btn, Section } from '../kit/common';
 import { Icon } from '../kit/icons';
 import { ItemIcon, ItemStats } from '../kit/visual';
 import { crowns as crownsText, wk } from '../kit/format';
+import { type Blocked, firstShort, getMore, type Res } from '../kit/shortfall';
 
 const MATERIAL_ICON: Record<MaterialId, string> = { iron: 'anvil', leather: 'hide', timber: 'rough', reagents: 'flask' };
 
-/** Cost chips that turn red when you don't have enough. */
+/** Cost chips that turn red when you don't have enough; a short chip is a link to get more. */
 function CostChips({ g, crowns, materials, check = true }: { g: GameState; crowns?: number; materials: Partial<Record<MaterialId, number>>; check?: boolean }) {
+  const chip = (key: string, isShort: boolean, res: Res, body: React.ReactNode, title?: string) =>
+    isShort ? (
+      <button key={key} className="stat-chip short stat-chip-go" title={title} onClick={getMore(res).run} aria-label={`${title ?? ''} ${getMore(res).label}`}>
+        {body}
+        <Icon name="chevron" size={12} />
+      </button>
+    ) : (
+      <span key={key} className="stat-chip" title={title}>
+        {body}
+      </span>
+    );
   return (
     <span className="stat-chips">
-      {!!crowns && (
-        <span className={`stat-chip ${check && g.crowns < crowns ? 'short' : ''}`}>
-          <Icon name="coin" size={12} />
-          {crowns}
-        </span>
+      {!!crowns &&
+        chip(
+          'crowns',
+          check && g.crowns < crowns,
+          'crowns',
+          <>
+            <Icon name="coin" size={12} />
+            {crowns}
+          </>,
+          `Crowns: need ${crowns}, have ${g.crowns}`,
+        )}
+      {(Object.keys(materials) as MaterialId[]).map((m) =>
+        chip(
+          m,
+          check && g.materials[m] < (materials[m] ?? 0),
+          m,
+          <>
+            <Icon name={MATERIAL_ICON[m]} size={12} />
+            {materials[m]} {MATERIAL_INFO[m].name}
+            <small>({g.materials[m]})</small>
+          </>,
+          `${MATERIAL_INFO[m].name}: need ${materials[m]}, have ${g.materials[m]}`,
+        ),
       )}
-      {(Object.keys(materials) as MaterialId[]).map((m) => (
-        <span key={m} className={`stat-chip ${check && g.materials[m] < (materials[m] ?? 0) ? 'short' : ''}`} title={`${MATERIAL_INFO[m].name}: need ${materials[m]}, have ${g.materials[m]}`}>
-          <Icon name={MATERIAL_ICON[m]} size={12} />
-          {materials[m]} {MATERIAL_INFO[m].name}
-          <small>({g.materials[m]})</small>
-        </span>
-      ))}
     </span>
   );
+}
+
+/** What stops a build or a craft for lack of crowns or materials, with a way to get them. */
+function costShort(g: GameState, crowns: number | undefined, materials: Partial<Record<MaterialId, number>>, what: string): Blocked {
+  return firstShort(g, [...(crowns ? [{ res: 'crowns' as Res, need: crowns }] : []), ...(Object.entries(materials) as [MaterialId, number][]).map(([m, n]) => ({ res: m as Res, need: n }))], what);
 }
 
 function Pips({ value, max }: { value: number; max: number }) {
@@ -123,7 +151,8 @@ function FacilityDetail({ id, g, onBuild }: { id: FacilityId; g: GameState; onBu
   const f = FACILITIES[id];
   const lv = level(g, id);
   const next = nextLevel(g, id);
-  const blocked = canBuild(g, id);
+  const why = canBuild(g, id);
+  const blocked = (next && costShort(g, next.crowns, next.materials, `Level ${lv + 1}`)) || why;
   return (
     <div className="facility-detail">
       <div className="row between">
@@ -166,7 +195,7 @@ function FacilityDetail({ id, g, onBuild }: { id: FacilityId; g: GameState; onBu
               {lv === 0 ? 'Build' : 'Upgrade'}
             </Btn>
           </div>
-          {blocked && <p className="tiny warn">{blocked}</p>}
+          {why && <p className="tiny warn">{why}</p>}
         </>
       ) : (
         <p className="small good">Fully built.</p>
@@ -220,7 +249,8 @@ export function WorkshopPanel() {
             {lv === 0 && <p className="hint">Build a {f.name} in the Hall to start crafting here. {f.blurb}</p>}
             {RECIPES.filter((r) => r.facility === fid).map((r) => {
               const def = ITEMS[r.id];
-              const blocked = canCraft(g, r);
+              const why = canCraft(g, r);
+              const blocked = why && lv >= r.level ? costShort(g, r.crowns, r.materials, def.name) || why : why;
               const locked = lv < r.level;
               const market = itemPrice(g, r.id) * (r.count ?? 1);
               return (
@@ -243,7 +273,6 @@ export function WorkshopPanel() {
                   <Btn
                     className="btn small primary"
                     blocked={blocked}
-                    title={blocked}
                     onClick={() =>
                       useStore.getState().confirm({
                         title: `Craft ${r.count && r.count > 1 ? `${r.count}× ` : ''}${def.name}?`,

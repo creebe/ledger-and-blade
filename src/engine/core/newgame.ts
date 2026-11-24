@@ -1,3 +1,4 @@
+import { freshDates, scheduleDates } from '../story/dates';
 import { freshCouncil } from '../politics/council';
 import { freshTutorial } from '../story/tutorial';
 import { freshCodex } from '../story/codex';
@@ -59,6 +60,7 @@ export function newGame(seed = Date.now() % 2147483647): GameState {
     weekBook: { income: {}, expenses: {} },
     history: [],
     petitioned: [],
+    dates: freshDates(),
     nextId: 0,
     difficulty: 'standard',
   };
@@ -82,6 +84,7 @@ export function newGame(seed = Date.now() % 2147483647): GameState {
   ]);
   planRival(s);
   triggerEvents(s);
+  scheduleDates(s);
   return s;
 }
 

@@ -2,7 +2,7 @@ import type { Dispatch } from '../../engine';
 import { useStore } from '../../store';
 import { Icon } from './icons';
 
-const KIND_ICON: Record<string, string> = { lore: 'book', crier: 'ear', story: 'quest', mission: 'road', economy: 'coin', politics: 'seal', roster: 'people', rival: 'mask', warning: 'warn', info: 'info' };
+const KIND_ICON: Record<string, string> = { lore: 'book', crier: 'ear', story: 'quest', mission: 'road', economy: 'coin', politics: 'seal', roster: 'people', rival: 'mask', warning: 'warn', info: 'info', date: 'date' };
 
 // only warnings and the story get color; everything else is neutral
 const KIND_COLOR: Record<string, string> = { story: 'var(--gold)', warning: 'var(--bad)' };

@@ -25,16 +25,30 @@ import {
   SWEEP_COST,
   factionKnown,
   type ClockId,
+  type GameState,
   type FactionId,
   type RivalId,
 } from '../../engine';
 import { useStore } from '../../store';
 import { Btn, Meter, Section, Seg, StandingBar } from '../kit/common';
 import { shortDate } from '../kit/format';
+import { firstShort, short } from '../kit/shortfall';
 import { Icon } from '../kit/icons';
 import { CouncilSection } from '../panels/Council';
 
-const CLOCK_ICON: Record<string, string> = { arrears: 'calendar', leverage: 'ostranders', unrest: 'crowd', cointrust: 'coin' };
+/** The first of crowns, Intel or Influence the guild is short of, with a way to get more. */
+const costsShort = (g: GameState, c: { crowns?: number; intel?: number; influence?: number }, what: string) =>
+  firstShort(
+    g,
+    [
+      ...(c.crowns ? [{ res: 'crowns' as const, need: c.crowns }] : []),
+      ...(c.intel ? [{ res: 'intel' as const, need: c.intel }] : []),
+      ...(c.influence ? [{ res: 'influence' as const, need: c.influence }] : []),
+    ],
+    what,
+  );
+
+const CLOCK_ICON: Record<string, string> = { arrears: 'arrears', leverage: 'ostranders', unrest: 'crowd', cointrust: 'coin' };
 
 function standingWord(v: number) {
   if (v >= 60) return 'Devoted';
@@ -66,9 +80,10 @@ export function RealmScreen() {
   const act = useStore((s) => s.act);
   const guideTarget = useStore((s) => s.guideTarget);
   const { confirm, notify } = useStore.getState();
-  const [tab, setTabState] = useState<RealmTab>(readRealmTab);
+  const stored = useStore((s) => s.subTabs.realm) as RealmTab | undefined;
+  const tab: RealmTab = stored ?? readRealmTab();
   const setTab = (t: RealmTab) => {
-    setTabState(t);
+    useStore.getState().setSubTab('realm', t);
     try {
       localStorage.setItem(REALM_KEY, t);
     } catch {
@@ -157,7 +172,7 @@ export function RealmScreen() {
                 <i>On the Debt:</i> {f.stance}
               </p>
               <p className="tiny muted">{f.perks}</p>
-              <Btn className="btn ghost small" blocked={g.petitioned.includes(id) ? 'Already courted this week. Try again next week.' : g.influence < PETITION_COST ? `Needs ${PETITION_COST} Influence (you have ${g.influence}). Influence comes from contracts, events and Council wins.` : undefined} onClick={() =>
+              <Btn className="btn ghost small" blocked={g.petitioned.includes(id) ? 'Already courted this week. Try again next week.' : short(g, 'influence', PETITION_COST, 'Courting them')} onClick={() =>
                   confirm({
                     title: `Court ${f.name}?`,
                     body: [
@@ -188,7 +203,7 @@ export function RealmScreen() {
         <p className="small">
           Heat {g.heat}/100. Shady work draws the Exchequer's attention. Above 30, audits start; above 80, Exchequer standing falls weekly; at 100, your charter is in danger.
         </p>
-        <Btn className="btn ghost small" blocked={g.heat === 0 ? 'No Heat to cool.' : g.influence < HEAT_COST ? `Needs ${HEAT_COST} Influence (you have ${g.influence})` : undefined} onClick={() =>
+        <Btn className="btn ghost small" blocked={g.heat === 0 ? 'No Heat to cool.' : short(g, 'influence', HEAT_COST, 'Greasing palms')} onClick={() =>
             confirm({
               title: 'Grease some palms?',
               body: [`A few quiet payments to the right Exchequer clerks. Heat falls from ${g.heat} to ${Math.max(0, g.heat - 12)}.`],
@@ -212,7 +227,7 @@ export function RealmScreen() {
           <p className="tiny muted">Assign members to Guard the hall to stop thieves, arsonists and knives in the night. A Den helps catch spies.</p>
           <Btn
             className="btn ghost small"
-            blocked={g.intel < SWEEP_COST ? `Needs ${SWEEP_COST} Intel (you have ${g.intel}).` : undefined}
+            blocked={short(g, 'intel', SWEEP_COST, 'A search')}
             onClick={() =>
               confirm({
                 title: 'Search the hall for spies?',
@@ -283,7 +298,7 @@ function RivalCard({ id }: { id: RivalId }) {
           {counter && (
             <Btn
               className="btn ghost small"
-              blocked={counter.intel && g.intel < counter.intel ? `Needs ${counter.intel} Intel (you have ${g.intel})` : counter.crowns && g.crowns < counter.crowns ? `Needs ${counter.crowns} crowns (you have ${g.crowns})` : counter.influence && g.influence < counter.influence ? `Needs ${counter.influence} Influence (you have ${g.influence})` : undefined}
+              blocked={costsShort(g, counter, 'Countering them')}
               onClick={() =>
                 confirm({
                   title: `Counter ${info.name}?`,
@@ -303,7 +318,7 @@ function RivalCard({ id }: { id: RivalId }) {
       ) : (
         <Btn
           className="btn ghost small"
-          blocked={g.intel < INTEL_RIVAL_COST ? `Needs ${INTEL_RIVAL_COST} Intel (you have ${g.intel}). Set members to Gather rumors.` : undefined}
+          blocked={short(g, 'intel', INTEL_RIVAL_COST, 'Spying on them')}
           onClick={() =>
             confirm({
               title: `Spy on ${info.name}?`,
@@ -332,8 +347,6 @@ function Operations({ id }: { id: RivalId }) {
     [c.crowns && `${c.crowns} crowns`, c.intel && `${c.intel} Intel`, c.influence && `${c.influence} Influence`].filter(Boolean).join(', ');
   const haveText = (c: { crowns?: number; intel?: number; influence?: number }) =>
     [c.crowns && `${g.crowns} crowns`, c.intel && `${g.intel} Intel`, c.influence && `${g.influence} Influence`].filter(Boolean).join(', ');
-  const short = (c: { crowns?: number; intel?: number; influence?: number }) =>
-    c.crowns && g.crowns < c.crowns ? `Needs ${c.crowns} crowns (you have ${g.crowns})` : c.intel && g.intel < c.intel ? `Needs ${c.intel} Intel (you have ${g.intel})` : c.influence && g.influence < c.influence ? `Needs ${c.influence} Influence (you have ${g.influence})` : undefined;
   return (
     <div className="ops">
       <button className="link-btn small" onClick={() => setOpen(!open)}>
@@ -344,7 +357,7 @@ function Operations({ id }: { id: RivalId }) {
           <div key={o.kind} className="op-row">
             <Btn
               className="btn ghost small"
-              blocked={o.blocked ?? short(o.cost)}
+              blocked={o.blocked ?? costsShort(g, o.cost, 'This operation')}
               onClick={() =>
                 confirm({
                   title: `${o.label}?`,

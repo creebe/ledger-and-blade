@@ -48,7 +48,7 @@ export const OBJECTIVES: Objective[] = [
     id: 'end_week',
     chapter: 'First steps',
     title: 'End the week',
-    how: 'Press End Week. Everything you set in motion resolves at once.',
+    how: 'Press End Week, read the summary, then hold the button to confirm. Everything you set in motion resolves at once.',
     why: 'The game moves a week at a time. Squads travel, wages are paid, the world changes.',
     tab: 'hall',
     guide: 'endweek',

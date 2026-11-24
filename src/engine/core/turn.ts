@@ -3,6 +3,7 @@ import { councilNewWeek, weeklyCouncil } from '../politics/council';
 import { discoverLore, weeklyCrier, weeklyJory } from '../story/codex';
 import { denIntel, healBonus, level, trainCost, trainWeeks, upkeep, weeklyWorkshop } from '../economy/buildings';
 import { triggerEvents } from '../story/scenes';
+import { datesPhase, scheduleDates } from '../story/dates';
 import { resolveMission } from '../missions/missions';
 import { executeRival, planRival } from '../rivals/rival';
 import { weeklyWar } from '../rivals/war';
@@ -73,6 +74,7 @@ export function advanceWeek(s: GameState): string | undefined {
   economyPhase(s);
   memberPhase(s);
   politicsPhase(s);
+  datesPhase(s);
   clocksPhase(s);
   closeLedger(s);
   if (checkGameOver(s)) return undefined;
@@ -329,5 +331,6 @@ function startNewWeek(s: GameState) {
   planRival(s);
   triggerEvents(s);
   discoverLore(s);
+  scheduleDates(s);
 }
 

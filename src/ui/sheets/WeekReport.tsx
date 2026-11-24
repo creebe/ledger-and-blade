@@ -5,6 +5,7 @@ import { Icon } from '../kit/icons';
 import { DispatchItem } from '../kit/DispatchItem';
 import { living } from '../../engine';
 import { num } from '../kit/format';
+import { DateCard } from '../panels/DateCard';
 
 const RES_LABEL: { key: keyof ResourceSnap; icon: string; name: string; invert?: boolean }[] = [
   { key: 'crowns', icon: 'coin', name: 'Crowns' },
@@ -22,8 +23,9 @@ export function WeekReport({ dispatchIds, week, before }: { dispatchIds: string[
   const after = snap(g);
   const last = g.ledger[g.ledger.length - 1];
   const changes = RES_LABEL.map((r) => ({ ...r, delta: Math.round((after[r.key] - before[r.key]) * 10) / 10 })).filter((r) => r.delta !== 0);
+  const dates = items.filter((d) => d.kind === 'date');
   const missions = items.filter((d) => d.kind === 'mission');
-  const rest = items.filter((d) => d.kind !== 'mission');
+  const rest = items.filter((d) => d.kind !== 'mission' && d.kind !== 'date');
   return (
     <Sheet
       title="The week's end"
@@ -65,6 +67,12 @@ export function WeekReport({ dispatchIds, week, before }: { dispatchIds: string[
           </ul>
         </details>
       )}
+      {dates.map((d) => (
+        <article key={d.id} className={`date-result ${d.title.endsWith(': met') ? 'met' : d.title.endsWith(': missed') ? 'missed' : 'off'}`}>
+          <DispatchItem d={d} />
+        </article>
+      ))}
+      <DateCard compact label="Coming up" />
       {missions.length > 0 && <h3 className="subhead">From the field</h3>}
       {missions.map((d) => (
         <DispatchItem key={d.id} d={d} />

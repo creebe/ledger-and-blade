@@ -20,6 +20,8 @@ function Vital({ icon, v, label }: { icon: string; v: number; label: string }) {
 }
 import { ASSIGNMENTS, ORDER_ICON } from '../kit/members';
 import { crowns, plural } from '../kit/format';
+import { short } from '../kit/shortfall';
+import { goTo } from '../kit/navigate';
 
 export function RosterScreen() {
   const g = useStore((s) => s.game)!;
@@ -158,7 +160,7 @@ export function RosterScreen() {
                 </span>
                 <Btn
                   className="btn small primary"
-                  blocked={crew.length >= rosterCap(g) ? `The hall is full (${rosterCap(g)} members). Expand the Great Hall to hire more.` : g.crowns < r.signOn ? `Need ${r.signOn} crowns to sign them (you have ${g.crowns})` : undefined}
+                  blocked={crew.length >= rosterCap(g) ? { text: `The hall is full (${rosterCap(g)} members). Expand the Great Hall to hire more.`, action: { label: 'See the Great Hall', run: () => goTo({ tab: 'hall', guide: 'buildings' }) } } : short(g, 'crowns', r.signOn, 'The sign-on fee')}
                   onClick={() =>
                     useStore.getState().confirm({
                       title: `Hire ${m.name}?`,

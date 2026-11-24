@@ -14,6 +14,7 @@ import {
   type GameState,
 } from '../src/engine';
 import { runSim } from '../scripts/sim';
+import { currentDate, datesPhase, dateTargets, nextDate, scheduleDates, DATE_BY_ID } from '../src/engine';
 import { afterLeaderDies, executeHostile, feudStage, hallDefense, operationOptions, raiseFeud, resolveOperation, runOperation, earnFame, fameTier, triggerEvents, SAVE_VERSION, BACKERS, CIRCUMSTANCE_BY_ID, claimNote, buySupplies, supplyCost, buyMaterial, cancelDispatch, discoverLore, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
 
 const clearEvents = (s: GameState) => {
@@ -208,6 +209,81 @@ describe('engine', () => {
     s.facilities.stables = 2;
     expect(tripWeeks(s, 2)).toEqual({ out: 1, back: 1 });
     expect(tripWeeks(s, 1)).toEqual({ out: 1, back: 0 });
+  });
+
+  it('Dates: one is always set a few weeks ahead, with the next in view', () => {
+    const s = newGame(41);
+    const c = currentDate(s)!;
+    expect(c.def.id).toBe('first_payment');
+    expect(c.active.dueWeek).toBe(s.loans[0].dueWeek);
+    expect(c.weeksLeft).toBeGreaterThanOrEqual(2);
+    expect(nextDate(s)?.id).toBe('exchequer_list');
+    expect(dateTargets(s).length).toBe(2);
+  });
+
+  it('Dates: meeting every target pays the reward, missing one applies the cost', () => {
+    const met = newGame(42);
+    const a = met.dates.current!;
+    met.week = a.dueWeek;
+    met.crowns = 5000;
+    const before = met.factions.weighhouse.standing;
+    datesPhase(met);
+    expect(met.dates.past.at(-1)).toMatchObject({ id: 'first_payment', outcome: 'met' });
+    expect(met.factions.weighhouse.standing).toBe(before + 4);
+    expect(met.dates.current).toBeUndefined();
+    expect(met.dispatches.at(-1)!.kind).toBe('date');
+
+    const missed = newGame(42);
+    missed.week = missed.dates.current!.dueWeek;
+    missed.crowns = 0;
+    const standing = missed.factions.weighhouse.standing;
+    datesPhase(missed);
+    expect(missed.dates.past.at(-1)!.outcome).toBe('missed');
+    expect(missed.factions.weighhouse.standing).toBe(standing - 5);
+
+    // the next week a new Date is set, and it's the one that was in view
+    const expected = met.dates.next;
+    met.week += 1;
+    scheduleDates(met);
+    expect(met.dates.current!.id).toBe(expected);
+    expect(met.dates.current!.dueWeek - met.week).toBeGreaterThanOrEqual(2);
+  });
+
+  it('Dates: the story can call one off before it arrives', () => {
+    const s = newGame(43);
+    s.eventWeeks.silver_summons = 1;
+    s.dates.current = { id: 'treasurer_visit', dueWeek: s.week + 5, setWeek: s.week, targets: DATE_BY_ID.treasurer_visit.targets(s), base: { renown: 0, principal: 0, missed: 0 } };
+    s.flags.silver_lost = true;
+    datesPhase(s);
+    expect(s.dates.past.at(-1)).toMatchObject({ id: 'treasurer_visit', outcome: 'cancelled' });
+    expect(s.dispatches.at(-1)!.title).toContain('called off');
+  });
+
+  it('Dates keep coming through a long game, and the same seed gives the same ones', () => {
+    const play = (seed: number) => {
+      const s = newGame(seed);
+      for (let w = 0; w < 40 && !s.gameOver; w++) {
+        clearEvents(s);
+        advanceWeek(s);
+      }
+      return s;
+    };
+    const a = play(77);
+    const b = play(77);
+    expect(a.dates.past.map((p) => p.id)).toEqual(b.dates.past.map((p) => p.id));
+    if (!a.gameOver) {
+      expect(a.dates.past.length).toBeGreaterThanOrEqual(4);
+      expect(a.dates.current).toBeDefined();
+    }
+  });
+
+  it('version 11 saves gain Dates', () => {
+    const s = newGame(44) as unknown as Record<string, unknown>;
+    delete s.dates;
+    s.version = 11;
+    const g = migrateSave(s as never)!;
+    expect(g.version).toBe(SAVE_VERSION);
+    expect(g.dates.current).toBeDefined();
   });
 
   it('old saves are upgraded', () => {

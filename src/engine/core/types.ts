@@ -342,7 +342,7 @@ export interface GameEvent {
   missionId?: string; // squad in the field this event is about
 }
 
-export type DispatchKind = 'story' | 'mission' | 'economy' | 'politics' | 'roster' | 'rival' | 'warning' | 'info' | 'lore' | 'crier';
+export type DispatchKind = 'story' | 'mission' | 'economy' | 'politics' | 'roster' | 'rival' | 'warning' | 'info' | 'lore' | 'crier' | 'date';
 
 export interface Dispatch {
   id: string;
@@ -407,6 +407,7 @@ export interface GameState {
   weekBook: { income: Record<string, number>; expenses: Record<string, number> };
   history: Mission[]; // completed missions (most recent last)
   petitioned: string[]; // faction ids petitioned this week
+  dates: DatesState; // the next dated checkpoint, the one after it, and how past ones went
   gameOver?: { reason: GameOverReason; week: number; text: string };
   nextId: number;
   difficulty: 'standard';
@@ -427,4 +428,49 @@ export interface CouncilState {
   active: { id: string; untilWeek: number }[];
   lobbied: Partial<Record<CouncilFaction, number>>; // week each faction was last lobbied
   history: { week: number; id: string; passed: boolean; votesFor: number; votesAgainst: number; player: Stance }[];
+}
+
+// ---------------------------------------------------------------------------
+// Dates: dated checkpoints a few weeks ahead (see data/dates.ts, story/dates.ts)
+// ---------------------------------------------------------------------------
+
+/** Something the guild must have done, or be, when a Date arrives. */
+export type DateTarget =
+  | { kind: 'loanPaid' } // the loan payment due that week is paid in full
+  | { kind: 'crowns'; at: number } // treasury at the week's close, after the bills
+  | { kind: 'supplies'; at: number }
+  | { kind: 'renownGain'; gain: number } // Renown gained since the Date was set
+  | { kind: 'renownAbove'; rival: RivalId }
+  | { kind: 'heatBelow'; below: number }
+  | { kind: 'standing'; faction: FactionId; at: number }
+  | { kind: 'contracts'; count: number } // successful contracts home since the Date was set
+  | { kind: 'members'; count: number; seniors: number } // members, and how many at level 3+
+  | { kind: 'repaid'; amount: number } // loan principal paid down since the Date was set
+  | { kind: 'council' }; // back the winning side of at least one decree in the vote
+
+/** What a Date pays when it's met, or costs when it's missed. */
+export interface DateStakes {
+  crowns?: number;
+  supplies?: number;
+  influence?: number;
+  intel?: number;
+  renown?: number;
+  heat?: number;
+  standing?: Partial<Record<FactionId, number>>;
+  morale?: number; // every living member
+  loanRate?: number; // change to the loan's weekly rate
+}
+
+export interface ActiveDate {
+  id: string;
+  dueWeek: number;
+  setWeek: number;
+  targets: DateTarget[];
+  base: { renown: number; principal: number; missed: number };
+}
+
+export interface DatesState {
+  current?: ActiveDate;
+  next?: string; // id of the Date expected after this one (may change if the story moves)
+  past: { id: string; week: number; outcome: 'met' | 'missed' | 'cancelled' }[];
 }
