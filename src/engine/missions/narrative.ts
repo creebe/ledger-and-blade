@@ -5,7 +5,7 @@ import { ITEMS } from '../data/items';
 import { TAGS } from '../data/tags';
 import { damageMultiplier, itemDef, memberItems } from './odds';
 import { nextFloat, pick } from '../core/rng';
-import { seasonOf } from '../data/events';
+import { seasonOf } from '../core/calendar';
 import type { Approach, Contract, Element, GameState, JournalSection, Member, OutcomeTier, PhaseResult, TagId } from '../core/types';
 
 const first = (m?: Member) => (m ? m.name.split(' ')[0] : 'someone');

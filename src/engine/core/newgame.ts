@@ -3,53 +3,18 @@ import { freshTutorial } from '../story/tutorial';
 import { freshCodex } from '../story/codex';
 import { freshFacilities } from '../economy/buildings';
 import { triggerEvents } from '../story/scenes';
-import { planRival } from '../rivals/rival';
+import { freshRivals, planRival } from '../rivals/rival';
 import { pick, randInt } from './rng';
 import { BACKERS, CIRCUMSTANCES, CIRCUMSTANCE_BY_ID, CIRCUMSTANCE_GROUPS } from '../data/starts';
 import type { BackerId, FactionId, GameState } from './types';
 import { addDispatch } from './util';
+import { freshNpcs } from '../data/facts';
+import { freshFactions } from '../politics/factions';
 import { createMember, generateRecruit } from '../people/members';
 import { dateLabel } from './calendar';
 import { refreshBoard } from '../economy/board';
 import { refreshMarket } from '../economy/market';
 import { SAVE_VERSION } from './save';
-
-export function freshNpcs(): GameState['npcs'] {
-  return {
-    vorn: { status: 'alive', attitude: 0 },
-    fenn: { status: 'alive', attitude: 0 },
-    marta: { status: 'alive', attitude: 0 },
-    isbet: { status: 'alive', attitude: 0 },
-    dagny: { status: 'alive', attitude: 0 },
-    coster: { status: 'alive', attitude: 0 },
-    brune: { status: 'alive', attitude: 0 },
-    aske: { status: 'alive', attitude: 0 },
-    pask: { status: 'alive', attitude: 0 },
-    mayne: { status: 'alive', attitude: 0 },
-    plaice: { status: 'alive', attitude: 0 },
-    jory: { status: 'alive', attitude: 0 },
-  };
-}
-
-export function freshRivals(): GameState['rivals'] {
-  return {
-    hobbs: { id: 'hobbs', name: 'Hobb & Daughters', crowns: 2000, renown: 20, strength: 10, aggression: 0.4, contractsWon: 0, active: true, feud: 0 },
-    ninth: { id: 'ninth', name: 'The Ninth', crowns: 600, renown: 14, strength: 12, aggression: 0.25, contractsWon: 0, active: false, feud: 0 },
-    assay: { id: 'assay', name: 'The Assay Office', crowns: 1200, renown: 18, strength: 4, aggression: 0.2, contractsWon: 0, active: false, feud: 0 },
-  };
-}
-
-export function freshFactions(): GameState['factions'] {
-  return {
-    exchequer: { id: 'exchequer', standing: 10 },
-    weighhouse: { id: 'weighhouse', standing: 5 },
-    ostranders: { id: 'ostranders', standing: 0 },
-    lowertown: { id: 'lowertown', standing: 0 },
-    oda: { id: 'oda', standing: 0 },
-    fourteen: { id: 'fourteen', standing: 0 },
-    mudlarks: { id: 'mudlarks', standing: 0 },
-  };
-}
 
 export function newGame(seed = Date.now() % 2147483647): GameState {
   const s: GameState = {

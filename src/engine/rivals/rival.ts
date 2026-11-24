@@ -161,3 +161,12 @@ function executeOne(state: GameState, id: RivalId) {
 export function executeRival(state: GameState) {
   for (const id of activeRivals(state)) executeOne(state, id);
 }
+
+/** The rivals at the start of a campaign: only Hobb & Daughters are active. */
+export function freshRivals(): GameState['rivals'] {
+  return {
+    hobbs: { id: 'hobbs', name: 'Hobb & Daughters', crowns: 2000, renown: 20, strength: 10, aggression: 0.4, contractsWon: 0, active: true, feud: 0 },
+    ninth: { id: 'ninth', name: 'The Ninth', crowns: 600, renown: 14, strength: 12, aggression: 0.25, contractsWon: 0, active: false, feud: 0 },
+    assay: { id: 'assay', name: 'The Assay Office', crowns: 1200, renown: 18, strength: 4, aggression: 0.2, contractsWon: 0, active: false, feud: 0 },
+  };
+}

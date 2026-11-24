@@ -109,3 +109,8 @@ export const NPCS: Record<NpcId, { name: string; role: string; faction: string }
   plaice: { name: 'Master Assayer Corwin Plaice', role: 'Runs the Assay Office. He reads clauses aloud and has never been in a hurry.', faction: 'assay' },
   jory: { name: 'Jory Abbot', role: 'The hall\'s clerk. He came with the building and has outlasted three guildmasters.', faction: 'guild' },
 };
+
+/** Every named character alive, with no opinion of the guild yet. */
+export function freshNpcs(): Record<NpcId, { status: NpcStatus; attitude: number }> {
+  return Object.fromEntries((Object.keys(NPCS) as NpcId[]).map((id) => [id, { status: 'alive' as NpcStatus, attitude: 0 }])) as Record<NpcId, { status: NpcStatus; attitude: number }>;
+}

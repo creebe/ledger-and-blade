@@ -20,3 +20,16 @@ export function factionPerks(s: GameState) {
     addDispatch(s, 'warning', 'Something went missing', [`The back door of the stores was found open this morning, and ${lost} supplies have gone. Nobody on the river saw a thing.`]);
   }
 }
+
+/** Starting standing with every faction. */
+export function freshFactions(): GameState['factions'] {
+  return {
+    exchequer: { id: 'exchequer', standing: 10 },
+    weighhouse: { id: 'weighhouse', standing: 5 },
+    ostranders: { id: 'ostranders', standing: 0 },
+    lowertown: { id: 'lowertown', standing: 0 },
+    oda: { id: 'oda', standing: 0 },
+    fourteen: { id: 'fourteen', standing: 0 },
+    mudlarks: { id: 'mudlarks', standing: 0 },
+  };
+}

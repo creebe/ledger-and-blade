@@ -3,7 +3,9 @@ import { freshTutorial } from '../story/tutorial';
 import { freshCodex } from '../story/codex';
 import { freshFacilities } from '../economy/buildings';
 import type { GameState } from './types';
-import { freshFactions, freshNpcs, freshRivals } from './newgame';
+import { freshNpcs } from '../data/facts';
+import { freshFactions } from '../politics/factions';
+import { freshRivals } from '../rivals/rival';
 
 export const SAVE_VERSION = 11;
 

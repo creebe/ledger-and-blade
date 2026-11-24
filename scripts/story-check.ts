@@ -8,7 +8,6 @@ import { CODEX, CODEX_BY_ID } from '../src/engine/data/codex';
 import { advanceWeek, bestApproaches, canChoose, dispatchMission, living, newGame, previewMission, type GameState } from '../src/engine';
 import { botTurn } from './sim';
 
-const DEFS = EVENT_DEFS;
 const BAD_TEXT = /undefined|NaN|\[object |\{\w+\}|\$\{|null\b/;
 
 export interface Violation {
@@ -105,7 +104,7 @@ export function exploreStory(runs: number, weeks: number): StoryReport {
     };
 
     const chooser = (st: GameState, ev: GameState['pendingEvents'][number]) => {
-      const def = DEFS[ev.defId];
+      const def = EVENT_DEFS[ev.defId];
       const node = ev.node ?? 'root';
       (report.nodesVisited[ev.defId] ??= new Set()).add(node);
       checkText(`${ev.defId}/${node} text`, ev.text);
@@ -148,7 +147,7 @@ export function exploreStory(runs: number, weeks: number): StoryReport {
 
       // newly fired events
       for (const ev of s.pendingEvents) {
-        const def = DEFS[ev.defId];
+        const def = EVENT_DEFS[ev.defId];
         if (!def) {
           violate('unknown-event', ev.defId);
           continue;

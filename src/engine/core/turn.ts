@@ -1,4 +1,3 @@
-import { TRAITS } from '../data/traits';
 import { activeMods, modProduct, modSum } from '../data/decrees';
 import { councilNewWeek, weeklyCouncil } from '../politics/council';
 import { discoverLore, weeklyCrier, weeklyJory } from '../story/codex';
@@ -332,5 +331,3 @@ function startNewWeek(s: GameState) {
   discoverLore(s);
 }
 
-// re-exported helpers so the UI can use one import
-export { TRAITS };

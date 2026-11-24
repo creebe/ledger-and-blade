@@ -41,7 +41,7 @@ docs/                design doc, story bible, reports, playthroughs
    7. `clocksPhase`
    8. `closeLedger`
    9. `checkGameOver`
-   10. `startNewWeek`, which refreshes the board and market, plans rival moves and triggers scenes
+   10. `startNewWeek`, which brings new recruits, refreshes the board and market, plans rival moves and triggers scenes
 3. Scenes wait in `pendingEvents` until the player answers them. They are resolved by `resolveEvent()` in `engine/story/scenes.ts`.
 
 ## The core modules

@@ -6,7 +6,7 @@ import { legendAura } from '../people/legends';
 import { PROFESSIONS } from '../data/professions';
 import { TAGS } from '../data/tags';
 import { TRAITS } from '../data/traits';
-import { seasonOf } from '../data/events';
+import { seasonOf } from '../core/calendar';
 import { tripWeeks } from '../economy/buildings';
 import type { Approach, Contract, Element, GameState, ItemDef, Member, PhaseDef, TagId } from '../core/types';
 
