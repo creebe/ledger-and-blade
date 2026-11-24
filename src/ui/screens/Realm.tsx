@@ -29,9 +29,9 @@ import {
   type RivalId,
 } from '../../engine';
 import { useStore } from '../../store';
-import { Btn, Meter, Section, StandingBar } from '../common';
-import { Icon } from '../icons';
-import { CouncilSection } from '../Council';
+import { Btn, Meter, Section, StandingBar } from '../kit/common';
+import { Icon } from '../kit/icons';
+import { CouncilSection } from '../panels/Council';
 
 const CLOCK_ICON: Record<string, string> = { arrears: 'clock', leverage: 'ostranders', unrest: 'crowd', cointrust: 'coin' };
 

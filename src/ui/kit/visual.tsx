@@ -18,7 +18,7 @@ import {
   type ItemDef,
   type Member,
   type ProfessionId,
-} from '../engine';
+} from '../../engine';
 import { Icon } from './icons';
 import { pct } from './format';
 

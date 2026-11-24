@@ -13,10 +13,10 @@ import {
   type GameState,
   type LobbyMethod,
   type Stance,
-} from '../engine';
-import { useStore } from '../store';
-import { Btn, Section, Seg } from './common';
-import { Icon } from './icons';
+} from '../../engine';
+import { useStore } from '../../store';
+import { Btn, Section, Seg } from '../kit/common';
+import { Icon } from '../kit/icons';
 
 const FIDS = Object.keys(SEATS) as CouncilFaction[];
 const STANCE: Record<string, string> = { '1': 'For', '0': 'Undecided', '-1': 'Against' };

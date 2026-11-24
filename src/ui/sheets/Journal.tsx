@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { CODEX, CODEX_BY_ID, dateLabel, guideView, OBJECTIVES, rewardText, type CodexCategory } from '../engine';
-import { useStore } from '../store';
-import { Seg, Sheet } from './common';
-import { GuideCard, ReadyNote, useCollect } from './Guide';
-import { Icon } from './icons';
+import { CODEX, CODEX_BY_ID, dateLabel, guideView, OBJECTIVES, rewardText, type CodexCategory } from '../../engine';
+import { useStore } from '../../store';
+import { Seg, Sheet } from '../kit/common';
+import { GuideCard, ReadyNote, useCollect } from '../panels/Guide';
+import { Icon } from '../kit/icons';
 
 export type JournalTab = 'notes' | 'codex' | 'chronicle';
 

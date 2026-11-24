@@ -21,11 +21,11 @@ import {
   type FacilityId,
   type GameState,
   type MaterialId,
-} from '../engine';
-import { useStore } from '../store';
-import { Btn, Section } from './common';
-import { Icon } from './icons';
-import { ItemIcon, ItemStats } from './visual';
+} from '../../engine';
+import { useStore } from '../../store';
+import { Btn, Section } from '../kit/common';
+import { Icon } from '../kit/icons';
+import { ItemIcon, ItemStats } from '../kit/visual';
 
 export const MATERIAL_ICON: Record<MaterialId, string> = { iron: 'anvil', leather: 'armor', timber: 'rough', reagents: 'flask' };
 

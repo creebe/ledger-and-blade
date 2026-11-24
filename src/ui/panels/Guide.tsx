@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { claimNote, guideView, rewardText, type Objective } from '../engine';
-import { useStore } from '../store';
-import { Icon } from './icons';
+import { claimNote, guideView, rewardText, type Objective } from '../../engine';
+import { useStore } from '../../store';
+import { Icon } from '../kit/icons';
 
 /** Collect a note's reward with a short flourish before it pays out. */
 export function useCollect() {

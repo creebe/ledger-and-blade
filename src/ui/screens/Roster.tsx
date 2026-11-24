@@ -1,9 +1,9 @@
 import { FAME_TIERS, fameTier, hireRecruit, ITEMS, living, PROFESSIONS, rosterCap, TRAITS } from '../../engine';
 import { useStore } from '../../store';
 import { useState } from 'react';
-import { Btn, Empty, Section, Seg } from '../common';
-import { Icon } from '../icons';
-import { ApproachBars, Portrait, readiness, TopStrengths } from '../visual';
+import { Btn, Empty, Section, Seg } from '../kit/common';
+import { Icon } from '../kit/icons';
+import { ApproachBars, Portrait, readiness, TopStrengths } from '../kit/visual';
 import type { Member } from '../../engine';
 
 const ASSIGN_ICON: Record<string, string> = { rest: 'rest', train: 'train', rumors: 'ear', labor: 'hammer', scout: 'compass', build: 'anvil' };
@@ -25,7 +25,7 @@ function Vital({ icon, v, label }: { icon: string; v: number; label: string }) {
     </span>
   );
 }
-import { ASSIGNMENTS } from '../MemberSheet';
+import { ASSIGNMENTS } from '../sheets/MemberSheet';
 
 export function RosterScreen() {
   const g = useStore((s) => s.game)!;

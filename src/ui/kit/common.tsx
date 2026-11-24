@@ -1,6 +1,6 @@
 import React, { useState, type ReactNode } from 'react';
-import { FACTIONS, TAGS, type FactionId } from '../engine';
-import { useStore } from '../store';
+import { FACTIONS, TAGS, type FactionId } from '../../engine';
+import { useStore } from '../../store';
 import { chanceText } from './format';
 import { Icon } from './icons';
 

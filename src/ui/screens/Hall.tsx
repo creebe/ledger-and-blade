@@ -1,9 +1,9 @@
 import { dateLabel, upkeep, living, projectLedger, repayLoan, weeklyWages, type Dispatch, type GameState } from '../../engine';
 import { useStore } from '../../store';
-import { Btn, Empty, Section } from '../common';
-import { Icon } from '../icons';
-import { BuildingsSection } from '../Buildings';
-import { GuideCard } from '../Guide';
+import { Btn, Empty, Section } from '../kit/common';
+import { Icon } from '../kit/icons';
+import { BuildingsSection } from '../panels/Buildings';
+import { GuideCard } from '../panels/Guide';
 
 const KIND_ICON: Record<string, string> = { lore: 'book', crier: 'ear', story: 'quest', mission: 'scroll', economy: 'coin', politics: 'seal', roster: 'people', rival: 'hobbs', warning: 'warn', info: 'info' };
 // only warnings and the story get color; everything else is neutral

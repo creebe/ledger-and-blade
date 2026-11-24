@@ -18,13 +18,13 @@ import {
   type GameState,
   type Member,
   RIVALS,
-} from '../engine';
-import { useStore } from '../store';
-import { ChanceBar, FactionBadge, Seg, Sheet, TagChip, ThreatPips } from './common';
-import { chanceText, signed } from './format';
+} from '../../engine';
+import { useStore } from '../../store';
+import { ChanceBar, FactionBadge, Seg, Sheet, TagChip, ThreatPips } from '../kit/common';
+import { chanceText, signed } from '../kit/format';
 import { MemberMini } from './MemberSheet';
-import { Icon } from './icons';
-import { ap, APPROACHES, ApproachChip } from './visual';
+import { Icon } from '../kit/icons';
+import { ap, APPROACHES, ApproachChip } from '../kit/visual';
 
 /** Who is good at what: members × approaches, with the plan's approaches outlined. */
 function usePref(key: string, initial: string): [string, (v: string) => void] {

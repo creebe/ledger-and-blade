@@ -1,4 +1,7 @@
-// Prints a fingerprint of game behaviour: identical output before and after a refactor means nothing changed.
+// Behaviour fingerprint: plays 40 seeded games for 60 weeks with the balance bot
+// and hashes the final states. Run it before and after a refactor: an identical
+// hash means the game behaves exactly the same. Any change to rules, content or
+// randomness will (rightly) change it.
 import { createHash } from 'node:crypto';
 import { advanceWeek, newGame } from '../src/engine';
 import { botTurn } from './sim';

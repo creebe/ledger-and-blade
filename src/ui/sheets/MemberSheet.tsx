@@ -23,12 +23,12 @@ import {
   fameTier,
   FAME_TIERS,
   SIGNATURES,
-} from '../engine';
-import { useStore } from '../store';
-import { Btn, Meter, Sheet } from './common';
-import { cap, SLOT_LABEL } from './format';
-import { Icon } from './icons';
-import { ap, ItemIcon, ItemStats, PROFESSION_APPROACH, Portrait, readiness } from './visual';
+} from '../../engine';
+import { useStore } from '../../store';
+import { Btn, Meter, Sheet } from '../kit/common';
+import { cap, SLOT_LABEL } from '../kit/format';
+import { Icon } from '../kit/icons';
+import { ap, ItemIcon, ItemStats, PROFESSION_APPROACH, Portrait, readiness } from '../kit/visual';
 
 const STATUS_LABEL: Record<Member['status'], string> = {
   idle: 'At the hall',

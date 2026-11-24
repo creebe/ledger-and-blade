@@ -14,7 +14,9 @@
     "sim": "vite-node scripts/run-sim.ts",
     "story": "vite-node scripts/run-story.ts",
     "playthroughs": "vite-node scripts/playthrough.ts",
-    "style": "vite-node scripts/style-lint.ts"
+    "style": "vite-node scripts/style-lint.ts",
+    "fingerprint": "vite-node scripts/fingerprint.ts",
+    "check": "tsc --noEmit -p . && vitest run && vite-node scripts/run-story.ts && vite-node scripts/style-lint.ts"
   },
   "repository": {
     "type": "git",
