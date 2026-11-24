@@ -10,7 +10,7 @@
   --accent-ink: #fff8ec;
   --gold: #a07a1f;
   --good: #3d7a3a;
-  --mid: #b8641a;
+  --mid: #9a4f10;
   --bad: #a3321f;
   --info: #3a6a8c;
   --shadow: 0 1px 2px rgba(43, 33, 24, 0.12), 0 4px 14px rgba(43, 33, 24, 0.08);
@@ -882,7 +882,7 @@ details summary {
   font-weight: 700;
 }
 .mm-prof {
-  font-size: var(--fs-s);
+  font-size: var(--fs-xs);
   color: var(--muted);
 }
 .mm-bars {
@@ -1976,6 +1976,25 @@ details summary {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  min-width: 0;
+}
+/* a long profession or status ("Skirmisher", "Away · back in 3 wk") stays inside the card at 360 wide */
+.member-mini {
+  padding-left: 6px;
+  padding-right: 6px;
+}
+.member-mini > .row {
+  min-width: 0;
+  max-width: 100%;
+  flex-wrap: nowrap;
+  gap: 5px;
+}
+.mm-text .mm-name,
+.mm-text .mm-prof {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .score .icon {
   margin-bottom: 2px;
@@ -3099,6 +3118,34 @@ details summary {
   min-height: 100%;
   transform: translateY(-50%);
 }
+/* where small controls sit close together, the padding must not reach into a
+   neighbour, or a tap lands on the wrong control. Tags wrap in rows: grow the
+   row gap a little and pad each tag only into half of it. */
+.tags {
+  row-gap: 8px;
+}
+.tag::before {
+  top: -4px;
+  bottom: -4px;
+  height: auto;
+  min-height: 0;
+  transform: none;
+}
+/* matrix headers: pad upward only, never over the first member row */
+.th-btn::before {
+  top: auto;
+  bottom: 0;
+  transform: none;
+}
+/* an alert or a note that scrolls to a section stops below the fixed top bar */
+[data-guide] {
+  scroll-margin-top: calc(112px + env(safe-area-inset-top));
+}
+/* the top bar's Journal and Menu buttons win over the resource padding below them */
+.topbar .icon-btn {
+  position: relative;
+  z-index: 1;
+}
 
 /* the End Week bar: keep the check label on one line beside the notes nudge */
 .endweek-info {
@@ -3119,4 +3166,39 @@ details summary {
 }
 .resources.labelled {
   gap: 3px;
+}
+
+/* the toast keeps its centring while it rises in */
+.toast {
+  animation: toastrise 0.2s;
+}
+@keyframes toastrise {
+  from {
+    transform: translate(-50%, 30px);
+    opacity: 0;
+  }
+}
+/* order chip: a full-size hit area like the other small controls */
+.order-chip {
+  position: relative;
+  min-height: 34px;
+}
+.order-chip::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
+}
+/* "Influence" must fit under its number at 360 px */
+.resources.labelled .res-l {
+  letter-spacing: -0.03em;
+}
+/* planner: two columns on phones so professions and warnings like Exhausted are not cut */
+@media (max-width: 420px) {
+  .member-pick {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

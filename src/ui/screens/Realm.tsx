@@ -89,7 +89,7 @@ export function RealmScreen() {
         value={tab}
         onChange={setTab}
         options={[
-          { value: 'council', label: <span className="seg-l">Council{undecided ? <i className="seg-dot" aria-label={`${undecided} without a stance`} /> : null}</span> },
+          { value: 'council', label: <span className="seg-l">Council{undecided ? <i className="seg-dot" aria-label={`${undecided} decrees without a stance`} /> : null}</span> },
           { value: 'powers', label: 'Powers' },
           { value: 'rivals', label: <span className="seg-l">Rivals{plansToAnswer ? <i className="seg-dot" aria-label={`${plansToAnswer} plans revealed`} /> : null}</span> },
           { value: 'debt', label: 'The Debt' },

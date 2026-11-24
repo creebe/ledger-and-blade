@@ -104,14 +104,14 @@ export function ArmoryScreen() {
                         </div>
                         <Btn
                           className="btn small primary"
-                          blocked={g.crowns < price ? `Need ${price} crowns (you have ${g.crowns})` : undefined}
+                          blocked={g.crowns < price ? `Costs ${crowns(price)}, and the treasury holds ${crowns(g.crowns)}.` : undefined}
                           onClick={() =>
                             confirm({
                               title: `Buy ${def.name}?`,
-                              body: [owned ? `You already own ${owned}. It goes into Inventory; equip it from a member's Gear.` : "It goes into Inventory. Equip it from a member's Gear."],
+                              body: [owned ? `You already own ${owned}. It goes into Inventory. Equip it from a member's Gear.` : "It goes into Inventory. Equip it from a member's Gear."],
                               cost: `Costs ${crowns(price)} · treasury ${g.crowns} → ${g.crowns - price}`,
                               confirmLabel: 'Buy',
-                              onConfirm: () => act((d) => buyItem(d, id)) && notify(`Bought ${def.name} for ${crowns(price)}. It's in Inventory: equip it from a member's Gear.`),
+                              onConfirm: () => act((d) => buyItem(d, id)) && notify(`Bought ${def.name} for ${crowns(price)}. Equip it from a member's Gear.`),
                             })
                           }
                         >
@@ -195,14 +195,14 @@ export function ArmoryScreen() {
                 <div className="row gap">
                   <Btn
                     className="btn small ghost"
-                    blocked={g.crowns < materialPrice(g, m) * 5 ? `Need ${materialPrice(g, m) * 5} crowns (you have ${g.crowns})` : undefined}
+                    blocked={g.crowns < materialPrice(g, m) * 5 ? `Costs ${crowns(materialPrice(g, m) * 5)}, and the treasury holds ${crowns(g.crowns)}.` : undefined}
                     onClick={() =>
                       confirm({
                         title: `Buy 5 ${MATERIAL_INFO[m].name}?`,
-                        body: [`You have ${g.materials[m]}. Buying a lot at once pushes the price up.`],
+                        body: [`You have ${g.materials[m]} ${MATERIAL_INFO[m].name}. Buying a lot at once pushes the price up.`],
                         cost: `About ${crowns(materialPrice(g, m) * 5)} · treasury ${g.crowns}`,
                         confirmLabel: 'Buy 5',
-                        onConfirm: () => act((d) => buyMaterial(d, m, 5)),
+                        onConfirm: () => act((d) => buyMaterial(d, m, 5)) && notify(`Bought 5 ${MATERIAL_INFO[m].name}. You now have ${g.materials[m] + 5}.`),
                       })
                     }
                   >

@@ -127,7 +127,7 @@ export function HallScreen() {
           <button className="loan-line tappable" onClick={() => goTo({ tab: 'hall', guide: 'debt' })}>
             <Icon name="seal" size={14} />
             <span>
-              Loan: {crowns(Math.ceil(loan.principal))} owed · {crowns(loan.paymentDue)} due {loan.dueWeek <= g.week ? 'this week' : `in ${weeks(loan.dueWeek - g.week)}`}
+              Loan: {crowns(Math.ceil(loan.principal))} owed · {crowns(loan.paymentDue)} due {loan.dueWeek <= g.week ? 'this week' : loan.dueWeek === g.week + 1 ? 'next week' : `in ${weeks(loan.dueWeek - g.week)}`}
             </span>
           </button>
         )}
@@ -180,18 +180,18 @@ export function HallScreen() {
           <>
             <p>
               You owe the Weighhouse <b>{crowns(Math.ceil(loan.principal))}</b> at {Math.round(loan.weeklyRate * 100)}% interest per week. Next payment: <b>{crowns(loan.paymentDue)}</b>{' '}
-              {loan.dueWeek === g.week ? 'at the end of this week' : `in ${weeks(loan.dueWeek - g.week)}`}.
+              {loan.dueWeek === g.week ? 'at the end of this week' : loan.dueWeek === g.week + 1 ? 'next week' : `in ${weeks(loan.dueWeek - g.week)}`}.
             </p>
             <div className="row wrap gap">
               {[50, 100, 250].map((n) => (
                 <Btn
                   key={n}
                   className="btn ghost small"
-                  blocked={g.crowns < n ? `Need ${n} crowns (you have ${g.crowns})` : undefined}
+                  blocked={g.crowns < n ? `Costs ${crowns(n)}, and the treasury holds ${crowns(g.crowns)}.` : undefined}
                   onClick={() =>
                     useStore.getState().confirm({
                       title: `Repay ${n} crowns early?`,
-                      body: [`Your debt falls from ${Math.ceil(loan.principal)} to ${Math.ceil(loan.principal - n)}, saving about ${crowns(Math.round(n * loan.weeklyRate * 10) / 10)} interest every week.`, `Make sure you can still cover wages: ${crowns(weeklyWages(g) + upkeep(g))} a week.`],
+                      body: [`Your debt falls from ${Math.ceil(loan.principal)} to ${Math.ceil(loan.principal - n)}, saving about ${crowns(Math.round(n * loan.weeklyRate * 10) / 10)} interest every week.`, `Make sure you can still cover weekly costs: ${crowns(weeklyWages(g) + upkeep(g))}.`],
                       cost: `Treasury ${g.crowns} → ${g.crowns - n}`,
                       confirmLabel: `Repay ${n}`,
                       onConfirm: () => act((d) => repayLoan(d, n)),

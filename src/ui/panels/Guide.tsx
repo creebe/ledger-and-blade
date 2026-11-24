@@ -20,7 +20,7 @@ export function useCollect() {
 
 export function ReadyNote({ o, collecting, onCollect }: { o: Objective; collecting: boolean; onCollect: () => void }) {
   return (
-    <div className={`objective ready ${collecting ? 'collecting' : ''}`} role="button" tabIndex={0} onClick={onCollect} onKeyDown={(e) => e.key === 'Enter' && onCollect()}>
+    <div className={`objective ready ${collecting ? 'collecting' : ''}`} role="button" tabIndex={0} onClick={onCollect} onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), onCollect())}>
       <span className="obj-box done" aria-hidden>
         <Icon name="check" size={14} />
       </span>
@@ -64,7 +64,7 @@ export function GuideCard({ compact, force }: { compact?: boolean; force?: boole
         <ReadyNote key={o.id} o={o} collecting={collecting === o.id} onCollect={() => collect(o)} />
       ))}
       {v.active.map((o, i) => (
-        <div key={o.id} className={`objective tappable ${i === 0 && !v.ready.length ? 'first' : ''}`} role="button" tabIndex={0} onClick={() => showMe(o)} onKeyDown={(e) => e.key === 'Enter' && showMe(o)}>
+        <div key={o.id} className={`objective tappable ${i === 0 && !v.ready.length ? 'first' : ''}`} role="button" tabIndex={0} onClick={() => showMe(o)} onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), showMe(o))}>
           <span className="obj-box" aria-hidden />
           <div className="card-main">
             <b>{o.title}</b>

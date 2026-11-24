@@ -67,7 +67,12 @@ export function RosterScreen() {
               role="button"
               tabIndex={0}
               onClick={() => open({ kind: 'member', id: m.id })}
-              onKeyDown={(e) => e.key === 'Enter' && open({ kind: 'member', id: m.id })}
+              onKeyDown={(e) => {
+                // only the row itself: Enter on the order chip inside must not open the member sheet too
+                if (e.target !== e.currentTarget || (e.key !== 'Enter' && e.key !== ' ')) return;
+                e.preventDefault();
+                open({ kind: 'member', id: m.id });
+              }}
             >
               <div className="card-row" style={{ alignItems: 'center' }}>
                 <Portrait m={m} size={40} />

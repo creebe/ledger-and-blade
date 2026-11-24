@@ -63,7 +63,7 @@ function MissionTrack({ m, g }: { m: Mission; g: GameState }) {
           <span className="meta">
             <Icon name={m.report ? 'scroll' : 'road'} size={14} />
             {short}
-            {m.report ? ' · read the journal' : ''}
+            {m.report ? ' · read the report' : ''}
           </span>
         </span>
         <span className="mission-row-dots" aria-hidden>

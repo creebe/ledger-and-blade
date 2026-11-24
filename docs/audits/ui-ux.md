@@ -574,3 +574,23 @@ All are in `docs/audits/ui-ux/`, at 390×844 and deviceScaleFactor 2, dark theme
 | `endweek-toast-covers-warning.jpg` | The toast hides the only warning |
 | `week-report.jpg` | Two-line title, red routine supplies, hyphen minus |
 | `icon-collisions.jpg` | Every duplicate and look-alike icon, drawn from `icons.tsx` |
+
+### After v0.11.0
+
+These are in `docs/audits/ui-ux/after/`, at 390×844 and deviceScaleFactor 2.
+
+| File | Shows |
+|---|---|
+| `hall-week1.jpg` | Resource labels in the first season, lining numerals, the notes checklist icon |
+| `hall-mid.jpg` | A tappable alert, the loan line, real minus signs, no repeated date |
+| `contracts-mid.jpg`, `contracts-light.jpg` | Gold for Story only, orange odds, the bookmark icon, "3 wk" |
+| `contracts-late.jpg` | Squads in the field as one-line rows, so the Board is on the first screen |
+| `planner-best.jpg` | The Best squad button |
+| `planner-buy-supplies.jpg` | The footer offers to buy the missing supplies |
+| `roster-mid.jpg`, `orders-sheet.jpg` | Order chips on each row, and the orders sheet |
+| `member-top.jpg` | Weekly orders right under the vitals |
+| `armory-confirm.jpg` | Buying supplies asks first |
+| `realm-council.jpg`, `realm-rivals.jpg` | Realm sub-tabs, with a dot on Council |
+| `week-report.jpg` | The new title and neutral supplies |
+| `scene.jpg` | A scene in the late game |
+

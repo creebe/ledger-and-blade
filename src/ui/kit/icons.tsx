@@ -91,8 +91,6 @@ const P: Record<string, string> = {
   menu: 'M4 7h16 M4 12h16 M4 17h16',
   chevron: 'M9 6l6 6l-6 6',
   quest: 'M7 3h10v18l-5-4l-5 4z',
-  sun: 'M12 8a4 4 0 1 0 0 8a4 4 0 1 0 0-8 M12 2v2 M12 20v2 M2 12h2 M20 12h2 M4.9 4.9l1.4 1.4 M17.7 17.7l1.4 1.4 M4.9 19.1l1.4-1.4 M17.7 6.3l1.4-1.4',
-  moon: 'M15 3.5A8.5 8.5 0 1 0 20.5 15A7 7 0 0 1 15 3.5z',
   // added in v0.11: one meaning per drawing
   fame: 'M8 20c-3-3-4-7-2-12 M16 20c3-3 4-7 2-12 M6 12l-2-1 M6.5 15.5l-2 0 M18 12l2-1 M17.5 15.5l2 0 M7 8.5l-1.5-1.5 M17 8.5l1.5-1.5',
   guard: 'M12 3l7 3v5c0 5-3 8-7 10c-4-2-7-5-7-10V6z M9 12l2 2l4-4',

@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { PROFESSIONS, setAssignment, trainCost, trainWeeks, type Assignment, type Attribute, type Member } from '../../engine';
 import { useStore } from '../../store';
-import { cap } from './format';
+import { cap, crowns } from './format';
 import { Icon } from './icons';
 import { Portrait, readiness } from './visual';
 
@@ -88,7 +88,7 @@ export function OrderPicker({ m, onChosen }: { m: Member; onChosen?: (a: Assignm
               <Icon name={ORDER_ICON[a.id]} size={18} />
               <span className="card-main">
                 <b>{a.label}</b>
-                <small style={{ display: 'block' }}>{a.id === 'train' ? `+1 to an attribute every ${trainWeeks(game)} weeks. Costs ${trainCost(game)} crowns a week and adds fatigue.` : a.blurb}</small>
+                <small style={{ display: 'block' }}>{a.id === 'train' ? `+1 to an attribute every ${trainWeeks(game)} weeks. Costs ${crowns(trainCost(game))} a week and adds fatigue.` : a.blurb}</small>
               </span>
             </span>
           </button>
