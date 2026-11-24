@@ -8,7 +8,7 @@ You check that Ledger & Blade stays "hard but fair": a careful, calculating play
 
 ## Targets
 
-- **Overall:** the careful bot's (`minChance 0.65`) first-year survival should be about 55–65%.
+- **Overall:** the careful bot's (`minChance 0.65`) first-year survival should be about 65–75%.
 - **Starts:** each backer and each start circumstance should be within about ±8 points of the overall rate. Use `runSim(...).byStart` in `scripts/sim.ts`.
 - **Legends:** about one Legend per campaign by the end of year two, and rarely before week 50.
 - **Guild wars:** about a third of passive games reach a feud in year one. Open war is rare unless the player escalates.
