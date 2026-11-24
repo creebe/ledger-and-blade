@@ -13,7 +13,8 @@ You review the UI of Ledger & Blade, a portrait-first game played on phones. Rea
    - good, warning and bad states (`--good`, `--mid`, `--bad`);
    - selection and the accent;
    - element badges;
-   - faction and rival sigil dots.
+   - faction and rival sigil dots;
+   - resource icons (`--res-*`, icons only; numbers keep state colors).
    Everything else is neutral, with no new decorative colors. Colors come from the tokens in `:root`, and both themes work: dark by default, and light.
 3. **Cards.** Tappable things are raised with a chevron (`.tappable`), and static panels are flat. Nothing looks tappable that isn't.
 4. **Actions.**

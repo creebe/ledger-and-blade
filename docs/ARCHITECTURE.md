@@ -11,12 +11,13 @@ src/
     economy/         contract board, market, items, buildings
     politics/        Council, faction perks
     rivals/          rival AI and guild wars
-    story/           scenes engine, Codex and street talk, Guildmaster's Notes
-    data/            content: contracts, scenes, items, factions, starts, ...
+    story/           scenes engine, Codex and street talk, Guildmaster's Notes, Dates
+    data/            content: contracts, scenes, items, factions, starts, Dates, ...
     actions.ts       everything the player can do
     index.ts         the engine's public surface (the UI imports only this)
   ui/
-    kit/             shared building blocks: Sheet, Btn, icons, visuals, theme
+    kit/             shared building blocks: Sheet, Btn, HoldButton, Toast, icons, visuals, theme,
+                     formatting, navigation (goTo) and shortfalls (what you're short of, and where to get it)
     screens/         the five tabs, plus the title and new-guild screens
     sheets/          full-height sheets: planner, member, journal, scenes, reports, menus
     panels/          panels embedded in screens: buildings, Council, notes
@@ -38,10 +39,11 @@ docs/                design doc, story bible, reports, playthroughs
    4. `economyPhase`
    5. `memberPhase`
    6. `politicsPhase`
-   7. `clocksPhase`
-   8. `closeLedger`
-   9. `checkGameOver`
-   10. `startNewWeek`, which brings new recruits, refreshes the board and market, plans rival moves and triggers scenes
+   7. `datesPhase` (a Date is called off, or arrives and resolves)
+   8. `clocksPhase`
+   9. `closeLedger`
+   10. `checkGameOver`
+   11. `startNewWeek`, which brings new recruits, refreshes the board and market, plans rival moves, triggers scenes and sets the next Date
 3. Scenes wait in `pendingEvents` until the player answers them. They are resolved by `resolveEvent()` in `engine/story/scenes.ts`.
 
 ## The core modules
