@@ -27,7 +27,7 @@ Fewer taps for the things you do every week, and colors, icons and type that mea
   - iOS Safari.
   - The balance sim, because no numbers changed.
 - Still open: while a sheet is open, the notice covers its title for about 3 seconds. In the light theme, the warning orange is still fairly close to the bad red.
-- Not live.
+- **Live** (republished on the owner's word, 2026-11-24).
 
 ## v0.10.2 (2026-11-24): A little more pay
 Every contract pays about 10% more, which makes the first year a little more forgiving. The owner asked to ease difficulty back toward where it was before the new cast and rivals: "Yes, please ease it back toward 70%."
