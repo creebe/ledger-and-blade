@@ -45,6 +45,16 @@ export const OBJECTIVES: Objective[] = [
     reward: { intel: 1 },
   },
   {
+    id: 'look_ahead',
+    chapter: 'First steps',
+    title: 'Look at the next Date',
+    how: 'Tap the Date under the week in the top bar to see what it asks for and what it pays.',
+    why: 'A Date is a few weeks off. Meeting its targets pays, and missing one costs.',
+    tab: 'hall',
+    done: (s) => n(s, 'dates') > 0,
+    reward: { crowns: 10 },
+  },
+  {
     id: 'end_week',
     chapter: 'First steps',
     title: 'End the week',

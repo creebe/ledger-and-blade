@@ -48,6 +48,7 @@ export function canLobby(s: GameState, item: AgendaItem, f: CouncilFaction): str
 export function setPosition(s: GameState, decreeId: string, stance: Stance): string | undefined {
   const item = s.council.agenda.find((a) => a.id === decreeId);
   if (!item) return 'Not on the agenda';
+  if (s.council.voteWeek === s.week && stance !== item.player) return 'Stances are locked in the week of the vote.';
   item.player = stance;
   if (stance) track(s, 'stance');
   return undefined;

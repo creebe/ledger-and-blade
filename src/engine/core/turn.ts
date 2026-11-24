@@ -3,7 +3,7 @@ import { councilNewWeek, weeklyCouncil } from '../politics/council';
 import { discoverLore, weeklyCrier, weeklyJory } from '../story/codex';
 import { denIntel, healBonus, level, trainCost, trainWeeks, upkeep, weeklyWorkshop } from '../economy/buildings';
 import { triggerEvents } from '../story/scenes';
-import { datesPhase, scheduleDates } from '../story/dates';
+import { dateWarning, datesPhase, scheduleDates } from '../story/dates';
 import { resolveMission } from '../missions/missions';
 import { executeRival, planRival } from '../rivals/rival';
 import { weeklyWar } from '../rivals/war';
@@ -61,6 +61,8 @@ export function endWeekWarnings(s: GameState): string[] {
   if (due && s.crowns - weeklyWages(s) - upkeep(s) < due.paymentDue) w.push(`You can't cover this week's loan payment of ${due.paymentDue} crowns.`);
   if (s.crowns - weeklyWages(s) - upkeep(s) < 0) w.push('Wages and upkeep will put you in the red.');
   const expiring = s.board.filter((c) => c.expiresWeek === s.week);
+  const dw = dateWarning(s);
+  if (dw) w.push(dw);
   if (expiring.length) w.push(expiring.length === 1 ? '1 contract expires this week.' : `${expiring.length} contracts expire this week.`);
   return w;
 }

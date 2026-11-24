@@ -236,10 +236,10 @@ describe('engine', () => {
     const missed = newGame(42);
     missed.week = missed.dates.current!.dueWeek;
     missed.crowns = 0;
-    const standing = missed.factions.weighhouse.standing;
+    const renown = missed.renown;
     datesPhase(missed);
     expect(missed.dates.past.at(-1)!.outcome).toBe('missed');
-    expect(missed.factions.weighhouse.standing).toBe(standing - 5);
+    expect(missed.renown).toBe(renown - 2);
 
     // the next week a new Date is set, and it's the one that was in view
     const expected = met.dates.next;
@@ -251,11 +251,10 @@ describe('engine', () => {
 
   it('Dates: the story can call one off before it arrives', () => {
     const s = newGame(43);
-    s.eventWeeks.silver_summons = 1;
-    s.dates.current = { id: 'treasurer_visit', dueWeek: s.week + 5, setWeek: s.week, targets: DATE_BY_ID.treasurer_visit.targets(s), base: { renown: 0, principal: 0, missed: 0 } };
-    s.flags.silver_lost = true;
+    s.dates.current = { id: 'porters_feast', dueWeek: s.week + 5, setWeek: s.week, targets: DATE_BY_ID.porters_feast.targets(s), base: { renown: 0, principal: 0, missed: 0 } };
+    s.clocks.unrest = 90;
     datesPhase(s);
-    expect(s.dates.past.at(-1)).toMatchObject({ id: 'treasurer_visit', outcome: 'cancelled' });
+    expect(s.dates.past.at(-1)).toMatchObject({ id: 'porters_feast', outcome: 'cancelled' });
     expect(s.dispatches.at(-1)!.title).toContain('called off');
   });
 
@@ -353,6 +352,33 @@ describe('engine', () => {
     const g = migrateSave(s as never)!;
     expect(g.version).toBe(SAVE_VERSION);
     expect(g.dates.current).toBeDefined();
+  });
+
+  it('Dates ask only for what the guild can reach, and say which target failed', () => {
+    const s = newGame(45);
+    clearEvents(s);
+    // the Muster never asks for more members than the hall holds
+    const muster = DATE_BY_ID.muster.targets(s)[0] as { count: number };
+    expect(muster.count).toBeLessThanOrEqual(7);
+    // a Lower Town target is a few points above where the guild stands, however low that is
+    s.factions.lowertown.standing = -40;
+    const fair = DATE_BY_ID.oda_fair.targets(s)[1] as { at: number };
+    expect(fair.at).toBeLessThanOrEqual(-30);
+    // a missed Date names the target that failed
+    s.week = s.dates.current!.dueWeek;
+    s.crowns = 0;
+    datesPhase(s);
+    expect(s.dispatches.at(-1)!.body.some((l) => l.startsWith('Not met:'))).toBe(true);
+  });
+
+  it('Council stances lock in the week of the vote', () => {
+    const s = newGame(46);
+    s.council.agenda = [{ id: 'grain_levy', base: { exchequer: 1, weighhouse: 0, ostranders: 1, lowertown: -1 }, positions: { exchequer: 1, weighhouse: 0, ostranders: 1, lowertown: -1 }, player: 0 }];
+    s.council.voteWeek = s.week + 1;
+    expect(setPosition(s, 'grain_levy', 1)).toBeUndefined();
+    s.week += 1;
+    expect(setPosition(s, 'grain_levy', -1)).toBeTruthy();
+    expect(s.council.agenda[0].player).toBe(1);
   });
 
   it('old saves are upgraded', () => {
@@ -522,7 +548,7 @@ describe('engine', () => {
     s.council.agenda = [{ id: 'grain_levy', base: { exchequer: 1, weighhouse: 0, ostranders: 1, lowertown: -1 }, positions: { exchequer: 1, weighhouse: 0, ostranders: 1, lowertown: -1 }, player: 0 }];
     s.history.push({ id: 'x' } as never);
     s.week = 2;
-    for (const k of ['dispatch', 'why', 'assign', 'equip', 'journal', 'reveal', 'countered', 'supplies', 'petition', 'spy', 'stance', 'hire', 'build', 'craft', 'repay']) s.tutorial.counters[k] = 1;
+    for (const k of ['dispatch', 'dates', 'why', 'assign', 'equip', 'journal', 'reveal', 'countered', 'supplies', 'petition', 'spy', 'stance', 'hire', 'build', 'craft', 'repay']) s.tutorial.counters[k] = 1;
     const before = s.crowns;
     const done = checkTutorial(s);
     expect(done.length).toBe(OBJECTIVES.length);

@@ -83,6 +83,7 @@ function DecreeCard({ g, item }: { g: GameState; item: AgendaItem }) {
           <b>{verdict}</b> ({t.votesFor}–{t.votesAgainst})
         </span>
       </div>
+      {g.council.voteWeek === g.week && <p className="tiny muted">The vote is at the end of this week. Stances are locked.</p>}
       <Seg
         value={String(item.player)}
         onChange={(v) => act((s) => setPosition(s, item.id, Number(v) as Stance))}

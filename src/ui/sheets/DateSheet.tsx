@@ -1,4 +1,5 @@
-import { currentDate, DATE_BY_ID, nextDate, projectLedger, stakesLines } from '../../engine';
+import { useEffect } from 'react';
+import { currentDate, DATE_BY_ID, nextDate, projectLedger, stakesLines, track } from '../../engine';
 import { useStore } from '../../store';
 import { Sheet } from '../kit/common';
 import { crowns, shortDate } from '../kit/format';
@@ -9,6 +10,11 @@ import { DateCard } from '../panels/DateCard';
 export function DateSheet() {
   const g = useStore((s) => s.game)!;
   const c = currentDate(g);
+  // looking at the Dates completes a Guildmaster's Note
+  useEffect(() => {
+    if (!g.tutorial?.counters.dates) useStore.getState().act((d) => void track(d, 'dates'));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const next = nextDate(g);
   const past = [...g.dates.past].reverse().slice(0, 8);
   const hasCrowns = c?.active.targets.some((t) => t.kind === 'crowns' || t.kind === 'loanPaid');

@@ -25,20 +25,23 @@ function lastSet(s: GameState, id: string) {
   return runs.length ? runs[runs.length - 1].week : undefined;
 }
 
-/** Whether a Date could be set this week (ignoring which one is current). */
-function eligible(s: GameState, d: DateDef): boolean {
-  if (!d.available(s) || !npcsAlive(s, d)) return false;
+/**
+ * Whether a Date could be set in week `from` (this week by default; the week
+ * after the current Date when choosing the one to show next).
+ */
+function eligible(s: GameState, d: DateDef, from = s.week): boolean {
+  if (!d.available(s) || !npcsAlive(s, d) || d.cancel?.when(s)) return false;
   const last = lastSet(s, d.id);
-  if (last !== undefined && (d.once || s.week - last < (d.cooldown ?? 24))) return false;
+  if (last !== undefined && (d.once || from - last < (d.cooldown ?? 24))) return false;
   if (d.due) {
     const due = d.due(s);
-    if (due === undefined || due - s.week < MIN_LEAD) return false;
+    if (due === undefined || due - from < MIN_LEAD) return false;
   }
   return true;
 }
 
-function pickDate(s: GameState, exclude?: string): DateDef | undefined {
-  const pool = DATES.filter((d) => d.id !== exclude && eligible(s, d));
+function pickDate(s: GameState, exclude?: string, from = s.week): DateDef | undefined {
+  const pool = DATES.filter((d) => d.id !== exclude && eligible(s, d, from));
   if (!pool.length) return undefined;
   const ordered = pool.filter((d) => d.order !== undefined).sort((a, b) => a.order! - b.order!);
   if (ordered.length) return ordered[0];
@@ -67,7 +70,10 @@ export function scheduleDates(s: GameState) {
     s.dates.current = d ? setDate(s, d) : undefined;
     s.dates.next = undefined;
   }
-  if (!s.dates.next || s.dates.next === s.dates.current?.id) s.dates.next = pickDate(s, s.dates.current?.id)?.id;
+  // the Date shown next must still be possible once the current one is over; check it every week
+  const from = (s.dates.current?.dueWeek ?? s.week) + 1;
+  const queued = s.dates.next ? DATE_BY_ID[s.dates.next] : undefined;
+  if (!queued || queued.id === s.dates.current?.id || !eligible(s, queued, from)) s.dates.next = pickDate(s, s.dates.current?.id, from)?.id;
 }
 
 /** At the end of the week: a twist may call the Date off; on its week it resolves. */
@@ -89,10 +95,17 @@ export function datesPhase(s: GameState) {
     return;
   }
   if (s.week < a.dueWeek) return;
-  const met = a.targets.every((t) => targetMet(s, a, t, true));
+  const views = dateTargets(s, a);
+  const failed = a.targets.map((t, i) => (targetMet(s, a, t, true) ? undefined : views[i])).filter(Boolean) as DateTargetView[];
+  const met = failed.length === 0;
   const stakes = met ? d.reward : d.cost;
   applyStakes(s, stakes);
-  addDispatch(s, 'date', `${d.title}: ${met ? 'met' : 'missed'}`, [met ? d.met : d.missed, stakesLines(stakes).join(' · ')].filter(Boolean));
+  addDispatch(
+    s,
+    'date',
+    `${d.title}: ${met ? 'met' : 'missed'}`,
+    [met ? d.met : d.missed, ...failed.map((v) => `Not met: ${v.label} (${v.now}).`), stakesLines(stakes).join(' · ')].filter(Boolean),
+  );
   s.dates.past.push({ id: a.id, week: s.week, outcome: met ? 'met' : 'missed' });
   s.dates.current = undefined;
 }
@@ -104,9 +117,22 @@ function paidSince(s: GameState, week: number) {
 }
 
 const weeklyCosts = (s: GameState) => living(s).reduce((n, m) => n + m.wage, 0) + upkeep(s);
+/** What the end of this week will take from the treasury: wages, upkeep and any loan payment due. */
+const billsThisWeek = (s: GameState) => weeklyCosts(s) + s.loans.reduce((n, l) => n + (l.dueWeek === s.week ? l.paymentDue : 0), 0);
+
+/** Targets of the current Date not met yet, for the end-week warnings on the day it arrives. */
+export function dateWarning(s: GameState): string | undefined {
+  const a = s.dates?.current;
+  if (!a || a.dueWeek !== s.week) return undefined;
+  const d = DATE_BY_ID[a.id];
+  const short = a.targets.filter((t) => !targetMet(s, a, t, false)).length;
+  if (!d || !short) return undefined;
+  return `${d.title} arrives at the end of this week, and ${short === 1 ? 'one target is' : `${short} targets are`} not met yet.`;
+}
 
 function contractsSince(s: GameState, week: number) {
-  return s.history.filter((m) => m.returnWeek >= week && m.report && SUCCESS.includes(m.report.tier)).length;
+  // operations against rivals are not the kind of work the Crown lists
+  return s.history.filter((m) => m.returnWeek >= week && !m.contract.op && m.report && SUCCESS.includes(m.report.tier)).length;
 }
 
 /**
@@ -122,9 +148,10 @@ function targetMet(s: GameState, a: ActiveDate, t: DateTarget, final: boolean): 
       // wages and upkeep are paid before the loan, so count them first
       return loan.missed === a.base.missed && (loan.dueWeek > a.dueWeek || s.crowns - weeklyCosts(s) >= loan.paymentDue);
     case 'crowns':
-      return s.crowns >= t.at;
+      // on the day itself, forecast what's left after this week's bills
+      return (final || s.week < a.dueWeek ? s.crowns : s.crowns - billsThisWeek(s)) >= t.at;
     case 'supplies':
-      return s.supplies >= t.at;
+      return (final || s.week < a.dueWeek ? s.supplies : s.supplies - living(s).filter((m) => m.status !== 'mission').length) >= t.at;
     case 'renownGain':
       return s.renown - a.base.renown >= t.gain;
     case 'renownAbove':

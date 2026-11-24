@@ -159,22 +159,22 @@ A **Date** is a day on the guild's calendar, three to six weeks ahead, that the 
 - **Order.** The first two Dates always come in this order, and after that they're chosen by weight from the ones available:
   1. *The Weighhouse Collects* (the loan's first due week);
   2. *The Exchequer's List*.
-- **Not a story beat.** A Date never fires a scene and sets no facts. It only reads facts and reports.
+- **Not a story beat.** A Date never fires a scene and sets no facts. It only reads facts and reports. A missed Date says which target failed.
 
 | Date | Who | Available when | Targets | Twist |
 |---|---|---|---|---|
 | The Weighhouse Collects | Coster's clerk | Week 1–2, a loan exists | Pay on the day; a week's costs left after | — |
-| The Exchequer's List | Fenn's office | By week 9 | 2 successful contracts; +4 Renown | — |
-| The Council Votes | The Council | An agenda is posted | Back the winning side of one decree | — |
-| The Lord Treasurer Visits | Fenn | After `silver_summons`, silver not lost | Exchequer ≥ 10; Heat < 30 | Put off if `silver_lost` (worded about the silver, so `quarter_day` still breaks the news of the default) |
+| The Exchequer's List | Fenn's office | By week 9 | 2 successful contracts (not operations); +4 Renown | — |
+| The Council Votes | The Council | An agenda is posted | Back the winning side of one decree (stances lock in the vote week) | — |
+| The Lord Treasurer Visits | Fenn | `silver_delivered` | Exchequer ≥ 10; Heat < 30 | — |
 | Ostrander's Reads the Books | Vorn | `ostranders_open`, week 8+ | A healthy balance; Heat < 40 | — |
 | Saint Oda's Fair | Brune | `met_oda` | 30 supplies, 15 of them given; Lower Town standing up | — |
-| The Exchequer's Auditors | The Exchequer | Heat ≥ 20 | Bring Heat down by about 10 | — |
+| The Exchequer's Auditors | The Exchequer | Heat ≥ 20 | Bring Heat down by 8 | — |
 | The Porters' Feast | Porters' Fraternity | Week 8+, Unrest < 80 | Lower Town standing up | Called off if Unrest ≥ 85 |
 | The Weighhouse Reviews the Note | Coster | Week 14+, 200+ owed | Pay the Weighhouse 100, due payments included | Called off if Coster is gone |
-| The Muster on the Green | The Crown's muster officers | Week 10+ | More members; 2 at level 3+ | — |
+| The Muster on the Green | The Crown's muster officers | Week 10+ | One more member, within the hall's room; 2 at level 3+ | — |
 | Before the Snow | Jory | Autumn, weeks 1–8 | Four weeks of food in store | — |
-| Marta Hobb's Wager | Marta | Week 12+, the Hobbs active | Renown above the Hobbs' | Called off if Marta dies |
+| Marta Hobb's Wager | Marta | Week 12+, the Hobbs active, not at open war | Renown above the Hobbs' | Called off if Marta dies or the feud turns to open war |
 
 **Writing.** A Date's text is one or two sentences in the narrator's voice. It says who is coming and what they will judge, and never explains the world. Jory only ever makes remarks. The met and missed lines report what happened, in the dry register of the week report, and promise nothing the stakes don't give.
 
