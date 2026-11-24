@@ -31,7 +31,7 @@ Every story change goes through these checks. None of them are optional.
 - **The Debt (Canon).** Twenty-two years ago King Aldric's army lost the war at **Cassel Ford**. The peace treaty obliges the realm to repay roughly **four million crowns** to **Ostrander's**, a foreign bank that financed the victors. It is paid in quarterly installments. If the Crown misses a payment, the treaty lets the bank **collect however it likes**: seize tolls, close the river, call in collateral.
 - **What has been sold already (Canon):** the crown forests, the river tolls (now Ostrander's), half the royal plate, the Exchequer's tapestries.
 - **Varrow (Canon):** the capital. A river port with a chain across the river where tolls are collected. The **Lower Town** lies below the walls: docks, porters, small trades. **Anvil Row** has the armorers, **Tallow Street** has the guild's hall, and the **Copper Kettle** is a tavern.
-- **Places (Canon):** Drover's Road (cattle road, hills east), Harrowmere (lake town with an old bridge), Kell Mines (silver, partly flooded), the Saltfens (estuary marshes, reagents, fever), Port Anselm (coast; Ostrander's ships take the Crown's silver here), Wenmouth ford (on the road to Anselm).
+- **Places (Canon):** Drover's Road (cattle road, hills east), Harrowmere (lake town with an old bridge), Kell Mines (silver, partly flooded), the Saltfens (estuary marshes, reagents, fever), Port Anselm (coast; Ostrander's ships take the Crown's silver here), Wenmouth ford (on the road to Anselm), and **the green** below the walls, where fairs and the Crown's muster are held.
 - **Magic (Canon):** common, and practised like a science or trade. It is studied at **the college**, licensed by the **Assay Office**, sold by the dose (reagents), and keyed to elements: fire, frost, storm, radiant, shadow. It is powerful but never free. **There is no supernatural plot.** Magic is part of the economy, not a mystery.
 - **Tone (Canon):** in between. Grounded, human-scale politics and money; morally grey choices; dry humor. Nobody is purely evil. The bank is doing what banks do.
 
@@ -81,12 +81,6 @@ Every faction and rival has a face. Each character has a want that is reasonable
 | `aske` | **Lady Honora Aske**, the Fourteen | Head of a founding family; castle pledged to the bank | Charming and careless with money | Asks you to move the family silver before the assessors arrive. |
 | `jory` | **Jory Abbot**, the guild | The hall's clerk through three guildmasters | Dry; gives advice only as remarks | Remarks in the week report ("In the hall"). Asks how to record the dead. |
 
----|---|---|---|---|
-| `vorn` | **Factor Maelis Vorn**, Ostrander's | The bank's chief factor in Varrow | Cool, precise, never raises her voice; honest in a way that's worse than lying | Offers the guild bank work. May let slip that the bank wants to draft the next treaty. Knows the silver convoy's route. |
-| `fenn` | **Lord Treasurer Aubrey Fenn**, Exchequer | Runs the treasury | Tired, decent, dry; out of options and knows it | Commissions the guild to carry the Crown's silver. Can come to trust the guild. |
-| `marta` | **Marta Hobb**, Hobb & Daughters | Matriarch of the firm, collecting for 30 years | Pleasant, grandmotherly, utterly ruthless; carries an umbrella as a walking stick | Offers to buy a quarter share of the guild's income. |
-| `isbet` | **Isbet Hobb** | Marta's eldest daughter and heir | Silent; prices everything she looks at | Present at Marta's visit. *(Draft: becomes a rival in her own right.)* |
-| `dagny` | **Dagny Fell**, Porters' Fraternity | A carrier with a porter's hook on her belt | Blunt, suspicious of charity, loyal once won | Meets the guild if it feeds the riot. Becomes a contact (Intel) or a friend. |
 
 ---
 
@@ -156,6 +150,34 @@ See `EXCLUSIVE_FACTS` in `facts.ts`. Besides the silver pairs: the three riot ou
 
 Not story beats: they fire for squads on the road (`src/engine/data/field.ts`) and are covered by the story checker. Characters who can appear: **Isbet Hobb** leads the rival squad in *Hobb's People on the Road* (attitude falls if you sabotage her camp). The arrival report is written from what the squad can see; it never reveals anything the mission wouldn't.
 
+## 5c. Dates (Canon)
+
+A **Date** is a day on the guild's calendar, three to six weeks ahead, that the player prepares for in one sitting. One Date is always current, and the next is already in view ("After that"). Content is in `src/engine/data/dates.ts`, and the rules are in `src/engine/story/dates.ts`.
+
+- **How one resolves.** At the end of its week, every target met pays its reward. Anything less applies its cost. Either way the week report shows a dispatch ("…: met" or "…: missed").
+- **Twists.** A twist is checked every week until the Date arrives. When the story moves, a Date can be called off (`cancel`). A Date is also called off if a character it names is no longer alive. A called-off Date leaves a dispatch ("…: called off"), and the next one moves up.
+- **Order.** The first two Dates always come in this order, and after that they're chosen by weight from the ones available:
+  1. *The Weighhouse Collects* (the loan's first due week);
+  2. *The Exchequer's List*.
+- **Not a story beat.** A Date never fires a scene and sets no facts. It only reads facts and reports.
+
+| Date | Who | Available when | Targets | Twist |
+|---|---|---|---|---|
+| The Weighhouse Collects | Coster's clerk | Week 1–2, a loan exists | Pay on the day; a week's costs left after | — |
+| The Exchequer's List | Fenn's office | By week 9 | 2 successful contracts; +4 Renown | — |
+| The Council Votes | The Council | An agenda is posted | Back the winning side of one decree | — |
+| The Lord Treasurer Visits | Fenn | After `silver_summons`, silver not lost | Exchequer ≥ 10; Heat < 30 | Put off if `silver_lost` (worded about the silver, so `quarter_day` still breaks the news of the default) |
+| Ostrander's Reads the Books | Vorn | `ostranders_open`, week 8+ | A healthy balance; Heat < 40 | — |
+| Saint Oda's Fair | Brune | `met_oda` | 30 supplies, 15 of them given; Lower Town standing up | — |
+| The Exchequer's Auditors | The Exchequer | Heat ≥ 20 | Bring Heat down by about 10 | — |
+| The Porters' Feast | Porters' Fraternity | Week 8+, Unrest < 80 | Lower Town standing up | Called off if Unrest ≥ 85 |
+| The Weighhouse Reviews the Note | Coster | Week 14+, 200+ owed | Pay 100 off the loan yourself | Called off if Coster is gone |
+| The Muster on the Green | The Crown's muster officers | Week 10+ | More members; 2 at level 3+ | — |
+| Before the Snow | Jory | Autumn, weeks 1–8 | Four weeks of food in store | — |
+| Marta Hobb's Wager | Marta | Week 12+, the Hobbs active | Renown above the Hobbs' | Called off if Marta dies |
+
+**Writing.** A Date's text is one or two sentences in the narrator's voice. It says who is coming and what they will judge, and never explains the world. Jory only ever makes remarks. The met and missed lines report what happened, in the dry register of the week report, and promise nothing the stakes don't give.
+
 ## 6. Acts II–IV (Draft outline, not yet written)
 
 - **Act II: Default (Year 2).** The Crown must choose: sell the realm piece by piece, tax the Lower Town into revolt, debase the coin, or default. The Council becomes the battlefield (decrees). The Fourteen split. *Braid point:* the Council vote on the Crown's choice. Act I outcomes shape who sits at the table: Fenn's trust, Vorn's attitude, the Lower Town's standing.
@@ -207,3 +229,4 @@ Run `npm run style` to flag the habits below. It's advisory: a flag is a prompt 
 5. Run `npm run story` and read the coverage report: timing, branch usage, endings.
 6. Run `npm run playthroughs` and read at least one transcript end to end.
 7. Update this file.
+8. A Date that names a character lists them in `npcs`. Its met and missed lines must not contradict a beat that can fire in the same weeks.
