@@ -1,23 +1,17 @@
 import { useState } from 'react';
 import { dateLabel, living, projectLedger, repayLoan, type GameState, upkeep, weeklyWages } from '../../engine';
-import { type Tab, useStore } from '../../store';
+import { useStore } from '../../store';
+import { goTo, type NavTarget } from '../kit/navigate';
 import { crowns, crownsDelta, num, plural, weeks } from '../kit/format';
 import { Btn, Empty, Section } from '../kit/common';
 import { Icon } from '../kit/icons';
 import { BuildingsSection } from '../panels/Buildings';
 import { GuideCard } from '../panels/Guide';
+import { DateCard } from '../panels/DateCard';
+import { short } from '../kit/shortfall';
 import { DispatchItem } from '../kit/DispatchItem';
 
-/** Where tapping an alert takes the player. */
-export interface AlertTarget {
-  tab?: Tab;
-  /** a `data-guide` anchor to scroll to on that tab */
-  guide?: string;
-  /** the Realm sub-tab to show */
-  realm?: string;
-  /** open this contract's planner */
-  planner?: string;
-}
+export type AlertTarget = NavTarget;
 
 export function alerts(g: GameState): { tone: 'warn' | 'bad' | 'info'; text: string; to?: AlertTarget }[] {
   const out: { tone: 'warn' | 'bad' | 'info'; text: string; to?: AlertTarget }[] = [];
@@ -35,28 +29,10 @@ export function alerts(g: GameState): { tone: 'warn' | 'bad' | 'info'; text: str
   const arriving = g.missions.filter((m) => !m.report && m.arriveWeek === g.week);
   if (arriving.length) out.push({ tone: 'info', text: `${plural(arriving.length, 'squad')} ${arriving.length === 1 ? 'reaches its' : 'reach their'} objective this week.`, to: { tab: 'contracts' } });
   const home = living(g).filter((m) => m.status !== 'mission').length;
-  if (g.supplies < home * 2) out.push({ tone: 'warn', text: `Supplies are low (${g.supplies}). Buy more at the Armory.`, to: { tab: 'armory' } });
+  if (g.supplies < home * 2) out.push({ tone: 'warn', text: `Supplies are low (${g.supplies}). Buy more at the Armory.`, to: { tab: 'armory', armory: 'market', guide: 'supplies' } });
   const story = g.board.find((c) => c.story);
   if (story) out.push({ tone: 'info', text: `Story contract available: "${story.title}".`, to: { planner: story.id } });
   return out;
-}
-
-/** Follow an alert: switch tab, pick the Realm sub-tab, scroll to the anchor, or open a planner. */
-export function goTo(to: AlertTarget) {
-  const st = useStore.getState();
-  if (to.planner) return st.open({ kind: 'planner', contractId: to.planner });
-  if (to.realm) {
-    try {
-      localStorage.setItem('lab.realm.tab', to.realm);
-    } catch {
-      /* ignore */
-    }
-  }
-  if (to.tab) st.setTab(to.tab);
-  window.setTimeout(() => {
-    if (to.guide) document.querySelector(`[data-guide="${to.guide}"]`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    else window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, 60);
 }
 
 export function HallScreen() {
@@ -78,6 +54,8 @@ export function HallScreen() {
   return (
     <div className="screen">
       <h1 className="screen-title">The Hall</h1>
+
+      <DateCard />
 
       <GuideCard compact />
 
@@ -125,7 +103,7 @@ export function HallScreen() {
         </div>
         {loan && (
           <button className="loan-line tappable" onClick={() => goTo({ tab: 'hall', guide: 'debt' })}>
-            <Icon name="seal" size={14} />
+            <Icon name="coin" size={14} />
             <span>
               Loan: {crowns(Math.ceil(loan.principal))} owed · {crowns(loan.paymentDue)} due {loan.dueWeek <= g.week ? 'this week' : loan.dueWeek === g.week + 1 ? 'next week' : `in ${weeks(loan.dueWeek - g.week)}`}
             </span>
@@ -187,7 +165,7 @@ export function HallScreen() {
                 <Btn
                   key={n}
                   className="btn ghost small"
-                  blocked={g.crowns < n ? `Costs ${crowns(n)}, and the treasury holds ${crowns(g.crowns)}.` : undefined}
+                  blocked={short(g, 'crowns', n, 'That repayment')}
                   onClick={() =>
                     useStore.getState().confirm({
                       title: `Repay ${n} crowns early?`,

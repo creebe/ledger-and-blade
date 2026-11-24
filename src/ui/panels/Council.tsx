@@ -18,6 +18,7 @@ import { useStore } from '../../store';
 import { Btn, Section, Seg } from '../kit/common';
 import { Icon } from '../kit/icons';
 import { shortDate, weeks, wk } from '../kit/format';
+import { short } from '../kit/shortfall';
 
 const FIDS = Object.keys(SEATS) as CouncilFaction[];
 const STANCE: Record<string, string> = { '1': 'For', '0': 'Undecided', '-1': 'Against' };
@@ -82,6 +83,7 @@ function DecreeCard({ g, item }: { g: GameState; item: AgendaItem }) {
           <b>{verdict}</b> ({t.votesFor}–{t.votesAgainst})
         </span>
       </div>
+      {g.council.voteWeek === g.week && <p className="tiny muted">The vote is at the end of this week. Stances are locked.</p>}
       <Seg
         value={String(item.player)}
         onChange={(v) => act((s) => setPosition(s, item.id, Number(v) as Stance))}
@@ -113,13 +115,13 @@ function DecreeCard({ g, item }: { g: GameState; item: AgendaItem }) {
               </span>
               {item.player !== 0 && p !== item.player && (
                 <span className="cf-actions">
-                  <Btn className="btn ghost small" blocked={blocked ?? (g.influence < c.influence ? `Needs ${c.influence} Influence (you have ${g.influence})` : undefined)} title={blocked ?? `${c.influence} Influence`} onClick={() => doLobby(f, 'influence')}>
+                  <Btn className="btn ghost small" blocked={blocked ?? short(g, 'influence', c.influence, 'Lobbying')} title={blocked ?? `${c.influence} Influence`} onClick={() => doLobby(f, 'influence')}>
                     <Icon name="seal" size={14} /> {c.influence}
                   </Btn>
-                  <Btn className="btn ghost small" blocked={blocked ?? (g.intel < c.intel ? `Needs ${c.intel} Intel (you have ${g.intel})` : undefined)} title={blocked ?? `${c.intel} Intel`} onClick={() => doLobby(f, 'intel')}>
+                  <Btn className="btn ghost small" blocked={blocked ?? short(g, 'intel', c.intel, 'Blackmail')} title={blocked ?? `${c.intel} Intel`} onClick={() => doLobby(f, 'intel')}>
                     <Icon name="eye" size={14} /> {c.intel}
                   </Btn>
-                  <Btn className="btn ghost small" blocked={blocked ?? (g.crowns < c.crowns ? `Needs ${c.crowns} crowns (you have ${g.crowns})` : undefined)} title={blocked ?? `${c.crowns} crowns`} onClick={() => doLobby(f, 'crowns')}>
+                  <Btn className="btn ghost small" blocked={blocked ?? short(g, 'crowns', c.crowns, 'A bribe')} title={blocked ?? `${c.crowns} crowns`} onClick={() => doLobby(f, 'crowns')}>
                     <Icon name="coin" size={14} /> {c.crowns}
                   </Btn>
                 </span>

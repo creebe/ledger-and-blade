@@ -105,7 +105,7 @@ export function GuideNudge() {
       <button className="guide-nudge ready" onClick={() => open({ kind: 'journal', tab: 'notes' })}>
         <Icon name="check" size={14} />
         <span>
-          Collect reward{v.ready.length > 1 ? `s (${v.ready.length})` : ''}
+          {v.ready.length > 1 ? `Rewards (${v.ready.length})` : 'Reward'}
         </span>
       </button>
     );

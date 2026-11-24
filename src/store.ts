@@ -10,11 +10,18 @@ export type Sheet =
   | { kind: 'mission'; id: string }
   | { kind: 'report'; dispatchIds: string[]; week: number; before: ResourceSnap }
   | { kind: 'confirm'; title: string; body: string[]; cost?: string; confirmLabel: string; danger?: boolean; onConfirm: () => void }
-  | { kind: 'warnings'; warnings: string[] }
+  | { kind: 'endweek' }
+  | { kind: 'date' }
   | { kind: 'menu' }
   | { kind: 'guide' }
   | { kind: 'journal'; tab?: 'notes' | 'codex' | 'chronicle' }
   | { kind: 'help' };
+
+/** A toast can offer one step to fix what it reports, such as "Buy iron". */
+export interface ToastAction {
+  label: string;
+  run: () => void;
+}
 
 export interface ResourceSnap {
   crowns: number;
@@ -86,7 +93,10 @@ interface Store {
   game: GameState | null;
   tab: Tab;
   sheets: Sheet[];
-  toast?: { text: string; id: number };
+  toast?: { text: string; id: number; action?: ToastAction };
+  /** the sub-tab shown on screens that have them, so links can open the right one */
+  subTabs: { realm?: string; armory?: string };
+  setSubTab: (screen: 'realm' | 'armory', v: string) => void;
   guideTarget?: string;
   showMe: (o: Objective) => void;
   act: (fn: (g: GameState) => string | undefined | void) => boolean;
@@ -101,7 +111,7 @@ interface Store {
   open: (s: Sheet) => void;
   close: () => void;
   closeAll: () => void;
-  notify: (text: string) => void;
+  notify: (text: string, action?: ToastAction) => void;
   confirm: (opts: { title: string; body: string[] | string; cost?: string; confirmLabel?: string; danger?: boolean; onConfirm: () => void }) => void;
 }
 
@@ -111,6 +121,8 @@ export const useStore = create<Store>((set, get) => ({
   game: null,
   tab: 'hall',
   sheets: [],
+  subTabs: {},
+  setSubTab: (screen, v) => set({ subTabs: { ...get().subTabs, [screen]: v } }),
   act: (fn) => {
     const g = get().game;
     if (!g) return false;
@@ -191,11 +203,11 @@ export const useStore = create<Store>((set, get) => ({
         { kind: 'confirm', title: o.title, body: Array.isArray(o.body) ? o.body : [o.body], cost: o.cost, confirmLabel: o.confirmLabel ?? 'Confirm', danger: o.danger, onConfirm: o.onConfirm },
       ],
     }),
-  notify: (text) => {
+  notify: (text, action) => {
     const id = ++toastId;
-    set({ toast: { text, id } });
+    set({ toast: { text, id, action } });
     setTimeout(() => {
       if (get().toast?.id === id) set({ toast: undefined });
-    }, 2600);
+    }, action ? 5000 : 2600);
   },
 }));

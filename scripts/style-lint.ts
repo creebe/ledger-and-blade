@@ -11,6 +11,7 @@ const FILES = [
   'src/engine/data/codex.ts',
   'src/engine/data/contracts.ts',
   'src/engine/data/tutorial.ts',
+  'src/engine/data/dates.ts',
   'src/engine/missions/narrative.ts',
   'src/engine/people/legends.ts',
   'src/engine/rivals/war.ts',

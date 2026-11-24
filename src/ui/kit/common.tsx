@@ -3,6 +3,8 @@ import { FACTIONS, TAGS, type FactionId } from '../../engine';
 import { useStore } from '../../store';
 import { chanceText } from './format';
 import { Icon } from './icons';
+import { Toast } from './Toast';
+import { type Blocked, blockedText } from './shortfall';
 
 /** How deep this panel sits in the stack (0 = opened from a main screen). */
 export const SheetDepth = React.createContext(0);
@@ -15,6 +17,8 @@ export function Sheet({ title, children, onClose, footer }: { title: ReactNode; 
   const close = useStore((s) => s.close);
   const closeAll = useStore((s) => s.closeAll);
   const depth = React.useContext(SheetDepth);
+  // the toast shows inside the topmost sheet, just above its footer
+  const isTop = useStore((s) => s.sheets.filter((x) => x.kind !== 'confirm').length - 1 === depth);
   return (
     <div className="sheet-backdrop" onClick={onClose ?? close}>
       <div className="sheet" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
@@ -30,6 +34,11 @@ export function Sheet({ title, children, onClose, footer }: { title: ReactNode; 
           </button>
         </div>
         <div className="sheet-body">{children}</div>
+        {isTop && (
+          <div className="sheet-toast">
+            <Toast where="in-sheet" />
+          </div>
+        )}
         {footer && <div className="sheet-foot">{footer}</div>}
       </div>
     </div>
@@ -142,14 +151,15 @@ export function Seg<T extends string>({ value, options, onChange }: { value: T; 
  * A button that never fails silently: when `blocked` holds a reason, it looks
  * unavailable but a tap explains why instead of doing nothing.
  */
-export function Btn({ blocked, onClick, className, children, title, ...rest }: { blocked?: string | false | null; onClick: () => void; className?: string; children: ReactNode; title?: string; style?: React.CSSProperties }) {
+export function Btn({ blocked, onClick, className, children, title, ...rest }: { blocked?: Blocked; onClick: () => void; className?: string; children: ReactNode; title?: string; style?: React.CSSProperties }) {
+  const text = blockedText(blocked);
   return (
     <button
       {...rest}
       className={`${className ?? 'btn'} ${blocked ? 'is-blocked' : ''}`}
       aria-disabled={blocked ? true : undefined}
-      title={blocked || title}
-      onClick={() => (blocked ? useStore.getState().notify(blocked) : onClick())}
+      title={text || title}
+      onClick={() => (blocked ? useStore.getState().notify(text!, typeof blocked === 'object' ? blocked.action : undefined) : onClick())}
     >
       {children}
     </button>

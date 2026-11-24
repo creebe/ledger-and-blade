@@ -6,8 +6,9 @@ import type { GameState } from './types';
 import { freshNpcs } from '../data/facts';
 import { freshFactions } from '../politics/factions';
 import { freshRivals } from '../rivals/rival';
+import { freshDates, scheduleDates } from '../story/dates';
 
-export const SAVE_VERSION = 11;
+export const SAVE_VERSION = 12;
 
 /** Upgrade older saves in place. Returns null if the save can't be used. */
 export function migrateSave(g: GameState): GameState | null {
@@ -62,6 +63,12 @@ export function migrateSave(g: GameState): GameState | null {
   if (g.version === 10) {
     for (const r of Object.values(g.rivals)) r.feud = r.feud ?? 0;
     g.version = 11;
+  }
+  if (g.version === 11) {
+    // Dates: older campaigns get their first one from the current week
+    g.dates = freshDates();
+    scheduleDates(g);
+    g.version = 12;
   }
   return g.version === SAVE_VERSION ? g : null;
 }

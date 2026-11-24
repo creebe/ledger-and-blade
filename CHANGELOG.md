@@ -2,6 +2,36 @@
 
 Newest first. Each entry says what changed for a player, why (quoting the owner's feedback where it came from playtesting), and what was and wasn't checked. The live site is https://creebe.github.io/ledger-and-blade/ and is only republished on the owner's word; each entry notes whether it is live.
 
+## v0.12.0 (2026-11-24): Dates, and a careful end of week
+A checkpoint you can reach in one sitting, a harder-to-fumble End Week, shortcuts to whatever you're short of, and colored resource icons. The owner asked for "a more tangible goal the player can strive for in shorter terms than the entire 4-year campaign ... something that the player can reasonably reach in a single play session", for missing-resource alerts to "bring us to a place where we can acquire the resource", for "a confirmation loop when ending a week", and for color on the resource icons.
+- **Dates.** One dated checkpoint is always 3–6 weeks ahead, and the next is already in view.
+  - **Where you see it:**
+    - a pill under the week in the top bar;
+    - a card at the top of the Hall;
+    - a progress line under any resource it asks about;
+    - the end-week summary and the week report;
+    - a full Dates sheet with stakes and past results.
+  - **How it resolves:** meet every target and it pays; miss one and it costs, and the dispatch says which target failed. The story can call one off.
+  - **What's in it:** twelve Dates, from the Weighhouse's first collection to Marta Hobb's wager.
+  - **Supporting changes:**
+    - a Guildmaster's Note introduces them;
+    - Council stances now lock in the week of the vote;
+    - saves move to version 12.
+- **Ending the week.** End Week opens a summary of what's locked in: warnings, squads leaving and returning, orders, bills, and the next Date. You confirm by pressing and holding, so a stray or double tap can't end the week.
+- **Shortfalls lead somewhere.** When an action is blocked for lack of crowns, supplies, Intel, Influence or a material, the notice offers one tap to where you can get it, such as "Buy Iron" on the Materials tab. Short cost chips on buildings and crafts are links too.
+- **Resource icons have color:** gold crowns, green supplies, blue Intel, violet Influence, teal Renown and orange Heat. The numbers keep their warning colors.
+- **Also:**
+  - the notice now shows inside the open sheet, just above its footer, instead of over the title;
+  - the "Rewards (N)" pill no longer cuts off;
+  - in the light theme, bad states are crimson, so they stand apart from the warning orange.
+- **Checked:**
+  - `npm run check`: 42 tests, the story checker clean, and no style flags in the new text.
+  - The engine, story, writing, UI, balance and systems reviewers all ran, and their fixes are in.
+  - Careful-bot first-year survival is 72% over 400 games, against 69% on main. That's within noise, and inside the 65–75% target.
+  - Browser checks at 390 and 360 px in both themes, including touch, mouse and keyboard on the hold button.
+- **Not checked:** iOS Safari and VoiceOver.
+- **Not live.**
+
 ## v0.11.0 (2026-11-24): The UI audit, built
 Fewer taps for the things you do every week, and colors, icons and type that mean one thing each. The owner asked for a UI/UX audit (`docs/audits/ui-ux.md`) and then to build every recommendation in it: "Go with all of your recommendations and proposals".
 - **Fewer taps:**

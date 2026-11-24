@@ -104,6 +104,8 @@ const P: Record<string, string> = {
   mask: 'M3 8c3-2 15-2 18 0c0 6-4 9-9 9s-9-3-9-9z M7.5 11h3 M13.5 11h3',
   talk: 'M12 4c5 0 9 3 9 7s-4 7-9 7c-1.5 0-3-.3-4.2-.8L4 19l1.2-3.5C4.4 14.3 3 12.8 3 11c0-4 4-7 9-7z M8 11h.01 M12 11h.01 M16 11h.01',
   exit: 'M10 4H5v16h5 M14 8l4 4l-4 4 M18 12H9',
+  arrears: 'M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18 M11 3.2l2.5 6.3l-3 3l2.5 8.3',
+  date: 'M4 6h16v15H4z M4 10h16 M8 3v5 M16 3v5 M12 12.5l1.2 2.4l2.6.4l-1.9 1.8l.5 2.6l-2.4-1.3l-2.4 1.3l.5-2.6l-1.9-1.8l2.6-.4z',
   lamp: 'M9 21h6 M10 18h4 M12 3a6 6 0 0 0-3.5 10.9c.9.7 1.5 1.6 1.5 2.6V18h4v-1.5c0-1 .6-1.9 1.5-2.6A6 6 0 0 0 12 3z',
   // elements
   fire: 'M12 3c1 3.5 5 5.5 5 10a5 5 0 0 1-10 0c0-2.5 1.5-4 2.5-5c0 2 1 3 2 3c0-3-1-5.5.5-8z',
@@ -119,7 +121,7 @@ export function Icon({ name, size = 18, className, style, title }: { name: strin
   const d = P[name] ?? P.info;
   return (
     <svg
-      className={`icon ${className ?? ''}`}
+      className={`icon ic-${name} ${className ?? ''}`}
       width={size}
       height={size}
       viewBox="0 0 24 24"

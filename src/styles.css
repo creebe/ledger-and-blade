@@ -11,7 +11,7 @@
   --gold: #a07a1f;
   --good: #3d7a3a;
   --mid: #9a4f10;
-  --bad: #a3321f;
+  --bad: #a8203a;
   --info: #3a6a8c;
   --shadow: 0 1px 2px rgba(43, 33, 24, 0.12), 0 4px 14px rgba(43, 33, 24, 0.08);
   --radius: 12px;
@@ -35,6 +35,13 @@
   --fs-h2: 1.5rem;
   --fs-h1: 2rem;
   --fs-hero: 2.8rem;
+  /* each resource has its own icon color (icons only; numbers keep state colors) */
+  --res-crowns: #9a7414;
+  --res-supplies: #5f7f2c;
+  --res-intel: #2f6a99;
+  --res-influence: #7a3f9c;
+  --res-renown: #1f7a6b;
+  --res-heat: #b8441a;
   --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
   --display: 'Cormorant Garamond', 'Source Serif 4', Georgia, serif;
   color-scheme: light;
@@ -54,6 +61,12 @@
     --gold: #d2a63f;
     --good: #6fb36a;
     --mid: #e8913a;
+    --res-crowns: #e0b54a;
+    --res-supplies: #9cc46a;
+    --res-intel: #7fb3e0;
+    --res-influence: #c99be6;
+    --res-renown: #6fd0c0;
+    --res-heat: #f07a4a;
     --bad: #e06a4f;
     --info: #6ea6cf;
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 14px rgba(0, 0, 0, 0.3);
@@ -94,6 +107,12 @@
   --gold: #d2a63f;
   --good: #6fb36a;
   --mid: #e8913a;
+  --res-crowns: #e0b54a;
+  --res-supplies: #9cc46a;
+  --res-intel: #7fb3e0;
+  --res-influence: #c99be6;
+  --res-renown: #6fd0c0;
+  --res-heat: #f07a4a;
   --bad: #e06a4f;
   --info: #6ea6cf;
   color-scheme: dark;
@@ -2168,11 +2187,9 @@ details summary {
 .res .icon {
   color: var(--muted);
 }
-.res.bad .icon,
 .res.bad b {
   color: var(--bad);
 }
-.res.mid .icon,
 .res.mid b {
   color: var(--mid);
 }
@@ -3201,4 +3218,437 @@ details summary {
   .member-pick {
     grid-template-columns: repeat(2, 1fr);
   }
+}
+
+/* ---------- v0.12: Dates, end-week confirmation, resource colors ---------- */
+/* resource icons carry their resource's color everywhere */
+.icon.ic-coin {
+  color: var(--res-crowns);
+}
+.icon.ic-sack {
+  color: var(--res-supplies);
+}
+.icon.ic-eye {
+  color: var(--res-intel);
+}
+.icon.ic-seal {
+  color: var(--res-influence);
+}
+.icon.ic-star {
+  color: var(--res-renown);
+}
+.icon.ic-flame {
+  color: var(--res-heat);
+}
+
+/* top bar: the date with the next Date pill under it */
+.topbar-row {
+  align-items: center;
+}
+.topbar-when {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  min-width: 0;
+}
+.topbar .date {
+  font-size: var(--fs-m);
+  line-height: 1.1;
+}
+.date-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  min-height: 30px;
+  padding: 3px 10px 3px 8px;
+  border: 1px solid color-mix(in srgb, var(--ink-2) 55%, var(--line));
+  border-radius: 999px;
+  background: linear-gradient(var(--paper-2), var(--paper));
+  color: var(--ink);
+  font: inherit;
+  font-size: var(--fs-s);
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+/* a taller hit area than the pill itself, so it is easy to tap */
+.date-pill::before {
+  content: '';
+  position: absolute;
+  inset: -5px 0;
+}
+.date-pill .icon {
+  color: var(--ink-2);
+}
+.date-pill-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+.date-pill-due {
+  flex: none;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: var(--fs-xs);
+}
+.date-pill.now .date-pill-due {
+  background: var(--mid);
+  color: var(--paper);
+}
+.date-pill-pips {
+  display: inline-flex;
+  gap: 3px;
+  flex: none;
+}
+.date-pill-pips i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1.5px solid var(--muted);
+}
+.date-pill-pips i.on {
+  background: var(--good);
+  border-color: var(--good);
+}
+.date-pill.all-met {
+  border-color: color-mix(in srgb, var(--good) 60%, var(--line));
+}
+
+/* a resource the next Date asks about: a progress line under its chip */
+.res.has-goal {
+  border-color: color-mix(in srgb, var(--ink-2) 60%, var(--line));
+}
+.res-goal {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 2px;
+  height: 3px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--ink-2) 20%, transparent);
+}
+.res-goal span {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  background: var(--ink-2);
+}
+.res-goal.met span {
+  background: var(--good);
+}
+
+/* the Date card: Hall, week report and end-week summary */
+.date-card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin: 10px 0 14px;
+  padding: 12px 34px 12px 14px;
+  border: 1px solid color-mix(in srgb, var(--ink-2) 45%, var(--line));
+  border-radius: var(--radius);
+  color: inherit;
+  font: inherit;
+  background: linear-gradient(160deg, var(--paper), var(--paper-2));
+}
+.date-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.date-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+.date-due {
+  font-size: var(--fs-s);
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+.date-due.now {
+  color: var(--mid);
+  font-weight: 700;
+}
+.date-title {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--display);
+  font-variant-numeric: lining-nums;
+  font-size: var(--fs-h3);
+  line-height: 1.15;
+}
+.date-who {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-s);
+  color: var(--muted);
+}
+.date-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.date-text {
+  display: block;
+  margin-top: 6px;
+  color: var(--ink-2);
+}
+.date-targets {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+.date-target {
+  display: block;
+}
+.date-target-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: var(--fs-m);
+}
+.date-target-row .icon {
+  flex: none;
+  color: var(--muted);
+}
+.date-target.met .date-target-row .icon {
+  color: var(--good);
+}
+.date-target-label {
+  flex: 1;
+  min-width: 0;
+}
+.date-target-now {
+  flex: none;
+  font-size: var(--fs-s);
+  color: var(--muted);
+  text-align: right;
+}
+.date-target-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 3px 0 0 18px;
+}
+.date-bar {
+  display: block;
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--ink-2) 18%, transparent);
+}
+.date-bar span {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  background: var(--ink-2);
+}
+.date-target.met .date-bar span {
+  background: var(--good);
+}
+.date-score {
+  display: block;
+  margin-top: 8px;
+}
+.date-card.date-card-static {
+  padding-right: 14px;
+  cursor: default;
+}
+.date-card.due-now {
+  border-color: color-mix(in srgb, var(--mid) 60%, var(--line));
+}
+
+/* the Date sheet */
+.date-projection {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  color: var(--ink-2);
+}
+.date-stakes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 10px 0;
+}
+.date-stake {
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.date-stake h4 {
+  font-size: var(--fs-m);
+  margin-bottom: 4px;
+}
+.date-stake ul {
+  margin: 0;
+  padding-left: 16px;
+  font-size: var(--fs-m);
+}
+.date-stake.good-side {
+  border-left: 3px solid var(--good);
+}
+.date-stake.bad-side {
+  border-left: 3px solid var(--bad);
+}
+.date-next {
+  padding: 8px 10px;
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+}
+.date-past {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.date-past li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 0;
+  border-bottom: 1px dotted var(--line);
+}
+.date-past li span:nth-child(2) {
+  flex: 1;
+}
+.date-past .outcome-met .icon,
+.date-past .outcome-met .date-past-outcome {
+  color: var(--good);
+}
+.date-past .outcome-missed .icon,
+.date-past .outcome-missed .date-past-outcome {
+  color: var(--bad);
+}
+.date-past .outcome-cancelled {
+  color: var(--muted);
+}
+
+/* week report: a Date that arrived or was called off */
+.date-result .dispatch {
+  border-left: 4px solid var(--line);
+}
+.date-result.met .dispatch {
+  border-left-color: var(--good);
+}
+.date-result.missed .dispatch {
+  border-left-color: var(--bad);
+}
+
+/* end-week summary and its hold-to-confirm button */
+.endweek-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+}
+.endweek-list li {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 6px 0;
+  border-bottom: 1px dotted var(--line);
+  font-size: var(--fs-m);
+}
+:where(.endweek-list) .icon {
+  flex: none;
+  margin-top: 3px;
+  color: var(--ink-2);
+}
+.endweek-foot {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
+}
+.hold-btn {
+  position: relative;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+.hold-fill {
+  position: absolute;
+  inset: 0;
+  width: 0;
+  background: color-mix(in srgb, var(--accent-ink) 30%, transparent);
+  pointer-events: none;
+}
+.hold-btn.holding .hold-fill {
+  width: 100%;
+  transition: width var(--hold, 650ms) linear;
+}
+.hold-label {
+  position: relative;
+}
+
+/* toasts: inside a sheet they sit just above its footer; some carry one action */
+.sheet-toast {
+  position: relative;
+  height: 0;
+}
+.toast.in-sheet {
+  top: auto;
+  bottom: 10px;
+  position: absolute;
+}
+.toast.has-action {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.toast-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  min-height: 40px;
+  padding: 4px 12px;
+  border: 1px solid color-mix(in srgb, var(--paper) 50%, transparent);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--paper);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+/* a cost chip you're short of links to where to get more */
+.stat-chip-go {
+  position: relative;
+  font: inherit;
+  font-size: var(--fs-s);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.stat-chip-go::before {
+  content: '';
+  position: absolute;
+  inset: -9px -2px;
+}
+/* where a link lands */
+.nav-pulse {
+  animation: guidepulse 1.1s ease-in-out 3;
+  border-radius: 12px;
+}
+
+/* buildings use the eye for the Spymaster's Den: not a resource there */
+.facility .icon,
+.facility-detail .icon,
+.build-progress .icon {
+  color: inherit;
 }

@@ -49,10 +49,12 @@ Deploying is the manual "Test & deploy to GitHub Pages" workflow, only on the ow
 - **Names.** Avoid AI-cliché fantasy names and adjective-noun compounds. Avoid "Ward" and "Bell". "Professions" is the term, not "Callings".
 - **UI.**
   - Portrait, phone first.
-  - Color is reserved for meaning: good, warning and bad states; selection; element badges; faction dots.
+  - Color is reserved for meaning: good, warning and bad states; selection; element badges; faction dots; and resource icons (each resource has its own `--res-*` color, on icons only).
   - Tappable cards are raised with a chevron, and static panels are flat.
   - A blocked action explains why, using `Btn`'s `blocked` prop.
   - Every spend asks for confirmation.
+  - A blocked action caused by a shortfall offers a way to get more (`short()` in `kit/shortfall.ts`).
+  - Ending the week opens the summary and takes a press-and-hold (`HoldButton`).
   - Sheets are full height, with Back.
   - Use specific CSS class names.
 - **Balance.** Headline numbers are in `core/tuning.ts`. After any change that touches money, odds, rivals or wars, run `npm run sim` and report the survival rate in the pull request.

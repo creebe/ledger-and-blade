@@ -14,6 +14,7 @@ import {
   type GameState,
 } from '../src/engine';
 import { runSim } from '../scripts/sim';
+import { currentDate, datesPhase, dateTargets, nextDate, scheduleDates, DATE_BY_ID } from '../src/engine';
 import { afterLeaderDies, executeHostile, feudStage, hallDefense, operationOptions, raiseFeud, resolveOperation, runOperation, earnFame, fameTier, triggerEvents, SAVE_VERSION, BACKERS, CIRCUMSTANCE_BY_ID, claimNote, buySupplies, supplyCost, buyMaterial, cancelDispatch, discoverLore, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
 
 const clearEvents = (s: GameState) => {
@@ -210,6 +211,176 @@ describe('engine', () => {
     expect(tripWeeks(s, 1)).toEqual({ out: 1, back: 0 });
   });
 
+  it('Dates: one is always set a few weeks ahead, with the next in view', () => {
+    const s = newGame(41);
+    const c = currentDate(s)!;
+    expect(c.def.id).toBe('first_payment');
+    expect(c.active.dueWeek).toBe(s.loans[0].dueWeek);
+    expect(c.weeksLeft).toBeGreaterThanOrEqual(2);
+    expect(nextDate(s)?.id).toBe('exchequer_list');
+    expect(dateTargets(s).length).toBe(2);
+  });
+
+  it('Dates: meeting every target pays the reward, missing one applies the cost', () => {
+    const met = newGame(42);
+    const a = met.dates.current!;
+    met.week = a.dueWeek;
+    met.crowns = 5000;
+    const before = met.factions.weighhouse.standing;
+    datesPhase(met);
+    expect(met.dates.past.at(-1)).toMatchObject({ id: 'first_payment', outcome: 'met' });
+    expect(met.factions.weighhouse.standing).toBe(before + 4);
+    expect(met.dates.current).toBeUndefined();
+    expect(met.dispatches.at(-1)!.kind).toBe('date');
+
+    const missed = newGame(42);
+    missed.week = missed.dates.current!.dueWeek;
+    missed.crowns = 0;
+    const renown = missed.renown;
+    datesPhase(missed);
+    expect(missed.dates.past.at(-1)!.outcome).toBe('missed');
+    expect(missed.renown).toBe(renown - 2);
+
+    // the next week a new Date is set, and it's the one that was in view
+    const expected = met.dates.next;
+    met.week += 1;
+    scheduleDates(met);
+    expect(met.dates.current!.id).toBe(expected);
+    expect(met.dates.current!.dueWeek - met.week).toBeGreaterThanOrEqual(2);
+  });
+
+  it('Dates: the story can call one off before it arrives', () => {
+    const s = newGame(43);
+    s.dates.current = { id: 'porters_feast', dueWeek: s.week + 5, setWeek: s.week, targets: DATE_BY_ID.porters_feast.targets(s), base: { renown: 0, principal: 0, missed: 0 } };
+    s.clocks.unrest = 90;
+    datesPhase(s);
+    expect(s.dates.past.at(-1)).toMatchObject({ id: 'porters_feast', outcome: 'cancelled' });
+    expect(s.dispatches.at(-1)!.title).toContain('called off');
+  });
+
+  it('Dates keep coming through a long game, and the same seed gives the same ones', () => {
+    const play = (seed: number) => {
+      const s = newGame(seed);
+      for (let w = 0; w < 40 && !s.gameOver; w++) {
+        clearEvents(s);
+        advanceWeek(s);
+      }
+      return s;
+    };
+    const a = play(77);
+    const b = play(77);
+    expect(a.dates.past.map((p) => p.id)).toEqual(b.dates.past.map((p) => p.id));
+    if (!a.gameOver) {
+      expect(a.dates.past.length).toBeGreaterThanOrEqual(4);
+      expect(a.dates.current).toBeDefined();
+    }
+  });
+
+  it('Dates: the first payment is judged after the loan is paid in the same week', () => {
+    const run = (crownsOnTheDay: number) => {
+      const s = newGame(45);
+      s.dates.current!.targets = [{ kind: 'loanPaid' }]; // judge the payment alone
+      const due = s.dates.current!.dueWeek;
+      while (s.week < due && !s.gameOver) {
+        clearEvents(s);
+        s.crowns = 5000;
+        advanceWeek(s);
+      }
+      clearEvents(s);
+      s.crowns = crownsOnTheDay;
+      advanceWeek(s);
+      return s.dates.past.find((p) => p.id === 'first_payment');
+    };
+    expect(run(5000)?.outcome).toBe('met');
+    expect(run(0)?.outcome).toBe('missed');
+  });
+
+  it('Dates: a loan paid off mid-Date counts as paid', () => {
+    const s = newGame(46);
+    s.week = s.dates.current!.dueWeek;
+    s.loans = [];
+    s.crowns = 5000;
+    datesPhase(s);
+    expect(s.dates.past.at(-1)).toMatchObject({ id: 'first_payment', outcome: 'met' });
+  });
+
+  it('Dates: a Council Date is judged on the vote held that same week', () => {
+    const s = newGame(47);
+    while (!s.council.agenda.length && !s.gameOver) {
+      clearEvents(s);
+      s.crowns = 5000;
+      advanceWeek(s);
+    }
+    const item = s.council.agenda[0];
+    setPosition(s, item.id, 1);
+    for (const f of Object.keys(item.positions) as (keyof typeof item.positions)[]) item.positions[f] = 1;
+    const voteWeek = s.council.voteWeek!;
+    s.dates.current = { id: 'council_vote', dueWeek: voteWeek, setWeek: s.week, targets: [{ kind: 'council' }], base: { renown: 0, principal: 0, missed: 0 } };
+    while (s.week < voteWeek && !s.gameOver) {
+      clearEvents(s);
+      s.crowns = 5000;
+      for (const f of Object.keys(item.positions) as (keyof typeof item.positions)[]) item.positions[f] = 1;
+      advanceWeek(s);
+    }
+    clearEvents(s);
+    for (const f of Object.keys(item.positions) as (keyof typeof item.positions)[]) item.positions[f] = 1;
+    advanceWeek(s);
+    expect(s.dates.past.find((p) => p.id === 'council_vote')?.outcome).toBe('met');
+  });
+
+  it('version 11 saves from the middle of a campaign gain a Date ahead', () => {
+    const s = newGame(48);
+    for (let w = 0; w < 20 && !s.gameOver; w++) {
+      clearEvents(s);
+      s.crowns = 5000;
+      advanceWeek(s);
+    }
+    const raw = s as unknown as Record<string, unknown>;
+    delete raw.dates;
+    raw.version = 11;
+    const g = migrateSave(raw as never)!;
+    expect(g.dates.past).toEqual([]);
+    expect(g.dates.current).toBeDefined();
+    expect(g.dates.current!.dueWeek - g.week).toBeGreaterThanOrEqual(2);
+    expect(g.dates.current!.setWeek).toBe(g.week);
+  });
+
+  it('version 11 saves gain Dates', () => {
+    const s = newGame(44) as unknown as Record<string, unknown>;
+    delete s.dates;
+    s.version = 11;
+    const g = migrateSave(s as never)!;
+    expect(g.version).toBe(SAVE_VERSION);
+    expect(g.dates.current).toBeDefined();
+  });
+
+  it('Dates ask only for what the guild can reach, and say which target failed', () => {
+    const s = newGame(45);
+    clearEvents(s);
+    // the Muster never asks for more members than the hall holds
+    const muster = DATE_BY_ID.muster.targets(s)[0] as { count: number };
+    expect(muster.count).toBeLessThanOrEqual(7);
+    // a Lower Town target is a few points above where the guild stands, however low that is
+    s.factions.lowertown.standing = -40;
+    const fair = DATE_BY_ID.oda_fair.targets(s)[1] as { at: number };
+    expect(fair.at).toBeLessThanOrEqual(-30);
+    // a missed Date names the target that failed
+    s.week = s.dates.current!.dueWeek;
+    s.crowns = 0;
+    datesPhase(s);
+    expect(s.dispatches.at(-1)!.body.some((l) => l.startsWith('Not met:'))).toBe(true);
+  });
+
+  it('Council stances lock in the week of the vote', () => {
+    const s = newGame(46);
+    s.council.agenda = [{ id: 'grain_levy', base: { exchequer: 1, weighhouse: 0, ostranders: 1, lowertown: -1 }, positions: { exchequer: 1, weighhouse: 0, ostranders: 1, lowertown: -1 }, player: 0 }];
+    s.council.voteWeek = s.week + 1;
+    expect(setPosition(s, 'grain_levy', 1)).toBeUndefined();
+    s.week += 1;
+    expect(setPosition(s, 'grain_levy', -1)).toBeTruthy();
+    expect(s.council.agenda[0].player).toBe(1);
+  });
+
   it('old saves are upgraded', () => {
     const s = newGame(24) as unknown as Record<string, unknown>;
     delete s.facilities;
@@ -377,7 +548,7 @@ describe('engine', () => {
     s.council.agenda = [{ id: 'grain_levy', base: { exchequer: 1, weighhouse: 0, ostranders: 1, lowertown: -1 }, positions: { exchequer: 1, weighhouse: 0, ostranders: 1, lowertown: -1 }, player: 0 }];
     s.history.push({ id: 'x' } as never);
     s.week = 2;
-    for (const k of ['dispatch', 'why', 'assign', 'equip', 'journal', 'reveal', 'countered', 'supplies', 'petition', 'spy', 'stance', 'hire', 'build', 'craft', 'repay']) s.tutorial.counters[k] = 1;
+    for (const k of ['dispatch', 'dates', 'why', 'assign', 'equip', 'journal', 'reveal', 'countered', 'supplies', 'petition', 'spy', 'stance', 'hire', 'build', 'craft', 'repay']) s.tutorial.counters[k] = 1;
     const before = s.crowns;
     const done = checkTutorial(s);
     expect(done.length).toBe(OBJECTIVES.length);

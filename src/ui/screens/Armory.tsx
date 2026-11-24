@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   awayReason,
   buyItem,
@@ -25,11 +24,14 @@ import { SLOT_LABEL, crowns } from '../kit/format';
 import { Icon } from '../kit/icons';
 import { ItemIcon, ItemStats } from '../kit/visual';
 import { WorkshopPanel } from '../panels/Buildings';
+import { short } from '../kit/shortfall';
 
 export function ArmoryScreen() {
   const g = useStore((s) => s.game)!;
   const act = useStore((s) => s.act);
-  const [tab, setTab] = useState<'market' | 'stores' | 'workshop' | 'materials'>('market');
+  type ArmoryTab = 'market' | 'stores' | 'workshop' | 'materials';
+  const tab = (useStore((s) => s.subTabs.armory) as ArmoryTab | undefined) ?? 'market';
+  const setTab = (t: ArmoryTab) => useStore.getState().setSubTab('armory', t);
   const slots: ItemSlot[] = ['weapon', 'armor', 'trinket', 'consumable'];
   const { confirm, notify } = useStore.getState();
   const buySuppliesFlow = (n: number) => {
@@ -62,6 +64,7 @@ export function ArmoryScreen() {
       {tab === 'market' && (
         <>
           <Section
+            guide="supplies"
             title={
               <>
                 <Icon name="sack" size={18} /> Supplies
@@ -73,7 +76,7 @@ export function ArmoryScreen() {
             </p>
             <div className="row wrap gap">
               {[5, 10, 20, 40].map((n) => (
-                <Btn key={n} className="btn ghost small" blocked={g.crowns < supplyCost(g, n) ? `${n} supplies cost ${crowns(supplyCost(g, n))}, and the treasury holds ${crowns(g.crowns)}.` : undefined} onClick={() => buySuppliesFlow(n)}>
+                <Btn key={n} className="btn ghost small" blocked={short(g, 'crowns', supplyCost(g, n), `${n} supplies`)} onClick={() => buySuppliesFlow(n)}>
                   +{n} · {crowns(supplyCost(g, n))}
                   {supplyDiscount(n) ? <small className="good"> −{Math.round(supplyDiscount(n) * 100)}%</small> : null}
                 </Btn>
@@ -104,7 +107,7 @@ export function ArmoryScreen() {
                         </div>
                         <Btn
                           className="btn small primary"
-                          blocked={g.crowns < price ? `Costs ${crowns(price)}, and the treasury holds ${crowns(g.crowns)}.` : undefined}
+                          blocked={short(g, 'crowns', price, def.name)}
                           onClick={() =>
                             confirm({
                               title: `Buy ${def.name}?`,
@@ -182,7 +185,7 @@ export function ArmoryScreen() {
           {(Object.keys(MATERIAL_INFO) as MaterialId[]).map((m) => {
             const price = Math.round(materialPrice(g, m) * MATERIAL_SELL_RATE);
             return (
-              <div key={m} className="shop-item">
+              <div key={m} className="shop-item" data-guide={`mat-${m}`}>
                 <span className="item-icon" style={{ width: 34, height: 34 }}>
                   <Icon name={({ iron: 'anvil', leather: 'hide', timber: 'rough', reagents: 'flask' } as Record<string, string>)[m]} size={18} />
                 </span>
@@ -195,7 +198,7 @@ export function ArmoryScreen() {
                 <div className="row gap">
                   <Btn
                     className="btn small ghost"
-                    blocked={g.crowns < materialPrice(g, m) * 5 ? `Costs ${crowns(materialPrice(g, m) * 5)}, and the treasury holds ${crowns(g.crowns)}.` : undefined}
+                    blocked={short(g, 'crowns', materialPrice(g, m) * 5, `5 ${MATERIAL_INFO[m].name}`)}
                     onClick={() =>
                       confirm({
                         title: `Buy 5 ${MATERIAL_INFO[m].name}?`,

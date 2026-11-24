@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { dateLabel, endWeekWarnings, living, upkeep, weeklyWages } from './engine';
+import { currentDate, dateLabel, endWeekWarnings, living, upkeep, weeklyWages } from './engine';
 import { type Tab, useStore } from './store';
 import { MemberSheet } from './ui/sheets/MemberSheet';
-import { ConfirmSheet, WarningsSheet } from './ui/sheets/Dialogs';
+import { ConfirmSheet } from './ui/sheets/Dialogs';
+import { EndWeekSheet } from './ui/sheets/EndWeekSheet';
+import { DateSheet } from './ui/sheets/DateSheet';
+import { DatePill } from './ui/panels/DateCard';
+import { Toast } from './ui/kit/Toast';
 import { EventCard } from './ui/sheets/EventCard';
 import { HelpSheet } from './ui/sheets/HelpSheet';
 import { MenuSheet } from './ui/sheets/MenuSheet';
@@ -66,11 +70,21 @@ function TopBar() {
   const keys = ['crowns', 'supplies', 'intel', 'influence', 'renown', 'heat'];
   // in the first season, name each resource under its number
   const labelled = g.week <= 12;
+  // resources the current Date asks about get a progress line under their chip
+  const goals: Record<string, { frac: number; met: boolean }> = {};
+  for (const t of currentDate(g)?.targets ?? []) {
+    if (!t.resource) continue;
+    const prevGoal = goals[t.resource];
+    goals[t.resource] = prevGoal ? { frac: Math.min(prevGoal.frac, t.frac), met: prevGoal.met && t.met } : { frac: t.frac, met: t.met };
+  }
 
   return (
     <header className="topbar">
-      <div className="row between">
-        <span className="date">{dateLabel(g.week)}</span>
+      <div className="row between topbar-row">
+        <span className="topbar-when">
+          <span className="date">{dateLabel(g.week)}</span>
+          <DatePill />
+        </span>
         <span className="row">
         <button className="icon-btn journal-btn" onClick={() => open({ kind: 'journal', tab: g.codex.fresh.length ? 'codex' : 'notes' })} aria-label="Journal">
           <Icon name="book" size={24} />
@@ -84,13 +98,24 @@ function TopBar() {
       <div className={`resources ${labelled ? 'labelled' : ''}`}>
         {res.map((r, i) => {
           const fl = floats.filter((f) => f.key === keys[i]);
+          const goal = goals[keys[i]];
           return (
-            <button key={r.label} className={`res ${r.tone ?? ''} ${fl.length ? 'pulse' : ''}`} onClick={() => notify(r.label)} aria-label={`${r.name} ${r.value}`}>
+            <button
+              key={r.label}
+              className={`res ${r.tone ?? ''} ${fl.length ? 'pulse' : ''} ${goal ? 'has-goal' : ''}`}
+              onClick={() => (goal ? open({ kind: 'date' }) : notify(r.label))}
+              aria-label={`${r.name} ${r.value}${goal ? `. The next Date asks about ${r.name}.` : ''}`}
+            >
               <span className="res-v">
                 <Icon name={r.icon} size={14} />
                 <b>{r.value}</b>
               </span>
               {labelled && <small className="res-l">{r.name}</small>}
+              {goal && (
+                <span className={`res-goal ${goal.met ? 'met' : ''}`} aria-hidden>
+                  <span style={{ width: `${Math.round(goal.frac * 100)}%` }} />
+                </span>
+              )}
               {fl.map((f) => (
                 <i key={f.id} className={`float ${f.good ? 'up' : 'down'}`}>
                   {f.delta > 0 ? '+' : ''}
@@ -132,7 +157,6 @@ function BottomNav() {
 
 function EndWeekButton() {
   const g = useStore((s) => s.game)!;
-  const endWeek = useStore((s) => s.endWeek);
   const open = useStore((s) => s.open);
   const warnings = endWeekWarnings(g);
   const away = g.missions.length;
@@ -141,7 +165,7 @@ function EndWeekButton() {
       <span className="endweek-info">
         <GuideNudge />
         {g.tutorial?.enabled && !g.tutorial.finished ? null : warnings.length > 0 ? (
-          <button className="meta endweek-check" onClick={() => open({ kind: 'warnings', warnings })}>
+          <button className="meta endweek-check" onClick={() => open({ kind: 'endweek' })}>
             <Icon name="warn" size={14} />
             {warnings.length} to check
           </button>
@@ -161,10 +185,7 @@ function EndWeekButton() {
       <button
         className="endweek"
         data-guide="endweek"
-        onClick={() => {
-          if (warnings.length) open({ kind: 'warnings', warnings });
-          else endWeek();
-        }}
+        onClick={() => open({ kind: 'endweek' })}
       >
         End Week <Icon name="chevron" size={18} />
       </button>
@@ -229,8 +250,10 @@ export default function App() {
             return <MissionReplay key={i} id={s.id} />;
           case 'report':
             return <WeekReport key={i} dispatchIds={s.dispatchIds} week={s.week} before={s.before} />;
-          case 'warnings':
-            return <WarningsSheet key={i} warnings={s.warnings} />;
+          case 'endweek':
+            return <EndWeekSheet key={i} />;
+          case 'date':
+            return <DateSheet key={i} />;
           case 'menu':
             return <MenuSheet key={i} />;
           case 'help':
@@ -250,8 +273,9 @@ export default function App() {
         );
       })}
       {event && <EventCard ev={event} />}
-      {toast && <div className={`toast ${sheets.length ? 'over-sheet' : 'in-game'}`}>{toast.text}</div>}
+      {toast && !sheets.some((x) => x.kind !== 'confirm') && <Toast />}
       {guideTarget && <style>{`[data-guide="${guideTarget}"] { animation: guidepulse 1.1s ease-in-out 4; border-radius: 12px; }`}</style>}
     </div>
   );
 }
+

@@ -25,6 +25,7 @@ import { useStore } from '../../store';
 import { Btn, ChanceBar, FactionBadge, Seg, Sheet, TagChip, ThreatPips } from '../kit/common';
 import { chanceText, crowns, plural, signed, weeks, wk } from '../kit/format';
 import { MemberMini } from '../kit/members';
+import { getMore, short } from '../kit/shortfall';
 import { Icon } from '../kit/icons';
 import { ap, APPROACHES, ApproachChip, useBestOdds } from '../kit/visual';
 
@@ -132,7 +133,7 @@ function ContractHeader({ c, game }: { c: Contract; game: GameState }) {
     const { confirm, notify } = useStore.getState();
     const INTEL_REVEAL_COST = revealCost(game);
     if (game.intel < INTEL_REVEAL_COST) {
-      notify(`Revealing costs ${INTEL_REVEAL_COST} Intel and you have ${game.intel}. Set members to Gather Rumors, or send a Scout ahead.`);
+      notify(`Revealing costs ${INTEL_REVEAL_COST} Intel and you have ${game.intel}. Set members to Gather rumors, or send a Scout ahead.`, getMore('intel'));
       return;
     }
     confirm({
@@ -318,7 +319,7 @@ export function Planner({ contractId }: { contractId: string }) {
           {members.length >= c.minSquad && shortBy > 0 ? (
             <Btn
               className="btn primary block"
-              blocked={game.crowns < supplyCost(game, shortBy) ? `${shortBy} more supplies cost ${crowns(supplyCost(game, shortBy))}, and the treasury holds ${crowns(game.crowns)}.` : undefined}
+              blocked={short(game, 'crowns', supplyCost(game, shortBy), `${shortBy} more supplies`)}
               onClick={buyShortfall}
             >
               Buy {shortBy} supplies · {crowns(supplyCost(game, shortBy))}
