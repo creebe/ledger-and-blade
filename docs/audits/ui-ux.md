@@ -1,6 +1,8 @@
 # UI/UX audit (v0.10.1, main at `ac9e052`)
 
-An audit of the game as it stands on `main`, for a player on a phone. Nothing in the game was changed. The owner picks which recommendations to build.
+An audit of the game as it stands on `main`, for a player on a phone. The audit itself changed no game code.
+
+> **Status:** the owner asked for every recommendation and the rename to be built. They are in v0.11.0, on the same branch. [Section 7](#7-what-was-built-in-v0110) lists what was built and where it differs from the plan.
 
 ## Summary
 
@@ -321,7 +323,7 @@ None of these is a state. On a Story card (`contracts-mid.jpg`), the gold border
   - the top bar overrides them to muted grey;
   - they still color the Supplies heading in the Armory (green), the Influence and Heat headings in the Realm (purple and orange), and the crowns cost chip.
   - Four of them are copies of other tokens: `--r-intel` = `--info`, `--r-influence` = `--ap-arcana`, `--r-heat` = `--el-fire`, and `--r-renown` = `--el-radiant`.
-- **Tag borders:** enemy tags have a red-tinted border and terrain tags a blue one. These are categories, not states, and blue `--info` isn't in the allowed list at all.
+- **Tag borders:** *(correction)* an early rule tints enemy tags red and terrain tags blue, but a later rule in `styles.css` already sets both back to neutral. What players see is correct. The stale early rule is the only problem.
 - **Week report:** the routine weekly use of supplies is shown in bad red every week.
 - **Faction colors** fill the whole left border of faction and rival cards, not just a dot. This is borderline; it reads well.
 
@@ -474,6 +476,83 @@ After that, these four change how the game feels on a phone:
 - Roster orders (11).
 
 The color work (9 and 15) should start with a mockup the owner can compare against the current screens.
+
+## 7. What was built in v0.11.0
+
+Everything in section 6 was built, plus the rename. Where the build differs from the recommendation, it says so.
+
+- **1. The Guard icon.** Order icons now come from one map, `ORDER_ICON` in `kit/members.tsx`. Guard has its own drawing, a shield with a tick.
+- **2. Purchases.**
+  - Supplies, shop items, materials and crafting all ask for confirmation.
+  - The supply buttons explain why when you can't afford them.
+  - The planner's Dispatch and the Menu's Load and Import buttons explain why when they're blocked, instead of doing nothing.
+- **3. The member sheet.** Weekly orders come straight after the vitals. Gear, approach scores and the service record follow.
+- **4. Tappable warnings.**
+  - "N to check" opens the warnings.
+  - Hall alerts take you to the right place: the loan, the ledger, Heat, Contracts, the Armory, or a Story contract's planner.
+  - Warning alerts show the warning icon, and info alerts show the info icon.
+- **5. Numerals.** The display font uses lining numerals, so "(0)" and "Year 1" read correctly.
+- **6. The toast.** In play it sits above the End Week bar. When a sheet is open it sits over the sheet's title. Taps pass through it.
+- **7. Best squad.** A button beside the planner's Squad heading picks the squad the card's odds were worked out from.
+- **8. Supplies in the planner.** When supplies are short, the footer offers "Buy N supplies · X◉" with a confirmation, and the squad stays picked.
+- **9. Story gold.** Gold now appears only on Story contracts and Story news. Rewards, hints, the speaker, records, pips, the XP bar and badges are neutral, and notes ready to collect are green. *Change from the plan:* moving the decoration wasn't enough, because the two colors were still nearly the same. The warning tone moved toward orange: `#e8913a` dark, `#b8641a` light. The scale now reads gold (Story), then orange (warning), then red (bad).
+- **10. Realm sub-tabs.** Council, Powers (with Heat), Rivals and The Debt. Council shows a dot when a decree has no stance, and Rivals shows a dot when a revealed plan hasn't been countered. The chosen tab is remembered, and the notes' "show me" opens the right one.
+- **11. Orders from the Roster.**
+  - Each idle member's row has an order chip that opens a short orders sheet.
+  - A simple order closes the sheet. Train and Scout stay open for the second choice.
+  - The row itself still opens the member.
+- **12. The Hall.**
+  - The repeated date is gone.
+  - A loan line ("Loan: X owed · Y due in N weeks") sits under the ledger grid and scrolls to The Loan.
+  - The feed shows this week and last week, with "Show older dispatches" for the rest. *Change from the plan:* the older news stays in the Hall behind that button rather than moving to the Journal, because the Journal's Chronicle holds only story news.
+- **13. Contracts.** "In the field" is hidden when it's empty. Each squad is a one-line row with route dots: tap it to expand, or to read the journal once the mission is done. The Board doesn't move up to the top of the screen; with the rows this short, it doesn't need to.
+- **14. Formatting.** These helpers live in `kit/format.ts`: `crowns`, `crownsDelta`, `num` (with a real minus), `wk`, `weeks`, `plural`, `shortDate` and `datedLine`. The UI uses them throughout. "Lv" is the level label everywhere.
+- **15. Titles.** Screen, sheet, scene, confirm and Help titles are ink. The accent red is kept for selection, primary buttons and badges. The threat pips and the mission strip's current-stop marker (formerly a red dot) are neutral.
+- **16. Dates.** Absolute week numbers are gone from the UI:
+  - readiness says "back in 3 wk";
+  - truces, the service record, fame and Council history use "Summer wk 5".
+
+  Old save records are rewritten when they're displayed.
+- **17. Icons.** New drawings for:
+  - Stealth, a closed eye;
+  - Heat, a thermometer;
+  - Fatigue, an hourglass;
+  - Story, a ribbon bookmark;
+  - fame, a laurel;
+  - Cold, icicles;
+  - Night, stars;
+  - Fireborn, a horned head;
+  - Train and the Training Yard, a dumbbell;
+  - Scout a contract, a spyglass;
+  - the Ninth, a pennant;
+  - Leather, a hide;
+  - Build, bricks;
+  - the Guildmaster's Notes, a checklist;
+  - Arrears, a calendar;
+  - Collection, a chest;
+  - Investigation, a magnifier;
+  - Smuggling, a crate;
+  - Expedition, a map;
+  - rival news, a mask;
+  - talk choices, a speech bubble;
+  - leaving the guild, an exit;
+  - the theme toggle, a lamp.
+
+  The ✝ ↦ ▶ ▸ ✓ glyphs and the 💬 emoji are now icons. Icon sizes are 12, 14, 18 and 24.
+- **18. Tap targets.** Tags, "Why?", matrix headers, link buttons, resource chips and approach chips have a 44 px tall invisible hit area.
+- **19. Type scale.** Nine tokens (`--fs-xs` to `--fs-hero`) replace the 30 sizes. The two h3 styles match, there's one bold weight (700), and the inline font sizes are gone.
+- **20. Badges.**
+  - Hall shows the number of bad alerts.
+  - Roster shows the number of wounded members.
+
+  *Change from the plan:* recruits have no arrival week in the save, so "new recruits this week" would need a save change. It was left out.
+- **21. Resource labels.** In the first season, each top-bar chip names its resource under the number.
+- **22. Resource colors.** The `--r-*` tokens are gone.
+- **23. The week report.** The routine drop in supplies shows neutral. It turns red only when stores fall below two weeks' food.
+- **The Loan.** The Hall section is now "The Loan", and the tutorial's directions say so.
+- **Also fixed along the way:**
+  - The hire confirmation worked out weekly costs with a hard-coded upkeep of 15. It now uses the real upkeep.
+  - The end-week warnings no longer say "contract(s)" or "member(s)".
 
 ## Screenshots
 
