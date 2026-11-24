@@ -2,6 +2,21 @@
 
 Newest first. Each entry says what changed for a player, why (quoting the owner's feedback where it came from playtesting), and what was and wasn't checked. The live site is https://creebe.github.io/ledger-and-blade/ and is only republished on the owner's word; each entry notes whether it is live.
 
+## v0.12.2 (2026-11-24): The look, decided
+The owner asked to "take a good look at typography and the major colors such as the dark mode background color ... I want to make sure it's intentionally decided at this point." Every color and type choice is now written down with its reason in `docs/DESIGN-TOKENS.md`, and a test guards it.
+- **Light theme.** Small grey notes, the Story gold and the good green are a shade darker, so all text reads at 4.5:1 or better. The look barely changes.
+- **Dark theme.** Primary buttons (End Week, Dispatch, Hire) are a deeper red with light text: 5.7:1, up from 4.1. Red text and outlines, such as the active tab, are a touch brighter, so they read on cards.
+- **Fonts.**
+  - Italics use the body face's real italic instead of a slanted fake. That covers contract descriptions, street talk and empty states.
+  - Bold is named as what it already rendered as: 600 for the body face, 700 for headings.
+- **No change:** the dark background (#17130f, a warm near-black like an unlit hall), the surfaces, the faces and the size scale. They're now recorded as decisions.
+- **Checked:**
+  - `npm run check`.
+  - A new theme test checks that every text color is 4.5:1 or better in both themes and that the two copies of the dark theme match.
+  - Screenshots in both themes.
+- **Not checked:** iOS Safari.
+- **Not live.**
+
 ## v0.12.1 (2026-11-24): Colors in the Armory, and a new Heat icon
 Materials and prices carry their colors in the Armory, and Heat has a new icon. The owner said: "I was thinking the icon colors would be present in the Armory views too. And can we change the Heat icon? The thermometer seems too silly."
 - **Materials.** Iron, Leather, Timber and Reagents each have their own icon and color:

@@ -4,12 +4,18 @@
   --paper-2: #f2e8d2;
   --ink: #2b2118;
   --ink-2: #5e4f3f;
-  --muted: #86745f;
+  --muted: #726351;
   --line: #d8c7a6;
   --accent: #8c2f1e;
   --accent-ink: #fff8ec;
-  --gold: #a07a1f;
-  --good: #3d7a3a;
+  /* filled red: primary buttons, End Week, badges. Light text on it in both themes */
+  --accent-fill: #8c2f1e;
+  --accent-fill-ink: #fff8ec;
+  /* weights: the body face is loaded at 400 and 600, the display face at 600 and 700 */
+  --fw-bold: 600;
+  --fw-display: 700;
+  --gold: #7e6018;
+  --good: #397136;
   --mid: #9a4f10;
   --bad: #a8203a;
   --info: #3a6a8c;
@@ -60,8 +66,10 @@
     --ink-2: #cdbd9f;
     --muted: #9a8a72;
     --line: #3d3329;
-    --accent: #c4553c;
+    --accent: #d2664d;
     --accent-ink: #1a140f;
+    --accent-fill: #a8432d;
+    --accent-fill-ink: #fff8ec;
     --gold: #d2a63f;
     --good: #6fb36a;
     --mid: #e8913a;
@@ -110,8 +118,10 @@
   --ink-2: #cdbd9f;
   --muted: #9a8a72;
   --line: #3d3329;
-  --accent: #c4553c;
+  --accent: #d2664d;
   --accent-ink: #1a140f;
+  --accent-fill: #a8432d;
+  --accent-fill-ink: #fff8ec;
   --gold: #d2a63f;
   --good: #6fb36a;
   --mid: #e8913a;
@@ -149,11 +159,16 @@ button {
   font: inherit;
   color: inherit;
 }
+b,
+strong {
+  font-weight: var(--fw-bold);
+}
 h1,
 h2,
 h3,
 h4 {
   font-family: var(--display);
+  font-weight: var(--fw-display);
   margin: 0;
   line-height: 1.15;
   /* Cormorant's default old-style figures make 0 read as o and 1 as ı */
@@ -190,7 +205,7 @@ p {
 .topbar .date {
   font-family: var(--display);
   font-variant-numeric: lining-nums;
-  font-weight: 700;
+  font-weight: var(--fw-display);
   font-size: var(--fs-lead);
 }
 .resources {
@@ -263,8 +278,8 @@ p {
   position: absolute;
   top: 6px;
   right: calc(50% - 22px);
-  background: var(--accent);
-  color: var(--accent-ink);
+  background: var(--accent-fill);
+  color: var(--accent-fill-ink);
   border-radius: 10px;
   font-size: var(--fs-xs);
   padding: 0 5px;
@@ -274,14 +289,14 @@ p {
   z-index: 25;
   right: max(16px, calc(50% - 280px + 16px));
   bottom: calc(var(--nav-h) + 14px + env(safe-area-inset-bottom));
-  background: var(--accent);
-  color: var(--accent-ink);
+  background: var(--accent-fill);
+  color: var(--accent-fill-ink);
   border: none;
   border-radius: 999px;
   padding: 13px 22px;
   font-family: var(--display);
   font-variant-numeric: lining-nums;
-  font-weight: 700;
+  font-weight: var(--fw-display);
   font-size: var(--fs-lead);
   box-shadow: 0 4px 14px rgba(140, 47, 30, 0.4);
   cursor: pointer;
@@ -367,7 +382,7 @@ p {
   border-radius: 10px;
   padding: 10px 14px;
   cursor: pointer;
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   min-height: 42px;
 }
 .btn.small {
@@ -376,9 +391,9 @@ p {
   font-size: var(--fs-m);
 }
 .btn.primary {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--accent-ink);
+  background: var(--accent-fill);
+  border-color: var(--accent-fill);
+  color: var(--accent-fill-ink);
 }
 .btn.ghost {
   background: transparent;
@@ -424,7 +439,7 @@ p {
 .seg button.on {
   background: var(--paper);
   box-shadow: var(--shadow);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
 }
 
 /* ---------- bars ---------- */
@@ -486,7 +501,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   font-size: var(--fs-m);
   color: var(--ink);
   text-shadow: 0 0 3px var(--paper), 0 0 3px var(--paper);
@@ -630,7 +645,7 @@ p {
   background: linear-gradient(var(--paper), color-mix(in srgb, var(--gold) 10%, var(--paper)));
 }
 .reward {
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   color: var(--ink);
   white-space: nowrap;
 }
@@ -910,7 +925,7 @@ details summary {
   opacity: 0.5;
 }
 .mm-name {
-  font-weight: 700;
+  font-weight: var(--fw-bold);
 }
 .mm-prof {
   font-size: var(--fs-xs);
@@ -997,7 +1012,7 @@ details summary {
   gap: 8px;
 }
 .risk {
-  font-weight: 700;
+  font-weight: var(--fw-bold);
 }
 .risk-low {
   color: var(--good);
@@ -1043,7 +1058,7 @@ details summary {
   font-family: var(--display);
   font-variant-numeric: lining-nums;
   font-size: var(--fs-h2);
-  font-weight: 700;
+  font-weight: var(--fw-display);
 }
 .attr-l {
   font-size: var(--fs-s);
@@ -1077,7 +1092,7 @@ details summary {
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 4px 8px;
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   font-size: var(--fs-m);
 }
 .trait small {
@@ -1138,7 +1153,7 @@ details summary {
   letter-spacing: 0.05em;
 }
 .slot-v {
-  font-weight: 700;
+  font-weight: var(--fw-bold);
 }
 .slot-s {
   font-size: var(--fs-s);
@@ -1299,7 +1314,7 @@ details summary {
   top: 34px;
   font-family: var(--display);
   font-variant-numeric: lining-nums;
-  font-weight: 700;
+  font-weight: var(--fw-display);
   font-size: var(--fs-lead);
   padding: 0 8px;
   border: 2px solid currentColor;
@@ -1459,7 +1474,7 @@ details summary {
   top: 100%;
   transform: translateX(-50%);
   font-style: normal;
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   font-size: var(--fs-m);
   pointer-events: none;
   white-space: nowrap;
@@ -1516,7 +1531,7 @@ details summary {
   color: var(--ink);
 }
 .cost {
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   background: var(--paper-2);
   border: 1px dashed var(--line);
   border-radius: 8px;
@@ -1534,7 +1549,7 @@ details summary {
   overflow-y: auto;
 }
 .exchange .you {
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   color: var(--ink-2);
   margin-bottom: 0;
 }
@@ -1548,7 +1563,7 @@ details summary {
 .speaker {
   font-family: var(--display);
   font-variant-numeric: lining-nums;
-  font-weight: 700;
+  font-weight: var(--fw-display);
   font-size: var(--fs-lead);
   color: var(--ink-2);
   margin-bottom: 0;
@@ -1580,7 +1595,7 @@ details summary {
   margin: 4px 0 10px;
 }
 .delta-chip {
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   padding: 4px 10px;
   border-radius: 999px;
   border: 1px solid var(--line);
@@ -1706,7 +1721,7 @@ details summary {
   background: var(--c);
   border-color: var(--c);
   color: var(--paper);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
 }
 .ap-chip.on .icon {
   color: var(--paper);
@@ -1729,7 +1744,7 @@ details summary {
   color: var(--ink);
   font-family: var(--display);
   font-variant-numeric: lining-nums;
-  font-weight: 700;
+  font-weight: var(--fw-display);
 }
 .portrait.dead {
   filter: grayscale(1);
@@ -1820,7 +1835,7 @@ details summary {
   display: inline-flex;
   align-items: baseline;
   gap: 4px;
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   font-size: var(--fs-m);
   padding: 2px 8px;
   border-radius: 999px;
@@ -1962,11 +1977,11 @@ details summary {
   border-radius: 6px;
   padding: 3px 0;
   font-variant-numeric: tabular-nums;
-  font-weight: 700;
+  font-weight: var(--fw-bold);
 }
 .matrix td.name {
   text-align: left;
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   padding-left: 4px;
   white-space: nowrap;
 }
@@ -2111,7 +2126,7 @@ details summary {
 .facility .fac-name {
   color: var(--ink);
   font-size: var(--fs-s);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   text-align: center;
   line-height: 1.1;
 }
@@ -2404,7 +2419,7 @@ details summary {
 }
 .stance {
   font-size: var(--fs-m);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   color: var(--ink-2);
 }
 
@@ -2539,7 +2554,7 @@ details summary {
 }
 .matrix th.sorted .th-btn {
   color: var(--ink);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
 }
 .matrix th.sorted .th-btn::after {
   content: '↓';
@@ -2697,7 +2712,7 @@ details summary {
 .collect-btn {
   background: var(--good);
   color: #1a140f;
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   font-size: var(--fs-m);
   border-radius: 999px;
   padding: 5px 12px;
@@ -2788,7 +2803,7 @@ details summary {
   justify-content: center;
   gap: 3px;
   font-size: var(--fs-s);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   padding: 4px 4px;
   border-radius: 8px;
   border: 1px solid var(--line);
@@ -3282,7 +3297,7 @@ details summary {
   color: var(--ink);
   font: inherit;
   font-size: var(--fs-s);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   cursor: pointer;
   box-shadow: var(--shadow);
 }
@@ -3390,7 +3405,7 @@ details summary {
 }
 .date-due.now {
   color: var(--mid);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
 }
 .date-title {
   display: block;
@@ -3595,7 +3610,7 @@ details summary {
   position: absolute;
   inset: 0;
   width: 0;
-  background: color-mix(in srgb, var(--accent-ink) 30%, transparent);
+  background: color-mix(in srgb, var(--accent-fill-ink) 30%, transparent);
   pointer-events: none;
 }
 .hold-btn.holding .hold-fill {
@@ -3634,7 +3649,7 @@ details summary {
   background: transparent;
   color: var(--paper);
   font: inherit;
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   cursor: pointer;
 }
 /* a cost chip you're short of links to where to get more */

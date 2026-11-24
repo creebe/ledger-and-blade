@@ -1,6 +1,6 @@
 # Ledger & Blade: guide for Claude sessions
 
-A turn-based, portrait-first guild management sim. It's a React + TypeScript web app on GitHub Pages: https://creebe.github.io/ledger-and-blade/. Read this file first, then `docs/ARCHITECTURE.md`. Before touching story or text, also read `docs/STORY.md`.
+A turn-based, portrait-first guild management sim. It's a React + TypeScript web app on GitHub Pages: https://creebe.github.io/ledger-and-blade/. Read this file first, then `docs/ARCHITECTURE.md`. Before touching colors or type, read `docs/DESIGN-TOKENS.md`. Before touching story or text, also read `docs/STORY.md`.
 
 ## How work is organized
 
