@@ -3,6 +3,8 @@ import { snap, type ResourceSnap, useStore } from '../../store';
 import { Sheet } from '../kit/common';
 import { Icon } from '../kit/icons';
 import { DispatchItem } from '../kit/DispatchItem';
+import { living } from '../../engine';
+import { num } from '../kit/format';
 
 const RES_LABEL: { key: keyof ResourceSnap; icon: string; name: string; invert?: boolean }[] = [
   { key: 'crowns', icon: 'coin', name: 'Crowns' },
@@ -24,21 +26,24 @@ export function WeekReport({ dispatchIds, week, before }: { dispatchIds: string[
   const rest = items.filter((d) => d.kind !== 'mission');
   return (
     <Sheet
-      title={`End of week · ${dateLabel(week)}`}
+      title="The week's end"
       footer={
         <button className="btn primary block" onClick={close}>
           Begin {dateLabel(g.week)}
         </button>
       }
     >
+      <p className="muted small report-date">{dateLabel(week)}</p>
       <div className="delta-row">
         {changes.length === 0 && <span className="muted small">No change to your resources.</span>}
         {changes.map((c, i) => {
           const good = c.invert ? c.delta < 0 : c.delta > 0;
+          // the squad eating its supplies is routine: neutral unless the stores now run short
+          const routine = c.key === 'supplies' && c.delta < 0 && after.supplies >= living(g).filter((m) => m.status !== 'mission').length * 2;
           return (
-            <span key={c.key} className={`delta-chip ${good ? 'up' : 'down'}`} style={{ animationDelay: `${i * 0.08}s` }}>
+            <span key={c.key} className={`delta-chip ${routine ? 'flat' : good ? 'up' : 'down'}`} style={{ animationDelay: `${i * 0.08}s` }}>
               <Icon name={c.icon} size={14} /> {c.delta > 0 ? '+' : ''}
-              {c.delta} <small>{c.name}</small>
+              {num(c.delta)} <small>{c.name}</small>
             </span>
           );
         })}
@@ -54,7 +59,7 @@ export function WeekReport({ dispatchIds, week, before }: { dispatchIds: string[
             ))}
             {Object.entries(last.expenses).map(([k, v]) => (
               <li key={k} className="neg">
-                {k} <span>−{v}</span>
+                {k} <span>{num(-v)}</span>
               </li>
             ))}
           </ul>

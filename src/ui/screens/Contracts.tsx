@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import type React from 'react';
 import { cancelDispatch, FACTIONS, RIVALS, missionWeeks, type Contract, type GameState, type Mission } from '../../engine';
 import { Icon } from '../kit/icons';
 import { CONTRACT_TYPE_ICON, OddsPill, PhaseStrip, Portrait, useBestOdds } from '../kit/visual';
 import { useStore } from '../../store';
 import { Empty, FactionBadge, Section, TagChip, ThreatPips } from '../kit/common';
+import { weeks, wk } from '../kit/format';
 
 /** Tappable only once there's a report to read; otherwise a plain panel. */
 function MissionShell({ report, onOpen, children }: { report: boolean; onOpen: () => void; children: React.ReactNode }) {
@@ -35,14 +37,50 @@ function MissionTrack({ m, g }: { m: Mission; g: GameState }) {
   nodes.push({ label: 'Home', kind: 'town', done: false });
 
   const status = m.report
-    ? `${m.report.tier} · ${m.returnWeek <= g.week ? 'home at the end of this week' : `home in ${m.returnWeek - g.week + 1} weeks`}`
+    ? `${m.report.tier} · ${m.returnWeek <= g.week ? 'home at the end of this week' : `home in ${weeks(m.returnWeek - g.week + 1)}`}`
     : m.arriveWeek === g.week
       ? 'Reaches the objective at the end of this week'
-      : `Arrives in ${m.arriveWeek - g.week + 1} weeks`;
+      : `Arrives in ${weeks(m.arriveWeek - g.week + 1)}`;
 
   const preparing = m.dispatchedWeek === g.week && !m.report;
+  const [expanded, setExpanded] = useState(false);
+  const short = m.report
+    ? `${m.report.tier} · ${m.returnWeek <= g.week ? 'home this week' : `home in ${wk(m.returnWeek - g.week + 1)}`}`
+    : preparing
+      ? 'Leaving this week'
+      : m.arriveWeek === g.week
+        ? 'At the objective this week'
+        : `Arrives in ${wk(m.arriveWeek - g.week + 1)}`;
+  if (!expanded) {
+    return (
+      <button
+        className={`mission-row tappable ${m.report ? 'has-report' : ''}`}
+        onClick={() => (m.report ? open({ kind: 'mission', id: m.id }) : setExpanded(true))}
+        aria-expanded={false}
+      >
+        <span className="mission-row-main">
+          <b>{c.title}</b>
+          <span className="meta">
+            <Icon name={m.report ? 'scroll' : 'road'} size={14} />
+            {short}
+            {m.report ? ' · read the journal' : ''}
+          </span>
+        </span>
+        <span className="mission-row-dots" aria-hidden>
+          {nodes
+            .filter((n) => n.kind !== 'road')
+            .map((n, i) => (
+              <i key={i} className={`${n.done ? 'done' : ''} ${n.current ? 'current' : ''} ${n.result ? `r-${n.result}` : ''}`} />
+            ))}
+        </span>
+      </button>
+    );
+  }
   return (
     <div className="mission-wrap">
+      <button className="link-btn small mission-collapse" onClick={() => setExpanded(false)}>
+        Show less
+      </button>
     <MissionShell report={!!m.report} onOpen={() => open({ kind: 'mission', id: m.id })}>
       <div className="row between">
         <b>{c.title}</b>
@@ -66,7 +104,7 @@ function MissionTrack({ m, g }: { m: Mission; g: GameState }) {
             ))}
         </span>
         <span className="meta">
-          <Icon name="clock" size={13} />
+          <Icon name="clock" size={14} />
           {status}
         </span>
       </div>
@@ -85,7 +123,7 @@ function MissionTrack({ m, g }: { m: Mission; g: GameState }) {
             const x = g.members.find((y) => y.id === id)!;
             return (
               <button key={id} className="btn ghost small" onClick={() => open({ kind: 'member', id })}>
-                <Icon name="armor" size={13} /> {x.name.split(' ')[0]}
+                <Icon name="armor" size={14} /> {x.name.split(' ')[0]}
               </button>
             );
           })}
@@ -117,12 +155,13 @@ export function ContractsScreen() {
     <div className="screen">
       <h1 className="screen-title">Contracts</h1>
 
-      <Section title={`In the field (${g.missions.length})`}>
-        {g.missions.length === 0 && <Empty>No squads in the field.</Empty>}
-        {g.missions.map((m) => (
-          <MissionTrack key={m.id} m={m} g={g} />
-        ))}
-      </Section>
+      {g.missions.length > 0 && (
+        <Section title={`In the field (${g.missions.length})`}>
+          {g.missions.map((m) => (
+            <MissionTrack key={m.id} m={m} g={g} />
+          ))}
+        </Section>
+      )}
 
       <Section title="The Board" guide="board">
         {board.length === 0 && <Empty>No contracts this week.</Empty>}
@@ -141,7 +180,7 @@ function ContractCard({ c, g, onOpen }: { c: Contract; g: GameState; onOpen: () 
     <button className={`contract-card tappable ${c.story ? 'story' : ''}`} onClick={onOpen} style={{ ['--fc' as string]: FACTIONS[c.patron].color }}>
       <div className="card-row">
         <span className="type-icon" title={c.type}>
-          <Icon name={CONTRACT_TYPE_ICON[c.type] ?? 'scroll'} size={22} />
+          <Icon name={CONTRACT_TYPE_ICON[c.type] ?? 'scroll'} size={24} />
         </span>
         <div className="card-main">
           <div className="row between">
@@ -160,12 +199,12 @@ function ContractCard({ c, g, onOpen }: { c: Contract; g: GameState; onOpen: () 
             )}
             <span className="meta">{c.type}</span>
             <span className="meta">
-              <Icon name={c.travelWeeks ? 'road' : 'urban'} size={13} />
+              <Icon name={c.travelWeeks ? 'road' : 'urban'} size={14} />
               {c.region}
             </span>
             <span className="meta">
-              <Icon name="clock" size={13} />
-              {missionWeeks(c, g)}w
+              <Icon name="clock" size={14} />
+              {wk(missionWeeks(c, g))}
             </span>
           </div>
         </div>
@@ -181,18 +220,18 @@ function ContractCard({ c, g, onOpen }: { c: Contract; g: GameState; onOpen: () 
         {c.hidden.map((h, i) => (h.revealed ? <TagChip key={i} id={h.trueTag} /> : <span key={i} className="tag hidden">?</span>))}
         {c.contestedBy && (
           <span className="tag contested">
-            <Icon name={c.contestedBy} size={13} /> {RIVALS[c.contestedBy].short}
+            <Icon name={c.contestedBy} size={14} /> {RIVALS[c.contestedBy].short}
           </span>
         )}
         {c.story && (
           <span className="tag story">
-            <Icon name="quest" size={13} /> Story
+            <Icon name="quest" size={14} /> Story
           </span>
         )}
       </div>
       <div className="row between small">
         <ThreatPips value={c.threat} />
-        <span className={expiring ? 'warn' : 'muted'}>{expiring ? 'Expires this week' : `${c.expiresWeek - g.week + 1} wks left`}</span>
+        <span className={expiring ? 'warn' : 'muted'}>{expiring ? 'Expires this week' : `${wk(c.expiresWeek - g.week + 1)} left`}</span>
       </div>
     </button>
   );

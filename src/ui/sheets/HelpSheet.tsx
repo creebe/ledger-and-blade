@@ -21,10 +21,10 @@ export function HelpSheet() {
           ))}
           <div className="legend-row">
             <span className="tag enemy">
-              <Icon name="soldiers" size={13} /> Enemy
+              <Icon name="soldiers" size={14} /> Enemy
             </span>
             <span className="tag env">
-              <Icon name="cold" size={13} /> Terrain
+              <Icon name="cold" size={14} /> Terrain
             </span>
             <span className="small muted">Tags: what you'll face. Dashed “?” tags are unknown.</span>
           </div>

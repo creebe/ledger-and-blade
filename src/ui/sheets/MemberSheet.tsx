@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { APPROACH_INFO, FAME_TIERS, ITEMS, PROFESSIONS, SIGNATURES, TRAITS, awayReason, dismissMember, equip, equippedBy, fameTier, isPreparing, memberScore, setAssignment, trainCost, trainWeeks, type Approach, type Attribute, type GameState, type ItemSlot, type Member, xpToLevel } from '../../engine';
+import { APPROACH_INFO, FAME_TIERS, ITEMS, PROFESSIONS, SIGNATURES, TRAITS, awayReason, dismissMember, equip, equippedBy, fameTier, isPreparing, memberScore, type Approach, type Attribute, type GameState, type ItemSlot, type Member, xpToLevel } from '../../engine';
 import { useStore } from '../../store';
 import { Btn, Meter, Sheet } from '../kit/common';
-import { SLOT_LABEL, cap } from '../kit/format';
+import { SLOT_LABEL, cap, crowns, datedLine, shortDate } from '../kit/format';
 import { Icon } from '../kit/icons';
 import { ItemIcon, ItemStats, PROFESSION_APPROACH, Portrait, ap } from '../kit/visual';
-import { ASSIGNMENTS } from '../kit/members';
+import { OrderPicker } from '../kit/members';
 
 const STATUS_LABEL: Record<Member['status'], string> = {
   idle: 'At the hall',
@@ -60,15 +60,12 @@ export function MemberSheet({ id }: { id: string }) {
         <div className="card-main">
           <div className="row between">
             <span>
-              <Icon name={m.profession} size={16} style={{ color: ap(PROFESSION_APPROACH[m.profession]) }} /> <b>{prof.name}</b> · Level {m.level}
+              <Icon name={m.profession} size={18} style={{ color: ap(PROFESSION_APPROACH[m.profession]) }} /> <b>{prof.name}</b> · Lv {m.level}
             </span>
-            <span className="meta">
-              <Icon name="coin" size={13} />
-              {m.wage}/wk
-            </span>
+            <span className="meta">{crowns(m.wage)} a week</span>
           </div>
-          <div className="ap-bar-track" title={`${m.xp}/${xpToLevel(m.level)} xp to next level`} style={{ margin: '4px 0' }}>
-            <span className="ap-bar-fill" style={{ width: `${(m.xp / xpToLevel(m.level)) * 100}%`, background: 'var(--gold)' }} />
+          <div className="ap-bar-track xp-track" title={`${m.xp}/${xpToLevel(m.level)} xp to next level`}>
+            <span className="ap-bar-fill progress-fill" style={{ width: `${(m.xp / xpToLevel(m.level)) * 100}%` }} />
           </div>
           <p className="muted small">{prof.blurb}</p>
         </div>
@@ -97,6 +94,13 @@ export function MemberSheet({ id }: { id: string }) {
         <label><span className="meta"><Icon name="link" size={14} />Loyalty</span> <Meter value={m.loyalty} tone={m.loyalty < 35 ? 'bad' : 'good'} /> <span>{m.loyalty}</span></label>
       </div>
 
+      {!locked && m.status === 'idle' && (
+        <>
+          <h3 className="subhead">This week</h3>
+          <OrderPicker m={m} />
+        </>
+      )}
+
       <div className="traits">
         {m.traits.map((t) => (
           <span key={t} className={`trait ${TRAITS[t].negative ? 'neg' : ''}`} title={TRAITS[t].description}>
@@ -105,30 +109,6 @@ export function MemberSheet({ id }: { id: string }) {
           </span>
         ))}
       </div>
-
-      <h3 className="subhead">Approach strength <span className="muted small">(no tags, current gear)</span></h3>
-      <div className="scores">
-        {scores.map(({ a, s }) => (
-          <div key={a} className="score" style={{ color: ap(a), borderColor: `color-mix(in srgb, ${ap(a)} 45%, var(--line))` }}>
-            <Icon name={a} size={18} />
-            <b style={{ color: 'var(--ink)' }}>{s.toFixed(0)}</b>
-            <small>{APPROACH_INFO[a].name}</small>
-          </div>
-        ))}
-      </div>
-
-      <h3 className="subhead">Service record</h3>
-      {(m.record ?? []).length === 0 ? (
-        <p className="small muted">No missions yet. Joined in week {m.joinedWeek}.</p>
-      ) : (
-        <ul className="record">
-          {[...(m.record ?? [])].reverse().map((r, i) => (
-            <li key={i} className="small">
-              {r}
-            </li>
-          ))}
-        </ul>
-      )}
 
       <h3 className="subhead">Gear</h3>
       <div className="slots">
@@ -203,56 +183,28 @@ export function MemberSheet({ id }: { id: string }) {
         </div>
       )}
 
-      {!locked && m.status === 'idle' && (
-        <>
-          <h3 className="subhead">This week</h3>
-          <div className="assign">
-            {ASSIGNMENTS.filter((a) => a.id !== 'build' || game.construction).map((a) => (
-              <button
-                key={a.id}
-                className={`assign-opt ${m.assignment === a.id ? 'on' : ''}`}
-                onClick={() => {
-                  if (a.id === 'scout') {
-                    const target = game.board.find((c) => c.hidden.some((h) => !h.revealed));
-                    if (!target) return useStore.getState().notify('No contract has anything left to scout');
-                    act((g) => setAssignment(g, m.id, 'scout', { contractId: m.scoutTarget && g.board.some((c) => c.id === m.scoutTarget) ? m.scoutTarget : target.id }));
-                  } else if (act((g) => setAssignment(g, m.id, a.id))) useStore.getState().notify(`${m.name.split(' ')[0]}: ${a.label} this week. ${a.blurb}`);
-                }}
-              >
-                <span className="card-row">
-                  <Icon name={({ rest: 'rest', train: 'train', rumors: 'ear', labor: 'hammer', scout: 'compass', build: 'anvil' } as Record<string, string>)[a.id]} size={20} />
-                  <span className="card-main">
-                    <b>{a.label}</b>
-                    <small style={{ display: 'block' }}>
-                      {a.id === 'train' ? `+1 to an attribute every ${trainWeeks(game)} weeks. Costs ${trainCost(game)} crowns a week and adds fatigue.` : a.blurb}
-                    </small>
-                  </span>
-                </span>
-              </button>
-            ))}
+      <h3 className="subhead">Approach strength <span className="muted small">(no tags, current gear)</span></h3>
+      <div className="scores">
+        {scores.map(({ a, s }) => (
+          <div key={a} className="score" style={{ color: ap(a), borderColor: `color-mix(in srgb, ${ap(a)} 45%, var(--line))` }}>
+            <Icon name={a} size={18} />
+            <b style={{ color: 'var(--ink)' }}>{s.toFixed(0)}</b>
+            <small>{APPROACH_INFO[a].name}</small>
           </div>
-          {m.assignment === 'train' && (
-            <div className="row wrap gap">
-              {(['might', 'finesse', 'wits', 'resolve'] as Attribute[]).map((a) => (
-                <button key={a} className={`btn small ${m.trainAttr === a ? 'primary' : 'ghost'}`} onClick={() => act((g) => setAssignment(g, m.id, 'train', { attr: a }))}>
-                  {cap(a)}
-                </button>
-              ))}
-              <span className="small muted">Progress {m.trainProgress}/{trainWeeks(game)}</span>
-            </div>
-          )}
-          {m.assignment === 'scout' && (
-            <select className="select" value={m.scoutTarget} onChange={(e) => act((g) => setAssignment(g, m.id, 'scout', { contractId: e.target.value }))}>
-              {game.board
-                .filter((c) => c.hidden.some((h) => !h.revealed))
-                .map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.title}
-                  </option>
-                ))}
-            </select>
-          )}
-        </>
+        ))}
+      </div>
+
+      <h3 className="subhead">Service record</h3>
+      {(m.record ?? []).length === 0 ? (
+        <p className="small muted">No missions yet. Joined in {shortDate(m.joinedWeek, game.week)}.</p>
+      ) : (
+        <ul className="record">
+          {[...(m.record ?? [])].reverse().map((r, i) => (
+            <li key={i} className="small">
+              {datedLine(r, game.week)}
+            </li>
+          ))}
+        </ul>
       )}
 
       {!locked && (
@@ -261,7 +213,7 @@ export function MemberSheet({ id }: { id: string }) {
           onClick={() =>
             useStore.getState().confirm({
               title: `Dismiss ${m.name}?`,
-              body: [`They leave the guild for good. Their gear stays in the armory, and you save ${m.wage}◉ a week.`, 'The others will notice (morale −3).'],
+              body: [`They leave the guild for good. Their gear stays in the armory, and you save ${crowns(m.wage)} a week.`, 'The others will notice (morale −3).'],
               confirmLabel: 'Dismiss',
               danger: true,
               onConfirm: () => {
@@ -280,6 +232,7 @@ export function MemberSheet({ id }: { id: string }) {
 
 /** Standing in the city: fame tier, the name the street uses, a Legend's signature, and the stories told about them. */
 function FameBlock({ m }: { m: Member }) {
+  const game = useStore((s) => s.game)!;
   const tier = fameTier(m);
   const fame = m.fame ?? 0;
   const next = FAME_TIERS[Math.min(3, tier + 1)];
@@ -289,7 +242,7 @@ function FameBlock({ m }: { m: Member }) {
   return (
     <div className={`fame-block ${tier === 3 ? 'legend' : ''}`}>
       <b className="meta">
-        <Icon name="star" size={14} />
+        <Icon name="fame" size={14} />
         {m.epithet ? `${m.epithet}, a Legend of Varrow` : tier ? FAME_TIERS[tier].name : 'Not yet known'}
       </b>
       <p className="tiny muted fame-line">
@@ -304,7 +257,7 @@ function FameBlock({ m }: { m: Member }) {
         <ul className="record">
           {[...stories].reverse().slice(0, 4).map((f, i) => (
             <li key={i} className="small">
-              Week {f.week}: people tell {f.text}.
+              {shortDate(f.week, game.week)}: people tell {f.text}.
             </li>
           ))}
         </ul>

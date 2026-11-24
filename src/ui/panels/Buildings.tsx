@@ -26,15 +26,16 @@ import { useStore } from '../../store';
 import { Btn, Section } from '../kit/common';
 import { Icon } from '../kit/icons';
 import { ItemIcon, ItemStats } from '../kit/visual';
+import { crowns as crownsText, wk } from '../kit/format';
 
-const MATERIAL_ICON: Record<MaterialId, string> = { iron: 'anvil', leather: 'armor', timber: 'rough', reagents: 'flask' };
+const MATERIAL_ICON: Record<MaterialId, string> = { iron: 'anvil', leather: 'hide', timber: 'rough', reagents: 'flask' };
 
 /** Cost chips that turn red when you don't have enough. */
 function CostChips({ g, crowns, materials, check = true }: { g: GameState; crowns?: number; materials: Partial<Record<MaterialId, number>>; check?: boolean }) {
   return (
     <span className="stat-chips">
       {!!crowns && (
-        <span className={`stat-chip ${check && g.crowns < crowns ? 'short' : ''}`} style={{ ['--c' as string]: 'var(--r-crowns)' }}>
+        <span className={`stat-chip ${check && g.crowns < crowns ? 'short' : ''}`}>
           <Icon name="coin" size={12} />
           {crowns}
         </span>
@@ -73,25 +74,24 @@ export function BuildingsSection() {
       title="Buildings"
       right={
         <span className="meta">
-          <Icon name="coin" size={13} />
-          upkeep {upkeep(g)}/wk
+          upkeep {crownsText(upkeep(g))} a week
         </span>
       }
     >
       {c && (
         <div className="build-progress">
-          <span className="type-icon" style={{ ['--fc' as string]: 'var(--gold)' }}>
-            <Icon name={FACILITIES[c.id].icon} size={20} />
+          <span className="type-icon">
+            <Icon name={FACILITIES[c.id].icon} size={18} />
           </span>
           <div className="card-main">
             <div className="row between">
               <b>
                 Building: {FACILITIES[c.id].name} {c.toLevel}
               </b>
-              <span className="meta">~{Math.max(1, Math.ceil((c.weeks - c.progress) / buildersSpeed(g)))} wk left</span>
+              <span className="meta">about {wk(Math.max(1, Math.ceil((c.weeks - c.progress) / buildersSpeed(g))))} left</span>
             </div>
             <div className="ap-bar-track" style={{ height: 8 }}>
-              <span className="ap-bar-fill" style={{ width: `${Math.min(100, (c.progress / c.weeks) * 100)}%`, background: 'var(--gold)' }} />
+              <span className="ap-bar-fill progress-fill" style={{ width: `${Math.min(100, (c.progress / c.weeks) * 100)}%` }} />
             </div>
             <span className="tiny muted">
               {builders ? `${builders} member${builders > 1 ? 's' : ''} helping.` : 'Assign idle members to Build (Roster) to speed it up.'}
@@ -106,7 +106,7 @@ export function BuildingsSection() {
           const building = c?.id === id;
           return (
             <button key={id} className={`facility tappable-tile ${open === id ? 'open' : ''} ${lv === 0 ? 'unbuilt' : ''}`} onClick={() => setOpen(open === id ? null : id)}>
-              <Icon name={f.icon} size={22} />
+              <Icon name={f.icon} size={24} />
               <span className="fac-name">{f.name}</span>
               <Pips value={lv} max={f.levels.length} />
               {building && <span className="fac-badge">building</span>}
@@ -128,14 +128,14 @@ function FacilityDetail({ id, g, onBuild }: { id: FacilityId; g: GameState; onBu
     <div className="facility-detail">
       <div className="row between">
         <b>
-          <Icon name={f.icon} size={16} /> {f.name}
+          <Icon name={f.icon} size={18} /> {f.name}
         </b>
         <span className="meta">Level {lv}</span>
       </div>
       <p className="small muted">{f.blurb}</p>
       {lv > 0 && (
         <p className="small">
-          <Icon name="check" size={13} style={{ color: 'var(--good)' }} /> {f.levels[lv - 1].effect}
+          <Icon name="check" size={14} style={{ color: 'var(--good)' }} /> {f.levels[lv - 1].effect}
         </p>
       )}
       {next ? (
@@ -146,7 +146,7 @@ function FacilityDetail({ id, g, onBuild }: { id: FacilityId; g: GameState; onBu
           <CostChips g={g} crowns={next.crowns} materials={next.materials} />
           <div className="row between" style={{ marginTop: 6 }}>
             <span className="meta">
-              <Icon name="clock" size={13} /> {next.weeks} wk · upkeep +{next.upkeep}/wk
+              <Icon name="clock" size={14} /> {wk(next.weeks)} · upkeep +{crownsText(next.upkeep)} a week
             </span>
             <Btn
               className="btn small primary"
@@ -238,13 +238,21 @@ export function WorkshopPanel() {
                     <div style={{ marginTop: 3 }}>
                       <CostChips g={g} crowns={r.crowns} materials={r.materials} check={!locked} />
                     </div>
-                    <span className="tiny muted">Market price about {market}◉</span>
+                    <span className="tiny muted">Market price about {crownsText(market)}</span>
                   </div>
                   <Btn
                     className="btn small primary"
                     blocked={blocked}
                     title={blocked}
-                    onClick={() => act((d) => queueCraft(d, r.id)) && useStore.getState().notify(`${def.name} queued. It will be ready at the end of the week.`)}
+                    onClick={() =>
+                      useStore.getState().confirm({
+                        title: `Craft ${r.count && r.count > 1 ? `${r.count}× ` : ''}${def.name}?`,
+                        body: ['It will be ready at the end of the week. You can cancel it until then and get everything back.'],
+                        cost: [r.crowns ? crownsText(r.crowns) : '', ...Object.entries(r.materials).map(([m, n]) => `${n} ${MATERIAL_INFO[m as MaterialId].name}`)].filter(Boolean).join(', '),
+                        confirmLabel: 'Craft',
+                        onConfirm: () => act((d) => queueCraft(d, r.id)) && useStore.getState().notify(`${def.name} queued. It will be ready at the end of the week.`),
+                      })
+                    }
                   >
                     Craft
                   </Btn>

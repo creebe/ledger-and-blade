@@ -199,7 +199,7 @@ export const OBJECTIVES: Objective[] = [
     id: 'repay',
     chapter: 'Building the guild',
     title: 'Pay down the loan early',
-    how: 'Hall → Debt → Repay. Early payments cut the interest that piles up every week.',
+    how: 'Hall → The Loan → Repay. Early payments cut the interest that piles up every week.',
     why: 'Three missed payments and the Weighhouse seizes everything.',
     tab: 'hall',
     guide: 'debt',

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   CLOCKS,
   coolHeat,
@@ -29,11 +29,12 @@ import {
   type RivalId,
 } from '../../engine';
 import { useStore } from '../../store';
-import { Btn, Meter, Section, StandingBar } from '../kit/common';
+import { Btn, Meter, Section, Seg, StandingBar } from '../kit/common';
+import { shortDate } from '../kit/format';
 import { Icon } from '../kit/icons';
 import { CouncilSection } from '../panels/Council';
 
-const CLOCK_ICON: Record<string, string> = { arrears: 'clock', leverage: 'ostranders', unrest: 'crowd', cointrust: 'coin' };
+const CLOCK_ICON: Record<string, string> = { arrears: 'calendar', leverage: 'ostranders', unrest: 'crowd', cointrust: 'coin' };
 
 function standingWord(v: number) {
   if (v >= 60) return 'Devoted';
@@ -45,18 +46,60 @@ function standingWord(v: number) {
   return 'Enemy';
 }
 
+type RealmTab = 'council' | 'powers' | 'rivals' | 'debt';
+const REALM_KEY = 'lab.realm.tab';
+/** Which sub-tab holds each guided anchor, so the notes can point into the Realm. */
+const GUIDE_TAB: Record<string, RealmTab> = { council: 'council', factions: 'powers', heat: 'powers', rivals: 'rivals', clocks: 'debt' };
+
+function readRealmTab(): RealmTab {
+  try {
+    const v = localStorage.getItem(REALM_KEY);
+    if (v === 'council' || v === 'powers' || v === 'rivals' || v === 'debt') return v;
+  } catch {
+    /* ignore */
+  }
+  return 'council';
+}
+
 export function RealmScreen() {
   const g = useStore((s) => s.game)!;
   const act = useStore((s) => s.act);
+  const guideTarget = useStore((s) => s.guideTarget);
   const { confirm, notify } = useStore.getState();
+  const [tab, setTabState] = useState<RealmTab>(readRealmTab);
+  const setTab = (t: RealmTab) => {
+    setTabState(t);
+    try {
+      localStorage.setItem(REALM_KEY, t);
+    } catch {
+      /* ignore */
+    }
+  };
+  useEffect(() => {
+    if (guideTarget && GUIDE_TAB[guideTarget]) setTab(GUIDE_TAB[guideTarget]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [guideTarget]);
+  const undecided = g.council.agenda.filter((a) => a.player === 0).length;
+  const plansToAnswer = activeRivals(g).filter((id) => g.rivals[id].plan?.revealed && !g.rivals[id].plan?.countered).length;
 
   return (
     <div className="screen">
       <h1 className="screen-title">The Realm</h1>
+      <Seg
+        value={tab}
+        onChange={setTab}
+        options={[
+          { value: 'council', label: <span className="seg-l">Council{undecided ? <i className="seg-dot" aria-label={`${undecided} without a stance`} /> : null}</span> },
+          { value: 'powers', label: 'Powers' },
+          { value: 'rivals', label: <span className="seg-l">Rivals{plansToAnswer ? <i className="seg-dot" aria-label={`${plansToAnswer} plans revealed`} /> : null}</span> },
+          { value: 'debt', label: 'The Debt' },
+        ]}
+      />
 
-      <CouncilSection />
+      {tab === 'council' && <CouncilSection />}
 
-      <Section title="The Debt">
+      {tab === 'debt' && (
+      <Section title="The Debt" guide="clocks">
         <p className="small muted">The realm's crisis moves every week, with or without you. Contracts and choices push these clocks.</p>
         <div className="clocks">
           {(Object.keys(CLOCKS) as ClockId[]).map((c) => {
@@ -66,7 +109,7 @@ export function RealmScreen() {
               <div key={c} className="clock">
                 <div className="row between">
                   <b className="meta" style={{ color: 'var(--ink)' }}>
-                    <Icon name={CLOCK_ICON[c]} size={16} style={{ color: bad > 70 ? 'var(--bad)' : bad > 45 ? 'var(--mid)' : 'var(--ink-2)' }} />
+                    <Icon name={CLOCK_ICON[c]} size={18} style={{ color: bad > 70 ? 'var(--bad)' : bad > 45 ? 'var(--mid)' : 'var(--ink-2)' }} />
                     {CLOCKS[c].name}
                   </b>
                   <span>{Math.round(v)}</span>
@@ -78,13 +121,16 @@ export function RealmScreen() {
           })}
         </div>
       </Section>
+      )}
 
+      {tab === 'powers' && (
+      <>
       <Section
         guide="factions"
         title="Powers of Varrow"
         right={
           <span className="meta">
-            <Icon name="seal" size={14} style={{ color: 'var(--r-influence)' }} /> {g.influence} Influence
+            <Icon name="seal" size={14} /> {g.influence} Influence
           </span>
         }
       >
@@ -94,7 +140,7 @@ export function RealmScreen() {
           return (
             <div key={id} className="faction" style={{ ['--fc' as string]: f.color }}>
               <div className="row between">
-                <b className="meta" style={{ color: 'var(--ink)', fontSize: '1rem' }}>
+                <b className="meta card-title">
                   <span className="type-icon" style={{ width: 32, height: 32 }}>
                     <Icon name={id} size={18} />
                   </span>
@@ -131,9 +177,10 @@ export function RealmScreen() {
       </Section>
 
       <Section
+        guide="heat"
         title={
           <>
-            <Icon name="flame" size={18} style={{ color: 'var(--r-heat)' }} /> Heat
+            <Icon name="flame" size={18} /> Heat
           </>
         }
       >
@@ -153,11 +200,14 @@ export function RealmScreen() {
           Grease palms (−12 Heat) · {HEAT_COST} Influence
         </Btn>
       </Section>
+      </>
+      )}
 
+      {tab === 'rivals' && (
       <Section title="Rivals" guide="rivals">
         <div className="defense-row">
           <p className="small">
-            <Icon name="guards" size={14} /> Hall defense: {Math.round(hallDefense(g) * 100)}% · {guards(g).length} on guard · Spymaster's Den level {level(g, 'den')}
+            <Icon name="guard" size={14} /> Hall defense: {Math.round(hallDefense(g) * 100)}% · {guards(g).length} on guard · Spymaster's Den level {level(g, 'den')}
           </p>
           <p className="tiny muted">Assign members to Guard the hall to stop thieves, arsonists and knives in the night. A Den helps catch spies.</p>
           <Btn
@@ -180,6 +230,7 @@ export function RealmScreen() {
           <RivalCard key={id} id={id} />
         ))}
       </Section>
+      )}
 
     </div>
   );
@@ -201,7 +252,7 @@ function RivalCard({ id }: { id: RivalId }) {
   return (
     <div className="faction" style={{ ['--fc' as string]: info.color }}>
       <div className="row between">
-        <b className="meta" style={{ color: 'var(--ink)', fontSize: '1rem' }}>
+        <b className="meta card-title">
           <span className="type-icon" style={{ width: 32, height: 32 }}>
             <Icon name={id} size={18} />
           </span>
@@ -218,7 +269,7 @@ function RivalCard({ id }: { id: RivalId }) {
         <div className="row between">
           <span className="small">
             <b>{STAGES[feudStage(g, id)]}</b>
-            {inTruce(g, id) && <span className="muted"> · truce until week {r.truceUntil}</span>}
+            {inTruce(g, id) && <span className="muted"> · truce until {shortDate(r.truceUntil!, g.week)}</span>}
             {r.ourSpy && <span className="muted"> · your spy is inside</span>}
           </span>
           <span className="tiny muted">Feud {Math.round(r.feud ?? 0)}/100</span>

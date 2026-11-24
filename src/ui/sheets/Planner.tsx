@@ -18,13 +18,15 @@ import {
   type GameState,
   type Member,
   RIVALS,
+  buySupplies,
+  supplyCost,
 } from '../../engine';
 import { useStore } from '../../store';
-import { ChanceBar, FactionBadge, Seg, Sheet, TagChip, ThreatPips } from '../kit/common';
-import { chanceText, signed } from '../kit/format';
+import { Btn, ChanceBar, FactionBadge, Seg, Sheet, TagChip, ThreatPips } from '../kit/common';
+import { chanceText, crowns, plural, signed, weeks, wk } from '../kit/format';
 import { MemberMini } from '../kit/members';
 import { Icon } from '../kit/icons';
-import { ap, APPROACHES, ApproachChip } from '../kit/visual';
+import { ap, APPROACHES, ApproachChip, useBestOdds } from '../kit/visual';
 
 /** Who is good at what: members × approaches, with the plan's approaches outlined. */
 function usePref(key: string, initial: string): [string, (v: string) => void] {
@@ -88,7 +90,7 @@ function StrengthMatrix({ g, everyone, selected, used, onToggle, blockedReason }
                 {APPROACHES.map((a, i) => (
                   <th key={a} className={`${used.includes(a) ? 'used' : ''} ${sort === i ? 'sorted' : ''}`} title={`Sort by ${APPROACH_INFO[a].name}`}>
                     <button className="th-btn" onClick={() => setSort(sort === i ? null : i)}>
-                      <Icon name={a} size={16} />
+                      <Icon name={a} size={18} />
                     </button>
                   </th>
                 ))}
@@ -101,7 +103,7 @@ function StrengthMatrix({ g, everyone, selected, used, onToggle, blockedReason }
                 return (
                   <tr key={m.id} className={`${isSel ? 'sel' : ''} ${why && !isSel ? 'unavail' : ''}`} onClick={() => (why && !isSel ? useStore.getState().notify(why) : onToggle(m))}>
                     <td className="name">
-                      {isSel ? '✓ ' : ''}
+                      {isSel && <Icon name="check" size={12} />}
                       {m.name.split(' ')[0]}
                     </td>
                     {s.map((v, i) => (
@@ -161,14 +163,16 @@ function ContractHeader({ c, game }: { c: Contract; game: GameState }) {
           <FactionBadge id={c.patron} />
         )}
         <span className="muted">{c.type}</span>
-        <span className="muted">· {c.region}{c.travelWeeks ? ` (${c.travelWeeks}w away)` : ''}</span>
+        <span className="muted">· {c.region}{c.travelWeeks ? ` (${wk(c.travelWeeks)} away)` : ''}</span>
       </div>
       <p className="desc">{c.description}</p>
       <div className="row between">
         <span>
           Threat <ThreatPips value={c.threat} />
         </span>
-        <span className="reward">◉ {c.reward}</span>
+        <span className="reward">
+          <Icon name="coin" size={14} /> {c.reward}
+        </span>
       </div>
       <div className="tags">
         {c.tags.map((t) => (
@@ -189,7 +193,7 @@ function ContractHeader({ c, game }: { c: Contract; game: GameState }) {
       )}
       {c.contestedBy && <p className="warn">{RIVALS[c.contestedBy].name} {c.contestedBy !== 'assay' ? 'want' : 'wants'} this one. It may not last the week.</p>}
       <p className="muted small">
-        Expires {c.expiresWeek <= game.week ? 'this week' : `in ${c.expiresWeek - game.week + 1} weeks`} · squad {c.minSquad}–{c.maxSquad}
+        Expires {c.expiresWeek <= game.week ? 'this week' : `in ${weeks(c.expiresWeek - game.week + 1)}`} · squad {c.minSquad}–{c.maxSquad}
       </p>
     </div>
   );
@@ -206,6 +210,7 @@ export function Planner({ contractId }: { contractId: string }) {
   const [retreat, setRetreat] = useState(true);
   const [expanded, setExpanded] = useState<number | null>(null);
 
+  const best = useBestOdds(game, c);
   const crew = living(game);
   const members = useMemo(() => selected.map((id) => crew.find((m) => m.id === id)).filter(Boolean) as Member[], [selected, crew]);
 
@@ -237,7 +242,23 @@ export function Planner({ contractId }: { contractId: string }) {
     else useStore.getState().notify(`At most ${c.maxSquad} members`);
   };
 
-  const canSend = members.length >= c.minSquad && game.supplies >= pv.supplies;
+  const shortBy = Math.max(0, pv.supplies - game.supplies);
+  const sendBlocked = members.length < c.minSquad ? `Pick at least ${plural(c.minSquad, 'member')} for this contract.` : undefined;
+  const pickBest = () => {
+    if (!best) return useStore.getState().notify(`Not enough people are fit to go. This contract needs ${c.minSquad}.`);
+    setSelected(best.ids);
+    setManual({});
+  };
+  const buyShortfall = () => {
+    const cost = supplyCost(game, shortBy);
+    useStore.getState().confirm({
+      title: `Buy ${shortBy} supplies?`,
+      body: [`The squad needs ${pv.supplies} supplies for the trip and the stores hold ${game.supplies}.`],
+      cost: `Costs ${crowns(cost)} · treasury ${game.crowns} → ${game.crowns - cost}`,
+      confirmLabel: `Buy ${shortBy}`,
+      onConfirm: () => act((d) => buySupplies(d, shortBy)) && useStore.getState().notify(`Bought ${shortBy} supplies. The squad can leave.`),
+    });
+  };
   const dispatch = () => {
     if (pv.risk === 'High' || pv.risk === 'Deadly' || pv.overall.max < 0.4) {
       useStore.getState().confirm({
@@ -277,10 +298,10 @@ export function Planner({ contractId }: { contractId: string }) {
             <div className="foot-odds" aria-label="Odds for each phase">
               {pv.phases.map((p, i) => {
                 const tone = p.min >= 0.7 ? 'good' : p.max < 0.4 ? 'bad' : 'mid';
-                const txt = Math.round(p.min * 100) === Math.round(p.max * 100) ? `${Math.round(p.min * 100)}%` : `${Math.round(p.min * 100)}–${Math.round(p.max * 100)}%`;
+                const txt = chanceText(p.min, p.max);
                 return (
                   <span key={i} className={`fo ${tone} ${i === pv.phases.length - 1 ? 'goal' : ''}`} title={`${p.phase.name}: ${txt}`}>
-                    <Icon name={p.approach} size={13} />
+                    <Icon name={p.approach} size={14} />
                     {txt}
                   </span>
                 );
@@ -291,20 +312,33 @@ export function Planner({ contractId }: { contractId: string }) {
             <span>
               Supplies {pv.supplies} <span className="muted">(have {game.supplies})</span>
             </span>
-            <span>
-              Takes {pv.weeks} week{pv.weeks > 1 ? 's' : ''}
-            </span>
+            <span>Takes {weeks(pv.weeks)}</span>
             {members.length > 0 ? <span className={`risk risk-${pv.risk.toLowerCase()}`}>Risk: {pv.risk}</span> : <span className="muted">Risk: —</span>}
           </div>
-          <button className="btn primary block" disabled={!canSend} onClick={dispatch}>
-            {members.length < c.minSquad ? `Select at least ${c.minSquad}` : game.supplies < pv.supplies ? 'Not enough supplies' : `Dispatch squad (${members.length})`}
-          </button>
+          {members.length >= c.minSquad && shortBy > 0 ? (
+            <Btn
+              className="btn primary block"
+              blocked={game.crowns < supplyCost(game, shortBy) ? `${shortBy} more supplies cost ${crowns(supplyCost(game, shortBy))}, and the treasury holds ${crowns(game.crowns)}.` : undefined}
+              onClick={buyShortfall}
+            >
+              Buy {shortBy} supplies · {crowns(supplyCost(game, shortBy))}
+            </Btn>
+          ) : (
+            <Btn className="btn primary block" blocked={sendBlocked} onClick={dispatch}>
+              {members.length < c.minSquad ? `Pick at least ${c.minSquad}` : `Dispatch squad (${members.length})`}
+            </Btn>
+          )}
         </div>
       }
     >
       <ContractHeader c={c} game={game} />
 
-      <h3 className="subhead">Squad</h3>
+      <div className="section-head planner-squad-head">
+        <h3 className="subhead">Squad</h3>
+        <Btn className="btn ghost small" blocked={!best ? `Not enough people are fit to go. This contract needs ${c.minSquad}.` : undefined} onClick={pickBest}>
+          <Icon name="people" size={14} /> Best squad{best ? ` (${best.ids.length})` : ''}
+        </Btn>
+      </div>
       <div className="member-pick">
         {available.map((m) => (
           <MemberMini key={m.id} m={m} selected={selected.includes(m.id)} onClick={() => toggle(m)} onLongPress={() => open({ kind: 'member', id: m.id })} blocked={blockedReason(m)} />
@@ -317,7 +351,7 @@ export function Planner({ contractId }: { contractId: string }) {
         <div className="row wrap gap small">
           {members.map((m) => (
             <button key={m.id} className="btn ghost small" onClick={() => open({ kind: 'member', id: m.id })}>
-              <Icon name="armor" size={13} /> Gear: {m.name.split(' ')[0]}
+              <Icon name="armor" size={14} /> Gear: {m.name.split(' ')[0]}
             </button>
           ))}
         </div>
@@ -408,7 +442,7 @@ export function Planner({ contractId }: { contractId: string }) {
         <input type="checkbox" checked={retreat} onChange={(e) => setRetreat(e.target.checked)} />
         <span>Withdraw if anyone is critically wounded (safer, but the contract fails)</span>
       </label>
-      <p className="tiny muted">Hold a member to see their gear and details. Destination: {REGIONS[Object.keys(REGIONS).find((k) => REGIONS[k].name === c.region) ?? 'varrow']?.description}</p>
+      <p className="tiny muted">Hold a member, or tap Gear once they are picked, to see their details. Destination: {REGIONS[Object.keys(REGIONS).find((k) => REGIONS[k].name === c.region) ?? 'varrow']?.description}</p>
       <p className="tiny muted">
         Professions: {[...new Set(members.map((m) => PROFESSIONS[m.profession].name))].join(', ') || 'none selected'}
       </p>

@@ -76,7 +76,7 @@ export function Title() {
   return (
     <div className="title-screen">
       <button className="theme-toggle" onClick={toggleTheme} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
-        <Icon name={theme === 'dark' ? 'sun' : 'moon'} size={20} />
+        <Icon name="lamp" size={18} />
       </button>
       <div className="title-art">⚖⚔</div>
       <h1>Ledger &amp; Blade</h1>

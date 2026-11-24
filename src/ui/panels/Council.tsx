@@ -17,6 +17,7 @@ import {
 import { useStore } from '../../store';
 import { Btn, Section, Seg } from '../kit/common';
 import { Icon } from '../kit/icons';
+import { shortDate, weeks, wk } from '../kit/format';
 
 const FIDS = Object.keys(SEATS) as CouncilFaction[];
 const STANCE: Record<string, string> = { '1': 'For', '0': 'Undecided', '-1': 'Against' };
@@ -113,13 +114,13 @@ function DecreeCard({ g, item }: { g: GameState; item: AgendaItem }) {
               {item.player !== 0 && p !== item.player && (
                 <span className="cf-actions">
                   <Btn className="btn ghost small" blocked={blocked ?? (g.influence < c.influence ? `Needs ${c.influence} Influence (you have ${g.influence})` : undefined)} title={blocked ?? `${c.influence} Influence`} onClick={() => doLobby(f, 'influence')}>
-                    <Icon name="seal" size={13} /> {c.influence}
+                    <Icon name="seal" size={14} /> {c.influence}
                   </Btn>
                   <Btn className="btn ghost small" blocked={blocked ?? (g.intel < c.intel ? `Needs ${c.intel} Intel (you have ${g.intel})` : undefined)} title={blocked ?? `${c.intel} Intel`} onClick={() => doLobby(f, 'intel')}>
-                    <Icon name="eye" size={13} /> {c.intel}
+                    <Icon name="eye" size={14} /> {c.intel}
                   </Btn>
                   <Btn className="btn ghost small" blocked={blocked ?? (g.crowns < c.crowns ? `Needs ${c.crowns} crowns (you have ${g.crowns})` : undefined)} title={blocked ?? `${c.crowns} crowns`} onClick={() => doLobby(f, 'crowns')}>
-                    <Icon name="coin" size={13} /> {c.crowns}
+                    <Icon name="coin" size={14} /> {c.crowns}
                   </Btn>
                 </span>
               )}
@@ -144,8 +145,8 @@ export function CouncilSection() {
       title="The Council of Varrow"
       right={
         <span className="meta">
-          <Icon name="clock" size={13} />
-          {c.agenda.length ? `votes ${c.voteWeek === g.week ? 'this week' : `in ${(c.voteWeek ?? g.week) - g.week + 1} weeks`}` : `next agenda in ${untilAgenda} wk`}
+          <Icon name="clock" size={14} />
+          {c.agenda.length ? `votes ${c.voteWeek === g.week ? 'this week' : `in ${weeks((c.voteWeek ?? g.week) - g.week + 1)}`}` : `next agenda in ${wk(untilAgenda)}`}
         </span>
       }
     >
@@ -161,7 +162,7 @@ export function CouncilSection() {
           <h4 className="week-head">In force</h4>
           {active.map((a) => (
             <div key={a.id} className="small">
-              <b>{DECREE_BY_ID[a.id].title}</b> <span className="muted">· {a.untilWeek - g.week + 1} wk left</span>
+              <b>{DECREE_BY_ID[a.id].title}</b> <span className="muted">· {wk(a.untilWeek - g.week + 1)} left</span>
               <div className="tiny muted">{DECREE_BY_ID[a.id].effects.join(' ')}</div>
             </div>
           ))}
@@ -172,7 +173,7 @@ export function CouncilSection() {
           <summary>Past votes</summary>
           {[...c.history].reverse().slice(0, 8).map((h, i) => (
             <div key={i} className="tiny">
-              Week {h.week}: {DECREE_BY_ID[h.id].title}, {h.passed ? 'passed' : 'failed'} {h.votesFor}–{h.votesAgainst}
+              {shortDate(h.week, g.week)}: {DECREE_BY_ID[h.id].title}, {h.passed ? 'passed' : 'failed'} {h.votesFor}–{h.votesAgainst}
               {h.player ? ` · you ${h.player > 0 ? 'supported' : 'opposed'} it` : ''}
             </div>
           ))}

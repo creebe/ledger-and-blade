@@ -6,6 +6,7 @@ export type Tab = 'hall' | 'contracts' | 'roster' | 'armory' | 'realm';
 export type Sheet =
   | { kind: 'planner'; contractId: string }
   | { kind: 'member'; id: string }
+  | { kind: 'orders'; id: string }
   | { kind: 'mission'; id: string }
   | { kind: 'report'; dispatchIds: string[]; week: number; before: ResourceSnap }
   | { kind: 'confirm'; title: string; body: string[]; cost?: string; confirmLabel: string; danger?: boolean; onConfirm: () => void }
