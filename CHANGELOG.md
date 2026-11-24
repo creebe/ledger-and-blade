@@ -15,7 +15,7 @@ The owner asked to "take a good look at typography and the major colors such as 
   - A new theme test checks that every text color is 4.5:1 or better in both themes and that the two copies of the dark theme match.
   - Screenshots in both themes.
 - **Not checked:** iOS Safari.
-- **Not live.**
+- **Live** (republished on the owner's word, 2026-11-24).
 
 ## v0.12.1 (2026-11-24): Colors in the Armory, and a new Heat icon
 Materials and prices carry their colors in the Armory, and Heat has a new icon. The owner said: "I was thinking the icon colors would be present in the Armory views too. And can we change the Heat icon? The thermometer seems too silly."
@@ -34,7 +34,7 @@ Materials and prices carry their colors in the Armory, and Heat has a new icon. 
   - Browser screenshots of the Shop, Materials and Workshop tabs, in dark and light.
   - The UI reviewer at 390 and 360 px: the new colors are 4.9–9.1:1 against the background, and nothing else picked up a material color.
 - **Not checked:** iOS Safari.
-- **Not live.**
+- **Live** (republished on the owner's word, 2026-11-24).
 
 ## v0.12.0 (2026-11-24): Dates, and a careful end of week
 A checkpoint you can reach in one sitting, a harder-to-fumble End Week, shortcuts to whatever you're short of, and colored resource icons. The owner asked for "a more tangible goal the player can strive for in shorter terms than the entire 4-year campaign ... something that the player can reasonably reach in a single play session", for missing-resource alerts to "bring us to a place where we can acquire the resource", for "a confirmation loop when ending a week", and for color on the resource icons.
