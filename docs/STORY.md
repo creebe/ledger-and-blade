@@ -171,7 +171,7 @@ A **Date** is a day on the guild's calendar, three to six weeks ahead, that the 
 | Saint Oda's Fair | Brune | `met_oda` | 30 supplies, 15 of them given; Lower Town standing up | — |
 | The Exchequer's Auditors | The Exchequer | Heat ≥ 20 | Bring Heat down by about 10 | — |
 | The Porters' Feast | Porters' Fraternity | Week 8+, Unrest < 80 | Lower Town standing up | Called off if Unrest ≥ 85 |
-| The Weighhouse Reviews the Note | Coster | Week 14+, 200+ owed | Pay 100 off the loan yourself | Called off if Coster is gone |
+| The Weighhouse Reviews the Note | Coster | Week 14+, 200+ owed | Pay the Weighhouse 100, due payments included | Called off if Coster is gone |
 | The Muster on the Green | The Crown's muster officers | Week 10+ | More members; 2 at level 3+ | — |
 | Before the Snow | Jory | Autumn, weeks 1–8 | Four weeks of food in store | — |
 | Marta Hobb's Wager | Marta | Week 12+, the Hobbs active | Renown above the Hobbs' | Called off if Marta dies |

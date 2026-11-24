@@ -32,7 +32,7 @@ None found.
 ## The Crown's silver: how it resolved
 
 - guild fell first (bankrupt): 74%
-- declined (Hobbs carried it): 15%
+- declined (Hobbs carried it): 14%
 - delivered: 4%
 - lost: 2%
 - abandoned: 2%
@@ -158,7 +158,7 @@ Every conversation node in every story beat was reached.
 | Drover's Road (Places) | 92% |
 | Harrowmere (Places) | 82% |
 | Kell Mines (Places) | 74% |
-| The Saltfens (Places) | 45% |
+| The Saltfens (Places) | 44% |
 | Port Anselm (Places) | 37% |
 | Factor Maelis Vorn (People) | 100% |
 | Marta Hobb (People) | 100% |
@@ -174,7 +174,7 @@ Every conversation node in every story beat was reached.
 | Hill trolls (Foes) | 60% |
 | Fireborn (Foes) | 30% |
 | Hedge-wards (Foes) | 26% |
-| Swarms (Foes) | 38% |
+| Swarms (Foes) | 37% |
 | Sell-swords (Foes) | 68% |
 | The Assay Office (Powers & trades) | 99% |
 | Saint Oda's (Powers & trades) | 99% |
@@ -183,26 +183,26 @@ Every conversation node in every story beat was reached.
 
 ## Random events fired
 
-- field_arrival: 1884
-- petition: 167
-- brawl: 163
+- field_arrival: 1880
+- petition: 169
+- brawl: 161
 - informant: 145
 - field_bridge: 128
 - field_shadowed: 117
 - lead: 116
-- field_traveler: 105
-- fenn_letter: 101
+- field_traveler: 104
+- fenn_letter: 102
 - peddler: 96
-- homesick: 85
 - festival: 84
+- homesick: 83
 - field_guide: 82
 - marta_cake: 74
 - pask_strongbox: 72
 - raise: 69
-- volunteer: 46
+- volunteer: 45
 - brune_donation: 35
 - field_tracks: 30
-- bank_offer: 28
+- bank_offer: 27
 - field_deserter: 24
 - field_rivals: 15
 - hobbs_audit: 6

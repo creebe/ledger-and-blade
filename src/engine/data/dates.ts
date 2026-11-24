@@ -98,7 +98,7 @@ export const DATES: DateDef[] = [
     available: (s) => s.council.agenda.length > 0 && s.council.voteWeek !== undefined && s.council.voteWeek - s.week >= 2,
     due: (s) => s.council.voteWeek,
     targets: () => [{ kind: 'council' }],
-    reward: { influence: 3, renown: 2 },
+    reward: { influence: 2, renown: 1 },
     cost: { renown: -2 },
     met: 'The guild backed a winner, and the aldermen noticed. Two of them now say the guild\'s name correctly.',
     missed: "The votes went the other way, or the guild never said which way it wanted them. Either way, two aldermen have stopped answering the guild's letters.",
@@ -138,10 +138,10 @@ export const DATES: DateDef[] = [
     lead: [4, 6],
     weight: 2,
     text: (s) =>
-      `Vorn wants to see the guild's books before the bank sends more work. She has asked for them clean, with a balance she can take seriously: at least ${round10(Math.max(300, weeklyCosts(s) * 3))} crowns.`,
+      `Vorn wants to see the guild's books before the bank sends more work. She has asked for them clean, with a balance she can take seriously: at least ${round10(Math.max(450, weeklyCosts(s) * 5))} crowns.`,
     available: (s) => !!s.flags.ostranders_open && s.week >= 8,
     targets: (s) => [
-      { kind: 'crowns', at: round10(Math.max(300, weeklyCosts(s) * 3)) },
+      { kind: 'crowns', at: round10(Math.max(450, weeklyCosts(s) * 5)) },
       { kind: 'heatBelow', below: 40 },
     ],
     reward: { crowns: 80, standing: { ostranders: 5 } },
@@ -216,9 +216,9 @@ export const DATES: DateDef[] = [
     text: () =>
       "Coster reviews every note on his books twice a year, with his brass balance on the desk. If the guild has paid the Weighhouse well since the last review, he lowers the rate, and if it hasn't, he raises it and explains why at length.",
     available: (s) => s.week >= 14 && s.loans.length > 0 && s.loans[0].principal >= 200,
-    targets: () => [{ kind: 'repaid', amount: 120 }],
+    targets: () => [{ kind: 'repaid', amount: 100 }],
     reward: { loanRate: -0.002, standing: { weighhouse: 2 } },
-    cost: { loanRate: 0.002 },
+    cost: { loanRate: 0.001 },
     met: 'Coster weighed the payments on his balance and, after a long sigh, lowered the rate on the note.',
     missed: "Coster raised the rate on the note. He was very sorry about it, and he wrote the new figure down before he said so.",
     gone: "The review was called off. The Weighhouse masters are going through Coster's own books this month, and nobody has time for the guild's.",
