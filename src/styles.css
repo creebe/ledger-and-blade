@@ -42,6 +42,10 @@
   --res-influence: #7a3f9c;
   --res-renown: #1f7a6b;
   --res-heat: #b8441a;
+  --res-iron: #4f6175;
+  --res-leather: #8a4f22;
+  --res-timber: #6f5a22;
+  --res-reagents: #a33a76;
   --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
   --display: 'Cormorant Garamond', 'Source Serif 4', Georgia, serif;
   color-scheme: light;
@@ -67,6 +71,10 @@
     --res-influence: #c99be6;
     --res-renown: #6fd0c0;
     --res-heat: #f07a4a;
+    --res-iron: #a9b8c8;
+    --res-leather: #d4986a;
+    --res-timber: #c4ab6e;
+    --res-reagents: #e58fc0;
     --bad: #e06a4f;
     --info: #6ea6cf;
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 14px rgba(0, 0, 0, 0.3);
@@ -113,6 +121,10 @@
   --res-influence: #c99be6;
   --res-renown: #6fd0c0;
   --res-heat: #f07a4a;
+  --res-iron: #a9b8c8;
+  --res-leather: #d4986a;
+  --res-timber: #c4ab6e;
+  --res-reagents: #e58fc0;
   --bad: #e06a4f;
   --info: #6ea6cf;
   color-scheme: dark;
@@ -3651,4 +3663,28 @@ details summary {
 .facility-detail .icon,
 .build-progress .icon {
   color: inherit;
+}
+
+/* materials have their own icon colors too */
+.icon.ic-iron {
+  color: var(--res-iron);
+}
+.icon.ic-leather {
+  color: var(--res-leather);
+}
+.icon.ic-timber {
+  color: var(--res-timber);
+}
+.icon.ic-reagents {
+  color: var(--res-reagents);
+}
+/* a price: the number, then a small gold coin */
+.price {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  white-space: nowrap;
+}
+.price .icon {
+  vertical-align: -2px;
 }

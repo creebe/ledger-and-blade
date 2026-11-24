@@ -9,7 +9,7 @@ const P: Record<string, string> = {
   eye: 'M2 12s3.5-6 10-6s10 6 10 6s-3.5 6-10 6S2 12 2 12z M12 9.5a2.5 2.5 0 1 0 0 5a2.5 2.5 0 1 0 0-5',
   seal: 'M12 3a6 6 0 1 0 0 12a6 6 0 1 0 0-12 M8.5 14l-2 7l5.5-3l5.5 3l-2-7 M12 6.5v5 M9.5 9h5',
   star: 'M12 3l2.7 5.6l6.1.8l-4.5 4.2l1.1 6.1L12 16.8l-5.4 2.9l1.1-6.1l-4.5-4.2l6.1-.8z',
-  flame: 'M10 4a2 2 0 0 1 4 0v9.5a4 4 0 1 1-4 0z M12 9v7',
+  flame: 'M9 3h6 M12 3v2 M8 7h8l-1 11H9z M8 7c0-1 1-2 4-2s4 1 4 2 M10 21h4 M12 18v3 M12 10.5v4', // Heat: the watch's lantern
   // approaches
   assault: 'M4 4l9 9 M4 4h4 M4 4v4 M20 4l-9 9 M20 4h-4 M20 4v4 M10.5 14.5l-3 3 M13.5 14.5l3 3 M6 19l1.5-1.5 M18 19l-1.5-1.5',
   stealth: 'M3 10c2.5 3 5.5 4.5 9 4.5s6.5-1.5 9-4.5 M7 13.5l-1.5 2.5 M12 14.5v3 M17 13.5l1.5 2.5',
@@ -95,7 +95,11 @@ const P: Record<string, string> = {
   fame: 'M8 20c-3-3-4-7-2-12 M16 20c3-3 4-7 2-12 M6 12l-2-1 M6.5 15.5l-2 0 M18 12l2-1 M17.5 15.5l2 0 M7 8.5l-1.5-1.5 M17 8.5l1.5-1.5',
   guard: 'M12 3l7 3v5c0 5-3 8-7 10c-4-2-7-5-7-10V6z M9 12l2 2l4-4',
   bricks: 'M3 8h18v12H3z M3 14h18 M9 8v6 M15 14v6',
-  hide: 'M6 3l3 2h6l3-2l2 4l-2 3v8l-3 3H9l-3-3v-8L4 7z',
+  // materials: each has its own drawing, so its color never lands on a terrain tag or a building
+  iron: 'M4 17l3-7h10l3 7z M7 10l2-3h6l2 3',
+  leather: 'M6 3l3 2h6l3-2l2 4l-2 3v8l-3 3H9l-3-3v-8L4 7z',
+  timber: 'M5 8h12a4 4 0 0 1 0 8H5a4 4 0 0 1 0-8z M17 8a4 4 0 0 0 0 8 M17 11a1 1 0 1 0 0 2',
+  reagents: 'M4 11h16 M5 11a7 7 0 0 0 14 0 M9 21h6 M12 18v3 M15 4l-3 7',
   notes: 'M9 6h11 M9 12h11 M9 18h11 M4 6l1 1l2-2 M4 12l1 1l2-2 M4 18l1 1l2-2',
   calendar: 'M4 6h16v15H4z M4 10h16 M8 3v5 M16 3v5',
   magnifier: 'M10 4a6 6 0 1 0 0 12a6 6 0 1 0 0-12 M14.5 14.5L20 20',

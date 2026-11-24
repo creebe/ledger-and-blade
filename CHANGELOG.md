@@ -2,6 +2,23 @@
 
 Newest first. Each entry says what changed for a player, why (quoting the owner's feedback where it came from playtesting), and what was and wasn't checked. The live site is https://creebe.github.io/ledger-and-blade/ and is only republished on the owner's word; each entry notes whether it is live.
 
+## v0.12.1 (2026-11-24): Colors in the Armory, and a new Heat icon
+Materials and prices carry their colors in the Armory, and Heat has a new icon. The owner said: "I was thinking the icon colors would be present in the Armory views too. And can we change the Heat icon? The thermometer seems too silly."
+- **Materials.** Iron, Leather, Timber and Reagents each have their own icon and color:
+  - Iron: a slate ingot;
+  - Leather: a tan hide;
+  - Timber: a wooden log;
+  - Reagents: a rose mortar.
+
+  They show wherever materials appear: the Materials tab, recipe costs and building costs. The new drawings mean the colors never land on the Rough terrain tag, the Forge or consumables, which used to share those icons.
+- **Prices.** Prices in the Armory and the Workshop show a small gold coin instead of the ◉ text.
+- **Heat.** Heat is now the night watch's lantern, chosen by the owner from three options.
+- **Checked:**
+  - `npm run check`.
+  - Browser screenshots of the Shop, Materials and Workshop tabs, in dark and light.
+- **Not checked:** iOS Safari.
+- **Not live.**
+
 ## v0.12.0 (2026-11-24): Dates, and a careful end of week
 A checkpoint you can reach in one sitting, a harder-to-fumble End Week, shortcuts to whatever you're short of, and colored resource icons. The owner asked for "a more tangible goal the player can strive for in shorter terms than the entire 4-year campaign ... something that the player can reasonably reach in a single play session", for missing-resource alerts to "bring us to a place where we can acquire the resource", for "a confirmation loop when ending a week", and for color on the resource icons.
 - **Dates.** One dated checkpoint is always 3–6 weeks ahead, and the next is already in view.

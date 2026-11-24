@@ -19,7 +19,7 @@ import {
   type MaterialId,
 } from '../../engine';
 import { useStore } from '../../store';
-import { Btn, Empty, Section, Seg } from '../kit/common';
+import { Btn, Empty, Price, Section, Seg } from '../kit/common';
 import { SLOT_LABEL, crowns } from '../kit/format';
 import { Icon } from '../kit/icons';
 import { ItemIcon, ItemStats } from '../kit/visual';
@@ -72,12 +72,12 @@ export function ArmoryScreen() {
             }
           >
             <p className="small">
-              Food, fodder and lamp-oil. Each member eats 1 a week, and squads carry their own. Bigger orders are cheaper. Price now: <b>{crowns(supplyPrice(g))}</b> each.
+              Food, fodder and lamp-oil. Each member eats 1 a week, and squads carry their own. Bigger orders are cheaper. Price now: <b><Price n={supplyPrice(g)} /></b> each.
             </p>
             <div className="row wrap gap">
               {[5, 10, 20, 40].map((n) => (
                 <Btn key={n} className="btn ghost small" blocked={short(g, 'crowns', supplyCost(g, n), `${n} supplies`)} onClick={() => buySuppliesFlow(n)}>
-                  +{n} · {crowns(supplyCost(g, n))}
+                  +{n} · <Price n={supplyCost(g, n)} />
                   {supplyDiscount(n) ? <small className="good"> −{Math.round(supplyDiscount(n) * 100)}%</small> : null}
                 </Btn>
               ))}
@@ -118,7 +118,7 @@ export function ArmoryScreen() {
                             })
                           }
                         >
-                          {crowns(price)}
+                          <Price n={price} />
                         </Btn>
                       </div>
                     );
@@ -166,7 +166,7 @@ export function ArmoryScreen() {
                           })
                         }
                       >
-                        Sell {crowns(Math.round(def.price * SELL_RATE))}
+                        Sell <Price n={Math.round(def.price * SELL_RATE)} />
                       </Btn>
                     </div>
                   );
@@ -187,12 +187,12 @@ export function ArmoryScreen() {
             return (
               <div key={m} className="shop-item" data-guide={`mat-${m}`}>
                 <span className="item-icon" style={{ width: 34, height: 34 }}>
-                  <Icon name={({ iron: 'anvil', leather: 'hide', timber: 'rough', reagents: 'flask' } as Record<string, string>)[m]} size={18} />
+                  <Icon name={m} size={18} />
                 </span>
                 <div className="card-main">
                   <b>{MATERIAL_INFO[m].name}</b> <span className="muted">×{g.materials[m]}</span>
                   <div className="tiny muted">
-                    Buy {crowns(materialPrice(g, m))} · sell about {crowns(price)} each
+                    Buy <Price n={materialPrice(g, m)} /> · sell about <Price n={price} /> each
                   </div>
                 </div>
                 <div className="row gap">
@@ -209,7 +209,7 @@ export function ArmoryScreen() {
                       })
                     }
                   >
-                    Buy 5 · {crowns(materialPrice(g, m) * 5)}
+                    Buy 5 · <Price n={materialPrice(g, m) * 5} />
                   </Btn>
                   <Btn className="btn small ghost" blocked={g.materials[m] < 1 ? `No ${MATERIAL_INFO[m].name} to sell` : undefined} onClick={() => act((d) => sellMaterial(d, m, 1))}>
                     Sell 1

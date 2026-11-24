@@ -49,7 +49,7 @@ Deploying is the manual "Test & deploy to GitHub Pages" workflow, only on the ow
 - **Names.** Avoid AI-cliché fantasy names and adjective-noun compounds. Avoid "Ward" and "Bell". "Professions" is the term, not "Callings".
 - **UI.**
   - Portrait, phone first.
-  - Color is reserved for meaning: good, warning and bad states; selection; element badges; faction dots; and resource icons (each resource has its own `--res-*` color, on icons only).
+  - Color is reserved for meaning: good, warning and bad states; selection; element badges; faction dots; and resource icons (each resource and material has its own `--res-*` color, on icons only; prices show a gold coin with `Price`).
   - Tappable cards are raised with a chevron, and static panels are flat.
   - A blocked action explains why, using `Btn`'s `blocked` prop.
   - Every spend asks for confirmation.

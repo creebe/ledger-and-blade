@@ -4,6 +4,7 @@ import { useStore } from '../../store';
 import { chanceText } from './format';
 import { Icon } from './icons';
 import { Toast } from './Toast';
+import { num } from './format';
 import { type Blocked, blockedText } from './shortfall';
 
 /** How deep this panel sits in the stack (0 = opened from a main screen). */
@@ -163,5 +164,15 @@ export function Btn({ blocked, onClick, className, children, title, ...rest }: {
     >
       {children}
     </button>
+  );
+}
+
+/** A price in crowns: the number, then a small gold coin (the coin carries the crowns color). */
+export function Price({ n }: { n: number }) {
+  return (
+    <span className="price">
+      {num(n)}
+      <Icon name="coin" size={12} />
+    </span>
   );
 }
