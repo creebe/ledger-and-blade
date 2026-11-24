@@ -185,7 +185,7 @@ export function ArmoryScreen() {
           {(Object.keys(MATERIAL_INFO) as MaterialId[]).map((m) => {
             const price = Math.round(materialPrice(g, m) * MATERIAL_SELL_RATE);
             return (
-              <div key={m} className="shop-item" data-guide={`mat-${m}`}>
+              <div key={m} className="shop-item mat-row" data-guide={`mat-${m}`}>
                 <span className="item-icon" style={{ width: 34, height: 34 }}>
                   <Icon name={m} size={18} />
                 </span>
@@ -195,7 +195,7 @@ export function ArmoryScreen() {
                     Buy <Price n={materialPrice(g, m)} /> · sell about <Price n={price} /> each
                   </div>
                 </div>
-                <div className="row gap">
+                <div className="row gap mat-actions">
                   <Btn
                     className="btn small ghost"
                     blocked={short(g, 'crowns', materialPrice(g, m) * 5, `5 ${MATERIAL_INFO[m].name}`)}

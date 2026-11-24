@@ -52,8 +52,8 @@ function CostChips({ g, crowns, materials, check = true }: { g: GameState; crown
           check && g.crowns < crowns,
           'crowns',
           <>
-            <Icon name="coin" size={12} />
             {crowns}
+            <Icon name="coin" size={12} />
           </>,
           `Crowns: need ${crowns}, have ${g.crowns}`,
         )}

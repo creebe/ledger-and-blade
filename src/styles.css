@@ -3688,3 +3688,22 @@ details summary {
 .price .icon {
   vertical-align: -2px;
 }
+/* gold on the red primary button is under 2.5:1 in both themes; the coin takes the button's ink there */
+.btn.primary .price .icon {
+  /* a gold coin on a pale disc, so it reads on the red button */
+  color: var(--res-crowns);
+  background: var(--paper);
+  border-radius: 50%;
+  padding: 1px;
+  box-sizing: content-box;
+}
+/* materials rows: the actions drop under the name and prices on phones instead of squeezing them */
+.shop-item.mat-row {
+  flex-wrap: wrap;
+}
+.mat-row .card-main {
+  flex: 1 1 150px;
+}
+.mat-row .mat-actions {
+  margin-left: auto;
+}

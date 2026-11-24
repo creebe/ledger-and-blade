@@ -96,7 +96,7 @@ const P: Record<string, string> = {
   guard: 'M12 3l7 3v5c0 5-3 8-7 10c-4-2-7-5-7-10V6z M9 12l2 2l4-4',
   bricks: 'M3 8h18v12H3z M3 14h18 M9 8v6 M15 14v6',
   // materials: each has its own drawing, so its color never lands on a terrain tag or a building
-  iron: 'M4 17l3-7h10l3 7z M7 10l2-3h6l2 3',
+  iron: 'M3 19l3-9h12l3 9z M6 10l2.5-5h7l2.5 5 M9 14.5h6',
   leather: 'M6 3l3 2h6l3-2l2 4l-2 3v8l-3 3H9l-3-3v-8L4 7z',
   timber: 'M5 8h12a4 4 0 0 1 0 8H5a4 4 0 0 1 0-8z M17 8a4 4 0 0 0 0 8 M17 11a1 1 0 1 0 0 2',
   reagents: 'M4 11h16 M5 11a7 7 0 0 0 14 0 M9 21h6 M12 18v3 M15 4l-3 7',
