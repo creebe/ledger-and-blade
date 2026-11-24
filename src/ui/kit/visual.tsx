@@ -4,8 +4,6 @@ import { useMemo } from 'react';
 import {
   APPROACH_INFO,
   bestApproaches,
-  FACTIONS,
-  ITEMS,
   living,
   memberScore,
   PROFESSIONS,
@@ -13,7 +11,6 @@ import {
   TAGS,
   type Approach,
   type Contract,
-  type FactionId,
   type GameState,
   type ItemDef,
   type Member,
@@ -37,10 +34,6 @@ export const PROFESSION_APPROACH: Record<ProfessionId, Approach> = {
 };
 
 export const ap = (a: Approach) => `var(--ap-${a})`;
-
-export function ApproachIcon({ a, size = 16 }: { a: Approach; size?: number }) {
-  return <Icon name={a} size={size} style={{ color: ap(a) }} title={APPROACH_INFO[a].name} />;
-}
 
 export function ApproachChip({ a, on, onClick, small }: { a: Approach; on?: boolean; onClick?: () => void; small?: boolean }) {
   const Tag = onClick ? 'button' : 'span';
@@ -112,7 +105,7 @@ export function ApproachBars({ g, m, highlight }: { g: GameState; m: Member; hig
   );
 }
 
-export function slotIcon(def: ItemDef) {
+function slotIcon(def: ItemDef) {
   if (def.slot === 'weapon') return def.ranged ? 'marksman' : def.bonus?.arcana ? 'arcanist' : 'weapon';
   if (def.slot === 'armor') return 'armor';
   if (def.slot === 'trinket') return 'trinket';
@@ -168,10 +161,6 @@ export function OddsPill({ min, max, label }: { min: number; max: number; label?
   );
 }
 
-export function FactionIcon({ id, size = 16 }: { id: FactionId; size?: number }) {
-  return <Icon name={id} size={size} style={{ color: FACTIONS[id].color }} />;
-}
-
 export const CONTRACT_TYPE_ICON: Record<string, string> = {
   Hunt: 'beasts',
   Escort: 'open_road',
@@ -207,7 +196,7 @@ export function PhaseStrip({ c, chosen }: { c: Contract; chosen?: Approach[] }) 
  * The best odds the guild could get on this contract right now with idle
  * members, using a quick greedy squad pick. A scanning aid, not a promise.
  */
-export function bestSquadOdds(g: GameState, c: Contract): { min: number; max: number; size: number } | null {
+function bestSquadOdds(g: GameState, c: Contract): { min: number; max: number; size: number } | null {
   const idle = living(g).filter((m) => m.status === 'idle' && m.health >= 40);
   if (idle.length < c.minSquad) return null;
   const solo = (m: Member) => previewMission(g, c, [m], bestApproaches(g, c, [m])).phases.reduce((s, p) => s + p.chance, 0);
@@ -228,7 +217,3 @@ export function useBestOdds(g: GameState, c: Contract) {
   return useMemo(() => bestSquadOdds(g, c), [g.members, g.items, c]); // eslint-disable-line react-hooks/exhaustive-deps
 }
 
-export function itemDefOf(g: GameState, uid?: string) {
-  const inst = uid ? g.items.find((i) => i.uid === uid) : undefined;
-  return inst ? ITEMS[inst.defId] : undefined;
-}

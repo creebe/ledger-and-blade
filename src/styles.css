@@ -2854,3 +2854,6 @@ details summary {
 .fame-line {
   margin: 2px 0 6px;
 }
+.title-footnote {
+  text-wrap: balance;
+}

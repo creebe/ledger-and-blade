@@ -2,7 +2,7 @@ import { dateLabel } from '../../engine';
 import { snap, type ResourceSnap, useStore } from '../../store';
 import { Sheet } from '../kit/common';
 import { Icon } from '../kit/icons';
-import { DispatchItem } from '../screens/Hall';
+import { DispatchItem } from '../kit/DispatchItem';
 
 const RES_LABEL: { key: keyof ResourceSnap; icon: string; name: string; invert?: boolean }[] = [
   { key: 'crowns', icon: 'coin', name: 'Crowns' },

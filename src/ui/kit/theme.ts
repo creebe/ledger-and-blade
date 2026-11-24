@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 export type Theme = 'dark' | 'light';
 const KEY = 'lab.theme';
 
-export function getTheme(): Theme {
+function getTheme(): Theme {
   try {
     return localStorage.getItem(KEY) === 'light' ? 'light' : 'dark';
   } catch {
@@ -11,7 +11,7 @@ export function getTheme(): Theme {
   }
 }
 
-export function applyTheme(t: Theme) {
+function applyTheme(t: Theme) {
   document.documentElement.dataset.theme = t;
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', t === 'dark' ? '#17130f' : '#efe5cf');
   try {

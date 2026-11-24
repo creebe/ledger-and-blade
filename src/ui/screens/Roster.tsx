@@ -25,7 +25,7 @@ function Vital({ icon, v, label }: { icon: string; v: number; label: string }) {
     </span>
   );
 }
-import { ASSIGNMENTS } from '../sheets/MemberSheet';
+import { ASSIGNMENTS } from '../kit/members';
 
 export function RosterScreen() {
   const g = useStore((s) => s.game)!;

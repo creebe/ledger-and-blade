@@ -1,4 +1,3 @@
-import { VERSION } from '../../version';
 import { useMemo, useState } from 'react';
 import { BACKERS, CIRCUMSTANCE_BY_ID, PROFESSIONS, dateLabel, newGame } from '../../engine';
 import { hasAutosave, slotInfo, useStore } from '../../store';
@@ -6,6 +5,7 @@ import { HelpSheet } from '../sheets/HelpSheet';
 import { MenuSheet } from '../sheets/MenuSheet';
 import { useTheme } from '../kit/theme';
 import { Icon } from '../kit/icons';
+import { VERSION } from '../../version';
 
 const randomSeed = () => 1 + Math.floor(Math.random() * 2147483000);
 
@@ -102,7 +102,7 @@ export function Title() {
           How to play
         </button>
       </div>
-      <p className="tiny muted">Prototype build {VERSION} · progress is saved on this device</p>
+      <p className="tiny muted title-footnote">Prototype build {VERSION} · progress is saved on this device</p>
       {sheets.map((s, i) => (s.kind === 'menu' ? <MenuSheet key={i} /> : s.kind === 'help' ? <HelpSheet key={i} /> : null))}
     </div>
   );

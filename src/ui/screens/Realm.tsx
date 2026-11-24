@@ -279,6 +279,8 @@ function Operations({ id }: { id: RivalId }) {
   const opts = operationOptions(g, id);
   const costText = (c: { crowns?: number; intel?: number; influence?: number }) =>
     [c.crowns && `${c.crowns} crowns`, c.intel && `${c.intel} Intel`, c.influence && `${c.influence} Influence`].filter(Boolean).join(', ');
+  const haveText = (c: { crowns?: number; intel?: number; influence?: number }) =>
+    [c.crowns && `${g.crowns} crowns`, c.intel && `${g.intel} Intel`, c.influence && `${g.influence} Influence`].filter(Boolean).join(', ');
   const short = (c: { crowns?: number; intel?: number; influence?: number }) =>
     c.crowns && g.crowns < c.crowns ? `Needs ${c.crowns} crowns (you have ${g.crowns})` : c.intel && g.intel < c.intel ? `Needs ${c.intel} Intel (you have ${g.intel})` : c.influence && g.influence < c.influence ? `Needs ${c.influence} Influence (you have ${g.influence})` : undefined;
   return (
@@ -296,7 +298,7 @@ function Operations({ id }: { id: RivalId }) {
                 confirm({
                   title: `${o.label}?`,
                   body: [o.detail],
-                  cost: costText(o.cost) ? `Costs ${costText(o.cost)}` : 'Adds a job to your contract board',
+                  cost: costText(o.cost) ? `Costs ${costText(o.cost)} · you have ${haveText(o.cost)}` : 'Adds a job to your contract board',
                   confirmLabel: o.label,
                   onConfirm: () => act((d) => runOperation(d, id, o.kind)) && notify(o.label),
                 })

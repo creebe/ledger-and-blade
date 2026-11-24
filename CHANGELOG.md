@@ -8,7 +8,12 @@ No change to how the game plays. The owner asked for "a thorough code clean up p
 - Headline balance numbers live in `src/engine/core/tuning.ts`. One scene registry replaces three copies. Dead code removed.
 - New tooling: `npm run check` (types, tests, story checker, style checker) and `npm run fingerprint` (proves a refactor changed nothing). GitHub runs the checks on every pull request.
 - A project guide (`CLAUDE.md`), an architecture map, this changelog, a backlog, the version on the title screen, and reviewer agents for each area of the game.
-- Checked: the behaviour fingerprint over 40 seeded 60-week games is identical before and after; tests, the story checker and the build pass; every tab opens in a phone-sized browser with no errors. Not live.
+- Two small visible fixes found by the UI reviewer: confirming a rival operation now says what you have as well as what it costs, and the version line on the title screen wraps neatly on narrow phones.
+- Checked:
+  - The behaviour fingerprint over 40 seeded 60-week games is identical before and after.
+  - Tests, the story checker and the build pass.
+  - The engine reviewer and the UI reviewer both reviewed the change. The UI reviewer compared every screen with the previous version at 390 and 360 wide: they match pixel for pixel apart from the title line, with no console errors.
+- Not live.
 
 ## v0.10.0 (2026-11-24): Starts, Legends and wars
 - **Varied starts.** Each campaign rolls a backer (old soldiers, a Weighhouse merchant, a Lower Town co-op or disgraced Arcanists) and four circumstances (the Debt, the market, politics and the rivals' mood), with a re-roll and a seed on the new-guild screen. Scenes react to the start.

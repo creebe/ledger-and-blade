@@ -126,4 +126,3 @@ export function Icon({ name, size = 18, className, style, title }: { name: strin
   );
 }
 
-export const hasIcon = (name: string) => name in P;

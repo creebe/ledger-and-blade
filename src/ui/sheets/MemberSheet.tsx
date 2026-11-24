@@ -1,34 +1,11 @@
-import { useRef, useState } from 'react';
-import {
-  APPROACH_INFO,
-  awayReason,
-  dismissMember,
-  isPreparing,
-  equip,
-  equippedBy,
-  ITEMS,
-  memberScore,
-  PROFESSIONS,
-  setAssignment,
-  TRAITS,
-  trainCost,
-  trainWeeks,
-  xpToLevel,
-  type Approach,
-  type Assignment,
-  type Attribute,
-  type GameState,
-  type ItemSlot,
-  type Member,
-  fameTier,
-  FAME_TIERS,
-  SIGNATURES,
-} from '../../engine';
+import { useState } from 'react';
+import { APPROACH_INFO, FAME_TIERS, ITEMS, PROFESSIONS, SIGNATURES, TRAITS, awayReason, dismissMember, equip, equippedBy, fameTier, isPreparing, memberScore, setAssignment, trainCost, trainWeeks, type Approach, type Attribute, type GameState, type ItemSlot, type Member, xpToLevel } from '../../engine';
 import { useStore } from '../../store';
 import { Btn, Meter, Sheet } from '../kit/common';
-import { cap, SLOT_LABEL } from '../kit/format';
+import { SLOT_LABEL, cap } from '../kit/format';
 import { Icon } from '../kit/icons';
-import { ap, ItemIcon, ItemStats, PROFESSION_APPROACH, Portrait, readiness } from '../kit/visual';
+import { ItemIcon, ItemStats, PROFESSION_APPROACH, Portrait, ap } from '../kit/visual';
+import { ASSIGNMENTS } from '../kit/members';
 
 const STATUS_LABEL: Record<Member['status'], string> = {
   idle: 'At the hall',
@@ -38,17 +15,7 @@ const STATUS_LABEL: Record<Member['status'], string> = {
   left: 'Gone',
 };
 
-export const ASSIGNMENTS: { id: Assignment; label: string; blurb: string }[] = [
-  { id: 'rest', label: 'Rest', blurb: 'Recover fatigue and wounds faster. Small morale gain.' },
-  { id: 'train', label: 'Train', blurb: '+1 to an attribute every few weeks. Costs crowns each week and adds fatigue. A Training Yard makes it faster and cheaper.' },
-  { id: 'rumors', label: 'Gather rumors', blurb: '+1 Intel per week (+2 for Envoys, Infiltrators and Scouts).' },
-  { id: 'labor', label: 'Dock labor', blurb: 'Earn a few crowns based on Might. Tiring and dull.' },
-  { id: 'guard', label: 'Guard the hall', blurb: 'Stay home and watch the doors. Each guard makes theft, arson and worse less likely to succeed, and helps catch spies. Mildly tiring.' },
-  { id: 'build', label: 'Build', blurb: 'Help with construction: each builder adds half a week of progress. Tiring.' },
-  { id: 'scout', label: 'Scout a contract', blurb: "Reveal a contract's hidden tags by week's end. Scouts, Skirmishers and Infiltrators reveal all of them; others reveal one." },
-];
-
-export function statusLine(m: Member, game: GameState) {
+function statusLine(m: Member, game: GameState) {
   if (m.status === 'mission') {
     const ms = game.missions.find((x) => x.id === m.missionId);
     if (!ms) return 'On a mission';
@@ -57,49 +24,6 @@ export function statusLine(m: Member, game: GameState) {
   }
   if (m.status === 'recovering') return 'Recovering from wounds';
   return STATUS_LABEL[m.status];
-}
-
-export function MemberMini({ m, selected, onClick, onLongPress, blocked }: { m: Member; selected?: boolean; onClick?: () => void; onLongPress?: () => void; blocked?: string }) {
-  const g = useStore((s) => s.game)!;
-  const timer = useRef<number | undefined>(undefined);
-  const long = useRef(false);
-  const r = readiness(m, g);
-  return (
-    <button
-      className={`member-mini ${selected ? 'selected' : ''} ${blocked ? 'is-blocked' : ''}`}
-      onClick={() => {
-        if (long.current) {
-          long.current = false;
-          return;
-        }
-        if (blocked) useStore.getState().notify(blocked);
-        else onClick?.();
-      }}
-      onPointerDown={() => {
-        if (!onLongPress) return;
-        timer.current = window.setTimeout(() => {
-          long.current = true;
-          onLongPress();
-        }, 450);
-      }}
-      onPointerUp={() => window.clearTimeout(timer.current)}
-      onPointerLeave={() => window.clearTimeout(timer.current)}
-      onContextMenu={(e) => {
-        if (onLongPress) {
-          e.preventDefault();
-          onLongPress();
-        }
-      }}
-    >
-      <span className="row gap">
-        <Portrait m={m} size={30} />
-        <span className="mm-text">
-          <span className="mm-name">{m.name.split(' ')[0]}</span>
-          <span className={`mm-prof readiness ${r.tone}`}>{r.text === 'Ready' ? PROFESSIONS[m.profession].name : r.text}</span>
-        </span>
-      </span>
-    </button>
-  );
 }
 
 export function MemberSheet({ id }: { id: string }) {

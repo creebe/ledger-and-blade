@@ -27,10 +27,10 @@ import { Btn, Section } from '../kit/common';
 import { Icon } from '../kit/icons';
 import { ItemIcon, ItemStats } from '../kit/visual';
 
-export const MATERIAL_ICON: Record<MaterialId, string> = { iron: 'anvil', leather: 'armor', timber: 'rough', reagents: 'flask' };
+const MATERIAL_ICON: Record<MaterialId, string> = { iron: 'anvil', leather: 'armor', timber: 'rough', reagents: 'flask' };
 
 /** Cost chips that turn red when you don't have enough. */
-export function CostChips({ g, crowns, materials, check = true }: { g: GameState; crowns?: number; materials: Partial<Record<MaterialId, number>>; check?: boolean }) {
+function CostChips({ g, crowns, materials, check = true }: { g: GameState; crowns?: number; materials: Partial<Record<MaterialId, number>>; check?: boolean }) {
   return (
     <span className="stat-chips">
       {!!crowns && (

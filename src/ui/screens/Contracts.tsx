@@ -17,7 +17,7 @@ function MissionShell({ report, onOpen, children }: { report: boolean; onOpen: (
 }
 
 /** The strip-map: depart, travel, the phases on site, return home. */
-export function MissionTrack({ m, g }: { m: Mission; g: GameState }) {
+function MissionTrack({ m, g }: { m: Mission; g: GameState }) {
   const open = useStore((s) => s.open);
   const c = m.contract;
   const travel = c.travelWeeks;

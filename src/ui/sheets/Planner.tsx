@@ -22,7 +22,7 @@ import {
 import { useStore } from '../../store';
 import { ChanceBar, FactionBadge, Seg, Sheet, TagChip, ThreatPips } from '../kit/common';
 import { chanceText, signed } from '../kit/format';
-import { MemberMini } from './MemberSheet';
+import { MemberMini } from '../kit/members';
 import { Icon } from '../kit/icons';
 import { ap, APPROACHES, ApproachChip } from '../kit/visual';
 
@@ -122,7 +122,7 @@ function StrengthMatrix({ g, everyone, selected, used, onToggle, blockedReason }
   );
 }
 
-export function ContractHeader({ c, game }: { c: Contract; game: GameState }) {
+function ContractHeader({ c, game }: { c: Contract; game: GameState }) {
   const act = useStore((s) => s.act);
   const [flash, setFlash] = useState<number | null>(null);
   const reveal = (i: number) => {
