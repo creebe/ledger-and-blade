@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { exportSave, importSave, slotInfo, useStore } from '../../store';
-import { Sheet } from '../kit/common';
+import { dateLabel } from '../../engine';
+import { Btn, Sheet } from '../kit/common';
+import { crowns } from '../kit/format';
 import { useTheme } from '../kit/theme';
 
 export function MenuSheet() {
@@ -16,7 +18,7 @@ export function MenuSheet() {
         return (
           <div key={n} className="row between slot-row">
             <span className="small">
-              Slot {n}: {info ? `Week ${info.week}, ${info.crowns}◉` : 'empty'}
+              Slot {n}: {info ? `${dateLabel(info.week)}, ${crowns(info.crowns)}` : 'empty'}
             </span>
             <span className="row gap">
               {g && (
@@ -31,9 +33,9 @@ export function MenuSheet() {
                   Save
                 </button>
               )}
-              <button
+              <Btn
                 className="btn ghost small"
-                disabled={!info}
+                blocked={!info ? `Slot ${n} is empty. Save a game there first.` : undefined}
                 onClick={() =>
                   useStore.getState().confirm({
                     title: `Load slot ${n}?`,
@@ -44,7 +46,7 @@ export function MenuSheet() {
                 }
               >
                 Load
-              </button>
+              </Btn>
             </span>
           </div>
         );
@@ -58,9 +60,9 @@ export function MenuSheet() {
       )}
       {exported && <textarea className="textarea" readOnly value={exported} onFocus={(e) => e.currentTarget.select()} />}
       <textarea className="textarea" placeholder="Paste a save here to import" value={importText} onChange={(e) => setImportText(e.target.value)} />
-      <button
+      <Btn
         className="btn ghost small"
-        disabled={!importText}
+        blocked={!importText ? 'Paste a save into the box above first.' : undefined}
         onClick={() => {
           const imp = importSave(importText);
           if (!imp) return notify('That save could not be read');
@@ -68,7 +70,7 @@ export function MenuSheet() {
         }}
       >
         Import
-      </button>
+      </Btn>
       <h3 className="subhead">Display</h3>
       <ThemeRow />
       {g && (
@@ -100,7 +102,7 @@ function ThemeRow() {
     <div className="row between slot-row">
       <span className="small">Theme: {theme === 'dark' ? 'Dark' : 'Light'}</span>
       <button className="btn ghost small" onClick={toggle}>
-        Switch to {theme === 'dark' ? '☀ light' : '☾ dark'}
+        Switch to {theme === 'dark' ? 'light' : 'dark'}
       </button>
     </div>
   );

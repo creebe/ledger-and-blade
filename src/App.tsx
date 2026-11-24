@@ -20,6 +20,9 @@ import { HallScreen } from './ui/screens/Hall';
 import { RealmScreen } from './ui/screens/Realm';
 import { RosterScreen } from './ui/screens/Roster';
 import { GameOver, Title } from './ui/screens/Title';
+import { alerts } from './ui/screens/Hall';
+import { OrdersSheet } from './ui/sheets/OrdersSheet';
+import { plural } from './ui/kit/format';
 
 const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: 'hall', label: 'Hall', icon: 'hall' },
@@ -34,13 +37,13 @@ function TopBar() {
   const open = useStore((s) => s.open);
   const notify = useStore((s) => s.notify);
   const burn = weeklyWages(g) + upkeep(g);
-  const res: { icon: string; c: string; value: string | number; label: string; tone?: string }[] = [
-    { icon: 'coin', c: 'crowns', value: g.crowns, label: `Crowns. Weekly costs: ${burn} (wages ${weeklyWages(g)} + upkeep ${upkeep(g)}).`, tone: g.crowns < burn ? 'bad' : '' },
-    { icon: 'sack', c: 'supplies', value: g.supplies, label: `Supplies. ${living(g).filter((m) => m.status !== 'mission').length} eaten per week at home; squads carry their own.` },
-    { icon: 'eye', c: 'intel', value: g.intel, label: 'Intel. Reveal hidden tags and rival plans.' },
-    { icon: 'seal', c: 'influence', value: g.influence, label: 'Influence. Court factions and cool Heat.' },
-    { icon: 'star', c: 'renown', value: g.renown, label: 'Renown. Better contracts and goods; rivals take note.' },
-    { icon: 'flame', c: 'heat', value: g.heat, label: 'Heat. Legal exposure from shady work.', tone: g.heat >= 60 ? 'bad' : g.heat >= 30 ? 'mid' : '' },
+  const res: { icon: string; name: string; value: string | number; label: string; tone?: string }[] = [
+    { icon: 'coin', name: 'Crowns', value: g.crowns, label: `Crowns. Weekly costs: ${burn} (wages ${weeklyWages(g)} + upkeep ${upkeep(g)}).`, tone: g.crowns < burn ? 'bad' : '' },
+    { icon: 'sack', name: 'Supplies', value: g.supplies, label: `Supplies. ${living(g).filter((m) => m.status !== 'mission').length} eaten per week at home; squads carry their own.` },
+    { icon: 'eye', name: 'Intel', value: g.intel, label: 'Intel. Reveal hidden tags and rival plans.' },
+    { icon: 'seal', name: 'Influence', value: g.influence, label: 'Influence. Court factions and cool Heat.' },
+    { icon: 'star', name: 'Renown', value: g.renown, label: 'Renown. Better contracts and goods; rivals take note.' },
+    { icon: 'flame', name: 'Heat', value: g.heat, label: 'Heat. Legal exposure from shady work.', tone: g.heat >= 60 ? 'bad' : g.heat >= 30 ? 'mid' : '' },
   ];
   // floating +/- numbers whenever a resource changes
   const prev = useRef<Record<string, number> | null>(null);
@@ -61,6 +64,8 @@ function TopBar() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [g.crowns, g.supplies, g.intel, g.influence, g.renown, g.heat]);
   const keys = ['crowns', 'supplies', 'intel', 'influence', 'renown', 'heat'];
+  // in the first season, name each resource under its number
+  const labelled = g.week <= 12;
 
   return (
     <header className="topbar">
@@ -68,21 +73,24 @@ function TopBar() {
         <span className="date">{dateLabel(g.week)}</span>
         <span className="row">
         <button className="icon-btn journal-btn" onClick={() => open({ kind: 'journal', tab: g.codex.fresh.length ? 'codex' : 'notes' })} aria-label="Journal">
-          <Icon name="book" size={21} />
+          <Icon name="book" size={24} />
           {g.codex.fresh.length > 0 && <span className="dot" />}
         </button>
         <button className="icon-btn" onClick={() => open({ kind: 'menu' })} aria-label="Menu">
-          <Icon name="menu" size={22} />
+          <Icon name="menu" size={24} />
         </button>
         </span>
       </div>
-      <div className="resources">
+      <div className={`resources ${labelled ? 'labelled' : ''}`}>
         {res.map((r, i) => {
           const fl = floats.filter((f) => f.key === keys[i]);
           return (
-            <button key={r.label} className={`res ${r.tone ?? ''} ${fl.length ? 'pulse' : ''}`} style={{ ['--rc' as string]: `var(--r-${r.c})` }} onClick={() => notify(r.label)}>
-              <Icon name={r.icon} size={16} />
-              <b>{r.value}</b>
+            <button key={r.label} className={`res ${r.tone ?? ''} ${fl.length ? 'pulse' : ''}`} onClick={() => notify(r.label)} aria-label={`${r.name} ${r.value}`}>
+              <span className="res-v">
+                <Icon name={r.icon} size={14} />
+                <b>{r.value}</b>
+              </span>
+              {labelled && <small className="res-l">{r.name}</small>}
               {fl.map((f) => (
                 <i key={f.id} className={`float ${f.good ? 'up' : 'down'}`}>
                   {f.delta > 0 ? '+' : ''}
@@ -102,6 +110,8 @@ function BottomNav() {
   const setTab = useStore((s) => s.setTab);
   const g = useStore((s) => s.game)!;
   const badge: Partial<Record<Tab, number>> = {
+    hall: alerts(g).filter((a) => a.tone === 'bad').length,
+    roster: living(g).filter((m) => m.status === 'recovering' || (m.status === 'idle' && m.health < 40)).length,
     contracts: g.board.filter((c) => c.story).length,
     realm: g.council.agenda.filter((a) => a.player === 0).length,
   };
@@ -131,10 +141,10 @@ function EndWeekButton() {
       <span className="endweek-info">
         <GuideNudge />
         {g.tutorial?.enabled && !g.tutorial.finished ? null : warnings.length > 0 ? (
-          <span className="meta" style={{ color: 'var(--mid)' }}>
+          <button className="meta endweek-check" onClick={() => open({ kind: 'warnings', warnings })}>
             <Icon name="warn" size={14} />
             {warnings.length} to check
-          </span>
+          </button>
         ) : (
           <span className="meta" style={{ color: 'var(--good)' }}>
             <Icon name="check" size={14} />
@@ -144,7 +154,7 @@ function EndWeekButton() {
         {away > 0 && !(g.tutorial?.enabled && !g.tutorial.finished) && (
           <span className="meta">
             <Icon name="road" size={14} />
-            {away} in the field
+            {plural(away, 'squad')} out
           </span>
         )}
       </span>
@@ -156,7 +166,7 @@ function EndWeekButton() {
           else endWeek();
         }}
       >
-        End Week <Icon name="chevron" size={16} />
+        End Week <Icon name="chevron" size={18} />
       </button>
     </div>
   );
@@ -213,6 +223,8 @@ export default function App() {
             return <Planner key={i} contractId={s.contractId} />;
           case 'member':
             return <MemberSheet key={i} id={s.id} />;
+          case 'orders':
+            return <OrdersSheet key={i} id={s.id} />;
           case 'mission':
             return <MissionReplay key={i} id={s.id} />;
           case 'report':
@@ -238,7 +250,7 @@ export default function App() {
         );
       })}
       {event && <EventCard ev={event} />}
-      {toast && <div className="toast">{toast.text}</div>}
+      {toast && <div className={`toast ${sheets.length ? 'over-sheet' : 'in-game'}`}>{toast.text}</div>}
       {guideTarget && <style>{`[data-guide="${guideTarget}"] { animation: guidepulse 1.1s ease-in-out 4; border-radius: 12px; }`}</style>}
     </div>
   );

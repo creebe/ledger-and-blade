@@ -26,7 +26,7 @@ export function Sheet({ title, children, onClose, footer }: { title: ReactNode; 
           )}
           <h2>{title}</h2>
           <button className="icon-btn" onClick={onClose ?? (depth > 0 ? closeAll : close)} aria-label="Close">
-            <Icon name="x" size={20} />
+            <Icon name="x" size={18} />
           </button>
         </div>
         <div className="sheet-body">{children}</div>
@@ -87,7 +87,7 @@ export function TagChip({ id, hidden, candidates, countered, onClick }: { id?: s
   if (hidden) {
     return (
       <button className="tag hidden" onClick={onClick}>
-        <Icon name="info" size={13} /> ? {candidates?.map((c) => TAGS[c]?.name ?? c).join(' / ')}
+        <Icon name="info" size={14} /> ? {candidates?.map((c) => TAGS[c]?.name ?? c).join(' / ')}
       </button>
     );
   }
@@ -95,9 +95,9 @@ export function TagChip({ id, hidden, candidates, countered, onClick }: { id?: s
   if (!t) return null;
   return (
     <span className={`tag ${t.kind} ${countered ? 'countered' : ''}`} onClick={() => setOpen(!open)} title={t.description}>
-      <Icon name={t.id} size={13} />
+      <Icon name={t.id} size={14} />
       {t.name}
-      {countered && ' ✓'}
+      {countered && <Icon name="check" size={12} />}
       {open && <span className="tag-tip">{t.description}</span>}
     </span>
   );

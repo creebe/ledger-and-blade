@@ -17,7 +17,7 @@ import {
   type ProfessionId,
 } from '../../engine';
 import { Icon } from './icons';
-import { pct } from './format';
+import { chanceText, signed, wk } from './format';
 
 export const APPROACHES: Approach[] = ['assault', 'stealth', 'guile', 'endurance', 'arcana'];
 
@@ -39,7 +39,7 @@ export function ApproachChip({ a, on, onClick, small }: { a: Approach; on?: bool
   const Tag = onClick ? 'button' : 'span';
   return (
     <Tag className={`ap-chip ${on ? 'on' : ''} ${small ? 'small' : ''}`} style={{ ['--c' as string]: ap(a) }} onClick={onClick} title={APPROACH_INFO[a].blurb}>
-      <Icon name={a} size={small ? 13 : 15} />
+      <Icon name={a} size={small ? 12 : 14} />
       <span>{APPROACH_INFO[a].name}</span>
     </Tag>
   );
@@ -52,7 +52,7 @@ export function readiness(m: Member, g?: GameState): { text: string; tone: '' | 
   if (m.status === 'mission') {
     const ms = g?.missions.find((x) => x.id === m.missionId);
     if (ms && ms.dispatchedWeek === g!.week && !ms.report) return { text: 'Leaving this week', tone: '' };
-    return { text: ms ? `Away · back wk ${ms.returnWeek}` : 'Away', tone: '' };
+    return { text: ms ? (ms.returnWeek <= g!.week ? 'Away · back this week' : `Away · back in ${wk(ms.returnWeek - g!.week + 1)}`) : 'Away', tone: '' };
   }
   if (m.health < 40) return { text: `Wounded (${m.health} HP)`, tone: 'bad' };
   if (m.health < 70) return { text: `Hurt (${m.health} HP)`, tone: 'mid' };
@@ -80,7 +80,7 @@ export function TopStrengths({ g, m }: { g: GameState; m: Member }) {
     <span className="top-strengths">
       {scores.slice(0, 2).map(({ a, s }) => (
         <span key={a} className="meta">
-          <Icon name={a} size={13} />
+          <Icon name={a} size={14} />
           {APPROACH_INFO[a].name} {s.toFixed(0)}
         </span>
       ))}
@@ -95,7 +95,7 @@ export function ApproachBars({ g, m, highlight }: { g: GameState; m: Member; hig
     <span className="ap-bars" aria-label="Approach strengths">
       {scores.map(({ a, s }) => (
         <span key={a} className={`ap-bar ${highlight && !highlight.includes(a) ? 'dim' : ''}`} style={{ ['--c' as string]: ap(a) }} title={`${APPROACH_INFO[a].name}: ${s.toFixed(0)}`}>
-          <Icon name={a} size={11} />
+          <Icon name={a} size={12} />
           <span className="ap-bar-track">
             <span className="ap-bar-fill" style={{ width: `${Math.min(100, (s / (a === 'assault' ? 26 : 20)) * 100)}%` }} />
           </span>
@@ -119,7 +119,7 @@ export function ItemIcon({ def, size = 22 }: { def: ItemDef; size?: number }) {
       <Icon name={slotIcon(def)} size={size} />
       {el && (
         <span className="item-el">
-          <Icon name={el} size={11} />
+          <Icon name={el} size={12} />
         </span>
       )}
     </span>
@@ -133,7 +133,7 @@ export function ItemStats({ def }: { def: ItemDef }) {
   const el = def.element ?? def.grantsElement;
   if (el) chips.push({ key: 'el', icon: el, text: cap(el), el: `var(--el-${el})` });
   if (def.slot === 'armor') chips.push({ key: 'arm', icon: 'armor', text: `${cap(def.weight)} · ${def.protection}` });
-  for (const [a, v] of Object.entries(def.bonus ?? {})) chips.push({ key: a, icon: a, text: `${v! > 0 ? '+' : ''}${v} ${APPROACH_INFO[a as Approach].name}` });
+  for (const [a, v] of Object.entries(def.bonus ?? {})) chips.push({ key: a, icon: a, text: `${signed(v!)} ${APPROACH_INFO[a as Approach].name}` });
   for (const t of def.counters ?? []) chips.push({ key: t, icon: t, text: `vs ${TAGS[t]?.name}` });
   if (def.mending) chips.push({ key: 'mend', icon: 'heart', text: 'Saves a life' });
   return (
@@ -152,7 +152,7 @@ const cap = (s?: string) => (s ? s[0].toUpperCase() + s.slice(1) : '');
 
 export function OddsPill({ min, max, label }: { min: number; max: number; label?: string }) {
   const tone = min >= 0.7 ? 'good' : max < 0.4 ? 'bad' : 'mid';
-  const txt = Math.round(min * 100) === Math.round(max * 100) ? pct(min) : `${pct(min)}–${pct(max)}`;
+  const txt = chanceText(min, max);
   return (
     <span className={`odds-pill ${tone}`}>
       {label && <small>{label}</small>}
@@ -164,12 +164,12 @@ export function OddsPill({ min, max, label }: { min: number; max: number; label?
 export const CONTRACT_TYPE_ICON: Record<string, string> = {
   Hunt: 'beasts',
   Escort: 'open_road',
-  Collection: 'coin',
+  Collection: 'chest',
   Peacekeeping: 'crowd',
-  Smuggling: 'sack',
-  Investigation: 'eye',
+  Smuggling: 'crate',
+  Investigation: 'magnifier',
   Clearance: 'skull',
-  Expedition: 'compass',
+  Expedition: 'map',
   Heist: 'infiltrator',
   Diplomacy: 'envoy',
   Story: 'quest',
@@ -196,24 +196,24 @@ export function PhaseStrip({ c, chosen }: { c: Contract; chosen?: Approach[] }) 
  * The best odds the guild could get on this contract right now with idle
  * members, using a quick greedy squad pick. A scanning aid, not a promise.
  */
-function bestSquadOdds(g: GameState, c: Contract): { min: number; max: number; size: number } | null {
+function bestSquadOdds(g: GameState, c: Contract): { min: number; max: number; size: number; ids: string[] } | null {
   const idle = living(g).filter((m) => m.status === 'idle' && m.health >= 40);
   if (idle.length < c.minSquad) return null;
   const solo = (m: Member) => previewMission(g, c, [m], bestApproaches(g, c, [m])).phases.reduce((s, p) => s + p.chance, 0);
   const ranked = [...idle].sort((a, b) => solo(b) - solo(a));
-  let best: { min: number; max: number; size: number } | null = null;
+  let best: { min: number; max: number; size: number; ids: string[] } | null = null;
   for (let n = c.minSquad; n <= Math.min(c.maxSquad, ranked.length); n++) {
     const team = ranked.slice(0, n);
     const pv = previewMission(g, c, team, bestApproaches(g, c, team));
     const min = Math.min(...pv.phases.map((p) => p.min));
     const max = Math.min(...pv.phases.map((p) => p.max));
-    if (!best || min > best.min + 0.02) best = { min, max, size: n };
+    if (!best || min > best.min + 0.02) best = { min, max, size: n, ids: team.map((m) => m.id) };
   }
   return best;
 }
 
-export function useBestOdds(g: GameState, c: Contract) {
+export function useBestOdds(g: GameState, c?: Contract) {
   // recompute when the roster or the contract changes
-  return useMemo(() => bestSquadOdds(g, c), [g.members, g.items, c]); // eslint-disable-line react-hooks/exhaustive-deps
+  return useMemo(() => (c ? bestSquadOdds(g, c) : null), [g.members, g.items, c]); // eslint-disable-line react-hooks/exhaustive-deps
 }
 

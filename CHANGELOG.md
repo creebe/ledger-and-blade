@@ -2,6 +2,33 @@
 
 Newest first. Each entry says what changed for a player, why (quoting the owner's feedback where it came from playtesting), and what was and wasn't checked. The live site is https://creebe.github.io/ledger-and-blade/ and is only republished on the owner's word; each entry notes whether it is live.
 
+## v0.11.0 (2026-11-24): The UI audit, built
+Fewer taps for the things you do every week, and colors, icons and type that mean one thing each. The owner asked for a UI/UX audit (`docs/audits/ui-ux.md`) and then to build every recommendation in it: "Go with all of your recommendations and proposals".
+- **Fewer taps:**
+  - The planner has a Best squad button, which takes a three-person contract from 6 taps to 4. When supplies are short, the planner offers to buy them and keeps the squad picked.
+  - Weekly orders can be set from a chip on each Roster row, and the member sheet shows orders first.
+  - The Realm has sub-tabs: Council, Powers, Rivals and The Debt.
+  - Hall alerts, and "N to check" on the End Week bar, take you where they point.
+  - Squads in the field are one-line rows on Contracts, so the Board stays on the first screen.
+- **Clearer at a glance:**
+  - Gold now means Story only, warnings are orange, and titles are ink instead of red.
+  - Every icon has one meaning, and "Guard the hall" has its own.
+  - Nine type sizes replace 30, and numbers in the heading font read correctly.
+  - Crowns, weeks, minus signs and dates are written one way everywhere.
+  - Resources are labelled in the first season, and Roster and Hall have badges.
+- **Rules kept:** every purchase asks for confirmation, blocked buttons say why, small controls have bigger tap areas, and the notice no longer covers sheet content.
+- **Renamed:** the Hall's "Debt" section is now The Loan.
+- **Fixes:** the hire confirmation now uses the real upkeep, and "(s)" plurals are gone from game messages.
+- Checked:
+  - `npm run check` and the build pass.
+  - The UI, writing and engine reviewers ran, and their fixes are in.
+  - Browser checks at 390 and 360 px in both themes, on early, mid and late saves, with no console errors.
+- Not checked:
+  - iOS Safari.
+  - The balance sim, because no numbers changed.
+- Still open: while a sheet is open, the notice covers its title for about 3 seconds. In the light theme, the warning orange is still fairly close to the bad red.
+- Not live.
+
 ## v0.10.2 (2026-11-24): A little more pay
 Every contract pays about 10% more, which makes the first year a little more forgiving. The owner asked to ease difficulty back toward where it was before the new cast and rivals: "Yes, please ease it back toward 70%."
 - Contract pay goes from ×1.5 to ×1.65 (`REWARD_SCALE` in `core/tuning.ts`). Nothing else changes. The target range in the guide and the balance reviewer moves from 55–65% to 65–75%.

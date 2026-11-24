@@ -76,7 +76,7 @@ export function Title() {
   return (
     <div className="title-screen">
       <button className="theme-toggle" onClick={toggleTheme} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
-        <Icon name={theme === 'dark' ? 'sun' : 'moon'} size={20} />
+        <Icon name="lamp" size={18} />
       </button>
       <div className="title-art">⚖⚔</div>
       <h1>Ledger &amp; Blade</h1>
@@ -118,7 +118,7 @@ export function GameOver() {
       <h1>The Ledger Closes</h1>
       <p>{g.gameOver!.text}</p>
       <p className="muted small">
-        Your guild lasted until {dateLabel(g.gameOver!.week)}. Renown {g.renown}. {dead} member(s) fell in your service. {g.history.length} missions completed.
+        Your guild lasted until {dateLabel(g.gameOver!.week)}. Renown {g.renown}. {dead === 1 ? '1 member' : `${dead} members`} fell in your service. {g.history.length === 1 ? '1 mission' : `${g.history.length} missions`} completed.
       </p>
       <div className="title-actions">
         <button className="btn primary block" onClick={quit}>

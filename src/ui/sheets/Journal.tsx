@@ -65,7 +65,7 @@ function NotesTab() {
           done.map((o) =>
             (g.tutorial.claimed ?? []).includes(o.id) ? (
               <div key={o.id} className="objective">
-                <Icon name="check" size={16} style={{ color: 'var(--muted)', marginTop: 3 }} />
+                <Icon name="check" size={18} style={{ color: 'var(--muted)', marginTop: 3 }} />
                 <div className="card-main">
                   <b>{o.title}</b>
                   <span className="tiny muted" style={{ display: 'block' }}>

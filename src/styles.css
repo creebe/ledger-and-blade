@@ -10,7 +10,7 @@
   --accent-ink: #fff8ec;
   --gold: #a07a1f;
   --good: #3d7a3a;
-  --mid: #b5851d;
+  --mid: #9a4f10;
   --bad: #a3321f;
   --info: #3a6a8c;
   --shadow: 0 1px 2px rgba(43, 33, 24, 0.12), 0 4px 14px rgba(43, 33, 24, 0.08);
@@ -26,12 +26,15 @@
   --el-storm: #3d6fc9;
   --el-radiant: #b88a10;
   --el-shadow: #6b4a8a;
-  --r-crowns: #a07a1f;
-  --r-supplies: #6f8a3a;
-  --r-intel: #3a6a8c;
-  --r-influence: #8a45a8;
-  --r-renown: #b88a10;
-  --r-heat: #c8501e;
+  --fs-xs: 0.72rem;
+  --fs-s: 0.8rem;
+  --fs-m: 0.88rem;
+  --fs-body: 1rem;
+  --fs-lead: 1.15rem;
+  --fs-h3: 1.3rem;
+  --fs-h2: 1.5rem;
+  --fs-h1: 2rem;
+  --fs-hero: 2.8rem;
   --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
   --display: 'Cormorant Garamond', 'Source Serif 4', Georgia, serif;
   color-scheme: light;
@@ -50,7 +53,7 @@
     --accent-ink: #1a140f;
     --gold: #d2a63f;
     --good: #6fb36a;
-    --mid: #d9a93a;
+    --mid: #e8913a;
     --bad: #e06a4f;
     --info: #6ea6cf;
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 14px rgba(0, 0, 0, 0.3);
@@ -64,12 +67,6 @@
     --el-storm: #8fb4ff;
     --el-radiant: #f2d06b;
     --el-shadow: #b596d6;
-    --r-crowns: #d2a63f;
-    --r-supplies: #a7c46c;
-    --r-intel: #6ea6cf;
-    --r-influence: #c891e6;
-    --r-renown: #f2d06b;
-    --r-heat: #f0884e;
     color-scheme: dark;
   }
 }
@@ -85,12 +82,6 @@
   --el-storm: #8fb4ff;
   --el-radiant: #f2d06b;
   --el-shadow: #b596d6;
-  --r-crowns: #d2a63f;
-  --r-supplies: #a7c46c;
-  --r-intel: #6ea6cf;
-  --r-influence: #c891e6;
-  --r-renown: #f2d06b;
-  --r-heat: #f0884e;
   --bg: #17130f;
   --paper: #221c16;
   --paper-2: #2a231c;
@@ -102,7 +93,7 @@
   --accent-ink: #1a140f;
   --gold: #d2a63f;
   --good: #6fb36a;
-  --mid: #d9a93a;
+  --mid: #e8913a;
   --bad: #e06a4f;
   --info: #6ea6cf;
   color-scheme: dark;
@@ -134,6 +125,8 @@ h4 {
   font-family: var(--display);
   margin: 0;
   line-height: 1.15;
+  /* Cormorant's default old-style figures make 0 read as o and 1 as ı */
+  font-variant-numeric: lining-nums;
 }
 p {
   margin: 0.35em 0;
@@ -150,8 +143,8 @@ p {
   padding: 12px 16px calc(var(--nav-h) + 90px + env(safe-area-inset-bottom));
 }
 .screen-title {
-  font-size: 2rem;
-  color: var(--accent);
+  font-size: var(--fs-h1);
+  color: var(--ink);
 }
 
 .topbar {
@@ -165,8 +158,9 @@ p {
 }
 .topbar .date {
   font-family: var(--display);
+  font-variant-numeric: lining-nums;
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: var(--fs-lead);
 }
 .resources {
   display: grid;
@@ -183,12 +177,12 @@ p {
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 4px 2px;
-  font-size: 0.9rem;
+  font-size: var(--fs-m);
   min-width: 0;
 }
 .res span {
   opacity: 0.8;
-  font-size: 0.85rem;
+  font-size: var(--fs-m);
 }
 .res.bad b {
   color: var(--bad);
@@ -228,10 +222,10 @@ p {
   color: var(--accent);
 }
 .nav-i {
-  font-size: 1.3rem;
+  font-size: var(--fs-h3);
 }
 .nav-l {
-  font-size: 0.72rem;
+  font-size: var(--fs-xs);
   letter-spacing: 0.02em;
 }
 .nav-badge {
@@ -241,7 +235,7 @@ p {
   background: var(--accent);
   color: var(--accent-ink);
   border-radius: 10px;
-  font-size: 0.65rem;
+  font-size: var(--fs-xs);
   padding: 0 5px;
 }
 .endweek {
@@ -255,8 +249,9 @@ p {
   border-radius: 999px;
   padding: 13px 22px;
   font-family: var(--display);
+  font-variant-numeric: lining-nums;
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: var(--fs-lead);
   box-shadow: 0 4px 14px rgba(140, 47, 30, 0.4);
   cursor: pointer;
 }
@@ -280,10 +275,10 @@ p {
   color: var(--muted);
 }
 .small {
-  font-size: 0.88rem;
+  font-size: var(--fs-m);
 }
 .tiny {
-  font-size: 0.76rem;
+  font-size: var(--fs-s);
 }
 .good {
   color: var(--good);
@@ -299,10 +294,10 @@ p {
   color: var(--mid);
 }
 .hint {
-  font-size: 0.85rem;
+  font-size: var(--fs-m);
   color: var(--ink-2);
   background: var(--paper-2);
-  border-left: 3px solid var(--gold);
+  border-left: 3px solid var(--muted);
   padding: 6px 10px;
   border-radius: 6px;
 }
@@ -322,15 +317,15 @@ p {
   padding-bottom: 3px;
 }
 .section-head h3 {
-  font-size: 1.3rem;
+  font-size: var(--fs-h3);
 }
 .subhead {
-  font-size: 1.15rem;
+  font-size: var(--fs-h3);
   margin: 16px 0 6px;
-  color: var(--accent);
+  color: var(--ink);
 }
 .week-head {
-  font-size: 1rem;
+  font-size: var(--fs-body);
   color: var(--ink-2);
   margin: 12px 0 4px;
 }
@@ -341,13 +336,13 @@ p {
   border-radius: 10px;
   padding: 10px 14px;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
   min-height: 42px;
 }
 .btn.small {
   padding: 6px 10px;
   min-height: 34px;
-  font-size: 0.88rem;
+  font-size: var(--fs-m);
 }
 .btn.primary {
   background: var(--accent);
@@ -372,7 +367,7 @@ p {
 .icon-btn {
   border: none;
   background: transparent;
-  font-size: 1.2rem;
+  font-size: var(--fs-lead);
   padding: 6px 8px;
   cursor: pointer;
 }
@@ -393,12 +388,12 @@ p {
   padding: 8px 4px;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: var(--fs-m);
 }
 .seg button.on {
   background: var(--paper);
   box-shadow: var(--shadow);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 /* ---------- bars ---------- */
@@ -461,7 +456,7 @@ p {
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: var(--fs-m);
   color: var(--ink);
   text-shadow: 0 0 3px var(--paper), 0 0 3px var(--paper);
 }
@@ -519,7 +514,7 @@ p {
   background: var(--line);
 }
 .threat i.on {
-  background: var(--accent);
+  background: var(--ink-2);
 }
 
 /* ---------- tags ---------- */
@@ -531,7 +526,7 @@ p {
 }
 .tag {
   position: relative;
-  font-size: 0.8rem;
+  font-size: var(--fs-s);
   padding: 2px 8px;
   border-radius: 999px;
   border: 1px solid var(--line);
@@ -548,7 +543,7 @@ p {
   border-style: dashed;
   color: var(--ink-2);
   font: inherit;
-  font-size: 0.8rem;
+  font-size: var(--fs-s);
 }
 .tag.countered {
   text-decoration: line-through;
@@ -571,11 +566,11 @@ p {
   color: var(--paper);
   padding: 6px 8px;
   border-radius: 8px;
-  font-size: 0.78rem;
+  font-size: var(--fs-s);
   box-shadow: var(--shadow);
 }
 .faction-badge {
-  font-size: 0.8rem;
+  font-size: var(--fs-s);
   padding: 1px 7px;
   border-radius: 6px;
   color: #fff;
@@ -605,7 +600,7 @@ p {
 }
 .reward {
   font-weight: 700;
-  color: var(--gold);
+  color: var(--ink);
   white-space: nowrap;
 }
 .dispatch {
@@ -616,19 +611,19 @@ p {
   margin-bottom: 8px;
 }
 .dispatch h4 {
-  font-size: 1.05rem;
+  font-size: var(--fs-lead);
 }
 .dispatch p {
-  font-size: 0.9rem;
+  font-size: var(--fs-m);
 }
 .dispatch.k-warning {
   border-left: 4px solid var(--bad);
 }
 .dispatch.k-mission {
-  border-left: 4px solid var(--gold);
+  border-left: 4px solid var(--line);
 }
 .dispatch.k-story {
-  border-left: 4px solid var(--accent);
+  border-left: 4px solid var(--gold);
 }
 .dispatch.k-rival {
   border-left: 4px solid #5b3b5e;
@@ -642,7 +637,7 @@ p {
   padding: 7px 10px;
   border-radius: 8px;
   margin-bottom: 5px;
-  font-size: 0.92rem;
+  font-size: var(--fs-m);
   background: var(--paper);
   border: 1px solid var(--line);
 }
@@ -655,7 +650,7 @@ p {
   color: var(--ink);
 }
 .alerts li.info {
-  border-left: 4px solid var(--info);
+  border-left: 4px solid var(--muted);
 }
 
 .ledger-grid {
@@ -672,13 +667,13 @@ p {
   padding: 6px 8px;
 }
 .ledger-grid b {
-  font-size: 1.2rem;
+  font-size: var(--fs-lead);
 }
 .proj {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
-  font-size: 0.88rem;
+  font-size: var(--fs-m);
   font-variant-numeric: tabular-nums;
 }
 .proj th,
@@ -695,7 +690,7 @@ p {
   list-style: none;
   margin: 4px 0;
   padding: 0;
-  font-size: 0.82rem;
+  font-size: var(--fs-s);
 }
 .parts li {
   display: flex;
@@ -761,9 +756,9 @@ details summary {
   background: var(--ink-2);
 }
 .node.current .dot {
-  background: var(--accent);
-  border-color: var(--accent);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 25%, transparent);
+  background: var(--ink);
+  border-color: var(--ink);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--ink) 25%, transparent);
   animation: pulse 1.6s infinite;
 }
 .node.r-strong .dot,
@@ -780,7 +775,7 @@ details summary {
   border-color: var(--bad);
 }
 .node-l {
-  font-size: 0.68rem;
+  font-size: var(--fs-xs);
   text-align: center;
   margin-top: 4px;
   color: var(--ink-2);
@@ -788,7 +783,7 @@ details summary {
 }
 @keyframes pulse {
   50% {
-    box-shadow: 0 0 0 7px color-mix(in srgb, var(--accent) 10%, transparent);
+    box-shadow: 0 0 0 7px color-mix(in srgb, var(--ink) 10%, transparent);
   }
 }
 
@@ -822,8 +817,8 @@ details summary {
   border-bottom: 1px solid var(--line);
 }
 .sheet-head h2 {
-  font-size: 1.5rem;
-  color: var(--accent);
+  font-size: var(--fs-h2);
+  color: var(--ink);
 }
 .sheet-body {
   overflow-y: auto;
@@ -887,7 +882,7 @@ details summary {
   font-weight: 700;
 }
 .mm-prof {
-  font-size: 0.75rem;
+  font-size: var(--fs-xs);
   color: var(--muted);
 }
 .mm-bars {
@@ -900,7 +895,7 @@ details summary {
   position: absolute;
   top: 5px;
   right: 6px;
-  font-size: 0.65rem;
+  font-size: var(--fs-xs);
   color: var(--bad);
 }
 .phases {
@@ -916,9 +911,10 @@ details summary {
   margin-bottom: 8px;
 }
 .badge {
-  font-size: 0.7rem;
-  background: var(--gold);
-  color: #fff;
+  font-size: var(--fs-xs);
+  background: var(--paper-2);
+  color: var(--ink);
+  border: 1px solid var(--line);
   border-radius: 6px;
   padding: 1px 6px;
 }
@@ -933,7 +929,7 @@ details summary {
   background: var(--paper-2);
   border-radius: 8px;
   padding: 5px 9px;
-  font-size: 0.85rem;
+  font-size: var(--fs-m);
   cursor: pointer;
 }
 .approach.on {
@@ -957,7 +953,7 @@ details summary {
   padding-top: 6px;
 }
 .breakdown h4 {
-  font-size: 1rem;
+  font-size: var(--fs-body);
 }
 .cols {
   display: grid;
@@ -986,7 +982,7 @@ details summary {
   display: flex;
   gap: 8px;
   align-items: flex-start;
-  font-size: 0.88rem;
+  font-size: var(--fs-m);
   margin: 10px 0;
 }
 .toggle input {
@@ -1014,11 +1010,12 @@ details summary {
 }
 .attr-v {
   font-family: var(--display);
-  font-size: 1.6rem;
+  font-variant-numeric: lining-nums;
+  font-size: var(--fs-h2);
   font-weight: 700;
 }
 .attr-l {
-  font-size: 0.75rem;
+  font-size: var(--fs-s);
   color: var(--muted);
 }
 .vitals {
@@ -1030,7 +1027,7 @@ details summary {
   grid-template-columns: 64px 1fr 30px;
   align-items: center;
   gap: 8px;
-  font-size: 0.85rem;
+  font-size: var(--fs-m);
 }
 .vitals label span {
   text-align: right;
@@ -1049,8 +1046,8 @@ details summary {
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 4px 8px;
-  font-weight: 600;
-  font-size: 0.88rem;
+  font-weight: 700;
+  font-size: var(--fs-m);
 }
 .trait small {
   font-weight: 400;
@@ -1074,10 +1071,10 @@ details summary {
   padding: 4px 2px;
 }
 .score b {
-  font-size: 1.15rem;
+  font-size: var(--fs-lead);
 }
 .score small {
-  font-size: 0.68rem;
+  font-size: var(--fs-xs);
   color: var(--muted);
 }
 .slots {
@@ -1104,7 +1101,7 @@ details summary {
   cursor: default;
 }
 .slot-l {
-  font-size: 0.72rem;
+  font-size: var(--fs-xs);
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -1113,7 +1110,7 @@ details summary {
   font-weight: 700;
 }
 .slot-s {
-  font-size: 0.8rem;
+  font-size: var(--fs-s);
   color: var(--ink-2);
 }
 .picker {
@@ -1138,7 +1135,7 @@ details summary {
 }
 .assign-opt small {
   color: var(--muted);
-  font-size: 0.8rem;
+  font-size: var(--fs-s);
 }
 .select,
 .textarea {
@@ -1153,7 +1150,7 @@ details summary {
 }
 .textarea {
   min-height: 70px;
-  font-size: 0.75rem;
+  font-size: var(--fs-s);
   font-family: ui-monospace, monospace;
 }
 
@@ -1197,7 +1194,7 @@ details summary {
   margin: 0;
 }
 .chronicle {
-  border-left: 2px solid var(--accent);
+  border-left: 2px solid var(--gold);
   padding-left: 10px;
   margin-bottom: 8px;
 }
@@ -1231,8 +1228,8 @@ details summary {
   animation: rise 0.25s ease-out;
 }
 .event-card h2 {
-  font-size: 1.7rem;
-  color: var(--accent);
+  font-size: var(--fs-h2);
+  color: var(--ink);
   margin-bottom: 6px;
 }
 .choices {
@@ -1270,8 +1267,9 @@ details summary {
   right: 12px;
   top: 34px;
   font-family: var(--display);
+  font-variant-numeric: lining-nums;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: var(--fs-lead);
   padding: 0 8px;
   border: 2px solid currentColor;
   border-radius: 6px;
@@ -1308,7 +1306,7 @@ details summary {
   animation: rise 0.4s ease-out both;
 }
 .outcome h3 {
-  font-size: 1.8rem;
+  font-size: var(--fs-h2);
 }
 .t-triumph,
 .t-success {
@@ -1347,12 +1345,12 @@ details summary {
   gap: 8px;
 }
 .title-art {
-  font-size: 3rem;
+  font-size: var(--fs-hero);
   color: var(--accent);
   letter-spacing: 0.1em;
 }
 .title-screen h1 {
-  font-size: 2.8rem;
+  font-size: var(--fs-hero);
   color: var(--accent);
 }
 .tagline {
@@ -1367,12 +1365,12 @@ details summary {
   margin: 16px 0;
 }
 .help h4 {
-  font-size: 1.15rem;
+  font-size: var(--fs-lead);
   margin-top: 12px;
-  color: var(--accent);
+  color: var(--ink);
 }
 .help p {
-  font-size: 0.92rem;
+  font-size: var(--fs-m);
 }
 
 .toast {
@@ -1381,13 +1379,14 @@ details summary {
   transform: translateX(-50%);
   top: calc(96px + env(safe-area-inset-top));
   width: max-content;
+  pointer-events: none;
   background: var(--ink);
   color: var(--paper);
   padding: 9px 14px;
   border-radius: 10px;
   z-index: 60; /* above sheets, below event cards and confirmations */
   max-width: calc(100% - 32px);
-  font-size: 0.9rem;
+  font-size: var(--fs-m);
   box-shadow: var(--shadow);
   animation: rise 0.2s;
 }
@@ -1420,7 +1419,7 @@ details summary {
 @keyframes respulse {
   30% {
     transform: scale(1.12);
-    border-color: var(--gold);
+    border-color: var(--ink-2);
   }
 }
 .float {
@@ -1430,7 +1429,7 @@ details summary {
   transform: translateX(-50%);
   font-style: normal;
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: var(--fs-m);
   pointer-events: none;
   white-space: nowrap;
   animation: floatup 1.5s ease-out forwards;
@@ -1462,8 +1461,8 @@ details summary {
 }
 @keyframes flash {
   50% {
-    background: var(--gold);
-    color: #fff;
+    background: var(--ink);
+    color: var(--paper);
     transform: scale(1.12);
   }
 }
@@ -1482,17 +1481,17 @@ details summary {
   gap: 6px;
 }
 .confirm-card h3 {
-  font-size: 1.45rem;
-  color: var(--accent);
+  font-size: var(--fs-h2);
+  color: var(--ink);
 }
 .cost {
   font-weight: 700;
   background: var(--paper-2);
-  border: 1px dashed var(--gold);
+  border: 1px dashed var(--line);
   border-radius: 8px;
   padding: 6px 10px;
   margin: 6px 0 8px;
-  font-size: 0.9rem;
+  font-size: var(--fs-m);
 }
 
 /* conversations */
@@ -1504,8 +1503,8 @@ details summary {
   overflow-y: auto;
 }
 .exchange .you {
-  font-weight: 600;
-  color: var(--accent);
+  font-weight: 700;
+  color: var(--ink-2);
   margin-bottom: 0;
 }
 .exchange .reply {
@@ -1517,9 +1516,10 @@ details summary {
 }
 .speaker {
   font-family: var(--display);
+  font-variant-numeric: lining-nums;
   font-weight: 700;
-  font-size: 1.05rem;
-  color: var(--gold);
+  font-size: var(--fs-lead);
+  color: var(--ink-2);
   margin-bottom: 0;
 }
 .choices .choice {
@@ -1538,7 +1538,7 @@ details summary {
   border-style: dashed;
 }
 .choice .check {
-  color: var(--info);
+  color: var(--ink-2);
 }
 
 /* week report */
@@ -1580,14 +1580,14 @@ details summary {
   padding: 0 4px;
 }
 .j-head {
-  font-size: 1.1rem;
+  font-size: var(--fs-lead);
   color: var(--ink-2);
   font-style: italic;
   animation: rise 0.4s ease-out both;
 }
 .j-line {
   animation: inkin 0.5s ease-out both;
-  font-size: 0.95rem;
+  font-size: var(--fs-m);
 }
 .j-line.wound {
   color: var(--bad);
@@ -1611,7 +1611,7 @@ details summary {
   list-style: none;
   padding: 0;
   margin: 0;
-  border-left: 2px solid var(--gold);
+  border-left: 2px solid var(--line);
   padding-left: 10px;
 }
 .record li {
@@ -1635,7 +1635,7 @@ details summary {
   border-radius: 999px;
   width: 40px;
   height: 40px;
-  font-size: 1.1rem;
+  font-size: var(--fs-lead);
   cursor: pointer;
 }
 .title-screen {
@@ -1649,9 +1649,6 @@ details summary {
 }
 .res {
   color: var(--ink);
-}
-.res .icon {
-  color: var(--rc, var(--ink-2));
 }
 .nav-i .icon {
   width: 24px;
@@ -1668,7 +1665,7 @@ details summary {
   border: 1.5px solid color-mix(in srgb, var(--c) 45%, var(--line));
   background: color-mix(in srgb, var(--c) 8%, var(--paper));
   color: var(--ink);
-  font-size: 0.85rem;
+  font-size: var(--fs-m);
   cursor: pointer;
 }
 .ap-chip .icon {
@@ -1685,7 +1682,7 @@ details summary {
 }
 .ap-chip.small {
   padding: 2px 7px;
-  font-size: 0.78rem;
+  font-size: var(--fs-s);
 }
 
 /* portraits */
@@ -1700,6 +1697,7 @@ details summary {
   border: 2px solid var(--c);
   color: var(--ink);
   font-family: var(--display);
+  font-variant-numeric: lining-nums;
   font-weight: 700;
 }
 .portrait.dead {
@@ -1780,7 +1778,7 @@ details summary {
   content: '';
 }
 .ps-step.ps-goal {
-  border-color: var(--gold);
+  border-color: var(--ink-2);
 }
 .ps-ap {
   display: inline-flex;
@@ -1792,7 +1790,7 @@ details summary {
   align-items: baseline;
   gap: 4px;
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: var(--fs-m);
   padding: 2px 8px;
   border-radius: 999px;
   border: 1.5px solid currentColor;
@@ -1801,7 +1799,7 @@ details summary {
 .odds-pill small {
   font-weight: 400;
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: var(--fs-xs);
 }
 .odds-pill.good {
   color: var(--good);
@@ -1844,7 +1842,7 @@ details summary {
   display: inline-flex;
   align-items: center;
   gap: 3px;
-  font-size: 0.76rem;
+  font-size: var(--fs-s);
   padding: 1px 6px;
   border-radius: 6px;
   border: 1px solid color-mix(in srgb, var(--c, var(--ink-2)) 40%, var(--line));
@@ -1879,7 +1877,7 @@ details summary {
   align-items: center;
   gap: 4px;
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: var(--fs-s);
 }
 .vitals-mini {
   display: grid;
@@ -1921,7 +1919,7 @@ details summary {
   width: 100%;
   border-collapse: separate;
   border-spacing: 2px;
-  font-size: 0.82rem;
+  font-size: var(--fs-s);
   margin: 6px 0;
 }
 .matrix th {
@@ -1933,11 +1931,11 @@ details summary {
   border-radius: 6px;
   padding: 3px 0;
   font-variant-numeric: tabular-nums;
-  font-weight: 600;
+  font-weight: 700;
 }
 .matrix td.name {
   text-align: left;
-  font-weight: 600;
+  font-weight: 700;
   padding-left: 4px;
   white-space: nowrap;
 }
@@ -1961,7 +1959,7 @@ details summary {
   display: flex;
   gap: 8px;
   align-items: center;
-  font-size: 0.88rem;
+  font-size: var(--fs-m);
 }
 
 .slot-row-v {
@@ -1978,6 +1976,25 @@ details summary {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  min-width: 0;
+}
+/* a long profession or status ("Skirmisher", "Away · back in 3 wk") stays inside the card at 360 wide */
+.member-mini {
+  padding-left: 6px;
+  padding-right: 6px;
+}
+.member-mini > .row {
+  min-width: 0;
+  max-width: 100%;
+  flex-wrap: nowrap;
+  gap: 5px;
+}
+.mm-text .mm-name,
+.mm-text .mm-prof {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .score .icon {
   margin-bottom: 2px;
@@ -2008,7 +2025,7 @@ details summary {
 .endweek-bar .endweek {
   position: static;
   padding: 8px 18px;
-  font-size: 1.05rem;
+  font-size: var(--fs-lead);
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -2058,12 +2075,12 @@ details summary {
   border: 1px solid var(--line);
   background: var(--paper);
   cursor: pointer;
-  color: var(--gold);
+  color: var(--ink-2);
 }
 .facility .fac-name {
   color: var(--ink);
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: var(--fs-s);
+  font-weight: 700;
   text-align: center;
   line-height: 1.1;
 }
@@ -2072,15 +2089,15 @@ details summary {
   border-style: dashed;
 }
 .facility.open {
-  border-color: var(--gold);
-  box-shadow: 0 0 0 2px var(--gold) inset;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent) inset;
 }
 .fac-badge {
   position: absolute;
   top: 4px;
   right: 4px;
-  font-size: 0.6rem;
-  background: var(--gold);
+  font-size: var(--fs-xs);
+  background: var(--ink-2);
   color: var(--paper);
   border-radius: 6px;
   padding: 0 4px;
@@ -2093,10 +2110,10 @@ details summary {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  border: 1.5px solid var(--gold);
+  border: 1.5px solid var(--ink-2);
 }
 .pips i.on {
-  background: var(--gold);
+  background: var(--ink-2);
 }
 .facility-detail,
 .build-progress {
@@ -2357,8 +2374,8 @@ details summary {
   gap: 6px;
 }
 .stance {
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: var(--fs-m);
+  font-weight: 700;
   color: var(--ink-2);
 }
 
@@ -2377,7 +2394,7 @@ details summary {
   border-top: 1px dotted var(--line);
 }
 .objective.first .obj-box {
-  border-color: var(--accent);
+  border-color: var(--ink);
 }
 .obj-box {
   flex: none;
@@ -2404,7 +2421,7 @@ details summary {
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 5px 10px;
-  font-size: 0.8rem;
+  font-size: var(--fs-s);
   color: var(--ink);
   cursor: pointer;
   white-space: nowrap;
@@ -2415,7 +2432,7 @@ details summary {
   text-overflow: ellipsis;
 }
 .guide-nudge .icon {
-  color: var(--accent);
+  color: var(--ink-2);
 }
 @keyframes guidepulse {
   0%,
@@ -2458,7 +2475,7 @@ details summary {
   flex-wrap: wrap;
 }
 .readiness {
-  font-size: 0.85rem;
+  font-size: var(--fs-m);
 }
 .readiness.bad {
   color: var(--bad);
@@ -2497,7 +2514,7 @@ details summary {
 }
 .matrix th.sorted .th-btn::after {
   content: '↓';
-  font-size: 0.7rem;
+  font-size: var(--fs-xs);
 }
 
 .mission-wrap {
@@ -2631,13 +2648,13 @@ details summary {
   border-radius: 10px;
   padding: 10px 10px 10px 8px;
   margin: 4px 0;
-  border: 1px solid var(--gold);
-  background: color-mix(in srgb, var(--gold) 10%, transparent);
+  border: 1px solid var(--good);
+  background: color-mix(in srgb, var(--good) 10%, transparent);
   animation: readyglow 2.4s ease-in-out infinite;
 }
 @keyframes readyglow {
   50% {
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold) 30%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--good) 30%, transparent);
   }
 }
 .obj-box.done {
@@ -2649,10 +2666,10 @@ details summary {
   justify-content: center;
 }
 .collect-btn {
-  background: var(--gold);
+  background: var(--good);
   color: #1a140f;
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: var(--fs-m);
   border-radius: 999px;
   padding: 5px 12px;
 }
@@ -2665,7 +2682,7 @@ details summary {
   }
   30% {
     transform: scale(1.04);
-    box-shadow: 0 0 0 6px color-mix(in srgb, var(--gold) 45%, transparent);
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--good) 45%, transparent);
   }
   100% {
     transform: scale(0.96);
@@ -2677,7 +2694,7 @@ details summary {
   inset: 0;
   pointer-events: none;
   border-radius: 10px;
-  background: radial-gradient(circle at 80% 50%, color-mix(in srgb, var(--gold) 60%, transparent) 0, transparent 55%);
+  background: radial-gradient(circle at 80% 50%, color-mix(in srgb, var(--good) 60%, transparent) 0, transparent 55%);
   animation: burst 0.65s ease-out forwards;
 }
 @keyframes burst {
@@ -2691,9 +2708,9 @@ details summary {
   }
 }
 .guide-nudge.ready {
-  border-color: var(--gold);
+  border-color: var(--good);
   color: var(--ink);
-  background: color-mix(in srgb, var(--gold) 14%, transparent);
+  background: color-mix(in srgb, var(--good) 14%, transparent);
   animation: readyglow 2.4s ease-in-out infinite;
 }
 .guide-nudge.ready .icon {
@@ -2723,7 +2740,7 @@ details summary {
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 4px 10px 4px 6px;
-  font-size: 0.85rem;
+  font-size: var(--fs-m);
   color: var(--ink);
   cursor: pointer;
   flex: none;
@@ -2741,7 +2758,7 @@ details summary {
   align-items: center;
   justify-content: center;
   gap: 3px;
-  font-size: 0.8rem;
+  font-size: var(--fs-s);
   font-weight: 700;
   padding: 4px 4px;
   border-radius: 8px;
@@ -2761,7 +2778,7 @@ details summary {
   color: var(--bad);
 }
 .fo.goal {
-  border-color: var(--gold);
+  border-color: var(--ink-2);
 }
 
 /* ---------- v0.10: new guild screen ---------- */
@@ -2781,7 +2798,7 @@ details summary {
   margin: 2px 0 6px;
 }
 .start-label {
-  font-size: 0.72rem;
+  font-size: var(--fs-xs);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--muted);
@@ -2805,7 +2822,7 @@ details summary {
   border-radius: 8px;
   padding: 8px 10px;
   font: inherit;
-  font-size: 0.9rem;
+  font-size: var(--fs-m);
 }
 
 /* ---------- v0.10: fame ---------- */
@@ -2816,19 +2833,19 @@ details summary {
   margin: 8px 0;
 }
 .fame-block.legend {
-  border-color: color-mix(in srgb, var(--gold) 60%, var(--line));
+  border-color: color-mix(in srgb, var(--ink-2) 60%, var(--line));
 }
 .fame-block .meta .icon {
-  color: var(--gold);
+  color: var(--ink-2);
 }
 .fame-tag {
   font-weight: normal;
-  font-size: 0.75rem;
+  font-size: var(--fs-s);
   color: var(--ink-2);
   margin-left: 6px;
 }
 .fame-tag .icon {
-  color: var(--gold);
+  color: var(--ink-2);
   vertical-align: -1px;
 }
 
@@ -2856,4 +2873,332 @@ details summary {
 }
 .title-footnote {
   text-wrap: balance;
+}
+
+/* ---------- v0.11: UI audit follow-ups ---------- */
+/* toast: above the End Week bar in play; over the sheet header when a sheet is open */
+.toast.in-game {
+  top: auto;
+  bottom: calc(var(--nav-h) + 64px + env(safe-area-inset-bottom));
+}
+.toast.over-sheet {
+  top: calc(8px + env(safe-area-inset-top));
+}
+
+/* top bar: number on top, a label under it in the first season */
+.res {
+  flex-direction: column;
+  gap: 0;
+}
+.res-v {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.res .res-l {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  line-height: 1.1;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.res .res-v span {
+  opacity: 1;
+}
+
+/* the End Week bar's "N to check" opens the warnings */
+.endweek-check {
+  background: none;
+  border: none;
+  padding: 8px 0;
+  color: var(--mid);
+  font: inherit;
+  font-size: var(--fs-s);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* the order chip on a Roster row: its own tap target inside the card */
+.order-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 32px;
+  padding: 2px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper-2);
+  color: var(--ink-2);
+  font: inherit;
+  font-size: var(--fs-s);
+  cursor: pointer;
+}
+.order-chip:active {
+  background: var(--paper);
+}
+.orders-who {
+  margin-bottom: 8px;
+}
+
+/* Contracts: squads in the field as one-line rows */
+.mission-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 9px 12px;
+  margin-bottom: 8px;
+  color: inherit;
+  font: inherit;
+}
+.mission-row-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+.mission-row-main b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mission-row-dots {
+  display: inline-flex;
+  gap: 3px;
+  flex: none;
+}
+.mission-row-dots i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1.5px solid var(--muted);
+}
+.mission-row-dots i.done {
+  background: var(--muted);
+}
+.mission-row-dots i.current {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+.mission-row-dots i.r-strong,
+.mission-row-dots i.r-success {
+  background: var(--good);
+  border-color: var(--good);
+}
+.mission-row-dots i.r-fail {
+  background: var(--mid);
+  border-color: var(--mid);
+}
+.mission-row-dots i.r-severe {
+  background: var(--bad);
+  border-color: var(--bad);
+}
+.mission-collapse {
+  display: block;
+  margin: 0 0 4px auto;
+}
+
+/* Hall: alerts that lead somewhere, and the loan line in the ledger */
+.alerts li.has-target {
+  padding: 0;
+  overflow: hidden;
+}
+.alert-go {
+  width: 100%;
+  text-align: left;
+  border: none;
+  border-radius: 0;
+  box-shadow: none !important;
+  padding: 9px 10px;
+  color: inherit;
+  font: inherit;
+}
+.loan-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  text-align: left;
+  margin: 8px 0 4px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink-2);
+  font: inherit;
+  font-size: var(--fs-m);
+}
+
+/* Realm sub-tabs: a dot when something waits on that tab */
+.seg-l {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.seg-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* planner: the Squad heading carries the Best squad button */
+.planner-squad-head {
+  margin-top: 12px;
+  border-bottom: none;
+}
+.planner-squad-head .subhead {
+  margin: 0;
+}
+
+/* a card's own heading inside a panel (notes card, faction and rival cards) */
+.card-title {
+  color: var(--ink);
+  font-size: var(--fs-body);
+}
+.guide-card .card-title {
+  font-size: var(--fs-lead);
+}
+
+/* neutral progress bars: XP, construction, notes */
+.progress-fill {
+  background: var(--ink-2);
+}
+.xp-track {
+  margin: 4px 0;
+}
+
+/* scenes: a talk choice carries a speech icon */
+.choice-talk {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.exchange .you .icon {
+  vertical-align: -1px;
+}
+
+/* week report: routine changes are neutral */
+.delta-chip.flat {
+  color: var(--ink-2);
+  border-color: var(--line);
+}
+.report-date {
+  margin: 0 0 6px;
+}
+
+/* bigger hit areas for small controls, without changing how they look */
+.tag,
+.bar-btn,
+.th-btn,
+.link-btn,
+.res,
+.ap-chip,
+.endweek-check {
+  position: relative;
+}
+.tag::before,
+.bar-btn::before,
+.th-btn::before,
+.link-btn::before,
+.res::before,
+.ap-chip::before,
+.endweek-check::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 44px;
+  min-height: 100%;
+  transform: translateY(-50%);
+}
+/* where small controls sit close together, the padding must not reach into a
+   neighbour, or a tap lands on the wrong control. Tags wrap in rows: grow the
+   row gap a little and pad each tag only into half of it. */
+.tags {
+  row-gap: 8px;
+}
+.tag::before {
+  top: -4px;
+  bottom: -4px;
+  height: auto;
+  min-height: 0;
+  transform: none;
+}
+/* matrix headers: pad upward only, never over the first member row */
+.th-btn::before {
+  top: auto;
+  bottom: 0;
+  transform: none;
+}
+/* an alert or a note that scrolls to a section stops below the fixed top bar */
+[data-guide] {
+  scroll-margin-top: calc(112px + env(safe-area-inset-top));
+}
+/* the top bar's Journal and Menu buttons win over the resource padding below them */
+.topbar .icon-btn {
+  position: relative;
+  z-index: 1;
+}
+
+/* the End Week bar: keep the check label on one line beside the notes nudge */
+.endweek-info {
+  min-width: 0;
+  align-items: center;
+}
+.endweek-check {
+  white-space: nowrap;
+}
+.endweek-info .guide-nudge {
+  min-width: 0;
+  flex-shrink: 1;
+}
+/* the resource labels need the full width of each chip */
+.resources.labelled .res {
+  padding-left: 0;
+  padding-right: 0;
+}
+.resources.labelled {
+  gap: 3px;
+}
+
+/* the toast keeps its centring while it rises in */
+.toast {
+  animation: toastrise 0.2s;
+}
+@keyframes toastrise {
+  from {
+    transform: translate(-50%, 30px);
+    opacity: 0;
+  }
+}
+/* order chip: a full-size hit area like the other small controls */
+.order-chip {
+  position: relative;
+  min-height: 34px;
+}
+.order-chip::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
+}
+/* "Influence" must fit under its number at 360 px */
+.resources.labelled .res-l {
+  letter-spacing: -0.03em;
+}
+/* planner: two columns on phones so professions and warnings like Exhausted are not cut */
+@media (max-width: 420px) {
+  .member-pick {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

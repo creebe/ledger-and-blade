@@ -53,14 +53,14 @@ export function projectLedger(s: GameState, weeks = 4): Projection[] {
 export function endWeekWarnings(s: GameState): string[] {
   const w: string[] = [];
   const idle = living(s).filter((m) => m.status === 'idle' && m.health >= 40 && m.assignment === 'rest' && m.fatigue < 10);
-  if (idle.length) w.push(`${idle.length} rested member(s) are doing nothing.`);
+  if (idle.length) w.push(idle.length === 1 ? '1 rested member is doing nothing.' : `${idle.length} rested members are doing nothing.`);
   const home = living(s).filter((m) => m.status !== 'mission').length;
   if (s.supplies < home) w.push(`Supplies will run short: ${s.supplies} for ${home} mouths.`);
   const due = s.loans.find((l) => l.dueWeek === s.week);
   if (due && s.crowns - weeklyWages(s) - upkeep(s) < due.paymentDue) w.push(`You can't cover this week's loan payment of ${due.paymentDue} crowns.`);
   if (s.crowns - weeklyWages(s) - upkeep(s) < 0) w.push('Wages and upkeep will put you in the red.');
   const expiring = s.board.filter((c) => c.expiresWeek === s.week);
-  if (expiring.length) w.push(`${expiring.length} contract(s) expire this week.`);
+  if (expiring.length) w.push(expiring.length === 1 ? '1 contract expires this week.' : `${expiring.length} contracts expire this week.`);
   return w;
 }
 
@@ -204,7 +204,7 @@ function economyPhase(s: GameState) {
       m.morale = clamp(m.morale - 10, 0, 100);
       m.fatigue = clamp(m.fatigue + 10, 0, 100);
     }
-    addDispatch(s, 'warning', 'Short of supplies', [`${hungry} member(s) went hungry this week. Morale suffers.`]);
+    addDispatch(s, 'warning', 'Short of supplies', [hungry === 1 ? '1 member went hungry this week. Morale suffers.' : `${hungry} members went hungry this week. Morale suffers.`]);
   }
   for (const loan of s.loans) {
     loan.principal *= 1 + loan.weeklyRate * modProduct(s, 'loanRate');

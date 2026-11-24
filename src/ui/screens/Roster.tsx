@@ -1,17 +1,10 @@
-import { FAME_TIERS, fameTier, hireRecruit, ITEMS, living, PROFESSIONS, rosterCap, TRAITS } from '../../engine';
+import { FAME_TIERS, fameTier, hireRecruit, ITEMS, living, PROFESSIONS, rosterCap, TRAITS, upkeep, weeklyWages } from '../../engine';
 import { useStore } from '../../store';
 import { useState } from 'react';
 import { Btn, Empty, Section, Seg } from '../kit/common';
 import { Icon } from '../kit/icons';
 import { ApproachBars, Portrait, readiness, TopStrengths } from '../kit/visual';
-import type { Member } from '../../engine';
 
-const ASSIGN_ICON: Record<string, string> = { rest: 'rest', train: 'train', rumors: 'ear', labor: 'hammer', scout: 'compass', build: 'anvil' };
-function statusIcon(m: Member) {
-  if (m.status === 'mission') return 'road';
-  if (m.status === 'recovering') return 'bandage';
-  return ASSIGN_ICON[m.assignment] ?? 'rest';
-}
 
 function Vital({ icon, v, label }: { icon: string; v: number; label: string }) {
   // neutral when fine; color only when it needs attention
@@ -25,7 +18,8 @@ function Vital({ icon, v, label }: { icon: string; v: number; label: string }) {
     </span>
   );
 }
-import { ASSIGNMENTS } from '../kit/members';
+import { ASSIGNMENTS, ORDER_ICON } from '../kit/members';
+import { crowns, plural } from '../kit/format';
 
 export function RosterScreen() {
   const g = useStore((s) => s.game)!;
@@ -61,13 +55,25 @@ export function RosterScreen() {
         ]}
       />
       <p className="muted small">
-        {crew.length} members · wages {crew.reduce((s, m) => s + m.wage, 0)}◉/week. Idle members follow their weekly assignment. Tap a member to change gear and orders.
+        {plural(crew.length, 'member')} · wages {crowns(crew.reduce((s, m) => s + m.wage, 0))} a week. Tap an order to change it, or a member to see their gear and record.
       </p>
       <Section guide="roster">
         {crew.map((m) => {
           const r = readiness(m, g);
           return (
-            <button key={m.id} className="member-row tappable" onClick={() => open({ kind: 'member', id: m.id })}>
+            <div
+              key={m.id}
+              className="member-row tappable"
+              role="button"
+              tabIndex={0}
+              onClick={() => open({ kind: 'member', id: m.id })}
+              onKeyDown={(e) => {
+                // only the row itself: Enter on the order chip inside must not open the member sheet too
+                if (e.target !== e.currentTarget || (e.key !== 'Enter' && e.key !== ' ')) return;
+                e.preventDefault();
+                open({ kind: 'member', id: m.id });
+              }}
+            >
               <div className="card-row" style={{ alignItems: 'center' }}>
                 <Portrait m={m} size={40} />
                 <div className="card-main">
@@ -76,7 +82,7 @@ export function RosterScreen() {
                       {m.name}
                       {fameTier(m) > 0 && (
                         <span className="fame-tag" title={FAME_TIERS[fameTier(m)].name}>
-                          <Icon name="star" size={11} /> {m.epithet ? `"${m.epithet}"` : FAME_TIERS[fameTier(m)].name}
+                          <Icon name="fame" size={12} /> {m.epithet ? `"${m.epithet}"` : FAME_TIERS[fameTier(m)].name}
                         </span>
                       )}
                     </b>
@@ -87,10 +93,17 @@ export function RosterScreen() {
                       {PROFESSIONS[m.profession].name} · Lv {m.level}
                     </span>
                     {m.status === 'idle' && (
-                      <span className="meta">
-                        <Icon name={statusIcon(m)} size={13} />
+                      <button
+                        className="order-chip"
+                        aria-label={`Orders for ${m.name}: ${ASSIGNMENTS.find((a) => a.id === m.assignment)?.label}. Tap to change.`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          open({ kind: 'orders', id: m.id });
+                        }}
+                      >
+                        <Icon name={ORDER_ICON[m.assignment]} size={14} />
                         {ASSIGNMENTS.find((a) => a.id === m.assignment)?.label}
-                      </span>
+                      </button>
                     )}
                   </div>
                   {detail ? (
@@ -111,7 +124,7 @@ export function RosterScreen() {
                   )}
                 </div>
               </div>
-            </button>
+            </div>
           );
         })}
       </Section>
@@ -141,7 +154,7 @@ export function RosterScreen() {
               </div>
               <div className="row between">
                 <span className="small">
-                  Wage {m.wage}◉/wk · leaves in {r.expiresWeek - g.week + 1} wk
+                  Wage {crowns(m.wage)} a week · leaves in {plural(r.expiresWeek - g.week + 1, 'week')}
                 </span>
                 <Btn
                   className="btn small primary"
@@ -151,15 +164,15 @@ export function RosterScreen() {
                       title: `Hire ${m.name}?`,
                       body: [
                         `${PROFESSIONS[m.profession].name}. ${PROFESSIONS[m.profession].blurb}`,
-                        `Weekly costs rise from ${crew.reduce((s, x) => s + x.wage, 0) + 15}◉ to ${crew.reduce((s, x) => s + x.wage, 0) + 15 + m.wage}◉ (wage ${m.wage}).`,
+                        `Weekly costs rise from ${crowns(weeklyWages(g) + upkeep(g))} to ${crowns(weeklyWages(g) + upkeep(g) + m.wage)} (wage ${m.wage}).`,
                       ],
-                      cost: `Sign-on fee ${r.signOn}◉ · treasury ${g.crowns} → ${g.crowns - r.signOn}`,
+                      cost: `Sign-on fee ${crowns(r.signOn)} · treasury ${g.crowns} → ${g.crowns - r.signOn}`,
                       confirmLabel: 'Hire',
                       onConfirm: () => act((d) => hireRecruit(d, i)) && useStore.getState().notify(`${m.name} joins the guild, with their gear.`),
                     })
                   }
                 >
-                  Hire {r.signOn}◉
+                  Hire {crowns(r.signOn)}
                 </Btn>
               </div>
             </div>
@@ -170,8 +183,11 @@ export function RosterScreen() {
       {fallen.length > 0 && (
         <Section title="Gone but not forgotten">
           {fallen.map((m) => (
-            <p key={m.id} className="small muted">
-              {m.status === 'dead' ? '✝' : '↦'} {m.name}, {PROFESSIONS[m.profession].name}: {m.causeOfDeath}
+            <p key={m.id} className="small muted alert-row">
+              <Icon name={m.status === 'dead' ? 'skull' : 'exit'} size={14} />
+              <span>
+                {m.name}, {PROFESSIONS[m.profession].name}: {m.causeOfDeath}
+              </span>
             </p>
           ))}
         </Section>

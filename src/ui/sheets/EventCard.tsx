@@ -1,6 +1,6 @@
 import { APPROACH_INFO, PROFESSIONS, canChoose, checkDetail, dateLabel, resolveEvent, type GameEvent } from '../../engine';
 import { useStore } from '../../store';
-import { pct } from '../kit/format';
+import { pct, weeks } from '../kit/format';
 import { Icon } from '../kit/icons';
 import { PhaseStrip, Portrait, ap } from '../kit/visual';
 
@@ -30,7 +30,7 @@ export function EventCard({ ev }: { ev: GameEvent }) {
             </span>
             <span className="meta">
               <Icon name="road" size={14} />
-              {mission.contract.region} · arrives {mission.arriveWeek <= g.week ? 'this week' : `in ${mission.arriveWeek - g.week + 1} weeks`}
+              {mission.contract.region} · arrives {mission.arriveWeek <= g.week ? 'this week' : `in ${weeks(mission.arriveWeek - g.week + 1)}`}
             </span>
             <PhaseStrip c={mission.contract} chosen={mission.approaches} />
           </div>
@@ -39,7 +39,9 @@ export function EventCard({ ev }: { ev: GameEvent }) {
           <div className="transcript">
             {transcript.map((t, i) => (
               <div key={i} className="exchange">
-                <p className="you">▸ {t.choice}</p>
+                <p className="you">
+                  <Icon name="chevron" size={12} /> {t.choice}
+                </p>
                 {t.reply && <p className="reply small">{t.reply}</p>}
               </div>
             ))}
@@ -58,8 +60,8 @@ export function EventCard({ ev }: { ev: GameEvent }) {
             const leadsOn = !!c.next;
             return (
               <button key={i} className={`choice ${leadsOn ? 'talk' : ''}`} disabled={!!blocked} onClick={() => act((d) => resolveEvent(d, ev.uid, i))}>
-                <b>
-                  {leadsOn && !c.detail ? '💬 ' : ''}
+                <b className={leadsOn && !c.detail ? 'choice-talk' : undefined}>
+                  {leadsOn && !c.detail && <Icon name="talk" size={14} />}
                   {c.label}
                 </b>
                 {c.detail && <span className="small">{c.detail}</span>}
