@@ -11,7 +11,10 @@ const FILES = [
   'src/engine/data/codex.ts',
   'src/engine/data/contracts.ts',
   'src/engine/data/tutorial.ts',
-  'src/engine/narrative.ts',
+  'src/engine/missions/narrative.ts',
+  'src/engine/people/legends.ts',
+  'src/engine/rivals/war.ts',
+  'src/engine/data/starts.ts',
 ];
 
 const RULES: { id: string; why: string; re: RegExp }[] = [

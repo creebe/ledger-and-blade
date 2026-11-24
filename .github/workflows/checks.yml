@@ -1,0 +1,33 @@
+name: Checks
+
+# Runs on every pull request and on pushes to main. Never deploys: deploying is
+# the manual "Test & deploy to GitHub Pages" workflow, run only on the owner's word.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Types
+        run: npx tsc --noEmit -p .
+      - name: Tests (engine rules and story coherence)
+        run: npx vitest run
+      - name: Story checker
+        run: npx vite-node scripts/run-story.ts
+      - name: Writing style (advisory)
+        run: npx vite-node scripts/style-lint.ts
+        continue-on-error: true
+      - name: Build
+        run: npx vite build

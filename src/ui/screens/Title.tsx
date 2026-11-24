@@ -1,3 +1,4 @@
+import { VERSION } from '../../version';
 import { useMemo, useState } from 'react';
 import { BACKERS, CIRCUMSTANCE_BY_ID, PROFESSIONS, dateLabel, newGame } from '../../engine';
 import { hasAutosave, slotInfo, useStore } from '../../store';
@@ -101,7 +102,7 @@ export function Title() {
           How to play
         </button>
       </div>
-      <p className="tiny muted">Prototype build · progress is saved on this device</p>
+      <p className="tiny muted">Prototype build {VERSION} · progress is saved on this device</p>
       {sheets.map((s, i) => (s.kind === 'menu' ? <MenuSheet key={i} /> : s.kind === 'help' ? <HelpSheet key={i} /> : null))}
     </div>
   );
