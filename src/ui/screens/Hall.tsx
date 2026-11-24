@@ -1,13 +1,10 @@
-import { dateLabel, upkeep, living, projectLedger, repayLoan, weeklyWages, type Dispatch, type GameState } from '../../engine';
+import { dateLabel, living, projectLedger, repayLoan, type GameState, upkeep, weeklyWages } from '../../engine';
 import { useStore } from '../../store';
-import { Btn, Empty, Section } from '../common';
-import { Icon } from '../icons';
-import { BuildingsSection } from '../Buildings';
-import { GuideCard } from '../Guide';
-
-const KIND_ICON: Record<string, string> = { lore: 'book', crier: 'ear', story: 'quest', mission: 'scroll', economy: 'coin', politics: 'seal', roster: 'people', rival: 'hobbs', warning: 'warn', info: 'info' };
-// only warnings and the story get color; everything else is neutral
-const KIND_COLOR: Record<string, string> = { story: 'var(--accent)', warning: 'var(--bad)' };
+import { Btn, Empty, Section } from '../kit/common';
+import { Icon } from '../kit/icons';
+import { BuildingsSection } from '../panels/Buildings';
+import { GuideCard } from '../panels/Guide';
+import { DispatchItem } from '../kit/DispatchItem';
 
 export function alerts(g: GameState): { tone: 'warn' | 'bad' | 'info'; text: string }[] {
   const out: { tone: 'warn' | 'bad' | 'info'; text: string }[] = [];
@@ -29,28 +26,6 @@ export function alerts(g: GameState): { tone: 'warn' | 'bad' | 'info'; text: str
   const story = g.board.find((c) => c.story);
   if (story) out.push({ tone: 'info', text: `Story contract available: "${story.title}".` });
   return out;
-}
-
-export function DispatchItem({ d }: { d: Dispatch }) {
-  const open = useStore((s) => s.open);
-  const game = useStore((s) => s.game)!;
-  const mission = d.missionId ? [...game.missions, ...game.history].find((m) => m.id === d.missionId) : undefined;
-  return (
-    <article className={`dispatch k-${d.kind}`}>
-      <h4 className="alert-row">
-        <Icon name={KIND_ICON[d.kind] ?? 'scroll'} size={16} style={{ color: KIND_COLOR[d.kind] ?? 'var(--ink-2)' }} />
-        <span>{d.title}</span>
-      </h4>
-      {d.body.map((b, i) => (
-        <p key={i}>{b}</p>
-      ))}
-      {mission?.report && (
-        <button className="btn ghost small" onClick={() => open({ kind: 'mission', id: mission.id })}>
-          ▶ Read the mission report
-        </button>
-      )}
-    </article>
-  );
 }
 
 export function HallScreen() {

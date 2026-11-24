@@ -1,4 +1,4 @@
-import type { Approach, DamageType, Element, ProfessionId } from '../types';
+import type { Approach, DamageType, Element, ProfessionId } from '../core/types';
 
 export interface TagDef {
   id: string;

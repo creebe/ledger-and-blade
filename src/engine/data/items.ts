@@ -1,4 +1,4 @@
-import type { ItemDef } from '../types';
+import type { ItemDef } from '../core/types';
 
 const list: ItemDef[] = [
   // ---- Weapons ----

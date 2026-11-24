@@ -1,4 +1,5 @@
-import type { EventChoice, GameState, Member, NpcId } from '../types';
+import { seasonOf } from '../core/calendar';
+import type { EventChoice, GameState, Member, NpcId } from '../core/types';
 import { CAST_RANDOM, CAST_STORY } from './cast';
 
 type Txt = string | ((s: GameState, m?: Member) => string);
@@ -697,8 +698,3 @@ const WORLD_EVENTS: EventDef[] = [
 ];
 
 export const RANDOM_EVENTS: EventDef[] = [...WORLD_EVENTS, ...CAST_RANDOM];
-
-export function seasonOf(week: number): 'Spring' | 'Summer' | 'Autumn' | 'Winter' {
-  const w = (week - 1) % 48;
-  return (['Spring', 'Summer', 'Autumn', 'Winter'] as const)[Math.floor(w / 12)];
-}

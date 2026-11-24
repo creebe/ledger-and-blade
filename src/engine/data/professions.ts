@@ -1,4 +1,4 @@
-import type { Approach, Attributes, ProfessionId } from '../types';
+import type { Approach, Attributes, ProfessionId } from '../core/types';
 
 export interface ProfessionDef {
   id: ProfessionId;

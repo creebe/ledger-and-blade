@@ -1,4 +1,4 @@
-import type { MaterialId } from '../types';
+import type { MaterialId } from '../core/types';
 
 export type FacilityId = 'hall' | 'forge' | 'stillroom' | 'infirmary' | 'yard' | 'den' | 'stables';
 

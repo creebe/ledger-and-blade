@@ -20,11 +20,11 @@ import {
   type MaterialId,
 } from '../../engine';
 import { useStore } from '../../store';
-import { Btn, Empty, Section, Seg } from '../common';
-import { SLOT_LABEL } from '../format';
-import { Icon } from '../icons';
-import { ItemIcon, ItemStats } from '../visual';
-import { WorkshopPanel } from '../Buildings';
+import { Btn, Empty, Section, Seg } from '../kit/common';
+import { SLOT_LABEL } from '../kit/format';
+import { Icon } from '../kit/icons';
+import { ItemIcon, ItemStats } from '../kit/visual';
+import { WorkshopPanel } from '../panels/Buildings';
 
 export function ArmoryScreen() {
   const g = useStore((s) => s.game)!;

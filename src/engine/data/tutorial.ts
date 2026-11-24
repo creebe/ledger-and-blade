@@ -1,7 +1,7 @@
 // Guildmaster's Notes: a guided sequence of objectives that walks a new player
 // through every system. Objectives complete from game state or from counters
 // recorded when the player takes an action (track()).
-import type { GameState } from '../types';
+import type { GameState } from '../core/types';
 
 export type GuideTab = 'hall' | 'contracts' | 'roster' | 'armory' | 'realm';
 

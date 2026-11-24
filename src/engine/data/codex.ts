@@ -2,7 +2,7 @@
 // from the start (any Varrow guildmaster would know it). Everything else is
 // learned through play: places visited, enemies faced, people met, members'
 // own pasts, and talk in the streets. Each entry says how it was learned.
-import type { GameState, TagId } from '../types';
+import type { GameState, TagId } from '../core/types';
 import { hasStart } from './starts';
 
 export type CodexCategory = 'Common knowledge' | 'History' | 'Places' | 'People' | 'Foes' | 'Powers & trades';

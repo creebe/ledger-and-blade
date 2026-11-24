@@ -1,15 +1,13 @@
 // Story explorer: plays many games making random story choices and checks that
 // the narrative stays coherent. Used by tests/story.test.ts and by
 // `npm run story` (which writes docs/reports/story-coverage.md).
-import { QUEUED_EVENTS } from '../src/engine/data/cast';
+import { EVENT_DEFS } from '../src/engine/data/registry';
 import { EXCLUSIVE_FACTS, FACTS, type FactId } from '../src/engine/data/facts';
-import { RANDOM_EVENTS, STORY_EVENTS, type EventDef } from '../src/engine/data/events';
-import { ARRIVAL, FIELD_EVENTS } from '../src/engine/data/field';
+import { STORY_EVENTS } from '../src/engine/data/events';
 import { CODEX, CODEX_BY_ID } from '../src/engine/data/codex';
 import { advanceWeek, bestApproaches, canChoose, dispatchMission, living, newGame, previewMission, type GameState } from '../src/engine';
 import { botTurn } from './sim';
 
-const DEFS: Record<string, EventDef> = Object.fromEntries([...STORY_EVENTS, ...RANDOM_EVENTS, ARRIVAL, ...FIELD_EVENTS, ...QUEUED_EVENTS].map((d) => [d.id, d]));
 const BAD_TEXT = /undefined|NaN|\[object |\{\w+\}|\$\{|null\b/;
 
 export interface Violation {
@@ -106,7 +104,7 @@ export function exploreStory(runs: number, weeks: number): StoryReport {
     };
 
     const chooser = (st: GameState, ev: GameState['pendingEvents'][number]) => {
-      const def = DEFS[ev.defId];
+      const def = EVENT_DEFS[ev.defId];
       const node = ev.node ?? 'root';
       (report.nodesVisited[ev.defId] ??= new Set()).add(node);
       checkText(`${ev.defId}/${node} text`, ev.text);
@@ -149,7 +147,7 @@ export function exploreStory(runs: number, weeks: number): StoryReport {
 
       // newly fired events
       for (const ev of s.pendingEvents) {
-        const def = DEFS[ev.defId];
+        const def = EVENT_DEFS[ev.defId];
         if (!def) {
           violate('unknown-event', ev.defId);
           continue;

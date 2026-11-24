@@ -1,9 +1,9 @@
 import type React from 'react';
 import { cancelDispatch, FACTIONS, RIVALS, missionWeeks, type Contract, type GameState, type Mission } from '../../engine';
-import { Icon } from '../icons';
-import { CONTRACT_TYPE_ICON, OddsPill, PhaseStrip, Portrait, useBestOdds } from '../visual';
+import { Icon } from '../kit/icons';
+import { CONTRACT_TYPE_ICON, OddsPill, PhaseStrip, Portrait, useBestOdds } from '../kit/visual';
 import { useStore } from '../../store';
-import { Empty, FactionBadge, Section, TagChip, ThreatPips } from '../common';
+import { Empty, FactionBadge, Section, TagChip, ThreatPips } from '../kit/common';
 
 /** Tappable only once there's a report to read; otherwise a plain panel. */
 function MissionShell({ report, onOpen, children }: { report: boolean; onOpen: () => void; children: React.ReactNode }) {
@@ -17,7 +17,7 @@ function MissionShell({ report, onOpen, children }: { report: boolean; onOpen: (
 }
 
 /** The strip-map: depart, travel, the phases on site, return home. */
-export function MissionTrack({ m, g }: { m: Mission; g: GameState }) {
+function MissionTrack({ m, g }: { m: Mission; g: GameState }) {
   const open = useStore((s) => s.open);
   const c = m.contract;
   const travel = c.travelWeeks;

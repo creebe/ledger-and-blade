@@ -1,7 +1,7 @@
 // The Council of Varrow: decrees, who backs them, and what they change.
 // activeMods() is pure (types and data only) so world/turn code can read it
 // without import cycles.
-import type { ClockId, CouncilFaction, FactionId, GameState, Stance } from '../types';
+import type { ClockId, CouncilFaction, FactionId, GameState, Stance } from '../core/types';
 export type { Stance };
 
 export const SEATS: Record<CouncilFaction, number> = { exchequer: 3, weighhouse: 2, ostranders: 2, lowertown: 2 };

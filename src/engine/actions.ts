@@ -1,35 +1,17 @@
 // Player actions. Each mutates a draft GameState and returns an error string
 // (shown to the player) or undefined on success.
 import { ITEMS } from './data/items';
-import { describePlan } from './rival';
-import { counteredTags, knownTags, suppliesNeeded } from './odds';
-import { revealCost, rosterCap, tripWeeks } from './buildings';
-import { uid } from './rng';
-import type { Member, Approach, Assignment, Attribute, FactionId, GameState, ItemSlot, MaterialId, RivalId } from './types';
+import { describePlan } from './rivals/rival';
+import { counteredTags, knownTags, suppliesNeeded } from './missions/odds';
+import { revealCost, rosterCap, tripWeeks } from './economy/buildings';
+import { uid } from './core/rng';
+import type { Member, Approach, Assignment, Attribute, FactionId, GameState, ItemSlot, MaterialId, RivalId } from './core/types';
 import { RIVALS } from './data/factions';
-import {
-  addDispatch,
-  addItem,
-  applyStanding,
-  clamp,
-  equippedBy,
-  itemPrice,
-  living,
-  MATERIAL_SELL_RATE,
-  materialPrice,
-  removeItem,
-  SELL_RATE,
-  spend,
-  earn,
-  supplyPrice,
-  track,
-} from './world';
-
-export const INTEL_REVEAL_COST = 2; // base; see revealCost() for the Den discount
-export const INTEL_RIVAL_COST = 2;
-export const PETITION_COST = 3;
-export const HEAT_COST = 4;
-export const TRAIN_COST = 8;
+import { addDispatch, clamp, living } from './core/util';
+import { addItem, equippedBy, removeItem } from './economy/items';
+import { applyStanding, spend, earn, track } from './core/effects';
+import { itemPrice, materialPrice, supplyPrice } from './economy/market';
+import { HEAT_COST, INTEL_RIVAL_COST, MATERIAL_SELL_RATE, PETITION_COST, SELL_RATE } from './core/tuning';
 
 const findMember = (s: GameState, id: string) => s.members.find((m) => m.id === id);
 

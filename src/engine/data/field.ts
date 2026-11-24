@@ -1,12 +1,12 @@
 // Decisions while a squad is in the field. They fire at the start of a week
 // for squads on the road, and when a squad arrives at the job. Text and choice
 // functions receive one squad member; missionOf() finds their mission.
-import { bestApproaches, chanceFrom, counteredTags, knownTags, previewMission, squadScore, trueTags } from '../odds';
-import type { Approach, Contract, EventChoice, GameState, Member, Mission } from '../types';
+import { bestApproaches, chanceFrom, counteredTags, knownTags, previewMission, squadScore, trueTags } from '../missions/odds';
+import type { Approach, Contract, EventChoice, GameState, Member, Mission } from '../core/types';
 import { TAGS } from './tags';
 import type { EventDef } from './events';
 import { APPROACH_INFO } from './professions';
-import { seasonOf } from './events';
+import { seasonOf } from '../core/calendar';
 
 export function missionOf(s: GameState, m?: Member): Mission | undefined {
   return m ? s.missions.find((x) => x.id === m.missionId) : undefined;

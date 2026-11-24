@@ -1,4 +1,4 @@
-import type { ClockId, FactId, FactionId, RivalId } from '../types';
+import type { ClockId, FactId, FactionId, RivalId } from '../core/types';
 
 export interface FactionDef {
   id: FactionId;

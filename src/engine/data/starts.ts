@@ -1,7 +1,7 @@
 // How each campaign begins: who paid for the charter, and the state of Varrow
 // on the day it was sealed. Rolled from the campaign seed, so a seed always
 // gives the same start. The story stays the same; scenes react to the start.
-import type { FactionId, GameState, ProfessionId } from '../types';
+import type { FactionId, GameState, ProfessionId } from '../core/types';
 
 export type BackerId = 'veterans' | 'merchant' | 'coop' | 'college';
 
