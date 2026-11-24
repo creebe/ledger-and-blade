@@ -3,7 +3,7 @@
 What's next, what's open, and what to watch after each release. Main keeps this current; workstream sessions suggest additions in their hand-over notes.
 
 ## To watch from v0.10.0 (not live yet)
-- **Difficulty.** The careful bot's first-year survival fell from about 71% to 60% with the new cast and rivals. The owner was asked whether to ease it back toward 70%; no answer yet.
+- **Difficulty.** Eased in v0.10.2 on the owner's word: the careful bot's first-year survival is back to about 69% (it had fallen to about 58%). Watch whether a real player finds year one too easy now.
 - **Guild wars by hand.** About a third of games drift into a feud in year one. Nobody has yet played a war by hand to see whether it is fun, too punishing, or too easy to avoid.
 - **Legends by hand.** About one per campaign by year two in bot games. Check that it feels earned and not too slow for a real player.
 - **Nothing since v0.8.1 has been played on a phone.**

@@ -1,12 +1,12 @@
 // The headline balance numbers, in one place. Change them here and run
-// `npm run sim` (survival should stay about 55-65% for the careful bot) and
+// `npm run sim` (survival should stay about 65-75% for the careful bot) and
 // `npm test` before committing. Content numbers (a contract's pay, a scene's
 // costs) stay with that content in src/engine/data/, and per-building tables
 // (training cost, reveal cost, upkeep) are in economy/buildings.ts.
 
 // ---- Economy ----
 /** Multiplier on every contract's base pay. */
-export const REWARD_SCALE = 1.5;
+export const REWARD_SCALE = 1.65;
 /** Weekly upkeep of the hall before buildings. */
 export const BASE_UPKEEP = 15;
 /** Base price of one supply before season, market and decrees. */

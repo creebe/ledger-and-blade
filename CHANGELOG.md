@@ -2,6 +2,16 @@
 
 Newest first. Each entry says what changed for a player, why (quoting the owner's feedback where it came from playtesting), and what was and wasn't checked. The live site is https://creebe.github.io/ledger-and-blade/ and is only republished on the owner's word; each entry notes whether it is live.
 
+## v0.10.2 (2026-11-24): A little more pay
+Every contract pays about 10% more, which makes the first year a little more forgiving. The owner asked to ease difficulty back toward where it was before the new cast and rivals: "Yes, please ease it back toward 70%."
+- Contract pay goes from ×1.5 to ×1.65 (`REWARD_SCALE` in `core/tuning.ts`). Nothing else changes. The target range in the guide and the balance reviewer moves from 55–65% to 65–75%.
+- Checked:
+  - Balance bot over 400 games: careful bot's first-year survival went from 58% to 69%, and the middle bot's from 54% to 64%. Average deaths stay low (0.06 a year for the careful bot).
+  - A sweep over 300 games put ×1.6 at 67% and ×1.7 at 75%.
+  - Tests, the story checker and the build pass.
+- Not checked: a real player's feel for it. Bankruptcy is still the main way to lose.
+- Not live yet.
+
 ## v0.10.1 (2026-11-24): Clean house
 No change to how the game plays. The owner asked for "a thorough code clean up pass and reorganize anything necessary to make it easier to continue development".
 - The engine is in area folders (core, people, missions, economy, politics, rivals, story, data), and the screens are in kit, screens, sheets and panels. The two catch-all files (`world.ts` and `turn.ts`) are split up, and the weekly turn is a list of named phases.
