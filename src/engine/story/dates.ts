@@ -129,7 +129,7 @@ function targetMet(s: GameState, a: ActiveDate, t: DateTarget, final: boolean): 
     case 'repaid':
       return a.base.principal - (loan?.principal ?? 0) >= t.amount;
     case 'council':
-      if (final) return s.council.history.some((h) => h.week === s.week && h.player !== 0 && h.passed === h.player > 0);
+      if (final) return s.council.history.some((h) => h.week >= a.setWeek && h.player !== 0 && h.passed === h.player > 0);
       return s.council.agenda.some((item) => item.player !== 0 && tally(item).passes === item.player > 0);
   }
 }

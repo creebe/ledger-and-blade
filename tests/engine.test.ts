@@ -277,6 +277,75 @@ describe('engine', () => {
     }
   });
 
+  it('Dates: the first payment is judged after the loan is paid in the same week', () => {
+    const run = (crownsOnTheDay: number) => {
+      const s = newGame(45);
+      s.dates.current!.targets = [{ kind: 'loanPaid' }]; // judge the payment alone
+      const due = s.dates.current!.dueWeek;
+      while (s.week < due && !s.gameOver) {
+        clearEvents(s);
+        s.crowns = 5000;
+        advanceWeek(s);
+      }
+      clearEvents(s);
+      s.crowns = crownsOnTheDay;
+      advanceWeek(s);
+      return s.dates.past.find((p) => p.id === 'first_payment');
+    };
+    expect(run(5000)?.outcome).toBe('met');
+    expect(run(0)?.outcome).toBe('missed');
+  });
+
+  it('Dates: a loan paid off mid-Date counts as paid', () => {
+    const s = newGame(46);
+    s.week = s.dates.current!.dueWeek;
+    s.loans = [];
+    s.crowns = 5000;
+    datesPhase(s);
+    expect(s.dates.past.at(-1)).toMatchObject({ id: 'first_payment', outcome: 'met' });
+  });
+
+  it('Dates: a Council Date is judged on the vote held that same week', () => {
+    const s = newGame(47);
+    while (!s.council.agenda.length && !s.gameOver) {
+      clearEvents(s);
+      s.crowns = 5000;
+      advanceWeek(s);
+    }
+    const item = s.council.agenda[0];
+    setPosition(s, item.id, 1);
+    for (const f of Object.keys(item.positions) as (keyof typeof item.positions)[]) item.positions[f] = 1;
+    const voteWeek = s.council.voteWeek!;
+    s.dates.current = { id: 'council_vote', dueWeek: voteWeek, setWeek: s.week, targets: [{ kind: 'council' }], base: { renown: 0, principal: 0, missed: 0 } };
+    while (s.week < voteWeek && !s.gameOver) {
+      clearEvents(s);
+      s.crowns = 5000;
+      for (const f of Object.keys(item.positions) as (keyof typeof item.positions)[]) item.positions[f] = 1;
+      advanceWeek(s);
+    }
+    clearEvents(s);
+    for (const f of Object.keys(item.positions) as (keyof typeof item.positions)[]) item.positions[f] = 1;
+    advanceWeek(s);
+    expect(s.dates.past.find((p) => p.id === 'council_vote')?.outcome).toBe('met');
+  });
+
+  it('version 11 saves from the middle of a campaign gain a Date ahead', () => {
+    const s = newGame(48);
+    for (let w = 0; w < 20 && !s.gameOver; w++) {
+      clearEvents(s);
+      s.crowns = 5000;
+      advanceWeek(s);
+    }
+    const raw = s as unknown as Record<string, unknown>;
+    delete raw.dates;
+    raw.version = 11;
+    const g = migrateSave(raw as never)!;
+    expect(g.dates.past).toEqual([]);
+    expect(g.dates.current).toBeDefined();
+    expect(g.dates.current!.dueWeek - g.week).toBeGreaterThanOrEqual(2);
+    expect(g.dates.current!.setWeek).toBe(g.week);
+  });
+
   it('version 11 saves gain Dates', () => {
     const s = newGame(44) as unknown as Record<string, unknown>;
     delete s.dates;

@@ -5,6 +5,8 @@
 import type { DateStakes, DateTarget, FactionId, GameState, RivalId } from '../core/types';
 import type { NpcId } from './facts';
 import { upkeep } from '../economy/buildings';
+import { seasonOf } from '../core/calendar';
+import { living } from '../core/util';
 
 export interface DateDef {
   id: string;
@@ -38,10 +40,8 @@ export interface DateDef {
   cancel?: { when: (s: GameState) => boolean; text: string };
 }
 
-const living = (s: GameState) => s.members.filter((m) => m.status !== 'dead' && m.status !== 'left');
 const weeklyCosts = (s: GameState) => living(s).reduce((n, m) => n + m.wage, 0) + upkeep(s);
 const alive = (s: GameState, id: NpcId) => s.npcs[id]?.status === 'alive';
-const seasonOf = (week: number) => Math.floor(((week - 1) % 48) / 12); // 0 spring … 3 winter
 const seasonWeek = (week: number) => ((week - 1) % 12) + 1;
 const round10 = (n: number) => Math.round(n / 10) * 10;
 
@@ -243,7 +243,7 @@ export const DATES: DateDef[] = [
     npcs: ['jory'],
     text: (s) =>
       `Jory wants the stores full before winter closes the roads and doubles the price of bread: ${Math.max(20, living(s).length * 4)} supplies, at least.`,
-    available: (s) => seasonOf(s.week) === 2 && seasonWeek(s.week) <= 8,
+    available: (s) => seasonOf(s.week) === 'Autumn' && seasonWeek(s.week) <= 8,
     due: (s) => s.week + (12 - seasonWeek(s.week)),
     targets: (s) => [{ kind: 'supplies', at: Math.max(20, living(s).length * 4) }],
     reward: { morale: 4 },
