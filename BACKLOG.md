@@ -2,9 +2,15 @@
 
 What's next, what's open, and what to watch after each release. Main keeps this current; workstream sessions suggest additions in their hand-over notes.
 
-## To watch from v0.11.0 (live since 2026-11-24)
+## To watch from v0.12.0 (live since 2026-11-24)
+- **Dates by hand.** Check that a Date feels reachable in one sitting, that a missed one stings without snowballing, and that the twelve don't repeat too soon.
+- **Saves move to v12.** v11 saves gain a Date when they load. Watch for any report of a broken save.
+- **Difficulty.** The careful bot's first-year survival is now 73% (69% in v0.11.0), so Dates pay out a little. It's still inside the 65–75% target, but near the top.
+- **Press-and-hold End Week.** Check it feels deliberate, not slow, on a phone.
+
+## To watch from v0.11.0
 - **The new UI by hand on a phone:** Best squad, order chips on the Roster, Realm sub-tabs, tappable Hall alerts, and The Loan.
-- **Follow-ups from the audit:** the "Collect rewards" pill is truncated in the bar above End Week on the Realm; the toast briefly covers a sheet's title; the light-theme warning orange is still close to the bad red.
+- **Follow-ups from the audit** (pill truncation, toast over sheet titles, light-theme orange): fixed in v0.12.0, not yet checked on a phone.
 
 ## To watch from v0.10.2
 - **The owner's first phone playtest** of everything since v0.8.1: the new voice, the cast, varied starts, Legends and guild wars, with the easier first year.

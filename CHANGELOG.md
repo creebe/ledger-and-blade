@@ -30,7 +30,7 @@ A checkpoint you can reach in one sitting, a harder-to-fumble End Week, shortcut
   - Careful-bot first-year survival is 72% over 400 games, against 69% on main. That's within noise, and inside the 65–75% target.
   - Browser checks at 390 and 360 px in both themes, including touch, mouse and keyboard on the hold button.
 - **Not checked:** iOS Safari and VoiceOver.
-- **Not live.**
+- **Live** (republished on the owner's word, 2026-11-24).
 
 ## v0.11.0 (2026-11-24): The UI audit, built
 Fewer taps for the things you do every week, and colors, icons and type that mean one thing each. The owner asked for a UI/UX audit (`docs/audits/ui-ux.md`) and then to build every recommendation in it: "Go with all of your recommendations and proposals".
