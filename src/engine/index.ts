@@ -6,6 +6,7 @@ export * from './events';
 export * from './turn';
 export * from './rival';
 export * from './legends';
+export * from './war';
 export { BACKERS, CIRCUMSTANCE_BY_ID } from './data/starts';
 export { resolveMission } from './missions';
 export * from './buildings';

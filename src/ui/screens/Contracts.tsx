@@ -151,7 +151,13 @@ function ContractCard({ c, g, onOpen }: { c: Contract; g: GameState; onOpen: () 
             </span>
           </div>
           <div className="row wrap gap">
-            <FactionBadge id={c.patron} />
+            {c.op ? (
+              <span className="faction-badge" style={{ ['--fc' as string]: RIVALS[c.op.rival].color }}>
+                <Icon name={c.op.rival} size={12} /> Your operation against {RIVALS[c.op.rival].name}
+              </span>
+            ) : (
+              <FactionBadge id={c.patron} />
+            )}
             <span className="meta">{c.type}</span>
             <span className="meta">
               <Icon name={c.travelWeeks ? 'road' : 'urban'} size={13} />

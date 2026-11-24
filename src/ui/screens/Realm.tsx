@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   CLOCKS,
   coolHeat,
@@ -12,6 +13,16 @@ import {
   revealRivalPlan,
   RIVALS,
   activeRivals,
+  feudStage,
+  guards,
+  hallDefense,
+  inTruce,
+  level,
+  operationOptions,
+  runOperation,
+  STAGES,
+  sweepForSpies,
+  SWEEP_COST,
   factionKnown,
   type ClockId,
   type FactionId,
@@ -144,6 +155,27 @@ export function RealmScreen() {
       </Section>
 
       <Section title="Rivals" guide="rivals">
+        <div className="defense-row">
+          <p className="small">
+            <Icon name="guards" size={14} /> Hall defense: {Math.round(hallDefense(g) * 100)}% · {guards(g).length} on guard · Spymaster's Den level {level(g, 'den')}
+          </p>
+          <p className="tiny muted">Assign members to Guard the hall to stop thieves, arsonists and knives in the night. A Den helps catch spies.</p>
+          <Btn
+            className="btn ghost small"
+            blocked={g.intel < SWEEP_COST ? `Needs ${SWEEP_COST} Intel (you have ${g.intel}).` : undefined}
+            onClick={() =>
+              confirm({
+                title: 'Search the hall for spies?',
+                body: ["Your people go through the hall and question the new faces. Any rival's spy has a good chance of being found."],
+                cost: `Costs ${SWEEP_COST} Intel · you have ${g.intel}`,
+                confirmLabel: `Spend ${SWEEP_COST} Intel`,
+                onConfirm: () => act((d) => sweepForSpies(d)),
+              })
+            }
+          >
+            Search the hall for spies · {SWEEP_COST} Intel
+          </Btn>
+        </div>
         {activeRivals(g).map((id) => (
           <RivalCard key={id} id={id} />
         ))}
@@ -182,6 +214,17 @@ function RivalCard({ id }: { id: RivalId }) {
         Contracts taken from under you: {r.contractsWon} · Aggression: {r.aggression >= 0.65 ? 'High' : r.aggression >= 0.35 ? 'Moderate' : 'Low'}
         {id === 'assay' && (g.flags.assay_licensed ? ' · Licensed' : ' · Not licensed')}
       </p>
+      <div className="feud">
+        <div className="row between">
+          <span className="small">
+            <b>{STAGES[feudStage(g, id)]}</b>
+            {inTruce(g, id) && <span className="muted"> · truce until week {r.truceUntil}</span>}
+            {r.ourSpy && <span className="muted"> · your spy is inside</span>}
+          </span>
+          <span className="tiny muted">Feud {Math.round(r.feud ?? 0)}/100</span>
+        </div>
+        <Meter value={r.feud ?? 0} tone={feudStage(g, id) === 2 ? 'bad' : feudStage(g, id) === 1 ? 'mid' : 'good'} />
+      </div>
       {plan?.revealed ? (
         <>
           <p className="warn small">This week: {describePlan(g, plan, id)}</p>
@@ -189,12 +232,12 @@ function RivalCard({ id }: { id: RivalId }) {
           {counter && (
             <Btn
               className="btn ghost small"
-              blocked={counter.crowns && g.crowns < counter.crowns ? `Needs ${counter.crowns} crowns (you have ${g.crowns})` : counter.influence && g.influence < counter.influence ? `Needs ${counter.influence} Influence (you have ${g.influence})` : undefined}
+              blocked={counter.intel && g.intel < counter.intel ? `Needs ${counter.intel} Intel (you have ${g.intel})` : counter.crowns && g.crowns < counter.crowns ? `Needs ${counter.crowns} crowns (you have ${g.crowns})` : counter.influence && g.influence < counter.influence ? `Needs ${counter.influence} Influence (you have ${g.influence})` : undefined}
               onClick={() =>
                 confirm({
                   title: `Counter ${info.name}?`,
                   body: [counter.label + '.', 'Their plan for this week will come to nothing.'],
-                  cost: counter.influence ? `Costs ${counter.influence} Influence · you have ${g.influence}` : `Costs ${counter.crowns} crowns · you have ${g.crowns}`,
+                  cost: counter.influence ? `Costs ${counter.influence} Influence · you have ${g.influence}` : counter.intel ? `Costs ${counter.intel} Intel · you have ${g.intel}` : `Costs ${counter.crowns} crowns · you have ${g.crowns}`,
                   confirmLabel: 'Counter them',
                   onConfirm: () => act((d) => counterRivalPlan(d, id)) && notify('Countered. Their plan for this week is foiled.'),
                 })
@@ -223,6 +266,48 @@ function RivalCard({ id }: { id: RivalId }) {
           Learn their plans this week · {INTEL_RIVAL_COST} Intel
         </Btn>
       )}
+      <Operations id={id} />
+    </div>
+  );
+}
+
+function Operations({ id }: { id: RivalId }) {
+  const g = useStore((s) => s.game)!;
+  const act = useStore((s) => s.act);
+  const { confirm, notify } = useStore.getState();
+  const [open, setOpen] = useState(false);
+  const opts = operationOptions(g, id);
+  const costText = (c: { crowns?: number; intel?: number; influence?: number }) =>
+    [c.crowns && `${c.crowns} crowns`, c.intel && `${c.intel} Intel`, c.influence && `${c.influence} Influence`].filter(Boolean).join(', ');
+  const short = (c: { crowns?: number; intel?: number; influence?: number }) =>
+    c.crowns && g.crowns < c.crowns ? `Needs ${c.crowns} crowns (you have ${g.crowns})` : c.intel && g.intel < c.intel ? `Needs ${c.intel} Intel (you have ${g.intel})` : c.influence && g.influence < c.influence ? `Needs ${c.influence} Influence (you have ${g.influence})` : undefined;
+  return (
+    <div className="ops">
+      <button className="link-btn small" onClick={() => setOpen(!open)}>
+        {open ? 'Hide operations' : `Operations against ${RIVALS[id].name}`}
+      </button>
+      {open &&
+        opts.map((o) => (
+          <div key={o.kind} className="op-row">
+            <Btn
+              className="btn ghost small"
+              blocked={o.blocked ?? short(o.cost)}
+              onClick={() =>
+                confirm({
+                  title: `${o.label}?`,
+                  body: [o.detail],
+                  cost: costText(o.cost) ? `Costs ${costText(o.cost)}` : 'Adds a job to your contract board',
+                  confirmLabel: o.label,
+                  onConfirm: () => act((d) => runOperation(d, id, o.kind)) && notify(o.label),
+                })
+              }
+            >
+              {o.label}
+              {costText(o.cost) ? ` · ${costText(o.cost)}` : ''}
+            </Btn>
+            <p className="tiny muted">{o.detail}</p>
+          </div>
+        ))}
     </div>
   );
 }

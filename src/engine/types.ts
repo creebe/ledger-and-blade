@@ -78,7 +78,7 @@ export interface Loadout {
 }
 
 export type MemberStatus = 'idle' | 'mission' | 'recovering' | 'dead' | 'left';
-export type Assignment = 'rest' | 'train' | 'rumors' | 'labor' | 'scout' | 'build';
+export type Assignment = 'rest' | 'train' | 'rumors' | 'labor' | 'scout' | 'build' | 'guard';
 
 export interface Member {
   id: string;
@@ -167,6 +167,7 @@ export interface Contract {
   story?: boolean;
   minSquad: number;
   maxSquad: number;
+  op?: { rival: RivalId; kind: 'intercept' | 'raid' | 'kill'; target?: NpcId }; // an operation against a rival
 }
 
 export type PhaseResult = 'strong' | 'success' | 'fail' | 'severe';
@@ -234,11 +235,17 @@ export interface Rival {
   aggression: number; // 0-1
   contractsWon: number;
   active: boolean; // rivals met during the story start inactive
+  feud?: number; // 0-100: competition, feud (25+), open war (60+). See war.ts
+  ourSpy?: boolean; // the guild has someone inside
+  theirSpy?: boolean; // they have someone inside the guild (hidden until caught)
+  truceUntil?: number;
+  pactAgainst?: RivalId; // shares what it knows about this rival
+  dormantUntil?: number; // a broken rival that will come back
   plan?: RivalPlan;
 }
 
 export interface RivalPlan {
-  kind: 'contract' | 'smear' | 'poach' | 'inspect' | 'none';
+  kind: 'contract' | 'smear' | 'poach' | 'inspect' | 'plant' | 'ambush' | 'theft' | 'bribe' | 'arson' | 'murder' | 'none';
   target?: string; // contract id or member id
   revealed: boolean;
   countered: boolean;
@@ -292,7 +299,8 @@ export interface EventEffect extends ContractEffect {
   npcs?: { id: NpcId; attitude?: number; status?: NpcStatus }[]; // further characters affected
   rivalRenown?: number;
   rivalAggression?: number;
-  rival?: RivalId; // which rival rivalRenown/rivalAggression apply to (default Hobb & Daughters)
+  rival?: RivalId; // which rival rivalRenown/rivalAggression/feud apply to (default Hobb & Daughters)
+  feud?: number;
   flags?: FactId[]; // further facts set by the same choice
   unflag?: FactId; // a fact that stops being true
   addTag?: { template: string; tag: TagId }; // a danger added to that contract, on the board or in the field

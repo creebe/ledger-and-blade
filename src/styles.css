@@ -2831,3 +2831,23 @@ details summary {
   color: var(--gold);
   vertical-align: -1px;
 }
+
+/* ---------- v0.10: guild wars ---------- */
+.defense-row {
+  margin-bottom: 8px;
+}
+.feud {
+  margin: 6px 0;
+}
+.ops {
+  margin-top: 6px;
+}
+.op-row {
+  margin: 6px 0 10px;
+}
+.op-row p {
+  margin: 2px 0 0;
+}
+.tag.op {
+  border-color: var(--bad);
+}

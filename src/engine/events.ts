@@ -1,5 +1,6 @@
 import { RANDOM_EVENTS, STORY_EVENTS, type EventDef } from './data/events';
 import { QUEUED_EVENTS } from './data/cast';
+import { raiseFeud } from './war';
 import { ARRIVAL, FIELD_EVENTS, needsArrivalReport, replanned, squadOf } from './data/field';
 import { withdrawMission } from './missions';
 import { TRAITS } from './data/traits';
@@ -203,6 +204,7 @@ export function applyEventEffect(state: GameState, e: EventEffect, ev: GameEvent
   const rival = state.rivals[e.rival ?? 'hobbs'];
   if (e.rivalRenown) rival.renown = Math.max(0, rival.renown + e.rivalRenown);
   if (e.rivalAggression) rival.aggression = clamp(rival.aggression + e.rivalAggression, 0, 1);
+  if (e.feud) raiseFeud(state, e.rival ?? 'hobbs', e.feud);
   if (e.unflag) delete state.flags[e.unflag];
   for (const f of e.flags ?? []) {
     state.flags[f] = true;

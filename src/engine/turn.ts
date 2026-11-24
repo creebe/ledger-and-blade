@@ -8,6 +8,7 @@ import { denIntel, freshFacilities, healBonus, level, trainCost, trainWeeks, upk
 import { triggerEvents } from './events';
 import { resolveMission } from './missions';
 import { executeRival, planRival } from './rival';
+import { weeklyWar } from './war';
 import { chance, pick, randInt } from './rng';
 import { BACKERS, CIRCUMSTANCE_BY_ID, CIRCUMSTANCE_GROUPS, CIRCUMSTANCES } from './data/starts';
 import type { BackerId, FactionId, GameState } from './types';
@@ -28,7 +29,7 @@ import {
   track,
 } from './world';
 
-export const SAVE_VERSION = 10;
+export const SAVE_VERSION = 11;
 
 export function freshNpcs(): GameState['npcs'] {
   return {
@@ -49,9 +50,9 @@ export function freshNpcs(): GameState['npcs'] {
 
 export function freshRivals(): GameState['rivals'] {
   return {
-    hobbs: { id: 'hobbs', name: 'Hobb & Daughters', crowns: 2000, renown: 20, strength: 10, aggression: 0.4, contractsWon: 0, active: true },
-    ninth: { id: 'ninth', name: 'The Ninth', crowns: 600, renown: 14, strength: 12, aggression: 0.25, contractsWon: 0, active: false },
-    assay: { id: 'assay', name: 'The Assay Office', crowns: 1200, renown: 18, strength: 4, aggression: 0.2, contractsWon: 0, active: false },
+    hobbs: { id: 'hobbs', name: 'Hobb & Daughters', crowns: 2000, renown: 20, strength: 10, aggression: 0.4, contractsWon: 0, active: true, feud: 0 },
+    ninth: { id: 'ninth', name: 'The Ninth', crowns: 600, renown: 14, strength: 12, aggression: 0.25, contractsWon: 0, active: false, feud: 0 },
+    assay: { id: 'assay', name: 'The Assay Office', crowns: 1200, renown: 18, strength: 4, aggression: 0.2, contractsWon: 0, active: false, feud: 0 },
   };
 }
 
@@ -116,6 +117,10 @@ export function migrateSave(g: GameState): GameState | null {
     // campaigns before varied starts began like a merchant-backed guild
     g.start = { backer: 'merchant', circumstances: [] };
     g.version = 10;
+  }
+  if (g.version === 10) {
+    for (const r of Object.values(g.rivals)) r.feud = r.feud ?? 0;
+    g.version = 11;
   }
   return g.version === SAVE_VERSION ? g : null;
 }
@@ -324,6 +329,10 @@ export function advanceWeek(s: GameState): string | undefined {
         m.fatigue = clamp(m.fatigue + 5, 0, 100);
         break;
       }
+      case 'guard':
+        // watching the doors: tiring, but the hall is safer (see war.ts)
+        m.fatigue = clamp(m.fatigue + 4, 0, 100);
+        break;
       case 'labor': {
         earn(s, 'Dock labor', 4 + Math.round(m.attrs.might * 0.8));
         m.fatigue = clamp(m.fatigue + 15, 0, 100);
@@ -371,6 +380,7 @@ export function advanceWeek(s: GameState): string | undefined {
 
   // ---- 3. rival ----
   executeRival(s);
+  weeklyWar(s);
   weeklyCouncil(s);
   weeklyCrier(s);
   weeklyJory(s);

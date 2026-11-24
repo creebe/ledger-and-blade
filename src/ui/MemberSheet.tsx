@@ -43,6 +43,7 @@ export const ASSIGNMENTS: { id: Assignment; label: string; blurb: string }[] = [
   { id: 'train', label: 'Train', blurb: '+1 to an attribute every few weeks. Costs crowns each week and adds fatigue. A Training Yard makes it faster and cheaper.' },
   { id: 'rumors', label: 'Gather rumors', blurb: '+1 Intel per week (+2 for Envoys, Infiltrators and Scouts).' },
   { id: 'labor', label: 'Dock labor', blurb: 'Earn a few crowns based on Might. Tiring and dull.' },
+  { id: 'guard', label: 'Guard the hall', blurb: 'Stay home and watch the doors. Each guard makes theft, arson and worse less likely to succeed, and helps catch spies. Mildly tiring.' },
   { id: 'build', label: 'Build', blurb: 'Help with construction: each builder adds half a week of progress. Tiring.' },
   { id: 'scout', label: 'Scout a contract', blurb: "Reveal a contract's hidden tags by week's end. Scouts, Skirmishers and Infiltrators reveal all of them; others reveal one." },
 ];

@@ -308,12 +308,16 @@ export function revealRivalPlan(s: GameState, id: RivalId = 'hobbs'): string | u
   return undefined;
 }
 
-export function counterCost(s: GameState, id: RivalId = 'hobbs'): { label: string; crowns?: number; influence?: number } | undefined {
+export function counterCost(s: GameState, id: RivalId = 'hobbs'): { label: string; crowns?: number; influence?: number; intel?: number } | undefined {
   const plan = s.rivals[id].plan;
   if (!plan || !plan.revealed || plan.countered) return undefined;
   if (plan.kind === 'smear') return { label: 'Call in favors to quash the rumors', influence: 2 };
   if (plan.kind === 'poach') return id === 'ninth' ? { label: 'Match the Ninth\'s offer (35 crowns)', crowns: 35 } : { label: 'Pay a loyalty bonus (25 crowns)', crowns: 25 };
   if (plan.kind === 'inspect') return { label: 'Have an Exchequer friend delay the visit', influence: 2 };
+  if (plan.kind === 'ambush') return { label: 'Send a rider to warn the squad (2 Intel)', influence: undefined, intel: 2 };
+  if (plan.kind === 'theft' || plan.kind === 'arson' || plan.kind === 'murder') return { label: 'Hire extra watchmen this week (30 crowns)', crowns: 30 };
+  if (plan.kind === 'bribe') return { label: 'Pay a loyalty bonus (25 crowns)', crowns: 25 };
+  if (plan.kind === 'plant') return { label: 'Have the new hires vetted', influence: 2 };
   return undefined;
 }
 
@@ -323,9 +327,11 @@ export function counterRivalPlan(s: GameState, id: RivalId = 'hobbs'): string | 
   if (!cost || !plan) return 'Nothing to counter';
   if (cost.crowns && s.crowns < cost.crowns) return `Need ${cost.crowns} crowns`;
   if (cost.influence && s.influence < cost.influence) return `Need ${cost.influence} influence`;
+  if (cost.intel && s.intel < cost.intel) return `Need ${cost.intel} intel`;
+  if (cost.intel) s.intel -= cost.intel;
   if (cost.crowns) spend(s, 'Bonuses', cost.crowns);
   if (cost.influence) s.influence -= cost.influence;
-  if (plan.kind === 'poach') {
+  if (plan.kind === 'poach' || plan.kind === 'bribe') {
     const m = findMember(s, plan.target!);
     if (m) m.loyalty = clamp(m.loyalty + 25, 0, 100);
   }

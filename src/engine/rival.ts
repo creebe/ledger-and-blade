@@ -8,6 +8,7 @@ import { level } from './buildings';
 import { RIVALS } from './data/factions';
 import type { GameState, Member, RivalId, RivalPlan } from './types';
 import { addDispatch, applyStanding, clamp, living, spend } from './world';
+import { describeHostile, executeHostile, hostilePlan, inTruce } from './war';
 
 export const RIVAL_IDS: RivalId[] = ['hobbs', 'ninth', 'assay'];
 
@@ -64,9 +65,12 @@ function planFor(state: GameState, id: RivalId): RivalPlan {
 
 export function planRival(state: GameState) {
   for (const id of activeRivals(state)) {
-    const plan = planFor(state, id);
-    // a well-run Spymaster's Den knows their plans every week
-    if (level(state, 'den') >= 3) plan.revealed = true;
+    // a feud can make the week's move a hostile one (see war.ts)
+    const hostile = hostilePlan(state, id);
+    const plan: RivalPlan = hostile ? { kind: hostile.kind, target: hostile.target, revealed: false, countered: false } : planFor(state, id);
+    // a well-run Spymaster's Den knows their plans every week, and so does a spy inside or an ally
+    const ally = activeRivals(state).some((o) => o !== id && state.rivals[o].pactAgainst === id && inTruce(state, o));
+    if (level(state, 'den') >= 3 || state.rivals[id].ourSpy || ally) plan.revealed = true;
     state.rivals[id].plan = plan;
   }
 }
@@ -84,6 +88,8 @@ export function describePlan(state: GameState, plan: RivalPlan | undefined, id: 
       ? `Captain Mayne has been buying ${m?.name ?? 'one of your people'} drinks and talking about the old regiment.`
       : `They are courting ${m?.name ?? 'one of your people'} with a better offer.`;
   }
+  if (plan.kind === 'plant' || plan.kind === 'ambush' || plan.kind === 'theft' || plan.kind === 'bribe' || plan.kind === 'arson' || plan.kind === 'murder')
+    return describeHostile(state, id, plan.kind, plan.target);
   if (plan.kind === 'inspect') return `Plaice has your stillroom on his list for this week. The fine would be about ${inspectionFine(state)} crowns.`;
   return 'They are spreading stories about your guild in the taverns and counting-houses.';
 }
@@ -123,6 +129,8 @@ function executeOne(state: GameState, id: RivalId) {
       state.renown = Math.max(0, state.renown - 2);
       applyStanding(state, pick(state, ['exchequer', 'weighhouse', 'lowertown'] as const), -3);
       addDispatch(state, 'rival', 'Rumors in the counting-houses', [`${name} are telling everyone your guild is a bad risk. Renown −2.`]);
+    } else if (plan.kind === 'plant' || plan.kind === 'ambush' || plan.kind === 'theft' || plan.kind === 'bribe' || plan.kind === 'arson' || plan.kind === 'murder') {
+      executeHostile(state, id, plan.kind, plan.target);
     } else if (plan.kind === 'inspect') {
       const fine = inspectionFine(state);
       if (fine > 0) {

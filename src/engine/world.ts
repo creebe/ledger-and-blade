@@ -285,7 +285,7 @@ export function refreshBoard(state: GameState) {
   state.board = state.board.filter((c) => c.expiresWeek >= state.week);
   const target = 4 + (state.renown >= 15 ? 1 : 0);
   let guard = 0;
-  while (state.board.filter((c) => !c.story).length < target && guard++ < 10) {
+  while (state.board.filter((c) => !c.story && !c.op).length < target && guard++ < 10) {
     state.board.push(generateContract(state));
   }
 }

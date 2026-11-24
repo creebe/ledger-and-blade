@@ -153,7 +153,13 @@ export function ContractHeader({ c, game }: { c: Contract; game: GameState }) {
   return (
     <div className="contract-head">
       <div className="row wrap gap">
-        <FactionBadge id={c.patron} />
+        {c.op ? (
+          <span className="faction-badge" style={{ ['--fc' as string]: RIVALS[c.op.rival].color }}>
+            <Icon name={c.op.rival} size={12} /> Your operation against {RIVALS[c.op.rival].name}
+          </span>
+        ) : (
+          <FactionBadge id={c.patron} />
+        )}
         <span className="muted">{c.type}</span>
         <span className="muted">· {c.region}{c.travelWeeks ? ` (${c.travelWeeks}w away)` : ''}</span>
       </div>

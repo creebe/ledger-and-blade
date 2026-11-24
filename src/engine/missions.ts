@@ -2,6 +2,7 @@ import { APPROACH_INFO, PROFESSIONS } from './data/professions';
 import { TAGS } from './data/tags';
 import { TEMPLATE_BY_ID } from './data/contracts';
 import { earnFame, mournLegend, squadHas } from './legends';
+import { raiseFeud, resolveOperation } from './war';
 import type { Approach } from './types';
 import { chanceFrom, counteredTags, itemDef, phaseDifficulty, squadScore, trueTags, type SquadContext } from './odds';
 import { nextFloat, pick } from './rng';
@@ -183,13 +184,15 @@ export function resolveMission(state: GameState, mission: Mission): MissionRepor
     }
   } else {
     applyContractEffect(state, c.onFailure, summary);
-    if (tier === 'Disaster') {
+    if (tier === 'Disaster' && !c.op) {
       state.factions[c.patron].standing = clamp(state.factions[c.patron].standing - 3, -100, 100);
       state.renown = Math.max(0, state.renown - 2);
       summary.push(`${factionName(c.patron)} is furious. Renown −2`);
     }
   }
 
+  if (c.op) resolveOperation(state, c, rewardMult > 0, summary);
+  else if (c.contestedBy && rewardMult > 0) raiseFeud(state, c.contestedBy, 3); // you took work they wanted
   const tpl = TEMPLATE_BY_ID[c.templateId];
   const outcomeFlag = rewardMult > 0 ? tpl?.successFlag : tpl?.failFlag;
   if (outcomeFlag) state.flags[outcomeFlag] = true;
@@ -285,8 +288,8 @@ export function withdrawMission(state: GameState, mission: Mission) {
   const squad = mission.memberIds.map((id) => state.members.find((m) => m.id === id)!).filter(Boolean);
   const spent = Math.max(0, state.week - mission.dispatchedWeek);
   mission.returnWeek = state.week + Math.max(0, spent - 1);
-  state.factions[c.patron].standing = clamp(state.factions[c.patron].standing - 3, -100, 100);
-  const summary = [`Withdrew before the objective. −3 standing with ${factionName(c.patron)}.`];
+  if (!c.op) state.factions[c.patron].standing = clamp(state.factions[c.patron].standing - 3, -100, 100);
+  const summary = [c.op ? 'Withdrew before the objective. The operation is off.' : `Withdrew before the objective. −3 standing with ${factionName(c.patron)}.`];
   mission.report = {
     tier: 'Withdrawn',
     phases: [],

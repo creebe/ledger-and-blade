@@ -14,7 +14,7 @@ import {
   type GameState,
 } from '../src/engine';
 import { runSim } from '../scripts/sim';
-import { earnFame, fameTier, triggerEvents, SAVE_VERSION, BACKERS, CIRCUMSTANCE_BY_ID, claimNote, buySupplies, supplyCost, buyMaterial, cancelDispatch, discoverLore, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
+import { afterLeaderDies, executeHostile, feudStage, hallDefense, operationOptions, raiseFeud, resolveOperation, runOperation, earnFame, fameTier, triggerEvents, SAVE_VERSION, BACKERS, CIRCUMSTANCE_BY_ID, claimNote, buySupplies, supplyCost, buyMaterial, cancelDispatch, discoverLore, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
 
 const clearEvents = (s: GameState) => {
   while (s.pendingEvents.length) resolveEvent(s, s.pendingEvents[0].uid, 0);
@@ -236,6 +236,46 @@ describe('engine', () => {
     resolveEvent(s, ev.uid, 0);
     expect(m.epithet).toBeTruthy();
     expect(m.signature).toBe('known_face');
+  });
+
+  it('guild wars: feuds escalate, operations become jobs, and killing a leader changes the rival', () => {
+    const s = newGame(43);
+    s.pendingEvents = [];
+    s.crowns = 2000;
+    s.intel = 20;
+    s.influence = 20;
+    expect(feudStage(s, 'hobbs')).toBe(0);
+    expect(operationOptions(s, 'hobbs').find((o) => o.kind === 'raid')!.blocked).toBeTruthy();
+    expect(runOperation(s, 'hobbs', 'smear')).toBeUndefined();
+    raiseFeud(s, 'hobbs', 60);
+    expect(feudStage(s, 'hobbs')).toBe(2);
+    expect(runOperation(s, 'hobbs', 'kill')).toBeUndefined();
+    const op = s.board.find((c) => c.op?.kind === 'kill')!;
+    expect(op.op!.target).toBe('marta');
+    const summary: string[] = [];
+    resolveOperation(s, op, true, summary);
+    expect(s.npcs.marta.status).toBe('dead');
+    expect(s.rivals.hobbs.active).toBe(true); // Isbet takes over
+    expect(operationOptions(s, 'hobbs').find((o) => o.kind === 'kill')!.target).toBe('isbet');
+    s.npcs.isbet.status = 'dead';
+    afterLeaderDies(s, 'hobbs', 'isbet');
+    expect(s.rivals.hobbs.active).toBe(false);
+  });
+
+  it('guards protect the hall from a rival raid', () => {
+    const s = newGame(44);
+    s.pendingEvents = [];
+    raiseFeud(s, 'hobbs', 40);
+    for (const m of s.members) m.assignment = 'guard';
+    expect(hallDefense(s)).toBeGreaterThan(0.8);
+    const before = s.supplies;
+    let robbed = 0;
+    for (let i = 0; i < 20; i++) {
+      s.supplies = before;
+      executeHostile(s, 'hobbs', 'theft');
+      if (s.supplies < before) robbed++;
+    }
+    expect(robbed).toBeLessThan(8);
   });
 
   it('campaigns start from different circumstances, and a seed always gives the same start', () => {
