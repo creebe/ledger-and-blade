@@ -12,6 +12,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "sim": "vite-node scripts/run-sim.ts",
+    "sim:long": "vite-node scripts/long-sim.ts",
     "story": "vite-node scripts/run-story.ts",
     "story-export": "vite-node scripts/story-export.ts",
     "playthroughs": "vite-node scripts/playthrough.ts",

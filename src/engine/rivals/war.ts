@@ -1,5 +1,6 @@
 // Guild wars. Each rival has a feud level (0-100) with your guild. It rises when
-// either side hurts the other and cools slowly when nobody does. Three stages:
+// either side hurts the other, and fades week by week when nobody does (the
+// FEUD_* numbers in core/tuning.ts). Three stages:
 //   Competition (0-24): spying and smears.
 //   Feud (25-59): intercepting jobs, poaching people, theft, bribes, ambushes.
 //   Open war (60+): raids, arson, murder and assassination of named people.
@@ -18,7 +19,7 @@ import { addDispatch, clamp, living } from '../core/util';
 import { applyStanding, spend } from '../core/effects';
 import { createMember } from '../people/members';
 import { generateContract } from '../economy/board';
-import { FEUD_AT, SWEEP_COST, WAR_AT } from '../core/tuning';
+import { FEUD_AT, FEUD_COOL, FEUD_DECAY, FEUD_RESENT, FEUD_THEIR_MOVE, SWEEP_COST, WAR_AT } from '../core/tuning';
 
 export const STAGES = ['Competition', 'Feud', 'Open war'] as const;
 
@@ -44,9 +45,11 @@ export function raiseFeud(state: GameState, id: RivalId, amount: number) {
       [
         after === 2
           ? `It is open war with ${name}. Expect raids, fire and knives, and expect the Exchequer to blame you for all of it.`
-          : after === 1
-            ? `What was business with ${name} has become personal. They will start going after your jobs, your stores and your people.`
-            : `${name} have stopped treating you as an enemy, for now.`,
+          : after === 1 && before === 2
+            ? `${name} have stopped sending knives. It is still a feud, and they will still go after your jobs and your stores.`
+            : after === 1
+              ? `What was business with ${name} has become personal. They will start going after your jobs, your stores and your people.`
+              : `${name} have stopped treating you as an enemy, for now.`,
       ],
     );
   }
@@ -440,7 +443,7 @@ export function describeHostile(state: GameState, _id: RivalId, kind: HostileKin
 export function executeHostile(state: GameState, id: RivalId, kind: HostileKind, target?: string) {
   const name = RIVALS[id].name;
   const defense = hallDefense(state);
-  raiseFeud(state, id, 3);
+  raiseFeud(state, id, FEUD_THEIR_MOVE);
   switch (kind) {
     case 'plant':
       state.rivals[id].theirSpy = true; // you only find out if you catch them
@@ -527,8 +530,8 @@ export function weeklyWar(state: GameState) {
     }
     if (!r.active) continue;
     // an aggressive rival resents a guild that is catching up with it
-    const threat = state.renown >= r.renown - 6 ? r.aggression * 0.7 : 0;
-    r.feud = clamp((r.feud ?? 0) + (inTruce(state, id) ? -3 : threat - 0.3), 0, 100);
+    const threat = state.renown >= r.renown - 6 ? r.aggression * FEUD_RESENT : 0;
+    raiseFeud(state, id, inTruce(state, id) ? -3 : threat - FEUD_COOL - (r.feud ?? 0) * FEUD_DECAY);
     if (feudStage(state, id) === 2) atWar = true;
     if (r.theirSpy && chance(state, spyCatch(state))) {
       r.theirSpy = false;

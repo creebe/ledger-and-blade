@@ -19,19 +19,19 @@ None found.
 | silver_summons | 7–9 | 100% | 7 / 8 / 9 | 0 |
 | pask_chain | 6–10 | 100% | 6 / 9 / 10 | 0 |
 | brune_salts | 8–11 | 100% | 8 / 10 / 11 | 0 |
-| mayne_offer | 10–14 | 100% | 10 / 12 / 18 | 23 |
+| mayne_offer | 10–14 | 100% | 10 / 12 / 18 | 25 |
 | vorn_board | 10–14 | 43% | 10 / 12 / 15 | 2 |
 | dagny_brother | 11–15 | 51% | 11 / 13 / 15 | 0 |
-| isbet_kettle | 12–16 | 100% | 12 / 14 / 17 | 1 |
-| quarter_day | 9–18 | 100% | 9 / 14 / 21 | 13 |
-| plaice_inspection | 12–18 | 100% | 12 / 15 / 19 | 6 |
-| fenn_tapestry | 15–20 | 100% | 15 / 18 / 22 | 5 |
-| aske_plate | 17–22 | 100% | 17 / 19 / 23 | 1 |
+| isbet_kettle | 12–16 | 100% | 12 / 14 / 17 | 2 |
+| quarter_day | 9–18 | 100% | 9 / 14 / 20 | 12 |
+| plaice_inspection | 12–18 | 100% | 12 / 15 / 19 | 5 |
+| fenn_tapestry | 15–20 | 100% | 15 / 18 / 21 | 3 |
+| aske_plate | 17–22 | 100% | 17 / 19 / 22 | 0 |
 | act1_slice_end | 22–26 | 100% | 22 / 23 / 26 | 0 |
 
 ## The Crown's silver: how it resolved
 
-- declined (Hobbs carried it): 30%
+- declined (Hobbs carried it): 29%
 - guild fell first (bankrupt): 49%
 - delivered: 13%
 - lost: 7%
@@ -47,37 +47,37 @@ Every conversation node in every story beat was reached.
 - **ostrander_agent/hobbs**: Let's talk terms. (57) · What does the bank really want from Varrow? (21) · What happens to the people you collect from? (26)
 - **ostrander_agent/terms**: We'll work for the bank. (64) · We'll take your jobs case by case. (83) · Not today. (66)
 - **coster_interest/root**: You'll have your forty-eight. (200) · What's the job? (200)
-- **hobbs_arrive/root**: What's in it for me, exactly? (203) · Refuse politely (197)
-- **hobbs_arrive/details**: Sell her the share (62) · Refuse politely (80) · Humiliate her in front of her daughters (61)
-- **bread_riot/root**: Take the Exchequer's purse and clear the square (98) · Pay the bakers to open their ovens (95) · Feed them from the guild stores (104) · Bar the doors (102)
-- **bread_riot/square**: Break them up (52) · Hold the line without drawing blood (46)
-- **silver_summons/root**: "Who knows the route?" (93) · Accept the commission (97) · "What does it pay?" (91) · Decline (115) · Tell him what Vorn let slip about the next treaty (3)
-- **silver_summons/route**: Decline (48) · Haggle (9) · Accept the commission (40) · "What does it pay?" (27) · Tell him what Vorn let slip about the next treaty (2)
-- **pask_chain/root**: Take the tea (196) · Ask why she picked your guild (202)
-- **pask_chain/pitch**: Just this once. Sell us a cartload. (50) · Report her to the toll-men (58) · We'll buy through you. (44) · Not for us (44)
-- **brune_salts/root**: Give her the money instead (97) · We'll fetch the salts. (112) · Ask how the almshouse pays for its firewood (88) · We can't spare anyone. (100)
-- **quarter_day/root**: Prove that Hobb skimmed the silver (30) · Swear to the Lower Town (34) · Let it go (172) · Stay out of it (36) · Accept a purse from the Crown (20) · Accept a Crown writ of good conduct (20) · Ask for a seat at the Exchequer's table (27) · Offer the bank your services (31)
-- **plaice_inspection/root**: Slip him something to forget your name (74) · Buy the license (73) · We'll take our chances. (105) · Have the Exchequer stay the matter (106)
-- **mayne_offer/root**: Let Marten decide (3) · Let Wenna decide (2) · Ask what happened to the Ninth after the war (93) · Match his offer (99) · Let Edda decide (1) · Let Quentin decide (3) · Remind them they are under contract (101) · Let Wat decide (2) · Let Elric decide (2) · Let Yvette decide (5) · Let Hesper decide (3) · Let Lowri decide (3) · Let Ulla decide (1) · Let Dace decide (3) · Let Piers decide (1) · Let Lise decide (1) · Let Hild decide (1) · Let Fenn decide (1) · Let Ewan decide (3) · Let Colm decide (3) · Let Nils decide (3) · Let Simeon decide (3) · Let Cora decide (2) · Let Nell decide (2) · Let Ros decide (1) · Let Brenna decide (2) · Let Leofric decide (6) · Let Sabine decide (3) · Let Ursel decide (3) · Let Isolde decide (1) · Let Maud decide (2) · Let Aldo decide (3) · Let Idris decide (2) · Let Bram decide (1) · Let Agnes decide (3) · Let Greta decide (2) · Let Cass decide (2) · Let Rosamund decide (2) · Let Garrick decide (2) · Let Tilde decide (1) · Let Orla decide (1) · Let Jory decide (2) · Let Dunstan decide (1) · Let Bertil decide (1) · Let Tam decide (1) · Let Osric decide (1)
-- **fenn_tapestry/root**: We can't help this time. (120) · Lend the Crown the money and keep the tapestry here (85) · We'll take it. (120)
-- **isbet_kettle/root**: Tell Marta about this (92) · Does your mother know you are here? (97) · Agreed (95) · No arrangement (92)
-- **aske_plate/root**: We'll do it. (79) · Tell the bank's assessors (75) · Not our business (68) · Why not sell it and pay the bank? (87)
-- **act1_slice_end/root**: Continue (268)
+- **hobbs_arrive/root**: What's in it for me, exactly? (202) · Refuse politely (198)
+- **hobbs_arrive/details**: Sell her the share (62) · Refuse politely (80) · Humiliate her in front of her daughters (60)
+- **bread_riot/root**: Take the Exchequer's purse and clear the square (99) · Pay the bakers to open their ovens (95) · Feed them from the guild stores (105) · Bar the doors (100)
+- **bread_riot/square**: Break them up (53) · Hold the line without drawing blood (46)
+- **silver_summons/root**: Decline (118) · Accept the commission (98) · "What does it pay?" (91) · "Who knows the route?" (89) · Tell him what Vorn let slip about the next treaty (3)
+- **quarter_day/root**: Let it go (177) · Swear to the Lower Town (31) · Stay out of it (36) · Prove that Hobb skimmed the silver (26) · Accept a purse from the Crown (20) · Accept a Crown writ of good conduct (22) · Ask for a seat at the Exchequer's table (23) · Offer the bank your services (36)
+- **pask_chain/root**: Ask why she picked your guild (203) · Take the tea (195)
+- **pask_chain/why**: Just this once. Sell us a cartload. (44) · We'll buy through you. (54) · Not for us (57) · Report her to the toll-men (48)
+- **brune_salts/root**: Ask how the almshouse pays for its firewood (88) · Give her the money instead (97) · We'll fetch the salts. (108) · We can't spare anyone. (104)
+- **brune_salts/bank**: Give her the money instead (25) · We'll fetch the salts. (22) · We can't spare anyone. (41)
+- **mayne_offer/root**: Match his offer (97) · Let Wenna decide (3) · Ask what happened to the Ninth after the war (95) · Let Edda decide (1) · Let Quentin decide (3) · Remind them they are under contract (102) · Let Wat decide (2) · Let Elric decide (2) · Let Yvette decide (5) · Let Hesper decide (2) · Let Lowri decide (3) · Let Ulla decide (1) · Let Dace decide (3) · Let Piers decide (1) · Let Lise decide (3) · Let Hild decide (1) · Let Fenn decide (2) · Let Ewan decide (3) · Let Colm decide (3) · Let Nils decide (3) · Let Simeon decide (4) · Let Cora decide (2) · Let Ros decide (1) · Let Brenna decide (2) · Let Tam decide (2) · Let Leofric decide (5) · Let Sabine decide (3) · Let Ursel decide (3) · Let Isolde decide (1) · Let Agnes decide (4) · Let Maud decide (3) · Let Aldo decide (3) · Let Marten decide (2) · Let Idris decide (2) · Let Bram decide (1) · Let Cass decide (2) · Let Rosamund decide (1) · Let Garrick decide (2) · Let Freya decide (1) · Let Nell decide (1) · Let Orla decide (1) · Let Greta decide (1) · Let Dunstan decide (1) · Let Jory decide (1)
+- **isbet_kettle/root**: Tell Marta about this (96) · Does your mother know you are here? (98) · Agreed (95) · No arrangement (86)
+- **fenn_tapestry/root**: We can't help this time. (121) · Lend the Crown the money and keep the tapestry here (79) · We'll take it. (123)
+- **plaice_inspection/root**: Have the Exchequer stay the matter (112) · Buy the license (71) · We'll take our chances. (103) · Slip him something to forget your name (73)
+- **aske_plate/root**: We'll do it. (71) · Tell the bank's assessors (73) · Not our business (76) · Why not sell it and pay the bank? (88)
+- **act1_slice_end/root**: Continue (270)
 - **ostrander_agent/people**: Let's talk terms. (58) · Why not hire Hobb & Daughters? They do this already. (26) · What does the bank really want from Varrow? (23)
 - **coster_interest/job**: Take the job (56) · Ask for something now as well (37) · Who buys from Hesketh? (53) · Decline (54)
-- **bread_riot/dagny**: "Your ears on the docks." (98) · "Nothing. Eat." (101)
-- **dagny_brother/root**: We'll get him out. (68) · Pay his fine (45) · We can't. (61) · Get him out, and ask Wenna Pask about the chain-house (15)
-- **silver_summons/pay**: Decline (28) · "Who knows the route?" (27) · Accept the commission (33) · Haggle (29) · Tell him what Vorn let slip about the next treaty (2)
-- **mayne_offer/ford**: Let Jory decide (1) · Let Wat decide (1) · Let Colm decide (2) · Let Cass decide (1) · Remind them they are under contract (27) · Match his offer (35) · Let Ursel decide (1) · Let Lise decide (3) · Let Garrick decide (2) · Let Idris decide (1) · Let Godwin decide (1) · Let Piers decide (2) · Let Kit decide (1) · Let Bertil decide (1) · Let Sabine decide (2) · Let Ash decide (1) · Let Agnes decide (1) · Let Petra decide (1) · Let Elric decide (1) · Let Orla decide (2) · Let Yvette decide (2) · Let Dunstan decide (2) · Let Dace decide (1) · Let Aldo decide (1)
-- **isbet_kettle/mother**: Tell Marta about this (36) · No arrangement (27) · Agreed (34)
-- **pask_chain/why**: We'll buy through you. (54) · Not for us (57) · Report her to the toll-men (47) · Just this once. Sell us a cartload. (44)
-- **brune_salts/bank**: We'll fetch the salts. (22) · Give her the money instead (24) · We can't spare anyone. (42)
+- **bread_riot/dagny**: "Your ears on the docks." (98) · "Nothing. Eat." (102)
+- **pask_chain/pitch**: Report her to the toll-men (58) · Just this once. Sell us a cartload. (51) · We'll buy through you. (42) · Not for us (44)
+- **dagny_brother/root**: We'll get him out. (69) · Pay his fine (44) · We can't. (62) · Get him out, and ask Wenna Pask about the chain-house (15)
+- **silver_summons/pay**: Decline (27) · "Who knows the route?" (28) · Accept the commission (33) · Haggle (29) · Tell him what Vorn let slip about the next treaty (2)
+- **mayne_offer/ford**: Let Jory decide (2) · Let Wat decide (1) · Let Colm decide (2) · Let Cass decide (1) · Remind them they are under contract (33) · Match his offer (30) · Let Ursel decide (1) · Let Lise decide (2) · Let Petra decide (2) · Let Garrick decide (2) · Let Idris decide (1) · Let Piers decide (2) · Let Kit decide (1) · Let Bertil decide (1) · Let Sabine decide (2) · Let Ash decide (1) · Let Agnes decide (1) · Let Elric decide (1) · Let Orla decide (2) · Let Yvette decide (2) · Let Dunstan decide (1) · Let Cora decide (1) · Let Dace decide (1) · Let Aldo decide (1) · Let Ewan decide (1)
+- **isbet_kettle/mother**: Tell Marta about this (35) · No arrangement (28) · Agreed (35)
 - **coster_interest/who**: Decline (16) · Ask for something now as well (20) · Take the job (17)
 - **ostrander_agent/want_fail**: What happens to the people you collect from? (16) · Why not hire Hobb & Daughters? They do this already. (21) · Let's talk terms. (25)
-- **vorn_board/root**: Tell her when the wagons leave (39) · Give her the wrong date (52) · Ask her straight out whether the bank wants the silver to fail (12) · Tell her it's guild business (59)
-- **silver_summons/pay_ok**: Decline (8) · Accept the commission (10) · "Who knows the route?" (1)
+- **vorn_board/root**: Tell her when the wagons leave (43) · Give her the wrong date (53) · Ask her straight out whether the bank wants the silver to fail (10) · Tell her it's guild business (56)
+- **silver_summons/route**: Haggle (9) · Decline (48) · Accept the commission (38) · "What does it pay?" (27) · Tell him what Vorn let slip about the next treaty (2)
+- **silver_summons/pay_ok**: Decline (7) · Accept the commission (10) · "Who knows the route?" (2)
 - **ostrander_agent/want**: Why not hire Hobb & Daughters? They do this already. (9) · What happens to the people you collect from? (10) · Let's talk terms. (12)
-- **aske_plate/why**: Tell the bank's assessors (32) · Not our business (27) · We'll do it. (28)
+- **aske_plate/why**: Tell the bank's assessors (35) · Not our business (25) · We'll do it. (28)
 - **silver_summons/pay_fail**: Decline (10) · Accept the commission (8) · "Who knows the route?" (3)
 - **silver_summons/stakes**: "Who knows the route?" (2) · Accept the commission (2) · Haggle (2) · "What does it pay?" (1)
 
@@ -86,28 +86,28 @@ Every conversation node in every story beat was reached.
 | Fact | Set in % of games | Meaning |
 |---|---|---|
 | start_arms | 31% | Chose to arm the guild at founding (grants gear). |
-| ostranders_open | 40% | The bank sends work: Ostrander's contracts can appear. |
+| ostranders_open | 41% | The bank sends work: Ostrander's contracts can appear. |
 | vorn_q_people | 27% | Asked Vorn what happens to the people the bank collects from. |
 | vorn_q_hobbs | 26% | Asked Vorn why the bank does not just use Hobb & Daughters. |
 | vorn_q_want | 16% | Asked Vorn what the bank really wants, and learned nothing. |
 | vorn_slip | 8% | Vorn let slip that the bank wants to draft the next treaty. |
 | hobbs_share | 16% | Sold Marta Hobb a quarter share of contract income. |
 | dagny_contact | 25% | Dagny Fell feeds the guild dock gossip. |
-| dagny_friend | 25% | Dagny Fell respects the guild for feeding the Lower Town for nothing. |
-| fenn_route | 32% | Asked Fenn who knows the convoy route (reveals a danger on accepting). |
+| dagny_friend | 26% | Dagny Fell respects the guild for feeding the Lower Town for nothing. |
+| fenn_route | 31% | Asked Fenn who knows the convoy route (reveals a danger on accepting). |
 | fenn_stakes | 2% | Told Fenn the bank's real aim; Fenn now trusts the guild. |
 | fenn_pay | 30% | Asked Fenn what the commission pays. |
 | fenn_haggled | 5% | Haggled with Fenn and failed. |
 | silver_bonus | 5% | Haggled with Fenn and won +60 crowns on the convoy. |
-| silver_accepted | 48% | Accepted the commission for the Crown's silver. |
-| silver_declined | 52% | Declined the commission; Hobb & Daughters carried the silver. |
-| silver_delivered | 17% | The guild delivered the Crown's silver: the payment was made. |
+| silver_accepted | 47% | Accepted the commission for the Crown's silver. |
+| silver_declined | 53% | Declined the commission; Hobb & Daughters carried the silver. |
+| silver_delivered | 16% | The guild delivered the Crown's silver: the payment was made. |
 | silver_lost | 28% | The Crown's silver was lost or never sent: the Crown defaulted. |
 | silver_abandoned | 5% | Accepted the commission but never sent the convoy. |
-| fenn_ally | 7% | Took a seat at the Exchequer table after the payment. |
+| fenn_ally | 6% | Took a seat at the Exchequer table after the payment. |
 | bank_paid_loan | 2% | Let Ostrander's buy part of the guild's Weighhouse note. |
 | vorn_fixed_board | 16% | Vorn fixed the spelling on your notice board herself. |
-| vorn_told | 10% | Told Vorn when the silver wagons would leave. |
+| vorn_told | 11% | Told Vorn when the silver wagons would leave. |
 | vorn_honest | 3% | Asked Vorn straight out whether the bank wants the silver to fail. |
 | riot_fed | 50% | Fed the bread riot (supplies or bakers). |
 | riot_held | 6% | Held the line in the bread market without drawing blood. |
@@ -118,28 +118,28 @@ Every conversation node in every story beat was reached.
 | weights_failed | 9% | Failed to prove the short weights at Hesketh's. |
 | coster_ledger | 10% | Bought the page from the river strongbox that ties Coster to an insurance fraud. |
 | coster_exposed | 1% | Handed Coster's page to the Weighhouse masters. |
-| pask_deal | 25% | Buys through Wenna Pask's low-tide market. |
-| pask_reported | 26% | Reported Wenna Pask to the toll-men. |
+| pask_deal | 24% | Buys through Wenna Pask's low-tide market. |
+| pask_reported | 27% | Reported Wenna Pask to the toll-men. |
 | brune_q_bank | 22% | Asked Sister Brune about the bank's donations. |
-| salts_accepted | 34% | Agreed to fetch fever salts for Saint Oda's. |
-| salts_delivered | 11% | Brought the fever salts back to Saint Oda's. |
-| salts_failed | 19% | Failed to bring back the fever salts. |
-| mayne_q_ford | 23% | Asked Mayne what happened to the Ninth after Cassel Ford. |
-| isbet_pact | 32% | Agreed to Isbet's private split of the river work. |
-| isbet_betrayed | 32% | Told Marta about Isbet's offer. |
+| salts_accepted | 33% | Agreed to fetch fever salts for Saint Oda's. |
+| salts_delivered | 10% | Brought the fever salts back to Saint Oda's. |
+| salts_failed | 18% | Failed to bring back the fever salts. |
+| mayne_q_ford | 24% | Asked Mayne what happened to the Ninth after Cassel Ford. |
+| isbet_pact | 33% | Agreed to Isbet's private split of the river work. |
+| isbet_betrayed | 33% | Told Marta about Isbet's offer. |
 | ansel_freed | 20% | Freed Dagny's brother Ansel from the river chain. |
 | ansel_lost | 10% | Ansel Fell was sent to the galleys at Anselm. |
-| tapestry_sold | 13% | Sold the Exchequer's last tapestry quietly in Harrowmere. |
+| tapestry_sold | 14% | Sold the Exchequer's last tapestry quietly in Harrowmere. |
 | tapestry_lost | 12% | Lost the Exchequer's last tapestry on the road. |
-| tapestry_bought | 21% | Bought the Exchequer's last tapestry yourself. |
-| aske_plate_saved | 11% | Got the Aske family silver out before the assessors came. |
+| tapestry_bought | 20% | Bought the Exchequer's last tapestry yourself. |
+| aske_plate_saved | 10% | Got the Aske family silver out before the assessors came. |
 | aske_plate_lost | 11% | Lost the Aske family silver on the way out. |
 | aske_betrayed | 27% | Told the bank's assessors about the Aske family silver. |
 | met_oda | 99% | Met Sister Agathe Brune: Saint Oda's is known to the guild. |
 | met_fourteen | 77% | Met Lady Honora Aske: the Fourteen are known to the guild. |
 | met_mudlarks | 100% | Met Wenna Pask: the Mudlarks are known to the guild. |
 | ninth_active | 96% | Captain Mayne has come to Varrow: the Ninth compete for work. |
-| assay_licensed | 26% | Paid for an Assay Office license: the stillroom and foci are no longer fined. |
+| assay_licensed | 25% | Paid for an Assay Office license: the stillroom and foci are no longer fined. |
 | assay_active | 90% | Master Assayer Plaice has taken notice: the Assay Office watches the guild. |
 
 ## Codex
@@ -155,8 +155,8 @@ Every conversation node in every story beat was reached.
 | The Lower Town (Places) | 100% |
 | Drover's Road (Places) | 92% |
 | Harrowmere (Places) | 73% |
-| Kell Mines (Places) | 53% |
-| The Saltfens (Places) | 73% |
+| Kell Mines (Places) | 54% |
+| The Saltfens (Places) | 72% |
 | Port Anselm (Places) | 47% |
 | Factor Maelis Vorn (People) | 100% |
 | Marta Hobb (People) | 100% |
@@ -170,10 +170,10 @@ Every conversation node in every story beat was reached.
 | Master Assayer Corwin Plaice (People) | 94% |
 | Lady Honora Aske (People) | 77% |
 | Hill trolls (Foes) | 49% |
-| Fireborn (Foes) | 19% |
+| Fireborn (Foes) | 20% |
 | Hedge-wards (Foes) | 24% |
-| Swarms (Foes) | 45% |
-| Sell-swords (Foes) | 72% |
+| Swarms (Foes) | 44% |
+| Sell-swords (Foes) | 70% |
 | The Assay Office (Powers & trades) | 100% |
 | Saint Oda's (Powers & trades) | 99% |
 | The Mudlarks (Powers & trades) | 99% |
@@ -181,23 +181,23 @@ Every conversation node in every story beat was reached.
 
 ## Random events fired
 
-- informant: 207
-- petition: 189
-- brawl: 169
-- peddler: 156
-- fenn_letter: 138
-- lead: 109
-- pask_strongbox: 84
-- festival: 83
+- informant: 198
+- petition: 192
+- brawl: 167
+- peddler: 150
+- fenn_letter: 129
+- lead: 108
+- festival: 87
 - homesick: 81
-- volunteer: 78
-- raise: 70
-- jory_page: 69
-- marta_cake: 61
-- brune_donation: 36
-- dagny_tip: 25
-- nightmares: 22
-- bank_offer: 20
-- hobbs_audit: 11
-- coster_page: 8
-- coster_bank: 2
+- pask_strongbox: 80
+- jory_page: 76
+- volunteer: 74
+- raise: 73
+- marta_cake: 55
+- brune_donation: 43
+- nightmares: 29
+- dagny_tip: 24
+- bank_offer: 18
+- hobbs_audit: 10
+- coster_page: 5
+- coster_bank: 1

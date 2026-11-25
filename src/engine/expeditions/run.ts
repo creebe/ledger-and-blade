@@ -12,6 +12,7 @@ import { levelUp } from '../missions/missions';
 import { triggerDoorScene } from '../story/scenes';
 import { addRecord } from '../missions/narrative';
 import { raiseFeud, resolveOperation } from '../rivals/war';
+import { FEUD_CONTESTED } from '../core/tuning';
 import { chance, uid } from '../core/rng';
 import type { Approach, Contract, GameState, MaterialId, Member, Mission, MissionReport, OutcomeTier } from '../core/types';
 import { addDispatch, clamp, living } from '../core/util';
@@ -527,7 +528,7 @@ export function settleExpedition(s: GameState, ms: Mission) {
     }
   }
   if (c.op) resolveOperation(s, c, rewardMult > 0, summary);
-  else if (c.contestedBy && rewardMult > 0) raiseFeud(s, c.contestedBy, 3);
+  else if (c.contestedBy && rewardMult > 0) raiseFeud(s, c.contestedBy, FEUD_CONTESTED);
   const tpl = TEMPLATE_BY_ID[c.templateId];
   const outcomeFlag = rewardMult > 0 ? tpl?.successFlag : tpl?.failFlag;
   if (outcomeFlag) s.flags[outcomeFlag] = true;

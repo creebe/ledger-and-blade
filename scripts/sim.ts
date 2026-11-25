@@ -28,6 +28,11 @@ import {
   type ExpPlan,
   type GameState,
   type MaterialId,
+  type OpKind,
+  activeRivals,
+  feudStage,
+  operationOptions,
+  runOperation,
 } from '../src/engine';
 
 export interface BotOpts {
@@ -35,6 +40,21 @@ export interface BotOpts {
   chooser?: (s: GameState, ev: GameState['pendingEvents'][number]) => number;
   /** good: the suggested pack and orders; poor: little in the pack and stubborn orders */
   prep?: 'good' | 'poor';
+  /** a player who picks fights: smears every rival, prefers contested jobs, and runs every operation it can */
+  provoke?: boolean;
+}
+
+/** The provoking player's moves against each rival this week. */
+function provokeRivals(s: GameState) {
+  for (const id of activeRivals(s)) {
+    const stage = feudStage(s, id);
+    for (const kind of ['smear', ...(stage >= 1 ? ['intercept'] : []), ...(stage >= 2 ? ['raid'] : [])] as OpKind[]) {
+      const opt = operationOptions(s, id).find((o) => o.kind === kind);
+      if (!opt || opt.blocked) continue;
+      if ((opt.cost.crowns ?? 0) > 0 && s.crowns - (opt.cost.crowns ?? 0) < 200) continue;
+      runOperation(s, id, kind);
+    }
+  }
 }
 
 export function resolvePending(s: GameState, opts: BotOpts) {
@@ -66,8 +86,10 @@ export function botTurn(s: GameState, opts: BotOpts) {
   const caution = opts.minChance;
   const margin = caution <= 0.4 ? 3 : caution <= 0.55 ? 1.5 : 0.5;
   const minHealth = caution <= 0.4 ? 45 : caution <= 0.55 ? 65 : 80;
-  // contracts: the best-paying ones the squad can likely handle
-  const board = [...s.board].sort((a, b) => b.reward / Math.max(1, postingDifficulty(b)) - a.reward / Math.max(1, postingDifficulty(a)));
+  if (opts.provoke) provokeRivals(s);
+  // contracts: the best-paying ones the squad can likely handle (a provoking player goes for fights first)
+  const value = (c: Contract) => c.reward / Math.max(1, postingDifficulty(c)) + (opts.provoke && (c.contestedBy || (c.op && c.op.kind !== 'kill')) ? 1000 : 0);
+  const board = [...s.board].sort((a, b) => value(b) - value(a));
   for (const c of board) {
     if (squadsOut(s) >= squadLimit(s)) break;
     if (c.hidden.some((h) => !h.revealed) && s.intel >= 2) revealTag(s, c.id, c.hidden.findIndex((h) => !h.revealed));
