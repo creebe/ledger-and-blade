@@ -7,7 +7,7 @@ _how_ is the instruction; _why_ is the reason given; _available_ is the message 
 | ID | title | how | why | available |
 |---|---|---|---|---|
 | `tutorial:first_contract` | Take your first contract | Open Contracts, tap a job, select a few members and press Dispatch. | Contracts are how the guild earns. Every week costs wages and upkeep. |  |
-| `tutorial:read_odds` | Ask “Why?” about the odds | Open a contract, select at least one member, then tap “Why?” next to a phase’s odds bar. | Every percentage is built from your squad’s score against the job’s difficulty. Knowing why tells you how to improve it. |  |
+| `tutorial:read_odds` | Plan an expedition | Open a contract on the board and read its plan: the squad in ranks, the pack, the standing orders and “Before you go”. | Nobody can send orders once a squad has left. Everything that happens down there follows from the plan. |  |
 | `tutorial:look_ahead` | Look at the next Date | Tap the Date under the week in the top bar to see what it asks for and what it pays. | A Date is a few weeks off. Meeting its targets pays, and missing one costs. |  |
 | `tutorial:end_week` | End the week | Press End Week to see what's about to happen, then hold the button at the bottom to confirm. Everything you set in motion resolves at once. | The game moves a week at a time. Squads travel, wages are paid, the world changes. |  |
 
@@ -17,14 +17,14 @@ _how_ is the instruction; _why_ is the reason given; _available_ is the message 
 |---|---|---|---|---|
 | `tutorial:orders` | Give an idle member orders | Roster → tap a member → under “This week”, choose Gather rumors, Train or Dock labor. | Members at home can earn Intel, crowns or skill instead of just resting. |  |
 | `tutorial:gear` | Change someone’s gear | Roster → tap a member → tap a gear slot and pick an item. Buy more in the Armory. | The right weapon or kit for the job can swing the odds a long way. |  |
-| `tutorial:journal` | Read a mission journal | When a squad’s job is done, tap “Read the mission report” in the week report or the Hall. | The journal shows who led, what worked, and what gear would have done better. | [IF history.length + missions.filter((m) => m.report).length > 0] {true} [ELSE] Finish a mission first [END] |
+| `tutorial:journal` | Read an expedition log | When a squad is home, tap Watch in the week report, or its card on the Contracts tab. | The log shows the line where the trap went off because nobody packed tools, and the meal that didn’t happen. | [IF history.length + missions.filter((m) => m.report).length > 0] {true} [ELSE] Finish a mission first [END] |
 
 ### Knowing what you face
 
 | ID | title | how | why | available |
 |---|---|---|---|---|
 | `tutorial:reveal` | Uncover a hidden danger | Tap a dashed “?” tag on a contract to spend Intel, or set a member to Scout a contract. | Unknown tags turn your odds into a range. Knowing tells you what to bring. |  |
-| `tutorial:counter` | Send a squad prepared for a tag | Give a squad member a counter for one of the job’s tags (a lantern for Dark, fur cloak for Cold, remedies for Swamp) before dispatching. | Countering a tag removes its penalty. The planner shows “Prepared for” when it works. |  |
+| `tutorial:counter` | Send a squad prepared for a tag | Give a squad member a counter for one of the job’s known tags (a lantern for Dark, a fur cloak for Cold, remedies for Swamp) before they set out. | A countered tag stops costing the squad: no darkness without a lantern’s light, no extra wear from the cold or the mud. |  |
 | `tutorial:supplies` | Buy supplies | Armory → Shop → buy supplies (bigger orders are cheaper). Everyone eats one a week, and squads carry their own. | Hungry members lose morale. Running out mid-crisis is how guilds fail. |  |
 
 ### The city

@@ -98,7 +98,7 @@ _Same choices as node `pitch` (one shared menu)._
 
 **Leads to:**
 
-- `ostranders_open` → **Coster's Page** (`coster_page`), **The Bank's Gift** (`brune_donation`), contract **A Matter of Arrears** (`debt_collection`), contract **Deliver the Bank's Terms** (`deliver_terms`), Date "Ostrander's Reads the Books" (`vorn_books`), rules in `src/engine/actions.ts`
+- `ostranders_open` → **Coster's Page** (`coster_page`), **The Bank's Gift** (`brune_donation`), contract **How Deep It Goes** (`pellam_deep`), contract **A Matter of Arrears** (`debt_collection`), contract **Deliver the Bank's Terms** (`deliver_terms`), Date "Ostrander's Reads the Books" (`vorn_books`), rules in `src/engine/actions.ts`
 - `vorn_fixed_board` → **The Notice Board** (`vorn_board`)
 - `vorn_q_hobbs` → _nothing reads it_
 - `vorn_q_people` → codex "The Treaty of Cassel" (`the_treaty`)

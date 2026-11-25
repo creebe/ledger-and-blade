@@ -93,7 +93,7 @@ _Speaker: Dagny Fell_
 
 #### Story contract: Ansel Fell at the Chain
 
-`contract:ansel_chain` · data/contracts.ts:551
+`contract:ansel_chain` · data/contracts.ts:717
 
 - _type:_ “Story”
 - _titles[1]:_ “Ansel Fell at the Chain”

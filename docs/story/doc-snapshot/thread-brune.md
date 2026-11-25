@@ -49,7 +49,7 @@ _Same choices as the opening (one shared menu)._
 
 #### Story contract: Salts for Saint Oda's
 
-`contract:fever_salts` · data/contracts.ts:521
+`contract:fever_salts` · data/contracts.ts:687
 
 - _type:_ “Story”
 - _titles[1]:_ “Salts for Saint Oda's”

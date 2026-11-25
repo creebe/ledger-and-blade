@@ -2,9 +2,113 @@
 
 Job templates on the board. A contract takes one of its titles at random. Story contracts also appear under the scene that adds them.
 
+### Contract: The Cellar Rats
+
+`contract:pellam_rats` · data/contracts.ts:48
+
+- _type:_ “Hunt”
+- _titles[1]:_ “The Cellar Rats”
+- _titles[2]:_ “Rats under Tallow Street”
+- _description:_
+
+  > The Porters' Fraternity will pay to have fewer rats coming up through the Tallow Street cellars. Kill four knots of them in the Culverts.
+
+- _phases[1]:_ “The Culverts: Down the steps behind the chandler's.”
+
+### Contract: A Survey of the Streets
+
+`contract:pellam_streets` · data/contracts.ts:68
+
+- _type:_ “Survey”
+- _titles[1]:_ “A Survey of the Streets”
+- _titles[2]:_ “How Wrong the Map Is”
+- _description:_
+
+  > The Exchequer has a map of Pellam from two hundred years ago and would like to know how wrong it is. Reach the Buried Streets and come back.
+
+- _phases[1]:_ “The Buried Streets: Down through the Culverts and on.”
+
+### Contract: Pellam Plate
+
+`contract:pellam_plate` · data/contracts.ts:88
+
+- _type:_ “Salvage”
+- _titles[1]:_ “Pellam Plate”
+- _titles[2]:_ “Silver by Weight”
+- _description:_
+
+  > The Weighhouse will weigh any Pellam silver you bring back and pay for it by weight, which the aldermen say is the only honest way to pay for anything. They want two pieces.
+
+- _phases[1]:_ “The Buried Streets: The old merchants' houses.”
+
+### Contract: Eel Oil for the Flats
+
+`contract:pellam_eels` · data/contracts.ts:108
+
+- _type:_ “Hunt”
+- _titles[1]:_ “Eel Oil for the Flats”
+- _titles[2]:_ “An Eel for Wenna Pask”
+- _description:_
+
+  > Wenna Pask's people need eel oil for their boats, and she says the eels are easy if you don't mind eels. Kill one in the flooded cellars of the Buried Streets.
+
+- _phases[1]:_ “The flooded cellars: Where the eels are.”
+
+### Contract: The Assay Seals
+
+`contract:pellam_seals` · data/contracts.ts:128
+
+- _type:_ “Salvage”
+- _titles[1]:_ “The Assay Seals”
+- _titles[2]:_ “Brass for the Exchequer”
+- _description:_
+
+  > The Exchequer wants the Assay Office's lost seals found before the Office finds them and claims it never lost them. Bring back one.
+
+- _phases[1]:_ “The Buried Streets: Wherever the engines walked.”
+
+### Contract: Salts for the Fever Beds
+
+`contract:pellam_salts` · data/contracts.ts:148
+
+- _type:_ “Salvage”
+- _titles[1]:_ “Salts for the Fever Beds”
+- _titles[2]:_ “Sister Brune's Order”
+- _description:_
+
+  > Sister Brune needs reagent salts for the fever beds and would rather not buy them from an apothecary who asks no questions. She wants two jars from the College Sink.
+
+- _phases[1]:_ “The College Sink: All the way down.”
+
+### Contract: How Deep It Goes
+
+`contract:pellam_deep` · data/contracts.ts:168
+
+- _type:_ “Survey”
+- _titles[1]:_ “How Deep It Goes”
+- _titles[2]:_ “Vorn's Account of the Sink”
+- _description:_
+
+  > Factor Vorn wants a reliable account of the College Sink. The bank holds a note on the college and likes to know what it owns.
+
+- _phases[1]:_ “The College Sink: All the way down.”
+- _Reads:_ `ostranders_open` (from **A Visitor from Ostrander's** (`ostrander_agent`), **Quarter Day** (`quarter_day`), rules in `src/engine/actions.ts`)
+
+### Contract: Put Out the Kiln
+
+`contract:pellam_kiln` · data/contracts.ts:189
+
+- _type:_ “Hunt”
+- _titles[1]:_ “Put Out the Kiln”
+- _description:_
+
+  > The college has asked the Crown, which has asked you, to stop the Kiln Engine before it walks into the river and boils it.
+
+- _phases[1]:_ “The Kiln Engine: At the bottom of the Sink.”
+
 ### Contract: Wolves on the Drover's Road
 
-`contract:wolf_cull` · data/contracts.ts:43
+`contract:wolf_cull` · data/contracts.ts:209
 
 - _type:_ “Hunt”
 - _titles[1]:_ “Wolves on the Drover's Road”
@@ -20,7 +124,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Wool to Harrowmere
 
-`contract:caravan_escort` · data/contracts.ts:72
+`contract:caravan_escort` · data/contracts.ts:238
 
 - _type:_ “Escort”
 - _titles[1]:_ “Wool to Harrowmere”
@@ -36,7 +140,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: A Matter of Arrears
 
-`contract:debt_collection` · data/contracts.ts:96
+`contract:debt_collection` · data/contracts.ts:262
 
 - _type:_ “Collection”
 - _titles[1]:_ “A Matter of Arrears”
@@ -53,7 +157,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: The Tax Wagons
 
-`contract:tax_escort` · data/contracts.ts:121
+`contract:tax_escort` · data/contracts.ts:287
 
 - _type:_ “Escort”
 - _titles[1]:_ “The Tax Wagons”
@@ -69,7 +173,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Hold the Bread Market
 
-`contract:riot_guard` · data/contracts.ts:145
+`contract:riot_guard` · data/contracts.ts:311
 
 - _type:_ “Peacekeeping”
 - _titles[1]:_ “Hold the Bread Market”
@@ -84,7 +188,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Grain for the Lower Town
 
-`contract:bread_convoy` · data/contracts.ts:168
+`contract:bread_convoy` · data/contracts.ts:334
 
 - _type:_ “Smuggling”
 - _titles[1]:_ “Grain for the Lower Town”
@@ -103,7 +207,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Who Is Clipping the Penny?
 
-`contract:clipped_coin` · data/contracts.ts:193
+`contract:clipped_coin` · data/contracts.ts:359
 
 - _type:_ “Investigation”
 - _titles[1]:_ “Who Is Clipping the Penny?”
@@ -119,7 +223,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: The Flooded Gallery
 
-`contract:flooded_mine` · data/contracts.ts:217
+`contract:flooded_mine` · data/contracts.ts:383
 
 - _type:_ “Clearance”
 - _titles[1]:_ “The Flooded Gallery”
@@ -135,7 +239,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Fen-lily Harvest
 
-`contract:fen_harvest` · data/contracts.ts:245
+`contract:fen_harvest` · data/contracts.ts:411
 
 - _type:_ “Expedition”
 - _titles[1]:_ “Fen-lily Harvest”
@@ -151,7 +255,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Lighten the Bank's Warehouse
 
-`contract:warehouse_job` · data/contracts.ts:271
+`contract:warehouse_job` · data/contracts.ts:437
 
 - _type:_ “Heist”
 - _titles[1]:_ “Lighten the Bank's Warehouse”
@@ -167,7 +271,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: The Bridge at Harrowmere
 
-`contract:troll_bridge` · data/contracts.ts:296
+`contract:troll_bridge` · data/contracts.ts:462
 
 - _type:_ “Hunt”
 - _titles[1]:_ “The Bridge at Harrowmere”
@@ -183,7 +287,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Deliver the Bank's Terms
 
-`contract:deliver_terms` · data/contracts.ts:321
+`contract:deliver_terms` · data/contracts.ts:487
 
 - _type:_ “Diplomacy”
 - _titles[1]:_ “Deliver the Bank's Terms”
@@ -200,7 +304,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Nights at the Almshouse
 
-`contract:almshouse_watch` · data/contracts.ts:347
+`contract:almshouse_watch` · data/contracts.ts:513
 
 - _type:_ “Peacekeeping”
 - _titles[1]:_ “Nights at the Almshouse”
@@ -215,7 +319,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Fever at Coldharbour
 
-`contract:fever_village` · data/contracts.ts:371
+`contract:fever_village` · data/contracts.ts:537
 
 - _type:_ “Expedition”
 - _titles[1]:_ “Fever at Coldharbour”
@@ -231,7 +335,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Keep the Assessors Out
 
-`contract:assessors_out` · data/contracts.ts:397
+`contract:assessors_out` · data/contracts.ts:563
 
 - _type:_ “Peacekeeping”
 - _titles[1]:_ “Keep the Assessors Out”
@@ -246,7 +350,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: A Missing Heirloom
 
-`contract:heirloom` · data/contracts.ts:420
+`contract:heirloom` · data/contracts.ts:586
 
 - _type:_ “Investigation”
 - _titles[1]:_ “A Missing Heirloom”
@@ -261,7 +365,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Under the Chain
 
-`contract:under_chain` · data/contracts.ts:444
+`contract:under_chain` · data/contracts.ts:610
 
 - _type:_ “Smuggling”
 - _titles[1]:_ “Under the Chain”
@@ -276,7 +380,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: The Sunken Barge
 
-`contract:river_salvage` · data/contracts.ts:468
+`contract:river_salvage` · data/contracts.ts:634
 
 - _type:_ “Expedition”
 - _titles[1]:_ “The Sunken Barge”
@@ -291,7 +395,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Short Weight at Hesketh's
 
-`contract:false_weights` · data/contracts.ts:493
+`contract:false_weights` · data/contracts.ts:659
 
 - _type:_ “Story”
 - _titles[1]:_ “Short Weight at Hesketh's”
@@ -310,7 +414,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Salts for Saint Oda's
 
-`contract:fever_salts` · data/contracts.ts:521
+`contract:fever_salts` · data/contracts.ts:687
 
 - _type:_ “Story”
 - _titles[1]:_ “Salts for Saint Oda's”
@@ -330,7 +434,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Ansel Fell at the Chain
 
-`contract:ansel_chain` · data/contracts.ts:551
+`contract:ansel_chain` · data/contracts.ts:717
 
 - _type:_ “Story”
 - _titles[1]:_ “Ansel Fell at the Chain”
@@ -349,7 +453,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: The Exchequer's Last Tapestry
 
-`contract:last_tapestry` · data/contracts.ts:579
+`contract:last_tapestry` · data/contracts.ts:745
 
 - _type:_ “Story”
 - _titles[1]:_ “The Exchequer's Last Tapestry”
@@ -369,7 +473,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: The Aske Silver
 
-`contract:aske_plate` · data/contracts.ts:608
+`contract:aske_plate` · data/contracts.ts:774
 
 - _type:_ “Story”
 - _titles[1]:_ “The Aske Silver”
@@ -388,7 +492,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Beat them to a job
 
-`contract:op_intercept` · data/contracts.ts:638
+`contract:op_intercept` · data/contracts.ts:804
 
 - _type:_ “Operation”
 - _titles[1]:_ “Beat them to a job”
@@ -397,7 +501,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: A raid
 
-`contract:op_raid` · data/contracts.ts:661
+`contract:op_raid` · data/contracts.ts:827
 
 - _type:_ “Operation”
 - _titles[1]:_ “A raid”
@@ -406,7 +510,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: A death
 
-`contract:op_kill` · data/contracts.ts:685
+`contract:op_kill` · data/contracts.ts:851
 
 - _type:_ “Operation”
 - _titles[1]:_ “A death”
@@ -416,7 +520,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: The Crown's Last Silver
 
-`contract:silver_convoy` · data/contracts.ts:709
+`contract:silver_convoy` · data/contracts.ts:875
 
 - _type:_ “Story”
 - _titles[1]:_ “The Crown's Last Silver”

@@ -2,6 +2,20 @@
 
 Labels, help, confirmations and empty states in the screens and sheets (lines of three words or more). Where a sentence is split by bold text or a button inside it, it appears in pieces.
 
+### ui/expeditions/SquadStrip.tsx
+
+| ID | Line |
+|---|---|
+| `ui/expeditions/SquadStrip.tsx#stateText.1` | [IF c.state is 'dead'] dead [ELSE IF c.state is 'down'] down [ELSE IF c.state is 'out'] carried [ELSE IF c.state is 'spent'] spent [ELSE IF c.fever] fever [END] |
+| `ui/expeditions/SquadStrip.tsx#SquadStrip.1` | Exposure {c.exposure}. A Sink change comes at {X.thresholds.join(', ')}. |
+
+### ui/expeditions/xkit.tsx
+
+| ID | Line |
+|---|---|
+| `ui/expeditions/xkit.tsx#XBar.1` | [IF kind is 'fatigue'] [IF v >= F.spent] bad [ELSE IF v >= F.tired] mid [ELSE] ok [END] [ELSE IF f < 0.3] bad [ELSE IF f < 0.55] mid [ELSE] ok [END] |
+| `ui/expeditions/xkit.tsx#Vitals.1` | Exposure: runoff and fever in the body. At 40, 70 and 95 it brings a Sink change. |
+
 ### ui/kit/DispatchItem.tsx
 
 | ID | Line |
@@ -39,7 +53,7 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 
 | ID | Line |
 |---|---|
-| `ui/kit/visual.tsx#readiness.1` | [IF ms] [IF ms.returnWeek <= g!.week] Away · back this week [ELSE] Away · back in {wk(ms.returnWeek - g!.week + 1)} [END] [ELSE] Away [END] |
+| `ui/kit/visual.tsx#readiness.1` | [IF ms] [IF ms.dispatchedWeek + ms.plannedWeeks - 1 <= g!.week] Away · due back this week [ELSE] Away · due back in {wk(ms.dispatchedWeek + ms.plannedWeeks - 1 - g!.week + 1)} [END] [ELSE] Away [END] |
 | `ui/kit/visual.tsx#slotIcon.1` | [IF def.ranged] marksman [ELSE IF def.bonus.arcana] arcanist [ELSE] weapon [END] |
 | `ui/kit/visual.tsx#OddsPill.1` | [IF min >= 0.7] good [ELSE IF max < 0.4] bad [ELSE] mid [END] |
 
@@ -101,37 +115,51 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 | `ui/screens/Armory.tsx#buySuppliesFlow.1` | The stores go from {g.supplies} to {g.supplies}{n}. |
 | `ui/screens/Armory.tsx#buySuppliesFlow.2` | Bought {n} supplies for {crowns(cost)}. You now have {g.supplies}{n}. |
 | `ui/screens/Armory.tsx#ArmoryScreen.1` | Food, fodder and lamp-oil. Each member eats 1 a week, and squads carry their own. Bigger orders are cheaper. Price now: |
-| `ui/screens/Armory.tsx#ArmoryScreen.2` | Stock changes weekly, and better goods appear as your renown grows. Weak coin raises prices, and Weighhouse friendship lowers them. |
-| `ui/screens/Armory.tsx#ArmoryScreen.3` | [IF owned] You already own {owned}. It goes into Inventory. Equip it from a member's Gear. [ELSE] It goes into Inventory. Equip it from a member's Gear. [END] |
-| `ui/screens/Armory.tsx#ArmoryScreen.4` | Bought {def.name} for {crowns(price)}. Equip it from a member's Gear. |
-| `ui/screens/Armory.tsx#ArmoryScreen.5` | The armory is empty. |
-| `ui/screens/Armory.tsx#ArmoryScreen.6` | [IF holder] Held by {holder.name} [ELSE] In stores [END] |
-| `ui/screens/Armory.tsx#ArmoryScreen.7` | [IF holder] {holder.name} is using it, and will be left without it. [ELSE] It goes back to the market for half its price. [END] |
-| `ui/screens/Armory.tsx#ArmoryScreen.8` | Recovered from missions, or bought here. Used to craft in the Workshop and to build in the Hall. Buying or selling a lot at once moves the price. |
-| `ui/screens/Armory.tsx#ArmoryScreen.9` | · sell about |
-| `ui/screens/Armory.tsx#ArmoryScreen.10` | You have {g.materials[m]} {MATERIAL_INFO[m].name}. Buying a lot at once pushes the price up. |
-| `ui/screens/Armory.tsx#ArmoryScreen.11` | Bought 5 {MATERIAL_INFO[m].name}. You now have {g.materials[m]}{5}. |
-| `ui/screens/Armory.tsx#ArmoryScreen.12` | Buy 5 · |
-| `ui/screens/Armory.tsx#ArmoryScreen.13` | [IF g.materials[m] < 1] No {MATERIAL_INFO[m].name} to sell [END] |
-| `ui/screens/Armory.tsx#ArmoryScreen.14` | [IF g.materials[m] < 1] No {MATERIAL_INFO[m].name} to sell [END] |
+| `ui/screens/Armory.tsx#ArmoryScreen.2` | What squads pack besides food. Anything short when a squad sets out is bought then, at these prices. |
+| `ui/screens/Armory.tsx#ArmoryScreen.3` | in the stores · |
+| `ui/screens/Armory.tsx#ArmoryScreen.4` | The stores go from {g.stores[k] ?? 0} to {g.stores[k] ?? 0}{SUPPLIES[k].perSlot}. |
+| `ui/screens/Armory.tsx#ArmoryScreen.5` | Bought {SUPPLIES[k].perSlot} {SUPPLIES[k].name.toLowerCase()}. The stores now hold {g.stores[k] ?? 0}{SUPPLIES[k].perSlot}. |
+| `ui/screens/Armory.tsx#ArmoryScreen.6` | Sell everything the squads brought back? |
+| `ui/screens/Armory.tsx#ArmoryScreen.7` | All the goods above go to the market at once. Materials stay in the stores. |
+| `ui/screens/Armory.tsx#ArmoryScreen.8` | Sold the goods for {crowns(v)}. |
+| `ui/screens/Armory.tsx#ArmoryScreen.9` | Sell it all · |
+| `ui/screens/Armory.tsx#ArmoryScreen.10` | Stock changes weekly, and better goods appear as your renown grows. Weak coin raises prices, and Weighhouse friendship lowers them. |
+| `ui/screens/Armory.tsx#ArmoryScreen.11` | [IF owned] You already own {owned}. It goes into Inventory. Equip it from a member's Gear. [ELSE] It goes into Inventory. Equip it from a member's Gear. [END] |
+| `ui/screens/Armory.tsx#ArmoryScreen.12` | Bought {def.name} for {crowns(price)}. Equip it from a member's Gear. |
+| `ui/screens/Armory.tsx#ArmoryScreen.13` | The armory is empty. |
+| `ui/screens/Armory.tsx#ArmoryScreen.14` | [IF holder] Held by {holder.name} [ELSE] In stores [END] |
+| `ui/screens/Armory.tsx#ArmoryScreen.15` | [IF holder] {holder.name} is using it, and will be left without it. [ELSE] It goes back to the market for half its price. [END] |
+| `ui/screens/Armory.tsx#ArmoryScreen.16` | Recovered from missions, or bought here. Used to craft in the Workshop and to build in the Hall. Buying or selling a lot at once moves the price. |
+| `ui/screens/Armory.tsx#ArmoryScreen.17` | · sell about |
+| `ui/screens/Armory.tsx#ArmoryScreen.18` | You have {g.materials[m]} {MATERIAL_INFO[m].name}. Buying a lot at once pushes the price up. |
+| `ui/screens/Armory.tsx#ArmoryScreen.19` | Bought 5 {MATERIAL_INFO[m].name}. You now have {g.materials[m]}{5}. |
+| `ui/screens/Armory.tsx#ArmoryScreen.20` | Buy 5 · |
+| `ui/screens/Armory.tsx#ArmoryScreen.21` | [IF g.materials[m] < 1] No {MATERIAL_INFO[m].name} to sell [END] |
+| `ui/screens/Armory.tsx#ArmoryScreen.22` | [IF g.materials[m] < 1] No {MATERIAL_INFO[m].name} to sell [END] |
 
 ### ui/screens/Contracts.tsx
 
 | ID | Line |
 |---|---|
-| `ui/screens/Contracts.tsx#MissionTrack.1` | [IF m.report] {m.report.tier} · [IF m.returnWeek <= g.week] home at the end of this week [ELSE] home in {weeks(m.returnWeek - g.week + 1)} [END] [ELSE IF m.arriveWeek is g.week] Reaches the objective at the end of this week [ELSE] Arrives in {weeks(m.arriveWeek - g.week + 1)} [END] |
-| `ui/screens/Contracts.tsx#MissionTrack.2` | [IF m.report] {m.report.tier} · [IF m.returnWeek <= g.week] home this week [ELSE] home in {wk(m.returnWeek - g.week + 1)} [END] [ELSE IF preparing] Leaving this week [ELSE IF m.arriveWeek is g.week] At the objective this week [ELSE] Arrives in {wk(m.arriveWeek - g.week + 1)} [END] |
-| `ui/screens/Contracts.tsx#MissionTrack.3` | [IF m.report]  · read the report [END] |
-| `ui/screens/Contracts.tsx#MissionTrack.4` | Tap to read the journal |
-| `ui/screens/Contracts.tsx#MissionTrack.5` | Leaving at the end of this week. Gear can still change: |
-| `ui/screens/Contracts.tsx#MissionTrack.6` | Cancel this dispatch? |
-| `ui/screens/Contracts.tsx#MissionTrack.7` | The squad stays home. The {m.supplies} supplies they packed go back to the stores, and "{c.title}" returns to the board. |
-| `ui/screens/Contracts.tsx#MissionTrack.8` | Dispatch cancelled. The squad is back in the hall. |
-| `ui/screens/Contracts.tsx#ContractsScreen.1` | In the field ({g.missions.length}) |
+| `ui/screens/Contracts.tsx#ContractsScreen.1` | out. Follow them in the Field. |
 | `ui/screens/Contracts.tsx#ContractsScreen.2` | No contracts this week. |
 | `ui/screens/Contracts.tsx#ContractCard.1` | Your operation against |
-| `ui/screens/Contracts.tsx#ContractCard.2` | Not enough people free |
-| `ui/screens/Contracts.tsx#ContractCard.3` | [IF expiring] Expires this week [ELSE] {wk(c.expiresWeek - g.week + 1)} left [END] |
+| `ui/screens/Contracts.tsx#ContractCard.2` | [IF expiring] Expires this week [ELSE] {wk(c.expiresWeek - g.week + 1)} left [END] |
+
+### ui/screens/Field.tsx
+
+| ID | Line |
+|---|---|
+| `ui/screens/Field.tsx#FieldCard.1` | [IF st.preparing] [IF m.fieldWeeks.length] They have left by the gate, and the trip begins at the end of this week. [ELSE] In the yard. They leave at the end of this week. [END] [ELSE] Week {st.revealed} of about {m.plannedWeeks}, [IF st.zone] in {st.zone}, room {st.room} of {st.rooms} [ELSE] on the road [END]. [END] |
+| `ui/screens/Field.tsx#FieldCard.2` | Squad {m.number}, {st.site}. Open the log. |
+| `ui/screens/Field.tsx#YardPanel.1` | Their gear can still change until End Week. Tap a name to see what they carry. |
+| `ui/screens/Field.tsx#YardPanel.2` | [IF doorFired] They have already left by the gate, so nobody can call them back now. [END] |
+| `ui/screens/Field.tsx#YardPanel.3` | Call off squad {m.number}? |
+| `ui/screens/Field.tsx#YardPanel.4` | The squad stays home. What they packed goes back to the stores, and "{m.contract.title}" returns to the board. |
+| `ui/screens/Field.tsx#YardPanel.5` | Squad {m.number} stays home and is back in the hall. |
+| `ui/screens/Field.tsx#FieldScreen.1` | [IF limit < 3 and used >= limit]  A Muster room in the Hall would let a third go. [END] |
+| `ui/screens/Field.tsx#FieldScreen.2` | Nobody is out. Squads leave from the contract board. |
+| `ui/screens/Field.tsx#FieldScreen.3` | See the board |
 
 ### ui/screens/Hall.tsx
 
@@ -143,10 +171,9 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 | `ui/screens/Hall.tsx#alerts.4` | In the red for {plural(g.insolventWeeks, 'week')}. At 4, the guild is bankrupt. |
 | `ui/screens/Hall.tsx#alerts.5` | Charter in danger: {plural(6 - g.charterWeeks, 'week')} left to fix it. |
 | `ui/screens/Hall.tsx#alerts.6` | Heat is {g.heat}. The Exchequer is watching. |
-| `ui/screens/Hall.tsx#alerts.7` | {plural(back.length, 'squad')} [IF back.length is 1] returns [ELSE] return [END] at the end of this week. |
-| `ui/screens/Hall.tsx#alerts.8` | {plural(arriving.length, 'squad')} [IF arriving.length is 1] reaches its [ELSE] reach their [END] objective this week. |
-| `ui/screens/Hall.tsx#alerts.9` | Supplies are low ({g.supplies}). Buy more at the Armory. |
-| `ui/screens/Hall.tsx#alerts.10` | Story contract available: "{story.title}". |
+| `ui/screens/Hall.tsx#alerts.7` | {plural(back.length, 'squad')} [IF back.length is 1] is [ELSE] are [END] due home at the end of this week. |
+| `ui/screens/Hall.tsx#alerts.8` | Supplies are low ({g.supplies}). Buy more at the Armory. |
+| `ui/screens/Hall.tsx#alerts.9` | Story contract available: "{story.title}". |
 | `ui/screens/Hall.tsx#HallScreen.1` | This week so far |
 | `ui/screens/Hall.tsx#HallScreen.2` | [IF loan.dueWeek <= g.week] this week [ELSE IF loan.dueWeek is g.week + 1] next week [ELSE] in {weeks(loan.dueWeek - g.week)} [END] |
 | `ui/screens/Hall.tsx#HallScreen.3` | The projection counts known costs and the listed pay of squads already in the field. Supplies are bought separately. |
@@ -263,8 +290,8 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 | `ui/sheets/EndWeekSheet.tsx#EndWeekSheet.2` | Press and hold to end the week. |
 | `ui/sheets/EndWeekSheet.tsx#EndWeekSheet.3` | Hold to end |
 | `ui/sheets/EndWeekSheet.tsx#EndWeekSheet.4` | Everything below happens at once when the week ends, and none of it can be undone. |
-| `ui/sheets/EndWeekSheet.tsx#EndWeekSheet.5` | : the squad reaches the objective. |
-| `ui/sheets/EndWeekSheet.tsx#EndWeekSheet.6` | : the squad comes home. |
+| `ui/sheets/EndWeekSheet.tsx#EndWeekSheet.5` | goes on. Their next stretch is in the week report. |
+| `ui/sheets/EndWeekSheet.tsx#EndWeekSheet.6` | : the squad is due home. |
 | `ui/sheets/EndWeekSheet.tsx#EndWeekSheet.7` | {x.n} [DEPENDS ON x.a.id] rest: resting [OR] train: training [OR] rumors: gathering rumors [OR] labor: working the docks [OR] guard: guarding the hall [OR] build: building [OR] scout: scouting [END] |
 | `ui/sheets/EndWeekSheet.tsx#EndWeekSheet.8` | Building continues, with about |
 | `ui/sheets/EndWeekSheet.tsx#EndWeekSheet.9` | The workshop works through its queue of |
@@ -277,8 +304,18 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 
 | ID | Line |
 |---|---|
-| `ui/sheets/EventCard.tsx#EventCard.1` | [IF mission.arriveWeek <= g.week] this week [ELSE] in {weeks(mission.arriveWeek - g.week + 1)} [END] |
+| `ui/sheets/EventCard.tsx#EventCard.1` | · setting out for |
 | `ui/sheets/EventCard.tsx#EventCard.2` | [IF chk.who]  ({chk.who.split(' ')[0]} tries) [ELSE IF mission]  [ELSE]  (no one at home to try: your people are away) [END] |
+
+### ui/sheets/ExpLogSheet.tsx
+
+| ID | Line |
+|---|---|
+| `ui/sheets/ExpLogSheet.tsx#ExpLogSheet.1` | Nothing to show. |
+| `ui/sheets/ExpLogSheet.tsx#ExpLogSheet.2` | [IF speed > 1] Fast. Tap the log to slow down. [ELSE] Tap the log to speed up. [END] |
+| `ui/sheets/ExpLogSheet.tsx#ExpLogSheet.3` | [IF ms.report] {ms.report.tier}. [ELSE IF not ms.sealed] Still in the yard: they leave at the end of the week. [ELSE] Week {st.revealed} of about {ms.plannedWeeks}[IF st.zone] , in {st.zone}, room {st.room} of {st.rooms} [ELSE] , on the road [END]. [END] |
+| `ui/sheets/ExpLogSheet.tsx#ExpLogSheet.4` | [IF state is 'dead'] dead [ELSE IF state is 'down'] down [ELSE IF state is 'out'] carried [ELSE] {cur.squad.hp[i]} hp[IF state is 'spent']  · spent [END][IF cur.squad.fever.[i]]  · fever [END] [END] |
+| `ui/sheets/ExpLogSheet.tsx#ExpLogSheet.5` | Nothing yet. The first stretch of the trip shows in the week report after End Week. |
 
 ### ui/sheets/HelpSheet.tsx
 
@@ -323,14 +360,23 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 | `ui/sheets/MemberSheet.tsx#MemberSheet.2` | {m.xp}/{xpToLevel(m.level)} xp to next level |
 | `ui/sheets/MemberSheet.tsx#MemberSheet.3` | Leaving at the end of this week. You can still change their gear, or cancel the dispatch from Contracts. |
 | `ui/sheets/MemberSheet.tsx#MemberSheet.4` | [IF m.health < 40] bad [ELSE IF m.health < 75] mid [ELSE] good [END] |
-| `ui/sheets/MemberSheet.tsx#MemberSheet.5` | {m.name.split(' ')[0]} now carries {def.name}[IF holder and holder.id is not m.id] , taken from {holder.name.split(' ')[0]} [END]. |
-| `ui/sheets/MemberSheet.tsx#MemberSheet.6` | [IF holder] [IF holder.id is m.id] Equipped [ELSE] Held by {holder.name.split(' ')[0]} [END] [ELSE] In stores [END] |
-| `ui/sheets/MemberSheet.tsx#MemberSheet.7` | None in the armory. Buy some at the market. |
-| `ui/sheets/MemberSheet.tsx#MemberSheet.8` | (no tags, current gear) |
-| `ui/sheets/MemberSheet.tsx#MemberSheet.9` | No missions yet. Joined in |
-| `ui/sheets/MemberSheet.tsx#MemberSheet.10` | They leave the guild for good. Their gear stays in the armory, and you save {crowns(m.wage)} a week. |
-| `ui/sheets/MemberSheet.tsx#MemberSheet.11` | The others will notice (morale −3). |
-| `ui/sheets/MemberSheet.tsx#MemberSheet.12` | Dismiss from the guild |
+| `ui/sheets/MemberSheet.tsx#MemberSheet.5` | Runoff and fever in the body. At 40, 70 and 95 it brings a Sink change. |
+| `ui/sheets/MemberSheet.tsx#MemberSheet.6` | In bed with the Sink fever for |
+| `ui/sheets/MemberSheet.tsx#MemberSheet.7` | [IF m.fever.weeks is 1] another week [ELSE] {m.fever.weeks} more weeks [END] |
+| `ui/sheets/MemberSheet.tsx#MemberSheet.8` | . They'll get up changed. |
+| `ui/sheets/MemberSheet.tsx#MemberSheet.9` | Saint Oda's fever beds |
+| `ui/sheets/MemberSheet.tsx#MemberSheet.10` | Send {m.name.split(' ')[0]} to Saint Oda's? |
+| `ui/sheets/MemberSheet.tsx#MemberSheet.11` | A night in the fever beds draws {EXP_TUNING.exposure.treat} Exposure out of them. It puts off a Sink change; it doesn't undo one they already have. |
+| `ui/sheets/MemberSheet.tsx#MemberSheet.12` | {m.name.split(' ')[0]} spends a night at Saint Oda's. Exposure is down to {Math.max(0, (m.exposure ?? 0) - EXP_TUNING.exposure.treat)}. |
+| `ui/sheets/MemberSheet.tsx#MemberSheet.13` | Saint Oda's fever beds · − |
+| `ui/sheets/MemberSheet.tsx#MemberSheet.14` | {m.name.split(' ')[0]} now carries {def.name}[IF holder and holder.id is not m.id] , taken from {holder.name.split(' ')[0]} [END]. |
+| `ui/sheets/MemberSheet.tsx#MemberSheet.15` | [IF holder] [IF holder.id is m.id] Equipped [ELSE] Held by {holder.name.split(' ')[0]} [END] [ELSE] In stores [END] |
+| `ui/sheets/MemberSheet.tsx#MemberSheet.16` | None in the armory. Buy some at the market. |
+| `ui/sheets/MemberSheet.tsx#MemberSheet.17` | (no tags, current gear) |
+| `ui/sheets/MemberSheet.tsx#MemberSheet.18` | No missions yet. Joined in |
+| `ui/sheets/MemberSheet.tsx#MemberSheet.19` | They leave the guild for good. Their gear stays in the armory, and you save {crowns(m.wage)} a week. |
+| `ui/sheets/MemberSheet.tsx#MemberSheet.20` | The others will notice (morale −3). |
+| `ui/sheets/MemberSheet.tsx#MemberSheet.21` | Dismiss from the guild |
 | `ui/sheets/MemberSheet.tsx#FameBlock.1` | [IF m.epithet] {m.epithet}, a Legend of Varrow [ELSE IF tier] {FAME_TIERS[tier].name} [ELSE] Not yet known [END] |
 | `ui/sheets/MemberSheet.tsx#FameBlock.2` | [IF tier < 3] Fame {fame} of {next.min} to be {next.name}[IF next.name is 'Legendary']  (also needs level 5 and 25 missions) [END]. [ELSE] Fame {fame}. [END] |
 | `ui/sheets/MemberSheet.tsx#FameBlock.3` | : people tell |
@@ -349,56 +395,65 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 | `ui/sheets/MenuSheet.tsx#MenuSheet.8` | How to play |
 | `ui/sheets/MenuSheet.tsx#MenuSheet.9` | Back to title |
 
-### ui/sheets/MissionReplay.tsx
-
-| ID | Line |
-|---|---|
-| `ui/sheets/MissionReplay.tsx#MissionReplay.1` | The remaining phases were abandoned. |
-
 ### ui/sheets/OrdersSheet.tsx
 
 | ID | Line |
 |---|---|
 | `ui/sheets/OrdersSheet.tsx#OrdersSheet.1` | is not at the hall this week, so there are no orders to give. |
 
-### ui/sheets/Planner.tsx
+### ui/sheets/PrepSheet.tsx
 
 | ID | Line |
 |---|---|
-| `ui/sheets/Planner.tsx#StrengthMatrix.1` | Nobody here yet. |
-| `ui/sheets/Planner.tsx#StrengthMatrix.2` | Tap a column to sort, a name to add or remove them. Underlined columns are the ones your plan uses. |
-| `ui/sheets/Planner.tsx#reveal.1` | Revealing costs {INTEL_REVEAL_COST} Intel and you have {game.intel}. Set members to Gather rumors, or send a Scout ahead. |
-| `ui/sheets/Planner.tsx#reveal.2` | Reveal a hidden danger? |
-| `ui/sheets/Planner.tsx#reveal.3` | Your informants will find out which of these you'll face: {h.candidates.map((t) => TAGS[t].name ?? t).join(', ')}. |
-| `ui/sheets/Planner.tsx#reveal.4` | Knowing turns the odds range into an exact number, and tells you what gear to bring. |
-| `ui/sheets/Planner.tsx#ContractHeader.1` | Your operation against |
-| `ui/sheets/Planner.tsx#ContractHeader.2` | Unknown tags make the odds a range. Tap a “?” to reveal it for |
-| `ui/sheets/Planner.tsx#ContractHeader.3` | Intel (you have |
-| `ui/sheets/Planner.tsx#ContractHeader.4` | ), or send a Scout ahead from the Roster. |
-| `ui/sheets/Planner.tsx#ContractHeader.5` | this one. It may not last the week. |
-| `ui/sheets/Planner.tsx#ContractHeader.6` | [IF c.expiresWeek <= game.week] this week [ELSE] in {weeks(c.expiresWeek - game.week + 1)} [END] |
-| `ui/sheets/Planner.tsx#Planner.1` | This contract is no longer on the board. |
-| `ui/sheets/Planner.tsx#blockedReason.1` | [IF ms] {m.name.split(' ')[0]} is already committed to "{ms.contract.title}". [ELSE] {m.name.split(' ')[0]} is away. [END] |
-| `ui/sheets/Planner.tsx#blockedReason.2` | {m.name.split(' ')[0]} is too badly wounded to go ({m.health} HP). Rest them, or build an Infirmary. |
-| `ui/sheets/Planner.tsx#toggle.1` | At most {c.maxSquad} members |
-| `ui/sheets/Planner.tsx#Planner.2` | [IF members.length < c.minSquad] Pick at least {plural(c.minSquad, 'member')} for this contract. [END] |
-| `ui/sheets/Planner.tsx#pickBest.1` | Not enough people are fit to go. This contract needs {c.minSquad}. |
-| `ui/sheets/Planner.tsx#buyShortfall.1` | The squad needs {pv.supplies} supplies for the trip and the stores hold {game.supplies}. |
-| `ui/sheets/Planner.tsx#buyShortfall.2` | Bought {shortBy} supplies. The squad can leave. |
-| `ui/sheets/Planner.tsx#dispatch.1` | [IF pv.risk is 'Deadly'] This could get people killed [ELSE] Send them anyway? [END] |
-| `ui/sheets/Planner.tsx#dispatch.2` | Risk: {pv.risk}. The objective succeeds {chanceText(pv.overall.min, pv.overall.max)} of the time. |
-| `ui/sheets/Planner.tsx#dispatch.3` | Failed phases wound people, and wounds can kill. Better gear, a different approach, or revealing hidden tags may improve the odds. |
-| `ui/sheets/Planner.tsx#send.1` | {members.map((m) => m.name.split(' ')[0]).join(', ')} set out for {c.region} carrying {pv.supplies} supplies. [IF c.travelWeeks] They arrive in {c.travelWeeks} week[IF c.travelWeeks > 1] s [END]. [ELSE] Results at the end of this week. [END] |
-| `ui/sheets/Planner.tsx#Planner.3` | [IF p.min >= 0.7] good [ELSE IF p.max < 0.4] bad [ELSE] mid [END] |
-| `ui/sheets/Planner.tsx#Planner.4` | [IF members.length < c.minSquad] Pick at least {c.minSquad} [ELSE] Dispatch squad ({members.length}) [END] |
-| `ui/sheets/Planner.tsx#Planner.5` | [IF not best] Not enough people are fit to go. This contract needs {c.minSquad}. [END] |
-| `ui/sheets/Planner.tsx#Planner.6` | Plan of action |
-| `ui/sheets/Planner.tsx#Planner.7` | Select members to see your odds for each phase, then tap “Why?” to see how each number is built. |
-| `ui/sheets/Planner.tsx#Planner.8` | Known tags only. Unknown tags may change this; see the range. |
-| `ui/sheets/Planner.tsx#Planner.9` | Mission succeeds if the objective succeeds: |
-| `ui/sheets/Planner.tsx#Planner.10` | before knock-on effects. A strong result in one phase makes the next easier, and a failure makes it harder. |
-| `ui/sheets/Planner.tsx#Planner.11` | Withdraw if anyone is critically wounded (safer, but the contract fails) |
-| `ui/sheets/Planner.tsx#Planner.12` | Hold a member, or tap Gear once they are picked, to see their details. Destination: |
+| `ui/sheets/PrepSheet.tsx#ORDER_ROWS.1` | Turn back as soon as anyone is badly hurt or worn out, or anyone dies. |
+| `ui/sheets/PrepSheet.tsx#ORDER_ROWS.2` | Turn back when two are badly hurt or worn out, or anyone dies. |
+| `ui/sheets/PrepSheet.tsx#ORDER_ROWS.3` | Keep going until half the squad is dead or close to it. |
+| `ui/sheets/PrepSheet.tsx#ORDER_ROWS.4` | Bandages and dressings go to whoever is worst off. |
+| `ui/sheets/PrepSheet.tsx#ORDER_ROWS.5` | Keep the front rank standing, and the rest wait. |
+| `ui/sheets/PrepSheet.tsx#ORDER_ROWS.6` | Keep the casters and shooters up, and the front looks after itself. |
+| `ui/sheets/PrepSheet.tsx#ORDER_ROWS.7` | Hide and let them pass. A Scout, an Infiltrator and soft boots help; plate and the dark do not. Fail and they ambush you. |
+| `ui/sheets/PrepSheet.tsx#ORDER_ROWS.8` | Go and meet them. More loot, experience and renown, and more wounds. |
+| `ui/sheets/PrepSheet.tsx#ORDER_ROWS.9` | Only at the safe places on the route. |
+| `ui/sheets/PrepSheet.tsx#ORDER_ROWS.10` | Also stop wherever the squad is badly hurt. It costs food, and something may find you. |
+| `ui/sheets/PrepSheet.tsx#ORDER_ROWS.11` | Bandage early and cast with doses every time. |
+| `ui/sheets/PrepSheet.tsx#ORDER_ROWS.12` | Bandage the badly hurt, and save doses for the bigger monsters. |
+| `ui/sheets/PrepSheet.tsx#ORDER_ROWS.13` | Only in emergencies. Doses are kept for the biggest fights. |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.1` | That contract is no longer on the board. |
+| `ui/sheets/PrepSheet.tsx#setPack.1` | The pack is full. It holds {EXP_TUNING.packSlots} slots. |
+| `ui/sheets/PrepSheet.tsx#setOut.1` | Send a squad of {squad.length} to {info.siteName}? |
+| `ui/sheets/PrepSheet.tsx#setOut.2` | {squad.map(first).join(', ')}: {info.goalText}. They should be away about [IF info.weeks is 1] a week [ELSE] {info.weeks} weeks [END], and leave the yard at the end of this one. |
+| `ui/sheets/PrepSheet.tsx#setOut.3` | Their wages while away: about {wages} crowns. |
+| `ui/sheets/PrepSheet.tsx#setOut.4` | Once they leave, nobody can send them orders. The standing orders are all they have. |
+| `ui/sheets/PrepSheet.tsx#setOut.5` | [IF cost] {cost} crowns of supplies to buy · treasury {g.crowns} → {g.crowns - cost} [END] |
+| `ui/sheets/PrepSheet.tsx#setOut.6` | The squad is getting ready in the yard. They leave for {info.siteName} at the end of the week. |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.2` | [IF atLimit] {squadsOut(g)} of {squadLimit(g)} squads are out, so this one can't leave until one is home or called off. [ELSE] {squadsOut(g)} of {squadLimit(g)} squads out. The hall can send [IF squadLimit(g) - squadsOut(g) is 1] one more [ELSE] {squadLimit(g) - squadsOut(g)} more [END]. [END] |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.3` | Your operation against |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.4` | [IF camps] , with [IF camps is 1] a camp site [ELSE] {camps} camp sites [END] on the way [END] |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.5` | . Away for about |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.6` | [IF info.weeks is 1] a week [ELSE] {info.weeks} weeks [END] |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.7` | , road included. |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.8` | want this job too. |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.9` | The squad, front to back ([IF size.min is size.max] {size.max} [ELSE] {size.min} to {size.max} [END]) |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.10` | Ranks 1 and 2 are in front: they can reach with a blade, and most enemies hit them. Bows and spells work from further back. Tap a member to change their gear. |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.11` | · best in rank |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.12` | [IF i < size.min] Empty. Choose someone from the bench. [ELSE] Empty. Optional. [END] |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.13` | Move [IF m] {member} [ELSE] rank [END] forward |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.14` | Move [IF m] {member} [ELSE] rank [END] back |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.15` | Leave [IF m] {member} [ELSE] rank [END] at home |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.16` | a slot · |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.17` | [IF k is 'food'] in the guild supplies [ELSE] in the stores [END] |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.18` | Buying what the stores don't have: |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.19` | Nobody can send orders once they've gone. These are what the squad will do. |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.20` | Start again from a suggested plan |
+
+### ui/sheets/WatchSheet.tsx
+
+| ID | Line |
+|---|---|
+| `ui/sheets/WatchSheet.tsx#WatchSheet.1` | [IF speed > 1] Tap the feed to go back to normal speed. [ELSE] Tap the feed to speed up. [END] |
+| `ui/sheets/WatchSheet.tsx#WatchSheet.2` | [IF squads.length > 1] [IF follow] Tap the squad again to see everyone. [ELSE] Tap a squad to follow only them. [END] [END] |
+| `ui/sheets/WatchSheet.tsx#WatchSheet.3` | [IF room.zone] {ZONES[room.zone].name}, room {room.room}{1} of {ms.result.roomsPlanned} [ELSE] on the road [END] |
+| `ui/sheets/WatchSheet.tsx#WatchSheet.4` | Nothing new down below this week. |
 
 ### ui/sheets/WeekReport.tsx
 

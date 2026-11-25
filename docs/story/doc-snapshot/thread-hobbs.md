@@ -40,7 +40,7 @@ _Speaker: Marta Hobb_
 
 **Leads to:**
 
-- `hobbs_share` → **The Copper Kettle** (`isbet_kettle`), **Isbet Checks the Books** (`hobbs_audit`), rules in `src/engine/missions/missions.ts`, rules in `src/engine/rivals/war.ts`
+- `hobbs_share` → **The Copper Kettle** (`isbet_kettle`), **Isbet Checks the Books** (`hobbs_audit`), rules in `src/engine/rivals/war.ts`
 
 ### The Copper Kettle
 

@@ -12,12 +12,7 @@ Text the rules write into the week report, dispatches, mission journals and warn
 | `engine/actions.ts#hireRecruit.4` | Signed for {r.signOn} crowns, at {m.wage}/week. |
 | `engine/actions.ts#dismissMember.1` | The others notice. |
 | `engine/actions.ts#setAssignment.1` | {m.name.split(' ')[0]} is heading out this week. Cancel the dispatch to give other orders. |
-| `engine/actions.ts#awayReason.1` | [IF ms] {m.name.split(' ')[0]} is away on "{ms.contract.title}" until the end of week {ms.returnWeek}. Gear can't be changed in the field. [ELSE] They are away [END] |
-| `engine/actions.ts#dispatchMission.1` | Needs at least {c.minSquad} members |
-| `engine/actions.ts#dispatchMission.2` | At most {c.maxSquad} members |
-| `engine/actions.ts#dispatchMission.3` | {m.name ?? 'A member'} is not available |
-| `engine/actions.ts#dispatchMission.4` | {member full name} is too badly wounded |
-| `engine/actions.ts#dispatchMission.5` | Needs {need} supplies (you have {supplies}) |
+| `engine/actions.ts#awayReason.1` | [IF ms] {m.name.split(' ')[0]} is away on "{ms.contract.title}" until the end of week {ms.dispatchedWeek + ms.plannedWeeks - 1}. Gear can't be changed in the field. [ELSE] They are away [END] |
 | `engine/actions.ts#repayLoan.1` | The Weighhouse returns your note. The guild owes nothing. |
 | `engine/actions.ts#petition.1` | Ostrander's will send work |
 | `engine/actions.ts#petition.2` | Factor Vorn accepts your overture. Bank contracts will now appear on the board. |
@@ -42,14 +37,17 @@ Text the rules write into the week report, dispatches, mission journals and warn
 | `engine/core/turn.ts#endWeekWarnings.3` | You can't cover this week's loan payment of {due.paymentDue} crowns. |
 | `engine/core/turn.ts#endWeekWarnings.4` | Wages and upkeep will put you in the red. |
 | `engine/core/turn.ts#endWeekWarnings.5` | [IF expiring.length is 1] 1 contract expires this week. [ELSE] {expiring.length} contracts expire this week. [END] |
-| `engine/core/turn.ts#homePhase.1` | [IF hidden.length] Revealed: {(all ? hidden : hidden.slice(0, 1)).map((h) => h.trueTag).join(', ')}. [ELSE] Nothing new was learned. [END] |
+| `engine/core/turn.ts#homePhase.1` | {member full name} is over the fever |
+| `engine/core/turn.ts#homePhase.2` | [IF hidden.length] Revealed: {(all ? hidden : hidden.slice(0, 1)).map((h) => h.trueTag).join(', ')}. [ELSE] Nothing new was learned. [END] |
 | `engine/core/turn.ts#economyPhase.1` | Hall & buildings upkeep |
 | `engine/core/turn.ts#economyPhase.2` | [IF hungry is 1] 1 member went hungry this week. Morale suffers. [ELSE] {hungry} members went hungry this week. Morale suffers. [END] |
-| `engine/core/turn.ts#economyPhase.3` | Paid {due} crowns to the Weighhouse. {Math.ceil(loan.principal)} still owed. |
-| `engine/core/turn.ts#economyPhase.4` | Missed loan payment! |
-| `engine/core/turn.ts#economyPhase.5` | You could not pay the {due} crowns due. A 20-crown penalty was added, and the Weighhouse is displeased. |
-| `engine/core/turn.ts#economyPhase.6` | Missed payments: {loan.missed} of 3. At 3, your assets will be seized. |
-| `engine/core/turn.ts#economyPhase.7` | Your coffers are empty and wages went unpaid. Loyalty is falling. Weeks in the red: {insolventWeeks} of 4. |
+| `engine/core/turn.ts#economyPhase.3` | The coin at home fell short, so the guild sold its goods for {got} crowns to make the payment. |
+| `engine/core/turn.ts#economyPhase.4` | The payment of {due} crowns is due, and a squad is still away. The Weighhouse agrees to wait a week for them, and writes to say so. It wants paying in week {loan.dueWeek}, and [IF loan.waited is 3] it will not wait again [ELSE] it will wait at most three weeks in all [END]. |
+| `engine/core/turn.ts#economyPhase.5` | Paid {due} crowns to the Weighhouse. {Math.ceil(loan.principal)} still owed. The next payment is due in week {nextDue}. |
+| `engine/core/turn.ts#economyPhase.6` | Missed loan payment! |
+| `engine/core/turn.ts#economyPhase.7` | You could not pay the {due} crowns due. A 20-crown penalty was added, and the Weighhouse is displeased. |
+| `engine/core/turn.ts#economyPhase.8` | Missed payments: {loan.missed} of 3. At 3, your assets will be seized. The next payment is due in week {nextDue}. |
+| `engine/core/turn.ts#economyPhase.9` | Your coffers are empty and wages went unpaid. Loyalty is falling. Weeks in the red: {insolventWeeks} of 4. |
 | `engine/core/turn.ts#memberPhase.1` | They left in the night. |
 | `engine/core/turn.ts#politicsPhase.1` | The Exchequer is preparing to revoke your charter. Weeks remaining: {6 - charterWeeks}. Raise Exchequer standing above −60 and keep Heat below 100. |
 | `engine/core/turn.ts#checkGameOver.1` | The Weighhouse bailiffs arrive at dawn with a writ. The hall, the armory and the sign over the door are seized. Ledger & Blade is finished. |
@@ -60,6 +58,7 @@ Text the rules write into the week report, dispatches, mission journals and warn
 
 | ID | Line |
 |---|---|
+| `engine/economy/board.ts#expeditionFor.1` | [IF threat <= 3] short [ELSE IF threat <= 6] medium [ELSE] long [END] |
 | `engine/economy/board.ts#refreshBoard.1` | "{c.title}" was left undone |
 
 ### economy/buildings.ts
@@ -75,25 +74,7 @@ Text the rules write into the week report, dispatches, mission journals and warn
 
 | ID | Line |
 |---|---|
-| `engine/missions/missions.ts#resolveMission.1` | {APPROACH_INFO[approach].name} at {Math.round(p * 100)}%: [DEPENDS ON result] strong: Decisive success [OR] success: Success [OR] fail: Failure [OR] severe: Disaster [END]. |
-| `engine/missions/missions.ts#resolveMission.2` | {victim.name} fell, but a healing draught kept them breathing. |
-| `engine/missions/missions.ts#resolveMission.3` | {victim.name} was struck down. {chaplain.name} pulled them back from the edge. |
-| `engine/missions/missions.ts#resolveMission.4` | {victim.name} was badly wounded (−{wound}). |
-| `engine/missions/missions.ts#resolveMission.5` | A member is critically wounded. Following your orders, the squad withdraws. |
-| `engine/missions/missions.ts#resolveMission.6` | Hobb & Daughters took their quarter share: {cut} crowns. |
-| `engine/missions/missions.ts#resolveMission.7` | Renown +2 for a flawless job |
-| `engine/missions/missions.ts#resolveMission.8` | Renown +1: people came out to watch |
-| `engine/missions/missions.ts#resolveMission.9` | {factionName(c.patron)} is furious. Renown −2 |
-| `engine/missions/missions.ts#resolveMission.10` | Week {state.week} · Fell on "{c.title}". |
-| `engine/missions/missions.ts#resolveMission.11` | [IF usedDraught.size and m.loadout.consumables.some((u) => usedDraught.has(u))] saved by a draught [END] |
-| `engine/missions/missions.ts#resolveMission.12` | A rider brings word from {c.region}. |
-| `engine/missions/missions.ts#resolveMission.13` | [IF mission.returnWeek > state.week] The squad will be home in {mission.returnWeek - state.week} week(s). [ELSE] The squad is home. [END] |
 | `engine/missions/missions.ts#levelUp.1` | {attr[0].toUpperCase()}{attr.slice(1)} +1. Wage is now {m.wage}/week. |
-| `engine/missions/missions.ts#withdrawMission.1` | [IF c.op] Withdrew before the objective. The operation is off. [ELSE] Withdrew before the objective. −3 standing with {factionName(c.patron)}. [END] |
-| `engine/missions/missions.ts#withdrawMission.2` | [IF c.travelWeeks] The road home [ELSE] Home [END] |
-| `engine/missions/missions.ts#withdrawMission.3` | They turned back before the job, on your orders. Nobody said much, but everyone came home. |
-| `engine/missions/missions.ts#withdrawMission.4` | Week {state.week} · "{c.title}": withdrawn on orders. |
-| `engine/missions/missions.ts#withdrawMission.5` | [IF mission.returnWeek > state.week] The squad will be home in {mission.returnWeek - state.week} week(s). [ELSE] The squad will be home at the end of the week. [END] |
 
 ### missions/narrative.ts
 
@@ -321,7 +302,8 @@ Text the rules write into the week report, dispatches, mission journals and warn
 | `engine/rivals/war.ts#resolveOperation.3` | {name} are poorer and angrier. Heat +10 |
 | `engine/rivals/war.ts#resolveOperation.4` | The raid failed, and {name} know exactly who to blame. Heat +6 |
 | `engine/rivals/war.ts#resolveOperation.5` | {NPCS[op.target].name} is dead. Heat +25, Exchequer −15. |
-| `engine/rivals/war.ts#resolveOperation.6` | The attempt failed. {op.target ? NPCS[op.target].name : name} survived, and will not forget. Heat +10 |
+| `engine/rivals/war.ts#resolveOperation.6` | By the time the squad got there, {NPCS[op.target].name} was already beyond their reach. |
+| `engine/rivals/war.ts#resolveOperation.7` | The attempt failed. {op.target ? NPCS[op.target].name : name} survived, and will not forget. Heat +10 |
 | `engine/rivals/war.ts#afterLeaderDies.1` | Marta Hobb was buried at Saint Oda's with her umbrella. Isbet stood at the graveside and looked at your people the whole time. The firm is hers now, and she has no interest in being friends. |
 | `engine/rivals/war.ts#afterLeaderDies.2` | Marta does not send a cake this time. Her other daughters have been seen buying crossbows. |
 | `engine/rivals/war.ts#afterLeaderDies.3` | Hobb & Daughters closes its doors |
@@ -329,25 +311,22 @@ Text the rules write into the week report, dispatches, mission journals and warn
 | `engine/rivals/war.ts#afterLeaderDies.5` | Without Mayne the company falls apart within a week. The veterans in your guild are quiet at supper, and some of them look at you differently. |
 | `engine/rivals/war.ts#afterLeaderDies.6` | Master Assayer Plaice was found in the river. The Exchequer has opened an inquiry, and the Office will take a season to appoint his successor. Exchequer −10. |
 | `engine/rivals/war.ts#describeHostile.1` | They are trying to get someone inside your guild. |
-| `engine/rivals/war.ts#describeHostile.2` | They mean to ambush your squad on "{ms.contract.title ?? 'the road'}". |
+| `engine/rivals/war.ts#describeHostile.2` | They mean to ambush your squad on the road home from "{ms.contract.title ?? 'their job'}". |
 | `engine/rivals/war.ts#describeHostile.3` | They are planning to rob your stores. |
 | `engine/rivals/war.ts#describeHostile.4` | They have been talking to {m.name ?? 'one of your people'} about money. |
 | `engine/rivals/war.ts#describeHostile.5` | They are planning to set fire to your workshops. |
 | `engine/rivals/war.ts#describeHostile.6` | They have hired a knife for {m.name ?? 'one of your people'}. |
-| `engine/rivals/war.ts#executeHostile.1` | A scout spotted {name}'s people waiting by the road, and the squad went round them. |
-| `engine/rivals/war.ts#executeHostile.2` | Your squad on "{ms.contract.title}" spotted {name}'s people in time and went round. |
-| `engine/rivals/war.ts#executeHostile.3` | {name}'s people were waiting on the road, and the squad had to fight its way through before the job had even started. |
-| `engine/rivals/war.ts#executeHostile.4` | {name} ambushed your squad |
-| `engine/rivals/war.ts#executeHostile.5` | Your people on "{ms.contract.title}" were attacked on the road. The job just got harder. |
-| `engine/rivals/war.ts#executeHostile.6` | Your guards caught {name}'s people at the back door of the stores and sent them off with bruises. |
-| `engine/rivals/war.ts#executeHostile.7` | Somebody got into the stores in the night and took {supplies} supplies and {crowns} crowns from the strongbox. Jory found {name}'s mark chalked on the door. |
-| `engine/rivals/war.ts#executeHostile.8` | {member full name} sold you out |
-| `engine/rivals/war.ts#executeHostile.9` | {member full name} took {name}'s money and left in the night[IF spare] , with something from the armory [END]. |
-| `engine/rivals/war.ts#executeHostile.10` | Your guards caught a man with a lamp and a jar of oil by the workshop door. He works for {name}, and he says so quite quickly. |
-| `engine/rivals/war.ts#executeHostile.11` | The workshops burned for an hour before the bucket line got it out. Half your materials are gone, the work in progress is lost, and the repairs cost 50 crowns. Nobody doubts who set it. |
-| `engine/rivals/war.ts#executeHostile.12` | Someone came for {member full name} in the night. [IF g] {g.name} was on watch and fought them off, and took a cut doing it. [ELSE] The hall was ready for them, and they ran. [END] |
-| `engine/rivals/war.ts#executeHostile.13` | {member full name} was found in the alley behind the Copper Kettle. Everyone knows who paid for it. |
-| `engine/rivals/war.ts#executeHostile.14` | {member full name} was stabbed on the way home and barely made it back to the hall. |
+| `engine/rivals/war.ts#executeHostile.1` | {name} are waiting for your squad |
+| `engine/rivals/war.ts#executeHostile.2` | Word is that {name}'s people are watching the road home from {ms.contract.region}. Squad {ms.number} will have to get past them. |
+| `engine/rivals/war.ts#executeHostile.3` | Your guards caught {name}'s people at the back door of the stores and sent them off with bruises. |
+| `engine/rivals/war.ts#executeHostile.4` | Somebody got into the stores in the night and took {supplies} supplies and {crowns} crowns from the strongbox. Jory found {name}'s mark chalked on the door. |
+| `engine/rivals/war.ts#executeHostile.5` | {member full name} sold you out |
+| `engine/rivals/war.ts#executeHostile.6` | {member full name} took {name}'s money and left in the night[IF spare] , with something from the armory [END]. |
+| `engine/rivals/war.ts#executeHostile.7` | Your guards caught a man with a lamp and a jar of oil by the workshop door. He works for {name}, and he says so quite quickly. |
+| `engine/rivals/war.ts#executeHostile.8` | The workshops burned for an hour before the bucket line got it out. Half your materials are gone, the work in progress is lost, and the repairs cost 50 crowns. Nobody doubts who set it. |
+| `engine/rivals/war.ts#executeHostile.9` | Someone came for {member full name} in the night. [IF g] {g.name} was on watch and fought them off, and took a cut doing it. [ELSE] The hall was ready for them, and they ran. [END] |
+| `engine/rivals/war.ts#executeHostile.10` | {member full name} was found in the alley behind the Copper Kettle. Everyone knows who paid for it. |
+| `engine/rivals/war.ts#executeHostile.11` | {member full name} was stabbed on the way home and barely made it back to the hall. |
 | `engine/rivals/war.ts#weeklyWar.1` | The Assay Office has a new head, appointed by the Exchequer. She has read the file on Plaice, and she has read the file on you. |
 | `engine/rivals/war.ts#weeklyWar.2` | A spy for {RIVALS[id].name} caught |
 | `engine/rivals/war.ts#weeklyWar.3` | A new cook had been reading your ledgers when nobody was looking. Your people put him on a barge downriver. |
@@ -383,7 +362,6 @@ Text the rules write into the week report, dispatches, mission journals and warn
 
 | ID | Line |
 |---|---|
-| `engine/story/scenes.ts#triggerFieldEvents.1` | [IF def.id is 'field_arrival'] Field report: {ms.contract.title} [ELSE] On the road: {def.title} [END] |
 | `engine/story/scenes.ts#resolveEvent.1` | [IF ok] Success [ELSE] Failure [END] at {Math.round(p * 100)}% |
 | `engine/story/scenes.ts#resolveEvent.2` | [IF STORY_IDS[ev.defId]] story [ELSE IF ev.missionId] mission [ELSE] info [END] |
 | `engine/story/scenes.ts#applyEventEffect.1` | Item added to the armory. |
