@@ -2,6 +2,31 @@
 
 Newest first. Each entry says what changed for a player, why (quoting the owner's feedback where it came from playtesting), and what was and wasn't checked. The live site is https://creebe.github.io/ledger-and-blade/ and is only republished on the owner's word; each entry notes whether it is live.
 
+## v0.13.0 (2026-11-25): Expeditions
+Contracts are walked as expeditions. The owner asked to "make our game feel a lot more like Darkest Dungeon. More about actual dungeon dives. Monsters. Outfitting a squad and managing THEM as a resource", wanted the whole trip "auto played" and read "live" line by line, and approved the plan for bringing the trial into the full game with every classic system kept.
+- **Postings.** Each contract names a site, a route length and a goal. Old Pellam, the buried town under the Lower Town, has its own work: rats, a survey, Pellam plate, eel oil, Assay seals, reagent salts, an account of the Sink and the Kiln Engine. Varrow, Kell Mines, the Saltfens, Drover's Road, Harrowmere and Port Anselm have one zone each for now.
+- **Preparation is the game.** Pick two to four members in ranks, fill a 12-slot pack and set five standing orders. Once the squad leaves, nobody can send it orders.
+- **The Field tab** shows the squads in the yard and away. **Watch together** plays every squad's week as one numbered feed, and **Down below** in the week report says who came home and what they carried.
+- **Several squads at once:** two, or three with a Muster room. Each trip is revealed one week at a time at End Week.
+- **The roster is the resource.** Members carry Fatigue, Exposure, scars and habits home. Going down tired raises the risk of death, and the prep sheet says so. Deaths are permanent: the family is paid eight weeks of wages, and recruits cost more for a while. Envoys and Infiltrators have their own uses down there.
+- **Door scenes** are now news brought to the yard on Tallow Street as the squad gets ready, and the choice is the squad's last order (the owner's call).
+- **Kept:** the Council, factions, Dates, the Debt, rivals and wars, the story, Legends, the market, materials and the Workshop. The Weighhouse waits up to three weeks for a squad that's away. Rivals can wait on the road home.
+- **Saves:** version 13. Older saves carry over, and a squad already out comes home when it was due.
+- **Checked:**
+  - `npm run check`: 59 tests, story checker at 0 violations and 0 unreached nodes.
+  - Balance bot, first-year survival. The engine session's 300 games: careful 71%, cautious 62%, bold 60%, poor prep 1%. Main's own 100 games: careful 72%, cautious 65%, bold 52%, poor prep 1%. Recklessness no longer pays better than care.
+  - Engine, story, writing, systems, balance and UI reviewers; phone screenshots at 360 and 390 px; a private playable preview for the owner.
+- **Not checked:** iOS Safari.
+- **Live** (republished on the owner's word, 2026-11-25).
+
+## Story document (docs only, 2026-11-25)
+No change to the game. The owner asked for "an organized document with all of the writing in the game, preferably with ways for me to view and follow potential story threads and connections", which they can edit and comment on.
+- **`npm run story-export`** (`scripts/story-export.ts`) reads the scene, content, rules and interface source and writes `docs/story/all-writing.md`: every scene by story thread in act order, with what triggers it, what each choice sets, and which later scenes read those facts; then contracts, the Codex, street talk, Dates, tutorial objectives, starts, Legends, names, report lines and interface text. Templated text keeps its placeholders, and text that changes with the story shows every version.
+- **The owner's copy** is a Claude Doc with comments and inline editing. `docs/story/README.md` says how a later session reads the comments and edits and turns them into code, and why re-running the export never wipes them (`docs/story/doc-snapshot/` is the baseline).
+- **Found:** seven story outcomes that nothing reacts to yet, such as `tapestry_sold` and `isbet_betrayed`. No broken or unreachable conversation nodes.
+- **Checked:** `npm run check`. The game's behavior is untouched: no file under `src/` changed.
+- **No version of its own:** docs and a script only, merged alongside v0.13.0. The export doesn't cover expedition text yet; that is the next story workstream.
+
 ## v0.12.2 (2026-11-24): The look, decided
 The owner asked to "take a good look at typography and the major colors such as the dark mode background color ... I want to make sure it's intentionally decided at this point." Every color and type choice is now written down with its reason in `docs/DESIGN-TOKENS.md`, and a test guards it.
 - **Light theme.** Small grey notes, the Story gold and the good green are a shade darker, so all text reads at 4.5:1 or better. The look barely changes.

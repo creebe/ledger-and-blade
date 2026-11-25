@@ -2,24 +2,19 @@
 
 What's next, what's open, and what to watch after each release. Main keeps this current; workstream sessions suggest additions in their hand-over notes.
 
-## In trial: Expeditions (branch `claude/expeditions`, not for merging yet)
-The owner asked for a major alternative that "feels a lot more like Darkest Dungeon": real expeditions, monsters, outfitting a squad and managing them as a resource. Expeditions are played out automatically and read as a live log. Preparation is where the skill goes. The book-keeping is trimmed. It's a first slice (one site, six Professions, about ten monsters) on its own branch, with a private preview link. The design is in `docs/EXPEDITIONS.md` on that branch.
+## Expeditions: next workstreams
+v0.13.0 brought expeditions into the full game (engine and Field UI done, 2026-11-25). The owner approved the names for Varrow, Port Anselm, the one-zone sites and the generic enemies. Still to do, in order:
+3. **Story.** Expedition text in the story bible and the story document's export, without losing the owner's comments. Fold in the seven outcomes nothing reacts to yet (`tapestry_sold`, `isbet_betrayed` and others).
+4. **Sites.** Full zones for Varrow, Kell Mines, the Saltfens, Drover's Road, Harrowmere and Port Anselm (Old Pellam is the model).
+5. **Economy.** Trim the book-keeping toward "combat prep, the riches, and growing the guild's reputation by heroic deeds".
+6. **Balance.** Watch that repeating one short safe trip doesn't become a free income loop; recheck the bots after workstreams 4 and 5.
 
-**Approved for the full game (2026-11-25):** the plan in `docs/PROPOSAL-EXPEDITIONS-IN-MAIN.md` (on `claude/expeditions`).
-- Every classic system stays.
-- Two squads can be out at once, rising to three with a hall upgrade.
-- Trips are sealed once they leave.
-- Watching several squads uses one merged, numbered feed.
-- The classic tabs stay as they are.
-- The proposed names are approved.
-
-Workstreams:
-1. Engine merge (`exp-engine`, in progress).
-2. Field UI (starts once the engine API is pushed).
-3. Story: this includes updating the story document's export to cover expedition text, without losing the owner's comments.
-4. Sites.
-5. Economy.
-6. Balance.
+## To watch from v0.13.0 (live since 2026-11-25)
+- Does reading a trip week by week feel "live", or does the wait between End Weeks drag?
+- Are deaths too common or too rare for a careful player? The target is about two a year.
+- Old saves with a squad already out: does it come home cleanly?
+- Is the prep sheet clear about the risk of going down tired?
+- Three squads with the Muster room: is Watch together still readable?
 
 ## To watch from v0.12.2 (live since 2026-11-24)
 - **The final look on a phone:** the deeper red buttons in dark mode, the gauge icon for Heat, and the material colors. `docs/DESIGN-TOKENS.md` is now the reference for every color and type choice.

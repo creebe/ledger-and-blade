@@ -13,6 +13,7 @@
     "test": "vitest run",
     "sim": "vite-node scripts/run-sim.ts",
     "story": "vite-node scripts/run-story.ts",
+    "story-export": "vite-node scripts/story-export.ts",
     "playthroughs": "vite-node scripts/playthrough.ts",
     "style": "vite-node scripts/style-lint.ts",
     "fingerprint": "vite-node scripts/fingerprint.ts",
