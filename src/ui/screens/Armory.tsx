@@ -95,8 +95,10 @@ export function ArmoryScreen() {
             {STORE_IDS.map((k) => (
               <div key={k} className="x-pack-row">
                 <span className="x-pack-what">
-                  <b>{SUPPLIES[k].name}</b>
-                  <small className="muted"> · {g.stores[k] ?? 0} in the stores · <Price n={SUPPLIES[k].price} /> each</small>
+                  <span>
+                    <b>{SUPPLIES[k].name}</b>
+                    <small className="muted"> · {g.stores[k] ?? 0} in the stores · <Price n={SUPPLIES[k].price} /> each</small>
+                  </span>
                 </span>
                 <Btn
                   className="btn ghost small"
@@ -105,9 +107,11 @@ export function ArmoryScreen() {
                     confirm({
                       title: `Buy ${SUPPLIES[k].perSlot} ${SUPPLIES[k].name.toLowerCase()}?`,
                       body: [`The stores go from ${g.stores[k] ?? 0} to ${(g.stores[k] ?? 0) + SUPPLIES[k].perSlot}.`],
-                      cost: `Costs ${crowns(SUPPLIES[k].price * SUPPLIES[k].perSlot)}`,
+                      cost: `Costs ${crowns(SUPPLIES[k].price * SUPPLIES[k].perSlot)} · treasury ${g.crowns} → ${g.crowns - SUPPLIES[k].price * SUPPLIES[k].perSlot}`,
                       confirmLabel: 'Buy',
-                      onConfirm: () => act((d) => buyStores(d, k, SUPPLIES[k].perSlot)),
+                      onConfirm: () =>
+                        act((d) => buyStores(d, k, SUPPLIES[k].perSlot)) &&
+                        notify(`Bought ${SUPPLIES[k].perSlot} ${SUPPLIES[k].name.toLowerCase()}. The stores now hold ${(g.stores[k] ?? 0) + SUPPLIES[k].perSlot}.`),
                     })
                   }
                 >
@@ -128,10 +132,19 @@ export function ArmoryScreen() {
                     <Price n={(g.goods[k] ?? 0) * GOODS[k].value} />
                   </div>
                 ))}
-              <button className="btn primary small" onClick={() => {
+              <button
+                className="btn primary small"
+                onClick={() => {
                   const v = goodsValue(g);
-                  if (act((d) => void sellGoods(d))) notify(`Sold the goods for ${crowns(v)}.`);
-                }}>
+                  confirm({
+                    title: 'Sell everything the squads brought back?',
+                    body: ['All the goods above go to the market at once. Materials stay in the stores.'],
+                    cost: `Earns ${crowns(v)} · treasury ${g.crowns} → ${g.crowns + v}`,
+                    confirmLabel: 'Sell it all',
+                    onConfirm: () => act((d) => void sellGoods(d)) && notify(`Sold the goods for ${crowns(v)}.`),
+                  });
+                }}
+              >
                 Sell it all · <Price n={goodsValue(g)} />
               </button>
             </Section>

@@ -156,7 +156,7 @@ export function PrepSheet({ contractId }: { contractId: string }) {
         `Their wages while away: about ${wages} crowns.`,
         'Once they leave, nobody can send them orders. The standing orders are all they have.',
       ],
-      cost: cost ? `${cost} crowns of supplies to buy` : undefined,
+      cost: cost ? `${cost} crowns of supplies to buy · treasury ${g.crowns} → ${g.crowns - cost}` : undefined,
       confirmLabel: 'Set out',
       onConfirm: () => {
         if (act((x) => dispatchExpedition(x, c.id, plan))) {
@@ -237,13 +237,13 @@ export function PrepSheet({ contractId }: { contractId: string }) {
                         .join(' · ')}
                     </small>
                   </span>
-                  <Icon name="chevron" size={16} />
                 </button>
               ) : (
                 <div className="card x-rank-card x-empty-rank">
                   <span className="muted small">{i < size.min ? 'Empty. Choose someone from the bench.' : 'Empty. Optional.'}</span>
                 </div>
               )}
+              {m ? (
               <span className="x-rank-moves">
                 <button className="btn small ghost" aria-label={`Move ${m ? first(m) : 'rank'} forward`} onClick={() => move(i, -1)} disabled={i === 0 || !m}>
                   ↑
@@ -255,6 +255,9 @@ export function PrepSheet({ contractId }: { contractId: string }) {
                   ×
                 </button>
               </span>
+              ) : (
+                <span className="x-rank-moves x-rank-moves-empty" aria-hidden />
+              )}
             </div>
           );
         })}
@@ -302,12 +305,14 @@ export function PrepSheet({ contractId }: { contractId: string }) {
           return (
             <div key={k} className="x-pack-row">
               <span className="x-pack-what">
-                <b>{SUPPLIES[k].name}</b>
-                <small className="muted">
-                  {' '}
-                  · {SUPPLIES[k].perSlot} a slot · {have} {k === 'food' ? 'in the guild supplies' : 'in the stores'}
-                  {buy ? `, ${buy} to buy` : ''}
-                </small>
+                <span>
+                  <b>{SUPPLIES[k].name}</b>
+                  <small className="muted">
+                    {' '}
+                    · {SUPPLIES[k].perSlot} a slot · {have} {k === 'food' ? 'in the guild supplies' : 'in the stores'}
+                    {buy ? `, ${buy} to buy` : ''}
+                  </small>
+                </span>
                 <small className="x-pack-text">{SUPPLIES[k].text}</small>
               </span>
               <span className="x-stepper">

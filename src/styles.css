@@ -4046,8 +4046,12 @@ details summary {
   flex: 1;
   min-width: 0;
 }
-.x-empty-rank {
+.x-sheet .x-empty-rank {
   justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: transparent;
+  border-style: dashed;
 }
 .x-rank-moves {
   display: flex;
@@ -4056,10 +4060,13 @@ details summary {
   margin-bottom: 8px;
 }
 .x-rank-moves .btn {
-  min-height: 0;
-  min-width: 38px;
+  min-height: 36px;
+  min-width: 40px;
   flex: 1;
   padding: 2px 9px;
+}
+.x-rank-moves-empty {
+  width: 40px;
 }
 .x-gear-sum {
   font-size: var(--fs-xs);
@@ -4075,7 +4082,8 @@ details summary {
   flex: 1 1 200px;
 }
 .x-bench-put .btn {
-  min-width: 34px;
+  min-width: 38px;
+  min-height: 38px;
   padding: 4px 8px;
 }
 .x-pack-meter {
@@ -4328,9 +4336,11 @@ details summary {
 /* expeditions in the full game: the log and prep live in classic sheets */
 .xl-head {
   position: sticky;
-  top: 0;
+  top: -10px; /* .sheet-body's top padding, so nothing shows above it */
+  margin-top: -10px;
+  padding-top: 10px;
   z-index: 2;
-  background: var(--paper);
+  background: var(--bg);
   padding-bottom: 6px;
   border-bottom: 1px solid var(--line);
 }
@@ -4340,7 +4350,7 @@ details summary {
 }
 .xl-week {
   margin: 12px 0 4px;
-  font-size: var(--fs-small);
+  font-size: var(--fs-s);
   color: var(--ink-2);
   text-transform: uppercase;
   letter-spacing: 0.06em;

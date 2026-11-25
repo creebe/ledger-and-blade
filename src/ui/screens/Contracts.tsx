@@ -18,12 +18,9 @@ function MissionTrack({ m, g }: { m: Mission; g: GameState }) {
   return (
     <div className="mission-wrap">
       <button className="mission-card tappable x-squad-card" onClick={() => open({ kind: 'mission', id: m.id })}>
-        <div className="row between">
-          <b>
-            Squad {m.number} · {m.contract.title}
-          </b>
-          <Icon name="chevron" size={16} />
-        </div>
+        <b>
+          Squad {m.number} · {m.contract.title}
+        </b>
         <span className="meta">
           <Icon name="road" size={14} />
           {st.site} · {where}

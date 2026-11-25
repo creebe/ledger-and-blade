@@ -110,9 +110,11 @@ export function MemberSheet({ id }: { id: string }) {
             useStore.getState().confirm({
               title: `Send ${m.name.split(' ')[0]} to Saint Oda's?`,
               body: [`A night in the fever beds draws ${EXP_TUNING.exposure.treat} Exposure out of them. It puts off a Sink change; it doesn't undo one they already have.`],
-              cost: `Costs ${crowns(EXP_TUNING.exposure.treatCost)}`,
+              cost: `Costs ${crowns(EXP_TUNING.exposure.treatCost)} · treasury ${game.crowns} → ${game.crowns - EXP_TUNING.exposure.treatCost}`,
               confirmLabel: 'Send them',
-              onConfirm: () => useStore.getState().act((d) => treatExposure(d, m.id)),
+              onConfirm: () =>
+                useStore.getState().act((d) => treatExposure(d, m.id)) &&
+                useStore.getState().notify(`${m.name.split(' ')[0]} spends a night at Saint Oda's. Exposure is down to ${Math.max(0, (m.exposure ?? 0) - EXP_TUNING.exposure.treat)}.`),
             })
           }
         >
