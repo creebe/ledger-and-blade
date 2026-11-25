@@ -72,21 +72,29 @@ The six sites beyond Old Pellam, built out to its depth. Branch `claude/sites`, 
 - **The fingerprint changed** (`972e1ebf…48cd`). That's expected, because this isn't a pure refactor.
 - **Not checked:** a browser pass, because no UI code changed. The board, prep sheet and log show the new text through existing components.
 
+## After the owner's review (open items done, still v0.14.0)
+
+- **The Ninth's colours.** Captain Mayne comes to the hall the week they come home (*The Ninth's Colours*). Give them back, sell them to him, or hang them in the hall. The scene sets no facts. It uses a new event effect, `goods`, which adds or removes expedition goods.
+- **Legends.**
+  - `LEGEND_NEEDS.missions` went from 25 to 23, and the member who fells a site's boss now gets fame 8 (`EXP_TUNING.bossFame`, was 5).
+  - Over 300 games of 96 weeks, Legends per game were 0.58 before and 0.79 after, with none before week 50.
+  - Lowering missions alone barely helped (0.63 at 23, 0.66 at 21). Once missions were low, fame was the limit.
+  - The member sheet now reads the requirement from `LEGEND_NEEDS`.
+- **A beaten squad with nobody dead** gets its own lines on the way home instead of "short of people". A test covers it.
+- **The boss's room after it falls.** Each site has an `*_after` posting once its boss is beaten (threat 7, base 360–460, weight 0.5). It ends in the boss's room and its lesser fight. A test covers it.
+- **The tutorial and the help sheet** no longer say unknown tags "turn your odds into a range".
+- **Merged:** PR #13 (`claude/ui-fixes`) and PR #12 (`claude/story-doc-sync`), with `src/version.ts` kept at v0.14.0.
+
 ## What's open
 
 - **For the owner:**
   - Harrowmere's bridge: I kept it in use on a timber span, so it fits the Codex and the troll contract.
   - Kell's ownership: the bank holds the warrants, and Weighhouse merchants lease the workings from it.
   - Both are my calls to fit canon, and easy to change.
-- **Story hooks with no payoff yet:**
-  - The Ninth's colours, and Crewe's death, change nothing with the Ninth or Mayne. The bible marks this as Draft.
-  - Rudd's book, the Dean's tusks and the other boss finds sell at a flat price.
-- **After-boss lines can't be reached** on the six new sites (`rudd_after` and the others). Only boss postings go to a boss's room, and they're gone once the boss is beaten. A later "clear out" or long "bring" posting would use them.
+- **Story hooks with no payoff yet:** Rudd's book, the Dean's tusks and the other boss finds still sell at a flat price.
 - ***The Crown's Last Silver*** at medium walks the Wenmouth road and the Burrows, and never reaches the harbour.
 - **The mines use the wayside-shrine lines.** Adding Kell's own would change the random draws in old Kell trips, so it should wait for a save bump.
-- **Pre-existing bug:** a lost squad where nobody died still gets "short of people" on the road home, and nobody is lost. You can see this in `docs/playthroughs/sites/kell.md` before the reviewers' changes. It may now land on a different seed.
 - **Balance, from the reviewer:**
-  - Legends per game dropped from 0.80 to 0.52 by week 96, because the long out-of-town trips mean fewer missions. The reviewer suggests `LEGEND_NEEDS.missions` 25 → 23 (untested).
   - Year-one feuds: re-check after the `contestChance` change.
   - The bot rarely takes medium site postings, which play like easy classic work.
 - **Spelling** is mixed: the new text has colours and harbour, the older text has harbor.
