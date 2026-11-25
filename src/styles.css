@@ -862,6 +862,11 @@ details summary {
   padding: 12px 16px 8px;
   border-bottom: 1px solid var(--line);
 }
+.sheet-head.sheet-head-nested {
+  /* a nested panel has Back and its title, and no ✕ */
+  justify-content: flex-start;
+  gap: 12px;
+}
 .sheet-head h2 {
   font-size: var(--fs-h2);
   color: var(--ink);
@@ -4676,4 +4681,20 @@ details summary {
 }
 .x-watch-line.x-k-zone .x-badge {
   top: 0;
+}
+
+/* ---------- the dashed "?" hidden-danger tag (kit/reveal.tsx) ---------- */
+.x-reveal-wrap {
+  display: inline-flex;
+}
+.x-reveal-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  min-height: 28px;
+  cursor: pointer;
+}
+.x-reveal-hint {
+  display: block;
+  margin-top: 4px;
 }
