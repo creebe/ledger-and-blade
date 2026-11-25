@@ -125,12 +125,14 @@ describe('expeditions: fatigue and exposure', () => {
       const plan = suggestPlan(g, 'long');
       plan.pack = { food: 5, oil: 12, bandages: 6, reagents: 3, draughts: 1, masks };
       expect(launchExpedition(g, plan)).toBeUndefined();
-      return g.last!.members.filter((m) => !m.died).reduce((s, m) => s + m.exposure, 0) / Math.max(1, g.last!.members.filter((m) => !m.died).length);
+      // exposure per room actually walked, from the squad strip on the last line
+      const last = g.last!.log[g.last!.log.length - 1].squad;
+      return last.exposure.reduce((x, y) => x + y, 0) / Math.max(1, g.last!.roomsCleared);
     };
     let bare = 0;
     let masked = 0;
     void 0;
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 20; i++) {
       const seed = runs;
       bare += run(0);
       runs = seed;
