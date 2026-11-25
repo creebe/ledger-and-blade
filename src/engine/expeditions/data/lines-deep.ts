@@ -320,7 +320,7 @@ export const DEEP_LINES: Record<string, string[]> = {
     "{a} pulls {g} out of the mud at the edge of the channel, where somebody dropped it.",
   ],
   goalroom_withies: [
-    "They come through the Withies to where they open out onto the river. The far bank is Varrow's country, and something is wallowing between them and it.",
+    "They come through the Withies to where they open out onto the river. The far bank is good farmland, and something is wallowing between them and it.",
     "The Withies end at the river's edge. There is a wide mud wallow there, and it is in use.",
   ],
   goal_withies: [
@@ -500,7 +500,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   // Harrowmere: the bridge houses and the Holms, and the Bailiff
   // ===================================================================
   enter_bridge: [
-    "They go out along the old bridge, between the houses built on it. The middle span fell twenty years ago and the houses were left as they stood.",
+    "They go out along the old bridge, between the houses built on it. The middle span fell twenty years ago, and when the road was carried over on timber the houses were left as they stood.",
     "The bridge houses are dark, with nailed shutters and doors that open onto the water. {a} lights the lamps.",
     "They step onto the old bridge. The boards creak under them, and the houses lean in over the road from both sides.",
   ],
@@ -521,12 +521,12 @@ export const DEEP_LINES: Record<string, string[]> = {
     "{a} fishes {g} out from under the floorboards with a boat hook.",
   ],
   goalroom_bridge: [
-    "They reach the broken span. The bridge ends in mid-air, and the last house is full of smugglers' cargo, and smugglers.",
-    "The last house before the broken span has a light in it and a boat tied up underneath. People come out of it.",
+    "They reach the timber span over the gap. The last stone house before it is full of smugglers' cargo, and smugglers.",
+    "The last house before the timber span has a light in it and a boat tied up underneath. People come out of it.",
   ],
   goal_bridge: [
     "In the last house on the bridge {a} finds {g}, stacked ready to lower to a boat.",
-    "{a} goes through the smugglers' store at the broken span and comes out with {g}.",
+    "{a} goes through the smugglers' store by the timber span and comes out with {g}.",
   ],
   camp_bridge: [
     "They camp in a bridge house with the door barred. The water is loud under the floor all night.",

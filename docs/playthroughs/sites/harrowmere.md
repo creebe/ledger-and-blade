@@ -1,6 +1,6 @@
 # Harrowmere: sample expeditions
 
-A lake town on a mere that goes deeper than anyone has sounded. Its old bridge is broken, and nobody farms the islands.
+A lake town on a mere that goes deeper than anyone has sounded. Its old bridge still carries the wool road, and nobody farms the islands.
 
 Zones: the lake shore, the bridge houses, the Holms. Boss: land the Bailiff.
 
@@ -56,7 +56,7 @@ _Medium route. Outcome: complete, 9 of 9 rooms, job done._
 
 **Week 4**
 
-- **They go out along the old bridge, between the houses built on it. The middle span fell twenty years ago and the houses were left as they stood.**
+- **They go out along the old bridge, between the houses built on it. The middle span fell twenty years ago, and when the road was carried over on timber the houses were left as they stood.**
 - The lamps go up, and now anyone watching knows exactly where they are.
 - They go through a house because the road is blocked. There is still a table laid in it.
 - While the others rest, Tilde goes through a heap of junk by the path and comes back with a purse of old coin. _(a purse of old coin)_
@@ -81,7 +81,7 @@ _Medium route. Outcome: complete, 9 of 9 rooms, job done._
 - When it is done, somebody's hands will not stop shaking, and nobody mentions it.
 - They eat sitting on the packs with the wind in their faces. Nobody talks much. _(1 food)_
 - They stop long enough to bandage Greta. _(+8)_
-- They reach the broken span. The bridge ends in mid-air, and the last house is full of smugglers' cargo, and smugglers.
+- They reach the timber span over the gap. The last stone house before it is full of smugglers' cargo, and smugglers.
 - Something clicks in the dark under the bridge. The first crayfish comes up out of the water, claws first.
 - Greta shoves the second crayfish back and off their footing. _(4, it hates that)_
 - Agnes chops at the second crayfish and connects. _(1, it shrugs)_
@@ -112,7 +112,7 @@ _Medium route. Outcome: complete, 9 of 9 rooms, job done._
 - Tilde picks a spot on the third crayfish and puts an arrow in it. _(3, it shrugs)_
 - Tilde gets the third crayfish in the right place, and it drops.
 - They wipe the blades on whatever is nearest and count the bandages.
-- Greta goes through the smugglers' store at the broken span and comes out with 3 lengths of bog oak. _(3 lengths of bog oak)_
+- Greta goes through the smugglers' store by the timber span and comes out with 3 lengths of bog oak. _(3 lengths of bog oak)_
 - The packs are full. They turn round and start back out of Harrowmere, watching both sides of the path.
 - Somebody's buckle clinks, and the mere pike turn round.
 - There is a log lying in the shallows, and then the log has teeth.

@@ -6,7 +6,7 @@ Zones: the Lower Town, the Quays, the Rookeries. Boss: put Lew Rudd out of busin
 
 Written by `npm run exp:logs`: a seasoned squad of four (level 3, rested) on a medium trip and on the long trip to the boss. Log lines as the player reads them; bold lines are the ones the game bolds.
 
-## Duty Unpaid: Bring back 3 casks of bonded brandy
+## The Bonded Brandy: Bring back 3 casks of bonded brandy
 
 _Medium route. Outcome: complete, 9 of 9 rooms, job done._
 
@@ -76,7 +76,7 @@ _Medium route. Outcome: complete, 9 of 9 rooms, job done._
 
 _Home: nobody lost. Deeds: Completed a medium expedition (+2 renown)._
 
-## Muscle for Hire: Put Lew Rudd out of business
+## Rudd's Yard: Put Lew Rudd out of business
 
 _Long route. Outcome: complete, 14 of 14 rooms, job done._
 

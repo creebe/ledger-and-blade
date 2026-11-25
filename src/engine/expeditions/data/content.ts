@@ -542,7 +542,7 @@ export const ZONES: Record<ZoneId, ZoneDef> = {
     name: 'the bridge houses',
     depth: 2,
     dark: true,
-    text: 'The houses built along the old bridge, empty since the middle span went. The floors have gone soft, and the water moves underneath all of it.',
+    text: 'The houses built along the old bridge, empty since the middle span fell and the road was carried over the gap on timber. The floors have gone soft, and the water moves underneath all of it.',
     rooms: { passage: 2, fight: 3.2, trap: 1.5, find: 2.2, curio: 0.8 },
     fights: [['smuggler', 'night_boatman'], ['crayfish', 'crayfish', 'crayfish'], ['night_boatman', 'night_boatman'], ['pike', 'crayfish'], ['smuggler', 'crayfish']],
     finds: [
@@ -734,7 +734,7 @@ export const SITES: Record<SiteId, SiteDef> = {
       afterKey: 'moyle_after',
       deed: 'Threw Gaffer Moyle off the Trevick level',
       memberDeed: 'threw Gaffer Moyle off the Trevick level',
-      report: 'The mine owners write to say they always knew the Trevick level was theirs, and ask whether the guild could also see about the pumps.',
+      report: 'The lease-holders write to say they always knew the Trevick level was theirs, and ask whether the guild could also see about the pumps.',
       goalText: 'Throw Gaffer Moyle off the Trevick level',
     },
   },
@@ -794,11 +794,11 @@ export const SITES: Record<SiteId, SiteDef> = {
     region: 'harrowmere',
     zones: ['shore', 'bridge', 'holms'],
     group: 'overland',
-    text: 'A lake town on a mere that goes deeper than anyone has sounded. Its old bridge is broken, and nobody farms the islands.',
+    text: 'A lake town on a mere that goes deeper than anyone has sounded. Its old bridge still carries the wool road, and nobody farms the islands.',
     deep: 'Out to the far Holms',
     goals: {
       short: 'Along the shore to the boathouses',
-      medium: 'Out along the bridge houses to the broken span',
+      medium: 'Out along the bridge houses to the timber span',
       long: 'Out to the Holms, where the Bailiff feeds',
     },
     boss: {

@@ -6,7 +6,7 @@ Zones: the Wenmouth road, the Burrows, the Strand. Boss: put out Mags Tull's lan
 
 Written by `npm run exp:logs`: a seasoned squad of four (level 3, rested) on a medium trip and on the long trip to the boss. Log lines as the player reads them; bold lines are the ones the game bolds.
 
-## Ambergris: Bring back 2 lumps of ambergris
+## What the Sea Brings: Bring back 2 lumps of ambergris
 
 _Medium route. Outcome: complete, 9 of 9 rooms, job done._
 
@@ -65,7 +65,7 @@ _Medium route. Outcome: complete, 9 of 9 rooms, job done._
 
 _Home: nobody lost. Deeds: Completed a medium expedition (+2 renown); Fought off a wandering pack (+1 renown); Talked their way past 2 fights (+1 renown)._
 
-## The Wreckers of the Burrows: Put out Mags Tull's lantern
+## Mags Tull's Lantern: Put out Mags Tull's lantern
 
 _Long route. Outcome: complete, 14 of 14 rooms, job done._
 

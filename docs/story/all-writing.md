@@ -478,7 +478,7 @@ _Speaker: Lord Treasurer Aubrey Fenn_
 **Leads to:**
 
 - `fenn_ally` → [Half a Year](#half-a-year) (`act1_slice_end`), [An Exchequer Writ](#an-exchequer-writ) (`field_writ`)
-- `ostranders_open` → [Coster's Page](#costers-page) (`coster_page`), [The Bank's Gift](#the-banks-gift) (`brune_donation`), contract [How Deep It Goes](#contract-how-deep-it-goes) (`pellam_deep`), contract [A Matter of Arrears](#contract-a-matter-of-arrears) (`debt_collection`), contract [Deliver the Bank's Terms](#contract-deliver-the-banks-terms) (`deliver_terms`), contract [The Insurers' Survey](#contract-the-insurers-survey) (`anselm_burrows`), Date "Ostrander's Reads the Books" (`vorn_books`), rules in `src/engine/actions.ts`
+- `ostranders_open` → [Coster's Page](#costers-page) (`coster_page`), [The Bank's Gift](#the-banks-gift) (`brune_donation`), contract [How Deep It Goes](#contract-how-deep-it-goes) (`pellam_deep`), contract [A Matter of Arrears](#contract-a-matter-of-arrears) (`debt_collection`), contract [Deliver the Bank's Terms](#contract-deliver-the-banks-terms) (`deliver_terms`), contract [The Bank's Warrants](#contract-the-banks-warrants) (`kell_sump`), contract [The Insurers' Survey](#contract-the-insurers-survey) (`anselm_burrows`), Date "Ostrander's Reads the Books" (`vorn_books`), rules in `src/engine/actions.ts`
 
 ### The Last Tapestry
 
@@ -683,7 +683,7 @@ _Same choices as node `pitch` (one shared menu)._
 
 **Leads to:**
 
-- `ostranders_open` → [Coster's Page](#costers-page) (`coster_page`), [The Bank's Gift](#the-banks-gift) (`brune_donation`), contract [How Deep It Goes](#contract-how-deep-it-goes) (`pellam_deep`), contract [A Matter of Arrears](#contract-a-matter-of-arrears) (`debt_collection`), contract [Deliver the Bank's Terms](#contract-deliver-the-banks-terms) (`deliver_terms`), contract [The Insurers' Survey](#contract-the-insurers-survey) (`anselm_burrows`), Date "Ostrander's Reads the Books" (`vorn_books`), rules in `src/engine/actions.ts`
+- `ostranders_open` → [Coster's Page](#costers-page) (`coster_page`), [The Bank's Gift](#the-banks-gift) (`brune_donation`), contract [How Deep It Goes](#contract-how-deep-it-goes) (`pellam_deep`), contract [A Matter of Arrears](#contract-a-matter-of-arrears) (`debt_collection`), contract [Deliver the Bank's Terms](#contract-deliver-the-banks-terms) (`deliver_terms`), contract [The Bank's Warrants](#contract-the-banks-warrants) (`kell_sump`), contract [The Insurers' Survey](#contract-the-insurers-survey) (`anselm_burrows`), Date "Ostrander's Reads the Books" (`vorn_books`), rules in `src/engine/actions.ts`
 - `vorn_fixed_board` → [The Notice Board](#the-notice-board) (`vorn_board`)
 - `vorn_q_hobbs` → _nothing reads it_
 - `vorn_q_people` → codex "The Treaty of Cassel" (`the_treaty`)
@@ -1284,7 +1284,7 @@ _Same choices as the opening (one shared menu)._
 - _titles[1]:_ “Salts for Saint Oda's”
 - _description:_
 
-  > The almshouse needs fen salts for the fever, and the apothecaries want more than the Sisters can pay. The salt pans are out past the last causeway in the Saltfens. Sister Brune will pay what she can, which is not much.
+  > The almshouse needs fen salts for the fever, and the apothecaries want more than the Sisters can pay. The salts grow along the reed paths past the last causeway in the Saltfens. Sister Brune will pay what she can, which is not much.
 
 - _phases[1]:_ “The Causeway: Two days on planks across the marsh.”
 - _phases[2]:_ “The Salt Pans: Scrape the good salt and leave the poisoned beds alone.”
@@ -2272,7 +2272,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 - _titles[1]:_ “Salts for Saint Oda's”
 - _description:_
 
-  > The almshouse needs fen salts for the fever, and the apothecaries want more than the Sisters can pay. The salt pans are out past the last causeway in the Saltfens. Sister Brune will pay what she can, which is not much.
+  > The almshouse needs fen salts for the fever, and the apothecaries want more than the Sisters can pay. The salts grow along the reed paths past the last causeway in the Saltfens. Sister Brune will pay what she can, which is not much.
 
 - _phases[1]:_ “The Causeway: Two days on planks across the marsh.”
 - _phases[2]:_ “The Salt Pans: Scrape the good salt and leave the poisoned beds alone.”
@@ -2416,7 +2416,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 - _titles[2]:_ “Dogs on the Quays”
 - _description:_
 
-  > Somebody on the Quays has started keeping mastiffs in the yards, and two porters have been bitten on the way to work. The Fraternity wants three of the dogs dealt with.
+  > Somebody on the Quays has started keeping mastiffs in the yards, and two porters have been bitten on the way to work. The Fraternity wants two of the dogs dealt with.
 
 - _phases[1]:_ “The Quays: Down past the chain-house.”
 
@@ -2446,35 +2446,36 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 - _phases[1]:_ “The Sump: Down the ladder into the water.”
 
-### Contract: The Crown's Mineral Rights
+### Contract: The Bank's Warrants
 
 `contract:kell_sump` · data/contracts-sites.ts:82
 
 - _type:_ “Survey”
-- _titles[1]:_ “The Crown's Mineral Rights”
+- _titles[1]:_ “The Bank's Warrants”
 - _titles[2]:_ “How Deep the Water Is”
 - _description:_
 
-  > The Crown still owns the mineral rights under Kell, on paper. The Exchequer would like somebody to go down into the Sump and see whether the paper is worth anything.
+  > Ostrander's bought the Crown's silver warrants for Kell, and Factor Vorn's office would like to know what it bought. Somebody has to go down into the Sump and see how deep the water is.
 
 - _phases[1]:_ “The Sump: Through the upper workings and down.”
+- _Reads:_ `ostranders_open` (from [A Visitor from Ostrander's](#a-visitor-from-ostranders) (`ostrander_agent`), [Quarter Day](#quarter-day) (`quarter_day`), rules in `src/engine/actions.ts`)
 
 ### Contract: The Trevick Level
 
-`contract:kell_moyle` · data/contracts-sites.ts:98
+`contract:kell_moyle` · data/contracts-sites.ts:99
 
 - _type:_ “Hunt”
 - _titles[1]:_ “The Trevick Level”
 - _titles[2]:_ “Moyle's Vein”
 - _description:_
 
-  > Gaffer Moyle has worked the best silver in Kell for six years without paying a penny for it. The merchants who hold the lease would like him off the Trevick level, by whatever means the guild thinks best.
+  > Gaffer Moyle has worked the best silver in Kell for six years without paying a penny for it. The Weighhouse merchants who lease the workings from the bank would like him off the Trevick level, by whatever means the guild thinks best.
 
 - _phases[1]:_ “The Trevick level: At the end of the old silver gallery.”
 
 ### Contract: Salt for the Wounds
 
-`contract:fens_salt` · data/contracts-sites.ts:117
+`contract:fens_salt` · data/contracts-sites.ts:118
 
 - _type:_ “Salvage”
 - _titles[1]:_ “Salt for the Wounds”
@@ -2487,7 +2488,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: The Dean
 
-`contract:fens_dean` · data/contracts-sites.ts:133
+`contract:fens_dean` · data/contracts-sites.ts:134
 
 - _type:_ “Hunt”
 - _titles[1]:_ “The Dean”
@@ -2500,7 +2501,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: The Brannock Bull
 
-`contract:drovers_bull` · data/contracts-sites.ts:152
+`contract:drovers_bull` · data/contracts-sites.ts:153
 
 - _type:_ “Hunt”
 - _titles[1]:_ “The Brannock Bull”
@@ -2513,7 +2514,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Moor Fleeces
 
-`contract:drovers_fleece` · data/contracts-sites.ts:168
+`contract:drovers_fleece` · data/contracts-sites.ts:169
 
 - _type:_ “Salvage”
 - _titles[1]:_ “Moor Fleeces”
@@ -2526,7 +2527,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: The Toll House at Skell Gap
 
-`contract:drovers_crewe` · data/contracts-sites.ts:184
+`contract:drovers_crewe` · data/contracts-sites.ts:185
 
 - _type:_ “Hunt”
 - _titles[1]:_ “The Toll House at Skell Gap”
@@ -2539,7 +2540,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Bog Oak
 
-`contract:mere_oak` · data/contracts-sites.ts:203
+`contract:mere_oak` · data/contracts-sites.ts:204
 
 - _type:_ “Salvage”
 - _titles[1]:_ “Bog Oak”
@@ -2552,7 +2553,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: The Bailiff
 
-`contract:mere_bailiff` · data/contracts-sites.ts:219
+`contract:mere_bailiff` · data/contracts-sites.ts:220
 
 - _type:_ “Hunt”
 - _titles[1]:_ “The Bailiff”
@@ -2565,7 +2566,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Ambergris
 
-`contract:anselm_ambergris` · data/contracts-sites.ts:238
+`contract:anselm_ambergris` · data/contracts-sites.ts:239
 
 - _type:_ “Salvage”
 - _titles[1]:_ “Ambergris”
@@ -2578,7 +2579,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: The Insurers' Survey
 
-`contract:anselm_burrows` · data/contracts-sites.ts:254
+`contract:anselm_burrows` · data/contracts-sites.ts:255
 
 - _type:_ “Survey”
 - _titles[1]:_ “The Insurers' Survey”
@@ -2592,7 +2593,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Mags Tull's Lantern
 
-`contract:anselm_tull` · data/contracts-sites.ts:271
+`contract:anselm_tull` · data/contracts-sites.ts:272
 
 - _type:_ “Hunt”
 - _titles[1]:_ “Mags Tull's Lantern”
@@ -4399,7 +4400,7 @@ Every contract is walked as an expedition to a site. Every site has three zones 
 | `site:kell` | Kell Mines | the upper workings, the Sump, the Trevick level | Silver workings in the northern hills, half of them flooded, and the deepest of them held by people who never paid for it. |
 | `site:saltfens` | The Saltfens | the reed paths, the Pans, the Withies | The marshes along the estuary, good for reagents and salt and for catching fever. |
 | `site:drovers` | Drover's Road | the hill road, Brannock Moor, Skell Gap | The cattle road through the hills east of the city, over Brannock Moor to the pass at Skell Gap. |
-| `site:harrowmere` | Harrowmere | the lake shore, the bridge houses, the Holms | A lake town on a mere that goes deeper than anyone has sounded. Its old bridge is broken, and nobody farms the islands. |
+| `site:harrowmere` | Harrowmere | the lake shore, the bridge houses, the Holms | A lake town on a mere that goes deeper than anyone has sounded. Its old bridge still carries the wool road, and nobody farms the islands. |
 | `site:anselm` | Port Anselm | the Wenmouth road, the Burrows, the Strand | The coast road to the port where Ostrander's ships take on the Crown's silver, past the dunes where the wreckers live. |
 
 _Source: expeditions/data/content.ts:667._
@@ -4554,7 +4555,7 @@ _Source: expeditions/data/content.ts:667._
 
 `zone:bridge` · expeditions/data/content.ts:539 · depth 2, dark
 
-- _text:_ “The houses built along the old bridge, empty since the middle span went. The floors have gone soft, and the water moves underneath all of it.”
+- _text:_ “The houses built along the old bridge, empty since the middle span fell and the road was carried over the gap on timber. The floors have gone soft, and the water moves underneath all of it.”
 - _met here:_ Smuggler, Night boatman, Crayfish, Mere pike
 - _found here:_ Old coin, Bog oak, Timber
 - _curiosities:_ strongbox, shrine · _traps:_ floor, snare
@@ -4621,7 +4622,7 @@ What each route length is for, as the board says it. A plain job on a long route
 | `site_goal:drovers:long` | Drover's Road | Long | Up to Skell Gap and the old toll house |
 | `site_goal:drovers:deep` | Drover's Road | Long, a plain job | Up to Skell Gap |
 | `site_goal:harrowmere:short` | Harrowmere | Short | Along the shore to the boathouses |
-| `site_goal:harrowmere:medium` | Harrowmere | Medium | Out along the bridge houses to the broken span |
+| `site_goal:harrowmere:medium` | Harrowmere | Medium | Out along the bridge houses to the timber span |
 | `site_goal:harrowmere:long` | Harrowmere | Long | Out to the Holms, where the Bailiff feeds |
 | `site_goal:harrowmere:deep` | Harrowmere | Long, a plain job | Out to the far Holms |
 | `site_goal:anselm:short` | Port Anselm | Short | Along the Wenmouth road to the ford |
@@ -4637,7 +4638,7 @@ Each is beaten once. After that, long routes end in its room with a lesser fight
 |---|---|---|---|---|---|
 | `boss:pellam` | Old Pellam | the Kiln Engine | Broke the Kiln Engine | The college sends a cart for the Kiln Engine's core, and a letter that is mostly about who is going to pay for the cart. | Break the Kiln Engine |
 | `boss:varrow` | Varrow | Lew Rudd | Put Lew Rudd out of business | The Lower Town hears about Rudd's yard before the squad is back on Tallow Street. Nobody admits to having worked for him, which is a first. | Put Lew Rudd out of business |
-| `boss:kell` | Kell Mines | Gaffer Moyle | Threw Gaffer Moyle off the Trevick level | The mine owners write to say they always knew the Trevick level was theirs, and ask whether the guild could also see about the pumps. | Throw Gaffer Moyle off the Trevick level |
+| `boss:kell` | Kell Mines | Gaffer Moyle | Threw Gaffer Moyle off the Trevick level | The lease-holders write to say they always knew the Trevick level was theirs, and ask whether the guild could also see about the pumps. | Throw Gaffer Moyle off the Trevick level |
 | `boss:saltfens` | The Saltfens | the Dean | Killed the Dean | The salt-cutters send a ham, which is in poor taste, and a jar of pan salt, which is not. | Kill the Dean |
 | `boss:drovers` | Drover's Road | Sergeant Crewe | Took the toll house at Skell Gap | The drovers bring their herds over the Gap without paying anybody for the first time in two years, and drink to the guild at the inn. | Take the toll house at Skell Gap from Sergeant Crewe |
 | `boss:harrowmere` | Harrowmere | the Bailiff | Landed the Bailiff | Harrowmere hangs the Bailiff from the bridge for a week, and three different families claim the rings in its belly were their grandmother's. | Land the Bailiff |
@@ -6246,7 +6247,7 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:find_withies.1` | {a} finds {g} growing along a channel bank, and cuts it with care. |
 | `line:find_withies.2` | In a fowler's hide, under a heap of decoys, {a} finds {g}. |
 | `line:find_withies.3` | {a} pulls {g} out of the mud at the edge of the channel, where somebody dropped it. |
-| `line:goalroom_withies.1` | They come through the Withies to where they open out onto the river. The far bank is Varrow's country, and something is wallowing between them and it. |
+| `line:goalroom_withies.1` | They come through the Withies to where they open out onto the river. The far bank is good farmland, and something is wallowing between them and it. |
 | `line:goalroom_withies.2` | The Withies end at the river's edge. There is a wide mud wallow there, and it is in use. |
 | `line:goal_withies.1` | In the wallow, where the boar has rooted up the bank, {a} finds {g}. |
 | `line:goal_withies.2` | {a} wades out into the trampled reeds and comes back with {g}. {b} says they smell of boar, which is true. |
@@ -6340,7 +6341,7 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:boss_won:drovers.2` | It is over. The deserters are walking down the far side of the pass, and none of them looks back. |
 | `line:crewe_after.1` | The toll house at Skell Gap has new tenants. They have not heard of Sergeant Crewe, and they charge a toll anyway. |
 | `line:crewe_after.2` | Somebody has rebuilt the barrier at Skell Gap. Crewe's men have come back without him, and they are less polite about it. |
-| `line:enter_bridge.1` | They go out along the old bridge, between the houses built on it. The middle span fell twenty years ago and the houses were left as they stood. |
+| `line:enter_bridge.1` | They go out along the old bridge, between the houses built on it. The middle span fell twenty years ago, and when the road was carried over on timber the houses were left as they stood. |
 | `line:enter_bridge.2` | The bridge houses are dark, with nailed shutters and doors that open onto the water. {a} lights the lamps. |
 | `line:enter_bridge.3` | They step onto the old bridge. The boards creak under them, and the houses lean in over the road from both sides. |
 | `line:passage_bridge.1` | They walk the bridge road between the houses. Every board in it has an opinion. |
@@ -6353,10 +6354,10 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:find_bridge.1` | {a} finds {g} in a cellar under a bridge house, above the water. |
 | `line:find_bridge.2` | In a locked cupboard in the chandler's, {a} finds {g}. |
 | `line:find_bridge.3` | {a} fishes {g} out from under the floorboards with a boat hook. |
-| `line:goalroom_bridge.1` | They reach the broken span. The bridge ends in mid-air, and the last house is full of smugglers' cargo, and smugglers. |
-| `line:goalroom_bridge.2` | The last house before the broken span has a light in it and a boat tied up underneath. People come out of it. |
+| `line:goalroom_bridge.1` | They reach the timber span over the gap. The last stone house before it is full of smugglers' cargo, and smugglers. |
+| `line:goalroom_bridge.2` | The last house before the timber span has a light in it and a boat tied up underneath. People come out of it. |
 | `line:goal_bridge.1` | In the last house on the bridge {a} finds {g}, stacked ready to lower to a boat. |
-| `line:goal_bridge.2` | {a} goes through the smugglers' store at the broken span and comes out with {g}. |
+| `line:goal_bridge.2` | {a} goes through the smugglers' store by the timber span and comes out with {g}. |
 | `line:camp_bridge.1` | They camp in a bridge house with the door barred. The water is loud under the floor all night. |
 | `line:camp_bridge.2` | They make camp in a sail loft at the top of a bridge house. {b} sleeps by the window, where they can see the shore. |
 | `line:trap_floor_disarm:harrowmere.1` | {a} tests the floor ahead and finds it rotten through. They lay a plank across before anyone steps on it. |
@@ -6548,7 +6549,7 @@ Lines the expedition rules write: the Down below row in the week report, squad c
 | `engine/expeditions/prep.ts#planWarnings.14` | This route ends with {MONSTERS[boss.monster].name}, and nobody in this squad is past level 2. Squads this green often don't come back. |
 | `engine/expeditions/prep.ts#planWarnings.15` | A rival wants this job too. If their crew goes in first, there will be fewer fights at the start and thinner finds. |
 | `engine/expeditions/prep.ts#goalText.1` | Reach {ZONES[g.zone].name} and come back |
-| `engine/expeditions/prep.ts#goalText.2` | [IF MONSTERS[g.monster].boss] {Object.values(SITES).find((x) => x.boss.monster is g.monster).boss.…} [ELSE] Kill [IF g.count is 1] a {MONSTERS[g.monster].name.toLowerCase()} [ELSE] {g.count} {MONSTERS[g.monster].plural} [END] [END] |
+| `engine/expeditions/prep.ts#goalText.2` | [IF MONSTERS[g.monster].boss] [IF site.boss.monster is g.monster] {site.boss.goalText} [ELSE] Kill {MONSTERS[g.monster].name} [END] [ELSE] Kill [IF g.count is 1] a {MONSTERS[g.monster].name.toLowerCase()} [ELSE] {g.count} {MONSTERS[g.monster].plural} [END] [END] |
 
 ### expeditions/run.ts
 

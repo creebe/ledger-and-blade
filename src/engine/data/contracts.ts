@@ -692,7 +692,7 @@ export const CONTRACT_TEMPLATES: ContractTemplate[] = [
     type: 'Story',
     titles: ["Salts for Saint Oda's"],
     patrons: ['oda'],
-    description: "The almshouse needs fen salts for the fever, and the apothecaries want more than the Sisters can pay. The salt pans are out past the last causeway in the Saltfens. Sister Brune will pay what she can, which is not much.",
+    description: "The almshouse needs fen salts for the fever, and the apothecaries want more than the Sisters can pay. The salts grow along the reed paths past the last causeway in the Saltfens. Sister Brune will pay what she can, which is not much.",
     regions: ['saltfens'],
     threat: [3, 3],
     tags: ['swamp'],
