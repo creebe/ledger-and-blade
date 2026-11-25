@@ -178,6 +178,20 @@ A **Date** is a day on the guild's calendar, three to six weeks ahead, that the 
 
 **Writing.** A Date's text is one or two sentences in the narrator's voice. It says who is coming and what they will judge, and never explains the world. Jory only ever makes remarks. The met and missed lines report what happened, in the dry register of the week report, and promise nothing the stakes don't give.
 
+## 5d. Old Pellam (Draft: the expeditions trial only)
+
+Only the expeditions trial on `claude/expeditions` uses this (`docs/EXPEDITIONS.md`). The classic game doesn't. It becomes canon if the owner keeps the trial.
+
+- **Old Pellam** was the first town on the river. When the river moved two hundred years ago, Pellam silted up and Varrow was built on top of it. Its cellars and streets are still down there, under the Lower Town. You get in by the steps behind the chandler's on Tallow Street.
+- **The Culverts** are the Lower Town's brick drains and cellars. **The Buried Streets** are Pellam's own streets, roofed over by Varrow's foundations. **The College Sink** is where the college poured its spent reagents for a century.
+- **Nothing down there is supernatural.**
+  - The animals grew big and pale, or strange, on runoff: rats, tallow moths, sink eels, cellar spiders, pale hogs and sink crabs.
+  - Seeps are spills of reagent that never stopped reacting.
+  - The Assay engines and the college's **Kiln Engine** are clockwork and reagent mechanisms. They have no will of their own and still run the last instructions anyone gave them.
+- **People down there.** Grubbers are people who live below and dig for what Pellam left. Hobb & Daughters and the Ninth sometimes send crews down.
+- **Exposure and Sink changes.** The Sink's runoff gets into the body and, given time, changes it: violet skin, pale eyes, iron bones, storm in the fingers. This is chemistry, not a curse. The Lower Town calls such people Sink-touched. A rested body fights the change with the Sink fever. Saint Oda's fever beds draw Exposure out with vinegar, charcoal and water.
+- **Factions as sponsors.** Saint Oda's (Brune) wants reagent salts. The Exchequer wants the Assay seals found and the Kiln Engine stopped. The Mudlarks (Pask) want eel oil. The Weighhouse (Coster) buys Pellam plate by weight. Ostrander's (Vorn) wants a survey of the Sink, because the bank holds a note on the college. The Porters' Fraternity wants fewer rats.
+
 ## 6. Acts II–IV (Draft outline, not yet written)
 
 - **Act II: Default (Year 2).** The Crown must choose: sell the realm piece by piece, tax the Lower Town into revolt, debase the coin, or default. The Council becomes the battlefield (decrees). The Fourteen split. *Braid point:* the Council vote on the Crown's choice. Act I outcomes shape who sits at the table: Fenn's trust, Vorn's attitude, the Lower Town's standing.

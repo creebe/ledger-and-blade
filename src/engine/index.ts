@@ -38,3 +38,4 @@ export { ITEMS } from './data/items';
 export { TAGS } from './data/tags';
 export { PROFESSIONS, APPROACH_INFO } from './data/professions';
 export { FACTIONS, RIVALS, CLOCKS, REGIONS, factionKnown } from './data/factions';
+export * from './expeditions';
