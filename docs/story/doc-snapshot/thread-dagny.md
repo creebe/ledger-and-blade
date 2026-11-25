@@ -112,7 +112,7 @@ _Speaker: Dagny Fell_
 
 ### Word from the Docks
 
-`dagny_tip` · Follow-up · data/events.ts:595
+`dagny_tip` · Follow-up · data/events.ts:602
 
 **When:** when dagny_contact; needs alive: Dagny Fell; random draw, weight 2; not again for 6 weeks.
 

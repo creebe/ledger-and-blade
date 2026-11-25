@@ -4,7 +4,7 @@ Jory Abbot and the members. The guild's own people: Jory, the dead, wages, Legen
 
 ### A Tavern Brawl
 
-`brawl` · Follow-up · data/events.ts:510
+`brawl` · Follow-up · data/events.ts:517
 
 **When:** picks a member where m.status is 'idle'; random draw, weight 2; not again for 6 weeks.
 
@@ -19,7 +19,7 @@ Jory Abbot and the members. The guild's own people: Jory, the dead, wages, Legen
 
 ### A Matter of Wages
 
-`raise` · Follow-up · data/events.ts:524
+`raise` · Follow-up · data/events.ts:531
 
 **When:** picks a member where m.status is 'idle' and (m.traits.includes('greedy') or m.level >= 3); random draw, weight 1.5; not again for 10 weeks.
 
@@ -37,7 +37,7 @@ _Speaker: Your member_
 
 ### A Letter from Home
 
-`homesick` · Follow-up · data/events.ts:547
+`homesick` · Follow-up · data/events.ts:554
 
 **When:** picks a member where m.status is 'idle'; random draw, weight 1.2; not again for 12 weeks.
 
@@ -52,7 +52,7 @@ _Speaker: Your member_
 
 ### Bad Nights
 
-`nightmares` · Follow-up · data/events.ts:560
+`nightmares` · Follow-up · data/events.ts:567
 
 **When:** when members.some((m) => m.status is 'dead' and (m.diedWeek ?? -99) >= week - 6); picks a member where m.status is 'idle' and m.missions > 0 and members.some((d) => d.status is 'dead' and (d.diedWeek ?? -99) >= week - 6); random draw, weight 3; not again for 8 weeks.
 
@@ -68,7 +68,7 @@ _Speaker: Your member_
 
 ### A Volunteer
 
-`volunteer` · Follow-up · data/events.ts:660
+`volunteer` · Follow-up · data/events.ts:667
 
 **When:** when lowertown standing >= 10; random draw, weight 1.2; not again for 10 weeks.
 

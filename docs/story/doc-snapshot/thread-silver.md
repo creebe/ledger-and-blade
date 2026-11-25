@@ -237,12 +237,12 @@ _Speaker: Lord Treasurer Aubrey Fenn_
   > Ambush at the Ford: Someone will be waiting. Fight them, or take the wagons the long way round.
 
 - _phases[4]:_ “The Harbor: Hand the silver to the bank's factor, and count every coin twice.”
-- _expire.title:_ “The Crown's silver never left Varrow”
+- _expire.title:_ “The escort never came”
 - _expire.text:_
 
-  > You accepted the commission, but no squad was ever sent. The wagons sat in the Exchequer yard until it was too late to reach the ships. The Crown has missed its payment.
+  > You accepted the commission, but no squad was ever sent. The Exchequer's own guard took the wagons as far as Wenmouth ford and waited there for you until the ships had sailed. The Crown has missed its payment.
 
-- _Sets:_ `silver_delivered` → **The Notice Board** (`vorn_board`), **Quarter Day** (`quarter_day`), **The Last Tapestry** (`fenn_tapestry`), **Half a Year** (`act1_slice_end`), street talk "paid_talk" (`paid_talk`), Date "The Lord Treasurer Visits" (`treasurer_visit`); `silver_lost` → **The Notice Board** (`vorn_board`), **Quarter Day** (`quarter_day`), **The Last Tapestry** (`fenn_tapestry`), **The Family Silver** (`aske_plate`), **Half a Year** (`act1_slice_end`), codex "The Treaty of Cassel" (`the_treaty`), street talk "default_talk" (`default_talk`), rules in `src/engine/core/turn.ts`; `silver_abandoned` → _nothing reads it_
+- _Sets:_ `silver_delivered` → **The Notice Board** (`vorn_board`), **Quarter Day** (`quarter_day`), **The Last Tapestry** (`fenn_tapestry`), **Half a Year** (`act1_slice_end`), street talk "paid_talk" (`paid_talk`), Date "The Lord Treasurer Visits" (`treasurer_visit`); `silver_lost` → **The Notice Board** (`vorn_board`), **Quarter Day** (`quarter_day`), **The Last Tapestry** (`fenn_tapestry`), **The Family Silver** (`aske_plate`), **Half a Year** (`act1_slice_end`), codex "The Treaty of Cassel" (`the_treaty`), street talk "default_talk" (`default_talk`), rules in `src/engine/core/turn.ts`; `silver_abandoned` → **Half a Year** (`act1_slice_end`), **The Crown's Wagons** (`field_crown_wagons`)
 
 ### Quarter Day
 
@@ -289,7 +289,7 @@ _Speaker: Lord Treasurer Aubrey Fenn_
 
 **Leads to:**
 
-- `fenn_ally` → _nothing reads it_
+- `fenn_ally` → **Half a Year** (`act1_slice_end`), **An Exchequer Writ** (`field_writ`)
 - `ostranders_open` → **Coster's Page** (`coster_page`), **The Bank's Gift** (`brune_donation`), contract **How Deep It Goes** (`pellam_deep`), contract **A Matter of Arrears** (`debt_collection`), contract **Deliver the Bank's Terms** (`deliver_terms`), Date "Ostrander's Reads the Books" (`vorn_books`), rules in `src/engine/actions.ts`
 
 ### The Last Tapestry
@@ -339,7 +339,7 @@ _Speaker: Lord Treasurer Fenn_
 
   > The cart never left. Fenn sold the tapestry in Varrow in the end, for a third of its worth, and by the end of the week the whole city knew.
 
-- _Sets:_ `tapestry_sold` → _nothing reads it_; `tapestry_lost` → _nothing reads it_
+- _Sets:_ `tapestry_sold` → **Half a Year** (`act1_slice_end`); `tapestry_lost` → **Half a Year** (`act1_slice_end`)
 
 ### Half a Year
 
@@ -347,7 +347,7 @@ _Speaker: Lord Treasurer Fenn_
 
 **When:** Weeks 22–26; after Quarter Day (`quarter_day`), The Last Tapestry (`fenn_tapestry`), The Family Silver (`aske_plate`); 60% a week inside the window.
 
-**Reads:** `ansel_freed` (set by **Dagny Asks** (`dagny_brother`), contract **Ansel Fell at the Chain** (`ansel_chain`)); `ansel_lost` (set by contract **Ansel Fell at the Chain** (`ansel_chain`)); `aske_betrayed` (set by **The Family Silver** (`aske_plate`)); `aske_plate_saved` (set by contract **The Aske Silver** (`aske_plate`)); `coster_exposed` (set by **Coster's Page** (`coster_page`)); `coster_job` (set by **The Man with the Scales** (`coster_interest`)); `coster_terms` (set by **The Man with the Scales** (`coster_interest`)); `isbet_pact` (set by **The Copper Kettle** (`isbet_kettle`)); `salts_accepted` (set by **Fever Salts** (`brune_salts`)); `salts_delivered` (set by contract **Salts for Saint Oda's** (`fever_salts`)); `salts_failed` (set by contract **Salts for Saint Oda's** (`fever_salts`)); `silver_delivered` (set by contract **The Crown's Last Silver** (`silver_convoy`)); `silver_lost` (set by contract **The Crown's Last Silver** (`silver_convoy`)); `tapestry_bought` (set by **The Last Tapestry** (`fenn_tapestry`)); `weights_exposed` (set by contract **Short Weight at Hesketh's** (`false_weights`)).
+**Reads:** `ansel_freed` (set by **Dagny Asks** (`dagny_brother`), contract **Ansel Fell at the Chain** (`ansel_chain`)); `ansel_lost` (set by contract **Ansel Fell at the Chain** (`ansel_chain`)); `aske_betrayed` (set by **The Family Silver** (`aske_plate`)); `aske_plate_lost` (set by contract **The Aske Silver** (`aske_plate`)); `aske_plate_saved` (set by contract **The Aske Silver** (`aske_plate`)); `coster_exposed` (set by **Coster's Page** (`coster_page`)); `coster_job` (set by **The Man with the Scales** (`coster_interest`)); `coster_terms` (set by **The Man with the Scales** (`coster_interest`)); `fenn_ally` (set by **Quarter Day** (`quarter_day`)); `isbet_betrayed` (set by **The Copper Kettle** (`isbet_kettle`)); `isbet_pact` (set by **The Copper Kettle** (`isbet_kettle`)); `salts_accepted` (set by **Fever Salts** (`brune_salts`)); `salts_delivered` (set by contract **Salts for Saint Oda's** (`fever_salts`)); `salts_failed` (set by contract **Salts for Saint Oda's** (`fever_salts`)); `silver_abandoned` (set by contract **The Crown's Last Silver** (`silver_convoy`)); `silver_delivered` (set by contract **The Crown's Last Silver** (`silver_convoy`)); `silver_lost` (set by contract **The Crown's Last Silver** (`silver_convoy`)); `tapestry_bought` (set by **The Last Tapestry** (`fenn_tapestry`)); `tapestry_lost` (set by contract **The Exchequer's Last Tapestry** (`last_tapestry`)); `tapestry_sold` (set by contract **The Exchequer's Last Tapestry** (`last_tapestry`)); `weights_exposed` (set by contract **Short Weight at Hesketh's** (`false_weights`)); `weights_failed` (set by contract **Short Weight at Hesketh's** (`false_weights`)).
 
 > Half a year has passed since the Exchequer sealed your charter. [IF silver_delivered] The Crown's silver reached Port Anselm, and the realm has a few more months of grace. In the Exchequer, people know your guild's name now. [ELSE IF silver_lost] The Crown's silver never reached the coast. The realm has defaulted for the first time, and Ostrander's factors are walking the city with lists. [ELSE] The Crown's silver went to the coast without you. [END][IF people.length] 
 >
@@ -360,7 +360,7 @@ _Speaker: Lord Treasurer Fenn_
 
 ### The Exchequer Audits
 
-`audit` · Follow-up · data/events.ts:628
+`audit` · Follow-up · data/events.ts:635
 
 **When:** when heat >= 30; random draw, weight 4; not again for 6 weeks.
 

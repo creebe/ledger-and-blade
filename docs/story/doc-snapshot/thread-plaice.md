@@ -42,7 +42,7 @@ _Speaker: Master Assayer Corwin Plaice_
 
 ### An Assay-Peddler
 
-`peddler` · Follow-up · data/events.ts:649
+`peddler` · Follow-up · data/events.ts:656
 
 **When:** random draw, weight 1.5; not again for 8 weeks.
 

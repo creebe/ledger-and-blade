@@ -79,7 +79,7 @@ _Speaker: Alderman Piet Coster_
 
   > Coster's job sat on the board until Hesketh heard someone was asking about his measures and replaced them. Coster has noted it, as he notes everything.
 
-- _Sets:_ `weights_exposed` → **Half a Year** (`act1_slice_end`); `weights_failed` → _nothing reads it_
+- _Sets:_ `weights_exposed` → **Half a Year** (`act1_slice_end`); `weights_failed` → **Half a Year** (`act1_slice_end`)
 
 ### Coster Takes It Personally
 
