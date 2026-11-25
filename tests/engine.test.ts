@@ -154,7 +154,7 @@ describe('engine', () => {
       resolveEvent(s, ev.uid, i);
       expect(ms.fieldLog?.length).toBeGreaterThan(0);
       expect(expeditionLog(ms).some((l) => l.text === ms.fieldLog![0])).toBe(true);
-      expect(cancelDispatch(s, ms.id)).toMatch(/on the road/);
+      expect(cancelDispatch(s, ms.id)).toMatch(/last orders/);
       return;
     }
     throw new Error('no suitable seed found');

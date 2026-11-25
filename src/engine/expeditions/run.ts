@@ -250,7 +250,7 @@ export function cancelExpedition(s: GameState, missionId: string): string | unde
   const ms = s.missions.find((x) => x.id === missionId);
   if (!ms) return 'No such expedition.';
   if (ms.sealed || ms.report) return 'They have already left.';
-  if (ms.fieldWeeks?.length) return 'They are already on the road. Only word from the door can call them back now.';
+  if (ms.fieldWeeks?.length) return 'They have had their last orders at the door. Nobody can call them back now.';
   returnPack(s, ms.plan.pack);
   for (const id of ms.memberIds) {
     const m = s.members.find((x) => x.id === id);

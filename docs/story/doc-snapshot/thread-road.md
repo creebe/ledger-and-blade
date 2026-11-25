@@ -1,134 +1,121 @@
 ## Thread: On the road
 
-The squad in the field. Decisions that come up while a squad is travelling.
-
-### Field report
-
-`field_arrival` · Road decision · data/field.ts:49
-
-> {member} sends word from {ms.contract.region}: the squad has reached "{ms.contract.title}" and looked the place over.
->
-> [IF unknown.length] What you didn't know: {unknown.join(' and ')}.  [ELSE] It is much as you expected.  [END]They face {real.tags.map((t) => TAGS[t].name ?? t).join(', ')}.
->
-> With your plan ({ms.approaches.map((a) => APPROACH_INFO[a].name).join(' → ')}), the objective succeeds {pct(o.objective)} of the time, and the hardest phase is {pct(o.weakest)}.
-
-- **Proceed as planned** · _Objective {pct(now.objective)}_ · `field_arrival/root/c1`
-  “Your orders stand.”
+The squad in the yard. Door scenes: news brought to the yard on Tallow Street as a squad sets out for a distant site. The choice is the last order the squad gets before it leaves.
 
 ### The Bridge Is Out
 
-`field_bridge` · Road decision · data/field.ts:95
+`field_bridge` · Road decision · data/field.ts:33
 
 **When:** picks a member where onRoad; random draw, weight 2.
 
-> {member} sends a rider back. The river is up, and the bridge on the road to {missionOf(s, m).contract.region} has gone. The squad is waiting for your word.
+> A coal carter comes into the yard with mud up to his knees. The river is up, he says, and the bridge on the road to {missionOf(s, m).contract.region} has gone. {member} has the squad packed and wants to know which way to go before they leave.
 
-- **Take the marsh road** · _No delay, but the squad will face Swamp as well._ · `field_bridge/root/c1`
-  “They turn off into the reeds.”
-- **Wait for the ferry** · _One week's delay. Costs {squadOf(s, ms).length} supplies, bought locally._ · `field_bridge/root/c2`
-  “They make camp and wait.”
-- **Ford the river** · _Endurance check ({pct(p)}). Failure: someone is swept off their feet and everyone arrives exhausted._ · (endurance check, difficulty 8 + (ms?.contract.threat ?? 3)) · `field_bridge/root/c3`
-  On success: “They rope themselves together and get across, soaked to the chest.”
-  On failure: “The current takes someone off their feet, and it takes the rest of them to drag the poor soul out.”
+- **Send them by the marsh road** · _No delay, but the squad will face Swamp as well._ · `field_bridge/root/c1`
+  “The carter says the reeds are only waist-deep for most of the way, and nobody believes him.”
+- **Tell them to wait for the ferry** · _One week's delay. Costs {squadOf(s, ms).length} supplies, bought at the crossing._ · `field_bridge/root/c2`
+  “They set out expecting to spend a week in a ferryman's barn.”
+- **Tell them to ford the river** · _Endurance check ({pct(p)}). Failure: someone is swept off their feet and everyone arrives exhausted._ · (endurance check, difficulty 8 + (ms?.contract.threat ?? 3)) · `field_bridge/root/c3`
+  On success: “At the river they rope themselves together and get across, soaked to the chest.”
+  On failure: “At the river the current takes someone off their feet, and it takes the rest of them to drag the poor soul out.”
 
-### A Deserter on the Road
+### A Deserter at the Door
 
-`field_deserter` · Road decision · data/field.ts:119
+`field_deserter` · Road decision · data/field.ts:57
 
 **When:** picks a member where onRoad(s, m) and missionOf(s, m).contract.hidden.some((h) => not h.revealed); random draw, weight 2.
 
-> A nervous man flags the squad down near {missionOf(s, m).contract.region}. He says he ran from the people they're on their way to deal with, and he'll tell them what he knows if they make it worth his while.
+> A nervous man is waiting at the hall door as the squad gets ready for {missionOf(s, m).contract.region}. He says he ran from the people they're going there to deal with, and he'll tell them what he knows if they make it worth his while.
 
 - **Pay him** · _−20 crowns. Reveals what the squad will face._ · (needs crowns: 20) · `field_deserter/root/c1`
-  “He talks fast and keeps looking back down the road.”
+  “He talks fast and keeps looking up and down Tallow Street.”
 - **Talk it out of him** · _Guile check ({pct(p)}). Success reveals everything for free._ · (guile check, difficulty 11) · `field_deserter/root/c2`
   On success: “A couple of drinks later, he tells them everything he knows and a good deal he doesn't.”
-  On failure: “He takes fright and bolts into the trees.”
+  On failure: “He takes fright and bolts down Tallow Street.”
 - **Send him on his way** · `field_deserter/root/c3`
-  “The squad moves on.”
+  “He goes off down the street, and the squad sets out the other way.”
 
-### Followed
+### Watched
 
-`field_shadowed` · Road decision · data/field.ts:143
+`field_shadowed` · Road decision · data/field.ts:81
 
 **When:** picks a member where onRoad; random draw, weight 2.
 
-> {member} reports that a pair of riders have kept pace with the squad for two days, staying just out of bowshot. Somebody wants to know when they arrive.
+> The stable boy says a pair of riders have been watching the yard for two days from the corner of Tallow Street. They're there now, with their horses saddled. {member} thinks they mean to follow the squad out, because somebody wants to know when it arrives.
 
-- **Ambush the riders** · _Assault check ({pct(pa)}). Success makes the first phase easier. Failure: someone is hurt._ · (assault check, difficulty 14 + t * 1.5) · `field_shadowed/root/c1`
+- **Ambush them on the road** · _Assault check ({pct(pa)}). Success makes the fights there easier. Failure: someone is hurt._ · (assault check, difficulty 14 + t * 1.5) · `field_shadowed/root/c1`
   On success: “The riders never report back to whoever sent them.”
-  On failure: “The riders were ready for it.”
-- **Lose them in the hills** · _Stealth check ({pct(ps)}). Success: first phase a little easier. Failure: the enemy is warned (first phase harder)._ · (stealth check, difficulty 9 + t) · `field_shadowed/root/c2`
-  On success: “By the next morning the riders are gone.”
+  On failure: “The riders were expecting it.”
+- **Lose them in the hills** · _Stealth check ({pct(ps)}). Success: the fights there are a little easier. Failure: the enemy is warned (the fights there will be harder)._ · (stealth check, difficulty 9 + t) · `field_shadowed/root/c2`
+  On success: “By the second morning out, the riders are gone.”
   On failure: “The riders stay with them all the way.”
-- **Ignore them** · _The enemy will be expecting them (first phase harder)._ · `field_shadowed/root/c3`
-  “The squad presses on, watched.”
+- **Let them follow** · _The enemy will be expecting them (the fights there will be harder)._ · `field_shadowed/root/c3`
+  “The squad rides out, and the two riders fall in behind.”
 
 ### A Local Guide
 
-`field_guide` · Road decision · data/field.ts:177
+`field_guide` · Road decision · data/field.ts:115
 
 **When:** picks a member where onRoad; random draw, weight 1.5.
 
-> An old drover offers to take the squad to {missionOf(s, m).contract.region} by the sheep tracks, which he swears are quicker and drier than the road.
+> An old drover is drinking in the hall after a sale. He hears where the squad is bound and offers to take them to {missionOf(s, m).contract.region} by the sheep tracks, which he swears are quicker and drier than the road.
 
-- **Hire the guide** · _−25 crowns. The squad arrives fresher and better placed (every phase a little easier)._ · (needs crowns: 25) · `field_guide/root/c1`
-  “The drover knows every sheep-track in the hills.”
+- **Hire the guide** · _−25 crowns. The squad arrives fresher and better placed (the fights a little easier)._ · (needs crowns: 25) · `field_guide/root/c1`
+  “He finishes his drink and whistles for his dog. He says he knows every sheep track in the hills.”
 - **Decline** · `field_guide/root/c2`
-  “They keep to the road.”
+  “He shrugs and orders another. The squad will keep to the road.”
 
 ### A Wounded Carter
 
-`field_traveler` · Road decision · data/field.ts:188
+`field_traveler` · Road decision · data/field.ts:126
 
 **When:** picks a member where onRoad; random draw, weight 1.5.
 
-> {member}'s squad finds a carter by the road with a broken leg and an overturned wagon. Bandits, he says, two days ago.
+> A carter limps into the yard on a broken leg while {member} is loading up. His wagon is on its side a mile out, on the road the squad is about to take. Bandits, he says, two days ago.
 
 - **Help him** · _−3 supplies. Renown +1, the squad feels good about it (morale)._ · (needs supplies: 3) · `field_traveler/root/c1`
-  “He promises to tell everyone in the next town.”
+  “He promises to tell everyone at the market.”
 - **Leave him** · `field_traveler/root/c2`
-  “Somebody else will be along, probably.”
+  “Somebody else will see to him, probably.”
 
-### Hobb's People on the Road
+### Hobb's People Are Packing
 
-`field_rivals` · Road decision · data/field.ts:199
+`field_rivals` · Road decision · data/field.ts:137
 
-**When:** picks a member where onRoad(s, m) and missionOf(s, m).contract.contestedBy; random draw, weight 3.
+**When:** picks a member where onRoad(s, m) and missionOf(s, m).contract.contestedBy is 'hobbs' and isbet status is 'alive'; random draw, weight 3.
 
-> {member} spots a Hobb & Daughters squad on the same road, heading for the same job: "{missionOf(s, m).contract.title}". Isbet Hobb is leading them.
+> The pot boy from the Copper Kettle runs in to say that Hobb & Daughters are loading packs in their yard for the same job you've given {member}: "{missionOf(s, m).contract.title}". Isbet Hobb is leading them, and they mean to leave today.
 
 - **Race them there** · _Endurance check ({pct(pe)}). Success: the patron pays a bonus (+{bonus}). Failure: the squad arrives exhausted._ · (endurance check, difficulty 8 + t) · `field_rivals/root/c1`
   On success: “Your people get there first, and the patron notices.”
   On failure: “They lose the race and arrive with blistered feet anyway.”
-- **Slip into their camp at night** · _Stealth check ({pct(ps)}). Success: Hobb & Daughters lose face (rival renown −3), Heat +2. Failure: Heat +5 and a fight._ · (stealth check, difficulty 10 + t) · `field_rivals/root/c2`
-  On success: “Isbet Hobb's squad wakes up to cut girths and scattered horses.”
+- **Raid their camp on the road** · _Stealth check ({pct(ps)}). Success: Hobb & Daughters lose face (rival renown −3), Heat +2. Failure: Heat +5 and a fight._ · (stealth check, difficulty 10 + t) · `field_rivals/root/c2`
+  On success: “Isbet Hobb's squad wakes up on the first morning to cut girths and scattered horses.”
   On failure: “Isbet was waiting for them.”
-- **Let them go ahead** · _They will have stirred things up (first phase harder)._ · `field_rivals/root/c3`
-  “The Hobbs ride on ahead.”
+- **Let them go first** · _They will have stirred things up (the fights there will be harder)._ · `field_rivals/root/c3`
+  “The Hobbs are out of town by noon.”
 
 ### The Weather Turns
 
-`field_weather` · Road decision · data/field.ts:234
+`field_weather` · Road decision · data/field.ts:172
 
 **When:** picks a member where onRoad(s, m) and ['Autumn', 'Winter'].includes(seasonOf(week)); random draw, weight 2.
 
-> [IF seasonOf(week) is 'Winter'] Snow [ELSE] Freezing rain [END] has set in on the road. {member} wants to know whether to push on or find somewhere dry.
+> A drover coming in off the {missionOf(s, m).contract.region} road says [IF seasonOf(week) is 'Winter'] snow [ELSE] freezing rain [END] has set in out there. {member} wants to know before they go whether to push on through it or find somewhere dry and wait.
 
-- **Push on** · _Everyone arrives tired (fatigue +15)._ · `field_weather/root/c1`
-  “Heads down, they keep walking.”
-- **Shelter and wait** · _One week's delay. Costs {squadOf(s, missionOf(s, m)).length} supplies._ · `field_weather/root/c2`
-  “They find a shepherd's hut and wait it out.”
+- **Tell them to push on** · _Everyone arrives tired (fatigue +15)._ · `field_weather/root/c1`
+  “They tie their hoods down and set off.”
+- **Tell them to shelter and wait** · _One week's delay. Costs {squadOf(s, missionOf(s, m)).length} supplies._ · `field_weather/root/c2`
+  “The drover tells them where to find a shepherd's hut on the way.”
 
 ### Fresh Tracks
 
-`field_tracks` · Road decision · data/field.ts:245
+`field_tracks` · Road decision · data/field.ts:183
 
 **When:** picks a member where onRoad(s, m) and squadOf(s, missionOf(s, m)).some((x) => x.profession is 'scout' or x.profession is 'skirmisher') and missionOf(s, m).contract.hidden.some((h) => not h.revealed); random draw, weight 2.5.
 
-> {first(sc)} found fresh tracks a mile from the job and wants to follow them for a day.
+> A tinker who came in from {missionOf(s, m).contract.region} saw fresh tracks a mile from the job. {first(sc)} wants leave to spend a day following them once the squad gets there.
 
-- **Follow the tracks** · _Reveals what the squad will face, and the first phase is easier. Fatigue +10._ · `field_tracks/root/c1`
-  “By nightfall they know exactly what is waiting.”
+- **Follow the tracks** · _Reveals what the squad will face, and the fights there are a little easier. Fatigue +10._ · `field_tracks/root/c1`
+  “The tinker draws them a map on the back of a bill, which is better than most maps.”
 - **Stay on schedule** · `field_tracks/root/c2`
-  “They keep to the plan.”
+  “They will go straight to the job.”

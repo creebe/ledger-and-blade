@@ -53,7 +53,7 @@ _Speaker: Lady Honora Aske_
 
 #### Story contract: The Aske Silver
 
-`contract:aske_plate` · data/contracts.ts:608
+`contract:aske_plate` · data/contracts.ts:774
 
 - _type:_ “Story”
 - _titles[1]:_ “The Aske Silver”
