@@ -143,7 +143,7 @@ export const FIELD_EVENTS: EventDef[] = [
     member: (s, m) => onRoad(s, m) && missionOf(s, m)?.contract.contestedBy === 'hobbs' && s.npcs.isbet?.status === 'alive',
     text: (s, m) =>
       `The pot boy from the Copper Kettle runs in to say that Hobb & Daughters are loading packs in their yard for the same job you've given ${first(m)}: "${missionOf(s, m)?.contract.title}". Isbet Hobb is leading them, and they mean to leave today.` +
-      (s.flags.isbet_betrayed
+      (s.flags.isbet_betrayed && s.npcs.marta?.status === 'alive'
         ? `\n\nHe says one more thing, looking at his feet. Isbet saw him coming this way and told him to give the guild her mother's regards, and nothing else.`
         : ''),
     choices: (s, m) => {
@@ -217,9 +217,9 @@ export const FIELD_EVENTS: EventDef[] = [
     choices: [
       {
         label: 'Bring the clerk home',
-        detail: 'Exchequer +3, Lord Treasurer Fenn thinks a little better of the guild. The squad stops at the ford for him (fatigue +8).',
-        effects: { standing: { exchequer: 3 }, npc: { id: 'fenn', attitude: 10 }, mission: { fatigue: 8 }, log: 'At Wenmouth ford they found the Exchequer clerk, who had been living in an empty Crown wagon for a month, and sent him home with a carter.' },
-        resultText: 'Fenn writes two lines to thank you. It is the first letter from the Exchequer since the silver.',
+        detail: 'Exchequer +3, Fenn +10. The squad stops at the ford for him (fatigue +8).',
+        effects: { standing: { exchequer: 3 }, npc: { id: 'fenn', attitude: 10 }, mission: { fatigue: 8 }, log: 'At Wenmouth ford they found the Exchequer clerk, who had been living in an empty Crown wagon since the silver, and sent him home with a carter.' },
+        resultText: 'Fenn writes two lines to thank you, and spends one of them apologizing for the clerk.',
       },
       {
         label: 'Leave him there',
@@ -236,7 +236,7 @@ export const FIELD_EVENTS: EventDef[] = [
     npcs: ['fenn'],
     member: (s, m) => onRoad(s, m) && !!s.flags.fenn_ally,
     text: (s, m) =>
-      `A clerk from the Exchequer is in the yard with a writ under the Lord Treasurer's seal. Fenn heard at the table that your people are going to ${placeOf(s, m)}, and the writ lets them change horses at the Crown's post-houses on the way. The clerk mentions that the post-riders wear the Crown's colours, and that ${first(m)}'s squad would be riding with them.`,
+      `A clerk from the Exchequer is in the yard with a writ under the Lord Treasurer's seal. Fenn heard at the table that your people are going to ${placeOf(s, m)}, and the writ lets them change horses at the Crown's post-houses on the way. The clerk mentions that the post-riders wear the Crown's colors, and that ${first(m)}'s squad would be riding with them.`,
     choices: [
       {
         label: 'Take the writ',

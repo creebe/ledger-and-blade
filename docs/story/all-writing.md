@@ -1771,7 +1771,7 @@ The squad in the yard. Door scenes: news brought to the yard on Tallow Street as
 
 **Reads:** `isbet_betrayed` (set by [The Copper Kettle](#the-copper-kettle) (`isbet_kettle`)).
 
-> The pot boy from the Copper Kettle runs in to say that Hobb & Daughters are loading packs in their yard for the same job you've given {member}: "{missionOf(s, m).contract.title}". Isbet Hobb is leading them, and they mean to leave today.[IF isbet_betrayed] 
+> The pot boy from the Copper Kettle runs in to say that Hobb & Daughters are loading packs in their yard for the same job you've given {member}: "{missionOf(s, m).contract.title}". Isbet Hobb is leading them, and they mean to leave today.[IF isbet_betrayed and marta status is 'alive'] 
 >
 > He says one more thing, looking at his feet. Isbet saw him coming this way and told him to give the guild her mother's regards, and nothing else. [END]
 
@@ -1820,8 +1820,8 @@ The squad in the yard. Door scenes: news brought to the yard on Tallow Street as
 
 > A carter in from the coast road tells {member} that the Crown's wagons are still at Wenmouth ford. They went that far with the Exchequer's own guard to meet the escort the Crown had hired, and the escort never came. The guard went home weeks ago. The wagons are empty now, but a clerk from the Exchequer is still there, living in one of them, because nobody has told him to come back.
 
-- **Bring the clerk home** · _Exchequer +3, Lord Treasurer Fenn thinks a little better of the guild. The squad stops at the ford for him (fatigue +8)._ · `field_crown_wagons/root/c1`
-  “Fenn writes two lines to thank you. It is the first letter from the Exchequer since the silver.”
+- **Bring the clerk home** · _Exchequer +3, Fenn +10. The squad stops at the ford for him (fatigue +8)._ · `field_crown_wagons/root/c1`
+  “Fenn writes two lines to thank you, and spends one of them apologizing for the clerk.”
 - **Leave him there** · `field_crown_wagons/root/c2`
   “The carter says the clerk seemed happy enough, and he had a stove.”
 
@@ -1833,7 +1833,7 @@ The squad in the yard. Door scenes: news brought to the yard on Tallow Street as
 
 **Reads:** `fenn_ally` (set by [Quarter Day](#quarter-day) (`quarter_day`)).
 
-> A clerk from the Exchequer is in the yard with a writ under the Lord Treasurer's seal. Fenn heard at the table that your people are going to {placeOf(s, m)}, and the writ lets them change horses at the Crown's post-houses on the way. The clerk mentions that the post-riders wear the Crown's colours, and that {member}'s squad would be riding with them.
+> A clerk from the Exchequer is in the yard with a writ under the Lord Treasurer's seal. Fenn heard at the table that your people are going to {placeOf(s, m)}, and the writ lets them change horses at the Crown's post-houses on the way. The clerk mentions that the post-riders wear the Crown's colors, and that {member}'s squad would be riding with them.
 
 - **Take the writ** · _The squad arrives fresher (fatigue −15). Lower Town −2: the street sees who they ride with._ · `field_writ/root/c1`
   “The clerk folds the writ into a leather case and hands it to the squad as if it might go off.”
