@@ -6603,16 +6603,16 @@ _Source: expeditions/data/lines-deep.ts:737._
 | `line:lost_crawl_all.2` | When {a} comes round, the fight is long over and nobody is dead, which nobody can explain. They get each other back up the rungs somehow. |
 | `line:lost_crawl_all:town.1` | {a} wakes up in an alley with the rest of the squad around them, all alive. They get back to Tallow Street with nothing. |
 | `line:lost_crawl_all:town.2` | When {a} comes round, the fight is long over. Somehow nobody is dead, and they help each other home through the back streets. |
-| `line:lost_crawl_all:overland.1` | {a} wakes up in the open with the whole squad around them, beaten and alive. They drag themselves out of {p} with nothing. |
+| `line:lost_crawl_all:overland.1` | {a} wakes up in the open. The rest of the squad are lying nearby, and every one of them is alive. They drag themselves out of {p} with nothing. |
 | `line:lost_crawl_all:overland.2` | When {a} comes round, the fight is long over and everyone is still breathing. They get each other back onto the road somehow. |
 | `line:lost_home_beaten.1` | They get within sight of the grate, and then they are caught. Everyone comes up the rungs alive, and that is all they bring with them. |
-| `line:lost_home_beaten.2` | They are nearly at the grate when they are caught. They come up battered and empty-handed, but they all come up. |
+| `line:lost_home_beaten.2` | They are nearly at the grate when they are caught. All of them climb out alive, though the only things they bring up are bruises. |
 | `line:lost_home_beaten:town.1` | They are within sight of Tallow Street when they are caught. They all reach the hall, and they have nothing to show for it. |
-| `line:lost_home_beaten:town.2` | They are caught two streets from the hall. Every one of them gets home, and nothing else does. |
+| `line:lost_home_beaten:town.2` | They are caught two streets from the hall. Every one of them gets home, and the packs stay in the gutter where they were dropped. |
 | `line:lost_home_beaten:overland.1` | They are nearly clear of {p} when they are caught. They all get away, and they leave everything they found behind. |
 | `line:lost_home_beaten:overland.2` | They are caught on the way out of {p}. Nobody dies, which is the only good thing anyone says about it. |
-| `line:road_home_beaten.1` | They come home late, every one of them, with nothing but the bandages. Jory counts them twice and closes the ledger. |
-| `line:road_home_beaten.2` | The whole squad limps back in through the gate, beaten and empty-handed. Tallow Street is surprised to see all of them. |
+| `line:road_home_beaten.1` | They come home late, every one of them, with nothing but the bandages. Jory counts them twice and says it makes a change for the numbers to come out right. |
+| `line:road_home_beaten.2` | The whole squad limps back in through the gate with nothing to show for the trip. Tallow Street is surprised to see all of them. |
 
 _Source: expeditions/data/lines-deep.ts:755._
 

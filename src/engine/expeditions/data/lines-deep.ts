@@ -761,23 +761,23 @@ export const DEEP_LINES: Record<string, string[]> = {
     "When {a} comes round, the fight is long over. Somehow nobody is dead, and they help each other home through the back streets.",
   ],
   'lost_crawl_all:overland': [
-    "{a} wakes up in the open with the whole squad around them, beaten and alive. They drag themselves out of {p} with nothing.",
+    "{a} wakes up in the open. The rest of the squad are lying nearby, and every one of them is alive. They drag themselves out of {p} with nothing.",
     "When {a} comes round, the fight is long over and everyone is still breathing. They get each other back onto the road somehow.",
   ],
   lost_home_beaten: [
     "They get within sight of the grate, and then they are caught. Everyone comes up the rungs alive, and that is all they bring with them.",
-    "They are nearly at the grate when they are caught. They come up battered and empty-handed, but they all come up.",
+    "They are nearly at the grate when they are caught. All of them climb out alive, though the only things they bring up are bruises.",
   ],
   'lost_home_beaten:town': [
     "They are within sight of Tallow Street when they are caught. They all reach the hall, and they have nothing to show for it.",
-    "They are caught two streets from the hall. Every one of them gets home, and nothing else does.",
+    "They are caught two streets from the hall. Every one of them gets home, and the packs stay in the gutter where they were dropped.",
   ],
   'lost_home_beaten:overland': [
     "They are nearly clear of {p} when they are caught. They all get away, and they leave everything they found behind.",
     "They are caught on the way out of {p}. Nobody dies, which is the only good thing anyone says about it.",
   ],
   road_home_beaten: [
-    "They come home late, every one of them, with nothing but the bandages. Jory counts them twice and closes the ledger.",
-    "The whole squad limps back in through the gate, beaten and empty-handed. Tallow Street is surprised to see all of them.",
+    "They come home late, every one of them, with nothing but the bandages. Jory counts them twice and says it makes a change for the numbers to come out right.",
+    "The whole squad limps back in through the gate with nothing to show for the trip. Tallow Street is surprised to see all of them.",
   ],
 };
