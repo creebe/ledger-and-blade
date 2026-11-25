@@ -24,6 +24,7 @@ import {
   visibleLog,
   weekSummary,
   tripWeekOf,
+  triggerEvents,
   withdrawAtDoor,
   type Contract,
   type GameState,
@@ -179,6 +180,31 @@ describe('expeditions', () => {
       }
     }
     expect(found).toBeGreaterThan(0);
+  });
+
+  it("the Ninth's colours bring Captain Mayne to the hall once, and every answer takes them off the market", () => {
+    for (let choice = 0; choice < 3; choice++) {
+      const s = newGame(116);
+      clearEvents(s);
+      s.flags.ninth_active = true;
+      s.goods.colours = 1;
+      triggerEvents(s);
+      const ev = s.pendingEvents.find((e) => e.defId === 'ninth_colours')!;
+      expect(ev).toBeDefined();
+      const crowns = s.crowns;
+      resolveEvent(s, ev.uid, choice);
+      expect(s.goods.colours ?? 0).toBe(0);
+      if (choice === 1) expect(s.crowns).toBe(crowns + 200);
+      s.goods.colours = 1;
+      triggerEvents(s);
+      expect(s.pendingEvents.some((e) => e.defId === 'ninth_colours')).toBe(false);
+    }
+    // not before Mayne has come to Varrow
+    const s = newGame(117);
+    clearEvents(s);
+    s.goods.colours = 1;
+    triggerEvents(s);
+    expect(s.pendingEvents.some((e) => e.defId === 'ninth_colours')).toBe(false);
   });
 
   it('a plain job on a long route walks the last zone and stops short of the boss', () => {

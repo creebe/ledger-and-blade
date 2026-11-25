@@ -342,6 +342,7 @@ export interface EventEffect extends ContractEffect {
   member?: { morale?: number; loyalty?: number; health?: number; fatigue?: number; leaves?: boolean; wage?: number; xp?: number; trait?: string; removeTrait?: string; epithet?: string; signature?: string };
   mission?: MissionEffect;
   log?: string; // line added to the squad's journal
+  goods?: Partial<Record<GoodId, number>>; // expedition goods added or taken away
 }
 
 export interface MissionEffect {

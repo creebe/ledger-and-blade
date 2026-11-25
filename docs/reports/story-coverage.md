@@ -116,7 +116,7 @@ Every conversation node in every story beat was reached.
 | coster_terms | 7% | Haggled better terms on the loan from Coster. |
 | weights_exposed | 23% | Proved Hesketh's grain store was using short weights. |
 | weights_failed | 9% | Failed to prove the short weights at Hesketh's. |
-| coster_ledger | 10% | Bought the page from the river strongbox that ties Coster to an insurance fraud. |
+| coster_ledger | 11% | Bought the page from the river strongbox that ties Coster to an insurance fraud. |
 | coster_exposed | 1% | Handed Coster's page to the Weighhouse masters. |
 | pask_deal | 25% | Buys through Wenna Pask's low-tide market. |
 | pask_reported | 26% | Reported Wenna Pask to the toll-men. |
@@ -171,7 +171,7 @@ Every conversation node in every story beat was reached.
 | Lady Honora Aske (People) | 77% |
 | Hill trolls (Foes) | 49% |
 | Fireborn (Foes) | 19% |
-| Hedge-wards (Foes) | 24% |
+| Hedge-wards (Foes) | 23% |
 | Swarms (Foes) | 45% |
 | Sell-swords (Foes) | 72% |
 | The Assay Office (Powers & trades) | 100% |
@@ -181,19 +181,19 @@ Every conversation node in every story beat was reached.
 
 ## Random events fired
 
-- informant: 207
+- informant: 208
 - petition: 189
 - brawl: 169
 - peddler: 156
 - fenn_letter: 138
-- lead: 109
+- lead: 108
 - pask_strongbox: 84
-- festival: 83
-- homesick: 81
-- volunteer: 78
-- raise: 70
+- festival: 82
+- homesick: 80
+- volunteer: 79
+- raise: 71
 - jory_page: 69
-- marta_cake: 61
+- marta_cake: 62
 - brune_donation: 36
 - dagny_tip: 25
 - nightmares: 22

@@ -7,6 +7,8 @@ import { TRAITS } from '../data/traits';
 import { chanceFrom, counteredTags, squadScore } from '../missions/odds';
 import { chance, nextFloat, pick, uid, weighted } from '../core/rng';
 import type { EventChoice, EventEffect, GameEvent, GameState, Member } from '../core/types';
+import type { GoodId } from '../expeditions/types';
+import { GOODS } from '../expeditions/data/content';
 import { addDispatch, clamp, living } from '../core/util';
 import { addItem } from '../economy/items';
 import { addStoryContract } from '../economy/board';
@@ -64,6 +66,12 @@ export function triggerEvents(state: GameState) {
     if (m) state.pendingEvents.push(instantiate(state, EVENT_DEFS.legend_named, m));
   }
   state.pendingLegends = [];
+  // the Ninth's colours come home from Skell Gap: Captain Mayne hears about it the same week
+  const colours = EVENT_DEFS.ninth_colours;
+  if ((state.goods?.colours ?? 0) > 0 && state.eventWeeks.ninth_colours === undefined && state.flags.ninth_active && npcsAvailable(state, colours)) {
+    state.eventWeeks.ninth_colours = state.week;
+    state.pendingEvents.push(instantiate(state, colours));
+  }
   // story beats: each fires once, somewhere inside its window
   for (const def of STORY_EVENTS) {
     if (state.eventWeeks[def.id] !== undefined) continue;
@@ -184,6 +192,12 @@ export function applyEventEffect(state: GameState, e: EventEffect, ev: GameEvent
   if (e.supplies) {
     state.supplies = Math.max(0, state.supplies + e.supplies);
     lines.push(`${e.supplies > 0 ? '+' : ''}${e.supplies} supplies.`);
+  }
+  for (const [g, n] of Object.entries(e.goods ?? {}) as [GoodId, number][]) {
+    const before = state.goods[g] ?? 0;
+    state.goods[g] = Math.max(0, before + n);
+    const d = state.goods[g]! - before;
+    if (d) lines.push(d < 0 ? `${GOODS[g].name}: gone from the guild's goods.` : `+${d} ${GOODS[g].name}.`);
   }
   if (e.intel) {
     state.intel = Math.max(0, state.intel + e.intel);
