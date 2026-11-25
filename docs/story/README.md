@@ -2,10 +2,11 @@
 
 All the game's writing in one place, organized for a writer. There are two copies:
 
-- **The Claude Doc** (private to the owner): https://claude.ai/artifact/BmrzeQPvrndzLsvFtTBLgH. The owner reads, edits and comments on this one, on their phone. It has three tabs:
+- **The Claude Doc** (private to the owner): https://claude.ai/artifact/BmrzeQPvrndzLsvFtTBLgH. The owner reads, edits and comments on this one, on their phone. It has four tabs:
   - **Story threads**: how to use the doc, the thread map, every scene by thread, what's planned, and what looks broken.
   - **World text**: contracts, the Codex, street talk, Dates, tutorial objectives, starts, Legends, and names and descriptions.
   - **Reports and interface**: lines the rules write (week report, dispatches, journals, warnings) and the text on screens and sheets.
+  - **Expeditions**: the sites and zones, monsters and people, Professions in a fight, the pack, goods and marks; every expedition log line, Old Pellam's and the other sites'; and the Down below and expedition report lines. Door scenes stay in the Story threads tab, under On the road.
 - **`all-writing.md`** (this folder): the same content as one Markdown file, with links between scenes and a Mermaid thread map that GitHub draws. It is generated. Don't edit it by hand.
 
 Both come from `npm run story-export` (`scripts/story-export.ts`). The script reads the source files rather than running the game, so a line built from a template shows its placeholders (`{member}`), and a line that changes with the story shows every version (`[IF riot_fed] … [ELSE] … [END]`).
@@ -21,13 +22,15 @@ Every item carries an ID and its source file and line:
 | Contract, Codex, street talk, Jory, Date, objective, start, Legend | kind:id | `codex:varrow`, `crier:ship`, `date:first_payment` |
 | Names and descriptions | group:id | `factions:oda` |
 | Rules and interface lines | file#function.n | `engine/core/turn.ts#endWeekWarnings.1` |
+| Expedition entries | kind:id | `site:pellam`, `zone:culverts`, `monster:eel`, `delver:envoy.1`, `supply:oil`, `good:seal`, `change:iron_bones` |
+| Expedition log lines | line:situation.n (a site or kind of place after a colon) | `line:passage_culverts.2`, `line:fever_start:town.1` |
 
 Line numbers move as code changes; the IDs don't. Choice numbers and the `.n` on rules lines are positions, so check the text as well when you find one.
 
 ## How a later session turns the owner's notes into code
 
 1. **Read the comments.** Use the Claude Docs connector: `read` the doc (`{"object":"project","id":"573eec1b-f345-41c5-8b8d-627a0b6fc2a2"}`) to list its tabs, then `query` the comment threads under each tab's body (`object: "utterance"`). Load the connector's guide first (`guide` with `topic.index`, then `topic.comments`). Each comment is anchored to the words it is about, and the nearest ID above those words says where in the code it goes.
-2. **Find the owner's edits.** Read each tab's text and compare it with `docs/story/doc-snapshot/`, which holds exactly what was pasted into the doc. Any difference is an edit by the owner. The thread map's drawing and the line under it were added in the doc and aren't in the snapshot.
+2. **Find the owner's edits.** Read each tab's text and compare it with `docs/story/doc-snapshot/`, which holds exactly what was pasted into the doc. Any difference is an edit by the owner. The snapshot files map to the tabs like this: `map`, `thread-*`, `planned` and `problems` are Story threads; `contracts`, `codex`, `crier`, `dates`, `tutorial`, `starts`, `legends` and `reference` are World text; `engine` and `ui` are Reports and interface; `exp-world`, `exp-pellam`, `exp-sites` and `exp-reports` are Expeditions. The thread map's drawing and the line under it were added in the doc and aren't in the snapshot.
    - The connector's `export` as Markdown gives the easiest comparison, but it reformats some text that the owner didn't touch, so normalize both sides first: `_x_` comes back as `*x*`, square brackets come back escaped (`\[`), a paragraph starting with `[IF` can come back as `&#91;IF`, table separator rows are redrawn, and doubled blank lines are collapsed. Compare line by line, ignoring blank lines and spaces at the edges of table cells, which the doc may trim.
 3. **Make the change in code** at the ID's source file, following `docs/STORY.md` §7 and the usual checks (`npm run check`, the writing and story reviewers). Placeholders in curly braces must stay filled from engine data.
 4. **Answer in the doc.** Reply in each comment thread with what changed (or why it didn't), as a doc comment. Leave resolving threads to the owner.
