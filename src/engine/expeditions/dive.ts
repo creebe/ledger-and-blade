@@ -3,7 +3,7 @@
 // squad and plan always give the same log. No React, no Math.random.
 import { chance, nextFloat, pick, randInt, shuffle, weighted } from '../core/rng';
 import type { DamageType, Element } from '../core/types';
-import { GEAR, GOODS, HABITS, LENGTHS, MONSTERS, SCARS, ZONES, BAD_HABITS, GOOD_HABITS, type MarkDef, type MonsterDef } from './data/content';
+import { CONDITIONS, GEAR, GOODS, HABITS, LENGTHS, MONSTERS, SCARS, ZONES, BAD_HABITS, GOOD_HABITS, type MarkDef, type MonsterDef } from './data/content';
 import { LINES } from './data/lines';
 import { EXP_TUNING as T } from './tuning';
 import type {
@@ -30,7 +30,9 @@ interface Actor {
   prof: Delver['prof'];
   maxHp: number;
   hp: number;
-  grit: number;
+  fatigue: number;
+  exposure: number;
+  masked: boolean;
   acc: number;
   dodge: number;
   prot: number;
@@ -40,7 +42,6 @@ interface Actor {
   trinket?: GearDef;
   marks: MarkDef[];
   state: 'ok' | 'down' | 'dead';
-  shaken: boolean;
   stunned: boolean;
   bleed: number;
   poison: number;
@@ -53,8 +54,9 @@ interface Actor {
   newScars: string[];
   wentDown: boolean;
   gotUp: boolean;
-  wasShaken: boolean;
+  wasSpent: boolean;
   sawDeath: boolean;
+  newConditions: string[];
   healed: number;
   covers: number;
   bossKill: boolean;
@@ -88,10 +90,12 @@ export interface DiveContext {
   seed: number;
   /** a rival has been through the Culverts this week */
   rivalAhead?: boolean;
+  /** the Kiln Engine has been broken before: the boss room holds lesser engines */
+  kilnBroken?: boolean;
   gear: (uid: string | undefined) => GearDef | undefined;
 }
 
-const mark = (d: Delver): MarkDef[] => [...d.scars.map((s) => SCARS[s]), ...d.habits.map((h) => HABITS[h])].filter(Boolean);
+const mark = (d: Delver): MarkDef[] => [...d.scars.map((s) => SCARS[s]), ...(d.conditions ?? []).map((c) => CONDITIONS[c]), ...d.habits.map((h) => HABITS[h])].filter(Boolean);
 const sum = (ms: MarkDef[], k: keyof MarkDef) => ms.reduce((s, m) => s + ((m[k] as number | undefined) ?? 0), 0);
 
 /** Max HP for a member, scars included. */
@@ -141,7 +145,7 @@ function buildRoute(r: Rng, plan: ExpPlan, ctx: DiveContext): Room[] {
 export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext): ExpeditionResult {
   const r: Rng = { rng: ctx.seed | 0 || 1 };
   const route = buildRoute(r, plan, ctx);
-  const pack: Record<SupplyId, number> = { food: 0, bandages: 0, oil: 0, tools: 0, charms: 0, reagents: 0, draughts: 0, ...plan.pack } as Record<SupplyId, number>;
+  const pack: Record<SupplyId, number> = { food: 0, bandages: 0, oil: 0, tools: 0, masks: 0, reagents: 0, draughts: 0, ...plan.pack } as Record<SupplyId, number>;
   const packed = { ...pack };
   const O = plan.orders;
   const log: LogLine[] = [];
@@ -169,7 +173,9 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
       prof: d.prof,
       maxHp: s.maxHp,
       hp: Math.min(d.hp, s.maxHp),
-      grit: d.grit,
+      fatigue: d.fatigue,
+      exposure: d.exposure,
+      masked: false,
       acc: s.acc,
       dodge: s.dodge,
       prot: s.prot,
@@ -179,7 +185,6 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
       trinket: ctx.gear(d.trinket),
       marks: mark(d),
       state: 'ok',
-      shaken: d.grit <= 0,
       stunned: false,
       bleed: 0,
       poison: 0,
@@ -191,8 +196,9 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
       newScars: [],
       wentDown: false,
       gotUp: false,
-      wasShaken: d.grit <= 0,
+      wasSpent: false,
       sawDeath: false,
+      newConditions: [],
       healed: 0,
       covers: 0,
       bossKill: false,
@@ -224,8 +230,9 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
   const snapSquad = (): SquadSnap => ({
     hp: A.map((a) => Math.max(0, Math.round(a.hp))),
     maxHp: A.map((a) => a.maxHp),
-    grit: A.map((a) => Math.round(a.grit)),
-    state: A.map((a) => (a.state === 'dead' ? 'dead' : a.state === 'down' ? 'down' : a.shaken ? 'shaken' : 'ok')),
+    fatigue: A.map((a) => Math.round(a.fatigue)),
+    exposure: A.map((a) => Math.round(a.exposure)),
+    state: A.map((a) => (a.state === 'dead' ? 'dead' : a.state === 'down' ? 'down' : a.fatigue >= 100 ? 'out' : a.fatigue >= T.fatigue.spent ? 'spent' : 'ok')),
   });
   const snapFoes = (): EnemySnap[] | undefined =>
     foes.length ? foes.map((f) => ({ monster: f.def.id, name: f.label, hp: Math.max(0, Math.round(f.hp)), maxHp: f.maxHp })) : undefined;
@@ -233,32 +240,44 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
     log.push({ kind, text, squad: snapSquad(), enemies: snapFoes(), ...extra });
   };
 
-  // ---- grit ----
-  const gritChange = (a: Actor, n: number) => {
+  // ---- fatigue and exposure ----
+  /** Physical wear. Resolve and some habits change how fast it builds. */
+  const tire = (a: Actor, n: number) => {
     if (a.state === 'dead') return;
-    if (n < 0) {
-      const guard = (a.trinket?.gritGuard ?? 0) - sum(a.marks, 'gritLoss');
-      const resolve = 1 - (a.d.attrs.resolve - 5) * 0.06;
-      n = Math.min(0, Math.round(n * resolve) + guard);
-    }
-    const before = a.grit;
-    a.grit = Math.max(0, Math.min(100, a.grit + n));
-    if (before > 0 && a.grit <= 0 && a.state === 'ok') {
-      if (pack.charms > 0) {
-        pack.charms -= 1;
-        a.grit = T.grit.charm;
-        put('grit', say('charm', { a: a.name }), { note: "an Oda's token" });
-      } else if (!a.shaken) {
-        a.shaken = true;
-        a.wasShaken = true;
-        put('grit', say('shaken', { a: a.name }), { big: true });
-      }
-    } else if (a.shaken && a.grit >= 25) {
-      a.shaken = false;
-      put('grit', say('unshaken', { a: a.name, w: (a.weapon?.name ?? 'weapon').toLowerCase() }));
+    if (n > 0) n = Math.max(0, n * (1 - (a.d.attrs.resolve - 5) * 0.06) - (a.trinket?.ease ?? 0) * 0.5);
+    const before = a.fatigue;
+    a.fatigue = Math.max(0, Math.min(100, a.fatigue + n));
+    if (a.state !== 'ok') return;
+    if (before < 100 && a.fatigue >= 100) {
+      a.wasSpent = true;
+      put('fatigue', say('collapse', { a: a.name }), { big: true });
+    } else if (before < T.fatigue.spent && a.fatigue >= T.fatigue.spent) {
+      a.wasSpent = true;
+      put('fatigue', say('spent', { a: a.name }), { big: true });
+    } else if (before >= T.fatigue.spent && a.fatigue < T.fatigue.spent - 10) {
+      put('fatigue', say('second_wind_back', { a: a.name, w: (a.weapon?.name ?? 'weapon').toLowerCase() }));
     }
   };
-  const gritAll = (n: number, except?: Actor) => standing().forEach((a) => a !== except && gritChange(a, n));
+  const tireAll = (n: number) => standing().forEach((a) => tire(a, n));
+  /** Reagent runoff in the body. Wet masks halve it; past each threshold it leaves a lasting condition. */
+  const expose = (a: Actor, n: number) => {
+    if (a.state === 'dead' || n <= 0) return;
+    if (a.masked) n = n / 2;
+    const before = a.exposure;
+    a.exposure = Math.min(100, a.exposure + n);
+    for (const th of T.exposure.thresholds) {
+      if (before < th && a.exposure >= th) {
+        const free = Object.keys(CONDITIONS).filter((c) => !(a.d.conditions ?? []).includes(c) && !a.newConditions.includes(c));
+        if (!free.length) continue;
+        const c = pick(r, free);
+        a.newConditions.push(c);
+        put('exposure', say(`cond_${c}`, { a: a.name }), { big: true, note: CONDITIONS[c].name });
+      }
+    }
+  };
+  const exposeAll = (n: number) => standing().forEach((a) => expose(a, n));
+  /** aim and dodge lost to fatigue */
+  const wear = (a: Actor) => (a.fatigue >= T.fatigue.spent ? T.fatigue.spentPenalty : a.fatigue >= T.fatigue.tired ? T.fatigue.tiredPenalty : 0);
 
   // ---- helpers ----
   const zoneScale = (def: MonsterDef, z: ZoneId) => 1 + Math.max(0, ZONES[z].depth - ZONES[def.zone].depth) * T.depthScale;
@@ -308,7 +327,7 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
     a.wentDown = true;
     a.covering = undefined;
     for (const x of A) if (x.covering === a) x.covering = undefined;
-    const p = Math.max(T.death.min, Math.min(T.death.max, T.death.base + (overkill / a.maxHp) * T.death.overkill + (dark ? T.death.dark : 0) - (hasProf('chaplain') ? T.death.chaplain : 0)));
+    const p = Math.max(T.death.min, Math.min(T.death.max, T.death.base + (overkill / a.maxHp) * T.death.overkill + (dark && !a.marks.some((m) => m.nightEyes) ? T.death.dark : 0) - (hasProf('chaplain') ? T.death.chaplain : 0) + sum(a.marks, 'deathRoll')));
     if (chance(r, p)) {
       a.state = 'dead';
       a.hp = 0;
@@ -316,12 +335,10 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
       put('death', say('death', { a: a.name, m: cause }), { big: true });
       for (const x of standing()) {
         x.sawDeath = true;
-        gritChange(x, T.grit.deathAlly);
       }
     } else {
       a.hp = 0;
       put('down', say('down', { a: a.name }), { big: true });
-      gritAll(T.grit.downAlly);
     }
   };
 
@@ -341,14 +358,13 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
     a.killsBy[f.def.id] = (a.killsBy[f.def.id] ?? 0) + 1;
     kills[f.def.id] = (kills[f.def.id] ?? 0) + 1;
     if (f.def.id === 'kiln') a.bossKill = true;
-    gritChange(a, T.grit.kill);
     if (f.def.coin) crownsFound += f.def.coin + randInt(r, 0, f.def.coin);
     if (f.def.loot && chance(r, f.def.loot.chance)) addLoot(f.def.loot.good, 1);
   };
   /** One blow. Returns true if it landed. */
   const strike = (a: Actor, f: Foe, o: { key: string; power: number; type?: DamageType; el?: Element; accMod?: number; armorPierce?: number; critMod?: number; mult?: number }) => {
     const vs = a.marks.reduce((s, m) => s + (m.accVs?.monster === f.def.id ? m.accVs.acc : 0), 0);
-    const hitP = Math.max(0.12, Math.min(0.96, (a.acc + (o.accMod ?? 0) + vs - f.dodge - (dark ? 10 : 0) - (a.shaken ? 25 : 0)) / 100));
+    const hitP = Math.max(0.12, Math.min(0.96, (a.acc + (o.accMod ?? 0) + vs - f.dodge - (dark && !a.marks.some((m) => m.nightEyes) ? 10 : 0) - wear(a)) / 100));
     const v = { a: a.name, m: f.label, w: (a.weapon?.name ?? 'bare hands').toLowerCase() };
     if (!chance(r, hitP)) {
       put('miss', say(`${o.key}_miss`, v));
@@ -363,7 +379,6 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
     const weak = multFor(f, o.type, o.el) > 1.01;
     const strong = multFor(f, o.type, o.el) < 0.99;
     put('hit', say(crit ? 'crit' : `${o.key}_hit`, v), { note: `${dmg}${weak ? ', it hates that' : strong ? ', it shrugs' : ''}` });
-    if (crit) gritChange(a, T.grit.crit);
     if (f.hp <= 0) {
       killFoe(a, f);
       foes = foes.filter((x) => x !== f);
@@ -390,11 +405,11 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
   const memberTurn = (a: Actor) => {
     const rank = rankOf(a);
     const w = a.weapon;
-    if (a.shaken && chance(r, 0.5)) {
-      put('grit', say('cower', { a: a.name, w: (a.weapon?.name ?? 'weapon').toLowerCase() }));
+    if (a.fatigue >= 100 || (a.fatigue >= T.fatigue.spent && chance(r, 0.25))) {
+      put('fatigue', say(a.fatigue >= 100 ? 'too_tired' : 'spent_fumble', { a: a.name, w: (a.weapon?.name ?? 'weapon').toLowerCase() }));
       return;
     }
-    const { might, finesse, wits, resolve } = a.d.attrs;
+    const { might, finesse, wits } = a.d.attrs;
     const meleePower = (w?.power ?? 2) + Math.floor(might / 2);
     const front = frontFoes();
     switch (a.prof) {
@@ -477,7 +492,7 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
         if (pack.reagents <= 0 && t.hp >= 20 && a.hp > a.maxHp * 0.5) {
           a.hp -= 4;
           put('enemy', say('blood_cast', { a: a.name }), { note: '4 of their own' });
-          gritChange(a, -3);
+          if (zone === 'sink') expose(a, T.exposure.bloodCast);
           strike(a, t, { key: 'spell', power: pow, el, accMod, mult: 0.9 });
           if (a.hp <= 0) goDown(a, -a.hp, 'their own spell');
           return;
@@ -493,10 +508,11 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
           a.healed += n;
           return put('heal', say(t === a ? 'dress_self' : 'dress', { a: a.name, t: t.name }), { note: `+${n}` });
         }
-        const low = standing().filter((x) => x.grit < 35).sort((x, y) => x.grit - y.grit)[0];
+        const low = standing().filter((x) => x.fatigue >= T.fatigue.spent).sort((x, y) => y.fatigue - x.fatigue)[0];
         if (low && chance(r, 0.75)) {
-          put('grit', say(low === a ? 'steady_self' : 'steady', { a: a.name, t: low.name }), { note: `+${T.grit.steady + resolve} grit` });
-          gritChange(low, T.grit.steady + resolve);
+          const n = T.fatigue.secondWind + a.d.attrs.resolve;
+          put('fatigue', say(low === a ? 'steady_self' : 'steady', { a: a.name, t: low.name }), { note: `−${n} fatigue` });
+          tire(low, -n);
           return;
         }
         if (w?.focus && w.element === 'radiant' && pack.reagents > 0 && O.consumables !== 'hoard') {
@@ -539,7 +555,7 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
       for (const t of [...live]) {
         const dmg = Math.max(1, Math.round(randInt(r, 5, 8) - t.prot * 0.3));
         t.hp -= dmg;
-        gritChange(t, -3);
+        expose(t, T.exposure.kilnBlast);
         if (t.hp <= 0 && t.state === 'ok') goDown(t, -t.hp, 'the Kiln Engine');
       }
       return;
@@ -555,7 +571,7 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
       put('heal', say('covered', { a: cover.name, t: t.name, m: f.label }));
       t = cover;
     }
-    const hitP = Math.max(0.1, Math.min(0.95, (f.acc + (dark ? 5 : 0) - t.dodge - (f.pinned > 0 ? 20 : 0)) / 100));
+    const hitP = Math.max(0.1, Math.min(0.95, (f.acc + (dark ? 5 : 0) - t.dodge + wear(t) - (f.pinned > 0 ? 20 : 0)) / 100));
     if (!chance(r, hitP)) {
       put('miss', say(`${f.def.id}_miss`, v(t)));
       return;
@@ -566,12 +582,12 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
       dmg = Math.round(dmg * 1.5);
     }
     const crit = chance(r, 0.08);
-    dmg = Math.max(1, Math.round((dmg - (crit ? 0 : t.prot * 0.6)) * (crit ? 1.5 : 1)));
+    const skin = f.def.id === 'seep' || f.def.id === 'kiln' ? sum(t.marks, 'burnGuard') : 0;
+    dmg = Math.max(1, Math.round((dmg - (crit ? 0 : t.prot * 0.6)) * (crit ? 1.5 : 1)) - skin);
     t.hp -= dmg;
     put('enemy', say(crit ? `${f.def.id}_crit` : `${f.def.id}_hit`, v(t)), { note: `${dmg}` });
-    if (crit) gritChange(t, -5);
     if (f.def.special === 'poison' && t.hp > 0) t.poison = 2;
-    if (f.def.special === 'swarm') gritChange(t, -1);
+    if (f.def.id === 'seep') expose(t, T.exposure.seepHit);
     if (f.def.special === 'thief' && chance(r, 0.12)) {
       const have = (Object.keys(loot) as GoodId[]).filter((g) => (loot[g] ?? 0) > 0);
       if (have.length) {
@@ -590,8 +606,6 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
     // the first sight of each kind of monster
     const kinds = [...new Set(ids)];
     put('fight', say(o.boss ? 'boss_sight' : `sight_${lead.id}`, { m: foes[0].label, n: foes.length }), { big: !!o.boss });
-    const dread = Math.max(...kinds.map((k) => MONSTERS[k].dread));
-    if (dread > 0) gritAll(-dread);
     if (kinds.includes('moths') && pack.oil > 0) {
       const n = Math.min(pack.oil, randInt(r, 1, 2));
       pack.oil -= n;
@@ -639,6 +653,7 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
             if (f.hp <= 0) {
               put('win', say('kill_bleed', { m: f.label }));
               kills[f.def.id] = (kills[f.def.id] ?? 0) + 1;
+              if (f.def.coin) crownsFound += f.def.coin + randInt(r, 0, f.def.coin);
               if (f.def.loot && chance(r, f.def.loot.chance)) addLoot(f.def.loot.good, 1);
               foes = foes.filter((y) => y !== f);
               continue;
@@ -670,9 +685,14 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
     const xp = T.xp.fight + (ZONES[z].depth - 1) * T.xp.perDepth + (o.boss ? 10 : 0);
     for (const a of A) if (a.state !== 'dead') a.xp += xp;
     put('win', say(o.boss ? 'boss_won' : 'fight_won', {}));
-    gritAll(T.grit.fightWon);
+    tireAll(o.boss ? T.fatigue.boss : T.fatigue.fight);
     if (o.wanderer) wanderersWon += 1;
-    // the fallen get up
+    standUp();
+    return 'won';
+  };
+
+  /** The fallen get up once the danger has passed, often with a scar. */
+  function standUp() {
     for (const a of A.filter((x) => x.state === 'down')) {
       a.state = 'ok';
       a.hp = 1;
@@ -684,14 +704,16 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
         put('down', say('gets_up_scar', { a: a.name, s: SCARS[s].name.toLowerCase() }), { note: SCARS[s].name });
       } else put('down', say('gets_up', { a: a.name }));
     }
-    return 'won';
-  };
+  }
 
   // ---- between rooms ----
   const bandageAt = O.consumables === 'freely' ? 0.65 : O.consumables === 'sparingly' ? 0.4 : 0.2;
   const upkeep = (z: ZoneId) => {
-    // the deeper they go, the more it wears on them
-    gritAll(T.grit.room[z]);
+    // every room wears on them: more deeper down, more in heavy armor, more under a heavy bag
+    const load = Math.floor((Object.values(loot) as number[]).reduce((x, y) => x + y, 0) / T.fatigue.loadEvery);
+    for (const a of standing()) tire(a, T.fatigue.room[z] + (ctx.gear(a.d.armor)?.bulk ?? 0) / T.fatigue.bulkDiv + load + sum(a.marks, 'roomFatigue'));
+    if (z === 'sink') standing().forEach((a) => expose(a, T.exposure.sinkRoom + randInt(r, -1, 2)));
+    if (z === 'streets') exposeAll(T.exposure.streetsRoom);
     if (ZONES[z].dark) {
       if (pack.oil > 0) {
         pack.oil -= 1;
@@ -702,8 +724,8 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
           outOfOilSaid = true;
           put('supply', say(packed.oil > 0 ? 'oil_out' : 'no_oil', {}), { big: true });
         }
-        for (const a of standing()) gritChange(a, T.grit.darkRoom - sum(a.marks, 'darkGrit'));
-        if (chance(r, 0.35)) put('grit', say('dark_room', { a: pick(r, standing())?.name }));
+        for (const a of standing()) tire(a, T.fatigue.dark + sum(a.marks, 'darkFatigue'));
+        if (chance(r, 0.35)) put('fatigue', say('dark_room', { a: pick(r, standing())?.name }));
       }
     }
     sinceMeal += 1;
@@ -713,10 +735,10 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
       if (pack.food > 0) {
         pack.food -= 1;
         put('camp', say('meal', { a: pick(r, standing())?.name }), { note: '1 food' });
-        gritAll(T.grit.meal);
+        tireAll(T.fatigue.meal);
       } else {
-        put('camp', say('hungry', { a: pick(r, standing())?.name }), { big: true });
-        gritAll(T.grit.hungry);
+        put('camp', say('hungry', { a: pick(r, standing())?.name }), { big: true, note: `+${T.fatigue.hungry} fatigue each` });
+        tireAll(T.fatigue.hungry);
       }
     }
     for (const a of hurtOrder(standing().filter((x) => x.hp < x.maxHp * bandageAt))) {
@@ -728,14 +750,6 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
       if (chap) chap.healed += n;
       put('heal', say(chap && chap !== a ? 'bandage_chaplain' : 'bandage', { a: a.name, t: chap?.name }), { note: `+${n}` });
     }
-    if (O.consumables === 'freely') {
-      for (const a of standing().filter((x) => x.grit < 25)) {
-        if (pack.charms <= 0) break;
-        pack.charms -= 1;
-        put('grit', say('charm_freely', { a: a.name }), { note: `+${T.grit.charm - 10} grit` });
-        gritChange(a, T.grit.charm - 10);
-      }
-    }
   };
 
   const camp = (z: ZoneId, site: boolean) => {
@@ -746,15 +760,18 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
     if (pack.food > 0) {
       pack.food -= 1;
       for (const a of standing()) {
-        const n = heal(a, a.maxHp * (T.camp.heal + (chap ? 0.1 : 0) + sum(a.marks, 'campHeal')));
-        void n;
-        const mult = a.marks.reduce((s, m) => s * (m.campGrit ?? 1), 1);
-        gritChange(a, Math.round((T.camp.grit + (chap ? T.camp.chaplainGrit : 0)) * mult));
+        heal(a, a.maxHp * (T.camp.heal + (chap ? 0.1 : 0) + sum(a.marks, 'campHeal')));
+        const mult = a.marks.reduce((s, m) => s * (m.campRest ?? 1), 1);
+        a.fatigue = Math.min(a.fatigue, 99);
+        tire(a, -Math.round((T.fatigue.camp + (chap ? T.fatigue.chaplainCamp : 0)) * mult));
       }
       put('camp', say(chap ? 'camp_fed_chaplain' : 'camp_fed', { a: pick(r, standing())?.name }), { note: '1 food' });
     } else {
-      for (const a of standing()) heal(a, a.maxHp * T.camp.healHungry);
-      gritAll(T.camp.gritHungry);
+      for (const a of standing()) {
+        heal(a, a.maxHp * T.camp.healHungry);
+        a.fatigue = Math.min(a.fatigue, 99);
+        tire(a, -T.fatigue.campHungry);
+      }
       put('camp', say('camp_hungry', { a: pick(r, standing())?.name }), { big: true });
     }
     if (chance(r, T.camp.visit + (dark ? 0.1 : 0))) {
@@ -811,9 +828,10 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
       const dmg = Math.round(randInt(r, k === 'gas' ? 3 : 5, k === 'gas' ? 5 : 9) * scale);
       v.hp -= dmg;
       put('trap', say(`trap_${k}_hit`, { a: v.name }), { note: `${dmg}` });
+      if (k === 'gas') expose(v, T.exposure.gas);
       if (v.hp <= 0) goDown(v, -v.hp, k === 'gas' ? 'bad air' : 'a trap');
     }
-    gritAll(T.grit.trap);
+    tireAll(T.fatigue.trap);
   };
 
   const find = (z: ZoneId, big = false) => {
@@ -828,7 +846,6 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
     }
     addLoot(f.good, n);
     put('find', say(big ? `goal_${zd.id}` : `find_${zd.id}`, { a: pick(r, standing())?.name, g: goodName(f.good, n) }), { note: goodName(f.good, n) });
-    gritAll(T.grit.find);
     if (big) crownsFound += randInt(r, 10, 20) * zd.depth;
   };
 
@@ -837,14 +854,13 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
     const who = pick(r, standing());
     switch (c) {
       case 'shrine':
-        if (pack.charms > 0 && (O.consumables === 'freely' || standing().some((a) => a.grit < 50))) {
-          pack.charms -= 1;
-          put('find', say('shrine_charm', { a: who.name }), { note: "1 token, +15 grit each" });
-          gritAll(15);
-        } else if (hasProf('chaplain')) {
-          put('find', say('shrine_chaplain', { a: standing().find((a) => a.prof === 'chaplain')!.name }), { note: '+6 grit each' });
-          gritAll(6);
-        } else put('room', say('shrine_pass', { a: who.name }));
+        if (hasProf('chaplain')) {
+          put('find', say('shrine_chaplain', { a: standing().find((a) => a.prof === 'chaplain')!.name }), { note: '−10 fatigue each' });
+          tireAll(-10);
+        } else {
+          put('room', say('shrine_pass', { a: who.name }), { note: '−4 fatigue each' });
+          tireAll(-4);
+        }
         return;
       case 'strongbox':
         if (pack.tools > 0) {
@@ -873,7 +889,6 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
           const dmg = randInt(r, 5, 8);
           who.hp -= dmg;
           put('trap', say('cart_bitten', { a: who.name }), { note: `${dmg}` });
-          gritChange(who, -5);
           if (who.hp <= 0) goDown(who, -who.hp, 'something in a drowned cart');
         } else {
           addLoot('silver', 1);
@@ -887,11 +902,11 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
           put('find', say('still_arcanist', { a: arc.name }), { note: '+2 reagents' });
         } else if (chance(r, 0.5)) {
           heal(who, 6);
-          gritChange(who, 5);
+          tire(who, -8);
           put('find', say('still_good', { a: who.name }));
         } else {
           who.hp -= 5;
-          gritChange(who, -4);
+          expose(who, T.exposure.stillBad);
           put('trap', say('still_bad', { a: who.name }), { note: '5' });
           if (who.hp <= 0) goDown(who, -who.hp, 'a college still');
         }
@@ -904,11 +919,12 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
     const dead = A.filter((a) => a.state === 'dead').length;
     const live = standing();
     const hurt = live.filter((a) => a.hp < a.maxHp * 0.35).length;
-    const shaken = live.filter((a) => a.shaken).length;
+    const spent = live.filter((a) => a.fatigue >= T.fatigue.spent && a.hp >= a.maxHp * 0.35).length;
+    const out = live.filter((a) => a.fatigue >= 100).length;
     if (!live.length) return true;
-    if (O.retreat === 'cautious') return dead > 0 || hurt > 0 || shaken > 0;
-    if (O.retreat === 'steady') return dead > 0 || hurt >= 2 || shaken >= 2 || hurt + shaken >= 3;
-    return dead >= 2 || dead + hurt >= 3;
+    if (O.retreat === 'cautious') return dead > 0 || hurt > 0 || spent > 0;
+    if (O.retreat === 'steady') return dead > 0 || hurt + spent >= 2;
+    return dead >= 2 || dead + hurt + out >= 3;
   };
 
   // ---- the expedition ----
@@ -923,9 +939,17 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
       deepest = z;
       put('zone', say(`enter_${z}`, {}), { big: true });
       if (ZONES[z].dark && pack.oil > 0) put('supply', say('lamps_lit', {}));
+      if (z === 'sink') {
+        const n = Math.min(pack.masks, standing().length);
+        standing()
+          .slice(0, n)
+          .forEach((a) => (a.masked = true));
+        pack.masks -= n;
+        put('supply', say(n === 0 ? 'masks_none' : n < standing().length ? 'masks_some' : 'masks_all', {}), n ? { note: `${n} mask${n === 1 ? '' : 's'}` } : {});
+      }
     }
     if (i > 0 && room.kind !== 'camp' && room.kind !== 'boss') {
-      const p = T.wander.base + ZONES[z].depth * T.wander.perDepth + (dark ? T.wander.dark : 0) + (ctx.rivalAhead && z === 'culverts' ? T.wander.rivalAhead : 0);
+      const p = T.wander.base + ZONES[z].depth * T.wander.perDepth + standing().filter((a) => a.fatigue >= 100).length * 0.08 + (dark ? T.wander.dark : 0) + (ctx.rivalAhead && z === 'culverts' ? T.wander.rivalAhead : 0);
       if (wander(z, p) === 'lost') {
         outcome = 'lost';
         break;
@@ -963,7 +987,11 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
         if (res === 'won') find(z, true);
         break;
       case 'boss':
-        res = fight(['kiln', 'seep'], 'sink', { boss: true });
+        if (ctx.kilnBroken) {
+          // the Kiln Engine is gone; its yard is still busy
+          put('room', say('kiln_yard', {}));
+          res = fight(['engine', 'engine', 'seep'], 'sink');
+        } else res = fight(['kiln', 'seep'], 'sink', { boss: true });
         if (res === 'won') find('sink', true);
         break;
     }
@@ -971,6 +999,8 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
       outcome = 'lost';
       break;
     }
+    // anyone knocked down by a trap or a curio gets up once the room is behind them
+    standUp();
     cleared += 1;
     for (const a of standing()) a.xp += T.xp.room;
     if (i === route.length - 1) break;
@@ -1017,12 +1047,13 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
     const z = zone ?? 'culverts';
     const p = 0.06 + ZONES[z].depth * 0.04 + (dark ? 0.08 : 0);
     put('room', say(outcome === 'complete' ? 'climb_back' : 'turn_back', {}));
-    const res = wander(z, p);
+    const res = wander(z, p + standing().filter((a) => a.fatigue >= 100).length * 0.08);
     if (res === 'lost') {
       for (const a of A.filter((x) => x.state === 'down')) {
         if (chance(r, T.death.wipe)) {
           a.state = 'dead';
           a.died = 'on the way home';
+          put('death', say('wipe_death', { a: a.name }), { big: true });
         } else {
           a.state = 'ok';
           a.hp = 1;
@@ -1049,7 +1080,7 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
   const habitChance = (a: Actor): string | undefined => {
     if (a.d.habits.length >= 3) return undefined;
     const free = (ids: string[]) => ids.filter((h) => !a.d.habits.includes(h));
-    if (a.wasShaken && chance(r, 0.55)) return pick(r, free(BAD_HABITS));
+    if (a.wasSpent && chance(r, 0.4)) return pick(r, free(BAD_HABITS));
     if (a.sawDeath && chance(r, 0.25)) return pick(r, free(BAD_HABITS));
     if ((a.kills >= 4 || a.bossKill || a.gotUp) && chance(r, 0.3)) return pick(r, free(GOOD_HABITS));
     return undefined;
@@ -1081,7 +1112,9 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
     return {
       id: a.d.id,
       hp: Math.max(0, Math.round(a.hp)),
-      grit: Math.round(a.grit),
+      fatigue: Math.round(a.fatigue),
+      exposure: Math.round(a.exposure),
+      conditions: a.newConditions,
       xp: a.state === 'dead' ? 0 : a.xp + (outcome === 'complete' ? L.xp : 0),
       died: a.state === 'dead' ? (a.died ?? 'Old Pellam') : undefined,
       scars: a.newScars,
@@ -1109,7 +1142,7 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
     loot,
     lootValue,
     crownsFound,
-    leftover: { ...pack },
+    leftover: outcome === 'lost' && A.every((a) => a.state === 'dead') ? {} : { ...pack },
     used,
     members,
     kills,

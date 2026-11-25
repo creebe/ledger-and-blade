@@ -18,7 +18,7 @@ export function WeekSheet({ fromWeek, crownsBefore, newsBefore }: { fromWeek: nu
       }
     >
       <p className="small">
-        The guild rested. Crowns <b className={delta < 0 ? 'bad' : 'good'}>{delta < 0 ? `−${-delta}` : `+${delta}`}</b> (wages and anything due). Members at home healed and got some of their nerve back.
+        The guild rested. Crowns <b className={delta < 0 ? 'bad' : 'good'}>{delta < 0 ? `−${-delta}` : `+${delta}`}</b> (wages and anything due). Members at home healed and rested.
       </p>
       <ul className="x-news">
         {fresh.map((n, i) => (

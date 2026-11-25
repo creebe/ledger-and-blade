@@ -41,7 +41,7 @@ Greta throws a knife over the front rank. It sticks in the second knot of rats. 
 
 Leofric shoots and the second knot of rats moves at the last moment.
 
-The rats get under Agnes's guard and into their boots. *(7)*
+The rats get under Agnes's guard and into their boots. *(8)*
 
 The grubber swings the pick and buries it in the wall.
 
@@ -55,7 +55,7 @@ A bolt from Leofric thumps into the second knot of rats. *(9)*
 
 There is not much left of the second knot of rats, and what there is runs off squealing.
 
-The grubber cracks Leofric across the head with a shovel. *(7)*
+The grubber cracks Leofric across the head with a shovel. *(8)*
 
 Greta finds the weak place on the grubber, and it goes in deep. *(9)*
 
@@ -69,7 +69,7 @@ The grubber drops the pick and does not get up.
 
 It goes quiet again, apart from something dripping.
 
-> Leofric 18/28 hp, grit 77 · Agnes 15/22 hp, grit 84 · Greta 31/31 hp, grit 86 · Osric 31/31 hp, grit 75
+> Leofric 17/28 hp, fatigue 4 · Agnes 14/22 hp, fatigue 9 · Greta 31/31 hp, fatigue 8 · Osric 31/31 hp, fatigue 3
 
 The first knot of rats pours out of a broken pipe. Some of them are the size of cats, and the rest are bigger.
 
@@ -97,7 +97,7 @@ Leofric's shot goes over the front rank and into the third knot of rats. *(8)*
 
 The third knot of rats breaks up and flees down the pipes.
 
-> Leofric 18/28 hp, grit 76 · Agnes 8/22 hp, grit 87 · Greta 31/31 hp, grit 85 · Osric 31/31 hp, grit 74
+> Leofric 17/28 hp, fatigue 10 · Agnes 7/22 hp, fatigue 15 · Greta 31/31 hp, fatigue 14 · Osric 31/31 hp, fatigue 9
 
 Osric kneels by Agnes and packs the wound while the fight goes on around them. *(+10)*
 
@@ -111,7 +111,7 @@ The grate overhead hangs by one rusted bracket. Without tools they detour round 
 
 They stop and eat cold bread and hard cheese. Osric says it is the best meal of their life. *(1 food)*
 
-> Leofric 18/28 hp, grit 76 · Agnes 18/22 hp, grit 90 · Greta 31/31 hp, grit 83 · Osric 31/31 hp, grit 72
+> Leofric 17/28 hp, fatigue 20 · Agnes 17/22 hp, fatigue 26 · Greta 31/31 hp, fatigue 23 · Osric 31/31 hp, fatigue 18
 
 The next room is a collapsed coal store, where the Lower Town dumped its rubbish for a century.
 
@@ -119,11 +119,9 @@ On a high shelf, wrapped in oilcloth and still dry, Greta finds a piece of Pella
 
 **They make camp in a dry cellar where a grate lets a little air down.**
 
-> Leofric 18/28 hp, grit 80 · Agnes 18/22 hp, grit 94 · Greta 31/31 hp, grit 87 · Osric 31/31 hp, grit 76
-
 **There is nothing to eat. They lie in the dark and listen to each other's stomachs.**
 
-> Leofric 20/28 hp, grit 70 · Agnes 20/22 hp, grit 83 · Greta 31/31 hp, grit 78 · Osric 31/31 hp, grit 67
+> Leofric 19/28 hp, fatigue 14 · Agnes 19/22 hp, fatigue 20 · Greta 31/31 hp, fatigue 17 · Osric 31/31 hp, fatigue 12
 
 **There is no lamp oil in the pack. They go into the dark with their hands out in front of them.**
 
@@ -133,7 +131,7 @@ Without the lamps they walk with a hand on the shoulder in front. Agnes counts s
 
 Somebody brushes a thread, and the room starts moving.
 
-The first spider drops onto Leofric from above. *(4)*
+The first spider drops onto Leofric from above. *(5)*
 
 Greta throws a knife over the front rank. It sticks in the second spider. *(5)*
 
@@ -147,9 +145,9 @@ Agnes's little working dies before it reaches the second spider.
 
 Osric gets a pad of lint on Leofric and leans on it until it stops. *(+10)*
 
-The first spider sinks both fangs into Leofric and holds on. *(17)*
+The first spider sinks both fangs into Leofric and holds on. *(18)*
 
-The second spider's fangs go through Agnes's sleeve. *(8)*
+The second spider's fangs go through Agnes's sleeve. *(9)*
 
 Leofric's arm has swollen up tight inside the sleeve. *(3)*
 
@@ -163,17 +161,17 @@ Agnes's little working dies before it reaches the second spider.
 
 Osric stitches Leofric up in three movements. It is not tidy, but it holds. *(+10)*
 
-The first spider bites Leofric, and the bite goes numb straight away. *(7)*
+The first spider bites Leofric, and the bite goes numb straight away. *(8)*
 
 Greta goes clean through the second spider and does not look surprised about it. *(8)*
 
 Leofric sways. The bite has gone purple and hot. *(3)*
 
-Leofric tries to pin the first spider and misses.
+**Leofric does not get up again. They will be counted among the guild's dead, and it was spider venom that did it.**
 
-The second spider drops onto Leofric from above. *(12)*
+> Leofric dead · Agnes 7/22 hp, fatigue 29, exposure 1 · Greta 31/31 hp, fatigue 24, exposure 1 · Osric 31/31 hp, fatigue 19, exposure 1
 
-**Leofric hits the stones and lies there.**
+Agnes gets an arm up just in time.
 
 "Hold still," Osric tells Agnes, and pours something on the cut that makes Agnes swear. *(+10)*
 
@@ -181,123 +179,113 @@ Agnes is sweating and their hands have gone numb. *(3)*
 
 Agnes flicks a spark at the second spider and misses.
 
-The second spider's fangs go through Agnes's sleeve. *(8)*
+The first spider strikes at Agnes and hits the floor.
 
-Greta gets behind the second spider and uses the dagger. *(9)*
+The second spider bites Agnes, and the bite goes numb straight away. *(11)*
+
+Greta's knife scrapes off the second spider.
+
+Osric gets a dressing on Agnes, tight and fast. *(+10)*
+
+Agnes sways. The bite has gone purple and hot. *(3)*
+
+Agnes's little working dies before it reaches the second spider.
+
+Agnes gets an arm up just in time.
+
+The second spider's fangs go through Agnes's sleeve. *(6)*
+
+Greta puts the dagger where the second spider is softest. *(9)*
 
 Greta splits the second spider open and the smell is terrible.
 
-The first spider sinks both fangs into Agnes and holds on. *(12)*
+The spider's venom is still working in Agnes. *(3)*
 
-**Agnes is dead. It was a spider, in the end.**
+Agnes flicks a spark at the first spider and misses.
 
-> Leofric down · Agnes dead · Greta 31/31 hp, grit 61 · Osric 31/31 hp, grit 45
+Osric drags Agnes back a yard and ties off the worst of the bleeding. *(+10)*
 
-Osric's blow lands on nothing.
+Greta ducks under and stabs upward into the first spider. *(7)*
 
-The first spider bites Osric, and the bite goes numb straight away. *(4)*
+The first spider drops onto Greta from above. *(7)*
+
+Agnes is sweating and their hands have gone numb. *(3)*
+
+Agnes flicks a spark at the first spider and misses.
+
+Osric drags Agnes back a yard and ties off the worst of the bleeding. *(+10)*
+
+The first spider drops onto Agnes from above. *(12)*
+
+Greta is sick against the wall and wipes their mouth and carries on. *(3)*
 
 Greta darts in at the first spider and darts out again with nothing.
 
-Osric is sick against the wall and wipes their mouth and carries on. *(3)*
+Agnes's arm has swollen up tight inside the sleeve. *(3)*
 
-Osric gets the blow they were waiting for. The first spider feels all of it. *(11)*
+Agnes's little working dies before it reaches the first spider.
 
-Greta puts the dagger where the first spider is softest. *(9)*
+Osric gets a dressing on Agnes, tight and fast. *(+10)*
+
+The first spider's fangs go through Agnes's sleeve. *(10)*
+
+Greta is sick against the wall and wipes their mouth and carries on. *(3)*
+
+Greta darts in at the first spider and darts out again with nothing.
+
+The spider's venom is still working in Agnes. *(3)*
+
+**Agnes is dead. It was spider venom, in the end.**
+
+> Leofric dead · Agnes dead · Greta 18/31 hp, fatigue 24, exposure 1 · Osric 31/31 hp, fatigue 19, exposure 1
+
+Osric steps in and hits the first spider hard with the flanged mace. *(7)*
+
+The first spider strikes at Greta and hits the floor.
+
+Greta's knife scrapes off the first spider.
+
+Osric lunges, slips on the wet stone and misses the first spider.
+
+Greta gets an arm up just in time.
+
+Greta darts in at the first spider and darts out again with nothing.
+
+Osric's blow lands on nothing.
+
+The first spider bites Greta, and the bite goes numb straight away. *(12)*
+
+Greta sways. The bite has gone purple and hot. *(3)*
+
+Greta's knife scrapes off the first spider.
+
+Osric stitches Greta up in three movements. It is not tidy, but it holds. *(+10)*
+
+Greta's arm has swollen up tight inside the sleeve. *(3)*
+
+Greta gets behind the first spider and uses the dagger. *(8)*
 
 The first spider curls its legs in and dies.
 
 That is the end of it. Everybody checks their hands for missing fingers.
 
-> Leofric down · Agnes dead · Greta 31/31 hp, grit 40 · Osric 24/31 hp, grit 25
-
-Leofric lives. At Saint Oda's they will write "a bite scar" on a chart and tell Leofric it is for good. *(A bite scar)*
-
-Osric sits Leofric down on a step and does the job properly. *(+16)*
-
-They cross a square with a dry fountain. Somebody has stacked bones in the basin, very neatly, by size.
+> Leofric dead · Agnes dead · Greta 10/31 hp, fatigue 24, exposure 1 · Osric 31/31 hp, fatigue 19, exposure 1
 
 In the dark, Osric keeps hearing things behind them.
 
-A spider the color of wet plaster unfolds from the ceiling. Its legs keep unfolding for some time.
+**Half the squad is down. Stubborn or not, they turn round.**
 
-The second spider's fangs go through Greta's sleeve. *(12)*
+They retrace their steps, quieter than they came.
 
-The first spider drops onto Leofric from above. *(10)*
-
-Greta is sweating and their hands have gone numb. *(3)*
-
-Greta's knife scrapes off the second spider.
-
-Osric gets a dressing on Leofric, tight and fast. *(+10)*
-
-The spider's venom is still working in Leofric. *(3)*
-
-Leofric shoots between two shoulders and hits the second spider. *(8)*
-
-The second spider bites Leofric, and the bite goes numb straight away. *(9)*
-
-The first spider bites Leofric, and the bite goes numb straight away. *(5)*
-
-**Leofric crumples and somebody drags them back by the collar.**
-
-**Osric has had enough. They are shaking and won't look at the dark.**
-
-Greta's arm has swollen up tight inside the sleeve. *(3)*
-
-Greta's knife scrapes off the second spider.
-
-Osric drags Greta back a yard and ties off the worst of the bleeding. *(+10)*
-
-The first spider's fangs go through Osric's sleeve. *(8)*
-
-The second spider drops onto Greta from above. *(8)*
-
-Greta sways. The bite has gone purple and hot. *(3)*
-
-Greta darts in at the second spider and darts out again with nothing.
-
-Osric is sick against the wall and wipes their mouth and carries on. *(3)*
-
-Osric gets a pad of lint on Greta and leans on it until it stops. *(+10)*
-
-The first spider drops onto Greta from above. *(5)*
-
-The second spider bites Greta, and the bite goes numb straight away. *(12)*
-
-The spider's venom is still working in Greta. *(3)*
-
-Greta's knife scrapes off the second spider.
-
-Osric's arm has swollen up tight inside the sleeve. *(3)*
-
-Osric holds the flanged mace up in front of their face and does nothing else.
-
-The first spider's fangs go through Greta's sleeve. *(12)*
-
-**Greta falls. The others close up over them.**
-
-Osric gets an arm up just in time.
-
-Osric's hands are shaking too badly to do anything useful.
-
-The first spider drops onto Osric from above. *(12)*
-
-**Osric goes down and does not get up.**
-
-**They do not bring Leofric back.**
-
-> Leofric dead · Agnes dead · Greta down · Osric down
-
-**Greta wakes up in the dark. The squad has been beaten, and those still breathing crawl out of Old Pellam with nothing.**
+**They are home, which is the main thing.**
 
 ## What came home
 
-Outcome: **lost**, 7 of 9 rooms.
-Loot: nothing, worth 0 crowns, plus 0 in coin.
+Outcome: **retreated**, 6 of 9 rooms.
+Loot: 1 pellam silver, worth 30 crowns, plus 7 in coin.
 Renown: First to reach the Buried Streets (+2 renown).
 
-- **Leofric Holloway**: died (left in Old Pellam); new scar: bite_scar.
-- **Agnes Stroud**: died (a spider).
-- **Greta Harl**: 1 HP, grit 11, +18 experience; new habit: sleeps_badly.
-- **Osric Brack**: 1 HP, grit 0, +18 experience.
+- **Leofric Holloway**: died (spider venom).
+- **Agnes Stroud**: died (spider venom).
+- **Greta Harl**: 10 HP, fatigue 34, exposure 2, +17 experience.
+- **Osric Brack**: 31 HP, fatigue 29, exposure 2, +17 experience; new habit: hates_dark.

@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { DELVER_PROFS, EXP_TUNING, GEAR, HABITS, SCARS, delverStats, dismissDelver, equipGear, gearLookup, livingDelvers, storedGear } from '../../engine';
+import { CONDITIONS, DELVER_PROFS, EXP_TUNING, GEAR, HABITS, SCARS, delverStats, dismissDelver, equipGear, gearLookup, livingDelvers, storedGear, treatExposure } from '../../engine';
 import { useX } from '../../expStore';
 import { useStore } from '../../store';
 import { Btn, Section } from '../kit/common';
 import { gearLine } from './MarketTab';
 import { ProfSilhouette } from './Silhouette';
-import { Vitals, XSheet, first } from './xkit';
+import { Vitals, XSheet, first, xShort } from './xkit';
 
 const SLOTS = [
   { id: 'weapon' as const, name: 'Weapon' },
@@ -98,6 +98,31 @@ export function MemberSheetX({ id }: { id: string }) {
           </div>
         )}
       </Section>
+      <Section title="Fatigue and Exposure">
+        <p className="small">
+          Fatigue {d.fatigue} of 100. At {EXP_TUNING.fatigue.tired} they lose a little aim and dodge; at {EXP_TUNING.fatigue.spent} a lot, and they fumble; at 100 they have to be carried. A week at home takes off {EXP_TUNING.home.rest}.
+        </p>
+        <p className="small">
+          Exposure {d.exposure} of 100: the College Sink's runoff in their body. Past {EXP_TUNING.exposure.thresholds.join(', ')} it leaves a lasting condition. It fades by {EXP_TUNING.exposure.homeDrop} a week at home.
+        </p>
+        {d.exposure > 0 && (
+          <Btn
+            className="btn small"
+            blocked={xShort(g, EXP_TUNING.exposure.treatCost, "A night in Saint Oda's fever beds")}
+            onClick={() =>
+              confirm({
+                title: `Send ${first(d)} to Saint Oda's?`,
+                body: `A night in the fever beds draws ${EXP_TUNING.exposure.treat} Exposure out of them. Sister Brune's people use vinegar, charcoal and a great deal of water.`,
+                cost: `${EXP_TUNING.exposure.treatCost} crowns`,
+                confirmLabel: 'Send them',
+                onConfirm: () => notify(act((x) => treatExposure(x, d.id)) ?? `${first(d)} comes back from Saint Oda's smelling of vinegar.`),
+              })
+            }
+          >
+            Treat at Saint Oda's
+          </Btn>
+        )}
+      </Section>
       <Section title="Skills">
         <p className="tiny muted">Best from rank {prof.ranks.join(' or ')}.</p>
         {prof.skills.map((s) => (
@@ -106,8 +131,13 @@ export function MemberSheetX({ id }: { id: string }) {
           </p>
         ))}
       </Section>
-      {(d.scars.length > 0 || d.habits.length > 0) && (
-        <Section title="Scars and habits">
+      {(d.scars.length > 0 || d.habits.length > 0 || (d.conditions ?? []).length > 0) && (
+        <Section title="Scars, conditions and habits">
+          {(d.conditions ?? []).map((c) => (
+            <p key={c} className="small">
+              <b className={CONDITIONS[c].good ? 'good' : 'bad'}>{CONDITIONS[c].name}.</b> {CONDITIONS[c].text}
+            </p>
+          ))}
           {d.scars.map((s) => (
             <p key={s} className="small">
               <b>{SCARS[s].name}.</b> {SCARS[s].text}
@@ -138,7 +168,7 @@ export function MemberSheetX({ id }: { id: string }) {
           onClick={() =>
             confirm({
               title: `Let ${first(d)} go?`,
-              body: 'They leave the guild for good. Their gear stays in the store.',
+              body: 'They leave the guild for good, and they take the gear they are wearing with them.',
               confirmLabel: 'Let them go',
               danger: true,
               onConfirm: () => {

@@ -1,6 +1,6 @@
 // Small shared pieces for the expeditions trial screens.
 import type { ReactNode } from 'react';
-import { delverMaxHp, DELVER_PROFS, HABITS, SCARS, type Delver } from '../../engine';
+import { CONDITIONS, EXP_TUNING, delverMaxHp, DELVER_PROFS, HABITS, SCARS, type Delver } from '../../engine';
 import { useX } from '../../expStore';
 import { Icon } from '../kit/icons';
 import { ProfSilhouette } from './Silhouette';
@@ -25,12 +25,14 @@ export function XSheet({ title, children, footer, onBack }: { title: ReactNode; 
   );
 }
 
-/** HP or grit as a thin bar. Neutral when fine, colored only when it needs attention. */
-export function XBar({ v, max, kind, label }: { v: number; max: number; kind: 'hp' | 'grit'; label?: string }) {
+/** HP or fatigue as a thin bar. Neutral when fine, colored only when it needs attention.
+ * HP is good when full; fatigue is bad when full. */
+export function XBar({ v, max, kind, label }: { v: number; max: number; kind: 'hp' | 'fatigue'; label?: string }) {
   const f = max > 0 ? Math.max(0, Math.min(1, v / max)) : 0;
-  const tone = f < 0.3 ? 'bad' : f < 0.55 ? 'mid' : 'ok';
+  const F = EXP_TUNING.fatigue;
+  const tone = kind === 'fatigue' ? (v >= F.spent ? 'bad' : v >= F.tired ? 'mid' : 'ok') : f < 0.3 ? 'bad' : f < 0.55 ? 'mid' : 'ok';
   return (
-    <span className={`x-bar x-bar-${kind} x-tone-${tone}`} title={label} aria-label={label ?? `${kind === 'hp' ? 'HP' : 'Grit'} ${v} of ${max}`}>
+    <span className={`x-bar x-bar-${kind} x-tone-${tone}`} title={label} aria-label={label ?? `${kind === 'hp' ? 'HP' : 'Fatigue'} ${v} of ${max}`}>
       <span className="x-bar-fill" style={{ width: `${f * 100}%` }} />
     </span>
   );
@@ -48,21 +50,33 @@ export function Vitals({ d }: { d: Delver }) {
         </b>
       </span>
       <span className="x-vital">
-        <small>Grit</small>
-        <XBar v={d.grit} max={100} kind="grit" />
-        <b className={d.grit < 30 ? 'bad' : d.grit < 55 ? 'warn' : ''}>{d.grit}</b>
+        <small>Fatigue</small>
+        <XBar v={d.fatigue} max={100} kind="fatigue" />
+        <b className={d.fatigue >= EXP_TUNING.fatigue.spent ? 'bad' : d.fatigue >= EXP_TUNING.fatigue.tired ? 'warn' : ''}>{d.fatigue}</b>
       </span>
+      {d.exposure > 0 && (
+        <span className="x-vital x-exposure" title="Exposure: reagent runoff in the body. Past 40, 70 and 95 it leaves a lasting condition.">
+          <small>Exposure</small>
+          <b className={d.exposure >= 60 ? 'bad' : d.exposure >= 30 ? 'warn' : ''}>{d.exposure}</b>
+        </span>
+      )}
     </span>
   );
 }
 
 export function Marks({ d }: { d: Delver }) {
-  if (!d.scars.length && !d.habits.length) return null;
+  const conds = d.conditions ?? [];
+  if (!d.scars.length && !d.habits.length && !conds.length) return null;
   return (
     <span className="x-marks">
       {d.scars.map((s) => (
         <span key={s} className="x-mark x-mark-scar" title={SCARS[s].text}>
           {SCARS[s].name}
+        </span>
+      ))}
+      {conds.map((c) => (
+        <span key={c} className={`x-mark ${CONDITIONS[c].good ? 'x-mark-good' : 'x-mark-bad'}`} title={CONDITIONS[c].text}>
+          {CONDITIONS[c].name}
         </span>
       ))}
       {d.habits.map((h) => (

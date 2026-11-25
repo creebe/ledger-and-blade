@@ -323,12 +323,6 @@ export const LINES: Record<string, string[]> = {
     "{a} is too far back to hit anything, and knows it.",
     '{a} tries to push forward past the others and gets an elbow for it.',
   ],
-  cower: [
-    '{a} has their back to the wall and will not leave it.',
-    '{a} holds the {w} up in front of their face and does nothing else.',
-    "{a}'s hands are shaking too badly to do anything useful.",
-    '{a} stays down and does not move.',
-  ],
 
   // ---- the squad holds together ----
   cover: [
@@ -351,12 +345,15 @@ export const LINES: Record<string, string[]> = {
   ],
   dress_self: ['{a} binds their own arm with their teeth and one hand.', '{a} packs their own wound and keeps going.'],
   steady: [
-    '{a} puts a hand on {t}\'s shoulder and talks them down.',
-    '"Breathe," {a} tells {t}. "In, then out. That\'s all it is."',
-    '{a} tells {t} a long and filthy joke in the middle of the fight. It helps.',
-    '{a} says the Saint\'s words over {t}, quickly, and {t} stops shaking.',
+    "{a} sits {t} on a step, rubs the cramp out of their legs and makes them drink.",
+    "\"Up,\" {a} tells {t}. \"You can lie down when we're home.\" It works, somehow.",
+    "{a} gives {t} a twist of salt and sugar from Saint Oda's and tells them to chew.",
+    "{a} takes {t}'s pack for a while and lets them walk light.",
   ],
-  steady_self: ['{a} says the Saint\'s words to themselves, and means them a little.', '{a} counts their own breaths until the shaking stops.'],
+  steady_self: [
+    "{a} eats a twist of salt and sugar from their own bag and keeps going.",
+    "{a} stops long enough to retie their boots properly. It helps more than it should.",
+  ],
   bandage: [
     '{a} binds their own cuts with a fresh bandage.',
     'They stop long enough to bandage {a}.',
@@ -474,19 +471,7 @@ export const LINES: Record<string, string[]> = {
   ],
   wipe_death: ['{a} is left behind in Old Pellam.', 'They do not bring {a} back.', '{a} never wakes up.'],
 
-  // ---- grit ----
-  shaken: [
-    "{a} has had enough. They are shaking and won't look at the dark.",
-    '{a} sits down against the wall and will not get up.',
-    '{a} starts laughing and cannot stop.',
-    '{a} says, very calmly, that they are going home now. They do not move.',
-  ],
-  unshaken: ['{a} wipes their face and picks the {w} back up.', '{a} is steadier now.', '{a} comes back to themselves.'],
-  charm: [
-    "{a} is about to break. Someone presses an Oda's token into their hand, and they hold on to it.",
-    "{a} grips an Oda's token so hard it leaves a mark, and keeps going.",
-  ],
-  charm_freely: ["{a} rubs an Oda's token and feels a bit better.", "They hand {a} an Oda's token. It's only tin, but it helps."],
+  // ---- fatigue and exposure ----
   dark_room: [
     "In the dark, {a} keeps hearing things behind them.",
     "Somebody's hand brushes {a}'s face in the dark, and nobody admits to it.",
@@ -570,15 +555,14 @@ export const LINES: Record<string, string[]> = {
   trap_gas_hit: ['A pocket of bad air bursts out of the crust. {a} breathes it in.', '{a} coughs until they bring something up.'],
 
   // ---- curiosities ----
-  shrine_charm: [
-    "A cellar shrine to Saint Oda, older than the hall upstairs. {a} leaves an Oda's token on it, and everybody feels a little better for it.",
-    "There is a little shrine in the wall, with stubs of candles. {a} leaves a token, and they all stand there with their hats off.",
-  ],
   shrine_chaplain: [
-    'They find a shrine in the wall. {a} says the words over it, and it does everyone some good.',
-    "{a} cleans the silt off a cellar shrine and says a few words. Nobody laughs.",
+    "They find a shrine to Saint Oda in the wall. {a} says the words over it and makes everyone sit down for a while.",
+    "{a} cleans the silt off a cellar shrine and says a few words. They all rest their legs while it lasts.",
   ],
-  shrine_pass: ['A little shrine in the wall, with nobody to say the words. {a} nods at it on the way past.'],
+  shrine_pass: [
+    "A little shrine in the wall, with nobody to say the words. They sit in front of it anyway and rest their legs.",
+    "There is a cellar shrine to Saint Oda here, older than the hall upstairs. {a} nods at it, and they stop for a breather.",
+  ],
   strongbox_open: [
     "An Assay Office strongbox, sealed in brass. {a} levers it open with the tools.",
     '{a} works the tools into an old Assay strongbox and the lid comes up.',
@@ -613,4 +597,62 @@ export const LINES: Record<string, string[]> = {
   lost_crawl: ["{a} wakes up in the dark. The squad has been beaten, and those still breathing crawl out of Old Pellam with nothing.", 'When {a} comes round, the fight is long over. They get the survivors back up the rungs somehow.'],
   lost_all: ['Nobody comes back up out of Old Pellam. The porters wait at the grate until dark, and then they go and tell Tallow Street.'],
   lost_home: ['They get within sight of the grate, and then they are caught. What comes home is less than what went down.'],
+  spent_fumble: [
+    "{a} swings the {w} a beat behind everyone else and hits nothing.",
+    "{a} is too tired to lift the {w} properly, and it shows.",
+    "{a}'s legs go, and they spend the moment getting their feet back under them.",
+    "{a} stops to breathe in the middle of the fight, which is a bad place for it.",
+  ],
+  too_tired: [
+    "{a} has nothing left. They lean on the wall and let the others do it.",
+    "{a} can barely stand, let alone fight. Somebody keeps them behind the line.",
+    "{a} sits down where they are. The fight goes on around them.",
+  ],
+  spent: [
+    "{a} is worn out. Every step is an argument now.",
+    "{a} has stopped talking, which means they are saving their breath for walking.",
+    "{a} is moving slower than the others and has to be waited for at every corner.",
+    "{a}'s boots are full of water and their shoulders are raw from the pack. They are spent.",
+  ],
+  collapse: [
+    "{a} goes down on one knee and doesn't get up. They are carried after that, which slows everyone.",
+    "{a}'s legs give out. Two of the others take an arm each, and the squad goes on at half the pace.",
+    "{a} has walked as far as they can. From here they are luggage.",
+  ],
+  second_wind_back: [
+    "{a} gets their breath back and picks the {w} up again.",
+    "{a} has found a second wind from somewhere.",
+    "{a} is walking properly again.",
+  ],
+  masks_all: [
+    "Before they go down into the Sink, everyone soaks a mask and ties it on. They look ridiculous and breathe better.",
+    "Wet masks on. The air in the Sink tastes of pennies even through the charcoal.",
+  ],
+  masks_some: [
+    "There aren't enough wet masks to go round. The ones without them breathe through their sleeves.",
+    "They share out the wet masks. Somebody goes without, and coughs about it the whole way down.",
+  ],
+  masks_none: [
+    "Nobody packed wet masks. They go into the Sink breathing it.",
+    "No masks. They tie their scarves over their faces, which does about as much good as you'd expect.",
+  ],
+  cond_tremor: [
+    "{a}'s hands have started to shake, and they don't stop when the fighting does. The Sink has got into them.",
+  ],
+  cond_burned_lungs: [
+    "{a} coughs up something violet. Their lungs will remember the Sink for a long time.",
+  ],
+  cond_brittle: [
+    "{a} jars a wrist on the wall and something cracks that shouldn't have. The runoff has been at their bones.",
+  ],
+  cond_stained_skin: [
+    "{a}'s hands have gone a deep violet, and the seeps don't seem to burn them as much. Nobody can decide if that's good news.",
+  ],
+  cond_pale_eyes: [
+    "{a}'s eyes have gone pale and strange, and they can see a little in the dark now. Their mother will have things to say.",
+  ],
+  kiln_yard: [
+    "The Kiln Engine's yard is still there, and so are the smaller engines that used to feed it. Without the Kiln to answer to, they test whatever walks in.",
+    "Where the Kiln Engine stood there is only a scorched floor and two of the college's lesser engines, going about their business.",
+  ],
 };

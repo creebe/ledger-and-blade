@@ -2,7 +2,7 @@
 // and plays expeditions or whole campaigns, so `npm run exp:sim` can report
 // how much preparation matters. Used by scripts and tests, not by the UI.
 import { shuffle } from '../core/rng';
-import { LENGTHS, SUPPLY_IDS } from './data/content';
+import { LENGTHS, SUPPLIES, SUPPLY_IDS } from './data/content';
 import { delverMaxHp } from './dive';
 import { DEFAULT_ORDERS, launchExpedition, livingDelvers, newExpGame, packSlots, restWeek, sellGoods, suggestPlan, hireDelver, payDebt } from './guild';
 import { EXP_TUNING as T } from './tuning';
@@ -29,9 +29,9 @@ export function botPlan(g: ExpGame, length: ExpLength, prep: Prep): ExpPlan {
   // a careful bot only packs what it can afford
   let guard = 0;
   while (guard++ < 40) {
-    const need = SUPPLY_IDS.reduce((s, k) => s + Math.max(0, (plan.pack[k] ?? 0) - g.stores[k]) * [4, 4, 2, 6, 5, 6, 20][SUPPLY_IDS.indexOf(k)], 0);
+    const need = SUPPLY_IDS.reduce((s, k) => s + Math.max(0, (plan.pack[k] ?? 0) - g.stores[k]) * SUPPLIES[k].price, 0);
     if (need <= g.crowns) break;
-    const k = (['draughts', 'charms', 'tools', 'reagents', 'bandages', 'oil', 'food'] as const).find((x) => (plan.pack[x] ?? 0) > g.stores[x]);
+    const k = (['draughts', 'masks', 'tools', 'reagents', 'bandages', 'oil', 'food'] as const).find((x) => (plan.pack[x] ?? 0) > g.stores[x]);
     if (!k) break;
     plan.pack[k] = (plan.pack[k] ?? 0) - 1;
   }
@@ -98,7 +98,7 @@ export function sampleCampaigns(games: number, weeks: number, prep: Prep, seed0 
         hireDelver(g, k);
       }
       if (g.debt.principal > 0 && g.crowns > 400) payDebt(g, 70);
-      const fit = livingDelvers(g).filter((d) => d.hp >= delverMaxHp(d) * 0.7 && d.grit >= 40);
+      const fit = livingDelvers(g).filter((d) => d.hp >= delverMaxHp(d) * 0.7 && d.fatigue <= 30 && d.exposure < 50);
       if (fit.length < 4 && prep === 'good') {
         restWeek(g);
         continue;

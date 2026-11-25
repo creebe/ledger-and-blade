@@ -32,7 +32,7 @@ function write(file: string, title: string, intro: string, run: { g: ExpGame; pl
   for (const l of r.log) {
     const t = `${l.text}${l.note ? ` *(${l.note})*` : ''}`;
     lines.push(l.kind === 'zone' ? `### ${l.text}` : l.big ? `**${t}**` : t, '');
-    const snap = names.map((n, i) => `${n} ${l.squad.state[i] === 'ok' ? `${l.squad.hp[i]}/${l.squad.maxHp[i]} hp, grit ${l.squad.grit[i]}` : l.squad.state[i]}`).join(' · ');
+    const snap = names.map((n, i) => `${n} ${l.squad.state[i] === 'ok' ? `${l.squad.hp[i]}/${l.squad.maxHp[i]} hp, fatigue ${l.squad.fatigue[i]}${l.squad.exposure[i] ? `, exposure ${l.squad.exposure[i]}` : ''}` : l.squad.state[i]}`).join(' · ');
     if ((l.kind === 'win' && /over|down|quiet|end|win|believe|dead/i.test(l.text)) || l.kind === 'camp' || l.kind === 'death') {
       if (snap !== lastSnap) lines.push(`> ${snap}`, '');
       lastSnap = snap;
@@ -46,7 +46,7 @@ function write(file: string, title: string, intro: string, run: { g: ExpGame; pl
   lines.push('');
   for (const m of r.members) {
     const d = g.members.find((x) => x.id === m.id)!;
-    lines.push(`- **${d.name}**: ${m.died ? `died (${m.died})` : `${m.hp} HP, grit ${m.grit}, +${m.xp} experience`}${m.scars.length ? `; new scar: ${m.scars.join(', ')}` : ''}${m.habits.length ? `; new habit: ${m.habits.join(', ')}` : ''}.`);
+    lines.push(`- **${d.name}**: ${m.died ? `died (${m.died})` : `${m.hp} HP, fatigue ${m.fatigue}, exposure ${m.exposure}, +${m.xp} experience`}${m.scars.length ? `; new scar: ${m.scars.join(', ')}` : ''}${m.habits.length ? `; new habit: ${m.habits.join(', ')}` : ''}${m.conditions.length ? `; from the Sink: ${m.conditions.join(', ')}` : ''}.`);
   }
   writeFileSync(`${DIR}/${file}`, lines.join('\n') + '\n');
   console.log(`${DIR}/${file}: ${r.outcome}, ${r.log.length} lines, ${r.members.filter((m) => m.died).length} dead`);

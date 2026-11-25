@@ -1,5 +1,5 @@
 // What came back up: loot, deeds, the dead, and what happened to each member.
-import { DELVER_PROFS, GOODS, HABITS, LENGTHS, SCARS, SUPPLIES, ZONES, type GoodId, type SupplyId } from '../../engine';
+import { CONDITIONS, DELVER_PROFS, GOODS, HABITS, LENGTHS, SCARS, SUPPLIES, ZONES, type GoodId, type SupplyId } from '../../engine';
 import { useX } from '../../expStore';
 import { Price, Section } from '../kit/common';
 import { ProfSilhouette } from './Silhouette';
@@ -66,12 +66,17 @@ export function ResultScreen() {
                     <span className="small bad">Died in Old Pellam: {o.died}.</span>
                   ) : (
                     <span className="small">
-                      HP {o.hp}, grit {o.grit}. {o.kills ? `${o.kills} kill${o.kills === 1 ? '' : 's'}. ` : ''}+{o.xp} experience.
+                      HP {o.hp}, fatigue {o.fatigue}{o.exposure ? `, exposure ${o.exposure}` : ''}. {o.kills ? `${o.kills} kill${o.kills === 1 ? '' : 's'}. ` : ''}+{o.xp} experience.
                     </span>
                   )}
                   {o.scars.map((s) => (
                     <span key={s} className="small warn">
                       New scar: {SCARS[s].name}. {SCARS[s].text}
+                    </span>
+                  ))}
+                  {o.conditions.map((c) => (
+                    <span key={c} className={`small ${CONDITIONS[c].good ? 'good' : 'bad'}`}>
+                      From the Sink: {CONDITIONS[c].name}. {CONDITIONS[c].text}
                     </span>
                   ))}
                   {o.habits.map((h) => (

@@ -7,9 +7,9 @@ import type { RivalId } from '../core/types';
 import { DELVER_PROFS, DELVER_PROF_IDS, GEAR, GEAR_IDS, GOODS, HABITS, LENGTHS, SPONSORS, SUPPLIES, SUPPLY_IDS, ZONES, ZONE_ORDER } from './data/content';
 import { delverMaxHp, runExpedition } from './dive';
 import { EXP_TUNING as T } from './tuning';
-import type { Delver, DelverProf, DelverRecruit, ExpeditionResult, ExpGame, ExpLength, ExpPlan, GearDef, GoodId, StandingOrders, SupplyId } from './types';
+import type { Delver, DelverProf, DelverRecruit, ExpeditionResult, ExpGame, ExpLength, ExpPlan, GearDef, GoodId, Sponsor, StandingOrders, SupplyId } from './types';
 
-export const EXP_SAVE_VERSION = 1;
+export const EXP_SAVE_VERSION = 2;
 
 const uidX = (g: ExpGame, p: string) => {
   g.nextId += 1;
@@ -55,7 +55,9 @@ export function createDelver(g: ExpGame, prof: DelverProf, quality = 0): Delver 
     level: 1,
     xp: 0,
     hp: 0,
-    grit: 70 + randInt(g, 0, 15),
+    fatigue: randInt(g, 0, 10),
+    exposure: 0,
+    conditions: [],
     wage: def.wage,
     scars: [],
     habits: [],
@@ -136,7 +138,8 @@ export function refreshStock(g: ExpGame) {
 
 export function refreshSponsors(g: ExpGame) {
   g.sponsors = g.sponsors.filter((s) => s.expiresWeek > g.week);
-  const avail = SPONSORS.filter((s) => s.minRenown <= g.renown && !g.sponsors.some((x) => x.title === s.title));
+  // putting out the Kiln Engine is a one-time job
+  const avail = SPONSORS.filter((s) => s.minRenown <= g.renown && !g.sponsors.some((x) => x.title === s.title) && !(g.kilnBroken && s.goal.kind === 'kill' && s.goal.monster === 'kiln'));
   while (g.sponsors.length < 2 && avail.length) {
     const s = avail.splice(randInt(g, 0, avail.length - 1), 1)[0];
     g.sponsors.push({ id: uidX(g, 's'), faction: s.faction, title: s.title, text: s.text, goal: s.goal, reward: s.reward, renown: s.renown, expiresWeek: g.week + 4 + randInt(g, 0, 2) });
@@ -163,9 +166,11 @@ export function dismissDelver(g: ExpGame, id: string): string | undefined {
   const i = g.members.findIndex((m) => m.id === id && m.status !== 'dead');
   if (i < 0) return 'No such member.';
   const d = g.members[i];
-  // their gear stays in the store
+  // they leave with whatever they are wearing
+  const worn = [d.weapon, d.armor, d.trinket].filter(Boolean);
+  g.gear = g.gear.filter((x) => !worn.includes(x.uid));
   g.members.splice(i, 1);
-  news(g, `${d.name} collects their wages and leaves the guild.`);
+  news(g, `${d.name} collects their wages and leaves the guild, in the guild's armor.`);
 }
 
 export function buyGear(g: ExpGame, defId: string): string | undefined {
@@ -264,7 +269,7 @@ export function planBlocked(g: ExpGame, plan: ExpPlan): string | undefined {
   }
   if (packSlots(plan.pack) > T.packSlots) return `The pack holds ${T.packSlots} slots.`;
   const cost = packCost(g, plan.pack);
-  if (cost > g.crowns) return `Packing this means buying ${cost} crowns of supplies, and the guild has ${g.crowns}.`;
+  if (cost > 0 && cost > g.crowns) return `Packing this means buying ${cost} crowns of supplies, and the guild has ${g.crowns}.`;
   if (g.gameOver) return 'The guild is closed.';
 }
 
@@ -287,16 +292,24 @@ export function planWarnings(g: ExpGame, plan: ExpPlan): string[] {
     const ranks = DELVER_PROFS[d.prof].ranks;
     if (!ranks.includes(i + 1)) w.push(`${d.name.split(' ')[0]} is a ${DELVER_PROFS[d.prof].name} in rank ${i + 1}. They work best from rank ${ranks.join(' or ')}.`);
     if (d.hp < delverMaxHp(d) * 0.6) w.push(`${d.name.split(' ')[0]} is still hurt (${d.hp} of ${delverMaxHp(d)} HP).`);
-    if (d.grit < 35) w.push(`${d.name.split(' ')[0]} is close to breaking (grit ${d.grit}).`);
+    if (d.fatigue >= T.fatigue.tired) w.push(`${d.name.split(' ')[0]} is ${d.fatigue >= T.fatigue.spent ? 'worn out' : 'tired'} before they start (fatigue ${d.fatigue}).`);
+    if (d.exposure >= T.exposure.thresholds[0] - 10 && L.route.includes('sink')) w.push(`${d.name.split(' ')[0]} already carries Exposure ${d.exposure}. More in the Sink may leave a lasting condition.`);
   });
   if (!squad.some((d) => d.prof === 'chaplain') && !(plan.pack.bandages ?? 0)) w.push('No Chaplain and no bandages.');
+  if (L.route.includes('sink') && (plan.pack.masks ?? 0) < 4) w.push(`The Sink ahead, and ${plan.pack.masks ?? 0} wet masks for four members.`);
+  const wages = livingDelvers(g).reduce((s, d) => s + d.wage, 0);
+  if (g.debt.principal > 0 && g.debt.dueWeek <= g.week + L.weeks) {
+    const left = g.crowns - packCost(g, plan.pack) - wages * Math.max(0, g.debt.dueWeek - g.week);
+    w.push(left >= g.debt.installment ? `The Weighhouse wants ${g.debt.installment} while the squad is away. The money at home covers it.` : `The Weighhouse wants ${g.debt.installment} while the squad is away, and the money at home won't cover it. What the squad brings back will be sold to pay it.`);
+  }
+  if (g.rivalAhead && g.rivalAhead.week === g.week) w.push(`${g.rivalAhead.rival === 'hobbs' ? 'Hobb & Daughters' : 'The Ninth'} went through the Culverts this week: fewer fights there, and thinner finds.`);
   return w;
 }
 
 /** A sensible starting plan: the healthiest squad in sensible ranks, and a pack for the route. */
 export function suggestPlan(g: ExpGame, length: ExpLength, orders: StandingOrders = DEFAULT_ORDERS): ExpPlan {
   const alive = livingDelvers(g).filter((d) => d.hp >= 1);
-  const score = (d: Delver) => d.hp / delverMaxHp(d) + d.grit / 150 + d.level * 0.1;
+  const score = (d: Delver) => d.hp / delverMaxHp(d) - d.fatigue / 150 - d.exposure / 300 + d.level * 0.1;
   const byProf = (p: DelverProf) => alive.filter((d) => d.prof === p).sort((a, b) => score(b) - score(a));
   const picked: Delver[] = [];
   const want: DelverProf[][] = [['vanguard', 'skirmisher'], ['skirmisher', 'vanguard', 'scout'], ['chaplain', 'marksman', 'scout'], ['arcanist', 'marksman', 'chaplain']];
@@ -317,11 +330,11 @@ export function suggestPlan(g: ExpGame, length: ExpLength, orders: StandingOrder
     bandages: length === 'short' ? 3 : 6,
     tools: length === 'long' ? 4 : 2,
     reagents: picked.some((d) => d.prof === 'arcanist') ? (length === 'long' ? 6 : 3) : 0,
-    charms: length === 'short' ? 0 : 2,
+    masks: length === 'long' ? 4 : 0,
     draughts: length === 'long' ? 2 : 1,
   };
   // trim to fit the pack, least important first
-  const trim: SupplyId[] = ['charms', 'draughts', 'tools', 'reagents', 'bandages', 'oil', 'food'];
+  const trim: SupplyId[] = ['draughts', 'masks', 'tools', 'reagents', 'bandages', 'oil', 'food'];
   for (const k of trim) while (packSlots(pack) > T.packSlots && (pack[k] ?? 0) > 0) pack[k] = (pack[k] ?? 0) - 1;
   return { length, squad: picked.map((d) => d.id), pack, orders: { ...orders } };
 }
@@ -347,8 +360,9 @@ function levelFor(xp: number) {
   return Math.min(5, l);
 }
 
-/** One week at the guild. `away` members are down in Pellam and don't rest. */
-export function passWeek(g: ExpGame, away: string[] = []) {
+/** One week at the guild. `away` members are down in Pellam and don't rest.
+ * While a squad is away the Weighhouse waits for it to come home (`deferDebt`). */
+export function passWeek(g: ExpGame, away: string[] = [], deferDebt = false) {
   g.week += 1;
   const crew = livingDelvers(g);
   const wages = crew.reduce((s, m) => s + m.wage, 0);
@@ -358,22 +372,62 @@ export function passWeek(g: ExpGame, away: string[] = []) {
     const max = delverMaxHp(d);
     const marks = d.habits.map((h) => HABITS[h]).filter(Boolean);
     const homeHeal = marks.reduce((s, m) => s + (m.homeHeal ?? 0), 0);
-    const homeGrit = marks.reduce((s, m) => s + (m.homeGrit ?? 0), 0);
+    const homeRest = marks.reduce((s, m) => s + (m.homeRest ?? 0), 0);
     d.hp = Math.min(max, Math.round(d.hp + max * (T.home.heal + (g.hall.infirmary ? T.home.infirmary : 0)) + homeHeal));
     d.hp = Math.max(d.hp, 1);
-    let grit = T.home.grit + (g.hall.taproom ? T.home.taproom : 0) + homeGrit;
+    let rest = T.home.rest + (g.hall.taproom ? T.home.taproom : 0) + homeRest;
     if (d.task === 'train') {
       if (g.crowns >= T.home.trainCost) {
         g.crowns -= T.home.trainCost;
         grantXp(g, d, T.home.trainXp);
-        grit += T.home.trainGrit;
+        rest -= T.home.trainFatigue;
       } else d.task = 'rest';
     }
-    d.grit = Math.min(100, d.grit + grit);
+    d.fatigue = Math.max(0, Math.min(100, d.fatigue - rest));
+    d.exposure = Math.max(0, d.exposure - T.exposure.homeDrop);
   }
-  // the Weighhouse
-  if (g.debt.principal > 0 && g.week >= g.debt.dueWeek) {
+  if (!deferDebt) settleDebt(g);
+  if (g.week % 2 === 0) refreshRecruits(g);
+  refreshStock(g);
+  refreshSponsors(g);
+  if (chance(g, 0.2)) {
+    const rival: RivalId = pick(g, ['hobbs', 'ninth'] as RivalId[]);
+    g.rivalAhead = { rival, week: g.week };
+    news(g, rival === 'hobbs' ? "Hobb & Daughters have sent a crew down into the Culverts this week." : 'A party from the Ninth went down into the Culverts this week, looking for anything they can sell.', 'warn');
+  }
+  checkStranded(g);
+}
+
+/** The guild can't field four and can't pay for anyone else: the end. */
+function checkStranded(g: ExpGame) {
+  if (g.gameOver) return;
+  const need = 4 - livingDelvers(g).length;
+  if (need <= 0) return;
+  const worth = g.crowns + (Object.keys(g.goods) as GoodId[]).reduce((s, k) => s + (g.goods[k] ?? 0) * GOODS[k].value, 0) + storedGear(g).reduce((s, x) => s + Math.floor(GEAR[x.defId].price / 2), 0);
+  const cheapest = g.recruits
+    .map((r) => r.signOn)
+    .sort((a, b) => a - b)
+    .slice(0, need);
+  if (cheapest.length < need && g.week % 2 === 1) return; // new faces come next week
+  if (cheapest.reduce((s, x) => s + x, 0) > worth) {
+    g.gameOver = { week: g.week, text: "There aren't four people left to send down, and nothing to pay anyone who might go. The hall on Tallow Street is let to a chandler." };
+  }
+}
+
+/** Pay the Weighhouse what has fallen due. If the coin falls short, the guild's goods are sold to cover it. */
+export function settleDebt(g: ExpGame) {
+  while (!g.gameOver && g.debt.principal > 0 && g.week >= g.debt.dueWeek) {
     const due = Math.min(g.debt.installment, g.debt.principal);
+    if (g.crowns < due && Object.values(g.goods).some((n) => (n ?? 0) > 0)) {
+      const got = sellGoods(g);
+      news(g, `The coin at home fell short, so the guild sold its goods for ${got} crowns to pay the Weighhouse.`, 'warn');
+    }
+    settleOne(g, due);
+  }
+}
+
+function settleOne(g: ExpGame, due: number) {
+  {
     if (g.crowns >= due) {
       g.crowns -= due;
       g.debt.principal -= due;
@@ -389,17 +443,6 @@ export function passWeek(g: ExpGame, away: string[] = []) {
     if (g.debt.missed >= T.debt.missedToLose) {
       g.gameOver = { week: g.week, text: "Two payments missed. The Weighhouse takes the hall on Tallow Street, and the guild's name goes on a list of bad debts." };
     }
-  }
-  if (g.week % 2 === 0) refreshRecruits(g);
-  refreshStock(g);
-  refreshSponsors(g);
-  if (chance(g, 0.2)) {
-    const rival: RivalId = pick(g, ['hobbs', 'ninth'] as RivalId[]);
-    g.rivalAhead = { rival, week: g.week };
-    news(g, rival === 'hobbs' ? "Hobb & Daughters have sent a crew down into the Culverts this week." : 'A party from the Ninth went down into the Culverts this week, looking for anything they can sell.', 'warn');
-  }
-  if (!livingDelvers(g).length && !g.recruits.some((r) => r.signOn <= g.crowns)) {
-    g.gameOver = { week: g.week, text: 'There is nobody left to send down, and no money to pay anyone who might go.' };
   }
 }
 
@@ -443,16 +486,31 @@ export function launchExpedition(g: ExpGame, plan: ExpPlan): string | undefined 
   const squad = plan.squad.map((id) => livingDelvers(g).find((m) => m.id === id)!);
   const rivalAhead = !!g.rivalAhead && g.rivalAhead.week === g.week;
   const seed = nextDiveSeed(g);
-  const result = runExpedition(squad, plan, { seed, rivalAhead, gear: gearLookup(g) });
+  // the commission is agreed at the door, so it holds even if the offer lapses while they're down there
+  const sponsor = g.sponsors.find((s) => s.id === plan.sponsorId);
+  const result = runExpedition(squad, plan, { seed, rivalAhead, kilnBroken: g.kilnBroken, gear: gearLookup(g) });
   g.expeditions += 1;
   g.lastPlan = JSON.parse(JSON.stringify(plan));
   const L = LENGTHS[plan.length];
-  for (let w = 0; w < L.weeks; w++) passWeek(g, plan.squad);
-  applyResult(g, result);
+  for (let w = 0; w < L.weeks; w++) passWeek(g, plan.squad, true);
+  applyResult(g, result, sponsor);
+  settleDebt(g);
+  checkStranded(g);
   return undefined;
 }
 
-export function applyResult(g: ExpGame, res: ExpeditionResult) {
+/** Saint Oda's fever beds draw some of the Sink out of a member, for a fee. */
+export function treatExposure(g: ExpGame, id: string): string | undefined {
+  const d = livingDelvers(g).find((m) => m.id === id);
+  if (!d) return 'No such member.';
+  if (d.exposure <= 0) return 'There is nothing in them to draw out.';
+  if (g.crowns < T.exposure.treatCost) return `Saint Oda's asks ${T.exposure.treatCost} crowns.`;
+  g.crowns -= T.exposure.treatCost;
+  d.exposure = Math.max(0, d.exposure - T.exposure.treat);
+  news(g, `${d.name} spends a night in Saint Oda's fever beds and comes back smelling of vinegar.`);
+}
+
+export function applyResult(g: ExpGame, res: ExpeditionResult, sponsorAtLaunch?: Sponsor) {
   const dead: string[] = [];
   for (const o of res.members) {
     const d = g.members.find((m) => m.id === o.id);
@@ -469,7 +527,9 @@ export function applyResult(g: ExpGame, res: ExpeditionResult) {
       continue;
     }
     d.hp = Math.max(1, o.hp);
-    d.grit = o.grit;
+    d.fatigue = o.fatigue;
+    d.exposure = o.exposure;
+    d.conditions = [...(d.conditions ?? []), ...o.conditions];
     d.scars.push(...o.scars);
     d.habits.push(...o.habits);
     d.deeds.push(...o.deeds);
@@ -492,7 +552,7 @@ export function applyResult(g: ExpGame, res: ExpeditionResult) {
   const loot = { ...res.loot };
   // the sponsor
   if (res.plan.sponsorId) {
-    const s = g.sponsors.find((x) => x.id === res.plan.sponsorId);
+    const s = sponsorAtLaunch ?? g.sponsors.find((x) => x.id === res.plan.sponsorId);
     if (s && res.outcome !== 'lost') {
       const goal = s.goal;
       const met =
@@ -505,7 +565,7 @@ export function applyResult(g: ExpGame, res: ExpeditionResult) {
         if (goal.kind === 'bring') loot[goal.good] = (loot[goal.good] ?? 0) - goal.count;
         g.crowns += s.reward;
         g.renown += s.renown;
-        g.sponsors = g.sponsors.filter((x) => x !== s);
+        g.sponsors = g.sponsors.filter((x) => x.id !== s.id);
         res.sponsorMet = true;
         news(g, `${s.title}: done. The sponsor pays ${s.reward} crowns.`, 'good');
       } else {
@@ -526,6 +586,10 @@ export function applyResult(g: ExpGame, res: ExpeditionResult) {
       }
     }
   }
+  if ((res.kills.kiln ?? 0) > 0 && !g.kilnBroken) {
+    g.kilnBroken = true;
+    news(g, "The college sends a cart for the Kiln Engine's core, and a letter that is mostly about who is going to pay for the cart.", 'good');
+  }
   g.last = res;
   g.history.push({ n: g.expeditions, week: g.week, length: res.plan.length, outcome: res.outcome, deepest: res.deepest, lootValue: res.lootValue, dead, renown: res.renown });
   const verdict = res.outcome === 'complete' ? 'came back with the job done' : res.outcome === 'retreated' ? 'turned back early' : 'was lost';
@@ -539,6 +603,29 @@ export function applyResult(g: ExpGame, res: ExpeditionResult) {
 /** Upgrade an older trial save in place. Returns null if it can't be used. */
 export function migrateExpSave(g: ExpGame | null | undefined): ExpGame | null {
   if (!g || typeof g !== 'object' || typeof g.week !== 'number' || !Array.isArray(g.members)) return null;
-  // v1 is the first trial save. Later shapes add a step here, as core/save.ts does.
+  if (g.version === 1) {
+    // v2 replaced grit (nerve) with fatigue and exposure, and charms with wet masks
+    type V1 = { grit?: number };
+    for (const d of [...g.members, ...g.recruits.map((r) => r.delver)]) {
+      const grit = (d as unknown as V1).grit ?? 70;
+      delete (d as unknown as V1).grit;
+      d.fatigue = Math.max(0, Math.min(100, 70 - grit));
+      d.exposure = 0;
+      d.conditions = [];
+    }
+    const stores = g.stores as unknown as Record<string, number>;
+    stores.masks = stores.charms ?? 0;
+    delete stores.charms;
+    for (const p of [g.lastPlan, g.last?.plan]) {
+      const pack = p?.pack as Record<string, number> | undefined;
+      if (pack && 'charms' in pack) {
+        pack.masks = pack.charms;
+        delete pack.charms;
+      }
+    }
+    // an old log can't be replayed with the new squad strip
+    g.last = undefined;
+    g.version = 2;
+  }
   return g.version === EXP_SAVE_VERSION ? g : null;
 }

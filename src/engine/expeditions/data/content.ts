@@ -59,7 +59,7 @@ export const DELVER_PROFS: Record<DelverProf, DelverProfDef> = {
     base: { might: 4, finesse: 7, wits: 5, resolve: 4 },
     wage: 9,
     gear: ['hunting_bow', 'leather_jack'],
-    ranks: [3, 4],
+    ranks: [2, 3, 4],
     main: 'finesse',
     skills: [
       { name: 'Aimed shot', text: 'Reaches any rank and finds the weak places more often.' },
@@ -73,7 +73,7 @@ export const DELVER_PROFS: Record<DelverProf, DelverProfDef> = {
     base: { might: 2, finesse: 4, wits: 8, resolve: 5 },
     wage: 12,
     gear: ['focus_rod', 'padded_robes'],
-    ranks: [3, 4],
+    ranks: [2, 3, 4],
     main: 'wits',
     skills: [
       { name: 'Bolt', text: "One dose of reagents, one target, in the focus's element." },
@@ -87,11 +87,11 @@ export const DELVER_PROFS: Record<DelverProf, DelverProfDef> = {
     base: { might: 4, finesse: 3, wits: 6, resolve: 7 },
     wage: 10,
     gear: ['mace', 'gambeson'],
-    ranks: [2, 3],
+    ranks: [1, 2, 3, 4],
     main: 'resolve',
     skills: [
       { name: 'Dress wounds', text: 'Heals a hurt friend in the middle of a fight. Bandages go twice as far in a Chaplain\'s hands.' },
-      { name: 'Steady words', text: 'Gives back grit to whoever is closest to breaking.' },
+      { name: 'Second wind', text: 'Gets the most worn-out member back on their feet: rubs their legs, makes them drink, tells them to stop sulking.' },
       { name: 'Censer', text: 'With a censer and a dose of reagents, burns radiant light into the enemy.' },
     ],
   },
@@ -140,7 +140,7 @@ const gearList: GearDef[] = [
   { id: 'brigandine', name: 'Brigandine', slot: 'armor', price: 85, protection: 5, bulk: 3, minRenown: 6, description: 'Plates riveted inside cloth. Quieter than mail.' },
   { id: 'plate_harness', name: 'Plate Harness', slot: 'armor', price: 150, protection: 7, bulk: 12, minRenown: 14, description: 'Near-proof against teeth. Nobody sneaks anywhere in it.' },
   // trinkets
-  { id: 'oda_medal', name: "Saint Oda's Medal", slot: 'trinket', price: 30, gritGuard: 2, description: 'Grit losses are 2 smaller for the wearer.' },
+  { id: 'oda_medal', name: "Saint Oda's Medal", slot: 'trinket', price: 30, ease: 2, description: 'A pilgrim token for long walks. Fatigue builds a little slower for the wearer.' },
   { id: 'soft_boots', name: 'Soft Boots', slot: 'trinket', price: 30, dodge: 6, description: 'Felt soles. Dodge +6, and quieter past wanderers.' },
   { id: 'assay_lens', name: 'Assay Lens', slot: 'trinket', price: 45, finds: 0.2, minRenown: 4, description: 'Tells good silver from bad. Finds are worth a fifth more.' },
   { id: 'surgeon_roll', name: "Surgeon's Roll", slot: 'trinket', price: 40, heal: 4, description: 'Needles and gut. The wearer heals 4 more with each dressing or bandage.' },
@@ -168,7 +168,7 @@ export const SUPPLIES: Record<SupplyId, SupplyDef> = {
   bandages: { id: 'bandages', name: 'Bandages', one: 'bandage', perSlot: 3, price: 4, text: 'Heal between rooms. Twice as good with a Chaplain standing.' },
   oil: { id: 'oil', name: 'Lamp oil', one: 'flask of oil', perSlot: 4, price: 2, text: 'The Buried Streets and the Sink are dark. One flask lights a room.' },
   tools: { id: 'tools', name: 'Tools', one: 'set of tools', perSlot: 2, price: 6, text: 'Crowbar, rope and wedges. Disarm traps, force strongboxes, clear rubble.' },
-  charms: { id: 'charms', name: 'Charms', one: "Oda's token", perSlot: 2, price: 5, text: "Oda's tokens. Spent to keep a member from breaking." },
+  masks: { id: 'masks', name: 'Wet masks', one: 'wet mask', perSlot: 2, price: 5, text: 'Linen and charcoal, soaked before use. One keeps a member breathing cleaner in the College Sink: half the Exposure.' },
   reagents: { id: 'reagents', name: 'Reagents', one: 'dose', perSlot: 3, price: 6, text: "Doses for the Arcanist's spells and the Chaplain's censer." },
   draughts: { id: 'draughts', name: 'Draughts', one: 'draught', perSlot: 1, price: 20, text: 'Brings a member who goes down straight back up. No roll for their life.' },
 };
@@ -196,8 +196,6 @@ export interface MonsterDef {
   ranged?: boolean;
   weak: (DamageType | Element)[];
   resist: (DamageType | Element)[];
-  /** grit lost by everyone on first sight */
-  dread: number;
   special?: 'oil' | 'poison' | 'charge' | 'ambush' | 'blast' | 'thief' | 'swarm';
   /** "it" or "they" for one of them */
   xp: number;
@@ -208,16 +206,16 @@ export interface MonsterDef {
 }
 
 export const MONSTERS: Record<MonsterId, MonsterDef> = {
-  rats: { id: 'rats', one: 'knot of rats', name: 'Culvert rats', plural: 'culvert rats', zone: 'culverts', hp: 9, acc: 72, dodge: 16, prot: 0, dmg: [2, 5], speed: 8, weak: ['fire', 'blunt'], resist: [], dread: 0, special: 'swarm', xp: 1, text: 'A knot of rats the size of cats, fed on everything that comes down the drains.' },
-  moths: { id: 'moths', one: 'cloud of moths', name: 'Tallow moths', plural: 'tallow moths', zone: 'culverts', hp: 6, acc: 74, dodge: 30, prot: 0, dmg: [1, 3], speed: 9, ranged: true, weak: ['fire', 'radiant'], resist: ['blunt'], dread: 1, special: 'oil', xp: 1, text: 'Pale moths as wide as a hand. They drink lamp oil, and they will drink it out of the lamp.' },
-  grubber: { id: 'grubber', one: 'grubber', name: 'Grubber', plural: 'grubbers', zone: 'culverts', hp: 15, acc: 72, dodge: 10, prot: 1, dmg: [4, 7], speed: 5, weak: [], resist: [], dread: 0, special: 'thief', xp: 2, coin: 6, text: 'People who live down here and dig for what Pellam left behind. They do not like company.' },
-  eel: { id: 'eel', one: 'eel', name: 'Sink eel', plural: 'sink eels', zone: 'streets', hp: 22, acc: 76, dodge: 18, prot: 1, dmg: [5, 9], speed: 7, weak: ['storm', 'frost'], resist: [], dread: 4, special: 'ambush', xp: 3, loot: { good: 'eel_oil', chance: 0.7 }, text: 'A grey eel as long as a cart, living in the flooded cellars. It strikes from the water first.' },
-  spider: { id: 'spider', one: 'spider', name: 'Cellar spider', plural: 'cellar spiders', zone: 'streets', hp: 15, acc: 78, dodge: 22, prot: 0, dmg: [3, 7], speed: 8, weak: ['fire'], resist: [], dread: 4, special: 'poison', xp: 3, text: 'A long-legged spider the color of wet plaster. Its bite keeps working after it lets go.' },
-  hog: { id: 'hog', one: 'hog', name: 'Pale hog', plural: 'pale hogs', zone: 'streets', hp: 32, acc: 68, dodge: 4, prot: 2, dmg: [6, 11], speed: 5, weak: ['pierce'], resist: [], dread: 5, special: 'charge', xp: 4, text: 'Pigs got down here a century ago and kept breeding. They are white and blind, and as big as ponies.' },
-  crab: { id: 'crab', one: 'crab', name: 'Sink crab', plural: 'sink crabs', zone: 'streets', hp: 24, acc: 70, dodge: 4, prot: 5, dmg: [4, 8], speed: 4, weak: ['blunt', 'storm'], resist: ['slash', 'pierce'], dread: 3, xp: 4, loot: { good: 'glass', chance: 0.4 }, text: 'River crabs grown huge on reagent runoff. Blades skid off them.' },
-  seep: { id: 'seep', one: 'seep', name: 'Seep', plural: 'seeps', zone: 'sink', hp: 24, acc: 72, dodge: 0, prot: 0, dmg: [4, 8], speed: 3, weak: ['radiant', 'frost'], resist: ['slash', 'pierce'], dread: 6, xp: 5, loot: { good: 'salts', chance: 0.8 }, text: 'A spill of spent reagents that never stopped reacting. It moves toward warmth and it burns what it touches.' },
-  engine: { id: 'engine', one: 'engine', name: 'Assay engine', plural: 'Assay engines', zone: 'sink', hp: 42, acc: 72, dodge: 0, prot: 6, dmg: [6, 11], speed: 2, weak: ['storm', 'blunt'], resist: ['pierce', 'fire'], dread: 8, construct: true, xp: 7, loot: { good: 'seal', chance: 0.9 }, text: "An iron testing engine the Assay Office left running when it moved upstairs. It still tests anything it finds, very hard." },
-  kiln: { id: 'kiln', one: 'Kiln Engine', name: 'the Kiln Engine', plural: 'the Kiln Engine', zone: 'sink', hp: 80, acc: 74, dodge: 0, prot: 5, dmg: [6, 11], speed: 3, weak: ['frost', 'storm'], resist: ['fire', 'pierce'], dread: 16, special: 'blast', construct: true, xp: 14, loot: { good: 'kiln_core', chance: 1 }, text: "The college's great reagent furnace, built to walk the length of the Sink and burn the spill. Nobody told it to stop." },
+  rats: { id: 'rats', one: 'knot of rats', name: 'Culvert rats', plural: 'culvert rats', zone: 'culverts', hp: 9, acc: 72, dodge: 16, prot: 0, dmg: [2, 5], speed: 8, weak: ['fire', 'blunt'], resist: [], special: 'swarm', xp: 1, text: 'A knot of rats the size of cats, fed on everything that comes down the drains.' },
+  moths: { id: 'moths', one: 'cloud of moths', name: 'Tallow moths', plural: 'tallow moths', zone: 'culverts', hp: 6, acc: 74, dodge: 30, prot: 0, dmg: [1, 3], speed: 9, ranged: true, weak: ['fire', 'radiant'], resist: ['blunt'], special: 'oil', xp: 1, text: 'Pale moths as wide as a hand. They drink lamp oil, and they will drink it out of the lamp.' },
+  grubber: { id: 'grubber', one: 'grubber', name: 'Grubber', plural: 'grubbers', zone: 'culverts', hp: 15, acc: 72, dodge: 10, prot: 1, dmg: [4, 7], speed: 5, weak: [], resist: [], special: 'thief', xp: 2, coin: 6, text: 'People who live down here and dig for what Pellam left behind. They do not like company.' },
+  eel: { id: 'eel', one: 'eel', name: 'Sink eel', plural: 'sink eels', zone: 'streets', hp: 22, acc: 76, dodge: 18, prot: 1, dmg: [5, 9], speed: 7, weak: ['storm', 'frost'], resist: [], special: 'ambush', xp: 3, loot: { good: 'eel_oil', chance: 0.7 }, text: 'A grey eel as long as a cart, living in the flooded cellars. It strikes from the water first.' },
+  spider: { id: 'spider', one: 'spider', name: 'Cellar spider', plural: 'cellar spiders', zone: 'streets', hp: 15, acc: 78, dodge: 22, prot: 0, dmg: [3, 7], speed: 8, weak: ['fire'], resist: [], special: 'poison', xp: 3, text: 'A long-legged spider the color of wet plaster. Its bite keeps working after it lets go.' },
+  hog: { id: 'hog', one: 'hog', name: 'Pale hog', plural: 'pale hogs', zone: 'streets', hp: 32, acc: 68, dodge: 4, prot: 2, dmg: [6, 11], speed: 5, weak: ['pierce'], resist: [], special: 'charge', xp: 4, text: 'Pigs got down here a century ago and kept breeding. They are white and blind, and as big as ponies.' },
+  crab: { id: 'crab', one: 'crab', name: 'Sink crab', plural: 'sink crabs', zone: 'streets', hp: 24, acc: 70, dodge: 4, prot: 5, dmg: [4, 8], speed: 4, weak: ['blunt', 'storm'], resist: ['slash', 'pierce'], xp: 4, loot: { good: 'glass', chance: 0.4 }, text: 'River crabs grown huge on reagent runoff. Blades skid off them.' },
+  seep: { id: 'seep', one: 'seep', name: 'Seep', plural: 'seeps', zone: 'sink', hp: 24, acc: 72, dodge: 0, prot: 0, dmg: [4, 8], speed: 3, weak: ['radiant', 'frost'], resist: ['slash', 'pierce'], xp: 5, loot: { good: 'salts', chance: 0.8 }, text: 'A spill of spent reagents that never stopped reacting. It moves toward warmth and it burns what it touches.' },
+  engine: { id: 'engine', one: 'engine', name: 'Assay engine', plural: 'Assay engines', zone: 'sink', hp: 42, acc: 72, dodge: 0, prot: 6, dmg: [6, 11], speed: 2, weak: ['storm', 'blunt'], resist: ['pierce', 'fire'], construct: true, xp: 7, loot: { good: 'seal', chance: 0.9 }, text: "An iron testing engine the Assay Office left running when it moved upstairs. It still tests anything it finds, very hard." },
+  kiln: { id: 'kiln', one: 'Kiln Engine', name: 'the Kiln Engine', plural: 'the Kiln Engine', zone: 'sink', hp: 100, acc: 74, dodge: 0, prot: 5, dmg: [7, 12], speed: 3, weak: ['frost', 'storm'], resist: ['fire', 'pierce'], special: 'blast', construct: true, xp: 14, loot: { good: 'kiln_core', chance: 1 }, text: "The college's great reagent furnace, built to walk the length of the Sink and burn the spill. Nobody told it to stop." },
 };
 
 export const MONSTER_IDS = Object.keys(MONSTERS) as MonsterId[];
@@ -330,9 +328,9 @@ export const LENGTHS: Record<ExpLength, LengthDef> = {
 
 export const GOODS: Record<GoodId, { id: GoodId; name: string; one: string; many: string; value: number; text: string }> = {
   coin: { id: 'coin', many: 'purses of Pellam coin', name: 'Pellam coin', one: 'a purse of Pellam coin', value: 9, text: 'Old coin from before the river moved. Collectors pay for it by the purse.' },
-  glass: { id: 'glass', many: 'pieces of college glass', name: 'College glass', one: 'a piece of college glass', value: 14, text: 'Retorts and lenses the college threw away. The glassblowers on Anvil Row buy them back.' },
+  glass: { id: 'glass', many: 'pieces of college glass', name: 'College glass', one: 'a piece of college glass', value: 16, text: 'Retorts and lenses the college threw away. The glassblowers on Anvil Row buy them back.' },
   eel_oil: { id: 'eel_oil', many: 'jars of eel oil', name: 'Eel oil', one: 'a jar of eel oil', value: 18, text: 'Rendered from sink eels. The Mudlarks use it to waterproof everything.' },
-  silver: { id: 'silver', many: 'pieces of Pellam silver', name: 'Pellam silver', one: 'a piece of Pellam silver', value: 26, text: 'Plate and candlesticks from houses that were rich two hundred years ago.' },
+  silver: { id: 'silver', many: 'pieces of Pellam silver', name: 'Pellam silver', one: 'a piece of Pellam silver', value: 30, text: 'Plate and candlesticks from houses that were rich two hundred years ago.' },
   salts: { id: 'salts', many: 'jars of reagent salts', name: 'Reagent salts', one: 'a jar of reagent salts', value: 22, text: 'Crystals scraped from the Sink. Apothecaries ask no questions.' },
   seal: { id: 'seal', many: 'Assay seals', name: 'Assay seals', one: 'an Assay seal', value: 34, text: "Brass seals from the Assay Office's old engines. The Office pays to get them back." },
   kiln_core: { id: 'kiln_core', many: 'Kiln cores', name: 'Kiln core', one: "the Kiln Engine's core", value: 240, text: "The furnace heart of the Kiln Engine. The college would like it back, and will pay." },
@@ -353,15 +351,18 @@ export interface MarkDef {
   acc?: number;
   dodge?: number;
   speed?: number;
-  gritLoss?: number; // added to every grit loss (negative means smaller losses)
-  darkGrit?: number; // extra grit lost per dark room
+  roomFatigue?: number; // extra fatigue each room
+  darkFatigue?: number; // extra fatigue in each dark room
+  deathRoll?: number; // added to the roll for their life when they go down
+  burnGuard?: number; // less damage from seeps and the Kiln
+  nightEyes?: boolean; // no aim penalty in the dark
   spot?: number; // trap and ambush spotting
   dmgVs?: { monster: MonsterId; dmg: number };
   accVs?: { monster: MonsterId; acc: number };
   finds?: number;
   campHeal?: number; // extra share of max HP healed at camps
-  campGrit?: number; // multiplier for grit restored at camps
-  homeGrit?: number; // extra grit restored at the guild each week
+  campRest?: number; // multiplier for fatigue cleared at camps
+  homeRest?: number; // extra fatigue cleared at the guild each week
   homeHeal?: number; // extra HP restored at the guild each week
 }
 
@@ -371,21 +372,30 @@ export const SCARS: Record<string, MarkDef> = {
   burned_hand: { id: 'burned_hand', name: 'Burned hand', text: 'Aim −4.', acc: -4 },
   half_ear: { id: 'half_ear', name: 'Half an ear', text: 'Worse at spotting traps and ambushes.', spot: -0.06 },
   limp: { id: 'limp', name: 'A limp', text: 'Slower in a fight.', speed: -1 },
-  stitched_brow: { id: 'stitched_brow', name: 'Stitched brow', text: 'Grit losses 1 smaller. They have seen worse.', gritLoss: -1, good: true },
-  bite_scar: { id: 'bite_scar', name: 'A bite scar', text: 'Max HP −2, and grit losses 1 smaller.', maxHp: -2, gritLoss: -1 },
+  stitched_brow: { id: 'stitched_brow', name: 'Stitched brow', text: 'Their life is a little safer when they go down. They have the knack of it now.', deathRoll: -0.03, good: true },
+  bite_scar: { id: 'bite_scar', name: 'A bite scar', text: 'Max HP −2. It aches when it rains, and it always rains.', maxHp: -2 },
 };
 
 export const HABITS: Record<string, MarkDef> = {
-  hates_dark: { id: 'hates_dark', name: 'Hates the dark', text: 'Loses 2 more grit in every dark room.', darkGrit: 2 },
-  jumpy: { id: 'jumpy', name: 'Jumpy', text: 'Dodge +3, but grit losses 2 bigger.', dodge: 3, gritLoss: 2 },
-  drinks: { id: 'drinks', name: 'Drinks', text: 'Gets grit back faster at the guild and heals slower.', homeGrit: 8, homeHeal: -6 },
+  hates_dark: { id: 'hates_dark', name: 'Hates the dark', text: 'Tires 2 faster in every dark room, from holding the lamp too tight.', darkFatigue: 2 },
+  jumpy: { id: 'jumpy', name: 'Jumpy', text: 'Dodge +3, but tires 1 faster each room.', dodge: 3, roomFatigue: 1 },
+  drinks: { id: 'drinks', name: 'Drinks', text: 'Shakes off fatigue faster at the guild and heals slower.', homeRest: 10, homeHeal: -6 },
   rat_fear: { id: 'rat_fear', name: "Can't abide rats", text: 'Aim −10 against rats.', accVs: { monster: 'rats', acc: -10 } },
-  sleeps_badly: { id: 'sleeps_badly', name: 'Sleeps badly', text: 'Camps give back half as much grit.', campGrit: 0.5 },
-  hums: { id: 'hums', name: 'Hums when frightened', text: 'Grit losses 2 smaller. The others have opinions about the tune.', gritLoss: -2, good: true },
+  sleeps_badly: { id: 'sleeps_badly', name: 'Sleeps badly', text: 'Camps clear half as much of their fatigue.', campRest: 0.5 },
+  hums: { id: 'hums', name: 'Hums on the march', text: 'Tires 1 slower each room. The others have opinions about the tune.', roomFatigue: -1, good: true },
   steady_hands: { id: 'steady_hands', name: 'Steady hands', text: 'Aim +4.', acc: 4, good: true },
   counts_coin: { id: 'counts_coin', name: 'Counts the coins', text: 'Finds are worth a tenth more with them in the squad.', finds: 0.1, good: true },
   rat_hater: { id: 'rat_hater', name: 'Hates rats', text: 'Deals 3 more damage to rats.', dmgVs: { monster: 'rats', dmg: 3 }, good: true },
   old_hand: { id: 'old_hand', name: 'Old hand at camp', text: 'Camps heal them a little more.', campHeal: 0.06, good: true },
+};
+
+/** Lasting conditions left by Exposure to the Sink's runoff. Chemistry, not curses. */
+export const CONDITIONS: Record<string, MarkDef> = {
+  tremor: { id: 'tremor', name: 'A tremor', text: 'Aim −5. Their hands shake in the mornings.', acc: -5 },
+  burned_lungs: { id: 'burned_lungs', name: 'Burned lungs', text: 'Tires 1 faster each room.', roomFatigue: 1 },
+  brittle: { id: 'brittle', name: 'Brittle bones', text: 'Their life is less safe when they go down.', deathRoll: 0.05 },
+  stained_skin: { id: 'stained_skin', name: 'Stained skin', text: 'Seeps and the Kiln Engine do 2 less damage to them. The skin is a lovely violet.', burnGuard: 2, good: true },
+  pale_eyes: { id: 'pale_eyes', name: 'Pale eyes', text: 'No aim penalty in the dark, and a worse one with their mother.', nightEyes: true, good: true },
 };
 
 export const BAD_HABITS = Object.values(HABITS).filter((h) => !h.good).map((h) => h.id);
@@ -410,7 +420,7 @@ export const SPONSORS: SponsorDef[] = [
   { id: 'oda_salts', faction: 'oda', title: "Salts for Saint Oda's", text: 'Sister Brune needs reagent salts for the fever beds and would rather not buy them from an apothecary who asks no questions.', goal: { kind: 'bring', good: 'salts', count: 2 }, reward: 90, renown: 2, minRenown: 0 },
   { id: 'assay_seals', faction: 'exchequer', title: 'The Assay seals', text: "The Exchequer wants the Assay Office's lost seals found before the Office finds them and claims it never lost them.", goal: { kind: 'bring', good: 'seal', count: 2 }, reward: 110, renown: 2, minRenown: 0 },
   { id: 'mudlark_eels', faction: 'mudlarks', title: 'Eel oil for the flats', text: "Wenna Pask's people need eel oil for their boats, and she says the eels are easy if you don't mind eels.", goal: { kind: 'kill', monster: 'eel', count: 1 }, reward: 70, renown: 1, minRenown: 0 },
-  { id: 'weigh_silver', faction: 'weighhouse', title: 'Pellam plate', text: 'Alderman Coster will weigh any Pellam silver you bring back, and knock what it weighs off the loan, near enough.', goal: { kind: 'bring', good: 'silver', count: 3 }, reward: 100, renown: 1, minRenown: 0 },
+  { id: 'weigh_silver', faction: 'weighhouse', title: 'Pellam plate', text: 'Alderman Coster will weigh any Pellam silver you bring back, and pay for it by weight, which he says is the only honest way to pay for anything.', goal: { kind: 'bring', good: 'silver', count: 3 }, reward: 100, renown: 1, minRenown: 0 },
   { id: 'lt_rats', faction: 'lowertown', title: 'The cellar rats', text: 'The Porters\' Fraternity will pay to have fewer rats coming up through the Tallow Street cellars.', goal: { kind: 'kill', monster: 'rats', count: 5 }, reward: 50, renown: 2, minRenown: 0 },
   { id: 'ex_streets', faction: 'exchequer', title: 'A survey of the Streets', text: 'The Exchequer has a map of Pellam from two hundred years ago and would like to know how wrong it is.', goal: { kind: 'reach', zone: 'streets' }, reward: 80, renown: 2, minRenown: 2 },
   { id: 'ost_sink', faction: 'ostranders', title: 'How deep it goes', text: "Factor Vorn wants a reliable account of the College Sink. The bank holds a note on the college and likes to know what it owns.", goal: { kind: 'reach', zone: 'sink' }, reward: 160, renown: 3, minRenown: 6 },

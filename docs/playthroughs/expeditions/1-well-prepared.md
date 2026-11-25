@@ -11,7 +11,7 @@ Seed 2101. Medium expedition: Down to the Buried Streets and the old counting ho
 3. **Osric Brack**, Chaplain: Flanged Mace, Gambeson
 4. **Agnes Stroud**, Arcanist: Plain Focus Rod, Padded Robes
 
-**Pack:** 4 food, 6 lamp oil, 6 bandages, 2 tools, 3 reagents, 2 charms, 1 draughts.
+**Pack:** 4 food, 6 lamp oil, 6 bandages, 2 tools, 3 reagents, 1 draughts.
 
 **Orders:** turn back: steady; heal first: worst; wandering monsters: avoid; camp: at camp sites; supplies: sparingly.
 
@@ -35,7 +35,7 @@ Hesper stamps on the slowest of the first knot of rats, and the others decide th
 
 Osric can't reach anything from back here and shouts advice instead.
 
-The grubber cracks Cass across the head with a shovel. *(8)*
+The grubber cracks Cass across the head with a shovel. *(9)*
 
 Agnes flicks a small working at the grubber, the cheapest one they know. *(5)*
 
@@ -45,11 +45,11 @@ Hesper brings the spear down on the grubber. *(5)*
 
 Hesper puts the grubber down for good.
 
-> Cass 29/37 hp, grit 76 · Hesper 29/34 hp, grit 89 · Osric 31/31 hp, grit 75 · Agnes 22/22 hp, grit 83
+> Cass 28/37 hp, fatigue 2 · Hesper 29/34 hp, fatigue 10 · Osric 31/31 hp, fatigue 3 · Agnes 22/22 hp, fatigue 9
 
 Hesper does not wait to see what the first one did, and hits the second knot of rats again. *(7)*
 
-The second knot of rats goes for Cass's hands. *(6)*
+The second knot of rats goes for Cass's hands. *(7)*
 
 Osric waits behind the others for an opening that never comes.
 
@@ -75,7 +75,7 @@ The first cloud of moths falls apart in a shower of pale powder.
 
 Hesper's second strike finds the second cloud of moths. *(6)*
 
-Rats bite Cass in several places at once. *(7)*
+Rats bite Cass in several places at once. *(8)*
 
 Cass shoves the second cloud of moths back into the dark. *(3, it shrugs)*
 
@@ -95,7 +95,7 @@ Cass steps in and hits the knot of rats hard with the arming sword. *(10)*
 
 The knot of rats breaks up and flees down the pipes.
 
-> Cass 24/37 hp, grit 79 · Hesper 22/34 hp, grit 90 · Osric 31/31 hp, grit 73 · Agnes 22/22 hp, grit 81
+> Cass 21/37 hp, fatigue 9 · Hesper 22/34 hp, fatigue 17 · Osric 31/31 hp, fatigue 9 · Agnes 22/22 hp, fatigue 15
 
 They wipe the blades on whatever is nearest and count the bandages.
 
@@ -131,7 +131,7 @@ Hesper swats the last of the cloud of moths out of the air.
 
 It goes quiet again, apart from something dripping.
 
-> Cass 26/37 hp, grit 72 · Hesper 22/34 hp, grit 82 · Osric 31/31 hp, grit 64 · Agnes 22/22 hp, grit 72
+> Cass 23/37 hp, fatigue 24 · Hesper 22/34 hp, fatigue 31 · Osric 31/31 hp, fatigue 21 · Agnes 22/22 hp, fatigue 29
 
 They come into a smuggler's cellar under the old fish market. It is mostly empty.
 
@@ -139,15 +139,15 @@ Cass fishes a piece of college glass out of the water with a bent nail on a stic
 
 They eat sitting on a step with their boots in the wet. Nobody talks much. *(1 food)*
 
-> Cass 26/37 hp, grit 73 · Hesper 22/34 hp, grit 83 · Osric 31/31 hp, grit 65 · Agnes 22/22 hp, grit 73
+> Cass 23/37 hp, fatigue 31 · Hesper 22/34 hp, fatigue 38 · Osric 31/31 hp, fatigue 27 · Agnes 22/22 hp, fatigue 36
 
 **They make camp in a dry cellar where a grate lets a little air down.**
 
-> Cass 26/37 hp, grit 76 · Hesper 22/34 hp, grit 86 · Osric 31/31 hp, grit 68 · Agnes 22/22 hp, grit 76
+> Cass 23/37 hp, fatigue 27 · Hesper 22/34 hp, fatigue 34 · Osric 31/31 hp, fatigue 23 · Agnes 22/22 hp, fatigue 32
 
 There is hot food, and the chaplain goes round everyone with a lamp and a needle. By morning they are in better shape than they deserve. *(1 food)*
 
-> Cass 37/37 hp, grit 92 · Hesper 34/34 hp, grit 100 · Osric 31/31 hp, grit 84 · Agnes 22/22 hp, grit 92
+> Cass 36/37 hp, fatigue 3 · Hesper 34/34 hp, fatigue 10 · Osric 31/31 hp, fatigue 0 · Agnes 22/22 hp, fatigue 8
 
 ### The drain opens out into a street. It has a gutter and a name painted on a corner, and Varrow's foundations sit on its roofs like a lid.
 
@@ -163,7 +163,7 @@ Cass puts their weight behind the arming sword, and the second grubber takes all
 
 The first grubber swings the pick and buries it in the wall.
 
-The second grubber swings a pick into Cass. *(9)*
+The second grubber swings a pick into Cass. *(10)*
 
 Osric tries to push forward past the others and gets an elbow for it.
 
@@ -181,15 +181,15 @@ Hesper brings the spear down on the second grubber. *(5)*
 
 The second grubber goes down and stays down.
 
-> Cass 28/37 hp, grit 85 · Hesper 34/34 hp, grit 93 · Osric 31/31 hp, grit 77 · Agnes 22/22 hp, grit 85
+> Cass 26/37 hp, fatigue 10, exposure 1 · Hesper 34/34 hp, fatigue 17, exposure 1 · Osric 31/31 hp, fatigue 6, exposure 1 · Agnes 22/22 hp, fatigue 14, exposure 1
 
 Hesper follows through and opens the first grubber up a second time. *(6)*
 
 Agnes gets the figure wrong. The spell fizzles.
 
-The first grubber hits Cass with a length of chain. *(7)*
+The first grubber hits Cass with a length of chain. *(9)*
 
-Osric is too far back to hit anything, and knows it.
+Osric kneels by Cass and packs the wound while the fight goes on around them. *(+10)*
 
 Hesper swings the spear into the first grubber and keeps swinging. *(6)*
 
@@ -197,13 +197,15 @@ Hesper comes back the other way and catches the first grubber. *(5)*
 
 The first grubber drops the pick and does not get up.
 
-The spider drops onto Hesper from above. *(6)*
+The spider drops onto Hesper from above. *(7)*
 
 Agnes taps the spider with a working the size of a candle flame. *(7)*
 
 The spider twists away from the arming sword.
 
-Osric waits behind the others for an opening that never comes.
+Osric is too far back to hit anything, and knows it.
+
+The spider strikes at Cass and hits the floor.
 
 Hesper is sick against the wall and wipes their mouth and carries on. *(3)*
 
@@ -211,19 +213,15 @@ Hesper's blow lands on nothing.
 
 Hesper does not wait to see what the first one did, and hits the spider again. *(5)*
 
-The spider bites Cass, and the bite goes numb straight away. *(8)*
-
-Cass sways. The bite has gone purple and hot. *(3)*
+Agnes pinches out a little working at the spider. It is not much, but it lands. *(5)*
 
 Cass's blow lands on nothing.
 
-Agnes's little working dies before it reaches the spider.
+Osric waits behind the others for an opening that never comes.
 
-Osric kneels by Cass and packs the wound while the fight goes on around them. *(+10)*
+The spider sinks both fangs into Cass and holds on. *(12)*
 
-Cass gets an arm up just in time.
-
-Hesper's arm has swollen up tight inside the sleeve. *(3)*
+Hesper sways. The bite has gone purple and hot. *(3)*
 
 Hesper catches the spider with the spear and something cracks. *(6)*
 
@@ -231,137 +229,191 @@ The spider curls its legs in and dies.
 
 They win that one. Nobody says anything for a while.
 
-> Cass 20/37 hp, grit 85 · Hesper 22/34 hp, grit 99 · Osric 31/31 hp, grit 77 · Agnes 22/22 hp, grit 85
+> Cass 15/37 hp, fatigue 10, exposure 1 · Hesper 21/34 hp, fatigue 17, exposure 1 · Osric 31/31 hp, fatigue 6, exposure 1 · Agnes 22/22 hp, fatigue 14, exposure 1
 
-They go along an arcade of shops with the shutters still down. The silt has come in through the cracks and filled them to the counters.
+They cross a square with a dry fountain. Somebody has stacked bones in the basin, very neatly, by size.
 
-Something big snorts in the dark ahead. A pale hog, blind and the size of a pony, has smelled them.
+The flooded cellar is too still. Then the water stands up.
 
-Hesper misses, and says something the chaplains would not repeat.
+**The eel gets the first blow in before anyone sees it coming.**
 
-Hesper cuts again, faster, and finds the hog. *(6, it hates that)*
+The eel comes up out of the water and closes its jaws on Cass. *(14)*
 
-Cass throws themselves sideways and the hog thunders past.
+Hesper goes low for the eel and gets nothing but stone.
 
-Cass chops at the hog and connects. *(9)*
-
-Osric tries to push forward past the others and gets an elbow for it.
-
-Agnes has run out of reagents. They spend their own blood instead, and go grey. *(4 of their own)*
-
-Agnes lets go of the working. The hog is in the way of it. *(8)*
-
-Hesper goes low and opens a long cut in the hog. *(7, it hates that)*
-
-The hog leaves a trail behind it now. *(3)*
-
-The hog gores Cass with a yellow tusk. *(16)*
-
-Cass lunges, slips on the wet stone and misses the hog.
-
-Agnes pinches out a little working at the hog. It is not much, but it lands. *(5)*
-
-Agnes gets the hog at last. It falls over and takes a while to finish.
-
-> Cass 4/37 hp, grit 74 · Hesper 22/34 hp, grit 87 · Osric 31/31 hp, grit 66 · Agnes 18/22 hp, grit 71
-
-The last of them goes down. Somebody laughs, too loudly.
-
-> Cass 4/37 hp, grit 74 · Hesper 22/34 hp, grit 87 · Osric 31/31 hp, grit 66 · Agnes 18/22 hp, grit 73
-
-**The lamps go out one by one. Nobody packed enough oil, and now everyone knows it.**
-
-They stop and eat cold bread and hard cheese. Cass says it is the best meal of their life. *(1 food)*
-
-> Cass 4/37 hp, grit 67 · Hesper 22/34 hp, grit 80 · Osric 31/31 hp, grit 59 · Agnes 18/22 hp, grit 66
-
-Osric sits Cass down on a step and does the job properly. *(+16)*
-
-The counting house of Pellam stands at the bottom of the street, with its doors open and something moving inside.
-
-Somebody brushes a thread, and the room starts moving.
-
-Hesper goes in low, and the first spider is not there.
-
-The second spider strikes at Hesper and hits the floor.
-
-Cass charges the second spider and finds only air.
-
-The first spider's fangs go through Cass's sleeve. *(10)*
-
-Agnes flicks a spark off the plain focus rod at the second spider. It stings, at least. *(7)*
+Cass misses, and says something the chaplains would not repeat.
 
 Osric gets a pad of lint on Cass and leans on it until it stops. *(+10)*
 
-The second spider sinks both fangs into Hesper and holds on. *(15)*
+Agnes pays for the next working in blood. Their lips have gone blue. *(4 of their own)*
 
-The first spider strikes at Cass and hits the floor.
+Agnes gets the figure wrong. The spell fizzles.
 
-The spider's venom is still working in Hesper. *(3)*
+Hesper jumps back as the eel strikes.
 
-Hesper swings at the second spider and hits the wall.
+Hesper chops at the eel and connects. *(5)*
 
-Hesper goes for a second cut, and the second spider is ready for that one.
+Hesper cuts again, faster, and finds the eel. *(5)*
 
-Cass is sweating and their hands have gone numb. *(3)*
+"Hold still," Osric tells Cass, and pours something on the cut that makes Cass swear. *(+10)*
 
-The second spider gives ground, and Cass stumbles past it.
+Agnes flicks a spark off the plain focus rod at the eel. It stings, at least. *(5)*
 
-Agnes flicks a spark at the second spider and misses.
+Cass slams a shoulder into the eel. *(4)*
 
-"Hold still," Osric tells Hesper, and pours something on the cut that makes Hesper swear. *(+10)*
+The eel drags Hesper toward the water. *(17)*
 
-The first spider's fangs go through Hesper's sleeve. *(7)*
+Hesper lunges, slips on the wet stone and misses the eel.
 
-The second spider bites Cass, and the bite goes numb straight away. *(10)*
+Hesper's second strike finds the eel. *(5)*
 
-Hesper sways. The bite has gone purple and hot. *(3)*
+Osric drags Hesper back a yard and ties off the worst of the bleeding. *(+10)*
 
-Hesper finds an opening and hits the second spider in it. *(6)*
+Agnes's little working dies before it reaches the eel.
 
-Hesper tries a second strike and nearly loses the spear.
+Cass batters the eel with the flat of the arming sword. *(5)*
 
-Cass's arm has swollen up tight inside the sleeve. *(3)*
+The eel rolls over in the water, belly up, and sinks.
 
-Cass slams a shoulder into the second spider. *(5)*
+> Cass 21/37 hp, fatigue 26, exposure 3 · Hesper 14/34 hp, fatigue 32, exposure 3 · Osric 31/31 hp, fatigue 19, exposure 3 · Agnes 18/22 hp, fatigue 29, exposure 3
 
-Cass splits the second spider open and the smell is terrible.
+The last of them goes down. Somebody laughs, too loudly.
 
-Osric drags Cass back a yard and ties off the worst of the bleeding. *(+10)*
+**The last of the lamp oil gutters out. They go on in the dark.**
 
-Agnes's little working dies before it reaches the first spider.
+They stop and eat cold bread and hard cheese. Osric says it is the best meal of their life. *(1 food)*
 
-The spider's venom is still working in Hesper. *(3)*
+> Cass 21/37 hp, fatigue 37, exposure 4 · Hesper 14/34 hp, fatigue 44, exposure 4 · Osric 31/31 hp, fatigue 28, exposure 4 · Agnes 18/22 hp, fatigue 39, exposure 4
 
-Hesper puts their weight behind the spear, and the first spider takes all of it. *(7)*
+Somebody's buckle clinks, and the tallow moths turn round.
 
-Hesper's second strike finds the first spider. *(7)*
+Pale shapes come down out of the dark toward the lamps. They are tallow moths, and they want the oil.
 
-The first spider drops onto Cass from above. *(7)*
+**They walk straight into it. The first cloud of moths has the first move.**
 
-Cass is sick against the wall and wipes their mouth and carries on. *(3)*
+The first cloud of moths smothers Cass's lamp hand. *(5)*
 
-Cass steps in and hits the first spider hard with the arming sword. *(10)*
+Moths get into Cass's mouth. *(4)*
 
-The first spider curls its legs in and dies.
+Hesper finds an opening and hits the first cloud of moths in it. *(5)*
+
+Hesper comes back the other way and catches the first cloud of moths. *(7)*
+
+The first cloud of moths falls apart in a shower of pale powder.
+
+"Hold still," Osric tells Cass, and pours something on the cut that makes Cass swear. *(+10)*
+
+Cass swings at the second cloud of moths and hits the wall.
+
+Agnes has nothing better left and throws a spark at the second cloud of moths anyway. *(5)*
+
+The second cloud of moths twists away from the spear.
+
+Hesper does not wait to see what the first one did, and hits the second cloud of moths again. *(5)*
+
+Hesper swats the last of the second cloud of moths out of the air.
 
 It is over. They stand there breathing hard and counting each other.
 
-> Cass 4/37 hp, grit 70 · Hesper 1/34 hp, grit 73 · Osric 31/31 hp, grit 58 · Agnes 18/22 hp, grit 65
+> Cass 22/37 hp, fatigue 33, exposure 4 · Hesper 14/34 hp, fatigue 40, exposure 4 · Osric 31/31 hp, fatigue 24, exposure 4 · Agnes 18/22 hp, fatigue 35, exposure 4
 
-The counting house vault is still locked. Hesper gets it open and finds 5 pieces of college glass inside. *(5 pieces of college glass)*
+The counting house of Pellam stands at the bottom of the street, with its doors open and something moving inside.
 
-The way back up feels shorter than the way down, which it is not.
+Something long and grey turns over in the water beside the path, and it is longer than the path.
+
+**Nobody was watching that side. The eel is already among them.**
+
+The eel lashes Cass with its whole body. *(9)*
+
+The crab closes a claw on Cass. *(13)*
+
+**Cass drops, then sits up again with the empty draught bottle still in their mouth. *(a draught)***
+
+Hesper swings at the crab and hits the wall.
+
+Hesper follows through and opens the crab up a second time. *(2, it shrugs)*
+
+Osric kneels by Cass and packs the wound while the fight goes on around them. *(+10)*
+
+Cass puts their weight behind the arming sword, and the crab takes all of it. *(4, it shrugs)*
+
+Agnes has run out of reagents. They spend their own blood instead, and go grey. *(4 of their own)*
+
+Agnes casts, and the working comes apart in the wet air.
+
+Cass steps in and hits the crab hard with the arming sword. *(3, it shrugs)*
+
+Hesper goes in low, and the crab is not there.
+
+The eel comes up out of the water and closes its jaws on Cass. *(9)*
+
+Agnes opens the cut on their palm again and casts from that. *(4 of their own)*
+
+Agnes lets go of the working. The crab is in the way of it. *(6)*
+
+The crab scuttles sideways and its claw closes on nothing.
+
+Osric gets a pad of lint on Cass and leans on it until it stops. *(+10)*
+
+The eel drags Hesper toward the water. *(11)*
+
+Hesper slashes at the crab and leaves it bleeding. *(2, it shrugs)*
+
+Cass charges the crab and finds only air.
+
+The crab leaves a trail behind it now. *(3)*
+
+The crab batters Hesper with a claw. *(7)*
+
+**Hesper hits the stones and lies there.**
+
+Agnes flicks a spark off the plain focus rod at the crab. It stings, at least. *(3)*
+
+Osric gets a dressing on Agnes, tight and fast. *(+10)*
+
+The eel snaps at Cass and gets a mouthful of water.
+
+Cass gets the arming sword into the crab and twists. *(3, it shrugs)*
+
+The crab is bleeding badly. *(3)*
+
+The crab goes down at last from the bleeding.
+
+> Cass 24/37 hp, fatigue 35, exposure 4 · Hesper down · Osric 31/31 hp, fatigue 26, exposure 4 · Agnes 20/22 hp, fatigue 37, exposure 4
+
+There are no doses left, so Agnes cuts their own palm and casts from that. *(4 of their own)*
+
+Agnes opens a hand and the focus spits at the eel. *(10)*
+
+Osric finds an opening and hits the eel in it. *(6)*
+
+The eel snaps at Cass and gets a mouthful of water.
+
+Osric steps in and hits the eel hard with the flanged mace. *(7)*
+
+Cass catches the eel with the arming sword and something cracks. *(9)*
+
+Cass finishes the eel. It takes a long time to stop moving.
+
+That is the end of it. Everybody checks their hands for missing fingers.
+
+> Cass 24/37 hp, fatigue 35, exposure 4 · Hesper down · Osric 31/31 hp, fatigue 26, exposure 4 · Agnes 16/22 hp, fatigue 37, exposure 4
+
+Hesper comes round and gets up very slowly.
+
+Pellam's counting house has been sitting on 4 purses of Pellam coin for two hundred years, and nobody upstairs ever knew. *(4 purses of Pellam coin)*
+
+They climb back up toward the Lower Town with full packs.
 
 **Two weeks after they went down, the squad climbs out into daylight. They stand in the street blinking.**
 
 ## What came home
 
 Outcome: **complete**, 9 of 9 rooms.
-Loot: 6 college glass, worth 84 crowns, plus 74 in coin.
-Renown: Completed a medium expedition (+3 renown); Fought off a wandering pack (+1 renown); First to reach the Buried Streets (+2 renown).
+Loot: 2 college glass, 2 eel oil, 4 pellam coin, worth 104 crowns, plus 72 in coin.
+Renown: Completed a medium expedition (+3 renown); Fought off 2 wandering packs (+2 renown); Brought a fallen member home (+1 renown); First to reach the Buried Streets (+2 renown).
 
-- **Cass Holloway**: 4 HP, grit 72, +38 experience.
-- **Hesper Mercer**: 1 HP, grit 75, +38 experience; new habit: rat_hater.
-- **Osric Brack**: 31 HP, grit 60, +38 experience.
-- **Agnes Stroud**: 18 HP, grit 67, +38 experience.
+- **Cass Holloway**: 24 HP, fatigue 37, exposure 4, +43 experience.
+- **Hesper Mercer**: 1 HP, fatigue 42, exposure 4, +43 experience; new habit: old_hand.
+- **Osric Brack**: 31 HP, fatigue 28, exposure 4, +43 experience.
+- **Agnes Stroud**: 16 HP, fatigue 40, exposure 4, +43 experience.

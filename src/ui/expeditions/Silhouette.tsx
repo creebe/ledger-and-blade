@@ -182,7 +182,7 @@ const MON: Record<MonsterId, JSX.Element> = {
   ),
 };
 
-export function ProfSilhouette({ prof, size = 44, state }: { prof: DelverProf; size?: number; state?: 'ok' | 'shaken' | 'down' | 'dead' | 'out' }) {
+export function ProfSilhouette({ prof, size = 44, state }: { prof: DelverProf; size?: number; state?: 'ok' | 'spent' | 'down' | 'dead' | 'out' }) {
   return (
     <span className={`x-sil x-sil-${state ?? 'ok'}`} style={{ width: size, height: size }} aria-hidden>
       <svg viewBox="0 0 48 48" width={size - 6} height={size - 6} fill="currentColor">

@@ -71,7 +71,7 @@ export function HallTab() {
       )}
 
       <Section title="Rest">
-        <p className="small">The squad's wounds heal and their nerve comes back a little each week at home. Wages are paid whether anyone goes down or not.</p>
+        <p className="small">Wounds heal and fatigue wears off a little each week at home, and the Sink's Exposure slowly fades. Wages are paid whether anyone goes down or not.</p>
         <HoldButton onConfirm={rest} hint="Hold to rest the guild for a week." className="btn x-rest">
           <Icon name="rest" size={18} /> Hold to rest a week
         </HoldButton>
@@ -106,7 +106,7 @@ export function HallTab() {
         {(
           [
             { id: 'infirmary' as const, name: 'Infirmary', text: 'Beds and a basin in the back room. Members at home heal faster.' },
-            { id: 'taproom' as const, name: 'Taproom', text: 'The cellar becomes a taproom. Members at home get their grit back faster.' },
+            { id: 'taproom' as const, name: 'Taproom', text: 'The cellar becomes a taproom. Members at home shake off fatigue faster.' },
           ]
         ).map((h) => (
           <div key={h.id} className="card x-upgrade">

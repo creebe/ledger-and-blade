@@ -45,8 +45,8 @@ const ORDER_ROWS: { key: keyof StandingOrders; title: string; options: { value: 
     key: 'retreat',
     title: 'Turn back',
     options: [
-      { value: 'cautious', label: 'Cautious', text: 'Turn back as soon as anyone is badly hurt or shaken, or anyone dies.' },
-      { value: 'steady', label: 'Steady', text: 'Turn back when two are badly hurt or shaken, or anyone dies.' },
+      { value: 'cautious', label: 'Cautious', text: 'Turn back as soon as anyone is badly hurt or worn out, or anyone dies.' },
+      { value: 'steady', label: 'Steady', text: 'Turn back when two are badly hurt or worn out, or anyone dies.' },
       { value: 'stubborn', label: 'Stubborn', text: 'Keep going until half the squad is dead or close to it.' },
     ],
   },
@@ -79,7 +79,7 @@ const ORDER_ROWS: { key: keyof StandingOrders; title: string; options: { value: 
     key: 'consumables',
     title: 'Supplies',
     options: [
-      { value: 'freely', label: 'Freely', text: 'Bandage early, spend tokens before anyone gets close to breaking, cast with doses every time.' },
+      { value: 'freely', label: 'Freely', text: 'Bandage early and cast with doses every time.' },
       { value: 'sparingly', label: 'Sparingly', text: 'Bandage the badly hurt, and save doses for the bigger monsters.' },
       { value: 'hoard', label: 'Hoard', text: 'Only in emergencies. Doses are kept for the Kiln and the engines.' },
     ],
@@ -240,7 +240,7 @@ export function Prep() {
                   <span className="row gap">
                     <ProfSilhouette prof={d.prof} size={32} />
                     <span>
-                      <b>{first(d)}</b> <small className="muted">{DELVER_PROFS[d.prof].name} {d.level} · HP {d.hp}/{delverMaxHp(d)} · grit {d.grit}</small>
+                      <b>{first(d)}</b> <small className="muted">{DELVER_PROFS[d.prof].name} {d.level} · HP {d.hp}/{delverMaxHp(d)} · fatigue {d.fatigue}{d.exposure ? ` · exposure ${d.exposure}` : ''}</small>
                     </span>
                   </span>
                   <span className="row gap x-bench-put">

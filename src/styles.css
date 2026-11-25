@@ -3762,7 +3762,7 @@ details summary {
   transform: rotate(80deg) translate(6px, 0);
   opacity: 0.6;
 }
-.x-sil-shaken {
+.x-sil-spent {
   border-color: var(--mid);
 }
 .x-sil-dead {
@@ -3824,7 +3824,7 @@ details summary {
   background: var(--ink-2);
   transition: width 0.35s ease;
 }
-.x-bar-grit .x-bar-fill {
+.x-bar-fatigue .x-bar-fill {
   background: var(--muted);
 }
 .x-tone-mid .x-bar-fill {
@@ -4205,7 +4205,8 @@ details summary {
   font-variant-numeric: tabular-nums;
 }
 .x-st-down .x-strip-num,
-.x-st-shaken .x-strip-num {
+.x-st-spent .x-strip-num,
+.x-st-out .x-strip-num {
   color: var(--mid);
 }
 .x-st-dead .x-strip-num,

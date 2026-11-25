@@ -3,7 +3,7 @@
 import type { Attributes, DamageType, Element, FactionId, RivalId } from '../core/types';
 
 export type DelverProf = 'vanguard' | 'skirmisher' | 'marksman' | 'arcanist' | 'chaplain' | 'scout';
-export type SupplyId = 'food' | 'bandages' | 'oil' | 'tools' | 'charms' | 'reagents' | 'draughts';
+export type SupplyId = 'food' | 'bandages' | 'oil' | 'tools' | 'masks' | 'reagents' | 'draughts';
 export type ExpLength = 'short' | 'medium' | 'long';
 export type ZoneId = 'culverts' | 'streets' | 'sink';
 export type MonsterId =
@@ -40,7 +40,7 @@ export interface GearDef {
   // trinket
   dodge?: number;
   acc?: number;
-  gritGuard?: number; // grit losses reduced by this many points
+  ease?: number; // fatigue builds this much slower (halved per room)
   finds?: number; // extra share of loot found
   heal?: number; // extra healing given
 }
@@ -58,7 +58,12 @@ export interface Delver {
   level: number;
   xp: number;
   hp: number;
-  grit: number; // 0-100
+  /** physical wear, 0-100. Builds on expeditions, clears with rest weeks at home */
+  fatigue: number;
+  /** reagent runoff in the body, 0-100. Builds in the deep; Saint Oda's can treat it */
+  exposure: number;
+  /** lasting conditions left by Exposure */
+  conditions: string[];
   wage: number;
   weapon?: string; // gear uid
   armor?: string;
@@ -120,8 +125,9 @@ export interface Sponsor {
 export interface SquadSnap {
   hp: number[];
   maxHp: number[];
-  grit: number[];
-  state: ('ok' | 'shaken' | 'down' | 'dead' | 'out')[];
+  fatigue: number[];
+  exposure: number[];
+  state: ('ok' | 'spent' | 'out' | 'down' | 'dead')[];
 }
 
 export interface EnemySnap {
@@ -142,7 +148,8 @@ export type LogKind =
   | 'trap'
   | 'find'
   | 'camp'
-  | 'grit'
+  | 'fatigue'
+  | 'exposure'
   | 'down'
   | 'death'
   | 'win'
@@ -165,7 +172,9 @@ export interface LogLine {
 export interface DelverOutcome {
   id: string;
   hp: number;
-  grit: number;
+  fatigue: number;
+  exposure: number;
+  conditions: string[]; // new conditions from Exposure
   xp: number;
   died?: string; // cause of death
   scars: string[]; // new scars
@@ -233,6 +242,8 @@ export interface ExpGame {
   sponsors: Sponsor[];
   rivalAhead?: { rival: RivalId; week: number };
   zonesReached: ZoneId[];
+  /** the Kiln Engine has been broken: later long expeditions find its yard instead */
+  kilnBroken?: boolean;
   expeditions: number;
   history: ExpHistoryEntry[];
   last?: ExpeditionResult;
