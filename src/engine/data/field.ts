@@ -14,6 +14,8 @@ export function squadOf(s: GameState, ms?: Mission): Member[] {
 }
 const first = (m?: Member) => (m ? m.name.split(' ')[0] : 'The squad');
 const pct = (p: number) => `${Math.round(p * 100)}%`;
+/** where the squad is bound, ready to sit inside a sentence ("the Saltfens", "Drover's Road") */
+const placeOf = (s: GameState, m?: Member) => (missionOf(s, m)?.contract.region ?? 'the job').replace(/^The /, 'the ');
 
 /** Best single squad member's chance at a field check (for detail text). */
 export function squadCheck(s: GameState, ms: Mission | undefined, approach: Approach, difficulty: number) {
@@ -35,7 +37,7 @@ export const FIELD_EVENTS: EventDef[] = [
     title: 'The Bridge Is Out',
     weight: 2,
     member: onRoad,
-    text: (s, m) => `A coal carter comes into the yard with mud up to his knees. The river is up, he says, and the bridge on the road to ${missionOf(s, m)?.contract.region} has gone. ${first(m)} has the squad packed and wants to know which way to go before they leave.`,
+    text: (s, m) => `A coal carter comes into the yard with mud up to his knees. The river is up, he says, and the bridge on the way to ${placeOf(s, m)} has gone. ${first(m)} has the squad packed and wants to know which way to go before they leave.`,
     choices: (s, m) => {
       const ms = missionOf(s, m);
       const p = squadCheck(s, ms, 'endurance', 8 + (ms?.contract.threat ?? 3));
@@ -59,7 +61,7 @@ export const FIELD_EVENTS: EventDef[] = [
     title: 'A Deserter at the Door',
     weight: 2,
     member: (s, m) => onRoad(s, m) && !!missionOf(s, m)?.contract.hidden.some((h) => !h.revealed),
-    text: (s, m) => `A nervous man is waiting at the hall door as the squad gets ready for ${missionOf(s, m)?.contract.region}. He says he ran from the people they're going there to deal with, and he'll tell them what he knows if they make it worth his while.`,
+    text: (s, m) => `A nervous man is waiting at the hall door as the squad gets ready for ${placeOf(s, m)}. He says he ran from the people they're going there to deal with, and he'll tell them what he knows if they make it worth his while.`,
     choices: (s, m) => {
       const ms = missionOf(s, m);
       const p = squadCheck(s, ms, 'guile', 11);
@@ -117,7 +119,7 @@ export const FIELD_EVENTS: EventDef[] = [
     title: 'A Local Guide',
     weight: 1.5,
     member: onRoad,
-    text: (s, m) => `An old drover is drinking in the hall after a sale. He hears where the squad is bound and offers to take them to ${missionOf(s, m)?.contract.region} by the sheep tracks, which he swears are quicker and drier than the road.`,
+    text: (s, m) => `An old drover is drinking in the hall after a sale. He hears where the squad is bound and offers to take them to ${placeOf(s, m)} by the sheep tracks, which he swears are quicker and drier than the road.`,
     choices: [
       { label: 'Hire the guide', detail: '−25 crowns. The squad arrives fresher and better placed (the fights a little easier).', requires: { crowns: 25 }, effects: { crowns: -25, mission: { difficulty: 0.94, fatigue: -15 }, log: 'An old drover guided them by the back ways.' }, resultText: 'He finishes his drink and whistles for his dog. He says he knows every sheep track in the hills.' },
       { label: 'Decline', effects: {}, resultText: 'He shrugs and orders another. The squad will keep to the road.' },
@@ -139,7 +141,11 @@ export const FIELD_EVENTS: EventDef[] = [
     title: 'Hobb\'s People Are Packing',
     weight: 3,
     member: (s, m) => onRoad(s, m) && missionOf(s, m)?.contract.contestedBy === 'hobbs' && s.npcs.isbet?.status === 'alive',
-    text: (s, m) => `The pot boy from the Copper Kettle runs in to say that Hobb & Daughters are loading packs in their yard for the same job you've given ${first(m)}: "${missionOf(s, m)?.contract.title}". Isbet Hobb is leading them, and they mean to leave today.`,
+    text: (s, m) =>
+      `The pot boy from the Copper Kettle runs in to say that Hobb & Daughters are loading packs in their yard for the same job you've given ${first(m)}: "${missionOf(s, m)?.contract.title}". Isbet Hobb is leading them, and they mean to leave today.` +
+      (s.flags.isbet_betrayed && s.npcs.marta?.status === 'alive'
+        ? `\n\nHe says one more thing, looking at his feet. Isbet saw him coming this way and told him to give the guild her mother's regards, and nothing else.`
+        : ''),
     choices: (s, m) => {
       const ms = missionOf(s, m);
       const t = ms?.contract.threat ?? 3;
@@ -165,7 +171,12 @@ export const FIELD_EVENTS: EventDef[] = [
           resultText: "Isbet Hobb's squad wakes up on the first morning to cut girths and scattered horses.",
           failText: 'Isbet was waiting for them.',
         },
-        { label: 'Let them go first', detail: 'They will have stirred things up (the fights there will be harder).', effects: { mission: { chain: 1.1 } }, resultText: 'The Hobbs are out of town by noon.' },
+        {
+          label: 'Let them go first',
+          detail: 'They will have stirred things up (the fights there will be harder).',
+          effects: { mission: { chain: 1.1 } },
+          resultText: s.flags.isbet_betrayed ? 'The Hobbs are out of town by noon. Isbet rides past the hall door and does not turn her head.' : 'The Hobbs are out of town by noon.',
+        },
       ];
     },
   },
@@ -174,7 +185,7 @@ export const FIELD_EVENTS: EventDef[] = [
     title: 'The Weather Turns',
     weight: 2,
     member: (s, m) => onRoad(s, m) && ['Autumn', 'Winter'].includes(seasonOf(s.week)),
-    text: (s, m) => `A drover coming in off the ${missionOf(s, m)?.contract.region} road says ${seasonOf(s.week) === 'Winter' ? 'snow' : 'freezing rain'} has set in out there. ${first(m)} wants to know before they go whether to push on through it or find somewhere dry and wait.`,
+    text: (s, m) => `A drover just in from ${placeOf(s, m)} says ${seasonOf(s.week) === 'Winter' ? 'snow' : 'freezing rain'} has set in out there. ${first(m)} wants to know before they go whether to push on through it or find somewhere dry and wait.`,
     choices: (s, m) => [
       { label: 'Tell them to push on', detail: 'Everyone arrives tired (fatigue +15).', effects: { mission: { fatigue: 15 }, log: 'They marched through the storm, as ordered.' }, resultText: 'They tie their hoods down and set off.' },
       { label: 'Tell them to shelter and wait', detail: `One week's delay. Costs ${squadOf(s, missionOf(s, m)).length} supplies.`, effects: { mission: { delay: 1, supplies: -squadOf(s, missionOf(s, m)).length }, log: 'They sat out the storm in a shepherd\'s hut, as ordered.' }, resultText: 'The drover tells them where to find a shepherd\'s hut on the way.' },
@@ -187,11 +198,57 @@ export const FIELD_EVENTS: EventDef[] = [
     member: (s, m) => onRoad(s, m) && squadOf(s, missionOf(s, m)).some((x) => x.profession === 'scout' || x.profession === 'skirmisher') && !!missionOf(s, m)?.contract.hidden.some((h) => !h.revealed),
     text: (s, m) => {
       const sc = squadOf(s, missionOf(s, m)).find((x) => x.profession === 'scout' || x.profession === 'skirmisher');
-      return `A tinker who came in from ${missionOf(s, m)?.contract.region} saw fresh tracks a mile from the job. ${first(sc)} wants leave to spend a day following them once the squad gets there.`;
+      return `A tinker who came in from ${placeOf(s, m)} saw fresh tracks a mile from the job. ${first(sc)} wants leave to spend a day following them once the squad gets there.`;
     },
     choices: [
       { label: 'Follow the tracks', detail: 'Reveals what the squad will face, and the fights there are a little easier. Fatigue +10.', effects: { mission: { reveal: true, chain: 0.9, fatigue: 10 }, log: 'They spent a day on the tracks the tinker had seen, and learned what they were walking into.' }, resultText: 'The tinker draws them a map on the back of a bill, which is better than most maps.' },
       { label: 'Stay on schedule', effects: {}, resultText: 'They will go straight to the job.' },
+    ],
+  },
+  {
+    id: 'field_crown_wagons',
+    title: "The Crown's Wagons",
+    weight: 4,
+    cooldown: 999,
+    npcs: ['fenn'],
+    member: (s, m) => onRoad(s, m) && !!s.flags.silver_abandoned && missionOf(s, m)?.contract.expedition?.site === 'anselm',
+    text: (_s, m) =>
+      `A carter in from the coast road tells ${first(m)} that the Crown's wagons are still at Wenmouth ford. They went that far with the Exchequer's own guard to meet the escort the Crown had hired, and the escort never came. When the ships had sailed, the guard took the silver back to the Exchequer's vault and went home. The wagons are still there, empty, and so is a clerk from the Exchequer is still there, living in one of them, because nobody has told him to come back.`,
+    choices: [
+      {
+        label: 'Bring the clerk home',
+        detail: 'Exchequer +3, Fenn +10. The squad stops at the ford for him (fatigue +8).',
+        effects: { standing: { exchequer: 3 }, npc: { id: 'fenn', attitude: 10 }, mission: { fatigue: 8 }, log: 'At Wenmouth ford they found the Exchequer clerk, who had been living in an empty Crown wagon since the silver, and sent him home with a carter.' },
+        resultText: 'Fenn writes two lines to thank you, and spends one of them apologizing for the clerk.',
+      },
+      {
+        label: 'Leave him there',
+        effects: {},
+        resultText: 'The carter says the clerk seemed happy enough, and he had a stove.',
+      },
+    ],
+  },
+  {
+    id: 'field_writ',
+    title: 'An Exchequer Writ',
+    weight: 4,
+    cooldown: 999,
+    npcs: ['fenn'],
+    member: (s, m) => onRoad(s, m) && !!s.flags.fenn_ally,
+    text: (s, m) =>
+      `A clerk from the Exchequer is in the yard with a writ under the Lord Treasurer's seal. Fenn heard at the table that your people are going to ${placeOf(s, m)}, and the writ lets them change horses at the Crown's post-houses on the way. The clerk mentions that the post-riders wear the Crown's colors, and that ${first(m)}'s squad would be riding with them.`,
+    choices: [
+      {
+        label: 'Take the writ',
+        detail: 'The squad arrives fresher (fatigue −15). Lower Town −2: the street sees who they ride with.',
+        effects: { standing: { lowertown: -2 }, mission: { fatigue: -15 }, log: "They rode out with the Crown's post-riders on an Exchequer writ, and changed horses at every post-house." },
+        resultText: 'The clerk folds the writ into a leather case and hands it to the squad as if it might go off.',
+      },
+      {
+        label: 'Thank Fenn and walk',
+        effects: {},
+        resultText: 'The clerk takes the writ back. He says Fenn will understand, and Fenn probably will.',
+      },
     ],
   },
 ];

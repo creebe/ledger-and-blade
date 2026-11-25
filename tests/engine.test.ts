@@ -16,6 +16,8 @@ import {
   type GameState,
 } from '../src/engine';
 import { runSim } from '../scripts/sim';
+import { FIELD_EVENTS } from '../src/engine/data/field';
+import { STORY_EVENTS } from '../src/engine/data/events';
 import { currentDate, datesPhase, dateTargets, nextDate, scheduleDates, DATE_BY_ID } from '../src/engine';
 import { afterLeaderDies, executeHostile, feudStage, hallDefense, operationOptions, raiseFeud, resolveOperation, runOperation, earnFame, fameTier, triggerEvents, SAVE_VERSION, BACKERS, CIRCUMSTANCE_BY_ID, claimNote, buySupplies, supplyCost, buyMaterial, cancelDispatch, discoverLore, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
 
@@ -158,6 +160,50 @@ describe('engine', () => {
       return;
     }
     throw new Error('no suitable seed found');
+  });
+
+  it('door scenes pay off Act I outcomes: the Crown wagons, the Exchequer writ, Isbet', () => {
+    const ids = ['field_crown_wagons', 'field_writ'];
+    const seen = new Set<string>();
+    for (let seed = 1; seed < 400 && seen.size < ids.length + 1; seed++) {
+      const s = newGame(seed);
+      clearEvents(s);
+      const c = s.board.find((x) => x.travelWeeks > 0 && !x.story);
+      if (!c) continue;
+      c.expedition.site = 'anselm';
+      c.region = 'Port Anselm';
+      c.contestedBy = 'hobbs';
+      Object.assign(s.flags, { silver_abandoned: true, silver_lost: true, fenn_ally: true, isbet_betrayed: true });
+      // only the scenes under test are eligible: the others are on cooldown
+      for (const d of FIELD_EVENTS) if (!ids.includes(d.id) && d.id !== 'field_rivals') s.eventWeeks[d.id] = s.week;
+      if (send(s, c, living(s).slice(0, Math.max(c.minSquad, 3)))) continue;
+      const ev = s.pendingEvents.find((e) => e.missionId === s.missions[0].id);
+      if (!ev) continue;
+      if (ev.defId === 'field_rivals') {
+        expect(ev.text).toMatch(/her mother's regards/);
+        seen.add('isbet');
+      } else seen.add(ev.defId);
+      expect(ev.text).not.toMatch(/undefined|\{|The Saltfens|road to/);
+      const before = { ex: s.factions.exchequer.standing, lt: s.factions.lowertown.standing };
+      resolveEvent(s, ev.uid, 0);
+      if (ev.defId === 'field_crown_wagons') expect(s.factions.exchequer.standing).toBe(before.ex + 3);
+      if (ev.defId === 'field_writ') expect(s.factions.lowertown.standing).toBe(before.lt - 2);
+    }
+    expect([...seen].sort()).toEqual(['field_crown_wagons', 'field_writ', 'isbet']);
+  });
+
+  it('Half a Year mentions the Act I outcomes that had no echo', () => {
+    const s = newGame(3);
+    Object.assign(s.flags, { silver_abandoned: true, silver_lost: true, fenn_ally: true, weights_failed: true, isbet_betrayed: true, tapestry_sold: true, aske_plate_lost: true });
+    const def = STORY_EVENTS.find((d) => d.id === 'act1_slice_end')!;
+    const text = typeof def.text === 'function' ? def.text(s) : def.text;
+    for (const bit of ['Wenmouth ford', 'Thursdays', "Hesketh's bushels are still short", 'Isbet Hobb has stopped going', 'wool merchant', 'assessors took her silver']) expect(text).toContain(bit);
+    s.flags.tapestry_sold = false;
+    s.flags.tapestry_lost = true;
+    s.npcs.isbet.status = 'dead';
+    const later = typeof def.text === 'function' ? def.text(s) : def.text;
+    expect(later).toContain("keeping somebody's hay dry");
+    expect(later).not.toContain('Isbet');
   });
 
   it('buildings take time, cost upkeep, and builders speed them up', () => {
