@@ -162,6 +162,44 @@ describe('expeditions', () => {
     expect(feedForWeek(s, s.week - 1).some((f) => f.missionId === ms.id)).toBe(false);
   });
 
+  it('calling a squad off and sending it again does not reroll the trip', () => {
+    const s = newGame(108);
+    clearEvents(s);
+    const c = post(s, 'pellam_plate');
+    const plan = suggestPlan(s, c);
+    dispatchExpedition(s, c.id, plan);
+    const first = s.missions[0].result;
+    const planned = s.missions[0].dispatchedWeek + s.missions[0].plannedWeeks - 1;
+    expect(s.missions[0].returnWeek).toBe(planned);
+    cancelDispatch(s, s.missions[0].id);
+    dispatchExpedition(s, c.id, plan);
+    expect(s.missions[0].result).toEqual(first);
+  });
+
+  it('a version 12 squad that already had its report still comes home', () => {
+    const s = newGame(109);
+    clearEvents(s);
+    const c = s.board[0];
+    dispatchExpedition(s, c.id, { ...suggestPlan(s, c), pack: { food: 2 } });
+    clearEvents(s);
+    const raw = JSON.parse(JSON.stringify(s));
+    raw.version = 12;
+    for (const k of ['stores', 'goods', 'delve']) delete raw[k];
+    for (const m of raw.members) for (const k of ['exposure', 'changes', 'scars', 'habits']) delete m[k];
+    for (const b of raw.board) delete b.expedition;
+    const ms = raw.missions[0];
+    for (const k of ['plan', 'number', 'plannedWeeks', 'sealed', 'setup', 'result']) delete ms[k];
+    delete ms.contract.expedition;
+    Object.assign(ms, { approaches: ['assault'], arriveWeek: s.week - 1, returnWeek: s.week + 2, report: { tier: 'Success', phases: [], casualties: [], wounded: [], reward: 50, materials: {}, summary: ['Paid 50 crowns.'] } });
+    const g = migrateSave(raw)!;
+    const ids: string[] = g.missions[0].memberIds;
+    for (let i = 0; i < 4; i++) {
+      clearEvents(g);
+      advanceWeek(g);
+    }
+    expect(g.members.filter((m) => ids.includes(m.id)).every((m) => m.status !== 'mission')).toBe(true);
+  });
+
   it('plans say why they cannot go', () => {
     const s = newGame(105);
     const c = post(s, 'pellam_rats');

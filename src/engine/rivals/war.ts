@@ -403,7 +403,7 @@ export function hostilePlan(state: GameState, id: RivalId): { kind: HostileKind;
   }
   if (stage >= 1) {
     // a squad on a long trip to a distant site: they wait for it on the road home
-    const away = state.missions.filter((m) => !m.report && !m.ambush && m.contract.travelWeeks > 0 && m.returnWeek > state.week);
+    const away = state.missions.filter((m) => m.sealed && !m.report && !m.ambush && m.setup.roadBack > 0 && m.dispatchedWeek + m.plannedWeeks - 1 > state.week);
     if (away.length && chance(state, 0.15 + a * 0.15 + spyBoost)) return { kind: 'ambush', target: pick(state, away).id };
     const bribable = living(state).filter((m) => m.status === 'idle' && m.loyalty < 35);
     if (bribable.length && chance(state, 0.12 + a * 0.1)) return { kind: 'bribe', target: pick(state, bribable).id };

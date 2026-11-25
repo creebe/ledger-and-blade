@@ -27,6 +27,12 @@ const mix = (a: number, b: number) => {
   return (h ^ (h >>> 16)) | 0 || 1;
 };
 
+const hashId = (id: string) => {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (Math.imul(h, 31) + id.charCodeAt(i)) | 0;
+  return h;
+};
+
 const trueTags = (c: Contract) => [...c.tags, ...c.hidden.map((h) => h.trueTag)];
 
 /** The frozen inputs for a trip, from the squad and the world as they are now. */
@@ -35,7 +41,8 @@ export function buildSetup(s: GameState, ms: Mission): DiveSetup {
   const road = roadWeeks(s, c);
   const extraDelay = Math.max(0, ms.plannedWeeks - plannedWeeks(s, c));
   return {
-    seed: ms.setup?.seed ?? mix(s.seed, (s.delve?.count ?? 0) + 1),
+    // the seed belongs to the job, so calling a squad off and sending it again doesn't reroll the trip
+    seed: ms.setup?.seed ?? mix(s.seed, hashId(c.id)),
     site: c.expedition.site,
     length: c.expedition.length,
     goal: c.expedition.goal,
@@ -48,7 +55,7 @@ export function buildSetup(s: GameState, ms: Mission): DiveSetup {
     foeScale: ms.foeScale ?? 1,
     fieldLog: [...(ms.fieldLog ?? [])],
     plan: JSON.parse(JSON.stringify(ms.plan)) as ExpPlan,
-    squad: ms.plan.squad.map((id) => s.members.find((m) => m.id === id)).filter((m): m is Member => !!m).map((m) => delverOf(s, m)),
+    squad: ms.plan.squad.map((id) => s.members.find((m) => m.id === id)).filter((m): m is Member => !!m && m.status !== 'dead' && m.status !== 'left').map((m) => delverOf(s, m)),
   };
 }
 
@@ -63,7 +70,8 @@ export function sealExpedition(s: GameState, ms: Mission) {
   if (LOG_CACHE.size > 40) LOG_CACHE.clear();
   LOG_CACHE.set(cacheKey(ms.setup), full.log);
   ms.result = { ...full, log: [] };
-  ms.returnWeek = ms.dispatchedWeek + full.weeks - 1;
+  // until it has left, the real return week stays hidden: an early one would give away a retreat
+  ms.returnWeek = ms.sealed ? ms.dispatchedWeek + full.weeks - 1 : ms.dispatchedWeek + ms.plannedWeeks - 1;
 }
 
 /** The whole log of a trip, rebuilt from its frozen inputs. Don't show lines past `revealedWeeks()`. */
@@ -339,7 +347,9 @@ export function settleExpedition(s: GameState, ms: Mission) {
     const eyes = squad.some((m) => !res.members.find((o) => o.id === m.id)?.died && (m.profession === 'scout' || m.profession === 'infiltrator'));
     if (eyes && chance(s, 0.5)) summary.push(`${name}'s people were waiting on the road home. The squad saw them first and went round.`);
     else {
-      for (const k of Object.keys(loot) as GoodId[]) loot[k] = Math.floor((loot[k] ?? 0) * 0.66);
+      // they take a third of what the squad carries, but the job's own goods were kept back
+      const kept = c.expedition.goal.kind === 'bring' ? c.expedition.goal.good : undefined;
+      for (const k of Object.keys(loot) as GoodId[]) if (k !== kept) loot[k] = Math.floor((loot[k] ?? 0) * 0.66);
       summary.push(`${name}'s people were waiting on the road home and took a third of what the squad was carrying.`);
       raiseFeud(s, ms.ambush, 3);
     }
@@ -442,7 +452,8 @@ export function settleExpedition(s: GameState, ms: Mission) {
 
   // the contract
   const rewardMult = tier === 'Triumph' ? 1.25 : tier === 'Success' ? 1 : tier === 'Costly Success' ? 0.8 : 0;
-  const fee = squadHas(squad, 'worth_the_fee') ? 1.1 : 1;
+  const alive = squad.filter((m) => m.status !== 'dead');
+  const fee = squadHas(alive, 'worth_the_fee') ? 1.1 : 1;
   let reward = Math.round(c.reward * rewardMult * fee) + (rewardMult > 0 ? (ms.bonusReward ?? 0) : 0);
   const materials: Partial<Record<MaterialId, number>> = {};
   if (rewardMult > 0) {
@@ -468,7 +479,7 @@ export function settleExpedition(s: GameState, ms: Mission) {
       s.renown += 2;
       summary.push('Renown +2 for a flawless job');
     }
-    if (squadHas(squad, 'draws_a_crowd')) {
+    if (squadHas(alive, 'draws_a_crowd')) {
       s.renown += 1;
       summary.push('Renown +1: people came out to watch');
     }
@@ -505,8 +516,8 @@ export function settleExpedition(s: GameState, ms: Mission) {
       deepest: ZONES[res.deepest]?.name,
       rooms: res.roomsCleared,
       roomsPlanned: res.roomsPlanned,
-      loot: res.loot,
-      lootValue: res.lootValue,
+      loot,
+      lootValue: (Object.keys(loot) as GoodId[]).reduce((t, g) => t + (loot[g] ?? 0) * GOODS[g].value, 0),
       crownsFound: res.crownsFound,
       goalMet: res.goalMet,
       deeds: res.deeds,

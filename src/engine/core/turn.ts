@@ -176,8 +176,8 @@ function missionPhase(s: GameState) {
   for (const ms of s.missions) {
     if (ms.sealed || ms.report) continue;
     // simulated again with the squad as it leaves: gear changed in the yard or a scene at the door counts
-    sealExpedition(s, ms);
     ms.sealed = true;
+    sealExpedition(s, ms);
   }
   for (const ms of [...s.missions]) {
     if (!ms.report && ms.returnWeek <= s.week) settleExpedition(s, ms);
@@ -240,7 +240,10 @@ function economyPhase(s: GameState) {
         addDispatch(s, 'economy', 'The Weighhouse waits', [`The payment of ${due} crowns is due, and a squad is still away. The Weighhouse agrees to wait a week for them, and writes to say so.`]);
         continue;
       }
+      // the schedule keeps its old rhythm: weeks spent waiting come off the next interval
+      const waited = loan.waited ?? 0;
       loan.waited = 0;
+      loan.dueWeek -= waited;
       if (s.crowns >= due) {
         spend(s, 'Loan payment', due);
         loan.principal -= due;

@@ -96,7 +96,8 @@ export function migrateToExpeditions(g: GameState) {
     m.habits = m.habits ?? [];
   }
   for (const c of g.board) contractToExpedition(c);
-  g.missions.forEach((ms, i) => convertMission(g, ms as OldMission, i + 1));
+  let n = 0;
+  for (const ms of g.missions) convertMission(g, ms as OldMission, ms.report ? 0 : Math.min(3, ++n));
   for (const ms of g.history) convertMission(g, ms as OldMission, 0);
   g.stores = freshStores();
   g.goods = {};
