@@ -17,6 +17,7 @@ import {
   resolveEvent,
   revealedWeeks,
   runExpedition,
+  sellGoods,
   SAVE_VERSION,
   SITE_IDS,
   squadLimit,
@@ -188,7 +189,12 @@ describe('expeditions', () => {
       clearEvents(s);
       s.flags.ninth_active = true;
       s.goods.colours = 1;
+      // a squad came home with them at the end of last week
+      s.history.unshift({ returnWeek: s.week - 1, report: { trip: { loot: { colours: 1 } } } } as unknown as Mission);
       triggerEvents(s);
+      // the market holds them back while Mayne is waiting
+      sellGoods(s);
+      expect(s.goods.colours).toBe(1);
       const ev = s.pendingEvents.find((e) => e.defId === 'ninth_colours')!;
       expect(ev).toBeDefined();
       const crowns = s.crowns;
@@ -203,6 +209,12 @@ describe('expeditions', () => {
     const s = newGame(117);
     clearEvents(s);
     s.goods.colours = 1;
+    s.history.unshift({ returnWeek: s.week - 1, report: { trip: { loot: { colours: 1 } } } } as unknown as Mission);
+    triggerEvents(s);
+    expect(s.pendingEvents.some((e) => e.defId === 'ninth_colours')).toBe(false);
+    // nor weeks later, when Mayne arrives and the colours have been sitting in the hall
+    s.flags.ninth_active = true;
+    s.week += 3;
     triggerEvents(s);
     expect(s.pendingEvents.some((e) => e.defId === 'ninth_colours')).toBe(false);
   });

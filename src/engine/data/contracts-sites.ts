@@ -190,7 +190,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
     type: 'Hunt',
     titles: ['The Toll House at Skell Gap', "Crewe's Toll"],
     patrons: ['exchequer'],
-    description: "A sergeant who walked out of the Ninth is charging the Crown's own toll at Skell Gap and keeping it. The Exchequer would like the toll house back, and the colours, if the guild comes across them.",
+    description: "A sergeant who walked out of the Ninth is charging the Crown's own toll at Skell Gap and keeping it. The Exchequer would like the toll house back.",
     regions: ['drovers'],
     phases: [P('Skell Gap', 'At the top of the pass.', 1.5)],
     baseReward: 620,

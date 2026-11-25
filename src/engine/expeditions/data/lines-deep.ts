@@ -492,7 +492,7 @@ export const DEEP_LINES: Record<string, string[]> = {
     "It is over. The deserters are walking down the far side of the pass, and none of them looks back.",
   ],
   crewe_after: [
-    "The toll house at Skell Gap has new tenants. They have not heard of Sergeant Crewe, and they charge a toll anyway.",
+    "The toll house at Skell Gap has tenants again. They used to stand behind Sergeant Crewe, and they charge his toll without him.",
     "Somebody has rebuilt the barrier at Skell Gap. Crewe's men have come back without him, and they are less polite about it.",
   ],
 
@@ -752,6 +752,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   ],
 
   // ---- a squad beaten but nobody lost (lost_crawl, lost_home and road_home_lost would count the dead) ----
+  // each has as many versions as the line it stands in for, so the dive's draws are unchanged
   lost_crawl_all: [
     "{a} wakes up in the dark. The squad has been beaten, but everyone is still breathing, and they crawl out of Old Pellam together with nothing.",
     "When {a} comes round, the fight is long over and nobody is dead, which nobody can explain. They get each other back up the rungs somehow.",
@@ -765,19 +766,17 @@ export const DEEP_LINES: Record<string, string[]> = {
     "When {a} comes round, the fight is long over and everyone is still breathing. They get each other back onto the road somehow.",
   ],
   lost_home_beaten: [
-    "They get within sight of the grate, and then they are caught. Everyone comes up the rungs alive, and that is all they bring with them.",
     "They are nearly at the grate when they are caught. All of them climb out alive, though the only things they bring up are bruises.",
   ],
   'lost_home_beaten:town': [
-    "They are within sight of Tallow Street when they are caught. They all reach the hall, and they have nothing to show for it.",
     "They are caught two streets from the hall. Every one of them gets home, and the packs stay in the gutter where they were dropped.",
   ],
   'lost_home_beaten:overland': [
-    "They are nearly clear of {p} when they are caught. They all get away, and they leave everything they found behind.",
     "They are caught on the way out of {p}. Nobody dies, which is the only good thing anyone says about it.",
   ],
   road_home_beaten: [
     "They come home late, every one of them, with nothing but the bandages. Jory counts them twice and says it makes a change for the numbers to come out right.",
     "The whole squad limps back in through the gate with nothing to show for the trip. Tallow Street is surprised to see all of them.",
+    "{a} walks the squad back into Varrow, all of them, carrying nothing but the packs they left with. Somebody at the Copper Kettle buys them a round for coming back at all.",
   ],
 };

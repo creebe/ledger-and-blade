@@ -1,6 +1,6 @@
 import { EVENT_DEFS, STORY_IDS } from '../data/registry';
 import { RANDOM_EVENTS, STORY_EVENTS, type EventDef } from '../data/events';
-import { raiseFeud } from '../rivals/war';
+import { feudStage, raiseFeud } from '../rivals/war';
 import { FIELD_EVENTS, squadOf } from '../data/field';
 import { sealExpedition, withdrawAtDoor } from '../expeditions/run';
 import { TRAITS } from '../data/traits';
@@ -66,9 +66,10 @@ export function triggerEvents(state: GameState) {
     if (m) state.pendingEvents.push(instantiate(state, EVENT_DEFS.legend_named, m));
   }
   state.pendingLegends = [];
-  // the Ninth's colours come home from Skell Gap: Captain Mayne hears about it the same week
+  // the Ninth's colours come home from Skell Gap: Captain Mayne hears about it the week they arrive (not in open war)
   const colours = EVENT_DEFS.ninth_colours;
-  if ((state.goods?.colours ?? 0) > 0 && state.eventWeeks.ninth_colours === undefined && state.flags.ninth_active && npcsAvailable(state, colours)) {
+  const broughtHome = state.history.some((m) => m.returnWeek === state.week - 1 && (m.report?.trip?.loot?.colours ?? 0) > 0);
+  if (broughtHome && (state.goods?.colours ?? 0) > 0 && state.eventWeeks.ninth_colours === undefined && state.flags.ninth_active && feudStage(state, 'ninth') < 2 && npcsAvailable(state, colours)) {
     state.eventWeeks.ninth_colours = state.week;
     state.pendingEvents.push(instantiate(state, colours));
   }
