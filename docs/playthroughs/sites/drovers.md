@@ -78,7 +78,7 @@ _Medium route. Outcome: complete, 9 of 9 rooms, job done._
 - They find a wayside shrine to Saint Oda. Wat says the words over it and makes everyone sit down for a while. _(−10 fatigue each)_
 - They eat standing up. Wat passes an onion round, which is generous of them, and nobody thanks them for it. _(1 food)_
 - They reach the standing cairn the job named, in the middle of Brannock Moor. There are cattle penned behind it that do not belong to whoever is guarding them.
-- The moor bull lifts its head out of the heather. It is red and shaggy and as big as a hay cart, and it does not like the look of anybody.
+- The moor bull lifts its head out of the heather. It is a red, shaggy animal the size of a hay cart, and it does not like the look of anybody.
 - The reiver gets a blade into Dace. _(11)_
 - A bolt from Dace thumps into the reiver. _(9)_
 - The reiver gives ground, and Jory stumbles past it.
@@ -172,7 +172,7 @@ _Long route. Outcome: complete, 14 of 14 rooms, job done._
 - They hear reivers coming and get down out of sight until the noise has gone by.
 - They reach a ring of old stones on a rise, with the whole moor laid out below.
 - Petra finds a fleece caught on the heather where a flock went through. _(a fleece)_
-- The moor bull lifts its head out of the heather. It is red and shaggy and as big as a hay cart, and it does not like the look of anybody.
+- The moor bull lifts its head out of the heather. It is a red, shaggy animal the size of a hay cart, and it does not like the look of anybody.
 - Isolde gets the blow they were waiting for. The moor bull feels all of it. _(20)_
 - Tam shoves the moor bull back and off their footing. _(4)_
 - Sabine picks a spot on the moor bull and puts an arrow in it. _(11, it hates that)_
@@ -220,7 +220,7 @@ _Long route. Outcome: complete, 14 of 14 rooms, job done._
 - Isolde pays for the next working in blood. Their lips have gone blue. _(4 of their own)_
 - Isolde hits the deserter so hard that the others stop to look. _(14)_
 - Sabine goes clean through the deserter and does not look surprised about it. _(17)_
-- Sergeant Crewe gets his pike through Sabine's guard the way they taught it on the drill square. _(15)_
+- Sergeant Crewe gets his pike through Sabine's guard with a thrust straight off the drill square. _(15)_
 - The deserter lunges at Tam and overreaches.
 - Petra tries to push forward past the others and gets an elbow for it.
 - Tam shoves the deserter back and off their footing. _(4)_

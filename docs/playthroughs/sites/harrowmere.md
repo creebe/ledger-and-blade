@@ -1,6 +1,6 @@
 # Harrowmere: sample expeditions
 
-A lake town with an old bridge, a mere that goes deeper than anyone has sounded, and islands nobody farms.
+A lake town on a mere that goes deeper than anyone has sounded. Its old bridge is broken, and nobody farms the islands.
 
 Zones: the lake shore, the bridge houses, the Holms. Boss: land the Bailiff.
 
@@ -183,7 +183,7 @@ _Long route. Outcome: complete, 14 of 14 rooms, job done._
 - They wipe the blades on whatever is nearest and count the bandages.
 - They come to a boathouse with its doors chained shut, and a new padlock on the old chain.
 - Dunstan finds 4 lengths of timber in a boat pulled up under the bridge. _(4 lengths of timber)_
-- **They step onto the old bridge. It creaks, and the water moves underneath, and the houses lean in over the road.**
+- **They step onto the old bridge. The boards creak under them, and the houses lean in over the road from both sides.**
 - The lamps go up, and now anyone watching knows exactly where they are.
 - They keep still in cover, and the smugglers go by close enough to smell.
 - The first night boatman climbs up out of a boat under the bridge and asks the squad if they are lost. It is not a kind question.
@@ -266,7 +266,7 @@ _Long route. Outcome: complete, 14 of 14 rooms, job done._
 - There is a wayside shrine to Saint Oda here, with nobody to say the words. They sit in front of it anyway and rest their legs. _(−4 fatigue each)_
 - They stop and eat cold bread and hard cheese. Hesper says it is the best meal of their life. _(1 food)_
 - Dace searches a boathouse and finds a tin of biscuits and a few coins in a tobacco jar. _(a purse of coin, 1 food)_
-- **They make camp on the largest island, under the alders. Hesper keeps watch on the water, and the water keeps watch on them.**
+- **They make camp on the largest island, under the alders. Hesper keeps watch on the water. Twice in the night something turns over out there, close to the shore.**
 - They get a small fire going under a pot. Wounds get looked at, and people sleep where they sit. _(1 food)_
 - **The water off the far Holms goes very still, and then something comes up under it, longer than the punt. The Bailiff has come for its share.**
 - Dunstan jabs at the pike, and it backs off.

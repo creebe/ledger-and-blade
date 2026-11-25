@@ -201,7 +201,7 @@ _Long route. Outcome: complete, 14 of 14 rooms, job done._
 - Cass's shot goes over the front rank and into Lew Rudd. _(9)_
 - Lew Rudd sits down hard against the wall and says that he is out of the trade as of now.
 - The fight is over. Lew Rudd's men have gone over the wall, and the dogs have gone with them.
-- In a locked room off the last court Ursel finds 5 purses of old coin, stacked under the bed like somebody's savings. _(5 purses of old coin)_
+- In a locked room off the last court Ursel finds 5 purses of old coin, stacked under the bed with a blanket over it. _(5 purses of old coin)_
 - The way back up the hill feels shorter than the way down, which it is not.
 - They try to slip past the footpads and get caught in the open.
 - The footpad drops off a warehouse roof in front of them with a knife already out.

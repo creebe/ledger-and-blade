@@ -142,7 +142,7 @@ _Long route. Outcome: lost, 13 of 14 rooms, job not done._
 - In an ore wagon tipped on its side in the water, Isolde finds 2 sacks of silver ore. _(2 sacks of silver ore)_
 - They wade along a drowned gallery with the roof a hand's breadth above the lamps. Bertil hums to keep their teeth from chattering.
 - Bertil stops at a cairn by the path, moves two stones and finds a sack of silver ore under them. _(a sack of silver ore)_
-- **They camp on a ledge above the water in the old stables, on dry straw that is forty years old.**
+- **They camp on a ledge above the water in the old stables, on dry straw that is twenty years old.**
 - There is hot food, and the chaplain goes round everyone with a lamp and a needle. By morning they are in better shape than they deserve. _(1 food)_
 - **The Trevick level was cut by a mine captain who died rich. The vein runs along the wall at shoulder height, and it is still there.**
 - They light the lamps, and the flames lean toward the deep galleries where the air is moving. Nobody likes it.

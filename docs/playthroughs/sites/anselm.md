@@ -36,7 +36,7 @@ _Medium route. Outcome: complete, 9 of 9 rooms, job done._
 
 **Week 4**
 
-- **The Burrows start where the road gives up. The sand is soft, the wind is full of it, and Ursel is already shaking it out of a boot.**
+- **The road runs out into soft sand at the edge of the Burrows. The wind is full of it, and Ursel is already shaking it out of a boot.**
 - They come into a hollow in the dunes with a hut built of ship's timbers.
 - Cora digs in the sand beside a wreck and comes up with a lump of ambergris. _(a lump of ambergris)_
 - Somebody's buckle clinks, and the herring gulls turn round.
@@ -50,7 +50,7 @@ _Medium route. Outcome: complete, 9 of 9 rooms, job done._
 - Rabbits run in front of them all the way across the dune, and Quentin is too tired to chase any of them.
 - They stop and eat cold bread and hard cheese. Quentin says it is the best meal of their life. _(1 food)_
 - The wreck on the point is full of people with crowbars, who stop working when the squad comes down the dune.
-- The first wrecker comes over the dune with a crowbar and a lantern, and looks at the squad the way they look at a ship.
+- The first wrecker comes over the dune with a crowbar and a lantern, and sizes the squad up for salvage.
 - Cora steps forward with empty hands and a story. Whether the first wrecker believes it or not, the whole lot of them stand aside.
 - Ursel climbs into the broken stern of the wreck and comes out with 3 lumps of ambergris. _(3 lumps of ambergris)_
 - They leave Port Anselm with full packs and the job done, and argue for the first mile about who carries what.
@@ -108,7 +108,7 @@ _Long route. Outcome: complete, 14 of 14 rooms, job done._
 - Rosamund chops at the second road agent and connects. _(8)_
 - Rosamund puts the second road agent down, and the second road agent stays down.
 - It is over. They stand there breathing hard and counting each other.
-- **The Burrows start where the road gives up. The sand is soft, the wind is full of it, and Rosamund is already shaking it out of a boot.**
+- **The road runs out into soft sand at the edge of the Burrows. The wind is full of it, and Rosamund is already shaking it out of a boot.**
 - They cross a slack of wet sand between dunes where somebody has been digging.
 - They stop and eat cold bread and hard cheese. Ursel says it is the best meal of their life. _(1 food)_
 - There are crossbows behind the rocks. "Purses on the road, please," says the road agent.
@@ -190,7 +190,7 @@ _Long route. Outcome: complete, 14 of 14 rooms, job done._
 - Quentin steps in and hits Mags Tull hard with the spear. _(4)_
 - Quentin goes clean through Mags Tull and does not look surprised about it. _(12)_
 - Mags Tull is bleeding badly. _(3)_
-- Mags Tull swings a crowbar into Rosamund, the way she would open up a ship's hull. _(18)_
+- Mags Tull swings a wrecker's crowbar into Rosamund's ribs. _(18)_
 - **Rosamund hits the stones and lies there.**
 - Cass looses, and the arrow takes Mags Tull. _(8)_
 - The first wrecker clubs Quentin across the side of the head. _(14)_
