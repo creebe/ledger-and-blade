@@ -2,14 +2,14 @@
 
 Whoever was nearest, in whatever order they stood. One meal, two bandages, no lamp oil, no tools, no reagents. Stubborn orders, fight everything, hoard supplies. The same medium route.
 
-Seed 2104. Medium expedition: Down to the Buried Streets and the old counting house.
+Seed 2101. Medium expedition: Down to the Buried Streets and the old counting house.
 
 ## The preparation
 
-1. **Ros Dray**, Arcanist: Plain Focus Rod, Padded Robes
-2. **Ulla Pike**, Skirmisher: Spear, Gambeson
-3. **Tilde Nettle**, Scout: Dagger, Leather Jack
-4. **Freya Rusk**, Marksman: Hunting Bow, Leather Jack
+1. **Leofric Holloway**, Marksman: Hunting Bow, Leather Jack
+2. **Agnes Stroud**, Arcanist: Plain Focus Rod, Padded Robes
+3. **Greta Harl**, Scout: Dagger, Leather Jack
+4. **Osric Brack**, Chaplain: Flanged Mace, Gambeson
 
 **Pack:** 1 food, 2 bandages.
 
@@ -17,297 +17,287 @@ Seed 2104. Medium expedition: Down to the Buried Streets and the old counting ho
 
 ## The log
 
-Ros leads them down the Tallow Street steps. Somebody's mother is shouting about the rent in the street above, and then they can't hear her.
+They lower the packs on a rope before they climb down after them. Osric checks the knots twice.
 
-### They are in the Culverts now. Water runs ankle deep over the brick, and somewhere ahead something drops into it.
+### The Culverts begin under the chandler's cellar. Everything the Lower Town throws away ends up down here, sooner or later.
 
-A long brick drain, low enough that everyone stoops. Ulla hits their head twice and stops apologising to the ceiling.
+Something squeals, and then everything squeals. It is rats.
 
-Someone throws a stone, and then 2 grubbers come at them out of a side tunnel.
+Greta flicks a blade into the second knot of rats from the back. *(4)*
 
-Tilde throws a knife over the front rank. It sticks in the first grubber. *(3)*
+The rats break around Agnes and come back together behind them.
 
-Freya doesn't have a clear shot and takes it anyway. It misses.
+Rats bite Leofric in several places at once. *(3)*
 
-Ulla slashes at the first grubber and leaves it bleeding. *(6)*
+Leofric pins the first knot of rats where it stands. *(6)*
 
-Ros taps the first grubber with a working the size of a candle flame. *(4)*
+Agnes flicks a small working at the first knot of rats, the cheapest one they know. *(5)*
 
-The first grubber leaves a trail behind it now. *(3)*
+Agnes kills enough of the first knot of rats that the rest give up and scatter.
 
-The first grubber gets Ulla with a short, dirty knife. *(7)*
+Osric can't reach anything from back here and shouts advice instead.
 
-The second grubber swings a pick into Ros. *(6)*
+Greta throws a knife over the front rank. It sticks in the second knot of rats. *(5)*
 
-Freya's shot goes over the front rank and into the first grubber. *(10)*
+Leofric shoots and the second knot of rats moves at the last moment.
 
-The first grubber drops the pick and does not get up.
+The rats get under Agnes's guard and into their boots. *(7)*
 
-The second grubber cracks Ros across the head with a shovel. *(10)*
+The grubber swings the pick and buries it in the wall.
 
-Ulla cuts the second grubber somewhere that will keep bleeding. *(5)*
+Osric waits behind the others for an opening that never comes.
 
-Tilde flicks a blade into the second grubber from the back. *(3)*
+Agnes flicks a spark at the second knot of rats and misses.
 
-Ros flicks a small working at the second grubber, the cheapest one they know. *(5)*
+Leofric kicks the rats away.
 
-Ulla catches the second grubber with the spear and something cracks. *(5)*
+A bolt from Leofric thumps into the second knot of rats. *(9)*
 
-The second grubber goes down and stays down.
+There is not much left of the second knot of rats, and what there is runs off squealing.
 
-> Ros 9/25 hp, grit 81 · Ulla 27/34 hp, grit 69 · Tilde 31/31 hp, grit 75 · Freya 28/28 hp, grit 71
+The grubber cracks Leofric across the head with a shovel. *(7)*
 
-Quiet again. The water goes on running.
+Greta finds the weak place on the grubber, and it goes in deep. *(9)*
 
-> Ros 9/25 hp, grit 81 · Ulla 27/34 hp, grit 71 · Tilde 31/31 hp, grit 75 · Freya 28/28 hp, grit 71
+Agnes flicks a spark off the plain focus rod at the grubber. It stings, at least. *(6)*
 
-Grubbers come out of a side tunnel, and the squad goes straight at them.
+Osric tries to push forward past the others and gets an elbow for it.
 
-"This is ours," says a grubber with no front teeth. There are more behind them.
+Greta flicks a blade into the grubber from the back. *(5)*
 
-Freya puts an arrow through the first grubber's leg. It won't be lunging for a while. *(5)*
+The grubber drops the pick and does not get up.
 
-Ulla steps inside the grubber's swing.
+It goes quiet again, apart from something dripping.
 
-Tilde flicks a blade into the first grubber from the back. *(4)*
+> Leofric 18/28 hp, grit 77 · Agnes 15/22 hp, grit 84 · Greta 31/31 hp, grit 86 · Osric 31/31 hp, grit 75
 
-Ros flicks a spark at the first grubber and misses.
+The first knot of rats pours out of a broken pipe. Some of them are the size of cats, and the rest are bigger.
 
-The first grubber twists away from the spear.
+Leofric stamps, and the rats scatter for a moment.
 
-Ulla's second strike finds the first grubber. *(4)*
+The rats break around Leofric and come back together behind them.
 
-The second grubber drives the pick into Ulla and has to put a foot on them to pull it out. *(17)*
+Leofric's arrow skips off the wall.
 
-Freya hits the first grubber so hard that the others stop for a moment to look. *(15)*
+Greta throws a knife over the front rank. It sticks in the second knot of rats. *(6)*
 
-Freya puts the first grubber down for good.
+Osric is too far back to hit anything, and knows it.
 
-> Ros 9/25 hp, grit 80 · Ulla 10/34 hp, grit 64 · Tilde 31/31 hp, grit 74 · Freya 28/28 hp, grit 73
+Agnes times it perfectly and the second knot of rats pays for it. *(8)*
 
-Ulla chops at the second grubber and connects. *(5)*
+Agnes stamps on the slowest of the second knot of rats, and the others decide they have business elsewhere.
 
-Ulla's second cut goes wide.
+The first knot of rats goes for Agnes's hands. *(7)*
 
-Tilde's thrown knife clatters away into the dark.
+Greta flicks a blade into the third knot of rats from the back. *(5)*
 
-Ros flicks a spark off the plain focus rod at the second grubber. It stings, at least. *(4)*
+Leofric stamps, and the rats scatter for a moment.
 
-The second grubber hits Ulla with a length of chain. *(11)*
+Leofric's shot goes over the front rank and into the third knot of rats. *(8)*
 
-**Ulla hits the stones and lies there.**
+The third knot of rats breaks up and flees down the pipes.
 
-Tilde puts the dagger where the second grubber is softest. *(7)*
+> Leofric 18/28 hp, grit 76 · Agnes 8/22 hp, grit 87 · Greta 31/31 hp, grit 85 · Osric 31/31 hp, grit 74
 
-Freya tries to pin the second grubber and misses.
+Osric kneels by Agnes and packs the wound while the fight goes on around them. *(+10)*
 
-The second grubber swings a pick into Ros. *(10)*
+Agnes hits the first knot of rats so hard that the others stop for a moment to look. *(11)*
 
-**Ros falls. The others close up over them.**
+Agnes kills enough of the first knot of rats that the rest give up and scatter.
 
-Tilde's knife scrapes off the second grubber.
+They wipe the blades on whatever is nearest and count the bandages.
 
-Freya looses, and the arrow takes the second grubber. *(9)*
+The grate overhead hangs by one rusted bracket. Without tools they detour round it. *(no tools: the long way)*
 
-The second grubber goes down and stays down.
+They stop and eat cold bread and hard cheese. Osric says it is the best meal of their life. *(1 food)*
 
-> Ros down · Ulla down · Tilde 31/31 hp, grit 48 · Freya 28/28 hp, grit 49
+> Leofric 18/28 hp, grit 76 · Agnes 18/22 hp, grit 90 · Greta 31/31 hp, grit 83 · Osric 31/31 hp, grit 72
 
-They win that one. Nobody says anything for a while.
+The next room is a collapsed coal store, where the Lower Town dumped its rubbish for a century.
 
-> Ros down · Ulla down · Tilde 31/31 hp, grit 48 · Freya 28/28 hp, grit 51
-
-Ros gets up on the second try.
-
-Somebody slaps Ulla awake. They are alive, though not by much.
-
-A stretch of dry brick under the Copper Kettle. They can hear the singing through the ceiling, and it is not good singing.
-
-Ros binds their own cuts with a fresh bandage. *(+8)*
-
-Someone gets a bandage onto Ulla. It soaks through, but slowly. *(+8)*
-
-Something is coming down the passage. The orders are to fight, so they do.
-
-A soft noise fills the drain, the sound of a great deal of paper being folded. Moths as wide as a hand come out of it.
-
-Ulla swats through the moths.
-
-The moths flutter round Ros and away.
-
-Freya picks a spot on the second cloud of moths and puts an arrow in it. *(11)*
-
-Freya swats the last of the second cloud of moths out of the air.
-
-Ulla swings the spear into the first cloud of moths and keeps swinging. *(7)*
-
-The first cloud of moths falls apart in a shower of pale powder.
-
-It is over. They stand there breathing hard and counting each other.
-
-> Ros 9/25 hp, grit 67 · Ulla 9/34 hp, grit 64 · Tilde 31/31 hp, grit 46 · Freya 28/28 hp, grit 51
-
-A cellar with its stairs bricked up from above. Someone has carved a list of names into the wall, and the most recent is from last spring.
-
-A meal on the steps of a dead house. Nobody talks much. *(1 food)*
-
-> Ros 9/25 hp, grit 66 · Ulla 9/34 hp, grit 63 · Tilde 31/31 hp, grit 45 · Freya 28/28 hp, grit 50
+On a high shelf, wrapped in oilcloth and still dry, Greta finds a piece of Pellam silver. *(a piece of Pellam silver)*
 
 **They make camp in a dry cellar where a grate lets a little air down.**
 
-> Ros 9/25 hp, grit 69 · Ulla 9/34 hp, grit 66 · Tilde 31/31 hp, grit 48 · Freya 28/28 hp, grit 53
+> Leofric 18/28 hp, grit 80 · Agnes 18/22 hp, grit 94 · Greta 31/31 hp, grit 87 · Osric 31/31 hp, grit 76
 
-**A camp without food. They rest, but they do not sleep much, and Tilde talks about pies until somebody tells them to stop.**
+**There is nothing to eat. They lie in the dark and listen to each other's stomachs.**
 
-> Ros 11/25 hp, grit 60 · Ulla 12/34 hp, grit 55 · Tilde 31/31 hp, grit 37 · Freya 28/28 hp, grit 42
+> Leofric 20/28 hp, grit 70 · Agnes 20/22 hp, grit 83 · Greta 31/31 hp, grit 78 · Osric 31/31 hp, grit 67
 
-**Nobody brought oil. The squad goes on in the pitch dark, and the dark is not empty.**
+**There is no lamp oil in the pack. They go into the dark with their hands out in front of them.**
 
-In the dark, Tilde keeps hearing things behind them.
+Without the lamps they walk with a hand on the shoulder in front. Agnes counts steps to stay calm.
 
 ### The drain opens out into a street. It has a gutter and a name painted on a corner, and Varrow's foundations sit on its roofs like a lid.
 
-Nobody notices the wire until it is too late.
+Somebody brushes a thread, and the room starts moving.
 
-The floor gives way under Ulla, who drops into the cellar below. *(10)*
+The first spider drops onto Leofric from above. *(4)*
 
-They hear sink eels ahead and go to meet them.
+Greta throws a knife over the front rank. It sticks in the second spider. *(5)*
 
-The flooded cellar is too still. Then the water stands up.
+The spider's venom is still working in Leofric. *(3)*
 
-**They walk straight into it. The eel has the first move.**
+Leofric's pinning shot falls short.
 
-The eel snaps at Ros and gets a mouthful of water.
+The second spider strikes at Leofric and hits the floor.
 
-Freya's arrow skips off the wall.
+Agnes's little working dies before it reaches the second spider.
 
-Ulla's blow lands on nothing.
+Osric gets a pad of lint on Leofric and leans on it until it stops. *(+10)*
 
-And again: Ulla catches the eel on the way back. *(5)*
+The first spider sinks both fangs into Leofric and holds on. *(17)*
 
-Tilde throws a knife over the front rank. It sticks in the eel. *(4)*
+The second spider's fangs go through Agnes's sleeve. *(8)*
 
-Ros times it perfectly and the eel pays for it. *(8)*
+Leofric's arm has swollen up tight inside the sleeve. *(3)*
 
-Freya pins the eel where it stands. *(4)*
+Leofric doesn't have a clear shot and takes it anyway. It misses.
 
-Tilde throws a knife over the front rank. It sticks in the eel. *(4)*
+Greta flicks a blade into the second spider from the back. *(4)*
 
-Ulla jumps back as the eel strikes.
+Agnes is sick against the wall and wipes their mouth and carries on. *(3)*
 
-Ulla lunges, slips on the wet stone and misses the eel.
+Agnes's little working dies before it reaches the second spider.
 
-Clean through. Ulla has done this before. *(9)*
+Osric stitches Leofric up in three movements. It is not tidy, but it holds. *(+10)*
 
-Ulla finishes the eel. It takes a long time to stop moving.
+The first spider bites Leofric, and the bite goes numb straight away. *(7)*
 
-The last of them goes down. Somebody laughs, too loudly.
+Greta goes clean through the second spider and does not look surprised about it. *(8)*
 
-> Ros 11/25 hp, grit 39 · Ulla 2/34 hp, grit 35 · Tilde 31/31 hp, grit 12 · Freya 28/28 hp, grit 18
+Leofric sways. The bite has gone purple and hot. *(3)*
 
-Ros reads the labels on a college still and draws off two doses. *(+2 reagents)*
+Leofric tries to pin the first spider and misses.
 
-An Assay strongbox. With no tools, Ros smashes it open, and breaks everything inside it.
+The second spider drops onto Leofric from above. *(12)*
 
-**Tilde sits down against the wall and will not get up.**
+**Leofric hits the stones and lies there.**
 
-**No food left. Ulla chews a strip of leather from their belt to keep busy.**
+"Hold still," Osric tells Agnes, and pours something on the cut that makes Agnes swear. *(+10)*
 
-> Ros 11/25 hp, grit 25 · Ulla 2/34 hp, grit 21 · Tilde shaken · Freya 28/28 hp, grit 4
+Agnes is sweating and their hands have gone numb. *(3)*
 
-**Freya starts laughing and cannot stop.**
+Agnes flicks a spark at the second spider and misses.
 
-The counting house of Pellam stands at the bottom of the street, with its doors open and something moving inside.
+The second spider's fangs go through Agnes's sleeve. *(8)*
 
-Grubbers. They have been digging here a long time, and they do not want to share it.
+Greta gets behind the second spider and uses the dagger. *(9)*
 
-Freya's hands are shaking too badly to do anything useful.
+Greta splits the second spider open and the smell is terrible.
 
-The first grubber drives the pick into Ros and has to put a foot on them to pull it out. *(17)*
+The first spider sinks both fangs into Agnes and holds on. *(12)*
 
-**Ros goes down and does not get up.**
+**Agnes is dead. It was a spider, in the end.**
 
-**Ulla has had enough. They are shaking and won't look at the dark.**
+> Leofric down · Agnes dead · Greta 31/31 hp, grit 61 · Osric 31/31 hp, grit 45
 
-The second grubber swings the pick and buries it in the wall.
+Osric's blow lands on nothing.
 
-Ulla holds the spear up in front of their face and does nothing else.
+The first spider bites Osric, and the bite goes numb straight away. *(4)*
 
-Tilde darts in at the first grubber and darts out again with nothing.
+Greta darts in at the first spider and darts out again with nothing.
 
-Freya shoots and the spider moves at the last moment.
+Osric is sick against the wall and wipes their mouth and carries on. *(3)*
 
-The spider pushes at the ones in front and cannot get through.
+Osric gets the blow they were waiting for. The first spider feels all of it. *(11)*
 
-Tilde stays down and does not move.
+Greta puts the dagger where the first spider is softest. *(9)*
 
-The first grubber cracks Tilde across the head with a shovel. *(13)*
+The first spider curls its legs in and dies.
 
-Ulla has their back to the wall and will not leave it.
+That is the end of it. Everybody checks their hands for missing fingers.
 
-The second grubber hits Ulla with a length of chain. *(8)*
+> Leofric down · Agnes dead · Greta 31/31 hp, grit 40 · Osric 24/31 hp, grit 25
 
-**Ulla does not get up again. They will be counted among the guild's dead, and it was a grubber that did it.**
+Leofric lives. At Saint Oda's they will write "a bite scar" on a chart and tell Leofric it is for good. *(A bite scar)*
 
-> Ros down · Ulla dead · Tilde shaken · Freya shaken
+Osric sits Leofric down on a step and does the job properly. *(+16)*
 
-Freya's hands are shaking too badly to do anything useful.
+They cross a square with a dry fountain. Somebody has stacked bones in the basin, very neatly, by size.
 
-Tilde darts in at the second grubber and darts out again with nothing.
+In the dark, Osric keeps hearing things behind them.
 
-The spider waits behind the others for a gap.
+A spider the color of wet plaster unfolds from the ceiling. Its legs keep unfolding for some time.
 
-The first grubber gets Tilde with a short, dirty knife. *(13)*
+The second spider's fangs go through Greta's sleeve. *(12)*
 
-The second grubber lunges at Tilde and trips over their own pack.
+The first spider drops onto Leofric from above. *(10)*
 
-Freya stays down and does not move.
+Greta is sweating and their hands have gone numb. *(3)*
 
-The first grubber lunges at Tilde and trips over their own pack.
+Greta's knife scrapes off the second spider.
 
-Freya steps inside the grubber's swing.
+Osric gets a dressing on Leofric, tight and fast. *(+10)*
 
-Tilde ducks under and stabs upward into the second grubber. *(7)*
+The spider's venom is still working in Leofric. *(3)*
 
-Freya has their back to the wall and will not leave it.
+Leofric shoots between two shoulders and hits the second spider. *(8)*
 
-The spider pushes at the ones in front and cannot get through.
+The second spider bites Leofric, and the bite goes numb straight away. *(9)*
 
-The first grubber cracks Tilde across the head with a shovel. *(14)*
+The first spider bites Leofric, and the bite goes numb straight away. *(5)*
 
-**Tilde crumples and somebody drags them back by the collar.**
+**Leofric crumples and somebody drags them back by the collar.**
 
-The second grubber gets Freya with a short, dirty knife. *(8)*
+**Osric has had enough. They are shaking and won't look at the dark.**
 
-Freya pins the first grubber where it stands. *(4)*
+Greta's arm has swollen up tight inside the sleeve. *(3)*
 
-The first grubber swings the pick and buries it in the wall.
+Greta's knife scrapes off the second spider.
 
-The second grubber hits Freya with a length of chain. *(14)*
+Osric drags Greta back a yard and ties off the worst of the bleeding. *(+10)*
 
-Freya holds the hunting bow up in front of their face and does nothing else.
+The first spider's fangs go through Osric's sleeve. *(8)*
 
-The first grubber swings a pick into Freya. *(8)*
+The second spider drops onto Greta from above. *(8)*
 
-**Freya hits the stones and lies there.**
+Greta sways. The bite has gone purple and hot. *(3)*
 
-**Ros is left behind in Old Pellam.**
+Greta darts in at the second spider and darts out again with nothing.
 
-> Ros dead · Ulla dead · Tilde down · Freya down
+Osric is sick against the wall and wipes their mouth and carries on. *(3)*
 
-**They do not bring Tilde back.**
+Osric gets a pad of lint on Greta and leans on it until it stops. *(+10)*
 
-> Ros dead · Ulla dead · Tilde dead · Freya down
+The first spider drops onto Greta from above. *(5)*
 
-**Freya wakes up in the dark. The squad has been beaten, and those still breathing crawl out of Old Pellam with nothing.**
+The second spider bites Greta, and the bite goes numb straight away. *(12)*
+
+The spider's venom is still working in Greta. *(3)*
+
+Greta's knife scrapes off the second spider.
+
+Osric's arm has swollen up tight inside the sleeve. *(3)*
+
+Osric holds the flanged mace up in front of their face and does nothing else.
+
+The first spider's fangs go through Greta's sleeve. *(12)*
+
+**Greta falls. The others close up over them.**
+
+Osric gets an arm up just in time.
+
+Osric's hands are shaking too badly to do anything useful.
+
+The first spider drops onto Osric from above. *(12)*
+
+**Osric goes down and does not get up.**
+
+**They do not bring Leofric back.**
+
+> Leofric dead · Agnes dead · Greta down · Osric down
+
+**Greta wakes up in the dark. The squad has been beaten, and those still breathing crawl out of Old Pellam with nothing.**
 
 ## What came home
 
-Outcome: **lost**, 8 of 9 rooms.
+Outcome: **lost**, 7 of 9 rooms.
 Loot: nothing, worth 0 crowns, plus 0 in coin.
-Renown: Fought off 3 wandering packs (+3 renown); First to reach the Buried Streets (+2 renown).
+Renown: First to reach the Buried Streets (+2 renown).
 
-- **Ros Dray**: died (left in Old Pellam).
-- **Ulla Pike**: died (a grubber).
-- **Tilde Nettle**: died (left in Old Pellam).
-- **Freya Rusk**: 1 HP, grit 0, +22 experience; new habit: jumpy.
+- **Leofric Holloway**: died (left in Old Pellam); new scar: bite_scar.
+- **Agnes Stroud**: died (a spider).
+- **Greta Harl**: 1 HP, grit 11, +18 experience; new habit: sleeps_badly.
+- **Osric Brack**: 1 HP, grit 0, +18 experience.

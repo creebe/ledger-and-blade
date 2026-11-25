@@ -245,9 +245,15 @@ export function Prep() {
                   </span>
                   <span className="row gap x-bench-put">
                     {[0, 1, 2, 3].map((r) => (
-                      <button key={r} className="btn small" aria-label={`Put ${first(d)} in rank ${r + 1}`} onClick={() => place(d.id, Math.min(r, plan.squad.length))} disabled={d.hp < 1}>
+                      <Btn
+                        key={r}
+                        className="btn small"
+                        title={`Put ${first(d)} in rank ${r + 1}`}
+                        blocked={d.hp < 1 ? `${first(d)} is too badly hurt to go down. Rest them a week first.` : undefined}
+                        onClick={() => place(d.id, Math.min(r, plan.squad.length))}
+                      >
                         {r + 1}
-                      </button>
+                      </Btn>
                     ))}
                   </span>
                 </div>

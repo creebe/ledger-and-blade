@@ -4,7 +4,7 @@
 import { FIRST_NAMES, LAST_NAMES } from '../data/traits';
 import { chance, pick, randInt, shuffle } from '../core/rng';
 import type { RivalId } from '../core/types';
-import { DELVER_PROFS, DELVER_PROF_IDS, GEAR, GEAR_IDS, GOODS, LENGTHS, SPONSORS, SUPPLIES, SUPPLY_IDS, ZONE_ORDER } from './data/content';
+import { DELVER_PROFS, DELVER_PROF_IDS, GEAR, GEAR_IDS, GOODS, HABITS, LENGTHS, SPONSORS, SUPPLIES, SUPPLY_IDS, ZONES, ZONE_ORDER } from './data/content';
 import { delverMaxHp, runExpedition } from './dive';
 import { EXP_TUNING as T } from './tuning';
 import type { Delver, DelverProf, DelverRecruit, ExpeditionResult, ExpGame, ExpLength, ExpPlan, GearDef, GoodId, StandingOrders, SupplyId } from './types';
@@ -156,7 +156,7 @@ export function hireDelver(g: ExpGame, index: number): string | undefined {
   equipStarting(g, r.delver, r.gear);
   g.members.push(r.delver);
   g.recruits.splice(index, 1);
-  news(g, `${r.delver.name} signs on as a ${DELVER_PROFS[r.delver.prof].name}.`);
+  news(g, `${r.delver.name} signs on as ${/^[AEIOU]/.test(DELVER_PROFS[r.delver.prof].name) ? 'an' : 'a'} ${DELVER_PROFS[r.delver.prof].name}.`);
 }
 
 export function dismissDelver(g: ExpGame, id: string): string | undefined {
@@ -274,7 +274,11 @@ export function planWarnings(g: ExpGame, plan: ExpPlan): string[] {
   const L = LENGTHS[plan.length];
   const squad = plan.squad.map((id) => livingDelvers(g).find((m) => m.id === id)).filter(Boolean) as Delver[];
   const meals = Math.floor(L.route.length / T.mealEvery) + L.route.filter((x) => x === 'camp').length;
-  const dark = L.route.filter((x) => x === 'streets' || x === 'sink' || x === 'boss').length;
+  // every room after the first burns a flask in the dark, camps included
+  const dark = L.route.filter((x, i) => {
+    const z = x === 'boss' ? 'sink' : x === 'camp' ? L.route[i - 1] : x;
+    return i > 0 && z !== 'camp' && z !== 'boss' && ZONES[z].dark;
+  }).length;
   if ((plan.pack.food ?? 0) < meals) w.push(`About ${meals} meals on this route, and ${plan.pack.food ?? 0} packed.`);
   if (dark && (plan.pack.oil ?? 0) < dark) w.push(`About ${dark} dark rooms, and oil for ${plan.pack.oil ?? 0}.`);
   if (!(plan.pack.tools ?? 0)) w.push('No tools: traps and strongboxes will be a problem.');
@@ -352,9 +356,9 @@ export function passWeek(g: ExpGame, away: string[] = []) {
   for (const d of crew) {
     if (away.includes(d.id)) continue;
     const max = delverMaxHp(d);
-    const marks = [...d.habits];
-    const homeHeal = marks.includes('drinks') ? -6 : 0;
-    const homeGrit = marks.includes('drinks') ? 8 : 0;
+    const marks = d.habits.map((h) => HABITS[h]).filter(Boolean);
+    const homeHeal = marks.reduce((s, m) => s + (m.homeHeal ?? 0), 0);
+    const homeGrit = marks.reduce((s, m) => s + (m.homeGrit ?? 0), 0);
     d.hp = Math.min(max, Math.round(d.hp + max * (T.home.heal + (g.hall.infirmary ? T.home.infirmary : 0)) + homeHeal));
     d.hp = Math.max(d.hp, 1);
     let grit = T.home.grit + (g.hall.taproom ? T.home.taproom : 0) + homeGrit;
@@ -374,12 +378,12 @@ export function passWeek(g: ExpGame, away: string[] = []) {
       g.crowns -= due;
       g.debt.principal -= due;
       g.debt.missed = 0;
-      news(g, `Paid the Weighhouse ${due} crowns. ${g.debt.principal > 0 ? `${g.debt.principal} still owed.` : 'The note is paid off.'}`, g.debt.principal > 0 ? undefined : 'good');
+      news(g, `The guild pays the Weighhouse ${due} crowns. ${g.debt.principal > 0 ? `${g.debt.principal} crowns are still owed.` : 'The note is paid off.'}`, g.debt.principal > 0 ? undefined : 'good');
       if (g.debt.principal <= 0) g.renown += 5;
     } else {
       g.debt.missed += 1;
       g.debt.principal += Math.round(due * T.debt.penalty);
-      news(g, g.debt.missed >= T.debt.missedToLose ? 'The Weighhouse payment is missed again.' : `The Weighhouse payment of ${due} is missed. Coster adds a fifth to the note and writes to say so.`, 'bad');
+      news(g, g.debt.missed >= T.debt.missedToLose ? 'The Weighhouse payment is missed again.' : `The Weighhouse payment of ${due} crowns is missed. Coster adds a fifth to the note and writes to say so.`, 'bad');
     }
     g.debt.dueWeek += T.debt.every;
     if (g.debt.missed >= T.debt.missedToLose) {

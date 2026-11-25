@@ -68,7 +68,7 @@ export function MarketTab() {
                 <Price n={d.price} />
               </span>
               <small className="muted">{gearLine(d)}</small>
-              <small>{d.description}</small>
+              {d.slot !== 'trinket' && <small>{d.description}</small>}
               <Btn
                 className="btn small"
                 blocked={xShort(g, d.price, d.name)}

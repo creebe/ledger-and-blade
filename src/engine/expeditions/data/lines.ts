@@ -19,7 +19,7 @@ export const LINES: Record<string, string[]> = {
   setout_long: [
     'The squad goes down to find the bottom of the College Sink. Nobody says how long it will take, because nobody knows.',
     "{a} takes the first step down into the Culverts. The porters at the top have stopped joking, which is the first bad sign of the trip.",
-    'They go down with three weeks of supplies and one map of Pellam, which is two hundred years out of date.',
+    'They go down with as much as they can carry and one map of Pellam, which is two hundred years out of date.',
   ],
   rival_ahead: [
     'Somebody has been through here this week. There are fresh boot marks and chalk on the walls, and the rats are thinner on the ground.',
@@ -28,7 +28,7 @@ export const LINES: Record<string, string[]> = {
 
   // ---- zones ----
   enter_culverts: [
-    'The Culverts. The brick is old and wet, and daylight comes down through the grates in grey squares.',
+    'The Culverts are old brick, and wet. Daylight comes down through the grates in grey squares.',
     'They are in the Culverts now. Water runs ankle deep over the brick, and somewhere ahead something drops into it.',
     'The Culverts begin under the chandler\'s cellar. Everything the Lower Town throws away ends up down here, sooner or later.',
   ],
@@ -45,31 +45,31 @@ export const LINES: Record<string, string[]> = {
   lamps_lit: [
     'They light the lamps. Pellam is not improved by being able to see it.',
     'The lamps go up. The light reaches about four yards and gives up.',
-    'Lamps lit. The flames burn a little blue down here, and nobody likes it.',
+    'They light the lamps, and the flames burn a little blue down here. Nobody likes it.',
   ],
 
   // ---- passages ----
   passage_culverts: [
-    'A long brick drain, low enough that everyone stoops. {a} hits their head twice and stops apologising to the ceiling.',
+    'The drain here is so low that everyone stoops. {a} hits their head twice and stops apologising to the ceiling.',
     'They wade through a junction where four drains meet. One of them is warm, and nobody asks why.',
-    'A cellar with its stairs bricked up from above. Someone has carved a list of names into the wall, and the most recent is from last spring.',
+    'They pass through a cellar whose stairs were bricked up from above. Someone has carved a list of names into the wall, and the most recent is from last spring.',
     'The drain narrows to a pipe they have to crawl through. {a} goes first and reports that it gets better, which is a lie.',
-    'An old pump house, its wheel rusted solid. Rats have nested in the gears and moved out again.',
-    'A stretch of dry brick under the Copper Kettle. They can hear the singing through the ceiling, and it is not good singing.',
+    'They squeeze past an old sluice wheel that has rusted solid. Rats have nested in its gears and moved out again.',
+    'They walk a stretch of dry brick under the Copper Kettle and can hear the singing through the ceiling, and it is not good singing.',
   ],
   passage_streets: [
     "They walk down the middle of a buried street. A baker's sign still hangs over one door, and the loaf on it is the right shape.",
-    'A square with a dry fountain. Somebody has stacked bones in the basin, very neatly, by size.',
+    'They cross a square with a dry fountain. Somebody has stacked bones in the basin, very neatly, by size.',
     'The street is blocked by a fallen roof beam. They go through a house instead, in at the front door and out through the scullery.',
     '{a} finds a child\'s shoe on a doorstep, two hundred years old and the size of a hand. They put it back where it was.',
-    "A long arcade of shops with their shutters still down. The silt has come in through the cracks and filled them to the counters.",
+    "They go along an arcade of shops with the shutters still down. The silt has come in through the cracks and filled them to the counters.",
     'They cross a little bridge over a culvert that used to be the river. The water under it is black and goes the wrong way.',
   ],
   passage_sink: [
-    'A channel cut through the crust, where the spill runs in a thin bright stream. Everybody steps over it, carefully.',
+    'The spill has cut a channel through the crust and runs along it in a thin bright stream. Everybody steps over it with great care.',
     "They pass an old college sluice gate, jammed half open. Somebody's initials are scratched into the brass, with a date and a rude word.",
     'The floor here is crystal, and it rings when they walk on it. {a} tries to walk more quietly and it rings anyway.',
-    'A gallery of dead pipes, each one stained a different color. The air stings the eyes.',
+    'They go through a gallery of dead pipes, each one stained a different color. The air stings the eyes.',
     'They walk past a wall of fused glassware, thousands of broken retorts that melted together. It is almost pretty.',
   ],
   scout_cache: [
@@ -80,36 +80,36 @@ export const LINES: Record<string, string[]> = {
 
   // ---- rooms with something in them ----
   room_culverts: [
-    "A smuggler's cellar under the old fish market, mostly empty.",
-    'A dry room off the main drain, with shelves.',
-    'A collapsed coal store, where the Lower Town dumped its rubbish for a century.',
+    "They come into a smuggler's cellar under the old fish market. It is mostly empty.",
+    'There is a dry room off the main drain, with shelves.',
+    'The next room is a collapsed coal store, where the Lower Town dumped its rubbish for a century.',
   ],
   room_streets: [
-    "A merchant's house, its upper floor crushed by Varrow's foundations and the ground floor still whole.",
-    'A chandlery with its stock still on the shelves, all of it gone to wax and silt.',
-    'A chapel with no roof, where the silt has come in up to the altar rail.',
+    "They go into a merchant's house. Varrow's foundations have crushed the upper floor, but the ground floor is still whole.",
+    'The next door opens on a chandlery with its stock still on the shelves, all of it gone to wax and silt.',
+    'They climb into a chapel with no roof, where the silt has come in up to the altar rail.',
   ],
   room_sink: [
-    "An old college storeroom, its shelves fused into one glassy block.",
-    'A side chamber where the spill has dried into crust and the crust has cracked.',
-    'A laboratory the college sealed and forgot. The seals have failed.',
+    "They find an old college storeroom with its shelves fused into one glassy block.",
+    'A side chamber opens off the passage. The spill has dried into crust in here, and the crust has cracked.',
+    'This is a laboratory the college sealed and forgot. The seals have failed.',
   ],
   find_culverts: [
     '{a} turns over a heap of rotten crates and finds {g}.',
-    'Under a loose flagstone there is {g}. Somebody hid it here and never came back for it.',
-    '{a} fishes {g} out of the water with the end of a spear.',
-    'Wrapped in oilcloth on a high shelf: {g}, still dry.',
+    'Under a loose flagstone {a} finds {g} that somebody hid and never came back for.',
+    '{a} fishes {g} out of the water with a bent nail on a stick.',
+    'On a high shelf, wrapped in oilcloth and still dry, {a} finds {g}.',
   ],
   find_streets: [
-    "In a strongroom under the stairs, {a} finds {g}. The lock gave up long ago.",
-    'The silt in the counting room hides {g}. {a} digs it out with their hands.',
-    "Behind the altar there is {g}, left by whoever ran out of here when the river moved.",
+    "{a} finds {g} in a cupboard whose lock gave up long ago.",
+    '{a} digs {g} out of the silt on the floor with their bare hands.',
+    "{a} finds {g} wedged up a chimney, left by whoever ran out of here when the river moved.",
     '{a} finds {g} in a sideboard that has not been opened in two centuries.',
   ],
   find_sink: [
     '{a} chips {g} out of the crust, gloves on, face turned away.',
-    'Among the broken glassware there is {g}, unbroken and worth something.',
-    'The spill has left {g} in a crusted pool. {a} gets it out without touching the pool, mostly.',
+    'Among the broken glassware {a} finds {g}, unbroken and worth something.',
+    '{a} gets {g} out of a crusted pool without touching the pool, mostly.',
     "{a} finds {g} on the body of a college porter who came down here a long time ago.",
   ],
   find_picked: [
@@ -126,32 +126,32 @@ export const LINES: Record<string, string[]> = {
   ],
   goal_culverts: [
     'In the pump house they find what they came for: {g}, in a lead box under the wheel pit.',
-    'The pump house strongbox gives up {g}. {a} weighs it in one hand and grins.',
+    'The pump house strongbox gives up {g}. {a} weighs the haul in one hand and grins.',
   ],
   goal_streets: [
-    "The counting house vault is still locked. {a} gets it open, and inside there is {g}.",
-    "Pellam's counting house kept {g} for two hundred years, for exactly this moment.",
+    "The counting house vault is still locked. {a} gets it open and finds {g} inside.",
+    "Pellam's counting house has been sitting on {g} for two hundred years, and nobody upstairs ever knew.",
   ],
   goal_sink: [
-    "Where the Kiln Engine stood there is {g}, still warm. {a} wraps it in a wet blanket and does not complain about the weight.",
-    'They pick through the wreck of the Kiln Engine and take {g}. The college will want it back.',
+    "In the ashes where the Kiln Engine stood, {a} finds {g}, still warm. They wrap the lot in a wet blanket and do not complain about the weight.",
+    'They pick through the wreck of the Kiln Engine and take {g}. The college will want all of it back.',
   ],
 
   // ---- monsters come into view ----
   sight_rats: [
-    'The water starts moving against the current. Rats, a lot of them, all coming this way.',
+    'The water starts moving against the current. It is rats, a lot of them, and they are all coming this way.',
     '{m} pours out of a broken pipe. Some of them are the size of cats, and the rest are bigger.',
-    'Something squeals, and then everything squeals. Rats.',
+    'Something squeals, and then everything squeals. It is rats.',
   ],
   sight_moths: [
-    'Pale shapes come down out of the dark toward the lamps. Tallow moths, and they want the oil.',
+    'Pale shapes come down out of the dark toward the lamps. They are tallow moths, and they want the oil.',
     'A soft noise fills the drain, the sound of a great deal of paper being folded. Moths as wide as a hand come out of it.',
   ],
   sight_grubber: [
-    'A lamp goes out ahead of them, then three people with picks step into the light. Grubbers, and they are not here to talk.',
+    'A lamp goes out ahead of them, and then people with picks step into the light. They are grubbers, and they are not here to talk.',
     '"This is ours," says a grubber with no front teeth. There are more behind them.',
-    'Grubbers. They have been digging here a long time, and they do not want to share it.',
-    'Someone throws a stone, and then {n} grubbers come at them out of a side tunnel.',
+    'These are grubbers. They have been digging here a long time, and they do not want to share it.',
+    'Someone throws a stone, and then the grubbers come at them out of a side tunnel.',
   ],
   sight_eel: [
     'The flooded cellar is too still. Then the water stands up.',
@@ -160,26 +160,26 @@ export const LINES: Record<string, string[]> = {
   sight_spider: [
     'There are webs across the doorway, thick enough to hold a dog. Whatever made them is coming down the wall.',
     'A spider the color of wet plaster unfolds from the ceiling. Its legs keep unfolding for some time.',
-    '{a} brushes a thread, and the room starts moving.',
+    'Somebody brushes a thread, and the room starts moving.',
   ],
   sight_hog: [
     'Something big snorts in the dark ahead. A pale hog, blind and the size of a pony, has smelled them.',
-    'Hoofbeats on stone. A white hog comes down the street at a run.',
+    'There are hoofbeats on the stone, and then a white hog comes down the street at a run.',
   ],
   sight_crab: [
-    'A pile of rubble stands up on six legs. A sink crab, and another behind it.',
+    'A pile of rubble stands up on six legs. It is a sink crab, and there is another behind it.',
     'Claws click on the stone. The crabs down here grew big on runoff, and they grew mean as well.',
   ],
   sight_seep: [
     'The floor moves toward them. A seep, a spill of reagents that never stopped reacting, has found something warm.',
-    'Something bright and wet crawls out of a drain, fizzing where it touches the stone. A seep.',
+    'Something bright and wet crawls out of a drain, fizzing where it touches the stone. It is a seep, and it has noticed them.',
   ],
   sight_engine: [
     'Iron feet ring on the crust. An Assay engine walks out of the dark, its testing arms already moving.',
     'A brass plate on its chest reads "Assay Office. Do not obstruct." It is coming straight for them.',
   ],
   boss_sight: [
-    'At the bottom of the Sink the Kiln Engine walks out of its own glow. It is the size of a house, it is on fire inside, and it has seen them.',
+    'At the bottom of the Sink the Kiln Engine walks out of its own glow. It is the size of a chapel, and there is fire moving behind the grilles in its chest.',
     "The Kiln Engine turns toward the lamps. The college built it to burn the spill, and it burns whatever it can reach.",
   ],
   ambush: [
@@ -188,7 +188,7 @@ export const LINES: Record<string, string[]> = {
     'Nobody was watching that side. {m} is already among them.',
   ],
   moths_oil: [
-    'The moths go straight for the oil flasks and get into two of them before anyone can stop it.',
+    'The moths go straight for the oil flasks and get into them before anyone can stop it.',
     'A moth lands on a flask and drinks through the cork. They lose some oil to the swarm.',
   ],
 
@@ -200,6 +200,8 @@ export const LINES: Record<string, string[]> = {
     '{a} swings the {w} into {m} and keeps swinging.',
     '{a} gets the {w} into {m} and twists.',
     '{a} chops at {m} and connects.',
+    '{a} puts their weight behind the {w}, and {m} takes all of it.',
+    '{a} finds an opening and hits {m} in it.',
   ],
   melee_miss: [
     '{a} swings at {m} and hits the wall.',
@@ -209,13 +211,16 @@ export const LINES: Record<string, string[]> = {
     '{a} misses, and says something the chaplains would not repeat.',
   ],
   second_hit: [
-    '{a} turns the second cut into {m}.',
-    'And again: {a} catches {m} on the way back.',
+    '{a} cuts again, faster, and finds {m}.',
+    '{a} comes back the other way and catches {m}.',
     "{a}'s second strike finds {m}.",
+    '{a} does not wait to see what the first one did, and hits {m} again.',
+    '{a} follows through and opens {m} up a second time.',
   ],
   second_miss: [
     "{a}'s second cut goes wide.",
     '{a} tries a second strike and nearly loses the {w}.',
+    '{a} goes for a second cut, and {m} is ready for that one.',
   ],
   bash_hit: [
     '{a} slams a shoulder into {m}.',
@@ -227,18 +232,18 @@ export const LINES: Record<string, string[]> = {
     '{m} gives ground, and {a} stumbles past it.',
   ],
   stunned: [
-    '{m} reels and loses its footing.',
+    '{m} reels, and for a moment it has no idea where it is.',
     '{m} lurches and loses track of the fight.',
     '{m} goes down and is slow getting up.',
   ],
   hamstring_hit: [
-    '{a} goes low and opens {m} behind the knee.',
+    '{a} goes low and opens a long cut in {m}.',
     '{a} slashes at {m} and leaves it bleeding.',
     '{a} cuts {m} somewhere that will keep bleeding.',
   ],
   hamstring_miss: [
     '{a} goes low for {m} and gets nothing but stone.',
-    '{a} tries for the legs and {m} is not there.',
+    '{a} goes in low, and {m} is not there.',
   ],
   shot_hit: [
     '{a} looses, and the arrow takes {m}.',
@@ -254,7 +259,7 @@ export const LINES: Record<string, string[]> = {
     "{a}'s arrow goes into the dark, and nothing comes back.",
   ],
   pin_hit: [
-    "{a} puts an arrow through {m}'s leg. It won't be lunging for a while.",
+    "{a} puts an arrow into {m}, and it won't be aiming at anyone for a while.",
     '{a} pins {m} where it stands.',
   ],
   pin_miss: ['{a} tries to pin {m} and misses.', "{a}'s pinning shot falls short."],
@@ -269,6 +274,8 @@ export const LINES: Record<string, string[]> = {
     '{a} flicks a small working at {m}, the cheapest one they know.',
     '{a} flicks a spark off the {w} at {m}. It stings, at least.',
     '{a} taps {m} with a working the size of a candle flame.',
+    '{a} has nothing better left and throws a spark at {m} anyway.',
+    '{a} pinches out a little working at {m}. It is not much, but it lands.',
   ],
   spark_miss: ["{a}'s little working dies before it reaches {m}.", '{a} flicks a spark at {m} and misses.'],
   spell_miss: [
@@ -285,6 +292,8 @@ export const LINES: Record<string, string[]> = {
     'There are no doses left, so {a} cuts their own palm and casts from that.',
     '{a} has run out of reagents. They spend their own blood instead, and go grey.',
     "{a} casts dry. It comes out of them instead of the doses, and it hurts.",
+    '{a} opens the cut on their palm again and casts from that.',
+    '{a} pays for the next working in blood. Their lips have gone blue.',
   ],
   censer_hit: [
     "{a} swings the censer and radiant light burns into {m}.",
@@ -305,7 +314,7 @@ export const LINES: Record<string, string[]> = {
     "{a} finds the weak place on {m}, and it goes in deep.",
     '{a} gets the blow they were waiting for. {m} feels all of it.',
     "{a} hits {m} so hard that the others stop for a moment to look.",
-    'Clean through. {a} has done this before.',
+    '{a} goes clean through {m} and does not look surprised about it.',
     '{a} times it perfectly and {m} pays for it.',
   ],
   cant_reach: [
@@ -337,6 +346,8 @@ export const LINES: Record<string, string[]> = {
     '{a} gets a dressing on {t}, tight and fast.',
     '{a} stitches {t} up in three movements. It is not tidy, but it holds.',
     '"Hold still," {a} tells {t}, and pours something on the cut that makes {t} swear.',
+    '{a} drags {t} back a yard and ties off the worst of the bleeding.',
+    '{a} gets a pad of lint on {t} and leans on it until it stops.',
   ],
   dress_self: ['{a} binds their own arm with their teeth and one hand.', '{a} packs their own wound and keeps going.'],
   steady: [
@@ -369,13 +380,13 @@ export const LINES: Record<string, string[]> = {
   rats_crit: ['The rats get {t} by the throat, and it takes two people to pull them off.'],
   moths_hit: ['{m} beats against {t}\'s face, all powder and wings.', 'Moths get into {t}\'s mouth.', '{m} smothers {t}\'s lamp hand.'],
   moths_miss: ['{t} swats through the moths.', 'The moths flutter round {t} and away.'],
-  moths_crit: ['The moths cover {t} entirely for a moment, and {t} comes out of it bleeding from a hundred small cuts.'],
+  moths_crit: ['The moths cover {t} entirely, and when they lift, {t} is bleeding from a hundred small cuts.'],
   grubber_hit: ['{m} swings a pick into {t}.', '{m} hits {t} with a length of chain.', '{m} gets {t} with a short, dirty knife.', '{m} cracks {t} across the head with a shovel.'],
-  grubber_miss: ['{m} swings the pick and buries it in the wall.', '{t} steps inside the grubber\'s swing.', '{m} lunges at {t} and trips over their own pack.'],
+  grubber_miss: ['{m} swings the pick and buries it in the wall.', '{t} steps inside the grubber\'s swing.', '{m} lunges at {t}, skids on the wet brick and nearly goes down.'],
   grubber_crit: ['{m} drives the pick into {t} and has to put a foot on them to pull it out.'],
   eel_hit: ['{m} comes up out of the water and closes its jaws on {t}.', '{m} lashes {t} with its whole body.', '{m} drags {t} toward the water.'],
   eel_miss: ['{m} snaps at {t} and gets a mouthful of water.', '{t} jumps back as the eel strikes.'],
-  eel_crit: ['{m} gets {t} by the leg and pulls them under. They come back up, but not all of them is in good order.'],
+  eel_crit: ['{m} gets {t} by the leg and pulls them under. {t} comes back up coughing water, and the leg is not right.'],
   spider_hit: ['{m} bites {t}, and the bite goes numb straight away.', '{m} drops onto {t} from above.', "{m}'s fangs go through {t}'s sleeve."],
   spider_miss: ['{m} strikes at {t} and hits the floor.', '{t} gets an arm up just in time.'],
   spider_crit: ['{m} sinks both fangs into {t} and holds on.'],
@@ -400,11 +411,16 @@ export const LINES: Record<string, string[]> = {
   ],
   foe_wait: ['{m} waits behind the others for a gap.', '{m} pushes at the ones in front and cannot get through.'],
   stolen: ['{m} grabs {g} out of a pack and runs off with it.', 'In the scuffle {m} gets away with {g}.'],
-  poisoned: ["The spider's venom is still working in {a}.", '{a} is sweating and their hands have gone numb.', '{a} sways. The bite is getting worse, not better.'],
+  poisoned: ["The spider's venom is still working in {a}.", '{a} is sweating and their hands have gone numb.', '{a} sways. The bite has gone purple and hot.', '{a} is sick against the wall and wipes their mouth and carries on.', "{a}'s arm has swollen up tight inside the sleeve."],
   bleeds: ['{m} is bleeding badly.', '{m} leaves a trail behind it now.'],
 
   // ---- kills ----
-  kill_rats: ['{a} gets the last of that knot of rats, and the rest scatter.', '{m} breaks up and flees down the pipes.'],
+  kill_rats: [
+    '{a} kills enough of {m} that the rest give up and scatter.',
+    '{m} breaks up and flees down the pipes.',
+    'There is not much left of {m}, and what there is runs off squealing.',
+    '{a} stamps on the slowest of {m}, and the others decide they have business elsewhere.',
+  ],
   kill_moths: ['{a} swats the last of {m} out of the air.', "{m} falls apart in a shower of pale powder."],
   kill_grubber: ['{m} drops the pick and does not get up.', '{a} puts {m} down for good.', '{m} goes down and stays down.'],
   kill_eel: ['{m} rolls over in the water, belly up, and sinks.', "{a} finishes {m}. It takes a long time to stop moving."],
@@ -421,7 +437,9 @@ export const LINES: Record<string, string[]> = {
   fight_won: [
     'It is over. They stand there breathing hard and counting each other.',
     'The last of them goes down. Somebody laughs, too loudly.',
-    'Quiet again. The water goes on running.',
+    'It goes quiet again, apart from something dripping.',
+    'They wipe the blades on whatever is nearest and count the bandages.',
+    'When it is done, somebody\'s hands will not stop shaking, and nobody mentions it.',
     'That is the end of it. Everybody checks their hands for missing fingers.',
     'They win that one. Nobody says anything for a while.',
   ],
@@ -441,7 +459,7 @@ export const LINES: Record<string, string[]> = {
   death: [
     '{a} is dead. It was {m}, in the end.',
     '{a} does not get up again. They will be counted among the guild\'s dead, and it was {m} that did it.',
-    'They lose {a} to {m}. There was nothing anyone could do, and everyone will think there was.',
+    'They lose {a} to {m}. Somebody keeps pressing on the wound long after there is any point.',
     '{a} dies down here, under the Lower Town. {m} did it.',
   ],
   gets_up: [
@@ -450,9 +468,9 @@ export const LINES: Record<string, string[]> = {
     '{a} gets up on the second try.',
   ],
   gets_up_scar: [
-    '{a} gets up again. They will have {s} to remember this by.',
-    '{a} lives, and they will carry {s} out of here.',
-    '{a} is alive. The chaplains at home will call it {s}, and {a} will call it worse.',
+    '{a} gets up again, though not as they were. Jory will write "{s}" next to their name in the roster.',
+    '{a} lives. At Saint Oda\'s they will write "{s}" on a chart and tell {a} it is for good.',
+    '{a} is alive. The chaplains at home will call it "{s}", and {a} will call it worse.',
   ],
   wipe_death: ['{a} is left behind in Old Pellam.', 'They do not bring {a} back.', '{a} never wakes up.'],
 
@@ -486,30 +504,30 @@ export const LINES: Record<string, string[]> = {
   // ---- food and camps ----
   meal: [
     'They stop and eat cold bread and hard cheese. {a} says it is the best meal of their life.',
-    'A meal on the steps of a dead house. Nobody talks much.',
+    'They eat sitting on a step with their boots in the wet. Nobody talks much.',
     'They eat standing up. {a} shares an onion, which is generous and unwise.',
-    'Bread, sausage and a mouthful of beer each. It is enough.',
+    'They share out bread and the end of a sausage. {a} makes theirs last as long as it can.',
   ],
   hungry: [
     'It is time to eat, and there is nothing in the pack. {a} pretends not to be hungry, badly.',
     'The food is gone. They go on with empty stomachs, and tempers shorten.',
-    "No food left. {a} chews a strip of leather from their belt to keep busy.",
+    "There is no food left, so {a} chews a strip of leather from their belt to keep busy.",
   ],
-  camp_culverts: ['They make camp in a dry cellar where a grate lets a little air down.', 'Camp in the old pump room, with the door wedged shut.'],
+  camp_culverts: ['They make camp in a dry cellar where a grate lets a little air down.', 'They camp in an old pump room and wedge the door shut.'],
   camp_streets: [
     "They make camp in a buried house, upstairs, where the silt didn't reach.",
-    'Camp in the counting house, behind a counter that has seen worse.',
+    "They camp in a pawnbroker's, behind a counter that has seen worse.",
   ],
-  camp_sink: ['They make camp on a ledge above the spill, where the air is almost clean.', 'Camp in a dead college storeroom. The shelves glow faintly all night.'],
+  camp_sink: ['They make camp on a ledge above the spill, where the air is almost clean.', 'They camp in a dead college storeroom, where the shelves glow faintly all night.'],
   camp_hurt: ['They are in no state to go on, so they make camp where they are.', 'Too many of them are hurt. They stop and make camp in the open.'],
   camp_fed: [
     'They eat hot food for the first time in days. {a} sleeps sitting up with the spoon still in hand.',
-    'A small fire, a pot and something in it. Wounds get looked at and people sleep.',
+    'They get a small fire going under a pot. Wounds get looked at, and people sleep where they sit.',
     'They eat and sleep in turns. {a} takes the first watch and does not complain about it.',
   ],
   camp_fed_chaplain: [
-    'The chaplain makes everyone eat, cleans every cut and sees them all asleep before sleeping.',
-    'Hot food and the chaplain\'s rounds. By morning they are in better shape than they deserve.',
+    'The chaplain makes everyone eat and cleans every cut, and is the last one to sleep.',
+    'There is hot food, and the chaplain goes round everyone with a lamp and a needle. By morning they are in better shape than they deserve.',
   ],
   camp_hungry: [
     'There is nothing to eat. They lie in the dark and listen to each other\'s stomachs.',
@@ -519,14 +537,14 @@ export const LINES: Record<string, string[]> = {
 
   // ---- wanderers ----
   wander_avoided: [
-    'They hear {m} coming and get into a doorway until they have gone by.',
-    'Lamps hooded, backs to the wall. The {m} go by close enough to smell.',
-    'The scout signals, and they wait in the dark while {m} go past.',
+    'They hear {m} coming and get into a doorway until the noise has gone by.',
+    'They put their backs to the wall and keep still, and the {m} go by close enough to smell.',
+    'Somebody signals, and they wait in the dark while {m} go past.',
     'They take a side passage and leave the {m} to it.',
   ],
   wander_failed: [
-    'They try to wait out the {m}, and the {m} find them anyway.',
-    'Somebody\'s armor clinks. The {m} turn round.',
+    'They try to wait it out, and the {m} find them anyway.',
+    'Somebody\'s buckle clinks, and the {m} turn round.',
     'They try to slip past the {m} and get caught in the open.',
   ],
   wander_fight: [
@@ -536,15 +554,15 @@ export const LINES: Record<string, string[]> = {
   ],
 
   // ---- traps ----
-  trap_unseen: ['Nobody sees it.', 'Nobody notices the wire until it is too late.', 'It happens before anyone can shout.'],
+  trap_unseen: ['Nobody sees it.', 'Nobody notices anything wrong until it is too late.', 'It happens before anyone can shout.'],
   trap_disarm_fail: ['{a} gets the tools on it, then slips.', "{a} is halfway through disarming it when something goes click."],
-  trap_tripwire_disarm: ['{a} spots a tripwire across the drain and cuts it carefully. A crossbow on the far wall twangs at nothing.', '{a} finds a wire at ankle height and wedges the trigger before stepping over it.'],
+  trap_tripwire_disarm: ['{a} spots a tripwire at shin height and cuts it, very slowly. A crossbow on the far wall twangs at nothing.', '{a} finds a wire at ankle height and wedges the trigger before stepping over it.'],
   trap_tripwire_around: ['{a} spots a tripwire. Nobody has the tools to make it safe, so they go round by another drain.', '{a} sees the wire but they have nothing to wedge it with. They go the long way.'],
   trap_tripwire_hit: ['A grubber crossbow fires from the wall and the bolt hits {a}.', "{a} catches a wire. The bolt goes in somewhere unpleasant."],
   trap_grate_disarm: ['{a} sees the grate overhead has been loosened and props it with a wedge.', '{a} spots the loosened grate and pins it in place.'],
   trap_grate_around: ['The grate overhead hangs by one rusted bracket. Without tools they detour round it.'],
   trap_grate_hit: ['An iron grate drops out of the roof onto {a}.', 'The grate comes down and catches {a} across the shoulders.'],
-  trap_floor_disarm: ['{a} tests the floor ahead with a pole and finds it rotten. They lay planks across.', '{a} spots the bowed boards and they rope across.'],
+  trap_floor_disarm: ['{a} tests the floor ahead with a pole and finds it rotten. They lay planks across.', '{a} spots the bowed boards, and they rope across one at a time.'],
   trap_floor_around: ['{a} sees the floor is rotten. They have nothing to bridge it, so they go round through two other houses.'],
   trap_floor_hit: ['The floor gives way under {a}, who drops into the cellar below.', '{a} falls through the floor and lands on something hard.'],
   trap_gas_disarm: ['{a} smells the pocket of bad air ahead and they rig a cloth over the vent before passing.', '{a} sees the candle flame go blue and they seal the crack with clay.'],
@@ -554,7 +572,7 @@ export const LINES: Record<string, string[]> = {
   // ---- curiosities ----
   shrine_charm: [
     "A cellar shrine to Saint Oda, older than the hall upstairs. {a} leaves an Oda's token on it, and everybody feels a little better for it.",
-    "There is a little shrine in the wall, with stubs of candles. {a} leaves a token, and they all stand there a moment.",
+    "There is a little shrine in the wall, with stubs of candles. {a} leaves a token, and they all stand there with their hats off.",
   ],
   shrine_chaplain: [
     'They find a shrine in the wall. {a} says the words over it, and it does everyone some good.',
@@ -575,16 +593,16 @@ export const LINES: Record<string, string[]> = {
   cart_tools: ["A cart lies on its side in the flood. With a crowbar, {a} gets the strongbox off its bed.", "{a} levers open a drowned cart's chest and finds the silver still in it."],
   cart_bitten: ['{a} reaches into a drowned cart, and something in there bites.', 'There is something in the drowned cart besides silver. It gets {a} by the wrist.'],
   cart_reach: ['{a} reaches into a drowned cart up to the shoulder and comes out with a piece of silver.'],
-  still_arcanist: ['An old college still, still dripping. {a} knows what it is and drains two good doses from it.', '{a} reads the labels on a college still and draws off two doses.'],
-  still_good: ['A college still, still dripping. {a} tastes it. It turns out to be brandy, more or less.'],
-  still_bad: ['A college still, still dripping. {a} tastes it, and it is not brandy.'],
+  still_arcanist: ['An old college still is dripping in a corner. {a} knows what it is and drains two good doses from it.', '{a} reads the labels on a college still and draws off two doses.'],
+  still_good: ['There is a college still in the corner, dripping. {a} tastes it, and it turns out to be brandy, more or less.'],
+  still_bad: ['{a} tastes what is dripping out of an old college still. It is not brandy.'],
 
   // ---- turning back and going home ----
   retreat_cautious: ['The orders say turn back when it goes wrong, and it has gone wrong. They turn back.', '{a} calls it. They are going home.'],
   retreat_steady: ['Too many of them are hurt now. They turn round.', "{a} looks at the state of everyone and says it's time. Nobody argues."],
   retreat_stubborn: ['Even the orders have limits. They turn back with what is left of them.', 'Half the squad is down. Stubborn or not, they turn round.'],
   turn_back: ['The climb back up is long, and they keep looking behind them.', 'They retrace their steps, quieter than they came.'],
-  climb_back: ['They climb back up toward the Lower Town with full packs.', 'The way back up feels shorter. It never is.'],
+  climb_back: ['They climb back up toward the Lower Town with full packs.', 'The way back up feels shorter than the way down, which it is not.'],
   home_short: ['They come up out of the Culverts into the Tallow Street evening, filthy and pleased with themselves.', "The grate goes back over the culvert, and the squad goes into the Copper Kettle to be stared at."],
   home_medium: ['Two weeks after they went down, the squad climbs out into daylight. They stand in the street blinking.', 'They come back up out of Pellam. The porters at the top count them, and the count comes out right.'],
   home_long: [

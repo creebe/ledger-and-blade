@@ -2,14 +2,14 @@
 
 A good squad with a full pack goes all the way down to the College Sink and the Kiln Engine. They are not quite good enough yet.
 
-Seed 3020. Long expedition: To the bottom of the College Sink, where the Kiln Engine walks.
+Seed 3013. Long expedition: To the bottom of the College Sink, where the Kiln Engine walks.
 
 ## The preparation
 
-1. **Ewan Ludd**, Vanguard: Arming Sword, Mail Hauberk
-2. **Orla Tanner**, Skirmisher: Spear, Gambeson
-3. **Tilde Eskett**, Chaplain: Flanged Mace, Gambeson
-4. **Greta Greave**, Arcanist: Plain Focus Rod, Padded Robes
+1. **Bram Joss**, Vanguard: Arming Sword, Mail Hauberk
+2. **Nils Lusk**, Skirmisher: Spear, Gambeson
+3. **Lowri Gant**, Chaplain: Flanged Mace, Gambeson
+4. **Freya Ingram**, Arcanist: Plain Focus Rod, Padded Robes
 
 **Pack:** 6 food, 11 lamp oil, 6 bandages, 4 tools, 6 reagents, 1 draughts.
 
@@ -17,499 +17,529 @@ Seed 3020. Long expedition: To the bottom of the College Sink, where the Kiln En
 
 ## The log
 
-Ewan takes the first step down into the Culverts. The porters at the top have stopped joking, which is the first bad sign of the trip.
+The squad goes down to find the bottom of the College Sink. Nobody says how long it will take, because nobody knows.
 
-### The Culverts. The brick is old and wet, and daylight comes down through the grates in grey squares.
+### They are in the Culverts now. Water runs ankle deep over the brick, and somewhere ahead something drops into it.
 
-"This is ours," says a grubber with no front teeth. There are more behind them.
+They find a shrine in the wall. Lowri says the words over it, and it does everyone some good. *(+6 grit each)*
 
-Orla tries for the legs and the second grubber is not there.
+These are grubbers. They have been digging here a long time, and they do not want to share it.
 
-Greta taps the first grubber with a working the size of a candle flame. *(5)*
+Nils slashes at the second grubber and leaves it bleeding. *(5)*
 
-The first grubber swings the pick and buries it in the wall.
+Lowri tries to push forward past the others and gets an elbow for it.
 
-The second grubber swings a pick into Orla. *(10)*
+The first grubber gets Nils with a short, dirty knife. *(9)*
 
-Ewan swings the arming sword into the first grubber and keeps swinging. *(9)*
+The second grubber is bleeding badly. *(3)*
 
-Tilde waits behind the others for an opening that never comes.
+The second grubber lunges at Nils, skids on the wet brick and nearly goes down.
 
-Orla chops at the first grubber and connects. *(5)*
+Freya pinches out a little working at the second grubber. It is not much, but it lands. *(3)*
 
-The first grubber drops the pick and does not get up.
-
-Orla turns the second cut into the second grubber. *(4)*
-
-The second grubber drives the pick into Orla and has to put a foot on them to pull it out. *(17)*
-
-Ewan steps in front of Orla. "Get behind me."
-
-Greta flicks a small working at the second grubber, the cheapest one they know. *(5)*
-
-Tilde stitches Orla up in three movements. It is not tidy, but it holds. *(+11)*
-
-Orla brings the spear down on the second grubber. *(4)*
-
-Orla's second strike finds the second grubber. *(6)*
-
-Orla puts the second grubber down for good.
-
-> Ewan 37/37 hp, grit 71 · Orla 15/31 hp, grit 73 · Tilde 34/34 hp, grit 72 · Greta 25/25 hp, grit 71
-
-Quiet again. The water goes on running.
-
-> Ewan 37/37 hp, grit 71 · Orla 15/31 hp, grit 75 · Tilde 34/34 hp, grit 72 · Greta 25/25 hp, grit 71
-
-Grubbers. They have been digging here a long time, and they do not want to share it.
-
-Orla steps in and hits the second grubber hard with the spear. *(4)*
-
-And again: Orla catches the second grubber on the way back. *(6)*
-
-The second grubber lunges at Ewan and trips over their own pack.
-
-Ewan steps inside the grubber's swing.
-
-Greta spends two doses at once. The plain burst fills the room. *(2 doses)*
-
-Greta casts, and the working comes apart in the wet air.
-
-Greta traces the figure without looking and the spell finds the second grubber. *(6)*
-
-Greta opens a hand and the focus spits at the third grubber. *(4)*
-
-Ewan catches the second grubber with the arming sword and something cracks. *(9)*
+Bram brings the arming sword down on the second grubber. *(10)*
 
 The second grubber goes down and stays down.
 
-> Ewan 37/37 hp, grit 70 · Orla 15/31 hp, grit 74 · Tilde 34/34 hp, grit 71 · Greta 25/25 hp, grit 70
+> Bram 34/34 hp, grit 86 · Nils 22/31 hp, grit 77 · Lowri 28/28 hp, grit 89 · Freya 19/19 hp, grit 90
 
-"Hold still," Tilde tells Orla, and pours something on the cut that makes Orla swear. *(+11)*
+Nils cuts the first grubber somewhere that will keep bleeding. *(5)*
 
-Orla cuts the third grubber somewhere that will keep bleeding. *(5)*
+The first grubber leaves a trail behind it now. *(3)*
 
-Greta's little working dies before it reaches the third grubber.
+Nils steps inside the grubber's swing.
 
-The first grubber cracks Ewan across the head with a shovel. *(11)*
+Bram charges the first grubber and finds only air.
 
-The third grubber gives ground, and Ewan stumbles past it.
+Freya flicks a small working at the first grubber, the cheapest one they know. *(3)*
 
-The third grubber leaves a trail behind it now. *(3)*
+Lowri is too far back to hit anything, and knows it.
 
-The third grubber gets Ewan with a short, dirty knife. *(9)*
+The first grubber leaves a trail behind it now. *(3)*
 
-Tilde gets a dressing on Ewan, tight and fast. *(+11)*
+The first grubber swings the pick and buries it in the wall.
 
-Orla gets the spear into the third grubber and twists. *(4)*
+Nils chops at the first grubber and connects. *(6)*
 
-And again: Orla catches the third grubber on the way back. *(6)*
+Nils puts the first grubber down for good.
 
-The third grubber drops the pick and does not get up.
-
-Greta flicks a spark off the plain focus rod at the first grubber. It stings, at least. *(3)*
-
-Ewan lunges, slips on the wet stone and misses the first grubber.
-
-The first grubber hits Ewan with a length of chain. *(11)*
-
-Tilde kneels by Ewan and packs the wound while the fight goes on around them. *(+11)*
-
-Orla chops at the first grubber and connects. *(5)*
-
-Orla's second strike finds the first grubber. *(6)*
-
-Greta flicks a spark off the plain focus rod at the first grubber. It stings, at least. *(5)*
-
-The first grubber goes down and stays down.
-
-> Ewan 28/37 hp, grit 72 · Orla 26/31 hp, grit 76 · Tilde 34/34 hp, grit 71 · Greta 25/25 hp, grit 70
+> Bram 34/34 hp, grit 88 · Nils 22/31 hp, grit 77 · Lowri 28/28 hp, grit 89 · Freya 19/19 hp, grit 90
 
 It is over. They stand there breathing hard and counting each other.
 
-> Ewan 28/37 hp, grit 72 · Orla 26/31 hp, grit 76 · Tilde 34/34 hp, grit 71 · Greta 25/25 hp, grit 72
+> Bram 34/34 hp, grit 88 · Nils 22/31 hp, grit 79 · Lowri 28/28 hp, grit 89 · Freya 19/19 hp, grit 90
 
-Nobody sees it.
+The first knot of rats pours out of a broken pipe. Some of them are the size of cats, and the rest are bigger.
 
-The grate comes down and catches Ewan across the shoulders. *(5)*
+Bram kicks the rats away.
 
-An iron grate drops out of the roof onto Orla. *(8)*
+Bram stamps, and the rats scatter for a moment.
 
-### The drain opens out into a street. It has a gutter and a name painted on a corner, and Varrow's foundations sit on its roofs like a lid.
+Nils gets the spear into the second knot of rats and twists. *(5)*
 
-The lamps go up. The light reaches about four yards and gives up.
+Nils does not wait to see what the first one did, and hits the second knot of rats again. *(7)*
 
-Pale shapes come down out of the dark toward the lamps. Tallow moths, and they want the oil.
+Nils kills enough of the second knot of rats that the rest give up and scatter.
 
-The moths go straight for the oil flasks and get into two of them before anyone can stop it. *(−2 oil)*
+Freya has nothing better left and throws a spark at the first knot of rats anyway. *(5)*
 
-Moths get into Ewan's mouth. *(1)*
+Bram shoves the first knot of rats back into the dark. *(8, it hates that)*
 
-The spider waits behind the others for a gap.
+Bram stamps on the slowest of the first knot of rats, and the others decide they have business elsewhere.
 
-The second cloud of moths beats against Tilde's face, all powder and wings. *(2)*
+Lowri waits behind the others for an opening that never comes.
 
-Orla brings the spear down on the first cloud of moths. *(6)*
+Nils puts their weight behind the spear, and the third knot of rats takes all of it. *(7)*
 
-Orla turns the second cut into the first cloud of moths. *(7)*
+Nils follows through and opens the third knot of rats up a second time. *(5)*
 
-The first cloud of moths falls apart in a shower of pale powder.
+The third knot of rats breaks up and flees down the pipes.
 
-Greta flicks a small working at the second cloud of moths, the cheapest one they know. *(5)*
-
-Ewan catches the second cloud of moths with the arming sword and something cracks. *(10)*
-
-Ewan swats the last of the second cloud of moths out of the air.
-
-Tilde can't reach anything from back here and shouts advice instead.
-
-Orla swings the spear into the spider and keeps swinging. *(6)*
-
-Orla's second cut goes wide.
-
-The spider's fangs go through Ewan's sleeve. *(11)*
-
-Greta taps the spider with a working the size of a candle flame. *(4)*
-
-Ewan is sweating and their hands have gone numb. *(3)*
-
-Ewan charges the spider and finds only air.
-
-Tilde stitches Ewan up in three movements. It is not tidy, but it holds. *(+11)*
-
-Orla's blow lands on nothing.
-
-And again: Orla catches the spider on the way back. *(5)*
-
-The spider strikes at Ewan and hits the floor.
-
-Ewan sways. The bite is getting worse, not better. *(3)*
-
-The spider gives ground, and Ewan stumbles past it.
-
-Greta flicks a spark at the spider and misses.
-
-Tilde kneels by Ewan and packs the wound while the fight goes on around them. *(+11)*
-
-The spider drops onto Orla from above. *(6)*
-
-The spider's venom is still working in Orla. *(3)*
-
-Orla gets the spear into the spider and twists. *(5)*
-
-The spider curls its legs in and dies.
+> Bram 34/34 hp, grit 89 · Nils 22/31 hp, grit 80 · Lowri 28/28 hp, grit 88 · Freya 19/19 hp, grit 89
 
 They win that one. Nobody says anything for a while.
 
-> Ewan 27/37 hp, grit 61 · Orla 9/31 hp, grit 65 · Tilde 32/34 hp, grit 60 · Greta 25/25 hp, grit 58
+> Bram 34/34 hp, grit 89 · Nils 22/31 hp, grit 82 · Lowri 28/28 hp, grit 88 · Freya 19/19 hp, grit 89
 
-They stop and eat cold bread and hard cheese. Orla says it is the best meal of their life. *(1 food)*
-
-> Ewan 27/37 hp, grit 58 · Orla 9/31 hp, grit 62 · Tilde 32/34 hp, grit 58 · Greta 25/25 hp, grit 55
-
-Tilde cleans and bandages Orla properly, the way they teach it at Saint Oda's. *(+16)*
-
-It happens before anyone can shout.
-
-A grubber crossbow fires from the wall and the bolt hits Tilde. *(8)*
-
-A cart lies on its side in the flood. With a crowbar, Tilde gets the strongbox off its bed. *(2 × Pellam silver)*
-
-A long arcade of shops with their shutters still down. The silt has come in through the cracks and filled them to the counters.
-
-**They make camp in a buried house, upstairs, where the silt didn't reach.**
-
-> Ewan 27/37 hp, grit 47 · Orla 25/31 hp, grit 49 · Tilde 24/34 hp, grit 50 · Greta 25/25 hp, grit 43
-
-Hot food and the chaplain's rounds. By morning they are in better shape than they deserve. *(1 food)*
-
-> Ewan 37/37 hp, grit 63 · Orla 31/31 hp, grit 65 · Tilde 34/34 hp, grit 66 · Greta 25/25 hp, grit 59
-
-### They reach the Sink. A hundred years of spent reagents went down here, and none of it has quite finished reacting.
+### They come out into the Buried Streets. The houses stand where they were left, full to the windows with silt, and there is no light at all.
 
 They light the lamps. Pellam is not improved by being able to see it.
 
-A laboratory the college sealed and forgot. The seals have failed.
+Bram finds a wire at ankle height and wedges the trigger before stepping over it. *(1 tools)*
 
-Ewan finds 2 Assay seals on the body of a college porter who came down here a long time ago. *(2 Assay seals)*
+They eat standing up. Nils shares an onion, which is generous and unwise. *(1 food)*
 
-They hear Assay engines coming and get into a doorway until they have gone by.
+> Bram 34/34 hp, grit 83 · Nils 22/31 hp, grit 76 · Lowri 28/28 hp, grit 82 · Freya 19/19 hp, grit 83
 
-Nobody notices the wire until it is too late.
+They try to slip past the sink eels and get caught in the open.
 
-Ewan coughs until they bring something up. *(6)*
+Something long and grey turns over in the water beside the path, and it is longer than the path.
 
-A pocket of bad air bursts out of the crust. Orla breathes it in. *(8)*
+**They walk straight into it. The eel has the first move.**
 
-Tilde coughs until they bring something up. *(6)*
+The eel comes up out of the water and closes its jaws on Bram. *(12)*
 
-A pocket of bad air bursts out of the crust. Greta breathes it in. *(8)*
+The crab closes a claw on Bram. *(7)*
 
-A brass plate on its chest reads "Assay Office. Do not obstruct." It is coming straight for them.
+Nils goes low and opens a long cut in the eel. *(6)*
 
-Orla steps in and hits the engine hard with the spear. *(2, it shrugs)*
+Lowri kneels by Bram and packs the wound while the fight goes on around them. *(+11)*
 
-Orla gets the blow they were waiting for. The engine feels all of it. *(5, it shrugs)*
+Bram's blow lands on nothing.
 
-Tilde says the Saint's words over Greta, quickly, and Greta stops shaking. *(+20 grit)*
+Freya traces the figure without looking and the spell finds the eel. *(9)*
 
-Greta hits the engine so hard that the others stop for a moment to look. *(17)*
+The eel is bleeding badly. *(3)*
 
-The engine twists away from the arming sword.
+Nils jumps back as the eel strikes.
 
-The engine swings and the arm sticks halfway, grinding.
+Nils misses, and says something the chaplains would not repeat.
 
-Orla brings the spear down on the engine. *(1, it shrugs)*
+Nils goes for a second cut, and the eel is ready for that one.
 
-Orla turns the second cut into the engine. *(1, it shrugs)*
+Lowri can't reach anything from back here and shouts advice instead.
 
-The engine grips Ewan in its calipers and squeezes, testing. *(12)*
+Freya speaks the working and it hits the eel square. *(9)*
 
-Greta lets go of the working. The engine is in the way of it. *(7)*
+Freya finishes the eel. It takes a long time to stop moving.
 
-Ewan catches the engine with the arming sword and something cracks. *(7)*
+Bram batters the crab with the flat of the arming sword. *(6, it hates that)*
 
-Tilde is too far back to hit anything, and knows it.
+The crab lurches and loses track of the fight.
 
-Orla chops at the engine and connects. *(2, it shrugs)*
+Nils steps in and hits the crab hard with the spear. *(1, it shrugs)*
 
-Orla's second strike finds the engine. *(2, it shrugs)*
+Nils finds the weak place on the crab, and it goes in deep. *(4, it shrugs)*
 
-Tilde tries to push forward past the others and gets an elbow for it.
+The crab gives ground, and Bram stumbles past it.
 
-The engine brings a testing arm down on Ewan. *(13)*
+Lowri waits behind the others for an opening that never comes.
 
-Ewan gets the arming sword into the engine and twists. *(6)*
+Freya's spell splashes off the stones beside the crab.
 
-The engine stops in the middle of a movement, ticks twice and falls over.
+The crab batters Bram with a claw. *(6)*
 
-> Ewan 6/37 hp, grit 41 · Orla 23/31 hp, grit 36 · Tilde 28/34 hp, grit 44 · Greta 17/25 hp, grit 55
+Nils catches the crab with the spear and something cracks. *(2, it shrugs)*
+
+Nils cuts again, faster, and finds the crab. *(1, it shrugs)*
+
+Bram finds an opening and hits the crab in it. *(4, it shrugs)*
+
+Freya opens a hand and the focus spits at the crab. *(9)*
+
+Lowri is too far back to hit anything, and knows it.
+
+The crab pinches Nils hard enough to bend their armor. *(13)*
+
+Nils lunges, slips on the wet stone and misses the crab.
+
+Nils's second cut goes wide.
+
+The crab batters Bram with a claw. *(12)*
+
+"Hold still," Lowri tells Bram, and pours something on the cut that makes Bram swear. *(+11)*
+
+Bram plants their feet between Nils and the fight.
+
+The air goes tight around Freya, and then the crab takes the spell full on. *(9)*
+
+Freya cracks the crab open.
+
+They wipe the blades on whatever is nearest and count the bandages.
+
+There are webs across the doorway, thick enough to hold a dog. Whatever made them is coming down the wall.
+
+The first spider drops onto Bram from above. *(3)*
+
+The first spider twists away from the spear.
+
+Nils hits the first spider so hard that the others stop for a moment to look. *(9)*
+
+The second spider bites Nils, and the bite goes numb straight away. *(5)*
+
+Lowri gets a dressing on Nils, tight and fast. *(+11)*
+
+Freya flicks a spark off the plain focus rod at the first spider. It stings, at least. *(5)*
+
+Bram's arm has swollen up tight inside the sleeve. *(3)*
+
+Bram slams a shoulder into the first spider. *(5)*
+
+Bram splits the first spider open and the smell is terrible.
+
+Nils gets an arm up just in time.
+
+Nils is sweating and their hands have gone numb. *(3)*
+
+Nils goes low and opens a long cut in the second spider. *(5)*
+
+Bram is sick against the wall and wipes their mouth and carries on. *(3)*
+
+Bram charges the second spider and finds only air.
+
+Lowri drags Bram back a yard and ties off the worst of the bleeding. *(+11)*
+
+Freya taps the second spider with a working the size of a candle flame. *(5)*
+
+The second spider leaves a trail behind it now. *(3)*
+
+The second spider's fangs go through Bram's sleeve. *(8)*
+
+Nils sways. The bite has gone purple and hot. *(3)*
+
+Nils swings the spear into the second spider and keeps swinging. *(7)*
+
+The second spider curls its legs in and dies.
 
 That is the end of it. Everybody checks their hands for missing fingers.
 
-> Ewan 6/37 hp, grit 43 · Orla 23/31 hp, grit 36 · Tilde 28/34 hp, grit 44 · Greta 17/25 hp, grit 55
+> Bram 13/34 hp, grit 80 · Nils 9/31 hp, grit 79 · Lowri 28/28 hp, grit 77 · Freya 19/19 hp, grit 82
 
-Bread, sausage and a mouthful of beer each. It is enough. *(1 food)*
+Lowri takes a bandage to Nils and makes it go twice as far as anyone else would. *(+16)*
 
-> Ewan 6/37 hp, grit 39 · Orla 23/31 hp, grit 30 · Tilde 28/34 hp, grit 40 · Greta 17/25 hp, grit 50
+Lowri sits Bram down on a step and does the job properly. *(+16)*
 
-Tilde sits Ewan down on a step and does the job properly. *(+16)*
+The street is blocked by a fallen roof beam. They go through a house instead, in at the front door and out through the scullery.
 
-Something bright and wet crawls out of a drain, fizzing where it touches the stone. A seep.
+Nobody notices anything wrong until it is too late.
 
-Orla steps in and hits the second seep hard with the spear. *(3, it shrugs)*
+Bram coughs until they bring something up. *(5)*
 
-Orla tries a second strike and nearly loses the spear.
+A pocket of bad air bursts out of the crust. Nils breathes it in. *(5)*
 
-The first seep washes over Orla's boots, and the leather starts to smoke. *(10)*
+Lowri coughs until they bring something up. *(5)*
 
-Ewan misses, and says something the chaplains would not repeat.
+A pocket of bad air bursts out of the crust. Freya breathes it in. *(4)*
 
-Greta speaks the working and it hits the second seep square. *(11)*
+**They camp in a pawnbroker's, behind a counter that has seen worse.**
 
-The second seep splashes Orla, and it burns. *(12)*
+> Bram 24/34 hp, grit 65 · Nils 20/31 hp, grit 64 · Lowri 23/28 hp, grit 62 · Freya 15/19 hp, grit 67
 
-Tilde gets a dressing on Orla, tight and fast. *(+11)*
+There is hot food, and the chaplain goes round everyone with a lamp and a needle. By morning they are in better shape than they deserve. *(1 food)*
 
-Orla swings the spear into the second seep and keeps swinging. *(4, it shrugs)*
+> Bram 34/34 hp, grit 81 · Nils 31/31 hp, grit 80 · Lowri 28/28 hp, grit 78 · Freya 19/19 hp, grit 83
 
-Orla's second strike finds the second seep. *(3, it shrugs)*
+### They reach the Sink. A hundred years of spent reagents went down here, and none of it has quite finished reacting.
 
-Ewan pulls Orla back and takes their place.
+The lamps go up. The light reaches about four yards and gives up.
 
-The air goes tight around Greta, and then the second seep takes the spell full on. *(12)*
+They try to wait it out, and the sink crabs find them anyway.
 
-The second seep stops moving and goes dull, then hard.
+A pile of rubble stands up on six legs. It is a sink crab, and there is another behind it.
 
-The first seep reaches up Ewan's leg. *(5)*
+**Nobody was watching that side. The first crab is already among them.**
 
-"Hold still," Tilde tells Orla, and pours something on the cut that makes Orla swear. *(+11)*
+The second crab closes a claw on Bram. *(15)*
 
-Orla chops at the first seep and connects. *(3, it shrugs)*
+The first crab pinches Bram hard enough to bend their armor. *(11)*
 
-And again: Orla catches the first seep on the way back. *(3, it shrugs)*
+Nils swings at the first crab and hits the wall.
 
-There are no doses left, so Greta cuts their own palm and casts from that. *(4 of their own)*
+Nils comes back the other way and catches the second crab. *(2, it shrugs)*
 
-Greta speaks the working and it hits the first seep square. *(8)*
+Bram puts their weight behind the arming sword, and the second crab takes all of it. *(3, it shrugs)*
 
-Ewan batters the first seep with the flat of the arming sword. *(6)*
+Freya lets go of the working. The second crab is in the way of it. *(9)*
 
-The first seep lurches and loses track of the fight.
+Lowri gets a pad of lint on Bram and leans on it until it stops. *(+11)*
 
-Tilde kneels by Ewan and packs the wound while the fight goes on around them. *(+11)*
+The second crab gets Bram in both claws and squeezes. *(24)*
 
-Orla gets the spear into the first seep and twists. *(3, it shrugs)*
+**A draught brings Bram back up off the stones, white and swearing. *(a draught)***
 
-Orla turns the second cut into the first seep. *(3, it shrugs)*
+Nils swings the spear into the second crab and keeps swinging. *(2, it shrugs)*
 
-Greta finds the weak place on the first seep, and it goes in deep. *(8)*
+Nils tries a second strike and nearly loses the spear.
 
-Greta breaks the first seep apart, and the pieces crust over in the air.
+The first crab batters Bram with a claw. *(16)*
 
-> Ewan 28/37 hp, grit 37 · Orla 23/31 hp, grit 26 · Tilde 28/34 hp, grit 38 · Greta 13/25 hp, grit 49
+**Bram falls. The others close up over them.**
 
-The last of them goes down. Somebody laughs, too loudly.
+Lowri brings the flanged mace down on the second crab. *(9, it hates that)*
 
-> Ewan 28/37 hp, grit 37 · Orla 23/31 hp, grit 26 · Tilde 28/34 hp, grit 38 · Greta 13/25 hp, grit 51
+Freya pinches out a little working at the second crab. It is not much, but it lands. *(3)*
 
-**The lamps go out one by one. Nobody packed enough oil, and now everyone knows it.**
+Nils gets the blow they were waiting for. The second crab feels all of it. *(5, it shrugs)*
 
-**Camp in a dead college storeroom. The shelves glow faintly all night.**
-
-> Ewan 28/37 hp, grit 29 · Orla 23/31 hp, grit 16 · Tilde 28/34 hp, grit 31 · Greta 13/25 hp, grit 42
-
-The chaplain makes everyone eat, cleans every cut and sees them all asleep before sleeping. *(1 food)*
-
-> Ewan 37/37 hp, grit 45 · Orla 31/31 hp, grit 32 · Tilde 34/34 hp, grit 47 · Greta 22/25 hp, grit 58
-
-The watch shouts. They have company.
-
-Claws click on the stone. The crabs down here grew big on runoff, and they grew mean as well.
-
-Orla catches the first crab with the spear and something cracks. *(2, it shrugs)*
-
-Orla turns the second cut into the first crab. *(2, it shrugs)*
-
-Greta has run out of reagents. They spend their own blood instead, and go grey. *(4 of their own)*
-
-Greta's spell splashes off the stones beside the second crab.
-
-The first crab closes a claw on Ewan. *(16)*
-
-The second crab scuttles sideways and its claw closes on nothing.
-
-Ewan times it perfectly and the second crab pays for it. *(16, it hates that)*
-
-The second crab goes down and is slow getting up.
-
-Tilde tells Orla a long and filthy joke in the middle of the fight. It helps. *(+20 grit)*
-
-Orla swings at the second crab and hits the wall.
-
-Orla's second strike finds the second crab. *(2, it shrugs)*
-
-Ewan swings the arming sword into the second crab and keeps swinging. *(4, it shrugs)*
-
-Tilde tries to push forward past the others and gets an elbow for it.
-
-Greta flicks a small working at the second crab, the cheapest one they know. *(1)*
-
-The first crab snaps at Orla and misses.
-
-Orla brings the spear down on the second crab. *(2, it shrugs)*
-
-And again: Orla catches the second crab on the way back. *(2, it shrugs)*
-
-Tilde is too far back to hit anything, and knows it.
-
-Greta taps the second crab with a working the size of a candle flame. *(1)*
-
-The first crab gets Ewan in both claws and squeezes. *(26)*
-
-**Ewan goes down, and somebody gets a draught between their teeth before they finish falling. They come up coughing. *(a draught)***
-
-Ewan steps in and hits the second crab hard with the arming sword. *(4, it shrugs)*
-
-The second crab pinches Ewan hard enough to bend their armor. *(14)*
-
-**Ewan dies down here, under the Lower Town. A crab did it.**
-
-> Ewan dead · Orla 31/31 hp, grit 49 · Tilde 34/34 hp, grit 45 · Greta 18/25 hp, grit 52
-
-Orla brings the spear down on the second crab. *(1, it shrugs)*
-
-And again: Orla catches the second crab on the way back. *(1, it shrugs)*
-
-Greta flicks a spark off the plain focus rod at the second crab. It stings, at least. *(3)*
+Nils's second strike finds the second crab. *(2, it shrugs)*
 
 The second crab's legs fold up under it.
 
-Tilde puts a hand on Orla's shoulder and talks them down. *(+20 grit)*
+Lowri catches the first crab with the flanged mace and something cracks. *(9, it hates that)*
+
+Freya opens the cut on their palm again and casts from that. *(4 of their own)*
+
+Freya traces the figure without looking and the spell finds the first crab. *(6)*
+
+The first crab closes a claw on Lowri. *(9)*
+
+Nils steps in and hits the first crab hard with the spear. *(2, it shrugs)*
+
+Nils follows through and opens the first crab up a second time. *(1, it shrugs)*
+
+The first crab twists away from the flanged mace.
+
+Freya has nothing better left and throws a spark at the first crab anyway. *(2)*
+
+The first crab pinches Nils hard enough to bend their armor. *(13)*
+
+Nils lunges, slips on the wet stone and misses the first crab.
+
+Nils comes back the other way and catches the first crab. *(2, it shrugs)*
 
 The first crab scuttles sideways and its claw closes on nothing.
 
-Orla chops at the first crab and connects. *(1, it shrugs)*
+Lowri misses, and says something the chaplains would not repeat.
 
-Orla turns the second cut into the first crab. *(2, it shrugs)*
+Freya flicks a spark off the plain focus rod at the first crab. It stings, at least. *(2)*
 
-The first crab snaps at Orla and misses.
+Nils chops at the first crab and connects. *(1, it shrugs)*
 
-Greta casts dry. It comes out of them instead of the doses, and it hurts. *(4 of their own)*
+Nils cuts again, faster, and finds the first crab. *(2, it shrugs)*
 
-Greta lets go of the working. The first crab is in the way of it. *(6)*
+The first crab batters Nils with a claw. *(11)*
 
-Tilde counts their own breaths until the shaking stops. *(+20 grit)*
+Lowri stitches Nils up in three movements. It is not tidy, but it holds. *(+11)*
 
-Orla catches the first crab with the spear and something cracks. *(2, it shrugs)*
+Freya's little working dies before it reaches the first crab.
 
-Orla tries a second strike and nearly loses the spear.
+Nils gets the spear into the first crab and twists. *(1, it shrugs)*
 
-Greta casts dry. It comes out of them instead of the doses, and it hurts. *(4 of their own)*
+Nils's second strike finds the first crab. *(1, it shrugs)*
 
-Greta gets the figure wrong. The spell fizzles.
+Freya taps the first crab with a working the size of a candle flame. *(3)*
 
-The first crab scuttles sideways and its claw closes on nothing.
+The first crab pinches Lowri hard enough to bend their armor. *(8)*
 
-Tilde gets a dressing on Greta, tight and fast. *(+11)*
+Lowri binds their own arm with their teeth and one hand. *(+11)*
 
-Orla steps in and hits the first crab hard with the spear. *(1, it shrugs)*
+Nils finds an opening and hits the first crab in it. *(2, it shrugs)*
 
-Orla's second strike finds the first crab. *(2, it shrugs)*
+Nils does not wait to see what the first one did, and hits the first crab again. *(2, it shrugs)*
 
-Greta taps the first crab with a working the size of a candle flame. *(2)*
+Nils cracks the first crab open.
 
-The first crab snaps at Orla and misses.
+The last of them goes down. Somebody laughs, too loudly.
 
-"Breathe," Tilde tells Greta. "In, then out. That's all it is." *(+20 grit)*
+> Bram down · Nils 18/31 hp, grit 66 · Lowri 22/28 hp, grit 59 · Freya 15/19 hp, grit 61
 
-Orla lunges, slips on the wet stone and misses the first crab.
+Bram is alive. The chaplains at home will call it "burned hand", and Bram will call it worse. *(Burned hand)*
 
-Orla's second cut goes wide.
+Freya reads the labels on a college still and draws off two doses. *(+2 reagents)*
 
-Greta flicks a spark off the plain focus rod at the first crab. It stings, at least. *(2)*
+Lowri cleans and bandages Bram properly, the way they teach it at Saint Oda's. *(+16)*
 
-The first crab batters Orla with a claw. *(13)*
+They find an old college storeroom with its shelves fused into one glassy block.
 
-Tilde swings at the first crab and hits the wall.
+Bram finds a jar of reagent salts on the body of a college porter who came down here a long time ago. *(a jar of reagent salts)*
 
-Orla gets the spear into the first crab and twists. *(2, it shrugs)*
+Claws click on the stone. The crabs down here grew big on runoff, and they grew mean as well.
 
-Orla's second cut goes wide.
+Nils cuts the first crab somewhere that will keep bleeding. *(1, it shrugs)*
 
-The first crab batters Orla with a claw. *(12)*
+Bram batters the first crab with the flat of the arming sword. *(5, it hates that)*
 
-Clean through. Greta has done this before. *(9)*
+The first crab goes down and is slow getting up.
 
-"Hold still," Tilde tells Orla, and pours something on the cut that makes Orla swear. *(+11)*
+Lowri tries to push forward past the others and gets an elbow for it.
 
-Orla swings the spear into the first crab and keeps swinging. *(1, it shrugs)*
+The first crab is bleeding badly. *(3)*
 
-Orla's second strike finds the first crab. *(1, it shrugs)*
+The second crab snaps at Nils and misses.
 
-Orla cracks the first crab open.
+The air goes tight around Freya, and then the first crab takes the spell full on. *(8)*
 
-They win that one. Nobody says anything for a while.
+The first crab is bleeding badly. *(3)*
 
-> Ewan dead · Orla 17/31 hp, grit 43 · Tilde 34/34 hp, grit 45 · Greta 21/25 hp, grit 48
+The first crab closes a claw on Bram. *(16)*
 
-Without the lamps they walk with a hand on the shoulder in front. Greta counts steps to stay calm.
+Nils chops at the first crab and connects. *(2, it shrugs)*
 
-**Too many of them are hurt now. They turn round.**
+Nils tries a second strike and nearly loses the spear.
 
-They retrace their steps, quieter than they came.
+Freya lets go of the working. The first crab is in the way of it. *(7)*
 
-They take a side passage and leave the seeps to it.
+Bram slams a shoulder into the first crab. *(3, it hates that)*
 
-**They come up early and empty-handed. The others look at their faces and do not ask.**
+Lowri kneels by Bram and packs the wound while the fight goes on around them. *(+11)*
+
+The second crab scuttles sideways and its claw closes on nothing.
+
+Nils's blow lands on nothing.
+
+Nils's second strike finds the first crab. *(2, it shrugs)*
+
+The first crab closes a claw on Bram. *(15)*
+
+**Bram hits the stones and lies there.**
+
+The second crab batters Nils with a claw. *(11)*
+
+Lowri gets a pad of lint on Nils and leans on it until it stops. *(+11)*
+
+Freya flicks a small working at the first crab, the cheapest one they know. *(2)*
+
+The first crab's legs fold up under it.
+
+The seep spits at Lowri and the stone hisses where it lands.
+
+Nils steps in and hits the seep hard with the spear. *(3, it shrugs)*
+
+Nils cuts again, faster, and finds the seep. *(3, it shrugs)*
+
+Lowri gets the flanged mace into the seep and twists. *(8)*
+
+Freya flicks a spark at the seep and misses.
+
+The seep surges at Lowri, who gets out of the way.
+
+The second crab pinches Nils hard enough to bend their armor. *(11)*
+
+Nils puts their weight behind the spear, and the seep takes all of it. *(3, it shrugs)*
+
+Nils follows through and opens the seep up a second time. *(3, it shrugs)*
+
+Freya flicks a small working at the seep, the cheapest one they know. *(6)*
+
+The second crab batters Nils with a claw. *(9)*
+
+**They lose Nils to a crab. Somebody keeps pressing on the wound long after there is any point.**
+
+> Bram down · Nils dead · Lowri 22/28 hp, grit 34 · Freya 15/19 hp, grit 38
+
+Lowri says the Saint's words to themselves, and means them a little. *(+18 grit)*
+
+The seep washes over Freya's boots, and the leather starts to smoke. *(12)*
+
+"Hold still," Lowri tells Freya, and pours something on the cut that makes Freya swear. *(+11)*
+
+Freya flicks a spark off the plain focus rod at the seep. It stings, at least. *(6)*
+
+Freya breaks the seep apart, and the pieces crust over in the air.
+
+> Bram down · Nils dead · Lowri 22/28 hp, grit 29 · Freya 14/19 hp, grit 15
+
+The second crab closes a claw on Lowri. *(15)*
+
+Lowri packs their own wound and keeps going. *(+11)*
+
+Freya pays for the next working in blood. Their lips have gone blue. *(4 of their own)*
+
+Freya times it perfectly and the second crab pays for it. *(14)*
+
+The second crab snaps at Lowri and misses.
+
+The second crab pinches Lowri hard enough to bend their armor. *(8)*
+
+Freya has run out of reagents. They spend their own blood instead, and go grey. *(4 of their own)*
+
+Freya opens a hand and the focus spits at the second crab. *(7)*
+
+Lowri gets a dressing on Freya, tight and fast. *(+11)*
+
+The second crab closes a claw on Freya. *(11)*
+
+Freya has nothing better left and throws a spark at the second crab anyway. *(1)*
+
+Lowri stitches Freya up in three movements. It is not tidy, but it holds. *(+11)*
+
+Freya's little working dies before it reaches the second crab.
+
+The second crab batters Lowri with a claw. *(14)*
+
+**Lowri goes down and does not get up.**
+
+The second crab snaps at Freya and misses.
+
+Freya pinches out a little working at the second crab. It is not much, but it lands. *(1)*
+
+Freya taps the second crab with a working the size of a candle flame. *(1)*
+
+The second crab pinches Freya hard enough to bend their armor. *(10)*
+
+Freya flicks a spark at the second crab and misses.
+
+The second crab scuttles sideways and its claw closes on nothing.
+
+The second crab scuttles sideways and its claw closes on nothing.
+
+Freya flicks a spark at the second crab and misses.
+
+The second crab has had enough and backs off into the dark.
+
+It goes quiet again, apart from something dripping.
+
+> Bram down · Nils dead · Lowri down · Freya 7/19 hp, grit 3
+
+Bram gets up on the second try.
+
+Lowri lives. At Saint Oda's they will write "cracked ribs" on a chart and tell Lowri it is for good. *(Cracked ribs)*
+
+**Freya sits down against the wall and will not get up.**
+
+They stop and eat cold bread and hard cheese. Bram says it is the best meal of their life. *(1 food)*
+
+> Bram 1/34 hp, grit 49 · Nils dead · Lowri 1/28 hp, grit 24 · Freya shaken
+
+Lowri sits Bram down on a step and does the job properly. *(+16)*
+
+They stop long enough to bandage Lowri. *(+16)*
+
+Lowri takes a bandage to Freya and makes it go twice as far as anyone else would. *(+12)*
+
+**Bram looks at the state of everyone and says it's time. Nobody argues.**
+
+The climb back up is long, and they keep looking behind them.
+
+**They are home, which is the main thing.**
 
 ## What came home
 
-Outcome: **retreated**, 13 of 14 rooms.
-Loot: 2 pellam silver, 2 assay seals, 2 reagent salts, 1 college glass, worth 178 crowns, plus 47 in coin.
-Renown: Fought off a wandering pack (+1 renown); First to reach the Buried Streets (+2 renown); First to reach the College Sink (+4 renown).
+Outcome: **retreated**, 11 of 14 rooms.
+Loot: 1 eel oil, 1 college glass, 2 reagent salts, worth 76 crowns, plus 16 in coin.
+Renown: Fought off 2 wandering packs (+2 renown); Brought 2 fallen members home (+2 renown); First to reach the Buried Streets (+2 renown); First to reach the College Sink (+4 renown).
 
-- **Ewan Ludd**: died (a crab).
-- **Orla Tanner**: 17 HP, grit 33, +45 experience; new habit: rat_hater.
-- **Tilde Eskett**: 34 HP, grit 38, +45 experience; new habit: rat_fear.
-- **Greta Greave**: 21 HP, grit 39, +45 experience; new habit: hates_dark.
+- **Bram Joss**: 17 HP, grit 52, +41 experience; new scar: burned_hand.
+- **Nils Lusk**: died (a crab).
+- **Lowri Gant**: 17 HP, grit 27, +41 experience; new scar: cracked_ribs.
+- **Freya Ingram**: 19 HP, grit 3, +41 experience.

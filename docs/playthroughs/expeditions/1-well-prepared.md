@@ -21,367 +21,347 @@ They lower the packs on a rope before they climb down after them. Agnes checks t
 
 ### The Culverts begin under the chandler's cellar. Everything the Lower Town throws away ends up down here, sooner or later.
 
-Something squeals, and then everything squeals. Rats.
+Something squeals, and then everything squeals. It is rats.
 
 The rats get under Hesper's guard and into their boots. *(5)*
 
 The rats break around Cass and come back together behind them.
 
-Hesper steps in and hits the first knot of rats hard with the spear. *(5)*
+Hesper finds an opening and hits the first knot of rats in it. *(5)*
 
-Hesper's second strike finds the first knot of rats. *(6)*
+Hesper goes clean through the first knot of rats and does not look surprised about it. *(9)*
 
-The first knot of rats breaks up and flees down the pipes.
+Hesper stamps on the slowest of the first knot of rats, and the others decide they have business elsewhere.
 
-> Cass 37/37 hp, grit 73 · Hesper 29/34 hp, grit 84 · Osric 31/31 hp, grit 75 · Agnes 22/22 hp, grit 83
+Osric can't reach anything from back here and shouts advice instead.
 
-Osric tries to push forward past the others and gets an elbow for it.
+The grubber cracks Cass across the head with a shovel. *(8)*
 
-The grubber swings a pick into Cass. *(6)*
+Agnes flicks a small working at the grubber, the cheapest one they know. *(5)*
+
+Cass hits the grubber so hard that the others stop for a moment to look. *(9)*
+
+Hesper brings the spear down on the grubber. *(5)*
+
+Hesper puts the grubber down for good.
+
+> Cass 29/37 hp, grit 76 · Hesper 29/34 hp, grit 89 · Osric 31/31 hp, grit 75 · Agnes 22/22 hp, grit 83
+
+Hesper does not wait to see what the first one did, and hits the second knot of rats again. *(7)*
+
+The second knot of rats goes for Cass's hands. *(6)*
+
+Osric waits behind the others for an opening that never comes.
 
 Agnes flicks a spark at the second knot of rats and misses.
 
-Cass swings at the grubber and hits the wall.
+Cass times it perfectly and the second knot of rats pays for it. *(16, it hates that)*
 
-The second knot of rats goes for Hesper's hands. *(7)*
+Cass kills enough of the second knot of rats that the rest give up and scatter.
 
-Hesper swings the spear into the grubber and keeps swinging. *(6)*
+When it is done, somebody's hands will not stop shaking, and nobody mentions it.
 
-And again: Hesper catches the grubber on the way back. *(4)*
+Pale shapes come down out of the dark toward the lamps. They are tallow moths, and they want the oil.
 
-Osric is too far back to hit anything, and knows it.
+A moth lands on a flask and drinks through the cork. They lose some oil to the swarm. *(−1 oil)*
 
-Agnes's little working dies before it reaches the grubber.
+The second cloud of moths smothers Cass's lamp hand. *(1)*
 
-Cass steps inside the grubber's swing.
+Moths get into Cass's mouth. *(1)*
 
-Cass gets the blow they were waiting for. The grubber feels all of it. *(11)*
+Hesper catches the first cloud of moths with the spear and something cracks. *(7)*
 
-Cass puts the grubber down for good.
+The first cloud of moths falls apart in a shower of pale powder.
 
-> Cass 31/37 hp, grit 76 · Hesper 22/34 hp, grit 85 · Osric 31/31 hp, grit 75 · Agnes 22/22 hp, grit 83
+Hesper's second strike finds the second cloud of moths. *(6)*
 
-Hesper brings the spear down on the second knot of rats. *(7)*
+Rats bite Cass in several places at once. *(7)*
 
-Hesper turns the second cut into the second knot of rats. *(6)*
+Cass shoves the second cloud of moths back into the dark. *(3, it shrugs)*
 
-Hesper gets the last of that knot of rats, and the rest scatter.
+Cass swats the last of the second cloud of moths out of the air.
 
-They win that one. Nobody says anything for a while.
+Osric gets a dressing on Cass, tight and fast. *(+10)*
 
-> Cass 31/37 hp, grit 78 · Hesper 22/34 hp, grit 87 · Osric 31/31 hp, grit 75 · Agnes 22/22 hp, grit 83
+Agnes's little working dies before it reaches the knot of rats.
 
-"This is ours," says a grubber with no front teeth. There are more behind them.
+Hesper gets the spear into the knot of rats and twists. *(5)*
 
-Hesper cuts the grubber somewhere that will keep bleeding. *(7)*
+Hesper follows through and opens the knot of rats up a second time. *(5)*
 
-Hesper kicks the rats away.
+The knot of rats swarms up Hesper's legs, biting. *(7)*
 
-The grubber is bleeding badly. *(3)*
+Cass steps in and hits the knot of rats hard with the arming sword. *(10)*
 
-The grubber swings the pick and buries it in the wall.
+The knot of rats breaks up and flees down the pipes.
 
-Cass shoves the grubber back into the dark. *(5)*
+> Cass 24/37 hp, grit 79 · Hesper 22/34 hp, grit 90 · Osric 31/31 hp, grit 73 · Agnes 22/22 hp, grit 81
 
-Agnes cracks two doses together and the plain working goes off across the whole front. *(2 doses)*
-
-Agnes gets the figure wrong. The spell fizzles.
-
-Agnes opens a hand and the focus spits at the first knot of rats. *(6)*
-
-The air goes tight around Agnes, and then the second knot of rats takes the spell full on. *(7)*
-
-Osric waits behind the others for an opening that never comes.
-
-Rats bite Hesper in several places at once. *(5)*
-
-Hesper catches the grubber with the spear and something cracks. *(4)*
-
-The grubber goes down and stays down.
-
-> Cass 31/37 hp, grit 77 · Hesper 17/34 hp, grit 85 · Osric 31/31 hp, grit 74 · Agnes 22/22 hp, grit 82
-
-Hesper turns the second cut into the second knot of rats. *(7)*
-
-Hesper gets the last of that knot of rats, and the rest scatter.
-
-Cass misses, and says something the chaplains would not repeat.
-
-Osric can't reach anything from back here and shouts advice instead.
-
-Agnes taps the first knot of rats with a working the size of a candle flame. *(6)*
-
-The first knot of rats breaks up and flees down the pipes.
-
-> Cass 31/37 hp, grit 77 · Hesper 17/34 hp, grit 89 · Osric 31/31 hp, grit 74 · Agnes 22/22 hp, grit 82
-
-It is over. They stand there breathing hard and counting each other.
-
-> Cass 31/37 hp, grit 77 · Hesper 17/34 hp, grit 89 · Osric 31/31 hp, grit 74 · Agnes 22/22 hp, grit 84
+They wipe the blades on whatever is nearest and count the bandages.
 
 It happens before anyone can shout.
 
-Hesper catches a wire. The bolt goes in somewhere unpleasant. *(9)*
+A grubber crossbow fires from the wall and the bolt hits Cass. *(5)*
 
-Osric cleans and bandages Hesper properly, the way they teach it at Saint Oda's. *(+16)*
+They try to wait it out, and the tallow moths find them anyway.
 
-A collapsed coal store, where the Lower Town dumped its rubbish for a century.
+A soft noise fills the drain, the sound of a great deal of paper being folded. Moths as wide as a hand come out of it.
 
-Under a loose flagstone there is 2 pieces of college glass. Somebody hid it here and never came back for it. *(2 pieces of college glass)*
+The moths go straight for the oil flasks and get into them before anyone can stop it. *(−2 oil)*
 
-They stop and eat cold bread and hard cheese. Hesper says it is the best meal of their life. *(1 food)*
+**Nobody was watching that side. The cloud of moths is already among them.**
 
-> Cass 31/37 hp, grit 70 · Hesper 24/34 hp, grit 81 · Osric 31/31 hp, grit 67 · Agnes 22/22 hp, grit 77
+The cloud of moths beats against Cass's face, all powder and wings. *(3)*
 
-**They make camp in a dry cellar where a grate lets a little air down.**
+Hesper swings at the cloud of moths and hits the wall.
 
-> Cass 31/37 hp, grit 73 · Hesper 24/34 hp, grit 84 · Osric 31/31 hp, grit 70 · Agnes 22/22 hp, grit 80
+Hesper comes back the other way and catches the cloud of moths. *(6)*
 
-Hot food and the chaplain's rounds. By morning they are in better shape than they deserve. *(1 food)*
+Cass lunges, slips on the wet stone and misses the cloud of moths.
 
-> Cass 37/37 hp, grit 89 · Hesper 34/34 hp, grit 100 · Osric 31/31 hp, grit 86 · Agnes 22/22 hp, grit 96
-
-### The drain opens out into a street. It has a gutter and a name painted on a corner, and Varrow's foundations sit on its roofs like a lid.
-
-They light the lamps. Pellam is not improved by being able to see it.
-
-Something big snorts in the dark ahead. A pale hog, blind and the size of a pony, has smelled them.
-
-Hesper stamps, and the rats scatter for a moment.
-
-The second knot of rats waits behind the others for a gap.
-
-Hesper slashes at the hog and leaves it bleeding. *(10, it hates that)*
-
-Osric can't reach anything from back here and shouts advice instead.
-
-The hog leaves a trail behind it now. *(3)*
-
-Cass throws themselves sideways and the hog thunders past.
-
-Cass charges the hog and finds only air.
-
-Agnes lets go of the working. The hog is in the way of it. *(10)*
-
-Hesper's blow lands on nothing.
-
-And again: Hesper catches the hog on the way back. *(9, it hates that)*
-
-The first knot of rats swarms up Cass's legs, biting. *(4)*
-
-The hog is bleeding badly. *(3)*
-
-The hog tramples Cass. *(24)*
-
-"Hold still," Osric tells Cass, and pours something on the cut that makes Cass swear. *(+10)*
-
-Agnes's little working dies before it reaches the hog.
-
-Cass chops at the hog and connects. *(10)*
-
-Cass gets the hog at last. It falls over and takes a while to finish.
-
-> Cass 19/37 hp, grit 80 · Hesper 34/34 hp, grit 91 · Osric 31/31 hp, grit 78 · Agnes 22/22 hp, grit 88
-
-The first knot of rats swarms up Cass's legs, biting. *(5)*
-
-Hesper kicks the rats away.
-
-Hesper finds the weak place on the first knot of rats, and it goes in deep. *(12)*
-
-Osric kneels by Cass and packs the wound while the fight goes on around them. *(+10)*
-
-Agnes flicks a spark off the plain focus rod at the first knot of rats. It stings, at least. *(7)*
-
-Agnes gets the last of that knot of rats, and the rest scatter.
-
-The second knot of rats twists away from the arming sword.
-
-The rats get Cass by the throat, and it takes two people to pull them off. *(15)*
-
-Hesper goes low and opens the second knot of rats behind the knee. *(7)*
-
-Cass gets the arming sword into the second knot of rats and twists. *(9)*
-
-The second knot of rats breaks up and flees down the pipes.
-
-> Cass 9/37 hp, grit 75 · Hesper 34/34 hp, grit 94 · Osric 31/31 hp, grit 78 · Agnes 22/22 hp, grit 90
-
-The last of them goes down. Somebody laughs, too loudly.
-
-> Cass 9/37 hp, grit 77 · Hesper 34/34 hp, grit 94 · Osric 31/31 hp, grit 78 · Agnes 22/22 hp, grit 90
-
-Osric sits Cass down on a step and does the job properly. *(+16)*
-
-A square with a dry fountain. Somebody has stacked bones in the basin, very neatly, by size.
-
- brushes a thread, and the room starts moving.
-
-Hesper lunges, slips on the wet stone and misses the first spider.
-
-Hesper's second strike finds the second spider. *(5)*
-
-The first spider's fangs go through Cass's sleeve. *(5)*
-
-Hesper gets an arm up just in time.
-
-Cass sways. The bite is getting worse, not better. *(3)*
-
-Cass steps in and hits the second spider hard with the arming sword. *(11)*
-
-Agnes flicks a small working at the second spider, the cheapest one they know. *(7)*
-
-Agnes splits the second spider open and the smell is terrible.
-
-Osric gets a dressing on Cass, tight and fast. *(+10)*
-
-The first spider sinks both fangs into Cass and holds on. *(18)*
-
-Hesper swings the spear into the first spider and keeps swinging. *(5)*
-
-Hesper turns the second cut into the first spider. *(7)*
-
-The spider's venom is still working in Cass. *(3)*
-
-Cass's blow lands on nothing.
-
-Agnes flicks a spark at the first spider and misses.
+Agnes flicks a spark at the cloud of moths and misses.
 
 Osric stitches Cass up in three movements. It is not tidy, but it holds. *(+10)*
-
-The first spider strikes at Cass and hits the floor.
-
-Hesper gets the spear into the first spider and twists. *(5)*
-
-And again: Hesper catches the first spider on the way back. *(6)*
-
-The first spider curls its legs in and dies.
-
-That is the end of it. Everybody checks their hands for missing fingers.
-
-> Cass 16/37 hp, grit 62 · Hesper 34/34 hp, grit 86 · Osric 31/31 hp, grit 68 · Agnes 22/22 hp, grit 82
-
-They eat standing up. Hesper shares an onion, which is generous and unwise. *(1 food)*
-
-> Cass 16/37 hp, grit 59 · Hesper 34/34 hp, grit 83 · Osric 31/31 hp, grit 65 · Agnes 22/22 hp, grit 79
-
-Somebody's armor clinks. The grubbers turn round.
-
-A lamp goes out ahead of them, then three people with picks step into the light. Grubbers, and they are not here to talk.
-
-**Nobody was watching that side. The first grubber is already among them.**
-
-The first grubber lunges at Cass and trips over their own pack.
-
-The second grubber swings the pick and buries it in the wall.
-
-Hesper slashes at the first grubber and leaves it bleeding. *(5)*
-
-Clean through. Cass has done this before. *(15)*
-
-Agnes's little working dies before it reaches the first grubber.
-
-Osric gets a dressing on Cass, tight and fast. *(+10)*
-
-Hesper catches the first grubber with the spear and something cracks. *(4)*
-
-The first grubber drops the pick and does not get up.
-
-Hesper hits the second grubber so hard that the others stop for a moment to look. *(11)*
-
-Cass swings at the second grubber and hits the wall.
-
-Agnes flicks a spark off the plain focus rod at the second grubber. It stings, at least. *(5)*
-
-The second grubber hits Cass with a length of chain. *(12)*
-
-The second grubber grabs piece of college glass out of a pack and runs off with it.
-
-Osric stitches Cass up in three movements. It is not tidy, but it holds. *(+10)*
-
-Hesper brings the spear down on the second grubber. *(4)*
-
-Hesper's second strike finds the second grubber. *(6)*
-
-The second grubber goes down and stays down.
-
-> Cass 24/37 hp, grit 65 · Hesper 34/34 hp, grit 91 · Osric 31/31 hp, grit 68 · Agnes 22/22 hp, grit 82
-
-Quiet again. The water goes on running.
-
-> Cass 24/37 hp, grit 65 · Hesper 34/34 hp, grit 93 · Osric 31/31 hp, grit 68 · Agnes 22/22 hp, grit 82
-
-They find the counting house. The ledgers are still on the desks, and the desks are not empty.
-
-Pale shapes come down out of the dark toward the lamps. Tallow moths, and they want the oil.
-
-The moths go straight for the oil flasks and get into two of them before anyone can stop it. *(−1 oil)*
-
-The moths cover Osric entirely for a moment, and Osric comes out of it bleeding from a hundred small cuts. *(6)*
-
-Hesper lunges, slips on the wet stone and misses the first cloud of moths.
-
-Hesper tries a second strike and nearly loses the spear.
-
-The second cloud of moths smothers Cass's lamp hand. *(5)*
-
-The spider pushes at the ones in front and cannot get through.
-
-Agnes flicks a spark at the second cloud of moths and misses.
-
-Osric waits behind the others for an opening that never comes.
-
-Cass chops at the second cloud of moths and connects. *(11)*
-
-The second cloud of moths falls apart in a shower of pale powder.
 
 Cass swats through the moths.
 
-The spider bites Cass, and the bite goes numb straight away. *(7)*
+Hesper swings the spear into the cloud of moths and keeps swinging. *(7)*
 
-Hesper swings the spear into the first cloud of moths and keeps swinging. *(7)*
+Hesper swats the last of the cloud of moths out of the air.
 
-Hesper's second cut goes wide.
+It goes quiet again, apart from something dripping.
 
-Cass is sweating and their hands have gone numb. *(3)*
+> Cass 26/37 hp, grit 72 · Hesper 22/34 hp, grit 82 · Osric 31/31 hp, grit 64 · Agnes 22/22 hp, grit 72
 
-Cass catches the first cloud of moths with the arming sword and something cracks. *(11)*
+They come into a smuggler's cellar under the old fish market. It is mostly empty.
 
-Cass swats the last of the first cloud of moths out of the air.
+Cass fishes a piece of college glass out of the water with a bent nail on a stick. *(a piece of college glass)*
 
-Agnes taps the spider with a working the size of a candle flame. *(6)*
+They eat sitting on a step with their boots in the wet. Nobody talks much. *(1 food)*
+
+> Cass 26/37 hp, grit 73 · Hesper 22/34 hp, grit 83 · Osric 31/31 hp, grit 65 · Agnes 22/22 hp, grit 73
+
+**They make camp in a dry cellar where a grate lets a little air down.**
+
+> Cass 26/37 hp, grit 76 · Hesper 22/34 hp, grit 86 · Osric 31/31 hp, grit 68 · Agnes 22/22 hp, grit 76
+
+There is hot food, and the chaplain goes round everyone with a lamp and a needle. By morning they are in better shape than they deserve. *(1 food)*
+
+> Cass 37/37 hp, grit 92 · Hesper 34/34 hp, grit 100 · Osric 31/31 hp, grit 84 · Agnes 22/22 hp, grit 92
+
+### The drain opens out into a street. It has a gutter and a name painted on a corner, and Varrow's foundations sit on its roofs like a lid.
+
+They light the lamps, and the flames burn a little blue down here. Nobody likes it.
+
+A lamp goes out ahead of them, and then people with picks step into the light. They are grubbers, and they are not here to talk.
+
+Hesper chops at the second grubber and connects. *(4)*
+
+Hesper cuts again, faster, and finds the second grubber. *(6)*
+
+Cass puts their weight behind the arming sword, and the second grubber takes all of it. *(10)*
+
+The first grubber swings the pick and buries it in the wall.
+
+The second grubber swings a pick into Cass. *(9)*
+
+Osric tries to push forward past the others and gets an elbow for it.
+
+Agnes spends two doses at once. The plain burst fills the room. *(2 doses)*
+
+The air goes tight around Agnes, and then the first grubber takes the spell full on. *(6)*
+
+Agnes casts, and the working comes apart in the wet air.
+
+Agnes's spell splashes off the stones beside the spider.
+
+Cass misses, and says something the chaplains would not repeat.
+
+Hesper brings the spear down on the second grubber. *(5)*
+
+The second grubber goes down and stays down.
+
+> Cass 28/37 hp, grit 85 · Hesper 34/34 hp, grit 93 · Osric 31/31 hp, grit 77 · Agnes 22/22 hp, grit 85
+
+Hesper follows through and opens the first grubber up a second time. *(6)*
+
+Agnes gets the figure wrong. The spell fizzles.
+
+The first grubber hits Cass with a length of chain. *(7)*
+
+Osric is too far back to hit anything, and knows it.
+
+Hesper swings the spear into the first grubber and keeps swinging. *(6)*
+
+Hesper comes back the other way and catches the first grubber. *(5)*
+
+The first grubber drops the pick and does not get up.
+
+The spider drops onto Hesper from above. *(6)*
+
+Agnes taps the spider with a working the size of a candle flame. *(7)*
+
+The spider twists away from the arming sword.
+
+Osric waits behind the others for an opening that never comes.
+
+Hesper is sick against the wall and wipes their mouth and carries on. *(3)*
+
+Hesper's blow lands on nothing.
+
+Hesper does not wait to see what the first one did, and hits the spider again. *(5)*
+
+The spider bites Cass, and the bite goes numb straight away. *(8)*
+
+Cass sways. The bite has gone purple and hot. *(3)*
+
+Cass's blow lands on nothing.
+
+Agnes's little working dies before it reaches the spider.
 
 Osric kneels by Cass and packs the wound while the fight goes on around them. *(+10)*
 
-The spider drops onto Cass from above. *(11)*
+Cass gets an arm up just in time.
 
-Hesper steps in and hits the spider hard with the spear. *(6)*
+Hesper's arm has swollen up tight inside the sleeve. *(3)*
 
-Hesper's second cut goes wide.
-
-Cass sways. The bite is getting worse, not better. *(3)*
-
-Cass slams a shoulder into the spider. *(6)*
+Hesper catches the spider with the spear and something cracks. *(6)*
 
 The spider curls its legs in and dies.
 
 They win that one. Nobody says anything for a while.
 
-> Cass 5/37 hp, grit 67 · Hesper 34/34 hp, grit 89 · Osric 25/31 hp, grit 59 · Agnes 22/22 hp, grit 78
+> Cass 20/37 hp, grit 85 · Hesper 22/34 hp, grit 99 · Osric 31/31 hp, grit 77 · Agnes 22/22 hp, grit 85
 
-Pellam's counting house kept 4 purses of Pellam coin for two hundred years, for exactly this moment. *(4 purses of Pellam coin)*
+They go along an arcade of shops with the shutters still down. The silt has come in through the cracks and filled them to the counters.
 
-The way back up feels shorter. It never is.
+Something big snorts in the dark ahead. A pale hog, blind and the size of a pony, has smelled them.
 
-**They come back up out of Pellam. The porters at the top count them, and the count comes out right.**
+Hesper misses, and says something the chaplains would not repeat.
+
+Hesper cuts again, faster, and finds the hog. *(6, it hates that)*
+
+Cass throws themselves sideways and the hog thunders past.
+
+Cass chops at the hog and connects. *(9)*
+
+Osric tries to push forward past the others and gets an elbow for it.
+
+Agnes has run out of reagents. They spend their own blood instead, and go grey. *(4 of their own)*
+
+Agnes lets go of the working. The hog is in the way of it. *(8)*
+
+Hesper goes low and opens a long cut in the hog. *(7, it hates that)*
+
+The hog leaves a trail behind it now. *(3)*
+
+The hog gores Cass with a yellow tusk. *(16)*
+
+Cass lunges, slips on the wet stone and misses the hog.
+
+Agnes pinches out a little working at the hog. It is not much, but it lands. *(5)*
+
+Agnes gets the hog at last. It falls over and takes a while to finish.
+
+> Cass 4/37 hp, grit 74 · Hesper 22/34 hp, grit 87 · Osric 31/31 hp, grit 66 · Agnes 18/22 hp, grit 71
+
+The last of them goes down. Somebody laughs, too loudly.
+
+> Cass 4/37 hp, grit 74 · Hesper 22/34 hp, grit 87 · Osric 31/31 hp, grit 66 · Agnes 18/22 hp, grit 73
+
+**The lamps go out one by one. Nobody packed enough oil, and now everyone knows it.**
+
+They stop and eat cold bread and hard cheese. Cass says it is the best meal of their life. *(1 food)*
+
+> Cass 4/37 hp, grit 67 · Hesper 22/34 hp, grit 80 · Osric 31/31 hp, grit 59 · Agnes 18/22 hp, grit 66
+
+Osric sits Cass down on a step and does the job properly. *(+16)*
+
+The counting house of Pellam stands at the bottom of the street, with its doors open and something moving inside.
+
+Somebody brushes a thread, and the room starts moving.
+
+Hesper goes in low, and the first spider is not there.
+
+The second spider strikes at Hesper and hits the floor.
+
+Cass charges the second spider and finds only air.
+
+The first spider's fangs go through Cass's sleeve. *(10)*
+
+Agnes flicks a spark off the plain focus rod at the second spider. It stings, at least. *(7)*
+
+Osric gets a pad of lint on Cass and leans on it until it stops. *(+10)*
+
+The second spider sinks both fangs into Hesper and holds on. *(15)*
+
+The first spider strikes at Cass and hits the floor.
+
+The spider's venom is still working in Hesper. *(3)*
+
+Hesper swings at the second spider and hits the wall.
+
+Hesper goes for a second cut, and the second spider is ready for that one.
+
+Cass is sweating and their hands have gone numb. *(3)*
+
+The second spider gives ground, and Cass stumbles past it.
+
+Agnes flicks a spark at the second spider and misses.
+
+"Hold still," Osric tells Hesper, and pours something on the cut that makes Hesper swear. *(+10)*
+
+The first spider's fangs go through Hesper's sleeve. *(7)*
+
+The second spider bites Cass, and the bite goes numb straight away. *(10)*
+
+Hesper sways. The bite has gone purple and hot. *(3)*
+
+Hesper finds an opening and hits the second spider in it. *(6)*
+
+Hesper tries a second strike and nearly loses the spear.
+
+Cass's arm has swollen up tight inside the sleeve. *(3)*
+
+Cass slams a shoulder into the second spider. *(5)*
+
+Cass splits the second spider open and the smell is terrible.
+
+Osric drags Cass back a yard and ties off the worst of the bleeding. *(+10)*
+
+Agnes's little working dies before it reaches the first spider.
+
+The spider's venom is still working in Hesper. *(3)*
+
+Hesper puts their weight behind the spear, and the first spider takes all of it. *(7)*
+
+Hesper's second strike finds the first spider. *(7)*
+
+The first spider drops onto Cass from above. *(7)*
+
+Cass is sick against the wall and wipes their mouth and carries on. *(3)*
+
+Cass steps in and hits the first spider hard with the arming sword. *(10)*
+
+The first spider curls its legs in and dies.
+
+It is over. They stand there breathing hard and counting each other.
+
+> Cass 4/37 hp, grit 70 · Hesper 1/34 hp, grit 73 · Osric 31/31 hp, grit 58 · Agnes 18/22 hp, grit 65
+
+The counting house vault is still locked. Hesper gets it open and finds 5 pieces of college glass inside. *(5 pieces of college glass)*
+
+The way back up feels shorter than the way down, which it is not.
+
+**Two weeks after they went down, the squad climbs out into daylight. They stand in the street blinking.**
 
 ## What came home
 
 Outcome: **complete**, 9 of 9 rooms.
-Loot: 1 college glass, 4 pellam coin, worth 50 crowns, plus 78 in coin.
+Loot: 6 college glass, worth 84 crowns, plus 74 in coin.
 Renown: Completed a medium expedition (+3 renown); Fought off a wandering pack (+1 renown); First to reach the Buried Streets (+2 renown).
 
-- **Cass Holloway**: 5 HP, grit 69, +40 experience.
-- **Hesper Mercer**: 34 HP, grit 91, +40 experience; new habit: hums.
-- **Osric Brack**: 25 HP, grit 61, +40 experience.
-- **Agnes Stroud**: 22 HP, grit 80, +40 experience.
+- **Cass Holloway**: 4 HP, grit 72, +38 experience.
+- **Hesper Mercer**: 1 HP, grit 75, +38 experience; new habit: rat_hater.
+- **Osric Brack**: 31 HP, grit 60, +38 experience.
+- **Agnes Stroud**: 18 HP, grit 67, +38 experience.

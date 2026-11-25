@@ -72,8 +72,8 @@ export function HallTab() {
 
       <Section title="Rest">
         <p className="small">The squad's wounds heal and their nerve comes back a little each week at home. Wages are paid whether anyone goes down or not.</p>
-        <HoldButton onConfirm={rest} hint="Hold to rest the guild for a week." className="x-rest">
-          <Icon name="rest" size={18} /> Rest a week
+        <HoldButton onConfirm={rest} hint="Hold to rest the guild for a week." className="btn x-rest">
+          <Icon name="rest" size={18} /> Hold to rest a week
         </HoldButton>
       </Section>
 

@@ -100,7 +100,11 @@ export function ResultScreen() {
           <button className="btn ghost block" onClick={() => useX.getState().setView('log', true)}>
             Read the log again
           </button>
-          <button className="btn primary block" onClick={() => useX.getState().setView('guild')}>
+          <button className="btn primary block" onClick={() => {
+              useX.getState().setTab('hall');
+              useX.getState().setView('guild');
+            }}
+          >
             Back to the hall
           </button>
         </div>

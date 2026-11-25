@@ -74,7 +74,7 @@ export function MemberSheetX({ id }: { id: string }) {
         })}
         {picking && (
           <div className="x-picker">
-            <p className="small muted">From the store:</p>
+            <p className="small muted">From the store, for the {SLOTS.find((x) => x.id === picking)!.name.toLowerCase()}:</p>
             {options.length === 0 && <p className="empty">Nothing in the store for that slot. The market sells more.</p>}
             {options.map((it) => (
               <button

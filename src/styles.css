@@ -3835,14 +3835,15 @@ details summary {
 }
 .x-vitals {
   display: flex;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 2px 10px;
   width: 100%;
 }
 .x-vital {
   display: flex;
   align-items: center;
   gap: 5px;
-  flex: 1;
+  flex: 1 1 110px;
   min-width: 0;
   font-size: var(--fs-s);
 }
@@ -3896,9 +3897,14 @@ details summary {
   align-items: baseline;
   gap: 0 8px;
 }
+.x-task {
+  align-self: flex-start;
+  width: 100%;
+}
 .x-task .seg button {
   font-size: var(--fs-s);
   padding: 4px 8px;
+  min-height: 38px;
 }
 .x-recruit .btn {
   align-self: center;
@@ -4049,6 +4055,7 @@ details summary {
 }
 .x-rank-moves .btn {
   min-height: 0;
+  min-width: 38px;
   flex: 1;
   padding: 2px 9px;
 }
@@ -4224,6 +4231,7 @@ details summary {
 .x-foe .x-bar {
   width: 100%;
   flex: none;
+  margin-top: auto;
 }
 .x-foe-name {
   font-size: var(--fs-xs);

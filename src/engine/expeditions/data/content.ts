@@ -41,7 +41,7 @@ export const DELVER_PROFS: Record<DelverProf, DelverProfDef> = {
   skirmisher: {
     id: 'skirmisher',
     name: 'Skirmisher',
-    blurb: 'Quick and close. Two light cuts where a Vanguard makes one heavy one.',
+    blurb: 'Fights quick and close, with two light cuts where a Vanguard makes one heavy one.',
     base: { might: 5, finesse: 7, wits: 4, resolve: 4 },
     wage: 8,
     gear: ['spear', 'gambeson'],
@@ -98,7 +98,7 @@ export const DELVER_PROFS: Record<DelverProf, DelverProfDef> = {
   scout: {
     id: 'scout',
     name: 'Scout',
-    blurb: 'Sees the tripwire, hears the eel, finds the loose brick with the money behind it.',
+    blurb: 'Sees the tripwire before anyone steps on it, and finds the loose brick with the money behind it.',
     base: { might: 4, finesse: 6, wits: 6, resolve: 4 },
     wage: 8,
     gear: ['dagger', 'leather_jack'],
@@ -135,7 +135,7 @@ const gearList: GearDef[] = [
   // armor
   { id: 'padded_robes', name: 'Padded Robes', slot: 'armor', price: 10, protection: 1, bulk: 0, description: 'Barely armor at all.' },
   { id: 'gambeson', name: 'Gambeson', slot: 'armor', price: 18, protection: 2, bulk: 0, description: 'Quilted linen. Light and quiet.' },
-  { id: 'leather_jack', name: 'Leather Jack', slot: 'armor', price: 20, protection: 2, bulk: 0, description: 'Boiled leather. Flexible and silent.' },
+  { id: 'leather_jack', name: 'Leather Jack', slot: 'armor', price: 20, protection: 2, bulk: 0, description: 'Boiled leather. It bends where you need it to and does not creak.' },
   { id: 'mail_hauberk', name: 'Mail Hauberk', slot: 'armor', price: 55, protection: 4, bulk: 6, description: 'Riveted mail. It jingles.' },
   { id: 'brigandine', name: 'Brigandine', slot: 'armor', price: 85, protection: 5, bulk: 3, minRenown: 6, description: 'Plates riveted inside cloth. Quieter than mail.' },
   { id: 'plate_harness', name: 'Plate Harness', slot: 'armor', price: 150, protection: 7, bulk: 12, minRenown: 14, description: 'Near-proof against teeth. Nobody sneaks anywhere in it.' },
@@ -213,7 +213,7 @@ export const MONSTERS: Record<MonsterId, MonsterDef> = {
   grubber: { id: 'grubber', one: 'grubber', name: 'Grubber', plural: 'grubbers', zone: 'culverts', hp: 15, acc: 72, dodge: 10, prot: 1, dmg: [4, 7], speed: 5, weak: [], resist: [], dread: 0, special: 'thief', xp: 2, coin: 6, text: 'People who live down here and dig for what Pellam left behind. They do not like company.' },
   eel: { id: 'eel', one: 'eel', name: 'Sink eel', plural: 'sink eels', zone: 'streets', hp: 22, acc: 76, dodge: 18, prot: 1, dmg: [5, 9], speed: 7, weak: ['storm', 'frost'], resist: [], dread: 4, special: 'ambush', xp: 3, loot: { good: 'eel_oil', chance: 0.7 }, text: 'A grey eel as long as a cart, living in the flooded cellars. It strikes from the water first.' },
   spider: { id: 'spider', one: 'spider', name: 'Cellar spider', plural: 'cellar spiders', zone: 'streets', hp: 15, acc: 78, dodge: 22, prot: 0, dmg: [3, 7], speed: 8, weak: ['fire'], resist: [], dread: 4, special: 'poison', xp: 3, text: 'A long-legged spider the color of wet plaster. Its bite keeps working after it lets go.' },
-  hog: { id: 'hog', one: 'hog', name: 'Pale hog', plural: 'pale hogs', zone: 'streets', hp: 32, acc: 68, dodge: 4, prot: 2, dmg: [6, 11], speed: 5, weak: ['pierce'], resist: [], dread: 5, special: 'charge', xp: 4, text: 'Pigs got down here a century ago and kept breeding. They are white, blind and the size of ponies.' },
+  hog: { id: 'hog', one: 'hog', name: 'Pale hog', plural: 'pale hogs', zone: 'streets', hp: 32, acc: 68, dodge: 4, prot: 2, dmg: [6, 11], speed: 5, weak: ['pierce'], resist: [], dread: 5, special: 'charge', xp: 4, text: 'Pigs got down here a century ago and kept breeding. They are white and blind, and as big as ponies.' },
   crab: { id: 'crab', one: 'crab', name: 'Sink crab', plural: 'sink crabs', zone: 'streets', hp: 24, acc: 70, dodge: 4, prot: 5, dmg: [4, 8], speed: 4, weak: ['blunt', 'storm'], resist: ['slash', 'pierce'], dread: 3, xp: 4, loot: { good: 'glass', chance: 0.4 }, text: 'River crabs grown huge on reagent runoff. Blades skid off them.' },
   seep: { id: 'seep', one: 'seep', name: 'Seep', plural: 'seeps', zone: 'sink', hp: 24, acc: 72, dodge: 0, prot: 0, dmg: [4, 8], speed: 3, weak: ['radiant', 'frost'], resist: ['slash', 'pierce'], dread: 6, xp: 5, loot: { good: 'salts', chance: 0.8 }, text: 'A spill of spent reagents that never stopped reacting. It moves toward warmth and it burns what it touches.' },
   engine: { id: 'engine', one: 'engine', name: 'Assay engine', plural: 'Assay engines', zone: 'sink', hp: 42, acc: 72, dodge: 0, prot: 6, dmg: [6, 11], speed: 2, weak: ['storm', 'blunt'], resist: ['pierce', 'fire'], dread: 8, construct: true, xp: 7, loot: { good: 'seal', chance: 0.9 }, text: "An iron testing engine the Assay Office left running when it moved upstairs. It still tests anything it finds, very hard." },
@@ -329,12 +329,12 @@ export const LENGTHS: Record<ExpLength, LengthDef> = {
 // ---------------------------------------------------------------------------
 
 export const GOODS: Record<GoodId, { id: GoodId; name: string; one: string; many: string; value: number; text: string }> = {
-  coin: { id: 'coin', many: 'purses of Pellam coin', name: 'Pellam coin', one: 'purse of Pellam coin', value: 9, text: 'Old coin from before the river moved. Collectors pay for it by the purse.' },
-  glass: { id: 'glass', many: 'pieces of college glass', name: 'College glass', one: 'piece of college glass', value: 14, text: 'Retorts and lenses the college threw away. The glassblowers on Anvil Row buy them back.' },
-  eel_oil: { id: 'eel_oil', many: 'jars of eel oil', name: 'Eel oil', one: 'jar of eel oil', value: 18, text: 'Rendered from sink eels. The Mudlarks use it to waterproof everything.' },
-  silver: { id: 'silver', many: 'pieces of Pellam silver', name: 'Pellam silver', one: 'piece of Pellam silver', value: 26, text: 'Plate and candlesticks from houses that were rich two hundred years ago.' },
-  salts: { id: 'salts', many: 'jars of reagent salts', name: 'Reagent salts', one: 'jar of reagent salts', value: 22, text: 'Crystals scraped from the Sink. Apothecaries ask no questions.' },
-  seal: { id: 'seal', many: 'Assay seals', name: 'Assay seals', one: 'Assay seal', value: 34, text: "Brass seals from the Assay Office's old engines. The Office pays to get them back." },
+  coin: { id: 'coin', many: 'purses of Pellam coin', name: 'Pellam coin', one: 'a purse of Pellam coin', value: 9, text: 'Old coin from before the river moved. Collectors pay for it by the purse.' },
+  glass: { id: 'glass', many: 'pieces of college glass', name: 'College glass', one: 'a piece of college glass', value: 14, text: 'Retorts and lenses the college threw away. The glassblowers on Anvil Row buy them back.' },
+  eel_oil: { id: 'eel_oil', many: 'jars of eel oil', name: 'Eel oil', one: 'a jar of eel oil', value: 18, text: 'Rendered from sink eels. The Mudlarks use it to waterproof everything.' },
+  silver: { id: 'silver', many: 'pieces of Pellam silver', name: 'Pellam silver', one: 'a piece of Pellam silver', value: 26, text: 'Plate and candlesticks from houses that were rich two hundred years ago.' },
+  salts: { id: 'salts', many: 'jars of reagent salts', name: 'Reagent salts', one: 'a jar of reagent salts', value: 22, text: 'Crystals scraped from the Sink. Apothecaries ask no questions.' },
+  seal: { id: 'seal', many: 'Assay seals', name: 'Assay seals', one: 'an Assay seal', value: 34, text: "Brass seals from the Assay Office's old engines. The Office pays to get them back." },
   kiln_core: { id: 'kiln_core', many: 'Kiln cores', name: 'Kiln core', one: "the Kiln Engine's core", value: 240, text: "The furnace heart of the Kiln Engine. The college would like it back, and will pay." },
 };
 
@@ -407,7 +407,7 @@ export interface SponsorDef {
 }
 
 export const SPONSORS: SponsorDef[] = [
-  { id: 'oda_salts', faction: 'oda', title: "Salts for Saint Oda's", text: 'Sister Brune needs reagent salts for the fever ward and would rather not buy them from an apothecary who asks no questions.', goal: { kind: 'bring', good: 'salts', count: 2 }, reward: 90, renown: 2, minRenown: 0 },
+  { id: 'oda_salts', faction: 'oda', title: "Salts for Saint Oda's", text: 'Sister Brune needs reagent salts for the fever beds and would rather not buy them from an apothecary who asks no questions.', goal: { kind: 'bring', good: 'salts', count: 2 }, reward: 90, renown: 2, minRenown: 0 },
   { id: 'assay_seals', faction: 'exchequer', title: 'The Assay seals', text: "The Exchequer wants the Assay Office's lost seals found before the Office finds them and claims it never lost them.", goal: { kind: 'bring', good: 'seal', count: 2 }, reward: 110, renown: 2, minRenown: 0 },
   { id: 'mudlark_eels', faction: 'mudlarks', title: 'Eel oil for the flats', text: "Wenna Pask's people need eel oil for their boats, and she says the eels are easy if you don't mind eels.", goal: { kind: 'kill', monster: 'eel', count: 1 }, reward: 70, renown: 1, minRenown: 0 },
   { id: 'weigh_silver', faction: 'weighhouse', title: 'Pellam plate', text: 'Alderman Coster will weigh any Pellam silver you bring back, and knock what it weighs off the loan, near enough.', goal: { kind: 'bring', good: 'silver', count: 3 }, reward: 100, renown: 1, minRenown: 0 },
