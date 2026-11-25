@@ -750,4 +750,34 @@ export const DEEP_LINES: Record<string, string[]> = {
     "There is a boathouse here with nothing in it but nets and a smell. {a} looks twice.",
     "{a} goes through an old boathouse and finds only a punt with a hole in it.",
   ],
+
+  // ---- a squad beaten but nobody lost (lost_crawl, lost_home and road_home_lost would count the dead) ----
+  lost_crawl_all: [
+    "{a} wakes up in the dark. The squad has been beaten, but everyone is still breathing, and they crawl out of Old Pellam together with nothing.",
+    "When {a} comes round, the fight is long over and nobody is dead, which nobody can explain. They get each other back up the rungs somehow.",
+  ],
+  'lost_crawl_all:town': [
+    "{a} wakes up in an alley with the rest of the squad around them, all alive. They get back to Tallow Street with nothing.",
+    "When {a} comes round, the fight is long over. Somehow nobody is dead, and they help each other home through the back streets.",
+  ],
+  'lost_crawl_all:overland': [
+    "{a} wakes up in the open with the whole squad around them, beaten and alive. They drag themselves out of {p} with nothing.",
+    "When {a} comes round, the fight is long over and everyone is still breathing. They get each other back onto the road somehow.",
+  ],
+  lost_home_beaten: [
+    "They get within sight of the grate, and then they are caught. Everyone comes up the rungs alive, and that is all they bring with them.",
+    "They are nearly at the grate when they are caught. They come up battered and empty-handed, but they all come up.",
+  ],
+  'lost_home_beaten:town': [
+    "They are within sight of Tallow Street when they are caught. They all reach the hall, and they have nothing to show for it.",
+    "They are caught two streets from the hall. Every one of them gets home, and nothing else does.",
+  ],
+  'lost_home_beaten:overland': [
+    "They are nearly clear of {p} when they are caught. They all get away, and they leave everything they found behind.",
+    "They are caught on the way out of {p}. Nobody dies, which is the only good thing anyone says about it.",
+  ],
+  road_home_beaten: [
+    "They come home late, every one of them, with nothing but the bandages. Jory counts them twice and closes the ledger.",
+    "The whole squad limps back in through the gate, beaten and empty-handed. Tallow Street is surprised to see all of them.",
+  ],
 };

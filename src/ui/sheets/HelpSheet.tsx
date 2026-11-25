@@ -52,7 +52,7 @@ export function HelpSheet() {
         <h4>Tags and preparation</h4>
         <p>
           Enemies and environments have <b>tags</b>. Armored enemies laugh at swords but fear hammers, Fireborn shrug off fire but dread frost, and Cold saps endurance unless someone packs furs. Weapons, oils, salts
-          and kit counter tags. Unknown tags (“?”) turn your odds into a <b>range</b>. Spend Intel or send a Scout ahead to know what you face.
+          and kit counter tags. Unknown tags (“?”) are dangers you don't know about yet. Spend Intel or send a Scout ahead to find out, so you know what to pack and who to send.
         </p>
         <h4>People</h4>
         <p>

@@ -149,6 +149,25 @@ describe('expeditions', () => {
     for (let i = 0; i < 300; i++) expect(generateContract(fresh).templateId).not.toBe('kell_moyle');
   });
 
+  it('a squad beaten with nobody dead is not told it came home short of people', () => {
+    let found = 0;
+    for (const site of ['pellam', 'varrow', 'kell', 'drovers'] as const) {
+      for (let seed = 0; seed < 150 && found < 12; seed++) {
+        const s = newGame(900 + seed);
+        const tpl = CONTRACT_TEMPLATES.find((t) => (t.expedition?.site ?? t.regions[0]) === site && !t.story)!;
+        const c = generateContract(s, tpl);
+        c.expedition = { site, length: 'long', goal: { kind: 'complete' } };
+        const ms = { contract: c, plan: { ...suggestPlan(s, c), squad: suggestPlan(s, c).squad.slice(0, 2) }, plannedWeeks: 5, setup: { seed: 5000 + seed } } as unknown as Mission;
+        const r = runExpedition(buildSetup(s, ms));
+        if (r.outcome !== 'lost' || r.members.some((m) => m.died)) continue;
+        found++;
+        const tail = r.log.filter((l) => l.kind === 'end').map((l) => l.text).join(' ');
+        expect(tail, `${site} ${seed}`).not.toMatch(/short of people|Fewer of them|What is left|the survivors|than went/i);
+      }
+    }
+    expect(found).toBeGreaterThan(0);
+  });
+
   it('a plain job on a long route walks the last zone and stops short of the boss', () => {
     const s = newGame(112);
     const tpl = CONTRACT_TEMPLATES.find((t) => t.regions[0] === 'drovers' && !t.story && !t.expedition)!;

@@ -106,7 +106,7 @@ export const OBJECTIVES: Objective[] = [
     chapter: 'Knowing what you face',
     title: 'Uncover a hidden danger',
     how: 'Tap a dashed “?” tag on a contract to spend Intel, or set a member to Scout a contract.',
-    why: 'Unknown tags turn your odds into a range. Knowing tells you what to bring.',
+    why: 'Knowing what you face tells you what to pack and who to send.',
     tab: 'contracts',
     guide: 'board',
     done: (s) => n(s, 'reveal') > 0,

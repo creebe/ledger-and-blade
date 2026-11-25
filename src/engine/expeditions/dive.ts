@@ -1293,7 +1293,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
     }
     for (const k of Object.keys(loot)) delete loot[k as GoodId];
     crownsFound = 0;
-    put('end', say(survivors.length ? 'lost_crawl' : 'lost_all', { a: survivors[0]?.name, p: site.name }), { big: true });
+    put('end', say(survivors.length ? (A.some((a) => a.state === 'dead') ? 'lost_crawl' : 'lost_crawl_all') : 'lost_all', { a: survivors[0]?.name, p: site.name }), { big: true });
   } else {
     const z = zone ?? firstZone;
     const p = 0.06 + ZONES[z].depth * 0.04 + (dark ? 0.08 : 0);
@@ -1313,7 +1313,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
       for (const k of Object.keys(loot)) delete loot[k as GoodId];
       crownsFound = 0;
       outcome = 'lost';
-      put('end', say('lost_home', { p: site.name }), { big: true });
+      put('end', say(A.some((a) => a.state === 'dead') ? 'lost_home' : 'lost_home_beaten', { p: site.name }), { big: true });
     } else if (!setup.roadBack) {
       put('end', say(outcome === 'complete' ? `home_${setup.length}` : 'home_retreat', { p: site.name }), { big: true });
     }
@@ -1323,7 +1323,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
     for (let w = 1; w <= setup.roadBack; w++) {
       week += 1;
       const last = w === setup.roadBack;
-      put(last ? 'end' : 'road', say(last ? (outcome === 'complete' ? 'road_home' : outcome === 'lost' ? 'road_home_lost' : 'home_retreat') : 'road_back', { a: pick(r, A.filter((x) => x.state !== 'dead')).name, p: site.name }), { big: last });
+      put(last ? 'end' : 'road', say(last ? (outcome === 'complete' ? 'road_home' : outcome === 'lost' ? (A.some((a) => a.state === 'dead') ? 'road_home_lost' : 'road_home_beaten') : 'home_retreat') : 'road_back', { a: pick(r, A.filter((x) => x.state !== 'dead')).name, p: site.name }), { big: last });
     }
   }
 
