@@ -265,7 +265,7 @@ export const CAST_STORY: EventDef[] = [
     text:
       "A Sister from Saint Oda's is in your counting-room with her sleeves rolled up. She has already moved two of your chairs to get at the fire.\n\n" +
       '"I\'m Agathe Brune, the almoner, and you\'ll have to forgive me. It\'s colder in the almshouse than it is out there, and I\'ve forgotten what my hands feel like." She sits. "I\'ll be quick, because I\'ve left Sister Joan with forty people and one pot.\n\n' +
-      '"The fen fever has come up the river. I need salts from the Saltfens to treat it, and the apothecaries want two crowns an ounce. God may forgive them for that, but I won\'t."',
+      '"The Sink fever is bad down the hill this year. It\'s the water, it always is. I need salts from the Saltfens to treat it, and the apothecaries want two crowns an ounce. God may forgive them for that, but I won\'t."',
     choices: bruneChoices,
     nodes: {
       bank: {

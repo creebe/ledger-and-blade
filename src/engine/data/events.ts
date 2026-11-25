@@ -446,6 +446,13 @@ const CORE_STORY: EventDef[] = [
         s.flags.coster_exposed && 'Alderman Coster has left Varrow.',
         s.flags.coster_job && s.flags.weights_exposed && "Hesketh's bushels are full measure again, and the bakers know who to thank.",
         s.flags.coster_terms && !s.flags.coster_exposed && 'Coster still mentions the twenty crowns he took off your note, usually when he wants something.',
+        s.flags.silver_abandoned && "The Crown's wagons waited at Wenmouth ford for an escort that never came. Fenn hasn't written since.",
+        s.flags.fenn_ally && "You sit at the Exchequer's table on Thursdays. Fenn was right about the arguing.",
+        s.flags.weights_failed && "Hesketh's bushels are still short, and the bakers have stopped asking you about it.",
+        s.flags.isbet_betrayed && s.npcs.marta?.status === 'alive' && s.npcs.isbet?.status === 'alive' && "Marta sends a cake now and then. Isbet doesn't come to the door when she does.",
+        s.flags.tapestry_sold && 'The Siege of Carrow hangs in a wool merchant\'s house in Harrowmere, and the Exchequer is a few months richer.',
+        s.flags.tapestry_lost && "Somewhere between here and Harrowmere, the Siege of Carrow is keeping somebody's hay dry.",
+        s.flags.aske_plate_lost && 'Lady Aske tells everyone the assessors took her silver, which is nearly true.',
       ].filter(Boolean);
       return (
         `Half a year has passed since the Exchequer sealed your charter. ${silver}` +
