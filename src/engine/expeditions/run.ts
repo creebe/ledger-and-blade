@@ -378,6 +378,11 @@ export function settleExpedition(s: GameState, ms: Mission) {
       m.missionId = undefined;
       addRecord(m, `Week ${s.week} · Died on "${c.title}" in ${site.name}: ${o.died}.`);
       mournLegend(s, m);
+      const owed = Math.round(m.wage * T.deathCost.wageWeeks);
+      if (owed) {
+        spend(s, 'Paid to families', owed);
+        summary.push(`The guild pays ${m.name.split(' ')[0]}'s family ${owed} crowns.`);
+      }
       // a lost squad leaves its dead and some of their gear behind
       for (const u of [m.loadout.weapon, m.loadout.armor, m.loadout.trinket]) if (u && res.outcome === 'lost' && chance(s, 0.5)) removeItem(s, u);
       for (const u of [...m.loadout.consumables]) removeItem(s, u);

@@ -148,7 +148,7 @@ See `EXCLUSIVE_FACTS` in `facts.ts`. Besides the silver pairs: the three riot ou
 
 ## 5b. Field decisions (Canon)
 
-Not story beats: they fire **at the door of an expedition**, as a squad sets out for a distant site (one with road weeks; never Varrow or Old Pellam), before the trip is sealed (`src/engine/data/field.ts`). Once a squad is through the door nobody can send it orders, so there is no arrival report any more. They are covered by the story checker. Characters who can appear: **Isbet Hobb** leads the rival squad in *Hobb's People on the Road* (attitude falls if you sabotage her camp).
+Not story beats: they fire **at the door of an expedition**, as a squad sets out for a distant site (one with road weeks; never Varrow or Old Pellam), before the trip is sealed (`src/engine/data/field.ts`). Each one is news brought to the yard on Tallow Street as the squad gets ready, by a carter, a stable boy or someone who came that way, and the choice is the last order the squad gets. Once a squad is through the door nobody can send it orders, so there is no arrival report any more. They are covered by the story checker. Characters who can appear: **Isbet Hobb** leads the rival squad in *Hobb's People Are Packing* (attitude falls if you sabotage her camp).
 
 ## 5c. Dates (Canon)
 

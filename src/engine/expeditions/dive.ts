@@ -162,7 +162,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
   const foeProt = tagFx.reduce((n, x) => n + (x.foeProt ?? 0), 0);
   const tagGroups = tagFx.flatMap((x) => x.groups ?? []);
   const sigs = new Set(squad.map((d) => d.signature).filter(Boolean));
-  const threatScale = Math.max(T.threat.min, 1 + (setup.threat - T.threat.base) * T.threat.perPoint) * (setup.foeScale || 1);
+  const threatScale = Math.max(T.threat.min, 1 + (setup.threat - T.threat.base) * T.threat.perPoint) * (setup.foeScale || 1) * (setup.site === 'pellam' ? 1 : T.thinFoe);
   const darkZone = (z: ZoneId) => ZONES[z].dark || tagDark;
   const pack: Record<SupplyId, number> = { food: 0, bandages: 0, oil: 0, tools: 0, masks: 0, reagents: 0, draughts: 0, ...plan.pack } as Record<SupplyId, number>;
   const packed = { ...pack };
@@ -410,7 +410,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
     a.wentDown = true;
     a.covering = undefined;
     for (const x of A) if (x.covering === a) x.covering = undefined;
-    const p = Math.max(T.death.min, Math.min(T.death.max, T.death.base + (overkill / a.maxHp) * T.death.overkill + (dark && !a.marks.some((m) => m.nightEyes) ? T.death.dark : 0) - (hasProf('chaplain') ? T.death.chaplain : 0) - (sigs.has('nobody_dies') ? 0.08 : 0) + sum(a.marks, 'deathRoll')));
+    const p = Math.max(T.death.min, Math.min(T.death.max, T.death.base + (overkill / a.maxHp) * T.death.overkill + (dark && !a.marks.some((m) => m.nightEyes) ? T.death.dark : 0) - (hasProf('chaplain') ? T.death.chaplain : 0) - (sigs.has('nobody_dies') ? 0.08 : 0) + (a.fatigue >= T.fatigue.spent ? T.death.spent : a.fatigue >= T.fatigue.tired ? T.death.tired : 0) + sum(a.marks, 'deathRoll')));
     if (chance(r, p)) {
       a.state = 'dead';
       a.hp = 0;

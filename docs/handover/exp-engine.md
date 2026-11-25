@@ -74,17 +74,10 @@ Expeditions in the full game, the engine merge. Branch `claude/exp-engine`; the 
     - About 35 unused trial CSS rules (`.x-app`, `.x-news`, `.x-good` and others) should go once the Field UI settles.
     - Whether Sink changes should be styled as good (green) is a design call.
     - The End Week bar now says "2 out" so it fits at 390 px.
-  - **For the balance workstream (6): recklessness pays better than care.** Main's re-run (100 games, 48 weeks, good prep):
-
-    | Bot | Survival | Deaths a game | Bankrupt |
-    |---|---|---|---|
-    | Reckless (0.35) | 82% | 5.0 | n/a |
-    | Middle (0.5) | 73% | 1.9 | n/a |
-    | Cautious (0.65) | 40% | 0.7 | 60% |
-
-    - A reckless guild stays open more often than a careful one, and deaths barely cost anything.
-    - A cautious player is punished by running short of income, not by danger.
-    - Likely causes: a dead member costs only a cheap recruit (about 200 crowns a game), and short thin-site trips are close to riskless money. Careful play also means fewer trips while wages run on.
-    - It was not fixed in this PR. The owner will decide whether it blocks v0.13.0.
+  - **Recklessness no longer pays better than care (fixed after the owner's review).**
+    - Before (main's re-run): reckless 82%, middle 73%, cautious 40% (60% bankrupt).
+    - After (300 games): careful 71%, cautious 62%, bold 60%.
+    - Every trip wears people down, going down tired is likelier to kill, a death costs the guild (eight weeks' wages to the family, dearer recruits for eight weeks), and resting members heal 15 more a week. The bots were not changed. See `docs/EXPEDITIONS.md` §9c.
+    - Still for workstream 6: a fresh full squad on a short Varrow job is still very safe (it now costs fatigue and a rest week, not lives).
 - **The fingerprint** is `npm run fingerprint` on this branch. It no longer matches main's `39f9b740…565a`, as expected.
 - **Names for main to approve:** Varrow (zone "the Lower Town") and Port Anselm (zone "the Wenmouth road") as sites, and the generic enemies thug, sell-sword, guard, hedge-wizard, troll, salamander, rioter and hill wolf.

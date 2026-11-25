@@ -5,6 +5,7 @@ import { chance, pick, randInt, uid } from '../core/rng';
 import type { Attribute, GameState, Member, ProfessionId, Recruit } from '../core/types';
 import { clamp, living } from '../core/util';
 import { addItem } from '../economy/items';
+import { EXP_TUNING } from '../expeditions/tuning';
 
 export const ATTRS: Attribute[] = ['might', 'finesse', 'wits', 'resolve'];
 
@@ -76,7 +77,10 @@ export function generateRecruit(state: GameState): Recruit {
   const gear = state.items.splice(before);
   m.loadout = { consumables: [] };
   const discount = lt >= 20 ? 0.75 : lt <= -20 ? 1.5 : 1;
-  return { member: m, signOn: Math.round(m.wage * 4 * discount), expiresWeek: state.week + 2, gear: gear.map((g) => g.defId) };
+  // word gets round when a guild buries its people: recruits ask more for a while
+  const recent = state.members.filter((x) => x.status === 'dead' && (x.diedWeek ?? -99) >= state.week - EXP_TUNING.deathCost.recentWeeks).length;
+  const premium = Math.min(2, 1 + recent * EXP_TUNING.deathCost.recruitPremium);
+  return { member: m, signOn: Math.round(m.wage * 4 * discount * premium), expiresWeek: state.week + 2, gear: gear.map((g) => g.defId) };
 }
 
 export function xpToLevel(level: number) {

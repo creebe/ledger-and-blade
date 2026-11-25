@@ -113,7 +113,7 @@ export function planWarnings(s: GameState, c: Contract, plan: ExpPlan): string[]
     const ranks = DELVER_PROFS[m.profession].ranks;
     if (!ranks.includes(i + 1)) w.push(`${first} is ${/^[AEIOU]/.test(PROFESSIONS[m.profession].name) ? 'an' : 'a'} ${PROFESSIONS[m.profession].name} in rank ${i + 1}. They work best from rank ${ranks.join(' or ')}.`);
     if (m.health < 60) w.push(`${first} is still hurt (health ${m.health}).`);
-    if (m.fatigue >= T.fatigue.tired) w.push(`${first} is ${m.fatigue >= T.fatigue.spent ? 'worn out' : 'tired'} before they start (fatigue ${m.fatigue}).`);
+    if (m.fatigue >= T.fatigue.tired) w.push(`${first} is ${m.fatigue >= T.fatigue.spent ? 'worn out' : 'tired'} before they start (fatigue ${m.fatigue}). If they go down tired, they're likelier to die.`);
     const nextTh = T.exposure.thresholds.find((t) => t > (m.exposure ?? 0));
     if (nextTh && (m.exposure ?? 0) >= nextTh - 12 && (steps.includes('sink') || steps.includes('reeds')))
       w.push(`${first} is close to a Sink change (Exposure ${m.exposure} of ${nextTh}). If they're rested they'll run the Sink fever first. If they're worn out, it takes at once.`);

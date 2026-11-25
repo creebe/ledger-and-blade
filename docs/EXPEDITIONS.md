@@ -125,16 +125,21 @@ It breaks once. After that, long expeditions end in the Kiln's yard, where two l
 
 | Bot | First-year survival | Deaths per expedition | Squads lost | Expeditions a year | Deaths a year |
 |---|---|---|---|---|---|
-| Bold, good prep | 86% | 0.21 | 11% | 25 | 5.3 |
-| **Careful, good prep** | **72%** | **0.10** | **5%** | **20** | **1.9** |
-| Cautious, good prep | 42% | 0.07 | 4% | 12 | 0.9 |
-| Careful, poor prep | 1% | 0.71 | 24% | 5 | 3.2 |
+| Bold, good prep | 60% | 0.18 | 10% | 19 | 3.4 |
+| **Careful, good prep** | **71%** | **0.11** | **6%** | **20** | **2.2** |
+| Cautious, good prep | 62% | 0.07 | 4% | 18 | 1.3 |
+| Careful, poor prep | 1% | 0.70 | 24% | 4 | 3.0 |
 
+**Care pays best.** Before the owner's review, a bold guild survived more often than a careful one (82% against 73%, with a cautious one at 40%): a full squad on a short trip came home almost untouched, going out tired cost nothing, a death cost about 40 crowns to replace, and a cautious guild sat out while its people healed. Now:
+- **Every trip wears people down.** Rooms on the one-zone sites cost as much fatigue as deeper ones, so a squad comes home from a short trip about a fifth worn out and needs rotating.
+- **Going out tired is dangerous.** A member who goes down tired or spent is likelier to die (+5% and +12% on the roll), and the prep sheet says so.
+- **A death costs the guild.** The family is paid eight weeks of the member's wage, and for eight weeks recruits ask a quarter more for each recent death.
+- **Rest mends.** A member resting at home heals 15 more a week, so a careful guild that rotates its people keeps its squads working.
+
+Other notes:
 - **Preparation decides it.** Little in the pack, ranks reversed and stubborn orders ruin a guild within the year.
-- **Squad size matters most.** A full squad of four almost never dies on a short or medium route; pairs do. Expeditions take at least two people.
-- **Old Pellam pays four times the trial's sponsor rewards**, so it is worth the risk: for a careful bot, 84% of Pellam trips succeed at 0.15 deaths each. Its long routes are a gamble from a fresh guild, and the prep sheet says so.
-- **The cautious bot goes bankrupt** because it takes too little work, not because work kills it.
-- **Short trips on the thin sites are close to riskless money.** Contracts below threat 3 are scaled no lower than 0.93 of base, but the real fix is content: more varied rooms when workstream 4 fills the sites.
+- **Squad size matters most.** Pairs die; a rested squad of four almost never does on a short or medium route. Expeditions take at least two people.
+- **Old Pellam pays four times the trial's sponsor rewards**, so it is worth the risk. Its long routes are a gamble from a fresh guild, and the prep sheet says so.
 - **Pack costs are small** (about 4% of spending), so a full pack is never a real trade-off yet. That's for workstream 5.
 
 The trial's own numbers, for one squad from a fresh guild (`exp:sim`, 300 seeds), were: short, good prep 100% intact; medium 97%; long 31%.

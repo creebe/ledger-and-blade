@@ -9,6 +9,7 @@ import {
   expeditionLog,
   feedForWeek,
   generateContract,
+  generateRecruit,
   living,
   migrateSave,
   newGame,
@@ -254,6 +255,17 @@ describe('expeditions', () => {
       }
     }
     expect(checked).toBeGreaterThan(0);
+  });
+
+  it('recruits ask more after the guild has buried people', () => {
+    const s = newGame(111);
+    const before = generateRecruit(s);
+    const ask = (r: typeof before) => r.signOn / r.member.wage;
+    s.members[0].status = 'dead';
+    s.members[0].diedWeek = s.week;
+    s.members[1].status = 'dead';
+    s.members[1].diedWeek = s.week;
+    expect(ask(generateRecruit(s))).toBeGreaterThan(ask(before));
   });
 
   it('plans say why they cannot go', () => {

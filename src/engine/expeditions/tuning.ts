@@ -15,14 +15,16 @@ export const EXP_TUNING = {
   foe: { dmg: 2.0, hp: 1.2 },
   /** a contract's threat scales enemies by this much per point above `threatBase` */
   threat: { base: 3, perPoint: 0.07, min: 0.93 },
+  /** enemies on the one-zone sites (everywhere but Old Pellam) are this much tougher */
+  thinFoe: 1,
   /** the chance of a wandering monster before each room: base + per zone depth, more in the dark */
   wander: { base: 0.1, perDepth: 0.06, dark: 0.1, rivalAhead: -0.06 },
-  /** the roll for a member's life when they go down */
-  death: { base: 0.15, overkill: 0.45, dark: 0.08, chaplain: 0.08, min: 0.03, max: 0.75, wipe: 0.55 },
+  /** the roll for a member's life when they go down; going down tired or spent makes it worse */
+  death: { tired: 0.05, spent: 0.12, base: 0.15, overkill: 0.45, dark: 0.08, chaplain: 0.08, min: 0.03, max: 0.75, wipe: 0.55 },
   heal: { bandage: 8, chaplainBandage: 8, dress: 4 },
   camp: { heal: 0.25, healHungry: 0.08, visit: 0.15 },
   /** physical wear: what each thing adds (negative clears it) */
-  fatigue: { tired: 40, spent: 70, tiredPenalty: 5, spentPenalty: 12, room: [0, 3, 5, 5], bulkDiv: 4, dark: 2, hungry: 10, fight: 2, boss: 6, trap: 3, meal: -4, camp: 25, chaplainCamp: 8, campHungry: 6, secondWind: 10, loadEvery: 8, road: 6 },
+  fatigue: { tired: 40, spent: 70, tiredPenalty: 5, spentPenalty: 12, room: [0, 5, 5, 5], bulkDiv: 4, dark: 2, hungry: 10, fight: 2, boss: 6, trap: 3, meal: -4, camp: 25, chaplainCamp: 8, campHungry: 6, secondWind: 10, loadEvery: 8, road: 6 },
   /** reagent runoff in the body, and where it leaves a lasting change */
   exposure: {
     sinkRoom: 3, seepHit: 4, gas: 8, kilnBlast: 5, bloodCast: 3, stillBad: 6,
@@ -40,6 +42,10 @@ export const EXP_TUNING = {
   renown: { zoneFirst: { culverts: 0, streets: 2, sink: 4 } as Record<string, number>, boss: 8, wanderer: 1, carried: 1, nobodyFell: 2 },
   /** fame from dive deeds is multiplied by this to fit the Legends scale */
   fameScale: 2,
+  /** what a death costs at home: weeks of their wage paid to the family, and how much dearer recruits get per recent death */
+  deathCost: { wageWeeks: 8, recruitPremium: 0.25, recentWeeks: 8 },
+  /** at home: extra health a week for a member on rest */
+  home: { restHeal: 15 },
   /** an Envoy's parley: base odds, per point of wits, and the crowns it can cost */
   parley: { base: 0.2, perWits: 0.04, max: 0.8, bribe: 12 },
 };

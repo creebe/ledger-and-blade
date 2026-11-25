@@ -117,7 +117,8 @@ function homePhase(s: GameState) {
     switch (m.assignment) {
       case 'rest':
         m.fatigue = clamp(m.fatigue - 20, 0, 100);
-        m.health = clamp(m.health + 5, 0, 100);
+        // a week of real rest mends a squad that came home hurt
+        m.health = clamp(m.health + 5 + EXP_TUNING.home.restHeal, 0, 100);
         m.morale = clamp(m.morale + 2, 0, 100);
         break;
       case 'train': {
