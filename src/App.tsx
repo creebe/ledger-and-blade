@@ -13,6 +13,8 @@ import { MenuSheet } from './ui/sheets/MenuSheet';
 import { ExpLogSheet } from './ui/sheets/ExpLogSheet';
 import { WeekReport } from './ui/sheets/WeekReport';
 import { PrepSheet } from './ui/sheets/PrepSheet';
+import { WatchSheet } from './ui/sheets/WatchSheet';
+import { FieldScreen } from './ui/screens/Field';
 import { useScrollLock } from './ui/kit/theme';
 import { Icon } from './ui/kit/icons';
 import { GuideNudge } from './ui/panels/Guide';
@@ -29,6 +31,7 @@ import { OrdersSheet } from './ui/sheets/OrdersSheet';
 
 const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: 'hall', label: 'Hall', icon: 'hall' },
+  { id: 'field', label: 'Field', icon: 'road' },
   { id: 'contracts', label: 'Contracts', icon: 'scroll' },
   { id: 'roster', label: 'Roster', icon: 'people' },
   { id: 'armory', label: 'Armory', icon: 'armor' },
@@ -214,7 +217,7 @@ export default function App() {
     );
   if (game.gameOver) return <GameOver />;
 
-  const reportOpen = sheets.some((s) => s.kind === 'report' || s.kind === 'mission');
+  const reportOpen = sheets.some((s) => s.kind === 'report' || s.kind === 'mission' || s.kind === 'watch');
   const event = !reportOpen ? game.pendingEvents[0] : undefined;
 
   return (
@@ -222,6 +225,7 @@ export default function App() {
       <TopBar />
       <main className="main">
         {tab === 'hall' && <HallScreen />}
+        {tab === 'field' && <FieldScreen />}
         {tab === 'contracts' && <ContractsScreen />}
         {tab === 'roster' && <RosterScreen />}
         {tab === 'armory' && <ArmoryScreen />}
@@ -247,6 +251,8 @@ export default function App() {
             return <OrdersSheet key={i} id={s.id} />;
           case 'mission':
             return <ExpLogSheet key={i} id={s.id} />;
+          case 'watch':
+            return <WatchSheet key={i} week={s.week} />;
           case 'report':
             return <WeekReport key={i} dispatchIds={s.dispatchIds} week={s.week} before={s.before} />;
           case 'endweek':
