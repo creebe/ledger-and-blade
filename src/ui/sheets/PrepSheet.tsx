@@ -22,6 +22,7 @@ import {
   postingInfo,
   slotsFor,
   squadLimit,
+  squadsOut,
   squadSize,
   stockOf,
   suggestPlan,
@@ -36,6 +37,7 @@ import { useStore } from '../../store';
 import { Btn, FactionBadge, Price, Section, Seg, Sheet, TagChip } from '../kit/common';
 import { Icon } from '../kit/icons';
 import { short } from '../kit/shortfall';
+import { goTo } from '../kit/navigate';
 import { ProfSilhouette } from '../expeditions/Silhouette';
 import { Marks, Vitals, first } from '../expeditions/xkit';
 
@@ -118,7 +120,13 @@ export function PrepSheet({ contractId }: { contractId: string }) {
   const used = packSlots(plan.pack);
   const cost = packCost(g, plan.pack);
   const why = planBlocked(g, c, plan);
-  const blocked = why && cost > g.crowns && why.startsWith('Packing') ? short(g, 'crowns', cost, 'the supplies') : why;
+  const atLimit = squadsOut(g) >= squadLimit(g);
+  const blocked =
+    why && cost > g.crowns && why.startsWith('Packing')
+      ? short(g, 'crowns', cost, 'the supplies')
+      : why && atLimit
+        ? { text: why, action: { label: 'See squads out', run: () => goTo({ tab: 'field' }) } }
+        : why;
   const warnings = planWarnings(g, c, plan);
   const steps = contractRoute(c);
   const camps = steps.filter((x) => x === 'camp').length;
@@ -171,6 +179,11 @@ export function PrepSheet({ contractId }: { contractId: string }) {
         </Btn>
       }
     >
+      <p className={`small x-prep-limit ${atLimit ? 'warn' : 'muted'}`}>
+        {atLimit
+          ? `${squadsOut(g)} of ${squadLimit(g)} squads are out, so this one can't leave until one is home or called off.`
+          : `${squadsOut(g)} of ${squadLimit(g)} squads out. The hall can send ${squadLimit(g) - squadsOut(g) === 1 ? 'one more' : `${squadLimit(g) - squadsOut(g)} more`}.`}
+      </p>
       <Section title="The job">
         <div className="card x-route">
           <span className="row wrap gap">
@@ -349,7 +362,6 @@ export function PrepSheet({ contractId }: { contractId: string }) {
           </ul>
         </Section>
       )}
-      <p className="tiny muted">Squads out at once: {g.missions.filter((m) => !m.report).length} of {squadLimit(g)}.</p>
       <button className="btn ghost block small" onClick={() => setPlan(suggestPlan(g, c, plan.orders))}>
         Start again from a suggested plan
       </button>

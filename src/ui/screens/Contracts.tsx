@@ -1,93 +1,45 @@
-import { cancelDispatch, FACTIONS, RIVALS, postingInfo, squadStatus, type Contract, type GameState, type Mission } from '../../engine';
+import { FACTIONS, RIVALS, postingInfo, squadLimit, squadsOut, type Contract, type GameState } from '../../engine';
 import { Icon } from '../kit/icons';
-import { CONTRACT_TYPE_ICON, Portrait } from '../kit/visual';
+import { CONTRACT_TYPE_ICON } from '../kit/visual';
 import { useStore } from '../../store';
-import { Btn, Empty, FactionBadge, Section, TagChip, ThreatPips } from '../kit/common';
-import { wk } from '../kit/format';
-
-/** A squad out on an expedition: where they are and the latest line. Tap to read the log. */
-function MissionTrack({ m, g }: { m: Mission; g: GameState }) {
-  const open = useStore((s) => s.open);
-  const st = squadStatus(g, m);
-  const preparing = !m.sealed && !m.report;
-  const where = m.report
-    ? `${m.report.tier} · home`
-    : preparing
-      ? 'In the yard · leaves at the end of this week'
-      : `Week ${st.revealed} of about ${m.plannedWeeks} · ${st.zone ? `${st.zone}, room ${st.room} of ${st.rooms}` : 'on the road'}`;
-  return (
-    <div className="mission-wrap">
-      <button className="mission-card tappable x-squad-card" onClick={() => open({ kind: 'mission', id: m.id })}>
-        <div className="row between">
-          <b>
-            Squad {m.number} · {m.contract.title}
-          </b>
-          <Icon name="chevron" size={16} />
-        </div>
-        <span className="meta">
-          <Icon name="road" size={14} />
-          {st.site} · {where}
-        </span>
-        <span className="squad-faces">
-          {m.memberIds
-            .map((id) => g.members.find((x) => x.id === id))
-            .filter(Boolean)
-            .map((x) => (
-              <Portrait key={x!.id} m={x!} size={30} showStatus={false} />
-            ))}
-        </span>
-        {st.latest && <span className="small muted x-squad-latest">{st.latest.text}</span>}
-      </button>
-      {preparing && (
-        <div className="preparing">
-          <span className="small">Leaving at the end of this week. Gear can still change:</span>
-          <span className="row wrap gap">
-            {m.memberIds.map((id) => {
-              const x = g.members.find((y) => y.id === id)!;
-              return (
-                <button key={id} className="btn ghost small" onClick={() => open({ kind: 'member', id })}>
-                  <Icon name="armor" size={14} /> {x.name.split(' ')[0]}
-                </button>
-              );
-            })}
-            <Btn
-              className="btn ghost small danger"
-              blocked={m.fieldWeeks?.length ? 'They are already on the road. Only word from the door can call them back now.' : undefined}
-              onClick={() =>
-                useStore.getState().confirm({
-                  title: 'Cancel this dispatch?',
-                  body: [`The squad stays home. What they packed goes back to the stores, and "${m.contract.title}" returns to the board.`],
-                  confirmLabel: 'Cancel dispatch',
-                  onConfirm: () => useStore.getState().act((s) => cancelDispatch(s, m.id)) && useStore.getState().notify('Dispatch cancelled. The squad is back in the hall.'),
-                })
-              }
-            >
-              Cancel
-            </Btn>
-          </span>
-        </div>
-      )}
-    </div>
-  );
-}
+import { Empty, FactionBadge, Section, TagChip, ThreatPips } from '../kit/common';
+import { plural, wk } from '../kit/format';
+import { SquadBadge } from '../expeditions/SquadStrip';
 
 export function ContractsScreen() {
   const g = useStore((s) => s.game)!;
   const open = useStore((s) => s.open);
+  const setTab = useStore((s) => s.setTab);
+  const away = g.missions.filter((m) => !m.report).sort((a, b) => a.number - b.number);
+  const out = squadsOut(g);
+  const limit = squadLimit(g);
   const board = [...g.board].sort((a, b) => Number(!!b.story) - Number(!!a.story) || a.expiresWeek - b.expiresWeek);
   return (
     <div className="screen">
       <h1 className="screen-title">Contracts</h1>
 
-      {g.missions.length > 0 && (
-        <Section title={`In the field (${g.missions.length})`}>
-          {g.missions.map((m) => (
-            <MissionTrack key={m.id} m={m} g={g} />
-          ))}
-        </Section>
+      {away.length > 0 && (
+        <button className="tappable x-field-link" onClick={() => setTab('field')}>
+          <span className="x-field-link-badges">
+            {away.map((m) => (
+              <SquadBadge key={m.id} n={m.number} />
+            ))}
+          </span>
+          <span className="small">
+            {plural(away.length, 'squad')} out. Follow them in the Field.
+          </span>
+        </button>
       )}
 
-      <Section title="The Board" guide="board">
+      <Section
+        title="The Board"
+        guide="board"
+        right={
+          <span className={`small x-board-limit ${out >= limit ? 'warn' : 'muted'}`}>
+            {out} of {limit} squads out
+          </span>
+        }
+      >
         {board.length === 0 && <Empty>No contracts this week.</Empty>}
         {board.map((c) => (
           <ContractCard key={c.id} c={c} g={g} onOpen={() => open({ kind: 'planner', contractId: c.id })} />
