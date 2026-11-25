@@ -90,7 +90,7 @@ Members have new fields: `exposure`, `changes` (Sink changes), `fever`, `scars`,
 
 ## Content
 
-`SITES`, `ZONES`, `MONSTERS`, `GOODS`, `SUPPLIES`, `SCARS`, `HABITS`, `CHANGES`, `DELVER_PROFS` (ranks and skills for all eight Professions), `LENGTHS`, `routeOf(site, length)`, `TAG_DIVE` (what a contract's dangers do down there).
+`SITES` (each with its zones, `goals` per length, `deep` and `boss`), `ZONES`, `MONSTERS` (`boss: true` for the six site bosses and the Kiln), `GOODS`, `SUPPLIES`, `SCARS`, `HABITS`, `CHANGES`, `DELVER_PROFS` (ranks and skills for all eight Professions), `LENGTHS`, `routeOf(site, length, goal?)` (a plain job's long route stops short of the boss), `TAG_DIVE` (what a contract's dangers do down there).
 
 ## Timing, worked through
 
@@ -104,4 +104,4 @@ A trip that ends early (a retreat or a wipe) simply has fewer weeks. The player 
 
 ## Saves
 
-`SAVE_VERSION` is 13. `migrateSave` brings classic saves across. Members get the new fields at zero, and every board contract gets its expedition. A squad already out comes home when it was due, with the job done and a single line: "The road was quiet."
+`SAVE_VERSION` is 14. Version 13 saves turn `delve.kilnBroken` into `delve.bossesBeaten` (`['pellam']` if the Kiln was broken); trips sealed before that still replay the same, because the dive reads the old flag for Old Pellam. `migrateSave` brings classic saves across. Members get the new fields at zero, and every board contract gets its expedition. A squad already out comes home when it was due, with the job done and a single line: "The road was quiet."

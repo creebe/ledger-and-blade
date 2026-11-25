@@ -185,7 +185,7 @@ A **Date** is a day on the guild's calendar, three to six weeks ahead, that the 
 
 ## 5d. Expeditions (Canon from v0.13.0)
 
-Contracts are walked as **expeditions** to real places (`docs/EXPEDITIONS.md`). A posting names a site, a route length and a goal; the patron and the story facts work as before. The expedition plays itself and is revealed a week at a time; the player's part is the preparation. Content is in `src/engine/expeditions/data/` (`content.ts` for sites, zones, monsters and goods; `lines.ts` for Old Pellam's log and the default lines; `lines-sites.ts` for the other sites). All of it is in the story document's Expeditions tab.
+Contracts are walked as **expeditions** to real places (`docs/EXPEDITIONS.md`). A posting names a site, a route length and a goal; the patron and the story facts work as before. The expedition plays itself and is revealed a week at a time; the player's part is the preparation. Content is in `src/engine/expeditions/data/` (`content.ts` for sites, zones, monsters, bosses and goods; `lines.ts` for Old Pellam's log and the default lines; `lines-sites.ts` for the other sites' first zones; `lines-deep.ts` for their deeper zones and bosses). The other sites' postings are in `src/engine/data/contracts-sites.ts`. All of it is in the story document's Expeditions tab.
 
 ### How an expedition reads
 
@@ -196,17 +196,21 @@ Contracts are walked as **expeditions** to real places (`docs/EXPEDITIONS.md`). 
 
 ### The sites
 
-| Site | Zones | Kind | Who posts work there | Who and what is met |
-|---|---|---|---|---|
-| **Old Pellam** | the Culverts, the Buried Streets, the College Sink, and the Kiln Engine at the bottom | under the city | Saint Oda's, the Exchequer, the Mudlarks, the Weighhouse, Ostrander's, the Porters' Fraternity (`pellam_*`) | grubbers; culvert rats, tallow moths, sink eels, cellar spiders, pale hogs, sink crabs, seeps, Assay engines |
-| **Varrow** | the Lower Town (yards, warehouses, back stairs) | the city | any patron with work in the city; the story contracts *Short Weight at Hesketh's* and *Ansel Fell at the Chain* | hired thugs, the watch's guards, rioters |
-| **Kell Mines** | the upper workings | overland, north | as classic Kell work | claim-jumpers, cave crabs, culvert rats; bad air (gas) |
-| **The Saltfens** | the reed paths | overland, the estuary | as classic Saltfens work; *Salts for Saint Oda's* | salt-cutters gone feral, marsh hogs; the marsh fever |
-| **Drover's Road** | the hill road | overland, east | as classic road work; *The Aske Silver* | road agents, deserters from the Ninth, hill wolves |
-| **Harrowmere** | the lake shore | overland | as classic lake work; *The Exchequer's Last Tapestry* | lake smugglers, mere pike |
-| **Port Anselm** | the Wenmouth road | overland, the coast | as classic coast work; *The Crown's Last Silver* | road agents, deserters |
+Every site is built like Old Pellam (Canon from v0.14.0): three zones and a boss. A short route stays in the first zone, a medium route goes on into the second, and a long route goes down through all three to the boss's room. A plain job ("see the job through") on a long route walks the third zone and stops short of the boss; postings with a goal of their own (reach a zone, bring something back, kill something) go all the way.
 
-The distant sites add road weeks there and back (`road_out`, `road_on`, `road_back`, `road_home`). Varrow and Old Pellam have no road, so no door scenes fire for them. Each distant site has one zone until later work fills it out.
+| Site | Zones, shallowest first | Boss | Kind | Who posts work there | Who and what is met |
+|---|---|---|---|---|---|
+| **Old Pellam** | the Culverts, the Buried Streets, the College Sink | the Kiln Engine | under the city | Saint Oda's, the Exchequer, the Mudlarks, the Weighhouse, Ostrander's, the Porters' Fraternity (`pellam_*`) | grubbers; culvert rats, tallow moths, sink eels, cellar spiders, pale hogs, sink crabs, seeps, Assay engines |
+| **Varrow** | the Lower Town, the Quays, the Rookeries | Lew Rudd, in Rudd's yard | the city | any patron with work in the city; the Exchequer (bonded brandy), the Porters (the yard dogs, Rudd) (`varrow_*`); the story contracts *Short Weight at Hesketh's* and *Ansel Fell at the Chain* | hired thugs, the watch's guards and sergeants, footpads, lightermen, yard dogs, rioters |
+| **Kell Mines** | the upper workings, the Sump, the Trevick level | Gaffer Moyle | overland, north | as classic Kell work; the Weighhouse (ore, Moyle), the Exchequer (the Crown's mineral rights) (`kell_*`) | claim-jumpers, powder men, pit ponies, cave crabs, culvert rats; bad air (gas), falls of rock |
+| **The Saltfens** | the reed paths, the Pans, the Withies | the Dean, a marsh boar | overland, the estuary | as classic Saltfens work; *Salts for Saint Oda's*; Saint Oda's (pan salt), the Weighhouse and the Porters (the Dean) (`fens_*`) | salt-cutters gone feral, fowlers, fen leeches, marsh hogs; the marsh fever, brine |
+| **Drover's Road** | the hill road, Brannock Moor, Skell Gap | Sergeant Abner Crewe | overland, east | as classic road work; *The Aske Silver*; the cattle and wool dealers (the bull, fleeces), the Exchequer (Crewe) (`drovers_*`) | road agents, reivers, deserters from the Ninth, hill wolves, moor bulls; stampedes, scree |
+| **Harrowmere** | the lake shore, the bridge houses, the Holms | the Bailiff, a pike | overland | as classic lake work; *The Exchequer's Last Tapestry*; an Anvil Row cabinet-maker (bog oak), the Mudlarks for Harrowmere's fishermen (the Bailiff) (`mere_*`) | lake smugglers, night boatmen, crayfish, mere pike; rotten floors |
+| **Port Anselm** | the Wenmouth road, the Burrows, the Strand | Mags Tull and her wreckers | overland, the coast | as classic coast work; *The Crown's Last Silver*; a perfumer (ambergris), Ostrander's (the insurers' survey), the Exchequer (Tull) (`anselm_*`) | road agents, deserters, wreckers, herring gulls, Ostrander's tidewaiters; the tide |
+
+The distant sites add road weeks there and back (`road_out`, `road_on`, `road_back`, `road_home`). Varrow and Old Pellam have no road, so no door scenes fire for them.
+
+**Bosses are beaten once** (`GameState.delve.bossesBeaten`). The first time one falls, the report says what the place makes of it, its posting comes off the board for good, and long routes there end in its room with a lesser fight from whoever moved in. Each boss is an animal or a person, never anything evil: a man who rents out muscle, a claim-jumper who never paid for his vein, an old boar, a deserter sergeant, a big pike and a wrecker. People bosses can't be talked out of the fight by an Envoy.
 
 ### Old Pellam
 
@@ -224,12 +228,36 @@ The distant sites add road weeks there and back (`road_out`, `road_on`, `road_ba
 
 ### The other sites and their people
 
-- **Varrow's Lower Town.** Work in the city is guarded doors and angry crowds: hired thugs who are brave in a crowd, watchmen who shout for their friends first, and rioters. Hurting rioters costs the guild renown. People in the Lower Town "saw nothing".
-- **Kell Mines.** Galleries cut into the hill a century ago, propped with old timber, half of them flooded. Claim-jumpers work galleries that belong to somebody else and would rather fight than be written down. Pale cave crabs came up the flooded galleries. The finds are iron and coin; the silver is deeper than the upper workings go.
-- **The Saltfens.** Plank paths through reeds taller than a man. Salt-cutters who stayed out on the pans too long have lost their manners to the fever, and black marsh hogs charge anything that moves in the reeds. Reagents grow here.
-- **Drover's Road.** The cattle road climbing into the hills, with stone walls, sheep and nobody coming to help. Road agents give a speech about tolls before they shoot. Deserters are soldiers of the Ninth who walked away with their mail and spears. The hill wolves are thin from a bad winter.
-- **Harrowmere.** Shingle, boathouses and cold water, with the old bridge standing out over the mere. Lake smugglers move cargo at night and don't want to be counted; mere pike lie in the shallows and take ankles.
-- **Port Anselm.** The coast road through salt marsh and dunes, with a ford at every river mouth (Wenmouth among them). Road agents and deserters work it, because the Crown's silver goes this way to Ostrander's ships.
+- **Varrow.**
+  - *The Lower Town.* Work in the city is guarded doors and angry crowds: hired thugs who are brave in a crowd, watchmen who shout for their friends first, and rioters. Hurting rioters costs the guild renown. People in the Lower Town "saw nothing". The short route ends at a cooper's yard.
+  - *The Quays* are the river warehouses below the chain, walked at night: lighters tied up three deep, bonded stores whose brandy is waiting for its duty to be paid, and the tide coming up the river stairs. Lightermen think the quay is theirs. Footpads work the alleys behind. Somebody keeps mastiffs (yard dogs) in the yards, and a watch sergeant can be paid by anyone for an evening. The medium route ends at the bonded warehouse. The Quays are dark.
+  - *The Rookeries* are tenement courts behind the tanneries, six storeys of rented rooms with a way over the roofs. They are poor, crowded and nobody's friend.
+  - *Lew Rudd* rents out muscle by the day from a yard at the bottom of the Rookeries. Half the thugs in the Lower Town have worked for him. The Porters' Fraternity wants him out of business. His book (who hired whom) is the boss's find.
+- **Kell Mines.**
+  - *The upper workings* are galleries cut into the hill a century ago, propped with old timber, half of them flooded. Claim-jumpers work galleries that belong to somebody else and would rather fight than be written down. Pale cave crabs came up the flooded galleries. The finds are iron and coin. The short route ends at the old winding shaft.
+  - *The Sump* is the lower galleries, flooded since the pumps gave out forty years ago. It is knee-deep, cold and dark. Pit ponies left below when the mine closed have gone half wild, and powder men (claim-jumpers with the blasting powder) throw it at people. The medium route ends at the drowned pump house. Silver ore starts here.
+  - *The Trevick level* is the old silver gallery, cut by a mine captain called Trevick. The vein is still there.
+  - *Gaffer Moyle*, the claim-jumpers' captain, has held the Trevick level for six years without paying anyone, with a keg of powder beside his chair. His powder hits the whole squad, like the Kiln's blast, but gives no Exposure. The lease-holders (the Weighhouse) want him off. His takings are the boss's find.
+- **The Saltfens.**
+  - *The reed paths* are plank paths through reeds taller than a man. Salt-cutters who stayed out on the pans too long have lost their manners to the fever, and black marsh hogs charge anything that moves in the reeds. Reagents grow here. The short route ends at the cutters' landing.
+  - *The Pans* are the salt pans and brine flats: low walls, white crust and boiling huts. Soft crust over hot brine is a hazard, and the brine gets into cuts (Exposure). Pan salt is the find, and Saint Oda's uses it on wounds. The medium route ends at the old boiling house.
+  - *The Withies* are willow beds cut by deep channels where the fens meet the river. Fen leeches come up out of the channels in a knot, and fowlers with punt guns shoot ducks for the Varrow markets and anyone else in their beds.
+  - *The Dean* is the oldest marsh boar in the fens, the size of a cart. The cutters named it after the college's dean and say the likeness is fair. The cutters won't work the Withies while it is there. Its tusks are the boss's find; the college wants them, for reasons it won't put in writing.
+- **Drover's Road.**
+  - *The hill road* is the cattle road climbing into the hills, with stone walls, sheep and nobody coming to help. Road agents give a speech about tolls before they shoot. Deserters are soldiers of the Ninth who walked away with their mail and spears. The hill wolves are thin from a bad winter. The short route ends at the drovers' inn.
+  - *Brannock Moor* is the high moor the road crosses: heather, standing water and cairns, with wind from every side. Reivers lift other people's herds and call it a family trade, and a moor bull that got away from a drove years ago runs it now. Spooked herds stampede. Drovers leave food at the cairns for the next drover. The medium route ends at the standing cairn.
+  - *Skell Gap* is the pass at the top, between scree slopes, with the old Crown toll house at the narrowest point.
+  - *Sergeant Abner Crewe* walked out of the Ninth with twenty men and the regiment's colours, and holds the toll house, charging the Crown's toll and keeping it. The Exchequer wants the toll house back. The colours are the boss's find, carried at Cassel Ford; somebody in the Ninth will pay a great deal for them, or shout a great deal. *(Draft: whether Mayne or the Ninth react to the colours coming home.)*
+- **Harrowmere.**
+  - *The lake shore* is shingle, boathouses and cold water, with the old bridge standing out over the mere. Lake smugglers move cargo at night and don't want to be counted; mere pike lie in the shallows and take ankles. The short route ends at the boathouses.
+  - *The bridge houses* are the houses built along the old bridge, empty since the middle span fell twenty years ago. Their floors are rotten over the water, and they are dark. Night boatmen row for the smugglers, and crayfish the size of cats live under the piers. The medium route ends at the broken span.
+  - *The Holms* are the islands out on the mere: alder, reed, ruined chapels and the deepest water anyone has sounded. Bog oak, black and hard as iron, is the find; Anvil Row's furniture makers fight over it.
+  - *The Bailiff* is the biggest pike in the mere, longer than a boat. The fishermen named it that because it takes its share of every catch. It strikes from the water first. The rings in its belly are the boss's find, and three families say they were their grandmother's.
+- **Port Anselm.**
+  - *The Wenmouth road* is the coast road through salt marsh and dunes, with a ford at every river mouth (Wenmouth among them). Road agents and deserters work it, because the Crown's silver goes this way to Ostrander's ships. The short route ends at the ford.
+  - *The Burrows* are miles of dunes between the road and the sea, with marram grass and the ribs of old ships in the sand. Wreckers hang false lanterns where ships will mistake them for the harbour, and herring gulls have learned what a pack looks like and steal from it. Ambergris washes up here. The tide comes in fast across the slacks. The medium route ends at the wreck on the point.
+  - *The Strand* is Port Anselm's waterfront: customs sheds, rope walks and Ostrander's warehouses. Ostrander's tidewaiters (customs men) guard the sheds and don't care whose papers the guild has, even when the guild is working for the bank.
+  - *Mags Tull* runs the wreckers from a cove at the end of the Strand, where the Burrows come down to the sea. She steals from the squad as she fights. The Exchequer wants her lantern out before the next shipment of silver; her salvage from a dozen ships is the boss's find.
 - **What a contract's dangers bring.** A contract's tags bring their own enemies anywhere: hired thugs, sell-swords, the watch's guards, unlicensed hedge-wizards behind workings the college would never pass, trolls (big, grey, slow, and they heal unless burned), salamanders (lizards the length of a cart that live where the rock is warm) and rioters. Trolls and salamanders are animals. Place tags bring the dark, cold, mud and fever.
 
 ### Exposure, the Sink fever and Sink changes
@@ -254,7 +282,7 @@ The distant sites add road weeks there and back (`road_out`, `road_on`, `road_ba
 - **The Ninth.** Deserters from the company work Drover's Road and the Wenmouth road.
 - **Jory** meets squads coming home with the ledger open, and only ever makes remarks.
 - **Patrons who must be met first.** Saint Oda's and the Mudlarks only post once the guild has met them (`met_oda`, `met_mudlarks`). A patron at −30 or worse stops posting. Vorn's survey needs `ostranders_open`.
-- **Story contracts are story expeditions.** Each keeps its success, failure and expiry facts and succeeds when its goal is met. Their sites come from their regions: *Short Weight at Hesketh's* and *Ansel Fell at the Chain* in Varrow, *Salts for Saint Oda's* in the Saltfens, *The Exchequer's Last Tapestry* at Harrowmere, *The Aske Silver* on Drover's Road and *The Crown's Last Silver* on the Wenmouth road to Port Anselm. They are walked on the site's one zone with a "walk the route" goal for now; bespoke story sites are still to come.
+- **Story contracts are story expeditions.** Each keeps its success, failure and expiry facts and succeeds when its goal is met. Their sites come from their regions: *Short Weight at Hesketh's* and *Ansel Fell at the Chain* in Varrow, *Salts for Saint Oda's* in the Saltfens, *The Exchequer's Last Tapestry* at Harrowmere, *The Aske Silver* on Drover's Road and *The Crown's Last Silver* on the Wenmouth road to Port Anselm. They are walked with a "see the job through" goal: a short or medium one on the site's first one or two zones, and a long one through all three, stopping short of the boss. Bespoke story sites are still to come.
 - **Envoys and Infiltrators.** An Envoy can talk people out of a fight, or buy them off with what the squad has found, and can stop one of the other side with a hard word. An Infiltrator opens locks and makes traps safe without tools, and gets the squad past sentries.
 
 ### In the acts
@@ -277,7 +305,7 @@ The distant sites add road weeks there and back (`road_out`, `road_on`, `road_ba
 - **No lectures.** Characters never explain what any Varrow resident would know. Common knowledge sits in the **Codex** from the start, as reference.
 - **The Codex** (`src/engine/data/codex.ts`) unlocks entries from play: places your squads visit, enemies they face, people you meet, members' own pasts (a veteran in the roster tells you about Cassel Ford), and street talk. Every entry records how the guild learned it.
 - **In the hall:** about one week in four, Jory Abbot remarks on the state of the guild (low funds, Heat, a death, a crowded hall). Lines are in `JORY` in `codex.ts` and never explain the world.
-- **Expeditions** unlock Codex entries the way contracts always did: a squad home from a region unlocks that place, and the dangers it faced unlock their entries. Old Pellam, its zones and the dive's own monsters have no entries yet (a Pellam job counts as Varrow); they are described only in their own text (the site and zone cards, and the log). *(Open: Codex entries for Old Pellam.)*
+- **Expeditions** unlock Codex entries the way contracts always did: a squad home from a region unlocks that place, and the dangers it faced unlock their entries. Old Pellam, its zones, the other sites' deeper zones and bosses, and the dive's own monsters have no entries yet (a Pellam job counts as Varrow); they are described only in their own text (the site and zone cards, and the log). *(Open: Codex entries for Old Pellam.)*
 - **Heard in Varrow:** one line of street talk a week in the week report, chosen to reflect the Debt clocks, decrees in force and story facts. Some lines unlock Codex entries.
 
 ## 7. Writing rules

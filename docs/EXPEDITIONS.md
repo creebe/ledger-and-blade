@@ -7,7 +7,15 @@ The owner's brief: "make our game feel a lot more like Darkest Dungeon. More abo
 ## 0. In the full game
 
 - **Contracts are postings.** Each one names a site, a route length (short, medium or long) and a goal: walk the route, reach a zone, bring back goods or kill something. The patron, pay, standing, Heat, story facts and rival operations work as before.
-- **Sites.** Old Pellam is complete (three zones and the Kiln Engine). Varrow, Kell Mines, the Saltfens, Drover's Road, Harrowmere and Port Anselm have one zone each until their own work fills them out. Distant sites add road weeks there and back.
+- **Sites (v0.14.0).** Every site is built like Old Pellam: three zones and a boss. Short routes stay in the first zone, medium routes go on into the second, and long routes go down through all three to the boss's room. A plain job on a long route walks the third zone and stops short of the boss. Distant sites add road weeks there and back. The zones, monsters and bosses are in `docs/STORY.md` §5d, and sample logs for each site are in `docs/playthroughs/sites/` (`npm run exp:logs`).
+  - Varrow: the Lower Town, the Quays, the Rookeries; Lew Rudd.
+  - Kell Mines: the upper workings, the Sump, the Trevick level; Gaffer Moyle.
+  - The Saltfens: the reed paths, the Pans, the Withies; the Dean.
+  - Drover's Road: the hill road, Brannock Moor, Skell Gap; Sergeant Crewe.
+  - Harrowmere: the lake shore, the bridge houses, the Holms; the Bailiff.
+  - Port Anselm: the Wenmouth road, the Burrows, the Strand; Mags Tull.
+- **Bosses are beaten once.** Each site's boss falls once (`delve.bossesBeaten`); its posting comes off the board, and long routes there end in its room with a lesser fight. Each site has two or three postings of its own (`data/contracts-sites.ts`): reach a zone, bring a find, kill something, and the boss.
+- **Depth carries the danger beyond Old Pellam.** A classic contract's threat now counts from what is usual for its route length (3 short, 5 medium, 8 long), because the deeper zones already make the trip harder.
 - **A contract's dangers come along.** Hidden tags are what is rumoured to be there. Enemy tags bring their own fights (thugs, sell-swords, guards, hedge-wizards, trolls, salamanders, rioters); place tags bring the dark, cold, mud or fever. Lanterns, fur cloaks, remedies and climbing kits cancel them as before.
 - **All eight Professions fight.** The Envoy talks people out of fights or buys them off; the Infiltrator opens locks and traps without tools and gets the squad past sentries.
 - **Classic gear is dive gear.** Weapons, armor and trinkets from the market and the Workshop all work down there; oils and salts key a member's blows for the trip, and a healing draught in their kit saves them once.
@@ -123,12 +131,18 @@ It breaks once. After that, long expeditions end in the Kiln's yard, where two l
 
 ## 9c. Balance in the full game (`npm run sim`, 300 games of 48 weeks)
 
+v0.14.0, with every site at full depth (v0.13 in brackets):
+
 | Bot | First-year survival | Deaths per expedition | Squads lost | Expeditions a year | Deaths a year |
 |---|---|---|---|---|---|
-| Bold, good prep | 60% | 0.18 | 10% | 19 | 3.4 |
-| **Careful, good prep** | **71%** | **0.11** | **6%** | **20** | **2.2** |
-| Cautious, good prep | 62% | 0.07 | 4% | 18 | 1.3 |
-| Careful, poor prep | 1% | 0.70 | 24% | 4 | 3.0 |
+| Bold, good prep | 49% (60%) | 0.21 (0.18) | 12% (10%) | 16 (19) | 3.3 (3.4) |
+| **Careful, good prep** | **68% (71%)** | **0.11 (0.11)** | **6% (6%)** | **18 (20)** | **2.1 (2.2)** |
+| Cautious, good prep | 63% (62%) | 0.07 (0.07) | 4% (4%) | 17 (18) | 1.2 (1.3) |
+| Careful, poor prep | 1% (1%) | 0.73 (0.70) | 23% (24%) | 4 (4) | 3.1 (3.0) |
+
+Careful bot, deaths per expedition by site: Old Pellam 0.15, Varrow 0.09, Kell Mines 0.17, the Saltfens 0.16, Drover's Road 0.10, Harrowmere 0.13, Port Anselm 0.04. The bot now reads every site's own postings (a goal other than "see it through") the way it reads Old Pellam's, and keeps pairs out of them; without that it took the long boss jobs with green squads and survived 40%.
+
+A fresh guild's starting squad on a long boss trip (`suggestPlan`, no dangers, 120 seeds) loses the whole squad 16–29% of the time, against 54% for the Kiln Engine.
 
 **Care pays best.** Before the owner's review, a bold guild survived more often than a careful one (82% against 73%, with a cautious one at 40%): a full squad on a short trip came home almost untouched, going out tired cost nothing, a death cost about 40 crowns to replace, and a cautious guild sat out while its people healed. Now:
 - **Every trip wears people down.** Rooms on the one-zone sites cost as much fatigue as deeper ones, so a squad comes home from a short trip about a fifth worn out and needs rotating.
@@ -154,6 +168,6 @@ The trial's own numbers, for one squad from a fresh guild (`exp:sim`, 300 seeds)
   - `gear.ts`: classic items read as dive gear.
   - `migrate.ts`: classic saves (version 12) brought across.
   - `tuning.ts`: the headline numbers.
-- `src/engine/expeditions/data/`: `content.ts` (Professions in a fight, supplies, monsters, sites and zones, goods, marks), `lines.ts` (Old Pellam's log lines) and `lines-sites.ts` (the other sites, the new monsters and Professions).
+- `src/engine/expeditions/data/`: `content.ts` (Professions in a fight, supplies, monsters, sites and zones, goods, marks), `lines.ts` (Old Pellam's log lines), `lines-sites.ts` (the other sites' first zones, their monsters and the Envoy's and Infiltrator's moves) and `lines-deep.ts` (the other sites' deeper zones, their monsters and bosses). `expeditions/bosses.ts` answers whether a site's boss is beaten.
 - `src/ui/sheets/PrepSheet.tsx`, `src/ui/sheets/ExpLogSheet.tsx` and `src/ui/expeditions/` (silhouettes, bars and marks). The Field tab and Watch together are workstream 2.
 - `npm run sim` (balance), `npm run playthroughs` (sample games with the logs) and `tests/expeditions.test.ts`.
