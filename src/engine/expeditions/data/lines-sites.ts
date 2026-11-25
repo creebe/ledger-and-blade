@@ -163,7 +163,7 @@ export const SITE_LINES: Record<string, string[]> = {
   ],
   goalroom_workings: [
     "The gallery the job named is at the end of the tramway. There are lamps in it already.",
-    "They reach the old silver gallery. Somebody else got here first and has no intention of leaving.",
+    "They reach the old winding shaft at the bottom of the upper workings. Somebody else got here first and has no intention of leaving.",
   ],
   goal_workings: [
     "At the end of the gallery {a} finds {g}, stacked under a tarpaulin for a wagon that did not come.",

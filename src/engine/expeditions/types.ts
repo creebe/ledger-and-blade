@@ -8,13 +8,25 @@ export type ZoneId =
   | 'culverts'
   | 'streets'
   | 'sink'
-  // thin sites, one zone each until their own workstream fills them
+  // the other sites, three zones each, shallowest first
   | 'lowertown'
+  | 'quays'
+  | 'rookeries'
   | 'workings'
+  | 'sump'
+  | 'trevick'
   | 'reeds'
+  | 'pans'
+  | 'withies'
   | 'hillroad'
+  | 'brannock'
+  | 'skell'
   | 'shore'
-  | 'wenmouth';
+  | 'bridge'
+  | 'holms'
+  | 'wenmouth'
+  | 'burrows'
+  | 'strand';
 export type ExpLength = 'short' | 'medium' | 'long';
 /** What goes in the pack. Food comes from the guild's supplies; the rest from `GameState.stores`. */
 export type SupplyId = 'food' | 'bandages' | 'oil' | 'tools' | 'masks' | 'reagents' | 'draughts';
@@ -41,6 +53,33 @@ export type MonsterId =
   | 'wolf'
   | 'pike'
   | 'smuggler'
+  // Varrow
+  | 'footpad'
+  | 'lighterman'
+  | 'watch_sergeant'
+  | 'yard_dog'
+  | 'rudd'
+  // Kell Mines
+  | 'powder_man'
+  | 'pit_pony'
+  | 'moyle'
+  // the Saltfens
+  | 'leeches'
+  | 'fowler'
+  | 'dean'
+  // Drover's Road
+  | 'reiver'
+  | 'moor_bull'
+  | 'crewe'
+  // Harrowmere
+  | 'night_boatman'
+  | 'crayfish'
+  | 'bailiff'
+  // Port Anselm
+  | 'wrecker'
+  | 'tidewaiter'
+  | 'gulls'
+  | 'tull'
   // brought in by a contract's dangers (tags), anywhere
   | 'thug'
   | 'soldier'
@@ -50,7 +89,28 @@ export type MonsterId =
   | 'salamander'
   | 'rioter';
 /** Loot. The four materials go into `GameState.materials`; the rest are goods sold at the market. */
-export type GoodId = 'coin' | 'glass' | 'eel_oil' | 'silver' | 'salts' | 'seal' | 'kiln_core' | MaterialId;
+export type GoodId =
+  | 'coin'
+  | 'glass'
+  | 'eel_oil'
+  | 'silver'
+  | 'salts'
+  | 'seal'
+  | 'kiln_core'
+  // the other sites: a common find each, and what each boss leaves
+  | 'brandy'
+  | 'rudd_book'
+  | 'ore'
+  | 'moyle_takings'
+  | 'pan_salt'
+  | 'tusks'
+  | 'fleece'
+  | 'colours'
+  | 'bog_oak'
+  | 'rings'
+  | 'ambergris'
+  | 'salvage'
+  | MaterialId;
 
 export interface StandingOrders {
   /** when to turn back: cautious (anyone badly hurt or worn out, or a death), steady (two, or a death), stubborn (falling apart) */

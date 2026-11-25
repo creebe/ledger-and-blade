@@ -1,5 +1,6 @@
 import type { FactId, ContractEffect, FactionId, MaterialId, PhaseDef, Season, TagId } from '../core/types';
 import type { ContractExpedition } from '../expeditions/types';
+import { SITE_CONTRACTS } from './contracts-sites';
 
 export interface ContractTemplate {
   id: string;
@@ -206,6 +207,8 @@ export const CONTRACT_TEMPLATES: ContractTemplate[] = [
     weight: 0.8,
     expedition: { site: 'pellam', length: 'long', goal: { kind: 'kill', monster: 'kiln', count: 1 } },
   },
+  // ---- the other sites' deeper zones and bosses (contracts-sites.ts) ----
+  ...SITE_CONTRACTS,
   {
     id: 'wolf_cull',
     type: 'Hunt',

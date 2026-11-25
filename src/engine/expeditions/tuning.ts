@@ -27,7 +27,7 @@ export const EXP_TUNING = {
   fatigue: { tired: 40, spent: 70, tiredPenalty: 5, spentPenalty: 12, room: [0, 5, 5, 5], bulkDiv: 4, dark: 2, hungry: 10, fight: 2, boss: 6, trap: 3, meal: -4, camp: 25, chaplainCamp: 8, campHungry: 6, secondWind: 10, loadEvery: 8, road: 6 },
   /** reagent runoff in the body, and where it leaves a lasting change */
   exposure: {
-    sinkRoom: 3, seepHit: 4, gas: 8, kilnBlast: 5, bloodCast: 3, stillBad: 6,
+    sinkRoom: 3, seepHit: 4, gas: 8, brine: 4, kilnBlast: 5, bloodCast: 3, stillBad: 6,
     /** each threshold starts a Sink change */
     thresholds: [40, 70, 95],
     /** the odds of drawing tier 1, 2 or 3 at each threshold */
@@ -39,7 +39,7 @@ export const EXP_TUNING = {
   },
   /** experience in the dive's units, and how many of them make one point of classic experience */
   xp: { room: 1, fight: 3, perDepth: 2, perClassic: 3 },
-  renown: { zoneFirst: { culverts: 0, streets: 2, sink: 4 } as Record<string, number>, boss: 8, wanderer: 1, carried: 1, nobodyFell: 2 },
+  renown: { zoneFirst: { culverts: 0, streets: 2, sink: 4, quays: 1, rookeries: 2, sump: 1, trevick: 2, pans: 1, withies: 2, brannock: 1, skell: 2, bridge: 1, holms: 2, burrows: 1, strand: 2 } as Record<string, number>, boss: 8, wanderer: 1, carried: 1, nobodyFell: 2 },
   /** fame from dive deeds is multiplied by this to fit the Legends scale */
   fameScale: 2,
   /** what a death costs at home: weeks of their wage paid to the family, and how much dearer recruits get per recent death */

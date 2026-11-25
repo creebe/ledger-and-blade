@@ -2,7 +2,7 @@
 // sites and zones, goods, scars, habits and Sink changes.
 // Numbers that set the balance are in ../tuning.ts.
 import type { DamageType, Element, ProfessionId, TagId } from '../../core/types';
-import type { ExpLength, GoodId, MonsterId, SiteId, StoreId, SupplyId, ZoneId } from '../types';
+import type { ExpGoal, ExpLength, GoodId, MonsterId, SiteId, StoreId, SupplyId, ZoneId } from '../types';
 
 // ---------------------------------------------------------------------------
 // Professions in a fight
@@ -181,6 +181,39 @@ export const MONSTERS: Record<MonsterId, MonsterDef> = {
   wolf: M({ id: 'wolf', one: 'wolf', name: 'Hill wolf', plural: 'hill wolves', depth: 1, hp: 14, acc: 76, dodge: 18, prot: 0, dmg: [3, 7], speed: 8, weak: ['pierce', 'fire'], resist: [], xp: 2, loot: { good: 'leather', chance: 0.4 }, voice: 'beast', text: 'Grey hill wolves, thin from a bad winter and bolder than they should be.' }),
   pike: M({ id: 'pike', one: 'pike', name: 'Mere pike', plural: 'mere pike', depth: 1, hp: 20, acc: 76, dodge: 14, prot: 1, dmg: [5, 9], speed: 7, weak: ['storm', 'frost'], resist: [], special: 'ambush', xp: 3, voice: 'beast', text: 'A pike as long as a man that lies in the shallows and takes ankles.' }),
   smuggler: M({ id: 'smuggler', one: 'smuggler', name: 'Smuggler', plural: 'smugglers', depth: 1, hp: 15, acc: 72, dodge: 12, prot: 1, dmg: [4, 7], speed: 6, weak: [], resist: [], special: 'thief', xp: 2, coin: 10, people: true, voice: 'people', text: 'Lake people who move cargo at night and do not want to be counted.' }),
+  // ---- Varrow: the Quays and the Rookeries ----
+  footpad: M({ id: 'footpad', one: 'footpad', name: 'Footpad', plural: 'footpads', depth: 2, hp: 14, acc: 74, dodge: 16, prot: 1, dmg: [4, 7], speed: 7, weak: [], resist: [], special: 'thief', xp: 2, coin: 6, people: true, voice: 'people', text: 'A quick hand with a short knife, who knows every alley and would rather you never saw their face.' }),
+  lighterman: M({ id: 'lighterman', one: 'lighterman', name: 'Lighterman', plural: 'lightermen', depth: 2, hp: 20, acc: 72, dodge: 8, prot: 2, dmg: [5, 9], speed: 5, weak: [], resist: [], xp: 3, coin: 5, people: true, voice: 'people', text: 'A boatman who unloads ships onto the quays by night, with a boat hook and strong opinions about who walks on their quay.' }),
+  watch_sergeant: M({ id: 'watch_sergeant', one: 'watch sergeant', name: 'Watch sergeant', plural: 'watch sergeants', depth: 2, hp: 24, acc: 76, dodge: 6, prot: 4, dmg: [5, 9], speed: 5, weak: [], resist: [], xp: 3, coin: 4, people: true, voice: 'people', text: 'A sergeant of the watch with a brass badge, a heavy stick and a pension to think about. Paid by somebody tonight, and not by the city.' }),
+  yard_dog: M({ id: 'yard_dog', one: 'yard dog', name: 'Yard dog', plural: 'yard dogs', depth: 2, hp: 16, acc: 76, dodge: 14, prot: 0, dmg: [4, 8], speed: 8, weak: ['pierce'], resist: [], xp: 2, voice: 'beast', text: 'A warehouse mastiff, kept hungry so it stays interested.' }),
+  rudd: M({ id: 'rudd', one: 'Lew Rudd', name: 'Lew Rudd', plural: 'Lew Rudd', depth: 3, hp: 100, acc: 78, dodge: 6, prot: 4, dmg: [7, 12], speed: 4, weak: [], resist: [], boss: true, xp: 12, coin: 30, people: true, voice: 'people', loot: { good: 'rudd_book', chance: 1 }, text: 'Lew Rudd rents out muscle by the day from a yard in the Rookeries. Half the thugs in the Lower Town have worked for him, and the other half owe him money.' }),
+
+  // ---- Kell Mines: the Sump and the Trevick level ----
+  powder_man: M({ id: 'powder_man', one: 'powder man', name: 'Powder man', plural: 'powder men', depth: 2, hp: 15, acc: 72, dodge: 8, prot: 1, dmg: [5, 9], speed: 4, ranged: true, weak: ['fire'], resist: [], xp: 3, coin: 6, people: true, voice: 'people', text: 'A claim-jumper who handles the blasting powder, and throws it at people when there is no rock handy. Short of eyebrows.' }),
+  pit_pony: M({ id: 'pit_pony', one: 'pit pony', name: 'Pit pony', plural: 'pit ponies', depth: 2, hp: 26, acc: 70, dodge: 6, prot: 1, dmg: [5, 9], speed: 5, weak: ['pierce'], resist: [], special: 'charge', xp: 3, voice: 'beast', text: 'The ponies were left below when the mine closed. They found their own way to live, and they bite.' }),
+  moyle: M({ id: 'moyle', one: 'Gaffer Moyle', name: 'Gaffer Moyle', plural: 'Gaffer Moyle', depth: 3, hp: 78, acc: 74, dodge: 4, prot: 4, dmg: [6, 10], speed: 4, weak: ['fire'], resist: [], special: 'blast', boss: true, xp: 12, coin: 30, people: true, voice: 'people', loot: { good: 'moyle_takings', chance: 1 }, text: 'The claim-jumpers\' captain. Moyle has held the Trevick level for six years, paid nobody for it, and keeps a keg of powder within reach of his chair.' }),
+
+  // ---- the Saltfens: the Pans and the Withies ----
+  leeches: M({ id: 'leeches', one: 'knot of leeches', name: 'Fen leeches', plural: 'fen leeches', depth: 2, hp: 8, acc: 76, dodge: 12, prot: 0, dmg: [2, 4], speed: 6, weak: ['fire'], resist: ['blunt'], special: 'swarm', xp: 1, voice: 'beast', text: 'Leeches as long as a hand, which come up out of the channels in a knot when anything warm steps in.' }),
+  fowler: M({ id: 'fowler', one: 'fowler', name: 'Fowler', plural: 'fowlers', depth: 2, hp: 14, acc: 74, dodge: 10, prot: 1, dmg: [5, 9], speed: 4, ranged: true, weak: [], resist: [], xp: 2, coin: 4, people: true, voice: 'people', text: 'A wildfowler with a punt gun, who shoots duck for the Varrow markets and anything else that comes through the withies uninvited.' }),
+  dean: M({ id: 'dean', one: 'the Dean', name: 'the Dean', plural: 'the Dean', depth: 3, hp: 110, acc: 70, dodge: 4, prot: 3, dmg: [7, 12], speed: 5, weak: ['pierce'], resist: [], special: 'charge', boss: true, xp: 12, voice: 'beast', loot: { good: 'tusks', chance: 1 }, text: 'The oldest marsh boar in the fens, the size of a cart, with tusks like hay hooks. The cutters named it after the college\'s dean, and say the likeness is fair.' }),
+
+  // ---- Drover's Road: Brannock Moor and Skell Gap ----
+  reiver: M({ id: 'reiver', one: 'reiver', name: 'Reiver', plural: 'reivers', depth: 2, hp: 17, acc: 74, dodge: 12, prot: 2, dmg: [4, 8], speed: 7, weak: [], resist: [], special: 'thief', xp: 2, coin: 7, people: true, voice: 'people', text: 'A cattle thief from the moor farms, who lifts other people\'s herds in the autumn and calls it a family trade.' }),
+  moor_bull: M({ id: 'moor_bull', one: 'moor bull', name: 'Moor bull', plural: 'moor bulls', depth: 2, hp: 40, acc: 66, dodge: 2, prot: 3, dmg: [7, 11], speed: 4, weak: ['pierce'], resist: [], special: 'charge', xp: 4, loot: { good: 'leather', chance: 0.6 }, voice: 'beast', text: 'A shaggy red bull that got away from a drove years ago and has run the moor since. It does not like the look of anybody.' }),
+  crewe: M({ id: 'crewe', one: 'Sergeant Crewe', name: 'Sergeant Crewe', plural: 'Sergeant Crewe', depth: 3, hp: 80, acc: 78, dodge: 8, prot: 4, dmg: [6, 10], speed: 5, weak: [], resist: [], boss: true, xp: 12, coin: 25, people: true, voice: 'people', loot: { good: 'colours', chance: 1 }, text: 'Sergeant Abner Crewe walked out of the Ninth with twenty men and the regiment\'s colours. He holds the old toll house at Skell Gap, and charges a toll.' }),
+
+  // ---- Harrowmere: the bridge houses and the Holms ----
+  night_boatman: M({ id: 'night_boatman', one: 'night boatman', name: 'Night boatman', plural: 'night boatmen', depth: 2, hp: 16, acc: 72, dodge: 10, prot: 1, dmg: [4, 8], speed: 6, weak: [], resist: [], xp: 2, coin: 8, people: true, voice: 'people', text: 'A smuggler\'s oarsman, with muffled oars and a cudgel under the thwart.' }),
+  crayfish: M({ id: 'crayfish', one: 'crayfish', name: 'Crayfish', plural: 'crayfish', depth: 2, hp: 12, acc: 70, dodge: 6, prot: 4, dmg: [3, 6], speed: 4, weak: ['blunt', 'storm'], resist: ['slash', 'pierce'], xp: 2, voice: 'beast', text: 'Lake crayfish the size of a cat, which live under the bridge piers and pinch anything that wades.' }),
+  bailiff: M({ id: 'bailiff', one: 'the Bailiff', name: 'the Bailiff', plural: 'the Bailiff', depth: 3, hp: 80, acc: 76, dodge: 12, prot: 2, dmg: [6, 10], speed: 7, weak: ['storm', 'frost'], resist: [], special: 'ambush', boss: true, xp: 12, voice: 'beast', loot: { good: 'rings', chance: 1 }, text: 'The biggest pike in the mere, longer than a boat. The fishermen call it the Bailiff, because it takes its share of every catch.' }),
+
+  // ---- Port Anselm: the Burrows and the Strand ----
+  wrecker: M({ id: 'wrecker', one: 'wrecker', name: 'Wrecker', plural: 'wreckers', depth: 2, hp: 17, acc: 72, dodge: 10, prot: 1, dmg: [4, 8], speed: 6, weak: [], resist: [], special: 'thief', xp: 2, coin: 8, people: true, voice: 'people', text: 'Dune people who hang lanterns where ships will mistake them for the harbour, and are first down the beach in the morning.' }),
+  tidewaiter: M({ id: 'tidewaiter', one: 'tidewaiter', name: 'Tidewaiter', plural: 'tidewaiters', depth: 3, hp: 22, acc: 76, dodge: 6, prot: 4, dmg: [5, 9], speed: 5, weak: [], resist: [], xp: 3, coin: 6, people: true, voice: 'people', text: 'A customs man on Ostrander\'s books, who guards the sheds on the Strand and does not care whose papers you have.' }),
+  gulls: M({ id: 'gulls', one: 'flock of gulls', name: 'Herring gulls', plural: 'herring gulls', depth: 2, hp: 6, acc: 74, dodge: 28, prot: 0, dmg: [1, 3], speed: 9, ranged: true, weak: ['storm'], resist: ['blunt'], special: 'thief', xp: 1, voice: 'beast', text: 'Big grey gulls that have learned what a pack looks like. They will have whatever is in it.' }),
+  tull: M({ id: 'tull', one: 'Mags Tull', name: 'Mags Tull', plural: 'Mags Tull', depth: 3, hp: 95, acc: 78, dodge: 10, prot: 3, dmg: [7, 11], speed: 6, weak: [], resist: [], special: 'thief', boss: true, xp: 12, coin: 30, people: true, voice: 'people', loot: { good: 'salvage', chance: 1 }, text: 'Mags Tull runs the wreckers of the Burrows from a cove at the end of the Strand. She has lit the false lantern on more nights than the harbour master has lit the real one.' }),
+
   thug: M({ id: 'thug', one: 'thug', name: 'Hired thug', plural: 'thugs', depth: 1, hp: 15, acc: 70, dodge: 8, prot: 1, dmg: [4, 7], speed: 5, weak: [], resist: [], xp: 2, coin: 5, people: true, voice: 'people', text: 'Muscle hired by the day. They are brave in a crowd and keen on being paid.' }),
   soldier: M({ id: 'soldier', one: 'soldier', name: 'Sell-sword', plural: 'sell-swords', depth: 1, hp: 22, acc: 78, dodge: 8, prot: 4, dmg: [5, 9], speed: 5, weak: [], resist: [], xp: 3, coin: 6, people: true, voice: 'people', text: 'Soldiers in armor who have been drilled, and are paid to stand still while you try to move them.' }),
   guard: M({ id: 'guard', one: 'guard', name: 'Guard', plural: 'guards', depth: 1, hp: 18, acc: 76, dodge: 8, prot: 3, dmg: [4, 8], speed: 5, weak: [], resist: [], xp: 2, coin: 3, people: true, voice: 'people', text: 'A watchman with a cudgel and a lantern, who will shout for his friends first.' }),
@@ -196,8 +229,8 @@ export const MONSTER_IDS = Object.keys(MONSTERS) as MonsterId[];
 // Sites and zones
 // ---------------------------------------------------------------------------
 
-export type CurioKind = 'shrine' | 'strongbox' | 'grubber_cache' | 'cart' | 'still';
-export type TrapKind = 'tripwire' | 'grate' | 'floor' | 'gas' | 'collapse' | 'bog' | 'snare';
+export type CurioKind = 'shrine' | 'strongbox' | 'grubber_cache' | 'cart' | 'still' | 'wreck' | 'cairn' | 'boathouse';
+export type TrapKind = 'tripwire' | 'grate' | 'floor' | 'gas' | 'collapse' | 'bog' | 'snare' | 'tide' | 'stampede' | 'brine';
 
 export interface ZoneDef {
   id: ZoneId;
@@ -290,6 +323,41 @@ export const ZONES: Record<ZoneId, ZoneDef> = {
     traps: ['snare'],
     scoutFind: 'coin',
   },
+  quays: {
+    id: 'quays',
+    site: 'varrow',
+    name: 'the Quays',
+    depth: 2,
+    dark: true,
+    text: 'The river warehouses below the chain, at night: lighters tied up three deep, bonded stores and men paid to stand in doorways.',
+    rooms: { passage: 2.2, fight: 3, trap: 1.2, find: 2.2, curio: 1 },
+    fights: [['lighterman', 'lighterman'], ['footpad', 'thug'], ['yard_dog', 'yard_dog'], ['watch_sergeant', 'guard'], ['lighterman', 'footpad', 'footpad'], ['yard_dog', 'lighterman']],
+    finds: [
+      { good: 'brandy', min: 1, max: 2, weight: 3 },
+      { good: 'coin', min: 1, max: 3, weight: 2 },
+    ],
+    curios: ['strongbox', 'boathouse'],
+    traps: ['tide', 'snare'],
+    scoutFind: 'brandy',
+  },
+  rookeries: {
+    id: 'rookeries',
+    site: 'varrow',
+    name: 'the Rookeries',
+    depth: 3,
+    dark: false,
+    text: 'Tenement courts behind the tanneries, six storeys of rented rooms leaning on each other, with washing across every gap and a way over the roofs for anyone who knows it.',
+    rooms: { passage: 1.8, fight: 3.4, trap: 1.4, find: 2, curio: 1 },
+    fights: [['footpad', 'footpad', 'footpad'], ['thug', 'thug', 'watch_sergeant'], ['yard_dog', 'yard_dog', 'thug'], ['footpad', 'footpad', 'lighterman'], ['watch_sergeant', 'watch_sergeant', 'thug']],
+    finds: [
+      { good: 'coin', min: 2, max: 4, weight: 3 },
+      { good: 'brandy', min: 1, max: 3, weight: 2 },
+      { good: 'silver', min: 1, max: 1, weight: 1 },
+    ],
+    curios: ['strongbox', 'shrine'],
+    traps: ['floor', 'snare'],
+    scoutFind: 'coin',
+  },
   workings: {
     id: 'workings',
     site: 'kell',
@@ -307,6 +375,41 @@ export const ZONES: Record<ZoneId, ZoneDef> = {
     traps: ['collapse', 'gas'],
     scoutFind: 'iron',
   },
+  sump: {
+    id: 'sump',
+    site: 'kell',
+    name: 'the Sump',
+    depth: 2,
+    dark: true,
+    text: 'The lower galleries, where the pumps gave out forty years ago. The water stands at the knee and is colder than it has any right to be.',
+    rooms: { passage: 2, fight: 3.2, trap: 1.6, find: 2, curio: 0.8 },
+    fights: [['cave_crab', 'cave_crab'], ['pit_pony', 'pit_pony'], ['claim_jumper', 'powder_man'], ['rats', 'rats', 'cave_crab'], ['pit_pony', 'claim_jumper']],
+    finds: [
+      { good: 'ore', min: 1, max: 2, weight: 3 },
+      { good: 'iron', min: 2, max: 3, weight: 2 },
+      { good: 'coin', min: 1, max: 2, weight: 1 },
+    ],
+    curios: ['strongbox', 'shrine'],
+    traps: ['collapse', 'gas'],
+    scoutFind: 'ore',
+  },
+  trevick: {
+    id: 'trevick',
+    site: 'kell',
+    name: 'the Trevick level',
+    depth: 3,
+    dark: true,
+    text: 'The old silver gallery, cut by a mine captain called Trevick who died rich and was buried with his pick. The vein is still there, and so are the people who found it first.',
+    rooms: { passage: 1.6, fight: 3.4, trap: 1.6, find: 2.4, curio: 0.8 },
+    fights: [['claim_jumper', 'claim_jumper', 'powder_man'], ['powder_man', 'powder_man'], ['pit_pony', 'claim_jumper', 'claim_jumper'], ['cave_crab', 'cave_crab', 'powder_man']],
+    finds: [
+      { good: 'ore', min: 2, max: 3, weight: 4 },
+      { good: 'coin', min: 1, max: 3, weight: 2 },
+    ],
+    curios: ['strongbox', 'shrine'],
+    traps: ['collapse', 'gas'],
+    scoutFind: 'ore',
+  },
   reeds: {
     id: 'reeds',
     site: 'saltfens',
@@ -322,6 +425,44 @@ export const ZONES: Record<ZoneId, ZoneDef> = {
     ],
     curios: ['shrine'],
     traps: ['bog'],
+    exposure: 1,
+    scoutFind: 'reagents',
+  },
+  pans: {
+    id: 'pans',
+    site: 'saltfens',
+    name: 'the Pans',
+    depth: 2,
+    dark: false,
+    text: 'The salt pans and brine flats at the edge of the estuary: low walls, white crust and boiling huts, under a sky with nothing in it.',
+    rooms: { passage: 2.2, fight: 3, trap: 1.6, find: 2.2, curio: 0.6 },
+    fights: [['salt_cutter', 'salt_cutter', 'salt_cutter'], ['marsh_hog', 'salt_cutter'], ['fowler', 'salt_cutter'], ['leeches', 'leeches', 'salt_cutter'], ['marsh_hog', 'marsh_hog']],
+    finds: [
+      { good: 'pan_salt', min: 2, max: 3, weight: 4 },
+      { good: 'reagents', min: 1, max: 2, weight: 2 },
+      { good: 'coin', min: 1, max: 2, weight: 1 },
+    ],
+    curios: ['shrine', 'boathouse'],
+    traps: ['brine', 'bog'],
+    exposure: 1,
+    scoutFind: 'pan_salt',
+  },
+  withies: {
+    id: 'withies',
+    site: 'saltfens',
+    name: 'the Withies',
+    depth: 3,
+    dark: false,
+    text: 'Willow beds cut through by deep channels, where the fens run into the river. You can see about as far as the next willow.',
+    rooms: { passage: 1.8, fight: 3.4, trap: 1.6, find: 2.2, curio: 0.8 },
+    fights: [['leeches', 'leeches', 'leeches'], ['marsh_hog', 'marsh_hog'], ['fowler', 'fowler'], ['leeches', 'leeches', 'marsh_hog'], ['salt_cutter', 'salt_cutter', 'fowler']],
+    finds: [
+      { good: 'reagents', min: 2, max: 3, weight: 3 },
+      { good: 'pan_salt', min: 1, max: 2, weight: 1 },
+      { good: 'coin', min: 1, max: 3, weight: 1 },
+    ],
+    curios: ['shrine', 'boathouse'],
+    traps: ['bog', 'snare'],
     exposure: 1,
     scoutFind: 'reagents',
   },
@@ -342,6 +483,42 @@ export const ZONES: Record<ZoneId, ZoneDef> = {
     traps: ['snare'],
     scoutFind: 'coin',
   },
+  brannock: {
+    id: 'brannock',
+    site: 'drovers',
+    name: 'Brannock Moor',
+    depth: 2,
+    dark: false,
+    text: 'The high moor the road crosses on its way to the pass: heather, standing water, old cairns and wind from every side at once.',
+    rooms: { passage: 2.6, fight: 3, trap: 1.2, find: 1.8, curio: 0.8 },
+    fights: [['wolf', 'wolf', 'wolf'], ['reiver', 'reiver'], ['moor_bull'], ['reiver', 'wolf'], ['deserter', 'deserter'], ['reiver', 'reiver', 'reiver']],
+    finds: [
+      { good: 'fleece', min: 1, max: 3, weight: 3 },
+      { good: 'leather', min: 1, max: 2, weight: 2 },
+      { good: 'coin', min: 1, max: 2, weight: 1 },
+    ],
+    curios: ['cairn', 'shrine'],
+    traps: ['snare', 'stampede'],
+    scoutFind: 'fleece',
+  },
+  skell: {
+    id: 'skell',
+    site: 'drovers',
+    name: 'Skell Gap',
+    depth: 3,
+    dark: false,
+    text: "The pass at the top of the Drover's Road, between two scree slopes, with the old Crown toll house at the narrowest point.",
+    rooms: { passage: 1.8, fight: 3.4, trap: 1.4, find: 2, curio: 0.8 },
+    fights: [['deserter', 'road_agent'], ['deserter', 'deserter'], ['reiver', 'reiver', 'deserter'], ['moor_bull', 'reiver'], ['road_agent', 'road_agent', 'deserter']],
+    finds: [
+      { good: 'coin', min: 2, max: 4, weight: 3 },
+      { good: 'fleece', min: 1, max: 2, weight: 1 },
+      { good: 'leather', min: 1, max: 3, weight: 1 },
+    ],
+    curios: ['cairn', 'strongbox'],
+    traps: ['collapse', 'snare'],
+    scoutFind: 'coin',
+  },
   shore: {
     id: 'shore',
     site: 'harrowmere',
@@ -359,6 +536,42 @@ export const ZONES: Record<ZoneId, ZoneDef> = {
     traps: ['snare'],
     scoutFind: 'coin',
   },
+  bridge: {
+    id: 'bridge',
+    site: 'harrowmere',
+    name: 'the bridge houses',
+    depth: 2,
+    dark: true,
+    text: 'The houses built along the old bridge, empty since the middle span went. Their floors are soft, their shutters are nailed, and the water moves underneath all of it.',
+    rooms: { passage: 2, fight: 3.2, trap: 1.5, find: 2.2, curio: 0.8 },
+    fights: [['smuggler', 'night_boatman'], ['crayfish', 'crayfish', 'crayfish'], ['night_boatman', 'night_boatman'], ['pike', 'crayfish'], ['smuggler', 'crayfish']],
+    finds: [
+      { good: 'coin', min: 1, max: 3, weight: 3 },
+      { good: 'bog_oak', min: 1, max: 1, weight: 1 },
+      { good: 'timber', min: 2, max: 3, weight: 2 },
+    ],
+    curios: ['strongbox', 'shrine'],
+    traps: ['floor', 'snare'],
+    scoutFind: 'coin',
+  },
+  holms: {
+    id: 'holms',
+    site: 'harrowmere',
+    name: 'the Holms',
+    depth: 3,
+    dark: false,
+    text: 'The islands out on the mere, reached by punt and by wading: alder, reed, a ruined chapel or two, and the deepest water anyone has sounded.',
+    rooms: { passage: 1.8, fight: 3.4, trap: 1.5, find: 2.4, curio: 0.8 },
+    fights: [['pike', 'pike'], ['crayfish', 'crayfish', 'pike'], ['smuggler', 'smuggler', 'night_boatman'], ['night_boatman', 'smuggler'], ['crayfish', 'crayfish']],
+    finds: [
+      { good: 'bog_oak', min: 1, max: 2, weight: 3 },
+      { good: 'coin', min: 1, max: 3, weight: 2 },
+      { good: 'timber', min: 2, max: 3, weight: 1 },
+    ],
+    curios: ['boathouse', 'shrine'],
+    traps: ['bog', 'snare'],
+    scoutFind: 'bog_oak',
+  },
   wenmouth: {
     id: 'wenmouth',
     site: 'anselm',
@@ -373,9 +586,45 @@ export const ZONES: Record<ZoneId, ZoneDef> = {
     traps: ['snare'],
     scoutFind: 'coin',
   },
+  burrows: {
+    id: 'burrows',
+    site: 'anselm',
+    name: 'the Burrows',
+    depth: 2,
+    dark: false,
+    text: 'The dunes between the coast road and the sea, miles of them, with marram grass, rabbit holes and the ribs of old ships sticking out of the sand.',
+    rooms: { passage: 2.4, fight: 3, trap: 1.3, find: 2, curio: 0.8 },
+    fights: [['wrecker', 'wrecker'], ['gulls', 'gulls', 'gulls'], ['road_agent', 'wrecker'], ['deserter', 'deserter'], ['wrecker', 'gulls', 'gulls']],
+    finds: [
+      { good: 'coin', min: 1, max: 3, weight: 3 },
+      { good: 'ambergris', min: 1, max: 1, weight: 1 },
+      { good: 'timber', min: 2, max: 3, weight: 1 },
+    ],
+    curios: ['wreck', 'shrine'],
+    traps: ['tide', 'snare'],
+    scoutFind: 'coin',
+  },
+  strand: {
+    id: 'strand',
+    site: 'anselm',
+    name: 'the Strand',
+    depth: 3,
+    dark: false,
+    text: "Port Anselm's waterfront: customs sheds, rope walks and Ostrander's warehouses, with the bank's ships riding at anchor beyond the bar.",
+    rooms: { passage: 1.8, fight: 3.4, trap: 1.3, find: 2.2, curio: 0.8 },
+    fights: [['tidewaiter', 'tidewaiter'], ['tidewaiter', 'tidewaiter', 'guard'], ['gulls', 'gulls', 'wrecker'], ['wrecker', 'wrecker', 'wrecker'], ['tidewaiter', 'tidewaiter', 'tidewaiter']],
+    finds: [
+      { good: 'coin', min: 2, max: 4, weight: 3 },
+      { good: 'ambergris', min: 1, max: 1, weight: 2 },
+      { good: 'brandy', min: 1, max: 2, weight: 1 },
+    ],
+    curios: ['wreck', 'strongbox'],
+    traps: ['tide', 'snare'],
+    scoutFind: 'coin',
+  },
 };
 
-export const ZONE_ORDER: ZoneId[] = ['culverts', 'streets', 'sink', 'lowertown', 'workings', 'reeds', 'hillroad', 'shore', 'wenmouth'];
+export const ZONE_ORDER: ZoneId[] = ['culverts', 'streets', 'sink', 'lowertown', 'quays', 'rookeries', 'workings', 'sump', 'trevick', 'reeds', 'pans', 'withies', 'hillroad', 'brannock', 'skell', 'shore', 'bridge', 'holms', 'wenmouth', 'burrows', 'strand'];
 
 export type SiteGroup = 'under' | 'town' | 'overland';
 
@@ -408,6 +657,10 @@ export interface SiteDef {
   group: SiteGroup;
   text: string;
   boss?: SiteBoss;
+  /** what each route length is for, in a line on the board */
+  goals?: Record<ExpLength, string>;
+  /** a plain job's long route, which stops short of the boss */
+  deep?: string;
 }
 
 export const SITES: Record<SiteId, SiteDef> = {
@@ -418,6 +671,11 @@ export const SITES: Record<SiteId, SiteDef> = {
     zones: ['culverts', 'streets', 'sink'],
     group: 'under',
     text: "The first town on the river, under Varrow's Lower Town. Its cellars and streets are still down there, and so is the drain where the college poured its spent reagents for a century.",
+    goals: {
+      short: 'Through the Culverts to the old pump house',
+      medium: 'Down to the Buried Streets and the old counting house',
+      long: 'To the bottom of the College Sink, where the Kiln Engine walks',
+    },
     boss: {
       monster: 'kiln',
       group: ['kiln', 'seep'],
@@ -430,12 +688,156 @@ export const SITES: Record<SiteId, SiteDef> = {
       goalText: 'Break the Kiln Engine',
     },
   },
-  varrow: { id: 'varrow', name: 'Varrow', region: 'varrow', zones: ['lowertown'], group: 'town', text: 'Work in the city itself, where the trouble is guarded doors and angry crowds.' },
-  kell: { id: 'kell', name: 'Kell Mines', region: 'kell', zones: ['workings'], group: 'overland', text: 'Silver workings in the northern hills, half of them flooded.' },
-  saltfens: { id: 'saltfens', name: 'The Saltfens', region: 'saltfens', zones: ['reeds'], group: 'overland', text: 'The marshes along the estuary, good for reagents and for catching fever.' },
-  drovers: { id: 'drovers', name: "Drover's Road", region: 'drovers', zones: ['hillroad'], group: 'overland', text: 'The cattle road through the hills east of the city.' },
-  harrowmere: { id: 'harrowmere', name: 'Harrowmere', region: 'harrowmere', zones: ['shore'], group: 'overland', text: 'A lake town with an old bridge.' },
-  anselm: { id: 'anselm', name: 'Port Anselm', region: 'anselm', zones: ['wenmouth'], group: 'overland', text: "The coast road to the port where Ostrander's ships take on the Crown's silver." },
+  varrow: {
+    id: 'varrow',
+    name: 'Varrow',
+    region: 'varrow',
+    zones: ['lowertown', 'quays', 'rookeries'],
+    group: 'town',
+    text: 'Work in the city itself, where the trouble is guarded doors and angry crowds, and further down the hill, people who rent out both.',
+    deep: 'To the far side of the Rookeries',
+    goals: {
+      short: 'Through the Lower Town to the cooper\'s yard',
+      medium: 'Down to the Quays and the bonded warehouse',
+      long: 'Into the Rookeries, to Rudd\'s yard',
+    },
+    boss: {
+      monster: 'rudd',
+      group: ['rudd', 'yard_dog', 'yard_dog'],
+      zone: 'rookeries',
+      after: ['thug', 'thug', 'yard_dog'],
+      afterKey: 'rudd_after',
+      deed: 'Put Lew Rudd out of business',
+      memberDeed: 'put Lew Rudd out of business',
+      report: "The Lower Town hears about Rudd's yard before the squad is back on Tallow Street. Nobody admits to having worked for him, which is a first.",
+      goalText: "Put Lew Rudd out of business",
+    },
+  },
+  kell: {
+    id: 'kell',
+    name: 'Kell Mines',
+    region: 'kell',
+    zones: ['workings', 'sump', 'trevick'],
+    group: 'overland',
+    text: 'Silver workings in the northern hills, half of them flooded, and the deepest of them held by people who never paid for it.',
+    deep: 'To the end of the Trevick level',
+    goals: {
+      short: 'Through the upper workings to the old winding shaft',
+      medium: 'Down into the Sump, to the drowned pump house',
+      long: 'To the end of the Trevick level, where Gaffer Moyle holds the vein',
+    },
+    boss: {
+      monster: 'moyle',
+      group: ['moyle', 'powder_man', 'claim_jumper'],
+      zone: 'trevick',
+      after: ['claim_jumper', 'claim_jumper', 'powder_man'],
+      afterKey: 'moyle_after',
+      deed: 'Threw Gaffer Moyle off the Trevick level',
+      memberDeed: 'threw Gaffer Moyle off the Trevick level',
+      report: 'The mine owners write to say they always knew the Trevick level was theirs, and ask whether the guild could also see about the pumps.',
+      goalText: 'Throw Gaffer Moyle off the Trevick level',
+    },
+  },
+  saltfens: {
+    id: 'saltfens',
+    name: 'The Saltfens',
+    region: 'saltfens',
+    zones: ['reeds', 'pans', 'withies'],
+    group: 'overland',
+    text: 'The marshes along the estuary, good for reagents and salt and for catching fever.',
+    deep: 'Through the Withies to the river',
+    goals: {
+      short: 'Along the reed paths to the cutters\' landing',
+      medium: 'Out to the Pans and the old boiling house',
+      long: 'Into the Withies, where the Dean lies up',
+    },
+    boss: {
+      monster: 'dean',
+      group: ['dean', 'marsh_hog'],
+      zone: 'withies',
+      after: ['marsh_hog', 'marsh_hog'],
+      afterKey: 'dean_after',
+      deed: 'Killed the Dean',
+      memberDeed: 'killed the Dean',
+      report: 'The salt-cutters send a ham, which is in poor taste, and a jar of pan salt, which is not.',
+      goalText: 'Kill the Dean',
+    },
+  },
+  drovers: {
+    id: 'drovers',
+    name: "Drover's Road",
+    region: 'drovers',
+    zones: ['hillroad', 'brannock', 'skell'],
+    group: 'overland',
+    text: 'The cattle road through the hills east of the city, over Brannock Moor to the pass at Skell Gap.',
+    deep: 'Up to Skell Gap',
+    goals: {
+      short: 'Along the hill road to the drovers\' inn',
+      medium: 'Across Brannock Moor to the standing cairn',
+      long: 'Up to Skell Gap and the old toll house',
+    },
+    boss: {
+      monster: 'crewe',
+      group: ['crewe', 'deserter'],
+      zone: 'skell',
+      after: ['deserter', 'deserter', 'road_agent'],
+      afterKey: 'crewe_after',
+      deed: 'Took the toll house at Skell Gap',
+      memberDeed: 'took the toll house at Skell Gap from Sergeant Crewe',
+      report: 'The drovers bring their herds over the Gap without paying anybody for the first time in two years, and drink to the guild at the inn.',
+      goalText: 'Take the toll house at Skell Gap from Sergeant Crewe',
+    },
+  },
+  harrowmere: {
+    id: 'harrowmere',
+    name: 'Harrowmere',
+    region: 'harrowmere',
+    zones: ['shore', 'bridge', 'holms'],
+    group: 'overland',
+    text: 'A lake town with an old bridge, a mere that goes deeper than anyone has sounded, and islands nobody farms.',
+    deep: 'Out to the far Holms',
+    goals: {
+      short: 'Along the shore to the boathouses',
+      medium: 'Out along the bridge houses to the broken span',
+      long: 'Out to the Holms, where the Bailiff feeds',
+    },
+    boss: {
+      monster: 'bailiff',
+      group: ['bailiff', 'pike'],
+      zone: 'holms',
+      after: ['pike', 'pike'],
+      afterKey: 'bailiff_after',
+      deed: 'Landed the Bailiff',
+      memberDeed: 'landed the Bailiff',
+      report: 'Harrowmere hangs the Bailiff from the bridge for a week, and three different families claim the rings in its belly were their grandmother\'s.',
+      goalText: 'Land the Bailiff',
+    },
+  },
+  anselm: {
+    id: 'anselm',
+    name: 'Port Anselm',
+    region: 'anselm',
+    zones: ['wenmouth', 'burrows', 'strand'],
+    group: 'overland',
+    text: "The coast road to the port where Ostrander's ships take on the Crown's silver, past the dunes where the wreckers live.",
+    deep: 'To the end of the Strand',
+    goals: {
+      short: 'Along the Wenmouth road to the ford',
+      medium: 'Into the Burrows, to the wreck on the point',
+      long: 'Down the Strand to Mags Tull\'s cove',
+    },
+    boss: {
+      monster: 'tull',
+      group: ['tull', 'wrecker', 'wrecker'],
+      zone: 'strand',
+      after: ['wrecker', 'wrecker', 'gulls'],
+      afterKey: 'tull_after',
+      deed: "Put out Mags Tull's lantern",
+      memberDeed: "put out Mags Tull's lantern",
+      report: 'The harbour master at Port Anselm writes to thank the guild, and to ask it not to mention the wreckers to the bank.',
+      goalText: "Put out Mags Tull's lantern",
+    },
+  },
 };
 
 export const SITE_IDS = Object.keys(SITES) as SiteId[];
@@ -464,17 +866,26 @@ const PELLAM_ROUTES: Record<ExpLength, RouteStep[]> = {
   long: ['culverts', 'culverts', 'culverts', 'streets', 'streets', 'streets', 'streets', 'camp', 'sink', 'sink', 'sink', 'sink', 'camp', 'boss'],
 };
 
-/** The rooms of a route, in order: a zone, a fixed camp site or the boss. */
-export function routeOf(site: SiteId, length: ExpLength): RouteStep[] {
+/** The rooms of a route, in order. A plain job ("see it through") on a long route ends in the last zone, not at the boss. */
+export function routeOf(site: SiteId, length: ExpLength, goal?: ExpGoal): RouteStep[] {
   if (site === 'pellam') return PELLAM_ROUTES[length];
-  const z = SITES[site].zones[0];
+  const zs = SITES[site].zones;
+  if (zs.length >= 3) {
+    // every site is built like Old Pellam: one zone, then two, then all three and the boss
+    const [a, b, c] = zs;
+    if (length === 'short') return [a, a, a, a, a];
+    if (length === 'medium') return [a, a, a, a, 'camp', b, b, b, b];
+    if (goal?.kind === 'complete') return [a, a, a, b, b, b, b, 'camp', c, c, c, c, c];
+    return [a, a, a, b, b, b, b, 'camp', c, c, c, c, 'camp', 'boss'];
+  }
+  const z = zs[0];
   const leg = [z, z, z, z];
   if (length === 'short') return [z, z, z, z, z];
   if (length === 'medium') return [...leg, 'camp', ...leg];
   return [...leg, 'camp', ...leg, 'camp', ...leg];
 }
 
-/** Old Pellam's goal rooms. */
+/** Old Pellam's goal rooms (kept for the story export; every site now has its own `goals`). */
 export const PELLAM_GOALS: Record<ExpLength, string> = {
   short: 'Through the Culverts to the old pump house',
   medium: 'Down to the Buried Streets and the old counting house',
@@ -548,6 +959,18 @@ export const GOODS: Record<GoodId, GoodDef> = {
   salts: { id: 'salts', many: 'jars of reagent salts', name: 'Reagent salts', one: 'a jar of reagent salts', value: 22, text: 'Crystals scraped from the Sink. Apothecaries ask no questions.' },
   seal: { id: 'seal', many: 'Assay seals', name: 'Assay seals', one: 'an Assay seal', value: 34, text: "Brass seals from the Assay Office's old engines. The Office pays to get them back." },
   kiln_core: { id: 'kiln_core', many: 'Kiln cores', name: 'Kiln core', one: "the Kiln Engine's core", value: 240, text: 'The furnace heart of the Kiln Engine. The college would like it back, and will pay.' },
+  brandy: { id: 'brandy', many: 'casks of bonded brandy', name: 'Bonded brandy', one: 'a cask of bonded brandy', value: 14, text: 'Brandy that was waiting on the Quays for the duty to be paid. It still is.' },
+  rudd_book: { id: 'rudd_book', many: "copies of Rudd's book", name: "Rudd's book", one: "Rudd's book", value: 170, text: "Lew Rudd's ledger of who hired whom, for what and when. The watch would pay for it, and so would several people who would rather the watch never saw it." },
+  ore: { id: 'ore', many: 'sacks of silver ore', name: 'Silver ore', one: 'a sack of silver ore', value: 15, text: 'Grey rock with a shine in it, from the Kell veins. The Weighhouse assays it and pays by the sack.' },
+  moyle_takings: { id: 'moyle_takings', many: "chests of Moyle's takings", name: "Moyle's takings", one: "Moyle's takings", value: 180, text: 'Six years of silver from a vein Gaffer Moyle never paid for, in a chest he kept under his chair.' },
+  pan_salt: { id: 'pan_salt', many: 'cakes of pan salt', name: 'Pan salt', one: 'a cake of pan salt', value: 10, text: 'White salt boiled off the Saltfens pans and pressed into cakes. Every kitchen in Varrow uses it, and Saint Oda\'s uses it on wounds.' },
+  tusks: { id: 'tusks', many: "pairs of the Dean's tusks", name: "The Dean's tusks", one: "the Dean's tusks", value: 160, text: 'Two yellow tusks as long as a forearm. The college has asked for them, for reasons it will not put in writing.' },
+  fleece: { id: 'fleece', many: 'fleeces', name: 'Fleeces', one: 'a fleece', value: 8, text: 'Moor fleeces, greasy and thick, from sheep that will not miss them for long.' },
+  colours: { id: 'colours', many: "sets of the Ninth's colours", name: "The Ninth's colours", one: "the Ninth's colours", value: 170, text: 'The regiment\'s flag, carried at Cassel Ford and carried off by Sergeant Crewe. Somebody in the Ninth will pay a great deal for it, or at least shout a great deal.' },
+  bog_oak: { id: 'bog_oak', many: 'lengths of bog oak', name: 'Bog oak', one: 'a length of bog oak', value: 18, text: 'Oak that has lain in the mere for centuries and turned black and hard as iron. The furniture makers on Anvil Row fight over it.' },
+  rings: { id: 'rings', many: "handfuls of the Bailiff's rings", name: "The Bailiff's rings", one: "the Bailiff's rings", value: 150, text: "Rings, buckles and a bishop's seal, from the belly of the biggest pike in Harrowmere. Some of the owners are still alive." },
+  ambergris: { id: 'ambergris', many: 'lumps of ambergris', name: 'Ambergris', one: 'a lump of ambergris', value: 40, text: 'A grey waxy lump that washes up on the Burrows. It smells odd and the perfumers pay a fortune for it.' },
+  salvage: { id: 'salvage', many: "loads of Tull's salvage", name: "Tull's salvage", one: "Tull's salvage", value: 180, text: 'What the wreckers took off a dozen ships: plate, bolts of cloth and a ship\'s figurehead with the name chiselled off.' },
   iron: { id: 'iron', many: 'loads of iron', name: 'Iron', one: 'a load of iron', value: 6, material: true, text: 'Ore and old iron. The Forge uses it.' },
   leather: { id: 'leather', many: 'hides', name: 'Leather', one: 'a hide', value: 5, material: true, text: 'Hides for the Forge and the market.' },
   timber: { id: 'timber', many: 'lengths of timber', name: 'Timber', one: 'a length of timber', value: 3, material: true, text: 'Seasoned wood for building and the Forge.' },

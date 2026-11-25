@@ -6,7 +6,7 @@ import { level, tripWeeks } from '../economy/buildings';
 import { supplyPrice } from '../economy/market';
 import type { Contract, GameState, Member } from '../core/types';
 import { living } from '../core/util';
-import { DELVER_PROFS, GOODS, LENGTHS, MONSTERS, PELLAM_GOALS, SITES, SUPPLIES, SUPPLY_IDS, ZONES, routeOf, type RouteStep } from './data/content';
+import { DELVER_PROFS, GOODS, LENGTHS, MONSTERS, SITES, SUPPLIES, SUPPLY_IDS, ZONES, routeOf, type RouteStep } from './data/content';
 import { delverMaxHp } from './dive';
 import { EXP_TUNING as T } from './tuning';
 import type { ExpPlan, PostingInfo, StandingOrders, SupplyId, ZoneId } from './types';
@@ -51,7 +51,7 @@ export function plannedWeeks(s: GameState, c: Contract) {
 }
 
 /** The route the contract takes, room by room. */
-export const contractRoute = (c: Contract): RouteStep[] => routeOf(c.expedition.site, c.expedition.length);
+export const contractRoute = (c: Contract): RouteStep[] => routeOf(c.expedition.site, c.expedition.length, c.expedition.goal);
 
 /** Why this member can't go, if they can't. */
 export function memberBlocked(_s: GameState, m: Member): string | undefined {
@@ -179,7 +179,7 @@ export function goalText(c: Contract): string {
   if (g.kind === 'reach') return `Reach ${ZONES[g.zone].name} and come back`;
   if (g.kind === 'bring') return `Bring back ${g.count === 1 ? GOODS[g.good].one : `${g.count} ${GOODS[g.good].many}`}`;
   if (g.kind === 'kill') return MONSTERS[g.monster].boss ? (Object.values(SITES).find((x) => x.boss?.monster === g.monster)?.boss?.goalText ?? `Kill ${MONSTERS[g.monster].name}`) : `Kill ${g.count === 1 ? `a ${MONSTERS[g.monster].name.toLowerCase()}` : `${g.count} ${MONSTERS[g.monster].plural}`}`;
-  if (site.id === 'pellam') return PELLAM_GOALS[c.expedition.length];
+  if (site.goals) return c.expedition.length === 'long' && site.deep && g.kind === 'complete' ? site.deep : site.goals[c.expedition.length];
   return `See the job through in ${site.name}`;
 }
 

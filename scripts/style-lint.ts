@@ -15,6 +15,8 @@ const FILES = [
   'src/engine/missions/narrative.ts',
   'src/engine/expeditions/data/lines.ts',
   'src/engine/expeditions/data/lines-sites.ts',
+  'src/engine/expeditions/data/lines-deep.ts',
+  'src/engine/data/contracts-sites.ts',
   'src/engine/expeditions/data/content.ts',
   'src/engine/people/legends.ts',
   'src/engine/rivals/war.ts',
