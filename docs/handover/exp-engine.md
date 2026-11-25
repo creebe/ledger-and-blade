@@ -1,6 +1,6 @@
 # Hand-over: exp-engine (workstream 1, v0.13.0)
 
-Expeditions in the full game, the engine merge. Branch `claude/exp-engine`; the PR is "Expeditions in the full game: engine (v0.13.0)". Nothing is merged or deployed.
+Expeditions in the full game, the engine merge. Branch `claude/exp-engine`; the PR is "Expeditions in the full game: engine (v0.13.0)". Merged into main as PR #9 (squashed, 663ac1e) together with the Field UI (PR #8), and live as v0.13.0.
 
 ## What was done
 
@@ -57,7 +57,6 @@ Expeditions in the full game, the engine merge. Branch `claude/exp-engine`; the 
   - Deaths are much higher than in the classic game (about 2 a year for a careful player, against 0.1). That's intended, but the owner should feel it.
 - **Left by the reviewers, for later workstreams:**
   - **Story:**
-    - Door scenes still read as if the squad is days down the road. They fire in the dispatch week: reword them, or accept them as "word from the first days".
     - `mayne_offer` and other beats that need an idle member can slip while every squad is out.
     - Old Pellam has no Codex entries.
     - Scene checks still roll the classic approach scores.
@@ -81,3 +80,8 @@ Expeditions in the full game, the engine merge. Branch `claude/exp-engine`; the 
     - Still for workstream 6: a fresh full squad on a short Varrow job is still very safe (it now costs fatigue and a rest week, not lives).
 - **The fingerprint** is `npm run fingerprint` on this branch. It no longer matches main's `39f9b740…565a`, as expected.
 - **Names for main to approve:** Varrow (zone "the Lower Town") and Port Anselm (zone "the Wenmouth road") as sites, and the generic enemies thug, sell-sword, guard, hedge-wizard, troll, salamander, rioter and hill wolf.
+
+## After the owner's review
+
+- **Door scenes reworded** (the owner's decision): each is news brought to the yard on Tallow Street as the squad gets ready, and the choice is the last order it gets. Only words changed.
+- **Care pays better than recklessness** (the owner: reckless must not beat cautious, short trips must not be free, more trips shouldn't be punished): every trip wears people down, going down tired is likelier to kill, a death costs the guild, and resting members heal faster. Careful 71%, cautious 62%, bold 60% over 300 games, with the bots unchanged.
