@@ -36,9 +36,24 @@ The Field UI for expeditions in the full game, built on the engine API in `docs/
 
 - `npm run check`: 52 tests passing, story checker clean, style flags advisory only.
 - The browser at 390×844, using a save from the engine with two squads out (seed 1, both dispatched in week 1). Checked: the Field in the yard, the Field after End Week, a squad log, End Week into the report, Down below, and Watch together at normal and fast speed.
-- The ui-reviewer and writing-reviewer, on the diff. Their fixes are in the pull request.
+- **The writing-reviewer** fixed five strings: the yard hint, the call-off toast, the speed hint, "waiting" and "See the Field".
+- **The ui-reviewer** checked 390 and 360 px in dark, and 390 in light.
+  - No horizontal scroll, and the six tabs fit at 360.
+  - The cards follow the raised and flat rule.
+  - Color is used only for meaning.
+  - Blocked actions and confirmations work.
+  - It fixed one bug: four-member strips overflowed. They now use a tighter layout (`x-mini-tight`).
+- **Fixed after review:**
+  - A squad whose door scene has fired no longer says "In the yard" while Call off says they've left.
+  - Skip is a full-size button.
+  - The sticky strips in Watch together no longer show lines above them.
+- **Screenshots:** `docs/previews/field-ui/`, at 390×844 and deviceScaleFactor 2.
 
 ## What's open
+
+- **Narrow screens.** At 360 px, three-member strips wrap "Exposure 3" onto two lines. It doesn't overflow, so it was left alone.
+- **The End Week bar.** Its squad chip wraps at 360 when a reward chip is also showing. That bar isn't in this diff.
+- **Tap targets.** The yard's name and Call off buttons use the project's `btn small`, which is 34 px tall.
 
 - **Three squads.** The layout takes any number of squads, but I didn't make a three-squad save (it needs a Muster room).
 - **A real death in Watch together.** The test save has big lines (a fall, an ambush) but no death.

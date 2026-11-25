@@ -4455,6 +4455,31 @@ details summary {
 .x-st-dead .x-bar {
   opacity: 0.4;
 }
+/* four to a row: the figure sits beside the name and the rest takes the full cell */
+.x-mini-strip.x-mini-tight {
+  gap: 4px;
+}
+.x-mini-tight .x-mini-cell {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 4px;
+  row-gap: 2px;
+  align-items: center;
+}
+.x-mini-tight .x-mini-body {
+  display: contents;
+}
+.x-mini-tight .x-mini-body > :not(.x-mini-name) {
+  grid-column: 1 / -1;
+}
+.x-mini-tight .x-mini-body:first-child > .x-mini-name {
+  grid-column: 1 / -1;
+}
+.x-mini-tight .x-mini-exp {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .x-field-limit {
   margin: -4px 0 8px;
@@ -4583,6 +4608,10 @@ details summary {
 .x-watch-head {
   display: grid;
   gap: 6px;
+  /* cover the sheet body's top padding so lines don't show above the strips */
+  top: -10px;
+  margin-top: -10px;
+  padding-top: 10px;
 }
 .x-watch-when {
   margin: 0;

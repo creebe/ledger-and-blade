@@ -59,15 +59,18 @@ const stateText = (c: StripCell) =>
 /** One row of small cells. `size` is the silhouette size; 0 hides it. */
 export function SquadStrip({ cells, size = 26, label }: { cells: StripCell[]; size?: number; label?: string }) {
   const X = EXP_TUNING.exposure;
+  // four to a row leaves too little width beside the figure: it shrinks and sits by the name
+  const tight = cells.length >= 4;
+  const sil = tight ? Math.min(size, 20) : size;
   return (
-    <div className="x-mini-strip" aria-label={label ?? 'The squad'} style={{ ['--x-cells' as string]: Math.max(3, cells.length) }}>
+    <div className={`x-mini-strip ${tight ? 'x-mini-tight' : ''}`} aria-label={label ?? 'The squad'} style={{ ['--x-cells' as string]: Math.max(3, cells.length) }}>
       {cells.map((c) => {
         const st = stateText(c);
         // orange when the next Sink change is close
         const expTone = X.thresholds.some((t) => c.exposure >= t - 10 && c.exposure < t) ? 'warn' : '';
         return (
           <div key={c.id} className={`x-mini-cell x-st-${c.state}`}>
-            {size > 0 && c.prof && <ProfSilhouette prof={c.prof} size={size} state={c.state} />}
+            {sil > 0 && c.prof && <ProfSilhouette prof={c.prof} size={sil} state={c.state} />}
             <span className="x-mini-body">
               <span className="x-mini-name">{c.name}</span>
               <XBar v={c.hp} max={c.maxHp} kind="hp" label={`${c.name}: health ${c.hp} of ${c.maxHp}`} />

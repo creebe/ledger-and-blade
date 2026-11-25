@@ -19,7 +19,9 @@ function FieldCard({ m, g }: { m: Mission; g: GameState }) {
   const open = useStore((s) => s.open);
   const st = squadStatus(g, m);
   const where = st.preparing
-    ? 'In the yard. They leave at the end of this week.'
+    ? m.fieldWeeks?.length
+      ? 'They have left by the gate, and the trip begins at the end of this week.'
+      : 'In the yard. They leave at the end of this week.'
     : `Week ${st.revealed} of about ${m.plannedWeeks}, ${st.zone ? `in ${st.zone}, room ${st.room} of ${st.rooms}` : 'on the road'}.`;
   const cells = st.squad ? cellsFromSnap(g, m, st.squad) : cellsFromMembers(g, m);
   const line = notableLine(g, m);
@@ -63,7 +65,7 @@ function YardPanel({ m, g }: { m: Mission; g: GameState }) {
         })}
         <Btn
           className="btn ghost small danger x-yard-calloff"
-          blocked={doorFired ? 'They are already on the road. Only word from the door can call them back now.' : undefined}
+          blocked={doorFired ? 'They have already left by the gate, so nobody can call them back now.' : undefined}
           onClick={() =>
             useStore.getState().confirm({
               title: `Call off squad ${m.number}?`,

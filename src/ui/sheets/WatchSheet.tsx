@@ -57,7 +57,7 @@ export function WatchSheet({ week }: { week: number }) {
         !done ? (
           <div className="row between">
             <span className="small muted x-speed">{speed > 1 ? 'Tap the feed to go back to normal speed.' : 'Tap the feed to speed up.'}</span>
-            <button className="btn small ghost x-watch-skip" onClick={() => setShown(feed.length)}>
+            <button className="btn ghost x-watch-skip" onClick={() => setShown(feed.length)}>
               Skip
             </button>
           </div>
