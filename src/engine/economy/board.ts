@@ -8,6 +8,8 @@ import { REWARD_SCALE } from '../core/tuning';
 import { season } from '../core/calendar';
 import { applyContractEffect } from '../core/effects';
 import type { ContractExpedition, ExpLength, SiteId } from '../expeditions/types';
+import { MONSTERS } from '../expeditions/data/content';
+import { bossBeaten } from '../expeditions/bosses';
 
 /** Where a posting sends the squad: the template's own say, else its region at a length for its threat. */
 export function expeditionFor(t: ContractTemplate, regionId: string, threat: number): ContractExpedition {
@@ -22,8 +24,8 @@ function eligibleTemplates(state: GameState): ContractTemplate[] {
   return CONTRACT_TEMPLATES.filter((t) => {
     if (t.story || t.weight <= 0) return false;
     if (t.requiresFlag && !state.flags[t.requiresFlag]) return false;
-    // the Kiln Engine breaks once
-    if (t.expedition?.goal?.kind === 'kill' && t.expedition.goal.monster === 'kiln' && state.delve?.kilnBroken) return false;
+    // a site's boss is beaten once
+    if (t.expedition?.goal?.kind === 'kill' && t.expedition.site && MONSTERS[t.expedition.goal.monster].boss && bossBeaten(state, t.expedition.site)) return false;
     // patrons who hate you stop offering work
     if (t.patrons.every((p) => state.factions[p].standing <= -30 || !factionKnown(state, p))) return false;
     return true;

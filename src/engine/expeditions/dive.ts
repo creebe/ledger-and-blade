@@ -120,13 +120,13 @@ export function delverStats(d: Delver) {
 }
 
 /** Plan the rooms of a route. Separate from the play so the route is known up front. */
-function buildRoute(r: Rng, steps: RouteStep[], rivalZone: ZoneId | undefined): Room[] {
+function buildRoute(r: Rng, steps: RouteStep[], rivalZone: ZoneId | undefined, bossZone: ZoneId | undefined): Room[] {
   const rooms: Room[] = [];
   let last = '';
   let run = 0;
   steps.forEach((step, i) => {
     if (step === 'camp') return rooms.push({ kind: 'camp', zone: (steps[i - 1] as ZoneId) ?? steps[0] });
-    if (step === 'boss') return rooms.push({ kind: 'boss', zone: 'sink' });
+    if (step === 'boss') return rooms.push({ kind: 'boss', zone: bossZone ?? (steps[i - 1] as ZoneId) });
     const z = ZONES[step];
     if (i === steps.length - 1) return rooms.push({ kind: 'goal', zone: step });
     const w = { ...z.rooms };
@@ -149,7 +149,8 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
   const steps = routeOf(setup.site, setup.length);
   const firstZone = steps[0] as ZoneId;
   const rivalZone = setup.rivalAhead ? firstZone : undefined;
-  const route = buildRoute(r, steps, rivalZone);
+  const boss = site.boss;
+  const route = buildRoute(r, steps, rivalZone, boss?.zone);
   const squad = setup.squad;
   const tagFx = setup.tags.map((t) => TAG_DIVE[t]).filter(Boolean);
   const carried = new Set(squad.flatMap((d) => d.gear.consumables.flatMap((c) => c.counters ?? [])).concat(squad.flatMap((d) => d.gear.trinket?.counters ?? [])));
@@ -372,7 +373,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
       const s = zoneScale(def, z);
       seen[id] = (seen[id] ?? 0) + 1;
       const nth = ['first', 'second', 'third', 'fourth'][seen[id] - 1];
-      const label = id === 'kiln' ? 'the Kiln Engine' : counts[id] > 1 ? `the ${nth} ${def.one}` : `the ${def.one}`;
+      const label = def.boss ? def.name : counts[id] > 1 ? `the ${nth} ${def.one}` : `the ${def.one}`;
       const hp = Math.round(def.hp * s * T.foe.hp);
       return { def, label, hp, maxHp: hp, acc: def.acc + (s - 1) * 20, dodge: def.dodge, prot: def.prot + foeProt, dmg: [Math.round(def.dmg[0] * s * T.foe.dmg), Math.round(def.dmg[1] * s * T.foe.dmg)], speed: def.speed, stunned: false, bleed: 0, pinned: 0, charged: false, turns: 0, burned: false };
     });
@@ -440,7 +441,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
     a.kills += 1;
     a.killsBy[f.def.id] = (a.killsBy[f.def.id] ?? 0) + 1;
     kills[f.def.id] = (kills[f.def.id] ?? 0) + 1;
-    if (f.def.id === 'kiln') a.bossKill = true;
+    if (f.def.boss) a.bossKill = true;
     if (f.def.coin) crownsFound += f.def.coin + randInt(r, 0, f.def.coin);
     if (f.def.loot && chance(r, f.def.loot.chance)) addLoot(f.def.loot.good, 1);
   };
@@ -720,7 +721,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
         put('enemy', say('stolen', { m: f.label, g: GOODS[g].one }));
       }
     }
-    if (t.hp <= 0) goDown(t, -t.hp, f.def.id === 'kiln' ? 'the Kiln Engine' : `a ${f.def.one}`);
+    if (t.hp <= 0) goDown(t, -t.hp, f.def.boss ? f.def.name : `a ${f.def.one}`);
   };
 
   // ---- a fight ----
@@ -1181,19 +1182,20 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
         // the place the job points to holds what the job is about
         const g = setup.goal;
         put('room', say(`goalroom_${z}`, {}));
-        const group = g.kind === 'kill' && g.monster !== 'kiln' ? [g.monster, ...fightGroup(z).filter((x) => x !== g.monster)].slice(0, g.monster === 'rats' ? 3 : 2) : fightGroup(z);
+        const group = g.kind === 'kill' && !MONSTERS[g.monster].boss ? [g.monster, ...fightGroup(z).filter((x) => x !== g.monster)].slice(0, g.monster === 'rats' ? 3 : 2) : fightGroup(z);
         if (g.kind === 'kill' && g.monster === 'rats') group.splice(0, group.length, 'rats', 'rats', 'rats');
         res = fight(group, z);
         if (res === 'won') find(z, true, g.kind === 'bring' ? g.good : undefined);
         break;
       }
       case 'boss':
+        if (!boss) break;
         if (setup.kilnBroken) {
-          // the Kiln Engine is gone; its yard is still busy
-          put('room', say('kiln_yard', {}));
-          res = fight(['engine', 'engine', 'seep'], 'sink');
-        } else res = fight(['kiln', 'seep'], 'sink', { boss: true });
-        if (res === 'won') find('sink', true);
+          // the boss is gone; its room is still busy
+          put('room', say(boss.afterKey, {}));
+          res = fight(boss.after, z);
+        } else res = fight(boss.group, z, { boss: true });
+        if (res === 'won') find(z, true);
         break;
     }
     if (res === 'lost' || !standing().length) {
@@ -1281,7 +1283,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
   // ---- deeds, renown and what the members bring home ----
   const L = LENGTHS[setup.length];
   if (outcome === 'complete') renownDeeds.push({ text: `Completed a ${L.name.toLowerCase()} expedition`, renown: L.renown });
-  if (A.some((a) => a.bossKill)) renownDeeds.push({ text: 'Broke the Kiln Engine', renown: T.renown.boss });
+  if (boss && A.some((a) => a.bossKill)) renownDeeds.push({ text: boss.deed, renown: T.renown.boss });
   if (wanderersWon) renownDeeds.push({ text: `Fought off ${wanderersWon === 1 ? 'a wandering pack' : `${wanderersWon} wandering packs`}`, renown: wanderersWon * T.renown.wanderer });
   const carriedHome = A.filter((a) => a.gotUp && a.state !== 'dead').length;
   if (outcome !== 'lost' && carriedHome) renownDeeds.push({ text: `Brought ${carriedHome === 1 ? 'a fallen member' : `${carriedHome} fallen members`} home`, renown: carriedHome * T.renown.carried });
@@ -1299,8 +1301,8 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
   };
   const members: DelverOutcome[] = A.map((a) => {
     if (a.state !== 'dead') {
-      if (a.bossKill) {
-        a.deeds.push('broke the Kiln Engine');
+      if (a.bossKill && boss) {
+        a.deeds.push(boss.memberDeed);
         a.fame += 5;
       }
       if (a.kills >= 4) {

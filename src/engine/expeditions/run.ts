@@ -18,6 +18,7 @@ import { addDispatch, clamp, living } from '../core/util';
 import { applyContractEffect, applyStanding, earn, factionName, spend, track } from '../core/effects';
 import { CHANGES, GOODS, SITES, SUPPLY_IDS, ZONES, ZONE_ORDER } from './data/content';
 import { runExpedition } from './dive';
+import { bossBeaten, markBossBeaten } from './bosses';
 import { delverOf } from './gear';
 import { goalText, packCost, planBlocked, plannedWeeks, roadWeeks, stockOf, supplyUnitPrice } from './prep';
 import { EXP_TUNING as T } from './tuning';
@@ -459,11 +460,12 @@ export function settleExpedition(s: GameState, ms: Mission) {
       summary.push(`First to reach ${ZONES[z].name} (+${bonus} renown).`);
     }
   }
-  if ((res.kills.kiln ?? 0) > 0 && !s.delve.kilnBroken) {
-    s.delve.kilnBroken = true;
-    // nobody can break it twice: postings for it come off the board
-    s.board = s.board.filter((x) => !(x.expedition.goal.kind === 'kill' && x.expedition.goal.monster === 'kiln'));
-    summary.push("The college sends a cart for the Kiln Engine's core, and a letter that is mostly about who is going to pay for the cart.");
+  const boss = SITES[c.expedition.site].boss;
+  if (boss && (res.kills[boss.monster] ?? 0) > 0 && !bossBeaten(s, c.expedition.site)) {
+    markBossBeaten(s, c.expedition.site);
+    // nobody can beat it twice: postings for it come off the board
+    s.board = s.board.filter((x) => !(x.expedition.goal.kind === 'kill' && x.expedition.goal.monster === boss.monster));
+    summary.push(boss.report);
   }
 
   // the contract

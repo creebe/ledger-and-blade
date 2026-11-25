@@ -153,6 +153,8 @@ export interface MonsterDef {
   people?: boolean;
   /** whose generic lines it uses when it has none of its own */
   voice?: 'people' | 'beast';
+  /** a site's boss: named on its own ("the Kiln Engine"), beaten once */
+  boss?: boolean;
   text: string;
 }
 
@@ -168,7 +170,7 @@ export const MONSTERS: Record<MonsterId, MonsterDef> = {
   crab: M({ id: 'crab', one: 'crab', name: 'Sink crab', plural: 'sink crabs', depth: 2, hp: 24, acc: 70, dodge: 4, prot: 5, dmg: [4, 8], speed: 4, weak: ['blunt', 'storm'], resist: ['slash', 'pierce'], xp: 4, loot: { good: 'glass', chance: 0.4 }, text: 'River crabs grown huge on reagent runoff. Blades skid off them.' }),
   seep: M({ id: 'seep', one: 'seep', name: 'Seep', plural: 'seeps', depth: 3, hp: 24, acc: 72, dodge: 0, prot: 0, dmg: [4, 8], speed: 3, weak: ['radiant', 'frost'], resist: ['slash', 'pierce'], xp: 5, loot: { good: 'salts', chance: 0.8 }, text: 'A spill of spent reagents that never stopped reacting. It moves toward warmth and it burns what it touches.' }),
   engine: M({ id: 'engine', one: 'engine', name: 'Assay engine', plural: 'Assay engines', depth: 3, hp: 42, acc: 72, dodge: 0, prot: 6, dmg: [6, 11], speed: 2, weak: ['storm', 'blunt'], resist: ['pierce', 'fire'], construct: true, xp: 7, loot: { good: 'seal', chance: 0.9 }, text: 'An iron testing engine the Assay Office left running when it moved upstairs. It still tests anything it finds, very hard.' }),
-  kiln: M({ id: 'kiln', one: 'Kiln Engine', name: 'the Kiln Engine', plural: 'the Kiln Engine', depth: 3, hp: 100, acc: 74, dodge: 0, prot: 5, dmg: [7, 12], speed: 3, weak: ['frost', 'storm'], resist: ['fire', 'pierce'], special: 'blast', construct: true, xp: 14, loot: { good: 'kiln_core', chance: 1 }, text: "The college's great reagent furnace, built to walk the length of the Sink and burn the spill. Nobody told it to stop." }),
+  kiln: M({ id: 'kiln', one: 'Kiln Engine', name: 'the Kiln Engine', plural: 'the Kiln Engine', depth: 3, hp: 100, acc: 74, dodge: 0, prot: 5, dmg: [7, 12], speed: 3, weak: ['frost', 'storm'], resist: ['fire', 'pierce'], special: 'blast', construct: true, boss: true, xp: 14, loot: { good: 'kiln_core', chance: 1 }, text: "The college's great reagent furnace, built to walk the length of the Sink and burn the spill. Nobody told it to stop." }),
 
   claim_jumper: M({ id: 'claim_jumper', one: 'claim-jumper', name: 'Claim-jumper', plural: 'claim-jumpers', depth: 1, hp: 16, acc: 72, dodge: 10, prot: 2, dmg: [4, 7], speed: 5, weak: [], resist: [], special: 'thief', xp: 2, coin: 8, people: true, voice: 'people', text: 'Miners working galleries that belong to somebody else. They would rather fight than be written down.' }),
   cave_crab: M({ id: 'cave_crab', one: 'cave crab', name: 'Cave crab', plural: 'cave crabs', depth: 1, hp: 22, acc: 70, dodge: 4, prot: 5, dmg: [4, 8], speed: 4, weak: ['blunt', 'storm'], resist: ['slash', 'pierce'], xp: 3, voice: 'beast', text: 'Pale crabs that came up the flooded galleries and liked it. Blades skid off them.' }),
@@ -377,6 +379,26 @@ export const ZONE_ORDER: ZoneId[] = ['culverts', 'streets', 'sink', 'lowertown',
 
 export type SiteGroup = 'under' | 'town' | 'overland';
 
+/** What waits at the bottom of a site's long route. It is beaten once. */
+export interface SiteBoss {
+  monster: MonsterId;
+  /** the boss's room: the boss and whatever stands with it */
+  group: MonsterId[];
+  /** the zone the boss room belongs to */
+  zone: ZoneId;
+  /** once it is beaten, long routes end with this fight instead */
+  after: MonsterId[];
+  /** the line for the boss's room once the boss is gone */
+  afterKey: string;
+  /** the renown deed and the member's deed when it falls */
+  deed: string;
+  memberDeed: string;
+  /** the report line the first time it falls */
+  report: string;
+  /** a posting to kill it */
+  goalText: string;
+}
+
 export interface SiteDef {
   id: SiteId;
   name: string;
@@ -385,10 +407,29 @@ export interface SiteDef {
   zones: ZoneId[];
   group: SiteGroup;
   text: string;
+  boss?: SiteBoss;
 }
 
 export const SITES: Record<SiteId, SiteDef> = {
-  pellam: { id: 'pellam', name: 'Old Pellam', region: 'varrow', zones: ['culverts', 'streets', 'sink'], group: 'under', text: "The first town on the river, under Varrow's Lower Town. Its cellars and streets are still down there, and so is the drain where the college poured its spent reagents for a century." },
+  pellam: {
+    id: 'pellam',
+    name: 'Old Pellam',
+    region: 'varrow',
+    zones: ['culverts', 'streets', 'sink'],
+    group: 'under',
+    text: "The first town on the river, under Varrow's Lower Town. Its cellars and streets are still down there, and so is the drain where the college poured its spent reagents for a century.",
+    boss: {
+      monster: 'kiln',
+      group: ['kiln', 'seep'],
+      zone: 'sink',
+      after: ['engine', 'engine', 'seep'],
+      afterKey: 'kiln_yard',
+      deed: 'Broke the Kiln Engine',
+      memberDeed: 'broke the Kiln Engine',
+      report: "The college sends a cart for the Kiln Engine's core, and a letter that is mostly about who is going to pay for the cart.",
+      goalText: 'Break the Kiln Engine',
+    },
+  },
   varrow: { id: 'varrow', name: 'Varrow', region: 'varrow', zones: ['lowertown'], group: 'town', text: 'Work in the city itself, where the trouble is guarded doors and angry crowds.' },
   kell: { id: 'kell', name: 'Kell Mines', region: 'kell', zones: ['workings'], group: 'overland', text: 'Silver workings in the northern hills, half of them flooded.' },
   saltfens: { id: 'saltfens', name: 'The Saltfens', region: 'saltfens', zones: ['reeds'], group: 'overland', text: 'The marshes along the estuary, good for reagents and for catching fever.' },

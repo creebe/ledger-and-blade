@@ -178,7 +178,7 @@ export function goalText(c: Contract): string {
   const site = SITES[c.expedition.site];
   if (g.kind === 'reach') return `Reach ${ZONES[g.zone].name} and come back`;
   if (g.kind === 'bring') return `Bring back ${g.count === 1 ? GOODS[g.good].one : `${g.count} ${GOODS[g.good].many}`}`;
-  if (g.kind === 'kill') return g.monster === 'kiln' ? 'Break the Kiln Engine' : `Kill ${g.count === 1 ? `a ${MONSTERS[g.monster].name.toLowerCase()}` : `${g.count} ${MONSTERS[g.monster].plural}`}`;
+  if (g.kind === 'kill') return MONSTERS[g.monster].boss ? (Object.values(SITES).find((x) => x.boss?.monster === g.monster)?.boss?.goalText ?? `Kill ${MONSTERS[g.monster].name}`) : `Kill ${g.count === 1 ? `a ${MONSTERS[g.monster].name.toLowerCase()}` : `${g.count} ${MONSTERS[g.monster].plural}`}`;
   if (site.id === 'pellam') return PELLAM_GOALS[c.expedition.length];
   return `See the job through in ${site.name}`;
 }
