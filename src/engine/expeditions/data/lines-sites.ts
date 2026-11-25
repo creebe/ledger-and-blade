@@ -77,12 +77,14 @@ export const SITE_LINES: Record<string, string[]> = {
   ],
   'rival_ahead:town': [
     "Somebody has been asking questions in these streets this week. The doors that should be open are shut, and the people behind them have already been paid.",
-    "Hobb's people came through a few days ago. Half the street owes them money now, and the other half is frightened of them.",
+    'Another crew has worked these streets this week. Whoever they were, they paid for silence and got it.',
   ],
+  'rival_ahead_hobbs:town': ["Hobb's people came through a few days ago. Half the street owes them money now, and the other half is frightened of them."],
   'rival_ahead:overland': [
     "Somebody has been through here this week. There are fresh hoof prints and a cold fire, and the easy pickings are gone.",
-    "Hobb's people came through a few days ago. They took what was easy and left the gates open behind them.",
+    'Another crew came this way a few days ago. They took what was easy and left the gates open behind them.',
   ],
+  'rival_ahead_hobbs:overland': ["Hobb's people came through a few days ago. They took what was easy and left the gates open behind them."],
   'lamps_lit:kell': [
     "They light the lamps at the mouth of the adit. Kell is not improved by being able to see it.",
     "The lamps go up. The light reaches about four yards down the gallery and gives up.",

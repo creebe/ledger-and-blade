@@ -46,7 +46,7 @@ export function triggerDoorScene(state: GameState, ms: GameState['missions'][num
   const eligible = FIELD_EVENTS.filter((d) => {
     const last = state.eventWeeks[d.id];
     if (last !== undefined && state.week - last < (d.cooldown ?? 3)) return false;
-    return (!d.member || d.member(state, who)) && (!d.condition || d.condition(state));
+    return (!d.member || d.member(state, who)) && (!d.condition || d.condition(state)) && npcsAvailable(state, d);
   });
   if (!eligible.length) return;
   const def = weighted(state, eligible.map((d) => ({ item: d, weight: d.weight ?? 1 })));

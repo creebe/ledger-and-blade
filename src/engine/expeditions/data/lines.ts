@@ -23,8 +23,9 @@ export const LINES: Record<string, string[]> = {
   ],
   rival_ahead: [
     'Somebody has been through here this week. There are fresh boot marks and chalk on the walls, and the rats are thinner on the ground.',
-    "Hobb's people came through a few days ago. They took what was easy and left the doors open behind them.",
+    'Another crew came down this way a few days ago. They took what was easy and left the doors open behind them.',
   ],
+  rival_ahead_hobbs: ["Hobb's people came through a few days ago. They took what was easy and left the doors open behind them."],
 
   // ---- zones ----
   enter_culverts: [

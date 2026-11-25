@@ -182,6 +182,13 @@ function missionPhase(s: GameState) {
   for (const ms of [...s.missions]) {
     if (!ms.report && ms.returnWeek <= s.week) settleExpedition(s, ms);
     if (ms.report && ms.returnWeek <= s.week) {
+      // anyone still marked away on it comes in (a classic squad that had its report before the save moved across)
+      for (const m of s.members) {
+        if (m.status !== 'mission' || m.missionId !== ms.id) continue;
+        m.status = m.health < 40 ? 'recovering' : 'idle';
+        m.missionId = undefined;
+        m.assignment = 'rest';
+      }
       s.missions = s.missions.filter((x) => x !== ms);
       s.history.push(ms);
       if (s.history.length > 30) s.history.shift();

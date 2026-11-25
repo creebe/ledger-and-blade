@@ -1102,7 +1102,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
   week = setup.roadOut + 1;
   if (!setup.roadOut) for (const l of setup.fieldLog) put('road', l);
   put('room', say(`setout_${setup.length}`, { a: A[0].name, b: A[A.length - 1].name, p: site.name }));
-  if (setup.rivalAhead) put('room', say('rival_ahead', {}));
+  if (setup.rivalAhead) put('room', say(setup.rivalAhead === 'hobbs' && chance(r, 0.5) ? 'rival_ahead_hobbs' : 'rival_ahead', {}));
   let i = 0;
   for (; i < route.length; i++) {
     const room = route[i];

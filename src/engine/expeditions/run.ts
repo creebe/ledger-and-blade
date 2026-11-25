@@ -435,6 +435,8 @@ export function settleExpedition(s: GameState, ms: Mission) {
   }
   if ((res.kills.kiln ?? 0) > 0 && !s.delve.kilnBroken) {
     s.delve.kilnBroken = true;
+    // nobody can break it twice: postings for it come off the board
+    s.board = s.board.filter((x) => !(x.expedition.goal.kind === 'kill' && x.expedition.goal.monster === 'kiln'));
     summary.push("The college sends a cart for the Kiln Engine's core, and a letter that is mostly about who is going to pay for the cart.");
   }
 
@@ -535,6 +537,9 @@ export function withdrawAtDoor(s: GameState, ms: Mission) {
   ms.report = { tier: 'Withdrawn', phases: [], casualties: [], wounded: [], reward: 0, materials: {}, summary, trip: { outcome: 'withdrawn', rooms: 0, roomsPlanned: ms.result.roomsPlanned, loot: {}, lootValue: 0, crownsFound: 0, goalMet: false, deeds: [], wentDown: [] } };
   ms.sealed = true;
   ms.returnWeek = s.week;
+  // a story job called off counts as failed, so the story can move on
+  const tpl = TEMPLATE_BY_ID[c.templateId];
+  if (tpl?.failFlag) s.flags[tpl.failFlag] = true;
   addDispatch(s, 'mission', `Withdrawn: ${c.title}`, summary, ms.id);
 }
 
