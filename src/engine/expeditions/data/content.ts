@@ -184,14 +184,14 @@ export const MONSTERS: Record<MonsterId, MonsterDef> = {
   // ---- Varrow: the Quays and the Rookeries ----
   footpad: M({ id: 'footpad', one: 'footpad', name: 'Footpad', plural: 'footpads', depth: 2, hp: 14, acc: 74, dodge: 16, prot: 1, dmg: [4, 7], speed: 7, weak: [], resist: [], special: 'thief', xp: 2, coin: 6, people: true, voice: 'people', text: 'A quick hand with a short knife, who knows every alley and would rather you never saw their face.' }),
   lighterman: M({ id: 'lighterman', one: 'lighterman', name: 'Lighterman', plural: 'lightermen', depth: 2, hp: 20, acc: 72, dodge: 8, prot: 2, dmg: [5, 9], speed: 5, weak: [], resist: [], xp: 3, coin: 5, people: true, voice: 'people', text: 'A boatman who unloads ships onto the quays by night, with a boat hook and strong opinions about who walks on their quay.' }),
-  watch_sergeant: M({ id: 'watch_sergeant', one: 'watch sergeant', name: 'Watch sergeant', plural: 'watch sergeants', depth: 2, hp: 24, acc: 76, dodge: 6, prot: 4, dmg: [5, 9], speed: 5, weak: [], resist: [], xp: 3, coin: 4, people: true, voice: 'people', text: 'A sergeant of the watch with a brass badge, a heavy stick and a pension to think about. Paid by somebody tonight, and not by the city.' }),
+  watch_sergeant: M({ id: 'watch_sergeant', one: 'watch sergeant', name: 'Watch sergeant', plural: 'watch sergeants', depth: 2, hp: 24, acc: 76, dodge: 6, prot: 4, dmg: [5, 9], speed: 5, weak: [], resist: [], xp: 3, coin: 4, people: true, voice: 'people', text: 'A sergeant of the watch with a brass badge and a pension to think about. Somebody other than the city is paying them tonight.' }),
   yard_dog: M({ id: 'yard_dog', one: 'yard dog', name: 'Yard dog', plural: 'yard dogs', depth: 2, hp: 16, acc: 76, dodge: 14, prot: 0, dmg: [4, 8], speed: 8, weak: ['pierce'], resist: [], xp: 2, voice: 'beast', text: 'A warehouse mastiff, kept hungry so it stays interested.' }),
   rudd: M({ id: 'rudd', one: 'Lew Rudd', name: 'Lew Rudd', plural: 'Lew Rudd', depth: 3, hp: 100, acc: 78, dodge: 6, prot: 4, dmg: [7, 12], speed: 4, weak: [], resist: [], boss: true, xp: 12, coin: 30, people: true, voice: 'people', loot: { good: 'rudd_book', chance: 1 }, text: 'Lew Rudd rents out muscle by the day from a yard in the Rookeries. Half the thugs in the Lower Town have worked for him, and the other half owe him money.' }),
 
   // ---- Kell Mines: the Sump and the Trevick level ----
-  powder_man: M({ id: 'powder_man', one: 'powder man', name: 'Powder man', plural: 'powder men', depth: 2, hp: 15, acc: 72, dodge: 8, prot: 1, dmg: [5, 9], speed: 4, ranged: true, weak: ['fire'], resist: [], xp: 3, coin: 6, people: true, voice: 'people', text: 'A claim-jumper who handles the blasting powder, and throws it at people when there is no rock handy. Short of eyebrows.' }),
+  powder_man: M({ id: 'powder_man', one: 'powder man', name: 'Powder man', plural: 'powder men', depth: 2, hp: 15, acc: 72, dodge: 8, prot: 1, dmg: [5, 9], speed: 4, ranged: true, weak: ['fire'], resist: [], xp: 3, coin: 6, people: true, voice: 'people', text: 'A claim-jumper who handles the blasting powder, and throws it at people when there is no rock handy. Most of them are short of eyebrows.' }),
   pit_pony: M({ id: 'pit_pony', one: 'pit pony', name: 'Pit pony', plural: 'pit ponies', depth: 2, hp: 26, acc: 70, dodge: 6, prot: 1, dmg: [5, 9], speed: 5, weak: ['pierce'], resist: [], special: 'charge', xp: 3, voice: 'beast', text: 'The ponies were left below when the mine closed. They found their own way to live, and they bite.' }),
-  moyle: M({ id: 'moyle', one: 'Gaffer Moyle', name: 'Gaffer Moyle', plural: 'Gaffer Moyle', depth: 3, hp: 78, acc: 74, dodge: 4, prot: 4, dmg: [6, 10], speed: 4, weak: ['fire'], resist: [], special: 'blast', boss: true, xp: 12, coin: 30, people: true, voice: 'people', loot: { good: 'moyle_takings', chance: 1 }, text: 'The claim-jumpers\' captain. Moyle has held the Trevick level for six years, paid nobody for it, and keeps a keg of powder within reach of his chair.' }),
+  moyle: M({ id: 'moyle', one: 'Gaffer Moyle', name: 'Gaffer Moyle', plural: 'Gaffer Moyle', depth: 3, hp: 78, acc: 74, dodge: 4, prot: 4, dmg: [6, 10], speed: 4, weak: ['fire'], resist: [], special: 'blast', boss: true, xp: 12, coin: 30, people: true, voice: 'people', loot: { good: 'moyle_takings', chance: 1 }, text: 'The claim-jumpers\' captain. Moyle has held the Trevick level for six years without paying anybody for it, and keeps a keg of powder within reach of his chair.' }),
 
   // ---- the Saltfens: the Pans and the Withies ----
   leeches: M({ id: 'leeches', one: 'knot of leeches', name: 'Fen leeches', plural: 'fen leeches', depth: 2, hp: 8, acc: 76, dodge: 12, prot: 0, dmg: [2, 4], speed: 6, weak: ['fire'], resist: ['blunt'], special: 'swarm', xp: 1, voice: 'beast', text: 'Leeches as long as a hand, which come up out of the channels in a knot when anything warm steps in.' }),
@@ -329,7 +329,7 @@ export const ZONES: Record<ZoneId, ZoneDef> = {
     name: 'the Quays',
     depth: 2,
     dark: true,
-    text: 'The river warehouses below the chain, at night: lighters tied up three deep, bonded stores and men paid to stand in doorways.',
+    text: 'The river warehouses below the chain, at night, with lighters tied up three deep and men paid to stand in the doorways of the bonded stores.',
     rooms: { passage: 2.2, fight: 3, trap: 1.2, find: 2.2, curio: 1 },
     fights: [['lighterman', 'lighterman'], ['footpad', 'thug'], ['yard_dog', 'yard_dog'], ['watch_sergeant', 'guard'], ['lighterman', 'footpad', 'footpad'], ['yard_dog', 'lighterman']],
     finds: [
@@ -381,7 +381,7 @@ export const ZONES: Record<ZoneId, ZoneDef> = {
     name: 'the Sump',
     depth: 2,
     dark: true,
-    text: 'The lower galleries, where the pumps gave out forty years ago. The water stands at the knee and is colder than it has any right to be.',
+    text: 'The lower galleries, where the pumps gave out the year after the war. The water stands at the knee and is colder than it has any right to be.',
     rooms: { passage: 2, fight: 3.2, trap: 1.6, find: 2, curio: 0.8 },
     fights: [['cave_crab', 'cave_crab'], ['pit_pony', 'pit_pony'], ['claim_jumper', 'powder_man'], ['rats', 'rats', 'cave_crab'], ['pit_pony', 'claim_jumper']],
     finds: [
@@ -434,7 +434,7 @@ export const ZONES: Record<ZoneId, ZoneDef> = {
     name: 'the Pans',
     depth: 2,
     dark: false,
-    text: 'The salt pans and brine flats at the edge of the estuary: low walls, white crust and boiling huts, under a sky with nothing in it.',
+    text: 'The salt pans and brine flats at the edge of the estuary. Low mud walls cut the white crust into squares, and the only shelter is in the boiling huts.',
     rooms: { passage: 2.2, fight: 3, trap: 1.6, find: 2.2, curio: 0.6 },
     fights: [['salt_cutter', 'salt_cutter', 'salt_cutter'], ['marsh_hog', 'salt_cutter'], ['fowler', 'salt_cutter'], ['leeches', 'leeches', 'salt_cutter'], ['marsh_hog', 'marsh_hog']],
     finds: [
@@ -542,7 +542,7 @@ export const ZONES: Record<ZoneId, ZoneDef> = {
     name: 'the bridge houses',
     depth: 2,
     dark: true,
-    text: 'The houses built along the old bridge, empty since the middle span went. Their floors are soft, their shutters are nailed, and the water moves underneath all of it.',
+    text: 'The houses built along the old bridge, empty since the middle span went. The floors have gone soft, and the water moves underneath all of it.',
     rooms: { passage: 2, fight: 3.2, trap: 1.5, find: 2.2, curio: 0.8 },
     fights: [['smuggler', 'night_boatman'], ['crayfish', 'crayfish', 'crayfish'], ['night_boatman', 'night_boatman'], ['pike', 'crayfish'], ['smuggler', 'crayfish']],
     finds: [
@@ -592,7 +592,7 @@ export const ZONES: Record<ZoneId, ZoneDef> = {
     name: 'the Burrows',
     depth: 2,
     dark: false,
-    text: 'The dunes between the coast road and the sea, miles of them, with marram grass, rabbit holes and the ribs of old ships sticking out of the sand.',
+    text: 'The dunes between the coast road and the sea, miles of them, full of marram grass and rabbit holes, with the ribs of old ships sticking out of the sand.',
     rooms: { passage: 2.4, fight: 3, trap: 1.3, find: 2, curio: 0.8 },
     fights: [['wrecker', 'wrecker'], ['gulls', 'gulls', 'gulls'], ['road_agent', 'wrecker'], ['deserter', 'deserter'], ['wrecker', 'gulls', 'gulls']],
     finds: [
@@ -610,7 +610,7 @@ export const ZONES: Record<ZoneId, ZoneDef> = {
     name: 'the Strand',
     depth: 3,
     dark: false,
-    text: "Port Anselm's waterfront: customs sheds, rope walks and Ostrander's warehouses, with the bank's ships riding at anchor beyond the bar.",
+    text: "Port Anselm's waterfront, a mile of customs sheds and Ostrander's warehouses, with the bank's ships riding at anchor beyond the bar.",
     rooms: { passage: 1.8, fight: 3.4, trap: 1.3, find: 2.2, curio: 0.8 },
     fights: [['tidewaiter', 'tidewaiter'], ['tidewaiter', 'tidewaiter', 'guard'], ['gulls', 'gulls', 'wrecker'], ['wrecker', 'wrecker', 'wrecker'], ['tidewaiter', 'tidewaiter', 'tidewaiter']],
     finds: [
@@ -794,7 +794,7 @@ export const SITES: Record<SiteId, SiteDef> = {
     region: 'harrowmere',
     zones: ['shore', 'bridge', 'holms'],
     group: 'overland',
-    text: 'A lake town with an old bridge, a mere that goes deeper than anyone has sounded, and islands nobody farms.',
+    text: 'A lake town on a mere that goes deeper than anyone has sounded. Its old bridge is broken, and nobody farms the islands.',
     deep: 'Out to the far Holms',
     goals: {
       short: 'Along the shore to the boathouses',
@@ -968,9 +968,9 @@ export const GOODS: Record<GoodId, GoodDef> = {
   fleece: { id: 'fleece', many: 'fleeces', name: 'Fleeces', one: 'a fleece', value: 8, text: 'Moor fleeces, greasy and thick, from sheep that will not miss them for long.' },
   colours: { id: 'colours', many: "sets of the Ninth's colours", name: "The Ninth's colours", one: "the Ninth's colours", value: 170, text: 'The regiment\'s flag, carried at Cassel Ford and carried off by Sergeant Crewe. Somebody in the Ninth will pay a great deal for it, or at least shout a great deal.' },
   bog_oak: { id: 'bog_oak', many: 'lengths of bog oak', name: 'Bog oak', one: 'a length of bog oak', value: 18, text: 'Oak that has lain in the mere for centuries and turned black and hard as iron. The furniture makers on Anvil Row fight over it.' },
-  rings: { id: 'rings', many: "handfuls of the Bailiff's rings", name: "The Bailiff's rings", one: "the Bailiff's rings", value: 150, text: "Rings, buckles and a bishop's seal, from the belly of the biggest pike in Harrowmere. Some of the owners are still alive." },
+  rings: { id: 'rings', many: "handfuls of the Bailiff's rings", name: "The Bailiff's rings", one: "the Bailiff's rings", value: 150, text: "Mostly rings and buckles, with a bishop's seal among them, from the belly of the biggest pike in Harrowmere. Some of the owners are still alive." },
   ambergris: { id: 'ambergris', many: 'lumps of ambergris', name: 'Ambergris', one: 'a lump of ambergris', value: 40, text: 'A grey waxy lump that washes up on the Burrows. It smells odd and the perfumers pay a fortune for it.' },
-  salvage: { id: 'salvage', many: "loads of Tull's salvage", name: "Tull's salvage", one: "Tull's salvage", value: 180, text: 'What the wreckers took off a dozen ships: plate, bolts of cloth and a ship\'s figurehead with the name chiselled off.' },
+  salvage: { id: 'salvage', many: "loads of Tull's salvage", name: "Tull's salvage", one: "Tull's salvage", value: 180, text: 'What the wreckers took off a dozen ships: plate and bolts of cloth, and a ship\'s figurehead with the name chiselled off.' },
   iron: { id: 'iron', many: 'loads of iron', name: 'Iron', one: 'a load of iron', value: 6, material: true, text: 'Ore and old iron. The Forge uses it.' },
   leather: { id: 'leather', many: 'hides', name: 'Leather', one: 'a hide', value: 5, material: true, text: 'Hides for the Forge and the market.' },
   timber: { id: 'timber', many: 'lengths of timber', name: 'Timber', one: 'a length of timber', value: 3, material: true, text: 'Seasoned wood for building and the Forge.' },

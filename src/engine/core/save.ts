@@ -81,6 +81,8 @@ export function migrateSave(g: GameState): GameState | null {
     const d = g.delve as typeof g.delve & { kilnBroken?: boolean };
     d.bossesBeaten = d.kilnBroken ? ['pellam'] : [];
     delete d.kilnBroken;
+    // trips already sealed walked one zone outside Old Pellam: keep their logs matching their stored outcomes
+    for (const ms of [...g.missions, ...g.history]) if (ms.setup && ms.setup.site !== 'pellam') ms.setup.oneZone = true;
     g.version = 14;
   }
   return g.version === SAVE_VERSION ? g : null;

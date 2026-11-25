@@ -124,6 +124,15 @@ export function delverStats(d: Delver) {
   };
 }
 
+/** The route every site but Old Pellam had before save version 14: its first zone only. Trips sealed then replay on it. */
+function oneZoneRoute(site: DiveSetup['site'], length: DiveSetup['length']): RouteStep[] {
+  const z = SITES[site].zones[0];
+  const leg = [z, z, z, z];
+  if (length === 'short') return [z, z, z, z, z];
+  if (length === 'medium') return [...leg, 'camp', ...leg];
+  return [...leg, 'camp', ...leg, 'camp', ...leg];
+}
+
 /** Plan the rooms of a route. Separate from the play so the route is known up front. */
 function buildRoute(r: Rng, steps: RouteStep[], rivalZone: ZoneId | undefined, bossZone: ZoneId | undefined): Room[] {
   const rooms: Room[] = [];
@@ -151,7 +160,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
   const r: Rng = { rng: setup.seed | 0 || 1 };
   const plan = setup.plan;
   const site = SITES[setup.site];
-  const steps = routeOf(setup.site, setup.length, setup.goal);
+  const steps = setup.oneZone ? oneZoneRoute(setup.site, setup.length) : routeOf(setup.site, setup.length, setup.goal);
   const firstZone = steps[0] as ZoneId;
   const rivalZone = setup.rivalAhead ? firstZone : undefined;
   const boss = site.boss;
@@ -168,7 +177,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
   const foeProt = tagFx.reduce((n, x) => n + (x.foeProt ?? 0), 0);
   const tagGroups = tagFx.flatMap((x) => x.groups ?? []);
   const sigs = new Set(squad.map((d) => d.signature).filter(Boolean));
-  const threatBase = setup.site === 'pellam' ? T.threat.base : T.threatByLength[setup.length];
+  const threatBase = setup.site === 'pellam' || setup.oneZone ? T.threat.base : T.threatByLength[setup.length];
   const threatScale = Math.max(T.threat.min, 1 + (setup.threat - threatBase) * T.threat.perPoint) * (setup.foeScale || 1) * (setup.site === 'pellam' ? 1 : T.thinFoe);
   const darkZone = (z: ZoneId) => ZONES[z].dark || tagDark;
   const pack: Record<SupplyId, number> = { food: 0, bandages: 0, oil: 0, tools: 0, masks: 0, reagents: 0, draughts: 0, ...plan.pack } as Record<SupplyId, number>;

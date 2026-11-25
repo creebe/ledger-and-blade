@@ -2498,12 +2498,12 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 - _phases[1]:_ “The Withies: Where the fens run into the river.”
 
-### Contract: The Red Bull
+### Contract: The Brannock Bull
 
 `contract:drovers_bull` · data/contracts-sites.ts:152
 
 - _type:_ “Hunt”
-- _titles[1]:_ “The Red Bull”
+- _titles[1]:_ “The Brannock Bull”
 - _titles[2]:_ “A Bull on the Moor”
 - _description:_
 
@@ -4399,7 +4399,7 @@ Every contract is walked as an expedition to a site. Every site has three zones 
 | `site:kell` | Kell Mines | the upper workings, the Sump, the Trevick level | Silver workings in the northern hills, half of them flooded, and the deepest of them held by people who never paid for it. |
 | `site:saltfens` | The Saltfens | the reed paths, the Pans, the Withies | The marshes along the estuary, good for reagents and salt and for catching fever. |
 | `site:drovers` | Drover's Road | the hill road, Brannock Moor, Skell Gap | The cattle road through the hills east of the city, over Brannock Moor to the pass at Skell Gap. |
-| `site:harrowmere` | Harrowmere | the lake shore, the bridge houses, the Holms | A lake town with an old bridge, a mere that goes deeper than anyone has sounded, and islands nobody farms. |
+| `site:harrowmere` | Harrowmere | the lake shore, the bridge houses, the Holms | A lake town on a mere that goes deeper than anyone has sounded. Its old bridge is broken, and nobody farms the islands. |
 | `site:anselm` | Port Anselm | the Wenmouth road, the Burrows, the Strand | The coast road to the port where Ostrander's ships take on the Crown's silver, past the dunes where the wreckers live. |
 
 _Source: expeditions/data/content.ts:667._
@@ -4446,7 +4446,7 @@ _Source: expeditions/data/content.ts:667._
 
 `zone:quays` · expeditions/data/content.ts:326 · depth 2, dark
 
-- _text:_ “The river warehouses below the chain, at night: lighters tied up three deep, bonded stores and men paid to stand in doorways.”
+- _text:_ “The river warehouses below the chain, at night, with lighters tied up three deep and men paid to stand in the doorways of the bonded stores.”
 - _met here:_ Lighterman, Footpad, Hired thug, Yard dog, Watch sergeant, Guard
 - _found here:_ Bonded brandy, Old coin
 - _curiosities:_ strongbox, boathouse · _traps:_ tide, snare
@@ -4473,7 +4473,7 @@ _Source: expeditions/data/content.ts:667._
 
 `zone:sump` · expeditions/data/content.ts:378 · depth 2, dark
 
-- _text:_ “The lower galleries, where the pumps gave out forty years ago. The water stands at the knee and is colder than it has any right to be.”
+- _text:_ “The lower galleries, where the pumps gave out the year after the war. The water stands at the knee and is colder than it has any right to be.”
 - _met here:_ Cave crab, Pit pony, Claim-jumper, Powder man, Culvert rats
 - _found here:_ Silver ore, Iron, Old coin
 - _curiosities:_ strongbox, shrine · _traps:_ collapse, gas
@@ -4500,7 +4500,7 @@ _Source: expeditions/data/content.ts:667._
 
 `zone:pans` · expeditions/data/content.ts:431 · depth 2, Exposure every room
 
-- _text:_ “The salt pans and brine flats at the edge of the estuary: low walls, white crust and boiling huts, under a sky with nothing in it.”
+- _text:_ “The salt pans and brine flats at the edge of the estuary. Low mud walls cut the white crust into squares, and the only shelter is in the boiling huts.”
 - _met here:_ Salt-cutter, Marsh hog, Fowler, Fen leeches
 - _found here:_ Pan salt, Reagents, Old coin
 - _curiosities:_ shrine, boathouse · _traps:_ brine, bog
@@ -4554,7 +4554,7 @@ _Source: expeditions/data/content.ts:667._
 
 `zone:bridge` · expeditions/data/content.ts:539 · depth 2, dark
 
-- _text:_ “The houses built along the old bridge, empty since the middle span went. Their floors are soft, their shutters are nailed, and the water moves underneath all of it.”
+- _text:_ “The houses built along the old bridge, empty since the middle span went. The floors have gone soft, and the water moves underneath all of it.”
 - _met here:_ Smuggler, Night boatman, Crayfish, Mere pike
 - _found here:_ Old coin, Bog oak, Timber
 - _curiosities:_ strongbox, shrine · _traps:_ floor, snare
@@ -4581,7 +4581,7 @@ _Source: expeditions/data/content.ts:667._
 
 `zone:burrows` · expeditions/data/content.ts:589 · depth 2
 
-- _text:_ “The dunes between the coast road and the sea, miles of them, with marram grass, rabbit holes and the ribs of old ships sticking out of the sand.”
+- _text:_ “The dunes between the coast road and the sea, miles of them, full of marram grass and rabbit holes, with the ribs of old ships sticking out of the sand.”
 - _met here:_ Wrecker, Herring gulls, Road agent, Deserter
 - _found here:_ Old coin, Ambergris, Timber
 - _curiosities:_ wreck, shrine · _traps:_ tide, snare
@@ -4590,7 +4590,7 @@ _Source: expeditions/data/content.ts:667._
 
 `zone:strand` · expeditions/data/content.ts:607 · depth 3
 
-- _text:_ “Port Anselm's waterfront: customs sheds, rope walks and Ostrander's warehouses, with the bank's ships riding at anchor beyond the bar.”
+- _text:_ “Port Anselm's waterfront, a mile of customs sheds and Ostrander's warehouses, with the bank's ships riding at anchor beyond the bar.”
 - _met here:_ Tidewaiter, Guard, Herring gulls, Wrecker
 - _found here:_ Old coin, Ambergris, Bonded brandy
 - _curiosities:_ wreck, strongbox · _traps:_ tide, snare
@@ -4670,12 +4670,12 @@ _Met in_ lists the zones where they turn up, and the contract dangers that bring
 | `monster:smuggler` | Smuggler (people) | the lake shore, the bridge houses, the Holms | Lake people who move cargo at night and do not want to be counted. |
 | `monster:footpad` | Footpad (people) | the Quays, the Rookeries | A quick hand with a short knife, who knows every alley and would rather you never saw their face. |
 | `monster:lighterman` | Lighterman (people) | the Quays, the Rookeries | A boatman who unloads ships onto the quays by night, with a boat hook and strong opinions about who walks on their quay. |
-| `monster:watch_sergeant` | Watch sergeant (people) | the Quays, the Rookeries | A sergeant of the watch with a brass badge, a heavy stick and a pension to think about. Paid by somebody tonight, and not by the city. |
+| `monster:watch_sergeant` | Watch sergeant (people) | the Quays, the Rookeries | A sergeant of the watch with a brass badge and a pension to think about. Somebody other than the city is paying them tonight. |
 | `monster:yard_dog` | Yard dog | the Quays, the Rookeries | A warehouse mastiff, kept hungry so it stays interested. |
 | `monster:rudd` | Lew Rudd (people) | the boss room of Varrow (the Rookeries) | Lew Rudd rents out muscle by the day from a yard in the Rookeries. Half the thugs in the Lower Town have worked for him, and the other half owe him money. |
-| `monster:powder_man` | Powder man (people) | the Sump, the Trevick level | A claim-jumper who handles the blasting powder, and throws it at people when there is no rock handy. Short of eyebrows. |
+| `monster:powder_man` | Powder man (people) | the Sump, the Trevick level | A claim-jumper who handles the blasting powder, and throws it at people when there is no rock handy. Most of them are short of eyebrows. |
 | `monster:pit_pony` | Pit pony | the Sump, the Trevick level | The ponies were left below when the mine closed. They found their own way to live, and they bite. |
-| `monster:moyle` | Gaffer Moyle (people) | the boss room of Kell Mines (the Trevick level) | The claim-jumpers' captain. Moyle has held the Trevick level for six years, paid nobody for it, and keeps a keg of powder within reach of his chair. |
+| `monster:moyle` | Gaffer Moyle (people) | the boss room of Kell Mines (the Trevick level) | The claim-jumpers' captain. Moyle has held the Trevick level for six years without paying anybody for it, and keeps a keg of powder within reach of his chair. |
 | `monster:leeches` | Fen leeches | the Pans, the Withies | Leeches as long as a hand, which come up out of the channels in a knot when anything warm steps in. |
 | `monster:fowler` | Fowler (people) | the Pans, the Withies | A wildfowler with a punt gun, who shoots duck for the Varrow markets and anything else that comes through the withies uninvited. |
 | `monster:dean` | the Dean | the boss room of The Saltfens (the Withies) | The oldest marsh boar in the fens, the size of a cart, with tusks like hay hooks. The cutters named it after the college's dean, and say the likeness is fair. |
@@ -4778,9 +4778,9 @@ _Source: expeditions/data/content.ts:164 onward._
 | `good:fleece` | Fleeces | Moor fleeces, greasy and thick, from sheep that will not miss them for long. |
 | `good:colours` | The Ninth's colours | The regiment's flag, carried at Cassel Ford and carried off by Sergeant Crewe. Somebody in the Ninth will pay a great deal for it, or at least shout a great deal. |
 | `good:bog_oak` | Bog oak | Oak that has lain in the mere for centuries and turned black and hard as iron. The furniture makers on Anvil Row fight over it. |
-| `good:rings` | The Bailiff's rings | Rings, buckles and a bishop's seal, from the belly of the biggest pike in Harrowmere. Some of the owners are still alive. |
+| `good:rings` | The Bailiff's rings | Mostly rings and buckles, with a bishop's seal among them, from the belly of the biggest pike in Harrowmere. Some of the owners are still alive. |
 | `good:ambergris` | Ambergris | A grey waxy lump that washes up on the Burrows. It smells odd and the perfumers pay a fortune for it. |
-| `good:salvage` | Tull's salvage | What the wreckers took off a dozen ships: plate, bolts of cloth and a ship's figurehead with the name chiselled off. |
+| `good:salvage` | Tull's salvage | What the wreckers took off a dozen ships: plate and bolts of cloth, and a ship's figurehead with the name chiselled off. |
 | `good:iron` | Iron | Ore and old iron. The Forge uses it. |
 | `good:leather` | Leather | Hides for the Forge and the market. |
 | `good:timber` | Timber | Seasoned wood for building and the Forge. |
@@ -5599,7 +5599,7 @@ _Source: expeditions/data/lines-sites.ts:143._
 | `line:find_reeds.2` | {a} finds {g} in a cutter's lean-to, dried and tied up for market. |
 | `line:find_reeds.3` | {a} wades out and comes back with {g} and a leech on each leg. |
 | `line:goalroom_reeds.1` | The place the job named is a salt-house on stilts at the end of the path. There is smoke coming out of the chimney. |
-| `line:goalroom_reeds.2` | They reach the pans the job was about. Somebody is working them, and has stopped working to watch the squad come. |
+| `line:goalroom_reeds.2` | They reach the cutters' landing the job was about. Somebody is working there, and has stopped working to watch the squad come. |
 | `line:goal_reeds.1` | {a} gathers {g} from the place the job named and wraps the lot in oilcloth against the wet. |
 | `line:goal_reeds.2` | {a} gets {g} into the packs. It smells of the fen, and so will the packs from now on. |
 | `line:camp_reeds.1` | They camp on a hummock with their boots off and their feet up on the packs. The flies take turns. |
@@ -5618,7 +5618,7 @@ _Source: expeditions/data/lines-sites.ts:178._
 | `line:passage_hillroad.2` | The road crosses a ford with the water up to their knees. The far bank is all mud. |
 | `line:passage_hillroad.3` | They pass a shepherd's hut with the roof fallen in. Somebody has written a rude word on the door and spelled it wrong. |
 | `line:passage_hillroad.4` | There is a gibbet at the crossroads with nobody in it. {a} says that is a good sign, and nobody agrees. |
-| `line:room_hillroad.1` | There is a drovers' inn at the top of the pass, with the shutters closed and the door open. |
+| `line:room_hillroad.1` | There is a drovers' inn at the top of the climb, with the shutters closed and the door open. |
 | `line:room_hillroad.2` | They come to a sheepfold beside the road, with a fire still smoking in one corner. |
 | `line:room_hillroad.3` | The road goes through a cutting with high banks on both sides, where anybody meaning trouble would wait. |
 | `line:find_hillroad.1` | {a} finds {g} in a cart that has been left in the ditch. |
@@ -5651,7 +5651,7 @@ _Source: expeditions/data/lines-sites.ts:213._
 | `line:find_shore.2` | {a} pulls {g} out of a heap of driftwood on the shingle. |
 | `line:find_shore.3` | Under the floor of a boathouse {a} finds {g}. |
 | `line:goalroom_shore.1` | The boathouse the job named stands at the end of the shore with smoke coming out of the roof. There are people in it. |
-| `line:goalroom_shore.2` | They reach the middle of the old bridge, where the job said to look. Somebody is already there. |
+| `line:goalroom_shore.2` | They reach the foot of the old bridge, where the job said to look. Somebody is already there. |
 | `line:goal_shore.1` | {a} gets {g} out of the boathouse while the others watch the water. |
 | `line:goal_shore.2` | {a} lifts {g} out from under the floor of the old toll house on the bridge. |
 | `line:camp_shore.1` | They camp in an empty boathouse. The water slaps the boards under them all night. |
@@ -6115,7 +6115,7 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:trap_tide_hit.2` | {a} is halfway across when the tide arrives. It is cold, and it is in a hurry. |
 | `line:trap_tide_hit.3` | A surge comes up the steps and drags {a} down two of them before letting go. |
 | `line:enter_rookeries.1` | They climb into the Rookeries by a back stair behind the tanneries. The courts are six storeys deep, and every window has somebody in it. |
-| `line:enter_rookeries.2` | The Rookeries start where the street gives up. It is washing lines, rented rooms and people who stop talking when the squad comes past. |
+| `line:enter_rookeries.2` | The Rookeries start where the street gives up. It is all washing lines and rented rooms, and people stop talking when the squad comes past. |
 | `line:enter_rookeries.3` | {a} leads them in under an archway into the Rookeries. It is noisy, and it gets quiet in front of them as they go. |
 | `line:passage_rookeries.1` | They cross a court where six families are cooking on one fire. Nobody looks at them, very hard. |
 | `line:passage_rookeries.2` | They go up one stair and across a roof and down another stair, because that is the only way through. {a} does not look down. |
@@ -6129,7 +6129,7 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:find_rookeries.3` | {a} buys a bundle off an old woman for a few pennies without asking what is in it. It is {g}. |
 | `line:goalroom_rookeries.1` | They reach the far side of the Rookeries, where the courts back onto the town wall. People are waiting for them there. |
 | `line:goalroom_rookeries.2` | The last court in the Rookeries has one way in and one way out, and somebody is standing in both. |
-| `line:goal_rookeries.1` | In a locked room off the last court {a} finds {g}, stacked under the bed like somebody's savings. |
+| `line:goal_rookeries.1` | In a locked room off the last court {a} finds {g}, stacked under the bed with a blanket over it. |
 | `line:goal_rookeries.2` | {a} goes through the back room of the yard and comes out with {g}. {b} carries the lamp and pretends not to see anything else. |
 | `line:camp_rookeries.1` | They rent a room in the Rookeries for the night, at a price that would buy the room in Tallow Street. |
 | `line:camp_rookeries.2` | They camp on a flat roof with their backs to a chimney. The whole Rookeries is snoring below them. |
@@ -6148,7 +6148,7 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:rudd_after.1` | Rudd's yard has new tenants. The men who used to work for Lew Rudd are working for themselves, and they are worse at it. |
 | `line:rudd_after.2` | Somebody has taken over Rudd's yard and painted over his name on the gate. They still keep dogs. |
 | `line:enter_sump.1` | They climb down a ladder into the Sump. The water is at their knees at the bottom, and it gets colder as they go. |
-| `line:enter_sump.2` | The pumps that kept the lower galleries dry gave out forty years ago. They wade into the Sump with the lamps held high. |
+| `line:enter_sump.2` | The pumps that kept the lower galleries dry gave out the year after the war. They wade into the Sump with the lamps held high. |
 | `line:enter_sump.3` | {a} tests the water at the bottom of the shaft with one boot and says something the others agree with. |
 | `line:passage_sump.1` | They wade along a drowned gallery with the roof a hand's breadth above the lamps. {a} hums to keep their teeth from chattering. |
 | `line:passage_sump.2` | The water drops away for a stretch and the floor is mud instead. Nobody thinks this is better. |
@@ -6159,12 +6159,12 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:room_sump.3` | They come to a junction of four galleries, all flooded, with a ladder going up into the dark. |
 | `line:find_sump.1` | {a} feels along the bottom of a flooded cut and comes up with {g}. |
 | `line:find_sump.2` | In an ore wagon tipped on its side in the water, {a} finds {g}. |
-| `line:find_sump.3` | {a} finds {g} on a shelf above the waterline, where a miner left it forty years ago and meant to come back. |
+| `line:find_sump.3` | {a} finds {g} on a shelf above the waterline, where a miner left it twenty years ago and meant to come back. |
 | `line:goalroom_sump.1` | They reach the drowned pump house the job named. The great beam engine is still there, rusted solid, and somebody is living in its boiler. |
 | `line:goalroom_sump.2` | The pump house is at the bottom of the Sump. The water here is up to the chest, and there are people standing in it. |
 | `line:goal_sump.1` | Under the beam of the old pump engine {a} finds {g}, stacked where the water can't reach. |
 | `line:goal_sump.2` | {a} wades out of the pump house with {g} held above their head. |
-| `line:camp_sump.1` | They camp on a ledge above the water in the old stables, on dry straw that is forty years old. |
+| `line:camp_sump.1` | They camp on a ledge above the water in the old stables, on dry straw that is twenty years old. |
 | `line:camp_sump.2` | They make camp in a side gallery the water never reached. It drips, but it drips slowly. |
 | `line:sight_pit_pony.1` | {m} comes out of the dark with its ears back and its teeth showing. It has not seen daylight in years, and it hasn't missed it. |
 | `line:sight_pit_pony.2` | There is a pony down here, shaggy and grey with dust. {m} looks at the squad's packs, and then at the squad, and charges. |
@@ -6185,7 +6185,7 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:find_trevick.3` | In the old captain's desk {a} finds {g} and a letter to his wife that was never sent. |
 | `line:goalroom_trevick.1` | They reach the end of the Trevick level, where the vein goes into the rock and the miners stopped following it. Somebody else has started. |
 | `line:goalroom_trevick.2` | The far end of the Trevick level is a working face, and it is being worked. The people working it put their picks down. |
-| `line:goal_trevick.1` | At the working face {a} finds {g}, cut and bagged and waiting for somebody else to carry it out. |
+| `line:goal_trevick.1` | At the working face {a} finds {g}, already bagged for somebody else to carry out. |
 | `line:goal_trevick.2` | {a} goes through the claim-jumpers' store at the end of the level and comes out with {g}. |
 | `line:camp_trevick.1` | They camp in Trevick's old office, with the portrait watching. {b} turns it to the wall. |
 | `line:camp_trevick.2` | They make camp in a dead working off the silver gallery. The walls glitter all night, and nobody can sleep for looking at them. |
@@ -6207,7 +6207,7 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:boss_won:kell.2` | It is over. The claim-jumpers have gone up the ladder, and Gaffer Moyle's chair is empty. |
 | `line:moyle_after.1` | Moyle's chair is still at the end of the Trevick level. New claim-jumpers have moved in, and one of them is sitting in it. |
 | `line:moyle_after.2` | Somebody has taken over Moyle's working. They have not found his powder yet, and they are looking. |
-| `line:enter_pans.1` | The reeds stop and the Pans begin: low walls of mud, square ponds of brine and a white crust over everything. There is nothing between them and the sky. |
+| `line:enter_pans.1` | The reeds stop and the Pans begin. There are low mud walls around square ponds of brine, with a white crust over everything, and nothing at all between the squad and the sky. |
 | `line:enter_pans.2` | They come out onto the salt pans. The light is flat and white, and {a} has to squint to see the far wall. |
 | `line:enter_pans.3` | The Pans go on for a mile, with boiling huts along the edge and smoke rising from some of them. |
 | `line:passage_pans.1` | They walk along the top of a pan wall with brine on both sides. The crust crunches under their boots. |
@@ -6274,7 +6274,7 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:enter_brannock.2` | They come up onto the moor. The road is a line of stones across the heather, with a cairn every mile or so. |
 | `line:enter_brannock.3` | Brannock Moor opens out ahead, brown and very wide. {a} says it is beautiful. Nobody else has the breath to agree. |
 | `line:passage_brannock.1` | They follow the line of stones across the heather. A curlew calls somewhere and doesn't call again. |
-| `line:passage_brannock.2` | They pass the bones of a cow by the road, picked clean. {a} counts the ribs, and there are not all of them. |
+| `line:passage_brannock.2` | They pass the bones of a cow by the road, picked clean. {a} counts the ribs and comes up two short. |
 | `line:passage_brannock.3` | The road dips into a peat hag, and they wade through black water to the knees. |
 | `line:passage_brannock.4` | A drover's dog runs alongside them for a mile, and then goes back the way it came without a word. |
 | `line:room_brannock.1` | They come to a sheepfold of piled stone, with a gate made of a bed frame. |
@@ -6291,7 +6291,7 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:camp_brannock.2` | They make camp in a shepherd's hut. The shepherd isn't in, and he has left a note saying not to eat the cheese. |
 | `line:sight_reiver.1` | {m} comes over the wall with a cudgel and a bag, and the bag is for whatever the squad has. |
 | `line:sight_reiver.2` | "That's a fine pack," says {m}, coming up out of the heather. "My cousin's got one like that. Used to." |
-| `line:sight_moor_bull.1` | {m} lifts its head out of the heather. It is red and shaggy and as big as a hay cart, and it does not like the look of anybody. |
+| `line:sight_moor_bull.1` | {m} lifts its head out of the heather. It is a red, shaggy animal the size of a hay cart, and it does not like the look of anybody. |
 | `line:sight_moor_bull.2` | There is a bull standing in the road. {m} lowers its head, and the horns go wide enough to take two of them at once. |
 | `line:trap_stampede_disarm.1` | {a} hears the cattle before they come over the rise, and gets everyone behind a wall in time. |
 | `line:trap_stampede_disarm.2` | {a} sees the herd start to move and waves the squad up onto a rock. The cattle go past on both sides. |
@@ -6299,7 +6299,7 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:trap_stampede_around.2` | {a} sees the cattle starting to run and turns the squad back the way they came, the long way round. |
 | `line:trap_stampede_hit.1` | A herd comes over the rise at a run, and {a} is in the way of it. |
 | `line:trap_stampede_hit.2` | Somebody has spooked the cattle. {a} goes under the hooves before they can get clear. |
-| `line:trap_stampede_hit.3` | A cow the size of a cart runs straight over {a} and keeps going. |
+| `line:trap_stampede_hit.3` | A heavy red cow runs straight over {a} and does not slow down. |
 | `line:trap_collapse_disarm:drovers.1` | {a} sees the scree above the road start to slide and gets them all under an overhang before it comes down. |
 | `line:trap_collapse_disarm:drovers.2` | {a} spots a boulder balanced on the slope above, and they wedge it before anyone walks under it. |
 | `line:trap_collapse_around:drovers.1` | The scree above the road looks ready to go. With nothing to make it safe, they climb round by a sheep track. |
@@ -6312,8 +6312,8 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:enter_skell.3` | Skell Gap is the top of the Drover's Road. {a} looks back over the moor and says it was further than it looked. |
 | `line:passage_skell.1` | They climb the road through the pass, past a cairn with a soldier's helmet on top. |
 | `line:passage_skell.2` | The wind is so strong in the gap that they walk bent over, holding onto each other. |
-| `line:passage_skell.3` | They pass a camp fire still warm, and boot prints in the ash, and a lot of them. |
-| `line:passage_skell.4` | There is a sentry post here built of stones, empty. Somebody has carved NINTH into the lintel. |
+| `line:passage_skell.3` | They pass a camp fire that is still warm, with a great many boot prints in the ash. |
+| `line:passage_skell.4` | There is an empty sentry post here, built of piled stones. Somebody has carved NINTH into the lintel. |
 | `line:room_skell.1` | They come to a stretch of the road where the slopes close in. Somebody has piled stones across it to make a wall. |
 | `line:room_skell.2` | The road opens into a hollow where the drovers used to rest their herds. There are tents in it. |
 | `line:room_skell.3` | They reach an old Crown milestone with the distances to Varrow chiselled off and something else written over them. |
@@ -6328,7 +6328,7 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:camp_skell.2` | They make camp in the old sentry post with the NINTH over the door. {a} sleeps with a hand on their weapon. |
 | `line:boss_sight:drovers.1` | The old toll house at Skell Gap has the Ninth's colours over the door. Sergeant Abner Crewe comes out under them with his men and asks for the toll. |
 | `line:boss_sight:drovers.2` | Sergeant Crewe is waiting at the toll house with a pike and twenty years in the Ninth. "Toll's a crown a head," he says. "Or you can turn round." |
-| `line:crewe_hit.1` | Sergeant Crewe gets his pike through {t}'s guard the way they taught it on the drill square. |
+| `line:crewe_hit.1` | Sergeant Crewe gets his pike through {t}'s guard with a thrust straight off the drill square. |
 | `line:crewe_hit.2` | Sergeant Crewe hits {t} with the butt of his pike and then with the point. |
 | `line:crewe_hit.3` | Sergeant Crewe steps in and catches {t} under the arm. |
 | `line:crewe_miss.1` | Sergeant Crewe thrusts at {t} and misses, and swears at himself the way he used to swear at recruits. |
@@ -6342,7 +6342,7 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:crewe_after.2` | Somebody has rebuilt the barrier at Skell Gap. Crewe's men have come back without him, and they are less polite about it. |
 | `line:enter_bridge.1` | They go out along the old bridge, between the houses built on it. The middle span fell twenty years ago and the houses were left as they stood. |
 | `line:enter_bridge.2` | The bridge houses are dark, with nailed shutters and doors that open onto the water. {a} lights the lamps. |
-| `line:enter_bridge.3` | They step onto the old bridge. It creaks, and the water moves underneath, and the houses lean in over the road. |
+| `line:enter_bridge.3` | They step onto the old bridge. The boards creak under them, and the houses lean in over the road from both sides. |
 | `line:passage_bridge.1` | They walk the bridge road between the houses. Every board in it has an opinion. |
 | `line:passage_bridge.2` | {a} looks through a gap in the floor and sees the mere going past, black and quick, a long way down. |
 | `line:passage_bridge.3` | They go through a house because the road is blocked. There is still a table laid in it. |
@@ -6371,9 +6371,9 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:sight_crayfish.1` | Something clicks in the dark under the bridge. {m} comes up out of the water, claws first. |
 | `line:sight_crayfish.2` | {m} crawls out of a drain, the size of a cat and the colour of mud. |
 | `line:enter_holms.1` | They take a punt out to the Holms, the islands in the middle of the mere. The water around them is the deepest anyone has sounded. |
-| `line:enter_holms.2` | The Holms come out of the mist one at a time: alder, reed and a ruined chapel on the nearest. |
+| `line:enter_holms.2` | The Holms come out of the mist one at a time, all alder and reed, with a ruined chapel on the nearest. |
 | `line:enter_holms.3` | {a} poles them out to the first of the Holms. The water under the punt is black and goes down a long way. |
-| `line:passage_holms.1` | They wade from one island to the next across a bar of gravel. The water is cold enough to stop {a}'s heart, they say. |
+| `line:passage_holms.1` | They wade from one island to the next across a bar of gravel. {a} says the water is cold enough to stop a heart. |
 | `line:passage_holms.2` | They walk along the shore of an island, under alder trees full of cormorants. |
 | `line:passage_holms.3` | The path goes past a ruined chapel with no roof. Somebody has been sleeping in it. |
 | `line:passage_holms.4` | Something big turns over in the water beside the island and goes down again. |
@@ -6388,7 +6388,7 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:goal_holms.1` | On the last island {a} finds {g}, hidden in a hollow tree. |
 | `line:goal_holms.2` | {a} wades out to a sunken boat off the far Holms and comes back with {g}. |
 | `line:camp_holms.1` | They camp in the ruined chapel, with a fire in the nave. The wind comes through the windows and nobody minds. |
-| `line:camp_holms.2` | They make camp on the largest island, under the alders. {a} keeps watch on the water, and the water keeps watch on them. |
+| `line:camp_holms.2` | They make camp on the largest island, under the alders. {a} keeps watch on the water. Twice in the night something turns over out there, close to the shore. |
 | `line:boss_sight:harrowmere.1` | The water off the far Holms goes very still, and then something comes up under it, longer than the punt. The Bailiff has come for its share. |
 | `line:boss_sight:harrowmere.2` | A shape moves in the deep water off the island, as long as a boat. The fishermen said it would come, and it has. |
 | `line:bailiff_hit.1` | The Bailiff comes out of the water and takes {t} by the leg. |
@@ -6403,8 +6403,8 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:boss_won:harrowmere.2` | It is over. The mere is calm, and for the first time in living memory nothing is taking its share. |
 | `line:bailiff_after.1` | The water off the far Holms is still deep, and the pike in it are getting bigger. One of them is already taking a share. |
 | `line:bailiff_after.2` | Something else has moved into the Bailiff's water. It is not as big yet, and it is working on it. |
-| `line:enter_burrows.1` | They leave the road and go into the Burrows: dunes for miles, marram grass and the ribs of old ships sticking out of the sand. |
-| `line:enter_burrows.2` | The Burrows start where the road gives up. The sand is soft, the wind is full of it, and {a} is already shaking it out of a boot. |
+| `line:enter_burrows.1` | They leave the road and go into the Burrows, which are miles of dunes and marram grass with the ribs of old ships sticking out of the sand. |
+| `line:enter_burrows.2` | The road runs out into soft sand at the edge of the Burrows. The wind is full of it, and {a} is already shaking it out of a boot. |
 | `line:enter_burrows.3` | They climb the first dune and see the Burrows laid out to the sea, with the wrecks along the beach like the bones of animals. |
 | `line:passage_burrows.1` | They walk along the bottom of a dune, out of the wind. It is very quiet there, apart from the sea. |
 | `line:passage_burrows.2` | They cross a slack of wet sand between dunes where somebody has been digging. |
@@ -6422,7 +6422,7 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:goal_burrows.2` | {a} climbs into the broken stern of the wreck and comes out with {g}. |
 | `line:camp_burrows.1` | They camp in the lee of a dune with a driftwood fire. The sea is loud all night, and {a} says it is a comfort, and nobody believes them. |
 | `line:camp_burrows.2` | They make camp in the hut of ship's timbers. It smells of tar and the people who built it. |
-| `line:sight_wrecker.1` | {m} comes over the dune with a crowbar and a lantern, and looks at the squad the way they look at a ship. |
+| `line:sight_wrecker.1` | {m} comes over the dune with a crowbar and a lantern, and sizes the squad up for salvage. |
 | `line:sight_wrecker.2` | "This beach is taken," says {m}, stepping out from behind a wreck. "Whatever washes up on it is ours, and you've washed up." |
 | `line:sight_gulls.1` | {m} drops out of the sky onto the squad's packs, all screaming at once. |
 | `line:sight_gulls.2` | {m} has been following them since the road. Now the gulls come down, beaks first, for the food. |
@@ -6435,7 +6435,7 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:passage_strand.4` | {a} buys a fried fish from a stall and is charged a duty on it. |
 | `line:room_strand.1` | They come into a customs yard full of crates waiting for their duty to be paid. |
 | `line:room_strand.2` | The Strand opens into the fish market, empty at this hour, with gulls on every stall. |
-| `line:room_strand.3` | They reach the end of a pier, with a crane and a pile of nets and the ships close enough to read their names. |
+| `line:room_strand.3` | They reach the end of a pier, with a crane on it and the ships moored close enough to read their names. |
 | `line:find_strand.1` | {a} finds {g} in a crate in the customs yard that has been waiting a long time for somebody to claim it. |
 | `line:find_strand.2` | Under a pile of nets on the pier, {a} finds {g}. |
 | `line:find_strand.3` | {a} pays a man in a doorway for {g}, and does not ask where he got it. |
@@ -6444,13 +6444,13 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:goal_strand.1` | At the end of the Strand {a} finds {g}, hidden under a boat turned upside down. |
 | `line:goal_strand.2` | {a} goes through a shed at the end of the Strand and comes out with {g}. |
 | `line:camp_strand.1` | They camp in an empty net loft above the fish market. It smells of fish, and so do they by morning. |
-| `line:camp_strand.2` | They rent a room at an inn on the Strand, all four of them in one bed, and nobody sleeps. |
+| `line:camp_strand.2` | They rent a room at an inn on the Strand, all of them in one bed, and nobody sleeps. |
 | `line:sight_tidewaiter.1` | {m} steps out of a customs shed with a lantern and a ledger, and asks for their papers. They have none that would help. |
 | `line:sight_tidewaiter.2` | "Nobody goes past here without the bank's say-so," says {m}, and calls for the others. |
 | `line:boss_sight:anselm.1` | Mags Tull's cove is at the end of the Strand, where the Burrows come down to the sea. She is standing on the beach with the false lantern in one hand, and she waves with the other. |
 | `line:boss_sight:anselm.2` | The wreckers' cove is full of cargo from a dozen ships. Mags Tull comes out from behind it with a hook, and her people come with her. |
 | `line:tull_hit.1` | Mags Tull gets {t} with her hook and pulls them off their feet. |
-| `line:tull_hit.2` | Mags Tull swings a crowbar into {t}, the way she would open up a ship's hull. |
+| `line:tull_hit.2` | Mags Tull swings a wrecker's crowbar into {t}'s ribs. |
 | `line:tull_hit.3` | Mags Tull kicks sand in {t}'s face and cuts them while they are blinking. |
 | `line:tull_miss.1` | Mags Tull swings her hook at {t} and catches nothing but sea air. |
 | `line:tull_miss.2` | {t} steps back, and Mags Tull's hook buries itself in a cask of brandy. |

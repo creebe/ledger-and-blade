@@ -78,7 +78,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   ],
   'enter_rookeries': [
     "They climb into the Rookeries by a back stair behind the tanneries. The courts are six storeys deep, and every window has somebody in it.",
-    "The Rookeries start where the street gives up. It is washing lines, rented rooms and people who stop talking when the squad comes past.",
+    "The Rookeries start where the street gives up. It is all washing lines and rented rooms, and people stop talking when the squad comes past.",
     "{a} leads them in under an archway into the Rookeries. It is noisy, and it gets quiet in front of them as they go.",
   ],
   passage_rookeries: [
@@ -102,7 +102,7 @@ export const DEEP_LINES: Record<string, string[]> = {
     "The last court in the Rookeries has one way in and one way out, and somebody is standing in both.",
   ],
   goal_rookeries: [
-    "In a locked room off the last court {a} finds {g}, stacked under the bed like somebody's savings.",
+    "In a locked room off the last court {a} finds {g}, stacked under the bed with a blanket over it.",
     "{a} goes through the back room of the yard and comes out with {g}. {b} carries the lamp and pretends not to see anything else.",
   ],
   camp_rookeries: [
@@ -142,7 +142,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   // ===================================================================
   enter_sump: [
     "They climb down a ladder into the Sump. The water is at their knees at the bottom, and it gets colder as they go.",
-    "The pumps that kept the lower galleries dry gave out forty years ago. They wade into the Sump with the lamps held high.",
+    "The pumps that kept the lower galleries dry gave out the year after the war. They wade into the Sump with the lamps held high.",
     "{a} tests the water at the bottom of the shaft with one boot and says something the others agree with.",
   ],
   passage_sump: [
@@ -159,7 +159,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   find_sump: [
     "{a} feels along the bottom of a flooded cut and comes up with {g}.",
     "In an ore wagon tipped on its side in the water, {a} finds {g}.",
-    "{a} finds {g} on a shelf above the waterline, where a miner left it forty years ago and meant to come back.",
+    "{a} finds {g} on a shelf above the waterline, where a miner left it twenty years ago and meant to come back.",
   ],
   goalroom_sump: [
     "They reach the drowned pump house the job named. The great beam engine is still there, rusted solid, and somebody is living in its boiler.",
@@ -170,7 +170,7 @@ export const DEEP_LINES: Record<string, string[]> = {
     "{a} wades out of the pump house with {g} held above their head.",
   ],
   camp_sump: [
-    "They camp on a ledge above the water in the old stables, on dry straw that is forty years old.",
+    "They camp on a ledge above the water in the old stables, on dry straw that is twenty years old.",
     "They make camp in a side gallery the water never reached. It drips, but it drips slowly.",
   ],
   sight_pit_pony: [
@@ -207,7 +207,7 @@ export const DEEP_LINES: Record<string, string[]> = {
     "The far end of the Trevick level is a working face, and it is being worked. The people working it put their picks down.",
   ],
   goal_trevick: [
-    "At the working face {a} finds {g}, cut and bagged and waiting for somebody else to carry it out.",
+    "At the working face {a} finds {g}, already bagged for somebody else to carry out.",
     "{a} goes through the claim-jumpers' store at the end of the level and comes out with {g}.",
   ],
   camp_trevick: [
@@ -253,7 +253,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   // The Saltfens: the Pans and the Withies, and the Dean
   // ===================================================================
   enter_pans: [
-    "The reeds stop and the Pans begin: low walls of mud, square ponds of brine and a white crust over everything. There is nothing between them and the sky.",
+    "The reeds stop and the Pans begin. There are low mud walls around square ponds of brine, with a white crust over everything, and nothing at all between the squad and the sky.",
     "They come out onto the salt pans. The light is flat and white, and {a} has to squint to see the far wall.",
     "The Pans go on for a mile, with boiling huts along the edge and smoke rising from some of them.",
   ],
@@ -376,7 +376,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   ],
   passage_brannock: [
     "They follow the line of stones across the heather. A curlew calls somewhere and doesn't call again.",
-    "They pass the bones of a cow by the road, picked clean. {a} counts the ribs, and there are not all of them.",
+    "They pass the bones of a cow by the road, picked clean. {a} counts the ribs and comes up two short.",
     "The road dips into a peat hag, and they wade through black water to the knees.",
     "A drover's dog runs alongside them for a mile, and then goes back the way it came without a word.",
   ],
@@ -407,7 +407,7 @@ export const DEEP_LINES: Record<string, string[]> = {
     "\"That's a fine pack,\" says {m}, coming up out of the heather. \"My cousin's got one like that. Used to.\"",
   ],
   sight_moor_bull: [
-    "{m} lifts its head out of the heather. It is red and shaggy and as big as a hay cart, and it does not like the look of anybody.",
+    "{m} lifts its head out of the heather. It is a red, shaggy animal the size of a hay cart, and it does not like the look of anybody.",
     "There is a bull standing in the road. {m} lowers its head, and the horns go wide enough to take two of them at once.",
   ],
   trap_stampede_disarm: [
@@ -421,7 +421,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   trap_stampede_hit: [
     "A herd comes over the rise at a run, and {a} is in the way of it.",
     "Somebody has spooked the cattle. {a} goes under the hooves before they can get clear.",
-    "A cow the size of a cart runs straight over {a} and keeps going.",
+    "A heavy red cow runs straight over {a} and does not slow down.",
   ],
   'trap_collapse_disarm:drovers': [
     "{a} sees the scree above the road start to slide and gets them all under an overhang before it comes down.",
@@ -444,8 +444,8 @@ export const DEEP_LINES: Record<string, string[]> = {
   passage_skell: [
     "They climb the road through the pass, past a cairn with a soldier's helmet on top.",
     "The wind is so strong in the gap that they walk bent over, holding onto each other.",
-    "They pass a camp fire still warm, and boot prints in the ash, and a lot of them.",
-    "There is a sentry post here built of stones, empty. Somebody has carved NINTH into the lintel.",
+    "They pass a camp fire that is still warm, with a great many boot prints in the ash.",
+    "There is an empty sentry post here, built of piled stones. Somebody has carved NINTH into the lintel.",
   ],
   room_skell: [
     "They come to a stretch of the road where the slopes close in. Somebody has piled stones across it to make a wall.",
@@ -474,7 +474,7 @@ export const DEEP_LINES: Record<string, string[]> = {
     "Sergeant Crewe is waiting at the toll house with a pike and twenty years in the Ninth. \"Toll's a crown a head,\" he says. \"Or you can turn round.\"",
   ],
   crewe_hit: [
-    "Sergeant Crewe gets his pike through {t}'s guard the way they taught it on the drill square.",
+    "Sergeant Crewe gets his pike through {t}'s guard with a thrust straight off the drill square.",
     "Sergeant Crewe hits {t} with the butt of his pike and then with the point.",
     "Sergeant Crewe steps in and catches {t} under the arm.",
   ],
@@ -502,7 +502,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   enter_bridge: [
     "They go out along the old bridge, between the houses built on it. The middle span fell twenty years ago and the houses were left as they stood.",
     "The bridge houses are dark, with nailed shutters and doors that open onto the water. {a} lights the lamps.",
-    "They step onto the old bridge. It creaks, and the water moves underneath, and the houses lean in over the road.",
+    "They step onto the old bridge. The boards creak under them, and the houses lean in over the road from both sides.",
   ],
   passage_bridge: [
     "They walk the bridge road between the houses. Every board in it has an opinion.",
@@ -555,11 +555,11 @@ export const DEEP_LINES: Record<string, string[]> = {
   ],
   enter_holms: [
     "They take a punt out to the Holms, the islands in the middle of the mere. The water around them is the deepest anyone has sounded.",
-    "The Holms come out of the mist one at a time: alder, reed and a ruined chapel on the nearest.",
+    "The Holms come out of the mist one at a time, all alder and reed, with a ruined chapel on the nearest.",
     "{a} poles them out to the first of the Holms. The water under the punt is black and goes down a long way.",
   ],
   passage_holms: [
-    "They wade from one island to the next across a bar of gravel. The water is cold enough to stop {a}'s heart, they say.",
+    "They wade from one island to the next across a bar of gravel. {a} says the water is cold enough to stop a heart.",
     "They walk along the shore of an island, under alder trees full of cormorants.",
     "The path goes past a ruined chapel with no roof. Somebody has been sleeping in it.",
     "Something big turns over in the water beside the island and goes down again.",
@@ -584,7 +584,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   ],
   camp_holms: [
     "They camp in the ruined chapel, with a fire in the nave. The wind comes through the windows and nobody minds.",
-    "They make camp on the largest island, under the alders. {a} keeps watch on the water, and the water keeps watch on them.",
+    "They make camp on the largest island, under the alders. {a} keeps watch on the water. Twice in the night something turns over out there, close to the shore.",
   ],
   'boss_sight:harrowmere': [
     "The water off the far Holms goes very still, and then something comes up under it, longer than the punt. The Bailiff has come for its share.",
@@ -617,8 +617,8 @@ export const DEEP_LINES: Record<string, string[]> = {
   // Port Anselm: the Burrows and the Strand, and Mags Tull
   // ===================================================================
   enter_burrows: [
-    "They leave the road and go into the Burrows: dunes for miles, marram grass and the ribs of old ships sticking out of the sand.",
-    "The Burrows start where the road gives up. The sand is soft, the wind is full of it, and {a} is already shaking it out of a boot.",
+    "They leave the road and go into the Burrows, which are miles of dunes and marram grass with the ribs of old ships sticking out of the sand.",
+    "The road runs out into soft sand at the edge of the Burrows. The wind is full of it, and {a} is already shaking it out of a boot.",
     "They climb the first dune and see the Burrows laid out to the sea, with the wrecks along the beach like the bones of animals.",
   ],
   passage_burrows: [
@@ -650,7 +650,7 @@ export const DEEP_LINES: Record<string, string[]> = {
     "They make camp in the hut of ship's timbers. It smells of tar and the people who built it.",
   ],
   sight_wrecker: [
-    "{m} comes over the dune with a crowbar and a lantern, and looks at the squad the way they look at a ship.",
+    "{m} comes over the dune with a crowbar and a lantern, and sizes the squad up for salvage.",
     "\"This beach is taken,\" says {m}, stepping out from behind a wreck. \"Whatever washes up on it is ours, and you've washed up.\"",
   ],
   sight_gulls: [
@@ -671,7 +671,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   room_strand: [
     "They come into a customs yard full of crates waiting for their duty to be paid.",
     "The Strand opens into the fish market, empty at this hour, with gulls on every stall.",
-    "They reach the end of a pier, with a crane and a pile of nets and the ships close enough to read their names.",
+    "They reach the end of a pier, with a crane on it and the ships moored close enough to read their names.",
   ],
   find_strand: [
     "{a} finds {g} in a crate in the customs yard that has been waiting a long time for somebody to claim it.",
@@ -688,7 +688,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   ],
   camp_strand: [
     "They camp in an empty net loft above the fish market. It smells of fish, and so do they by morning.",
-    "They rent a room at an inn on the Strand, all four of them in one bed, and nobody sleeps.",
+    "They rent a room at an inn on the Strand, all of them in one bed, and nobody sleeps.",
   ],
   sight_tidewaiter: [
     "{m} steps out of a customs shed with a lantern and a ledger, and asks for their papers. They have none that would help.",
@@ -700,7 +700,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   ],
   tull_hit: [
     "Mags Tull gets {t} with her hook and pulls them off their feet.",
-    "Mags Tull swings a crowbar into {t}, the way she would open up a ship's hull.",
+    "Mags Tull swings a wrecker's crowbar into {t}'s ribs.",
     "Mags Tull kicks sand in {t}'s face and cuts them while they are blinking.",
   ],
   tull_miss: [

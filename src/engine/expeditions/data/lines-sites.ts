@@ -198,7 +198,7 @@ export const SITE_LINES: Record<string, string[]> = {
   ],
   goalroom_reeds: [
     "The place the job named is a salt-house on stilts at the end of the path. There is smoke coming out of the chimney.",
-    "They reach the pans the job was about. Somebody is working them, and has stopped working to watch the squad come.",
+    "They reach the cutters' landing the job was about. Somebody is working there, and has stopped working to watch the squad come.",
   ],
   goal_reeds: [
     "{a} gathers {g} from the place the job named and wraps the lot in oilcloth against the wet.",
@@ -222,7 +222,7 @@ export const SITE_LINES: Record<string, string[]> = {
     "There is a gibbet at the crossroads with nobody in it. {a} says that is a good sign, and nobody agrees.",
   ],
   room_hillroad: [
-    "There is a drovers' inn at the top of the pass, with the shutters closed and the door open.",
+    "There is a drovers' inn at the top of the climb, with the shutters closed and the door open.",
     "They come to a sheepfold beside the road, with a fire still smoking in one corner.",
     "The road goes through a cutting with high banks on both sides, where anybody meaning trouble would wait.",
   ],
@@ -268,7 +268,7 @@ export const SITE_LINES: Record<string, string[]> = {
   ],
   goalroom_shore: [
     "The boathouse the job named stands at the end of the shore with smoke coming out of the roof. There are people in it.",
-    "They reach the middle of the old bridge, where the job said to look. Somebody is already there.",
+    "They reach the foot of the old bridge, where the job said to look. Somebody is already there.",
   ],
   goal_shore: [
     "{a} gets {g} out of the boathouse while the others watch the water.",

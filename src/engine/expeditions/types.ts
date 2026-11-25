@@ -320,6 +320,8 @@ export interface DiveSetup {
   bossBeaten?: boolean;
   /** the same, as trips sealed before save version 14 stored it */
   kilnBroken?: boolean;
+  /** sealed before save version 14, when every site but Old Pellam had one zone: replay the old one-zone route and threat */
+  oneZone?: boolean;
   /** multiplier on enemy strength (door scenes, ambushes) */
   foeScale: number;
   /** lines from the door scene, told on the road out */

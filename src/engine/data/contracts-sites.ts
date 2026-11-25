@@ -154,7 +154,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
     threat: [4, 4],
     id: 'drovers_bull',
     type: 'Hunt',
-    titles: ['The Red Bull', 'A Bull on the Moor'],
+    titles: ['The Brannock Bull', 'A Bull on the Moor'],
     patrons: ['weighhouse', 'lowertown'],
     description: 'A moor bull has been scattering the droves on Brannock Moor all autumn. The cattle dealers would pay to have it gone before the next herd comes through.',
     regions: ['drovers'],

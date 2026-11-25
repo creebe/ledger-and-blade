@@ -401,5 +401,13 @@ describe('expeditions', () => {
     expect(runExpedition(old).log.map((l) => l.text)).toEqual(runExpedition(now).log.map((l) => l.text));
     const fresh = migrateSave({ ...JSON.parse(JSON.stringify(s)), version: 13, delve: { zonesReached: [], count: 0 } })!;
     expect(fresh.delve.bossesBeaten).toEqual([]);
+    // a trip sealed on another site walked that site's one zone then, and still does
+    const away = JSON.parse(JSON.stringify(s));
+    away.version = 13;
+    away.missions[0].setup = { ...setup, site: 'kell', length: 'long', goal: { kind: 'complete' } };
+    const h = migrateSave(away)!;
+    expect(h.missions[0].setup.oneZone).toBe(true);
+    const zones = new Set(runExpedition(h.missions[0].setup).log.map((l) => l.zone).filter(Boolean));
+    expect([...zones]).toEqual(['workings']);
   });
 });
