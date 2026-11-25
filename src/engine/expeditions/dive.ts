@@ -995,9 +995,9 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
     tireAll(T.fatigue.trap + (k === 'bog' ? 4 : 0));
   };
 
-  const find = (z: ZoneId, big = false) => {
+  const find = (z: ZoneId, big = false, want?: GoodId) => {
     const zd = ZONES[z];
-    const f = weighted(r, zd.finds.map((x) => ({ item: x, weight: x.weight })));
+    const f = (want && zd.finds.find((x) => x.good === want)) || weighted(r, zd.finds.map((x) => ({ item: x, weight: x.weight })));
     let n = randInt(r, f.min, f.max) + (big ? 2 : 0);
     if (chance(r, Math.min(0.9, findsBonus()))) n += 1;
     if (rivalZone === z) n -= 1;
@@ -1156,11 +1156,16 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
       case 'camp':
         res = camp(z, true);
         break;
-      case 'goal':
+      case 'goal': {
+        // the place the job points to holds what the job is about
+        const g = setup.goal;
         put('room', say(`goalroom_${z}`, {}));
-        res = fight(fightGroup(z), z);
-        if (res === 'won') find(z, true);
+        const group = g.kind === 'kill' && g.monster !== 'kiln' ? [g.monster, ...fightGroup(z).filter((x) => x !== g.monster)].slice(0, g.monster === 'rats' ? 3 : 2) : fightGroup(z);
+        if (g.kind === 'kill' && g.monster === 'rats') group.splice(0, group.length, 'rats', 'rats', 'rats');
+        res = fight(group, z);
+        if (res === 'won') find(z, true, g.kind === 'bring' ? g.good : undefined);
         break;
+      }
       case 'boss':
         if (setup.kilnBroken) {
           // the Kiln Engine is gone; its yard is still busy

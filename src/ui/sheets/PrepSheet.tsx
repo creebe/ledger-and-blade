@@ -179,6 +179,7 @@ export function PrepSheet({ contractId }: { contractId: string }) {
         </Btn>
       }
     >
+      <div className="x-sheet">
       <p className={`small x-prep-limit ${atLimit ? 'warn' : 'muted'}`}>
         {atLimit
           ? `${squadsOut(g)} of ${squadLimit(g)} squads are out, so this one can't leave until one is home or called off.`
@@ -365,6 +366,7 @@ export function PrepSheet({ contractId }: { contractId: string }) {
       <button className="btn ghost block small" onClick={() => setPlan(suggestPlan(g, c, plan.orders))}>
         Start again from a suggested plan
       </button>
+      </div>
     </Sheet>
   );
 }

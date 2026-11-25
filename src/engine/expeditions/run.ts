@@ -17,7 +17,7 @@ import { applyContractEffect, applyStanding, earn, factionName, spend, track } f
 import { CHANGES, GOODS, SITES, SUPPLY_IDS, ZONES, ZONE_ORDER } from './data/content';
 import { runExpedition } from './dive';
 import { delverOf } from './gear';
-import { packCost, planBlocked, plannedWeeks, roadWeeks, stockOf, supplyUnitPrice } from './prep';
+import { goalText, packCost, planBlocked, plannedWeeks, roadWeeks, stockOf, supplyUnitPrice } from './prep';
 import { EXP_TUNING as T } from './tuning';
 import type { DiveSetup, ExpeditionResult, ExpPlan, GoodId, LogLine, StoreId, SupplyId } from './types';
 
@@ -464,7 +464,7 @@ export function settleExpedition(s: GameState, ms: Mission) {
       summary.push('Renown +1: people came out to watch');
     }
   } else {
-    summary.unshift(res.outcome === 'lost' ? 'The squad was lost, and the job with it.' : 'The job was not done.');
+    summary.unshift(res.outcome === 'lost' ? 'The squad was lost, and the job with it.' : `The job was not done: ${goalText(c).charAt(0).toLowerCase()}${goalText(c).slice(1)}.`);
     applyContractEffect(s, c.onFailure, summary);
     if (tier === 'Disaster' && !c.op) {
       applyStanding(s, c.patron, -3);
@@ -506,7 +506,7 @@ export function settleExpedition(s: GameState, ms: Mission) {
   };
   ms.report = report;
   const deadNames = casualties.map((id) => s.members.find((m) => m.id === id)!.name);
-  const verdict = res.outcome === 'complete' ? 'came back with the job done' : res.outcome === 'retreated' ? 'turned back early' : 'was lost';
+  const verdict = res.outcome === 'lost' ? 'was lost' : res.goalMet ? (res.outcome === 'complete' ? 'came back with the job done' : 'turned back early, with the job done') : res.outcome === 'complete' ? 'walked the whole route without getting what the job needed' : 'turned back early';
   addDispatch(s, 'mission', `${tier}: ${c.title}`, [`Squad ${ms.number} ${verdict}. ${site.name}, ${res.roomsCleared} of ${res.roomsPlanned} rooms.`, ...(deadNames.length ? [`Did not come home: ${deadNames.join(', ')}.`] : []), ...summary], ms.id);
 }
 

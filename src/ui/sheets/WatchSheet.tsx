@@ -16,7 +16,11 @@ const HOLD = 1700;
 export function WatchSheet({ week }: { week: number }) {
   const g = useStore((s) => s.game)!;
   const close = useStore((s) => s.close);
-  const feed = useMemo(() => feedForWeek(g, week), [g, week]);
+  // a squad called back at the door never went down, so its lines are not shown
+  const feed = useMemo(
+    () => feedForWeek(g, week).filter((f) => [...g.missions, ...g.history].find((m) => m.id === f.missionId)?.report?.tier !== 'Withdrawn'),
+    [g, week],
+  );
   const squads = useMemo(() => {
     const ids = [...new Set(feed.map((f) => f.missionId))];
     return ids

@@ -292,7 +292,7 @@ export const ZONES: Record<ZoneId, ZoneDef> = {
     id: 'workings',
     site: 'kell',
     name: 'the upper workings',
-    depth: 2,
+    depth: 1,
     dark: true,
     text: 'Galleries cut into the hill a century ago, propped with timber that has seen better centuries.',
     rooms: { passage: 2, fight: 3, trap: 1.6, find: 2.2, curio: 0.8 },

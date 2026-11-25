@@ -49,7 +49,7 @@ export function resolvePending(s: GameState, opts: BotOpts) {
 
 /** How hard a posting is, on the contract threat scale. */
 export function postingDifficulty(c: Contract) {
-  if (c.expedition.site === 'pellam') return { short: 2, medium: 4.5, long: 8 }[c.expedition.length];
+  if (c.expedition.site === 'pellam') return { short: 2, medium: 3.5, long: 7 }[c.expedition.length];
   return c.threat + (c.expedition.length === 'medium' ? 1 : c.expedition.length === 'long' ? 2.5 : 0);
 }
 

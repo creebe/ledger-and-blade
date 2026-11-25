@@ -48,6 +48,7 @@ export function ExpLogSheet({ id }: { id: string }) {
         ) : undefined
       }
     >
+      <div className="x-sheet">
       <div className="xl-head">
         <p className="small muted">
           {ms.contract.title}.{' '}
@@ -112,6 +113,7 @@ export function ExpLogSheet({ id }: { id: string }) {
           <span className="tiny muted">{squad.filter(Boolean).map((m) => `${m!.name.split(' ')[0]} (${PROFESSIONS[m!.profession].name})`).join(', ')}</span>
         </div>
       )}
+      </div>
     </Sheet>
   );
 }

@@ -20,6 +20,7 @@ const RES_LABEL: { key: keyof ResourceSnap; icon: string; name: string; invert?:
 export function WeekReport({ dispatchIds, week, before }: { dispatchIds: string[]; week: number; before: ResourceSnap }) {
   const g = useStore((s) => s.game)!;
   const close = useStore((s) => s.close);
+  const open = useStore((s) => s.open);
   const items = g.dispatches.filter((d) => dispatchIds.includes(d.id));
   const after = snap(g);
   const last = g.ledger[g.ledger.length - 1];
@@ -27,12 +28,11 @@ export function WeekReport({ dispatchIds, week, before }: { dispatchIds: string[
   const dates = items.filter((d) => d.kind === 'date');
   const missions = items.filter((d) => d.kind === 'mission');
   const rest = items.filter((d) => d.kind !== 'mission' && d.kind !== 'date');
-  const open = useStore((s) => s.open);
   // every squad whose lines this End Week revealed, for Down below
   const feed = feedForWeek(g, week);
   const below = [...new Set(feed.map((f) => f.missionId))]
     .map((id) => [...g.missions, ...g.history].find((m) => m.id === id))
-    .filter((m): m is Mission => !!m)
+    .filter((m): m is Mission => !!m && m.report?.tier !== 'Withdrawn')
     .sort((a, b) => a.number - b.number);
   return (
     <Sheet

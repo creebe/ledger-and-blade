@@ -4364,14 +4364,6 @@ details summary {
 .x-posting {
   margin-top: 6px;
 }
-.x-below-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 6px 0;
-  border-bottom: 1px solid var(--line);
-}
 
 /* ---------- the Field: squads out, Watch together, Down below ----------
    Squads are told apart by their number badge, never by color. */
