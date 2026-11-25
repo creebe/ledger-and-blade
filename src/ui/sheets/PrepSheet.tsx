@@ -125,7 +125,7 @@ export function PrepSheet({ contractId }: { contractId: string }) {
     why && cost > g.crowns && why.startsWith('Packing')
       ? short(g, 'crowns', cost, 'the supplies')
       : why && atLimit
-        ? { text: why, action: { label: 'See squads out', run: () => goTo({ tab: 'field' }) } }
+        ? { text: why, action: { label: 'See the Field', run: () => goTo({ tab: 'field' }) } }
         : why;
   const warnings = planWarnings(g, c, plan);
   const steps = contractRoute(c);

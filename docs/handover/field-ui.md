@@ -21,14 +21,14 @@ The Field UI for expeditions in the full game, built on the engine API in `docs/
 - **Watch together** (`src/ui/sheets/WatchSheet.tsx`, sheet kind `watch`). It's a full-height sheet that plays `feedForWeek` for the week just ended.
   - It has one strip row per squad, kept sticky at the top. Each row shows the squad's room as the lines play.
   - Every line carries its squad's badge.
-  - A big line holds the other squads for 1.7 seconds. Their strips dim and read "holding".
+  - A big line holds the other squads for 1.7 seconds. Their strips dim and read "waiting".
   - Tap the feed to go four times faster. Skip shows the rest at once.
   - Tap a strip to follow one squad, and tap it again to see everyone.
 - **Down below in the week report** (`WeekReport.tsx`). It has one tappable row per squad with its `weekSummary` text, which turns orange when someone went down and red when someone died. A **Watch together** button sits beside the heading. The section shows whenever any squad has new lines, and it replaces exp-engine's placeholder block.
 - **The dispatch flow.**
   - The Contracts tab keeps its board. Its old "In the field" cards became one tappable row ("2 squads out. Follow them in the Field.").
   - The Board heading shows "n of m squads out", in orange when the hall is full.
-  - The prep sheet opens with the squad limit. When the hall is full, the blocked Set out offers "See squads out", which goes to the Field.
+  - The prep sheet opens with the squad limit. When the hall is full, the blocked Set out offers "See the Field", which goes to the Field.
   - The existing shortfall (`short()` for crowns), `Btn blocked` and the confirmation on Set out are unchanged.
 - **Withdrawn squads.** A squad called back at the door is sealed and goes to history, so `feedForWeek` returns its log, which never happened. Down below and Watch together filter it out. Main has been told, so the engine can skip it in `feedForWeek`.
 

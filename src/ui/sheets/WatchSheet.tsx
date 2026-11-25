@@ -56,7 +56,7 @@ export function WatchSheet({ week }: { week: number }) {
       footer={
         !done ? (
           <div className="row between">
-            <span className="small muted x-speed">{speed > 1 ? 'Fast. Tap the feed to slow down.' : 'Tap the feed to speed up.'}</span>
+            <span className="small muted x-speed">{speed > 1 ? 'Tap the feed to go back to normal speed.' : 'Tap the feed to speed up.'}</span>
             <button className="btn small ghost x-watch-skip" onClick={() => setShown(feed.length)}>
               Skip
             </button>
@@ -90,7 +90,7 @@ export function WatchSheet({ week }: { week: number }) {
               <span className="x-watch-label">
                 <SquadBadge n={ms.number} />
                 <b>{SITES[ms.contract.expedition.site].name}</b>
-                <small className="muted">{waiting ? 'holding' : where}</small>
+                <small className="muted">{waiting ? 'waiting' : where}</small>
               </span>
               <SquadStrip cells={cellsFromSnap(g, ms, at.squad)} size={0} label={`Squad ${ms.number}`} />
             </button>

@@ -50,7 +50,7 @@ function YardPanel({ m, g }: { m: Mission; g: GameState }) {
   const doorFired = !!m.fieldWeeks?.length;
   return (
     <div className="x-yard">
-      <span className="small">Their gear can still change until End Week. Tap a name to open their gear.</span>
+      <span className="small">Their gear can still change until End Week. Tap a name to see what they carry.</span>
       <span className="row wrap gap">
         {m.memberIds.map((id) => {
           const x = g.members.find((y) => y.id === id);
@@ -69,7 +69,7 @@ function YardPanel({ m, g }: { m: Mission; g: GameState }) {
               title: `Call off squad ${m.number}?`,
               body: [`The squad stays home. What they packed goes back to the stores, and "${m.contract.title}" returns to the board.`],
               confirmLabel: 'Call them off',
-              onConfirm: () => useStore.getState().act((s) => cancelDispatch(s, m.id)) && useStore.getState().notify('Called off. The squad is back in the hall.'),
+              onConfirm: () => useStore.getState().act((s) => cancelDispatch(s, m.id)) && useStore.getState().notify(`Squad ${m.number} stays home and is back in the hall.`),
             })
           }
         >
