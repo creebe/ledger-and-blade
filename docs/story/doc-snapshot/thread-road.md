@@ -132,7 +132,7 @@ The squad in the yard. Door scenes: news brought to the yard on Tallow Street as
 
 **Reads:** `silver_abandoned` (set by contract **The Crown's Last Silver** (`silver_convoy`)).
 
-> A carter in from the coast road tells {member} that the Crown's wagons are still at Wenmouth ford. They went that far with the Exchequer's own guard to meet the escort the Crown had hired, and the escort never came. When the ships had sailed, the guard took the silver back to the Exchequer's vault and went home. The wagons are still there, empty, and so is a clerk from the Exchequer is still there, living in one of them, because nobody has told him to come back.
+> A carter in from the coast road tells {member} that the Crown's wagons are still at Wenmouth ford. They went that far with the Exchequer's own guard to meet the escort the Crown had hired, and the escort never came. When the ships had sailed, the guard took the silver back to the Exchequer's vault and went home. The wagons are still there, empty, and so is a clerk from the Exchequer, who lives in one of them because nobody has told him to come back.
 
 - **Bring the clerk home** · _Exchequer +3, Fenn +10. The squad stops at the ford for him (fatigue +8)._ · `field_crown_wagons/root/c1`
   “Fenn writes two lines to thank you, and spends one of them apologizing for the clerk.”
