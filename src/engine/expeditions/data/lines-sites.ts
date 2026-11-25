@@ -677,25 +677,67 @@ export const SITE_LINES: Record<string, string[]> = {
     "{a} does not wake up, and there is nobody left to carry them.",
   ],
 
-  // ---- exposure in the fens ----
-  'fever_start:overland': [
+  // ---- exposure away from the Sink ----
+  // Exposure also comes from the fens, from bad air in Kell's workings and from
+  // fever on a job. The illness is the Sink fever wherever it is caught; only
+  // the Saltfens call it the marsh fever.
+  'fever_start:saltfens': [
     "The fen gets into {a} all at once. They go hot, then cold, and their hands won't keep still. It's the marsh fever, and it has to run its course.",
     "{a} starts sweating and says they're fine. They are running the fen fever, and everyone can see it.",
     "{a} goes grey and shivery out on the planks. The fever has started, and they'll fight worse until it breaks.",
   ],
-  'change_take:overland': [
+  'change_take:saltfens': [
     "{a} is too tired to fight what the fen is doing to them, so it simply happens.",
     "{a} is worn out, and the fen takes the shortcut.",
     "There's no fever this time. {a} is too spent to fight the change, so it just comes.",
   ],
-  'change_deep_lungs:overland': [
+  'change_deep_lungs:saltfens': [
     "They breathe slow and deep, and the fen air doesn't catch in their throat any more.",
   ],
-  'change_iron_bones:overland': [
+  'change_iron_bones:saltfens': [
     "Their bones feel heavier, and they don't bruise. Something in the fen water has gone into the marrow.",
   ],
-  'change_sink_sense:overland': [
+  'change_sink_sense:saltfens': [
     "They stop and turn their head a moment before anything happens, every time. The fen has taught them its habits.",
+  ],
+
+  'fever_start:overland': [
+    "Whatever was in the air out here gets into {a} all at once. They go hot, then cold, and their hands won't keep still. The Lower Town would call it the Sink fever, and it has to run its course.",
+    "{a} starts sweating and says they're fine. They are running a fever, and everyone can see it.",
+    "{a} goes grey and shivery halfway through the day. The fever has started, and they'll fight worse until it breaks.",
+  ],
+  'change_take:overland': [
+    "{a} is too tired to fight what got into them out here, so it simply happens.",
+    "{a} is worn out, and whatever they breathed in takes the shortcut.",
+    "There's no fever this time. {a} is too spent to fight the change, so it just comes.",
+  ],
+  'change_deep_lungs:overland': [
+    "They breathe slow and deep, and bad air doesn't catch in their throat any more.",
+  ],
+  'change_iron_bones:overland': [
+    "Their bones feel heavier, and they don't bruise. Something they breathed in out here has gone into the marrow.",
+  ],
+  'change_sink_sense:overland': [
+    "They stop and turn their head a moment before anything happens, every time. Nobody can say where they learned it.",
+  ],
+  'fever_start:town': [
+    "{a} has caught whatever is going round the Lower Town. They go hot, then cold, and their hands won't keep still. It's the Sink fever, the street says, and it has to run its course.",
+    "{a} starts sweating and says they're fine. Half the street had the same fever last month, and none of them were fine either.",
+    "{a} goes grey and shivery on a back stair. The fever has started, and they'll fight worse until it breaks.",
+  ],
+  'change_take:town': [
+    "{a} is too tired to fight what the fever is doing to them, so it simply happens.",
+    "{a} is worn out, and the fever takes the shortcut.",
+    "There's no fever this time. {a} is too spent to fight the change, so it just comes.",
+  ],
+  'change_deep_lungs:town': [
+    "They breathe slow and deep, and the smoke of the Lower Town doesn't catch in their throat any more.",
+  ],
+  'change_iron_bones:town': [
+    "Their bones feel heavier, and they don't bruise. The fever has left something in the marrow.",
+  ],
+  'change_sink_sense:town': [
+    "They stop and turn their head a moment before anything happens, every time. Nobody can say where they learned it.",
   ],
 
   // ---- the dark, food and camps ----

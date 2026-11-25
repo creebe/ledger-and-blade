@@ -20,6 +20,11 @@ import { FIELD_EVENTS } from '../src/engine/data/field';
 import { QUEUED_EVENTS } from '../src/engine/data/cast';
 import { EXCLUSIVE_FACTS, FACTS, NPCS } from '../src/engine/data/facts';
 import { CONTRACT_TEMPLATES } from '../src/engine/data/contracts';
+import { TAGS } from '../src/engine/data/tags';
+import { PROFESSIONS } from '../src/engine/data/professions';
+import { CHANGES, DELVER_PROFS, GOODS, HABITS, LENGTHS, MONSTERS, PELLAM_GOALS, SCARS, SITES, SUPPLIES, TAG_DIVE, ZONES, ZONE_ORDER } from '../src/engine/expeditions/data/content';
+import { LINES as PELLAM_LINES } from '../src/engine/expeditions/data/lines';
+import { SITE_LINES } from '../src/engine/expeditions/data/lines-sites';
 
 const ROOT = new URL('..', import.meta.url).pathname;
 const rel = (p: string) => relative(ROOT, p);
@@ -678,7 +683,7 @@ const THREADS: Thread[] = [
   { id: 'aske', name: 'The Fourteen', who: 'Lady Honora Aske', blurb: 'The family silver, before the bank\'s assessors arrive.' },
   { id: 'hall', name: 'The hall', who: 'Jory Abbot and the members', blurb: 'The guild\'s own people: Jory, the dead, wages, Legends.' },
   { id: 'world', name: 'Varrow at large', who: 'No fixed character', blurb: 'Random world events that can fire any week.' },
-  { id: 'road', name: 'On the road', who: 'The squad in the field', blurb: 'Decisions that come up while a squad is travelling.' },
+  { id: 'road', name: 'On the road', who: 'The squad in the yard', blurb: 'Door scenes: news brought to the yard on Tallow Street as a squad sets out for a distant site. The choice is the last order the squad gets before it leaves.' },
 ];
 const THREAD_OF: Record<string, string> = {
   charter: 'silver', silver_summons: 'silver', quarter_day: 'silver', fenn_tapestry: 'silver', fenn_letter: 'silver', act1_slice_end: 'silver', audit: 'silver',
@@ -747,7 +752,9 @@ function walk(dir: string): string[] {
 }
 const ITEM_FILES = new Set(ALL_ITEMS.map((i) => i.file));
 const SCENE_FILE_SET = new Set(SCENE_FILES);
-const ENGINE_FILES = walk('src/engine').filter((f) => !SCENE_FILE_SET.has(f) && !/core\/types\.ts$|data\/facts\.ts$/.test(f));
+// expedition files get their own sections (see "Expeditions" below)
+const isExp = (f: string) => f.startsWith('src/engine/expeditions/');
+const ENGINE_FILES = walk('src/engine').filter((f) => !SCENE_FILE_SET.has(f) && !isExp(f) && !/core\/types\.ts$|data\/facts\.ts$/.test(f));
 function itemNodes(path: string): Set<ts.Node> {
   const src = load(path);
   const set = new Set<ts.Node>();
@@ -774,6 +781,57 @@ const LOOSE_ENGINE = ENGINE_FILES.flatMap((f) => looseStrings(f, ITEM_FILES.has(
 const LOOSE_SCENE_FILES = SCENE_FILES.flatMap((f) => looseStrings(f, sceneNodes(f)));
 const UI_FILES = [...walk('src/ui').filter((f) => !/icons\.tsx$|theme\.ts$/.test(f)), 'src/App.tsx'];
 const LOOSE_UI = UI_FILES.flatMap((f) => looseStrings(f));
+
+// ---------------------------------------------------------------------------
+// Expeditions: sites, zones, monsters, the dive's log lines and its reports
+// ---------------------------------------------------------------------------
+
+// the rules files of the dive (run, dive, prep, migrate, gear): Down below rows, reports, warnings
+const EXP_RULE_FILES = walk('src/engine/expeditions').filter((f) => !f.includes('/data/'));
+const LOOSE_EXP = EXP_RULE_FILES.flatMap((f) => looseStrings(f));
+
+/** Line numbers of the entries of a top-level record (`export const NAME = { key: … }`). */
+function recordLines(path: string, name: string): Map<string, number> {
+  const src = load(path);
+  const out = new Map<string, number>();
+  const d = src.decls.get(name);
+  const o = d && unwrap(d);
+  if (o && ts.isObjectLiteralExpression(o)) for (const p of o.properties) if (p.name) out.set(propName(p.name), lineOf(src, p));
+  return out;
+}
+
+interface LineGroup {
+  title: string;
+  keys: { key: string; line: number; lines: string[] }[];
+}
+/** A log-line file's entries, grouped under its `// ---- heading ----` comments. */
+function lineGroups(path: string, name: string, table: Record<string, string[]>): LineGroup[] {
+  const src = load(path);
+  const d = src.decls.get(name);
+  const o = d && unwrap(d);
+  const groups: LineGroup[] = [];
+  if (!o || !ts.isObjectLiteralExpression(o)) return groups;
+  const text = src.sf.getFullText();
+  for (const p of o.properties) {
+    if (!p.name) continue;
+    const comments = ts.getLeadingCommentRanges(text, p.getFullStart()) ?? [];
+    for (const c of comments) {
+      const m = /^\/\/\s*-+\s*(.+?)\s*-+\s*$/.exec(text.slice(c.pos, c.end));
+      if (m) groups.push({ title: m[1][0].toUpperCase() + m[1].slice(1), keys: [] });
+    }
+    if (!groups.length) groups.push({ title: 'Lines', keys: [] });
+    const key = propName(p.name);
+    groups[groups.length - 1].keys.push({ key, line: lineOf(src, p), lines: table[key] ?? [] });
+  }
+  return groups.filter((g) => g.keys.length);
+}
+const PELLAM_FILE = 'src/engine/expeditions/data/lines.ts';
+const SITES_FILE = 'src/engine/expeditions/data/lines-sites.ts';
+const CONTENT_FILE = 'src/engine/expeditions/data/content.ts';
+const EXP_PELLAM = lineGroups(PELLAM_FILE, 'LINES', PELLAM_LINES);
+const EXP_SITES = lineGroups(SITES_FILE, 'SITE_LINES', SITE_LINES);
+const EXP_LINE_COUNT = [...EXP_PELLAM, ...EXP_SITES].reduce((n, g) => n + g.keys.reduce((m, k) => m + k.lines.length, 0), 0);
+const EXP_ITEM_COUNT = [SITES, ZONES, MONSTERS, DELVER_PROFS, SUPPLIES, GOODS, SCARS, HABITS, CHANGES].reduce((n, r) => n + Object.keys(r).length, 0);
 
 // fact index: who sets and who reads each fact
 interface Ref {
@@ -1025,7 +1083,7 @@ function crossTable(fl: Flavor): string[] {
 function counts() {
   const choices = SCENES.reduce((n, s) => n + s.nodes.reduce((m, x) => m + x.choices.length, 0), 0);
   const nodes = SCENES.reduce((n, s) => n + s.nodes.length, 0);
-  return { scenes: SCENES.length, nodes, choices, items: ALL_ITEMS.length, engine: LOOSE_ENGINE.length + LOOSE_SCENE_FILES.length, ui: LOOSE_UI.length };
+  return { scenes: SCENES.length, nodes, choices, items: ALL_ITEMS.length, engine: LOOSE_ENGINE.length + LOOSE_SCENE_FILES.length, ui: LOOSE_UI.length, expItems: EXP_ITEM_COUNT, expLines: EXP_LINE_COUNT, expRules: LOOSE_EXP.length };
 }
 
 interface Section {
@@ -1153,6 +1211,7 @@ function sections(fl: Flavor): Section[] {
     }
     S.push({ key: 'ui', md: L.join('\n') });
   }
+  S.push(...expSections());
   // problems
   {
     const branchProblems = PROBLEMS.filter((p) => p.startsWith('Scene'));
@@ -1165,6 +1224,108 @@ function sections(fl: Flavor): Section[] {
   return S;
 }
 
+// ---------------------------------------------------------------------------
+// Expedition sections
+// ---------------------------------------------------------------------------
+
+const TAG_NAME = (t: string) => TAGS[t]?.name ?? t;
+const PROF_NAME = (p: string) => (PROFESSIONS as Record<string, { name: string }>)[p]?.name ?? p;
+const monsterName = (m: string) => MONSTERS[m as keyof typeof MONSTERS]?.name ?? m;
+const goodName = (g: string) => GOODS[g as keyof typeof GOODS]?.name ?? g;
+const at = (file: string, line?: number) => `${FILE_SHORT(file)}${line ? `:${line}` : ''}`;
+const uniq = <T,>(xs: T[]) => [...new Set(xs)];
+
+function expSections(): Section[] {
+  const S: Section[] = [];
+  const zl = recordLines(CONTENT_FILE, 'ZONES');
+  const sl = recordLines(CONTENT_FILE, 'SITES');
+  const ml = recordLines(CONTENT_FILE, 'MONSTERS');
+  // where each monster is met: zones, and the contract dangers that bring it
+  const metIn: Record<string, string[]> = {};
+  for (const z of Object.values(ZONES)) for (const g of z.fights) for (const m of g) (metIn[m] ??= []).push(z.name);
+  for (const [tag, d] of Object.entries(TAG_DIVE)) for (const g of d.groups ?? []) for (const m of g) (metIn[m] ??= []).push(`contracts with ${TAG_NAME(tag)}`);
+  if (metIn.kiln) metIn.kiln.push('the bottom of the College Sink');
+  else metIn.kiln = ['the bottom of the College Sink'];
+
+  // the places, the people and the things in them
+  {
+    const L = ['## Expeditions: places, monsters and people', '', "Every contract is walked as an expedition to a site. Old Pellam has three zones and the Kiln Engine; the other sites have one zone each for now. Door scenes (news brought to the yard as a squad sets out for a distant site) are in the thread On the road, in the Story threads. The story bible's account of all this is `docs/STORY.md` §5d.", ''];
+    L.push('### Sites', '', '| ID | Site | Zones | Text |', '|---|---|---|---|');
+    for (const s of Object.values(SITES)) L.push(`| \`site:${s.id}\` | ${s.name} | ${s.zones.map((z) => ZONES[z].name).join(', ')} | ${tableEsc(s.text)} |`);
+    L.push('', `_Source: ${at(CONTENT_FILE, sl.get('pellam'))}._`, '');
+    L.push('### Zones', '');
+    for (const id of ZONE_ORDER) {
+      const z = ZONES[id];
+      L.push(`#### ${z.name[0].toUpperCase() + z.name.slice(1)} (${SITES[z.site].name})`, '', `\`zone:${z.id}\` · ${at(CONTENT_FILE, zl.get(z.id))} · depth ${z.depth}${z.dark ? ', dark' : ''}${z.exposure ? ', Exposure every room' : ''}`, '');
+      L.push(`- _text:_ “${z.text}”`);
+      L.push(`- _met here:_ ${uniq(z.fights.flat()).map(monsterName).join(', ')}`);
+      L.push(`- _found here:_ ${uniq(z.finds.map((f) => goodName(f.good))).join(', ')}`);
+      L.push(`- _curiosities:_ ${z.curios.join(', ')} · _traps:_ ${z.traps.join(', ')}`, '');
+    }
+    L.push("### Old Pellam's goals", '', 'The room at the end of each route length. Other sites use their goalroom lines (see the log lines).', '', '| ID | Length | Goal |', '|---|---|---|');
+    for (const [k, v] of Object.entries(PELLAM_GOALS)) L.push(`| \`pellam_goal:${k}\` | ${LENGTHS[k as keyof typeof LENGTHS].name} | ${tableEsc(v)} |`);
+    L.push('');
+    L.push('### Monsters and people', '', '_Met in_ lists the zones where they turn up, and the contract dangers that bring them anywhere. People can be talked to by an Envoy.', '', '| ID | Name | Met in | Text |', '|---|---|---|---|');
+    for (const m of Object.values(MONSTERS)) L.push(`| \`monster:${m.id}\` | ${m.name}${m.people ? ' (people)' : m.construct ? ' (engine)' : ''} | ${uniq(metIn[m.id] ?? []).join(', ')} | ${tableEsc(m.text)} |`);
+    L.push('', `_Source: ${at(CONTENT_FILE, ml.get('rats'))} onward._`, '');
+    L.push("### What a contract's dangers bring", '', '| Danger | Down there |', '|---|---|');
+    for (const [tag, d] of Object.entries(TAG_DIVE)) {
+      const bits = [
+        d.groups && `fights with ${uniq(d.groups.flat()).map((m) => MONSTERS[m as keyof typeof MONSTERS]?.plural ?? m).join(' and ')}`,
+        d.dark && 'the whole route is dark',
+        d.avoid && (d.avoid > 0 ? 'easier to slip past wanderers' : 'harder to slip past wanderers'),
+        d.fatigue && 'more fatigue every room',
+        d.bogs && 'heavy armor tires twice as fast',
+        d.foeProt && 'enemies wear more armor',
+        d.exposure && `fever (Exposure every room)${d.counterProf ? `, unless a ${PROF_NAME(d.counterProf)} comes` : ''}`,
+      ].filter(Boolean);
+      L.push(`| \`tags:${tag}\` ${TAG_NAME(tag)} | ${bits.join('; ') || 'nothing extra'} |`);
+    }
+    L.push('');
+    L.push('### Professions in a fight', '', '| ID | Profession | Ranks | Skill | Text |', '|---|---|---|---|---|');
+    for (const p of Object.values(DELVER_PROFS)) p.skills.forEach((k, i) => L.push(`| \`delver:${p.id}.${i + 1}\` | ${PROF_NAME(p.id)} | ${p.ranks.join(', ')} | ${k.name} | ${tableEsc(k.text)} |`));
+    L.push('');
+    L.push('### The pack', '', '| ID | Supply | Text |', '|---|---|---|');
+    for (const x of Object.values(SUPPLIES)) L.push(`| \`supply:${x.id}\` | ${x.name} | ${tableEsc(x.text)} |`);
+    L.push('', '### Goods brought home', '', '| ID | Name | Text |', '|---|---|---|');
+    for (const x of Object.values(GOODS)) L.push(`| \`good:${x.id}\` | ${x.name} | ${tableEsc(x.text)} |`);
+    L.push('', '### Scars, habits and Sink changes', '', 'Marks a member brings home. Sink changes are tier 1 (amusing), 2 (useful) or 3 (powerful).', '', '| ID | Name | Text |', '|---|---|---|');
+    for (const x of Object.values(SCARS)) L.push(`| \`scar:${x.id}\` | ${x.name} | ${tableEsc(x.text)} |`);
+    for (const x of Object.values(HABITS)) L.push(`| \`habit:${x.id}\` | ${x.name} | ${tableEsc(x.text)} |`);
+    for (const x of Object.values(CHANGES)) L.push(`| \`change:${x.id}\` | ${x.name} (tier ${x.tier}) | ${tableEsc(x.text)} |`);
+    L.push('');
+    S.push({ key: 'exp-world', md: L.join('\n') });
+  }
+  // the log lines
+  const logMd = (title: string, intro: string[], file: string, groups: LineGroup[]) => {
+    const L = [`## ${title}`, '', ...intro, ''];
+    for (const g of groups) {
+      L.push(`### ${g.title}`, '', '| ID | Line |', '|---|---|');
+      for (const k of g.keys) k.lines.forEach((t, i) => L.push(`| \`line:${k.key}.${i + 1}\` | ${tableEsc(t)} |`));
+      L.push('', `_Source: ${at(file, g.keys[0].line)}._`, '');
+    }
+    return L.join('\n');
+  };
+  const howTo = [
+    'The dive picks one version of a line for each situation, and uses every version before it repeats one. In curly braces: `{a}` and `{b}` are members, `{t}` is the member being attacked, `{m}` is a monster or cause (it already has "the"), `{g}` is goods, `{w}` a weapon, `{s}` a scar, `{el}` an element, `{n}` a count and `{p}` the site\'s name.',
+  ];
+  S.push({ key: 'exp-pellam', md: logMd('Expedition log: Old Pellam', ['The lines for Old Pellam, and the defaults every site falls back on: fighting, going down, camps, traps, Sink changes, coming home. The ID is `line:` and the situation, then the version.', ...howTo], PELLAM_FILE, EXP_PELLAM) });
+  S.push({ key: 'exp-sites', md: logMd('Expedition log: the other sites', ["Lines for Varrow's streets and the overland sites, the monsters met there, and the Envoy's and Infiltrator's moves. A line keyed `situation:anselm` (a site) or `situation:town` / `situation:overland` (a kind of site) replaces the Old Pellam line of the same situation there."], SITES_FILE, EXP_SITES) });
+  // the reports
+  {
+    const L = ['## Down below and expedition reports', '', 'Lines the expedition rules write: the Down below row in the week report, squad cards, the report when a squad comes home, the prep sheet\'s warnings and the save migration. IDs are `file#function.n`.', ''];
+    const byFile = new Map<string, Loose[]>();
+    for (const x of LOOSE_EXP) (byFile.get(x.file) ?? byFile.set(x.file, []).get(x.file)!).push(x);
+    for (const [f, xs] of byFile) {
+      L.push(`### ${FILE_SHORT(f)}`, '', '| ID | Line |', '|---|---|');
+      for (const x of xs) L.push(`| \`${x.id}\` | ${tableEsc(x.text)} |`);
+      L.push('');
+    }
+    S.push({ key: 'exp-reports', md: L.join('\n') });
+  }
+  return S;
+}
+
 function header(): string {
   const c = counts();
   return [
@@ -1172,7 +1333,7 @@ function header(): string {
     '',
     '_Generated by `npm run story-export` from the game source. Do not edit this file by hand: edit the Claude Doc, or the game data, and re-run the export._',
     '',
-    `${c.scenes} scenes (${c.nodes} conversation nodes, ${c.choices} choices), ${c.items} content items (contracts, Codex, street talk, Dates, tutorial, starts, Legends, names), ${c.engine} lines from the rules and ${c.ui} interface lines.`,
+    `${c.scenes} scenes (${c.nodes} conversation nodes, ${c.choices} choices), ${c.items} content items (contracts, Codex, street talk, Dates, tutorial, starts, Legends, names), ${c.engine} lines from the rules and ${c.ui} interface lines. Expeditions: ${c.expItems} sites, zones, monsters and other entries, ${c.expLines} log lines and ${c.expRules} report lines.`,
     '',
     '**How to read it.** Text in quotes or block quotes is what the player sees. `{member}` and other words in curly braces are filled in by the game. `[IF riot_fed] … [ELSE] … [END]` marks text that changes with the story; every version is shown. Each item carries its ID and source file, so an edit can be traced back to the code.',
     '',
@@ -1263,4 +1424,4 @@ if (process.argv.includes('--snapshot')) {
   writeFileSync(join(dir, 'thread-map.widget.js'), widget());
 }
 const c = counts();
-console.log(`docs/story/all-writing.md: ${c.scenes} scenes, ${c.nodes} nodes, ${c.choices} choices, ${c.items} items, ${c.engine} rules lines, ${c.ui} UI lines; ${PROBLEMS.length} things to look at; ${Math.round(repoMd.length / 1024)} KB`);
+console.log(`docs/story/all-writing.md: ${c.scenes} scenes, ${c.nodes} nodes, ${c.choices} choices, ${c.items} items, ${c.engine} rules lines, ${c.ui} UI lines, ${c.expItems} expedition entries, ${c.expLines} log lines, ${c.expRules} expedition report lines; ${PROBLEMS.length} things to look at; ${Math.round(repoMd.length / 1024)} KB`);

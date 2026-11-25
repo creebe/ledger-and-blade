@@ -32,7 +32,7 @@ Every story change goes through these checks. None of them are optional.
 - **The Debt (Canon).** Twenty-two years ago King Aldric's army lost the war at **Cassel Ford**. The peace treaty obliges the realm to repay roughly **four million crowns** to **Ostrander's**, a foreign bank that financed the victors. It is paid in quarterly installments. If the Crown misses a payment, the treaty lets the bank **collect however it likes**: seize tolls, close the river, call in collateral.
 - **What has been sold already (Canon):** the crown forests, the river tolls (now Ostrander's), half the royal plate, the Exchequer's tapestries.
 - **Varrow (Canon):** the capital. A river port with a chain across the river where tolls are collected. The **Lower Town** lies below the walls: docks, porters, small trades. **Anvil Row** has the armorers, **Tallow Street** has the guild's hall, and the **Copper Kettle** is a tavern.
-- **Places (Canon):** Drover's Road (cattle road, hills east), Harrowmere (lake town with an old bridge), Kell Mines (silver, partly flooded), the Saltfens (estuary marshes, reagents, fever), Port Anselm (coast; Ostrander's ships take the Crown's silver here), Wenmouth ford (on the road to Anselm), and **the green** below the walls, where fairs and the Crown's muster are held.
+- **Places (Canon):** Old Pellam (the buried first town under the Lower Town, §5d), Drover's Road (cattle road, hills east), Harrowmere (lake town with an old bridge), Kell Mines (silver, partly flooded), the Saltfens (estuary marshes, reagents, fever), Port Anselm (coast; Ostrander's ships take the Crown's silver here), Wenmouth ford (on the road to Anselm), and **the green** below the walls, where fairs and the Crown's muster are held.
 - **Magic (Canon):** common, and practised like a science or trade. It is studied at **the college**, licensed by the **Assay Office**, sold by the dose (reagents), and keyed to elements: fire, frost, storm, radiant, shadow. It is powerful but never free. **There is no supernatural plot.** Magic is part of the economy, not a mystery.
 - **Tone (Canon):** in between. Grounded, human-scale politics and money; morally grey choices; dry humor. Nobody is purely evil. The bank is doing what banks do.
 
@@ -147,9 +147,9 @@ See `EXCLUSIVE_FACTS` in `facts.ts`. Besides the silver pairs: the three riot ou
 
 ---
 
-## 5b. Field decisions (Canon)
+## 5b. Field decisions: door scenes (Canon)
 
-Not story beats: they fire **at the door of an expedition**, as a squad sets out for a distant site (one with road weeks; never Varrow or Old Pellam), before the trip is sealed (`src/engine/data/field.ts`). Each one is news brought to the yard on Tallow Street as the squad gets ready, by a carter, a stable boy or someone who came that way, and the choice is the last order the squad gets. Once a squad is through the door nobody can send it orders, so there is no arrival report any more. They are covered by the story checker. Characters who can appear: **Isbet Hobb** leads the rival squad in *Hobb's People Are Packing* (attitude falls if you sabotage her camp).
+Not story beats: they fire **at the door of an expedition**, as a squad sets out for a distant site (one with road weeks; never Varrow or Old Pellam), before the trip is sealed (`src/engine/data/field.ts`). Each one is news brought to the yard on Tallow Street as the squad gets ready, by a carter, a stable boy or someone who came that way, and the choice is the last order the squad gets. Once a squad is through the door nobody can send it orders, so there is no arrival report any more. There are eight: *The Bridge Is Out*, *A Deserter at the Door*, *Watched*, *A Local Guide*, *A Wounded Carter*, *Hobb's People Are Packing*, *The Weather Turns* and *Fresh Tracks*. What they change (a harder road, a guide, a bonus, a delay) is folded in before the trip is sealed. They are covered by the story checker. Characters who can appear: **Isbet Hobb** leads the rival squad in *Hobb's People Are Packing* (attitude falls if you sabotage her camp).
 
 ## 5c. Dates (Canon)
 
@@ -179,21 +179,84 @@ A **Date** is a day on the guild's calendar, three to six weeks ahead, that the 
 
 **Writing.** A Date's text is one or two sentences in the narrator's voice. It says who is coming and what they will judge, and never explains the world. Jory only ever makes remarks. The met and missed lines report what happened, in the dry register of the week report, and promise nothing the stakes don't give.
 
-## 5d. Expeditions and Old Pellam (Canon from v0.13.0)
+## 5d. Expeditions (Canon from v0.13.0)
 
-Contracts are walked as **expeditions** to real places (`docs/EXPEDITIONS.md`). A posting names a site, a route length and a goal; the patron and the story facts work as before. Story contracts are story expeditions: each keeps its success, failure and expiry facts, and succeeds when its goal is met. Their sites come from their regions: *Short Weight at Hesketh's* and *Ansel Fell at the Chain* in Varrow, *Salts for Saint Oda's* in the Saltfens, *The Exchequer's Last Tapestry* at Harrowmere, *The Aske Silver* on Drover's Road and *The Crown's Last Silver* on the Wenmouth road to Port Anselm.
+Contracts are walked as **expeditions** to real places (`docs/EXPEDITIONS.md`). A posting names a site, a route length and a goal; the patron and the story facts work as before. The expedition plays itself and is revealed a week at a time; the player's part is the preparation. Content is in `src/engine/expeditions/data/` (`content.ts` for sites, zones, monsters and goods; `lines.ts` for Old Pellam's log and the default lines; `lines-sites.ts` for the other sites). All of it is in the story document's Expeditions tab.
 
-- **Old Pellam** was the first town on the river. When the river moved two hundred years ago, Pellam silted up and Varrow was built on top of it. Its cellars and streets are still down there, under the Lower Town. You get in by the steps behind the chandler's on Tallow Street.
-- **The Culverts** are the Lower Town's brick drains and cellars. **The Buried Streets** are Pellam's own streets, roofed over by Varrow's foundations. **The College Sink** is where the college poured its spent reagents for a century.
+### How an expedition reads
+
+- **The yard and the door.** A squad gets ready in the yard of the hall on Tallow Street in its dispatch week. Bound for a distant site, it may hear news at the door (§5b). After that nobody can send it orders: there are no messengers, no recalls and no arrival reports. The prep sheet is the guild's last word.
+- **The log** is written in the narrator's dry voice, in the present tense. Members are named or called "they". Each situation (a passage, a hit, a kill, a camp) has several versions, used in turn before any repeats. A site's own version replaces the general one (`key:<site>`), then a kind of place (`key:town` for Varrow, `key:overland` for the distant sites), then the default, which is written for Old Pellam.
+- **Down below.** The week report has a Down below row for each squad: rooms, fights, finds, who went down. A squad home brings a report: the tier (Triumph, Success, Costly Success, a retreat, or a lost squad), who died, the loot and the pay.
+- **Bodies, not minds.** Nothing in an expedition touches a member's mind. They carry **Fatigue** (wear) and **Exposure** (what got into them), and bring home scars, habits and Sink changes. There are no afflictions, no madness and no torch meter. This is our own game, not a copy of Darkest Dungeon (the owner turned down Grit as "too much of a ripoff").
+
+### The sites
+
+| Site | Zones | Kind | Who posts work there | Who and what is met |
+|---|---|---|---|---|
+| **Old Pellam** | the Culverts, the Buried Streets, the College Sink, and the Kiln Engine at the bottom | under the city | Saint Oda's, the Exchequer, the Mudlarks, the Weighhouse, Ostrander's, the Porters' Fraternity (`pellam_*`) | grubbers; culvert rats, tallow moths, sink eels, cellar spiders, pale hogs, sink crabs, seeps, Assay engines |
+| **Varrow** | the Lower Town (yards, warehouses, back stairs) | the city | any patron with work in the city; the story contracts *Short Weight at Hesketh's* and *Ansel Fell at the Chain* | hired thugs, the watch's guards, rioters |
+| **Kell Mines** | the upper workings | overland, north | as classic Kell work | claim-jumpers, cave crabs, culvert rats; bad air (gas) |
+| **The Saltfens** | the reed paths | overland, the estuary | as classic Saltfens work; *Salts for Saint Oda's* | salt-cutters gone feral, marsh hogs; the marsh fever |
+| **Drover's Road** | the hill road | overland, east | as classic road work; *The Aske Silver* | road agents, deserters from the Ninth, hill wolves |
+| **Harrowmere** | the lake shore | overland | as classic lake work; *The Exchequer's Last Tapestry* | lake smugglers, mere pike |
+| **Port Anselm** | the Wenmouth road | overland, the coast | as classic coast work; *The Crown's Last Silver* | road agents, deserters |
+
+The distant sites add road weeks there and back (`road_out`, `road_on`, `road_back`, `road_home`). Varrow and Old Pellam have no road, so no door scenes fire for them. Each distant site has one zone until later work fills it out.
+
+### Old Pellam
+
+- **What it is.** Pellam was the first town on the river. When the river moved two hundred years ago, Pellam silted up and Varrow was built on top of it. Its cellars and streets are still down there, under the Lower Town. You get in by the steps behind the chandler's on Tallow Street, through a culvert grate and down iron rungs.
+- **The Culverts** are the Lower Town's brick drains and cellars, with grates that let a little daylight down. Everything the Lower Town throws away ends up there. The short route ends at the old pump house.
+- **The Buried Streets** are Pellam's own streets of yellow stone, roofed over by Varrow's foundations. The houses stand full of silt, with their signs and doorsteps. There is no light. The medium route ends at Pellam's counting house, whose vault nobody upstairs knew about.
+- **The College Sink** is where the college poured its spent reagents for a century. The walls sweat green and violet, the floor is a glassy crust, and the air tastes of pennies. The long route ends at the Kiln Engine.
 - **Nothing down there is supernatural.**
-  - The animals grew big and pale, or strange, on runoff: rats, tallow moths, sink eels, cellar spiders, pale hogs and sink crabs.
-  - Seeps are spills of reagent that never stopped reacting.
-  - The Assay engines and the college's **Kiln Engine** are clockwork and reagent mechanisms. They have no will of their own and still run the last instructions anyone gave them. The Assay engines are testing engines the Office left running when it moved upstairs, and their brass seals are worth money (the Office buys them back; the Exchequer would rather find them first). The Kiln Engine is the college's reagent furnace, built to walk the Sink and burn the spill. It breaks once: after that its contract no longer appears.
-- **People down there.** Grubbers are people who live below and dig for what Pellam left. Hobb & Daughters and the Ninth sometimes send crews down.
-- **Exposure and Sink changes.** The Sink's runoff, and the Saltfens' fever, get into the body and, given time, change it: violet skin, pale eyes, iron bones, storm in the fingers. This is chemistry, not a curse. The Lower Town calls such people Sink-touched. A rested body fights the change with the Sink fever. Saint Oda's fever beds draw Exposure out with vinegar, charcoal and water.
-- **Patrons in Pellam** (`pellam_*` in `contracts.ts`). Saint Oda's (Brune) wants reagent salts. The Exchequer wants the Assay seals found, a survey of the Buried Streets and the Kiln Engine stopped. The Mudlarks (Pask) want eel oil. The Weighhouse buys Pellam plate by weight (the posting does not name Coster, who can be gone after `coster_exposed`). Ostrander's (Vorn) wants an account of the Sink, because the bank holds a note on the college. The Porters' Fraternity (the Lower Town) wants fewer rats. As with all work, Saint Oda's and the Mudlarks only post once the guild has met them (`met_oda`, `met_mudlarks`), a patron at −30 or worse stops posting, and Vorn's survey needs `ostranders_open`. Pellam lies in the Varrow region, which has no road, so no door scenes (§5b) fire for it or for any other work in the city.
-- **The other sites** are the classic regions, each with one zone until its own work fills it out: Varrow (the Lower Town: yards, warehouses, back stairs), Kell Mines (the upper workings), the Saltfens (the reed paths), Drover's Road (the hill road), Harrowmere (the lake shore) and Port Anselm (the Wenmouth road). Their people are claim-jumpers, salt-cutters gone feral, road agents, deserters from the Ninth and lake smugglers; their animals are cave crabs, marsh hogs, hill wolves and mere pike. A contract's dangers bring their own: hired thugs, sell-swords, guards, hedge-wizards, trolls, salamanders and rioters. Hurting rioters costs renown.
-- **Envoys** can talk people out of a fight or buy them off with what the squad has found. **Infiltrators** open locks and make traps safe without tools.
+  - The animals grew big and pale, or strange, on runoff. Rats the size of cats, tallow moths that drink lamp oil, grey sink eels as long as a cart, cellar spiders, pale hogs (pigs that got down a century ago and kept breeding) and sink crabs.
+  - **Seeps** are spills of spent reagent that never stopped reacting. They move toward warmth and burn what they touch.
+  - **The Assay engines** are iron testing engines the Assay Office left running when it moved upstairs. They test anything they find, very hard. Their brass seals are worth money: the Office buys them back, and the Exchequer would rather find them first.
+  - **The Kiln Engine** is the college's great reagent furnace, built to walk the Sink and burn the spill. Nobody told it to stop. It is clockwork and reagent, with no will of its own, and it runs the last instructions it was given. It breaks once. After that its contract no longer appears, and long routes end in the Kiln's yard, where two lesser engines still go about their business.
+- **People down there.** Grubbers live below and dig for what Pellam left. They don't like company. Hobb & Daughters and the Ninth sometimes send crews down, and a rival crew that went first leaves open doors and bare shelves.
+- **Old Saint Oda's shrines** stand in some cellars, older than the hall upstairs. A Chaplain can make use of one.
+
+### The other sites and their people
+
+- **Varrow's Lower Town.** Work in the city is guarded doors and angry crowds: hired thugs who are brave in a crowd, watchmen who shout for their friends first, and rioters. Hurting rioters costs the guild renown. People in the Lower Town "saw nothing".
+- **Kell Mines.** Galleries cut into the hill a century ago, propped with old timber, half of them flooded. Claim-jumpers work galleries that belong to somebody else and would rather fight than be written down. Pale cave crabs came up the flooded galleries. The finds are iron and coin; the silver is deeper than the upper workings go.
+- **The Saltfens.** Plank paths through reeds taller than a man. Salt-cutters who stayed out on the pans too long have lost their manners to the fever, and black marsh hogs charge anything that moves in the reeds. Reagents grow here.
+- **Drover's Road.** The cattle road climbing into the hills, with stone walls, sheep and nobody coming to help. Road agents give a speech about tolls before they shoot. Deserters are soldiers of the Ninth who walked away with their mail and spears. The hill wolves are thin from a bad winter.
+- **Harrowmere.** Shingle, boathouses and cold water, with the old bridge standing out over the mere. Lake smugglers move cargo at night and don't want to be counted; mere pike lie in the shallows and take ankles.
+- **Port Anselm.** The coast road through salt marsh and dunes, with a ford at every river mouth (Wenmouth among them). Road agents and deserters work it, because the Crown's silver goes this way to Ostrander's ships.
+- **What a contract's dangers bring.** A contract's tags bring their own enemies anywhere: hired thugs, sell-swords, the watch's guards, unlicensed hedge-wizards behind workings the college would never pass, trolls (big, grey, slow, and they heal unless burned), salamanders (lizards the length of a cart that live where the rock is warm) and rioters. Trolls and salamanders are animals. Place tags bring the dark, cold, mud and fever.
+
+### Exposure, the Sink fever and Sink changes
+
+- Exposure is what gets into the body down there: the Sink's runoff above all, and also the Buried Streets' damp, the fens' bad water, gas in Kell's workings, a hidden fever on a job, a seep's burn and the Kiln's blast. A wet mask of linen and charcoal halves it.
+- Given time, it changes the body: violet skin, pale eyes, a thick hide, iron bones, storm in the fingers, reagent in the blood. Twelve changes in three tiers, all gifts, some of them embarrassing. This is chemistry, not a curse.
+- A rested body fights the change and runs the **Sink fever** first. The Lower Town calls it that wherever it's caught; out in the fens they call it the marsh fever. A worn-out body takes the change at once. A member who dies in the fever loses the change.
+- The Lower Town calls changed people **Sink-touched**.
+- **Saint Oda's fever beds** draw Exposure out with vinegar, charcoal and water, for 30 crowns. The beds are the almshouse's, open to anyone who pays, so a guild can use them before it has met Sister Brune. The faction itself, as a power in the city, is known once you meet her (§3).
+
+### How the dives tie into the factions and the cast
+
+- **The Exchequer** wants the Assay seals found before the Office claims it never lost them, a survey of how wrong its two-hundred-year-old map of Pellam is, and the Kiln Engine stopped (the college asked the Crown, and the Crown asked you). Fenn's Crown still needs the silver carried to Port Anselm.
+- **The Assay Office** left its engines running in the Sink, and buys their seals back. Plaice's office is upstairs from the problem it left.
+- **The college** dumped its reagents in the Sink for a century and wants the Kiln's core back. Ostrander's holds a note on the college, so **Vorn** wants an account of the Sink: the bank likes to know what it owns.
+- **Saint Oda's** (Brune) wants reagent salts from the Sink for the fever beds, rather than buying them from apothecaries who ask no questions. The fever beds treat Exposure.
+- **The Mudlarks** (Pask) want eel oil, which waterproofs everything on the flats. Pellam's buried river channel is the oldest way round the toll chain. *(Draft: a hook for Act III's river.)*
+- **The Weighhouse** buys Pellam silver by weight, "the only honest way to pay for anything". The posting does not name Coster, who can be gone after `coster_exposed`.
+- **The Lower Town** (the Porters' Fraternity) wants fewer rats coming up through the Tallow Street cellars. Porters wait at the top of the rungs and count squads out and back in.
+- **Hobb & Daughters** go into the same sites. A rival ahead on a job has thinned it. **Isbet Hobb** leads the Hobb crew in the door scene *Hobb's People Are Packing*. Rivals can also wait on the road home and take a third of what the squad carries.
+- **The Ninth.** Deserters from the company work Drover's Road and the Wenmouth road.
+- **Jory** meets squads coming home with the ledger open, and only ever makes remarks.
+- **Patrons who must be met first.** Saint Oda's and the Mudlarks only post once the guild has met them (`met_oda`, `met_mudlarks`). A patron at −30 or worse stops posting. Vorn's survey needs `ostranders_open`.
+- **Story contracts are story expeditions.** Each keeps its success, failure and expiry facts and succeeds when its goal is met. Their sites come from their regions: *Short Weight at Hesketh's* and *Ansel Fell at the Chain* in Varrow, *Salts for Saint Oda's* in the Saltfens, *The Exchequer's Last Tapestry* at Harrowmere, *The Aske Silver* on Drover's Road and *The Crown's Last Silver* on the Wenmouth road to Port Anselm. They are walked on the site's one zone with a "walk the route" goal for now; bespoke story sites are still to come.
+- **Envoys and Infiltrators.** An Envoy can talk people out of a fight, or buy them off with what the squad has found, and can stop one of the other side with a hard word. An Infiltrator opens locks and makes traps safe without tools, and gets the squad past sentries.
+
+### In the acts
+
+- **Act I (Canon).** Expeditions are the guild's work all through the act. The story beats are unchanged, and the story contracts are walked as expeditions.
+- **Act II–IV (Draft).** Old Pellam runs under the whole Lower Town and under the river's old bed. If the bank blockades the river in Act III, the Buried Streets and the Mudlarks' channels are the other way through. The college's note, held by Ostrander's, is one of the notes that can change hands in Act IV.
+- **Loose threads (Draft).** Seven Act I outcomes nothing reacts to yet (`silver_abandoned`, `fenn_ally`, `weights_failed`, `isbet_betrayed`, `tapestry_sold`, `tapestry_lost`, `aske_plate_lost`). A proposal for paying them off, mostly in Half a Year lines and door scenes, is with the owner.
 
 ## 6. Acts II–IV (Draft outline, not yet written)
 
@@ -209,6 +272,7 @@ Contracts are walked as **expeditions** to real places (`docs/EXPEDITIONS.md`). 
 - **No lectures.** Characters never explain what any Varrow resident would know. Common knowledge sits in the **Codex** from the start, as reference.
 - **The Codex** (`src/engine/data/codex.ts`) unlocks entries from play: places your squads visit, enemies they face, people you meet, members' own pasts (a veteran in the roster tells you about Cassel Ford), and street talk. Every entry records how the guild learned it.
 - **In the hall:** about one week in four, Jory Abbot remarks on the state of the guild (low funds, Heat, a death, a crowded hall). Lines are in `JORY` in `codex.ts` and never explain the world.
+- **Expeditions** unlock no Codex entries yet. Old Pellam, its zones and its monsters are described only in their own text (the site and zone cards, and the log). *(Open: Codex entries for Old Pellam.)*
 - **Heard in Varrow:** one line of street talk a week in the week report, chosen to reflect the Debt clocks, decrees in force and story facts. Some lines unlock Codex entries.
 
 ## 7. Writing rules
@@ -230,6 +294,8 @@ Run `npm run style` to flag the habits below. It's advisory: a flag is a prompt 
 - **Characters have their own registers:** Vorn is clipped and practical, Fenn is tired and polite, Marta is chatty and folksy, Dagny is blunt and swears a little. Coster is fussy about exact amounts, Brune is brisk and practical, Pask never answers a question directly, Mayne is loud and friendly, Plaice reads clauses aloud, Lady Aske is charming and vague about money, and Jory only ever makes remarks.
 
 
+- **Expedition log lines** are the narrator's, in the present tense, one or two sentences each. Members are named (`{a}`) or called "they", never "he" or "she". Each situation needs at least two versions, and a line that only makes sense in one place (a grate, a drain, the Sink, the fens) goes under that place's key (`key:<site>`, `key:town`, `key:overland`) so it never turns up somewhere else. Keep the number of versions of an existing situation the same when rewording it: the count feeds the dive's random draws, so changing it changes what happens in trips already in a save.
+- **Monsters are animals, people or mechanisms.** Write them as such: hungry, frightened, paid, or following old instructions. Nothing is evil, cursed or ancient.
 - **Plain, concrete language.** Name the thing: "a porter's hook", not "a weapon of the common folk".
 - **Avoid tired fantasy vocabulary.** No "ward" as a city district; avoid "shadows gather", "ancient evil", "the realm trembles", chosen ones, prophecies. Names should sound like real places and people, not adjective-noun compounds (*Gilded X*, *Iron Y*).
 - **Characters have their own motives.** Everyone wants something reasonable from their own point of view.
