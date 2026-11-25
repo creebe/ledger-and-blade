@@ -1,4 +1,6 @@
 :root {
+  /* the top safe area plus clear room under the iPhone status bar; 0 where there is no inset */
+  --safe-top: calc(env(safe-area-inset-top) + min(env(safe-area-inset-top), 12px));
   --bg: #efe5cf;
   --paper: #f8f1e1;
   --paper-2: #f2e8d2;
@@ -199,7 +201,7 @@ p {
   z-index: 20;
   background: var(--paper);
   border-bottom: 1px solid var(--line);
-  padding: calc(6px + env(safe-area-inset-top)) 12px 6px;
+  padding: calc(6px + var(--safe-top)) 12px 6px;
   box-shadow: var(--shadow);
 }
 .topbar .date {
@@ -639,6 +641,12 @@ p {
   box-shadow: var(--shadow);
   cursor: pointer;
 }
+/* the contract card is a div with role="button" (its "?" tags are buttons of
+   their own): keep a long press from selecting its text, as a button did */
+.contract-card {
+  -webkit-user-select: none;
+  user-select: none;
+}
 .contract-card.story {
   border-color: var(--gold);
   border-left-width: 4px;
@@ -861,6 +869,11 @@ details summary {
   align-items: center;
   padding: 12px 16px 8px;
   border-bottom: 1px solid var(--line);
+}
+.sheet-head.sheet-head-nested {
+  /* a nested panel has Back and its title, and no ✕ */
+  justify-content: flex-start;
+  gap: 12px;
 }
 .sheet-head h2 {
   font-size: var(--fs-h2);
@@ -1259,12 +1272,14 @@ details summary {
   align-items: center;
   justify-content: center;
   padding: 16px;
+  padding-top: max(16px, var(--safe-top));
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
   animation: fade 0.2s;
 }
 .event-card {
   max-width: 520px;
   width: 100%;
-  max-height: 92dvh;
+  max-height: min(92dvh, 100%);
   overflow-y: auto;
   background: var(--paper);
   border: 1px solid var(--line);
@@ -1423,7 +1438,7 @@ details summary {
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  top: calc(96px + env(safe-area-inset-top));
+  top: calc(96px + var(--safe-top));
   width: max-content;
   pointer-events: none;
   background: var(--ink);
@@ -1674,7 +1689,7 @@ details summary {
 }
 .theme-toggle {
   position: absolute;
-  top: calc(12px + env(safe-area-inset-top));
+  top: calc(12px + var(--safe-top));
   right: 16px;
   border: 1px solid var(--line);
   background: var(--paper);
@@ -2766,7 +2781,7 @@ details summary {
   background: rgba(10, 8, 6, 0.72);
 }
 .sheet {
-  height: calc(100dvh - 40px - env(safe-area-inset-top));
+  height: calc(100dvh - 40px - var(--safe-top));
   max-height: none;
 }
 .sheet-head {
@@ -2788,6 +2803,20 @@ details summary {
   color: var(--ink);
   cursor: pointer;
   flex: none;
+}
+/* Back is the only way out of a nested panel: give it a 44px hit area
+   without changing how it looks */
+.back-btn {
+  position: relative;
+}
+.back-btn::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
 }
 
 .foot-odds {
@@ -2926,7 +2955,7 @@ details summary {
   bottom: calc(var(--nav-h) + 64px + env(safe-area-inset-bottom));
 }
 .toast.over-sheet {
-  top: calc(8px + env(safe-area-inset-top));
+  top: calc(8px + var(--safe-top));
 }
 
 /* top bar: number on top, a label under it in the first season */
@@ -3183,7 +3212,7 @@ details summary {
 }
 /* an alert or a note that scrolls to a section stops below the fixed top bar */
 [data-guide] {
-  scroll-margin-top: calc(112px + env(safe-area-inset-top));
+  scroll-margin-top: calc(112px + var(--safe-top));
 }
 /* the top bar's Journal and Menu buttons win over the resource padding below them */
 .topbar .icon-btn {
@@ -4176,7 +4205,7 @@ details summary {
   flex: none;
   background: var(--paper);
   border-bottom: 1px solid var(--line);
-  padding: calc(8px + env(safe-area-inset-top)) 12px 8px;
+  padding: calc(8px + var(--safe-top)) 12px 8px;
 }
 .x-log-title {
   font-family: var(--display);
@@ -4676,4 +4705,20 @@ details summary {
 }
 .x-watch-line.x-k-zone .x-badge {
   top: 0;
+}
+
+/* ---------- the dashed "?" hidden-danger tag (kit/reveal.tsx) ---------- */
+.x-reveal-wrap {
+  display: inline-flex;
+}
+.x-reveal-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  min-height: 28px;
+  cursor: pointer;
+}
+.x-reveal-hint {
+  display: block;
+  margin-top: 4px;
 }
