@@ -1,4 +1,4 @@
-import { dateLabel } from '../../engine';
+import { dateLabel, tripWeekOf, weekSummary } from '../../engine';
 import { snap, type ResourceSnap, useStore } from '../../store';
 import { Sheet } from '../kit/common';
 import { Icon } from '../kit/icons';
@@ -19,6 +19,7 @@ const RES_LABEL: { key: keyof ResourceSnap; icon: string; name: string; invert?:
 export function WeekReport({ dispatchIds, week, before }: { dispatchIds: string[]; week: number; before: ResourceSnap }) {
   const g = useStore((s) => s.game)!;
   const close = useStore((s) => s.close);
+  const open = useStore((s) => s.open);
   const items = g.dispatches.filter((d) => dispatchIds.includes(d.id));
   const after = snap(g);
   const last = g.ledger[g.ledger.length - 1];
@@ -73,6 +74,26 @@ export function WeekReport({ dispatchIds, week, before }: { dispatchIds: string[
         </article>
       ))}
       <DateCard compact label="Coming up" />
+      {(() => {
+        // each squad's stretch this week, one row each: tap Watch to read it
+        const below = [...g.missions, ...g.history.filter((m) => m.returnWeek === week)].filter((m) => m.sealed && m.report?.tier !== 'Withdrawn' && tripWeekOf(m, week));
+        if (!below.length) return null;
+        return (
+          <>
+            <h3 className="subhead">Down below</h3>
+            {below.map((m) => (
+              <div key={m.id} className="x-below-row">
+                <span className="small">
+                  <b>Squad {m.number}</b> · {m.contract.title}: {weekSummary(m, tripWeekOf(m, week)).text}
+                </span>
+                <button className="btn ghost small" onClick={() => open({ kind: 'mission', id: m.id })}>
+                  Watch
+                </button>
+              </div>
+            ))}
+          </>
+        );
+      })()}
       {missions.length > 0 && <h3 className="subhead">From the field</h3>}
       {missions.map((d) => (
         <DispatchItem key={d.id} d={d} />

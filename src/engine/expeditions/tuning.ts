@@ -18,7 +18,7 @@ export const EXP_TUNING = {
   /** the chance of a wandering monster before each room: base + per zone depth, more in the dark */
   wander: { base: 0.1, perDepth: 0.06, dark: 0.1, rivalAhead: -0.06 },
   /** the roll for a member's life when they go down */
-  death: { base: 0.18, overkill: 0.45, dark: 0.08, chaplain: 0.08, min: 0.03, max: 0.75, wipe: 0.55 },
+  death: { base: 0.15, overkill: 0.45, dark: 0.08, chaplain: 0.08, min: 0.03, max: 0.75, wipe: 0.55 },
   heal: { bandage: 8, chaplainBandage: 8, dress: 4 },
   camp: { heal: 0.25, healHungry: 0.08, visit: 0.15 },
   /** physical wear: what each thing adds (negative clears it) */

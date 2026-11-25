@@ -171,6 +171,7 @@ export function PrepSheet({ contractId }: { contractId: string }) {
         </Btn>
       }
     >
+      <div className="x-sheet">
       <Section title="The job">
         <div className="card x-route">
           <span className="row wrap gap">
@@ -353,6 +354,7 @@ export function PrepSheet({ contractId }: { contractId: string }) {
       <button className="btn ghost block small" onClick={() => setPlan(suggestPlan(g, c, plan.orders))}>
         Start again from a suggested plan
       </button>
+      </div>
     </Sheet>
   );
 }
