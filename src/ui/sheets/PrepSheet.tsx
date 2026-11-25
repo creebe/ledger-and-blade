@@ -219,7 +219,7 @@ export function PrepSheet({ contractId }: { contractId: string }) {
           </span>
           {c.hidden.some((h) => !h.revealed) && (
             <span className="tiny muted x-reveal-hint">
-              A dashed “?” is a danger nobody has confirmed. Tap one to learn it for {revealCost(g)} Intel (you have {g.intel}), or give a member the Scout order on the Roster.
+              A dashed “?” is a danger nobody has confirmed. Tap one to learn which it is for {revealCost(g)} Intel (you have {g.intel}), or give a member the Scout order on the Roster and they'll report back at the end of the week.
             </span>
           )}
           {c.contestedBy && <span className="tiny muted">{RIVALS[c.contestedBy].name} want this job too.</span>}

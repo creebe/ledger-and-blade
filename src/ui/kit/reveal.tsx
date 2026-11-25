@@ -44,7 +44,7 @@ export function HiddenTag({ c, i, long }: { c: Contract; i: number; long?: boole
         className="tag hidden x-reveal-tag"
         blocked={short(g, 'intel', cost, 'Learning a hidden danger')}
         onClick={() => askReveal(c, i)}
-        title={`A hidden danger: ${names}. Tap to learn which for ${cost} Intel.`}
+        title={`A hidden danger: ${names}. Tap to learn which it is for ${cost} Intel.`}
       >
         <Icon name="eye" size={14} /> ?{long ? ` ${names}` : ''}
       </Btn>
