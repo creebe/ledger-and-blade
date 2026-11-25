@@ -33,8 +33,9 @@ export const squadsOut = (s: GameState) => s.missions.filter((m) => !m.report ||
 
 /** Smallest and largest squad a contract takes, in a dive of at most four ranks. */
 export function squadSize(c: Contract): { min: number; max: number } {
-  const max = Math.min(4, c.maxSquad);
-  return { min: Math.min(c.minSquad, max), max };
+  // a lone member in a four-rank dive is nearly always lost: two at least
+  const max = Math.max(2, Math.min(4, c.maxSquad));
+  return { min: Math.min(max, Math.max(2, c.minSquad)), max };
 }
 
 /** Weeks on the road there and back. */

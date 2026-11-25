@@ -39,8 +39,9 @@ Expeditions in the full game, the engine merge. Branch `claude/exp-engine`; the 
 
 - `npm run check`: types, 52 tests (8 new in `tests/expeditions.test.ts`, including every site walked with no missing lines, and the v12 migration), the story checker at 0 violations, and the style checker (advisory).
 - `npm run sim` (100 games, 48 weeks). The table is in `docs/EXPEDITIONS.md` §9c.
-  - Careful bot: **73%** first-year survival and **0.11 deaths per expedition**.
-  - Poor prep: 0% survival and 0.71 deaths per expedition.
+  - Careful bot: **72%** first-year survival and **0.10 deaths per expedition** (1.9 deaths a year).
+  - Poor prep: 1% survival and 0.71 deaths per expedition.
+  - The balance reviewer raised Old Pellam's pay fourfold, so it is worth the risk. Expeditions now take at least two people, and contracts below threat 3 are scaled no lower than 0.93 of base.
 - `npm run fingerprint` changed. That's expected: this is not a pure refactor.
 - Browser at 390×844: contracts, the log, prep, confirm, the yard, End Week and the report, with no console errors.
 

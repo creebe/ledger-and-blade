@@ -121,16 +121,21 @@ Hidden behind the trial flag (`TRIAL_EXPEDITIONS` in `src/features.ts`), not del
 
 It breaks once. After that, long expeditions end in the Kiln's yard, where two lesser engines and a seep still work, and the "Put out the Kiln" commission is never offered again.
 
-## 9c. Balance in the full game (`npm run sim`, 100 games of 48 weeks)
+## 9c. Balance in the full game (`npm run sim`, 300 games of 48 weeks)
 
-| Bot | First-year survival | Deaths per expedition | Lost squads | Expeditions a year | Deaths a year |
+| Bot | First-year survival | Deaths per expedition | Squads lost | Expeditions a year | Deaths a year |
 |---|---|---|---|---|---|
-| Bold, good prep | 87% | 0.17 | 14% | 26 | 4.5 |
-| **Careful, good prep** | **73%** | **0.11** | **8%** | **20** | **2.2** |
-| Cautious, good prep | 38% | 0.08 | 7% | 12 | 1.0 |
-| Careful, poor prep | 0% | 0.71 | 37% | 5 | 3.5 |
+| Bold, good prep | 86% | 0.21 | 11% | 25 | 5.3 |
+| **Careful, good prep** | **72%** | **0.10** | **5%** | **20** | **1.9** |
+| Cautious, good prep | 42% | 0.07 | 4% | 12 | 0.9 |
+| Careful, poor prep | 1% | 0.71 | 24% | 5 | 3.2 |
 
-Poor preparation (little in the pack, ranks reversed, stubborn orders) ruins a guild within the year, which is the point: the player's skill goes into the preparation. The cautious bot goes bankrupt because it takes too little work, not because work kills it. From a fresh, level-1 guild, Old Pellam's long routes are lost about half the time; short and medium ones almost never.
+- **Preparation decides it.** Little in the pack, ranks reversed and stubborn orders ruin a guild within the year.
+- **Squad size matters most.** A full squad of four almost never dies on a short or medium route; pairs do. Expeditions take at least two people.
+- **Old Pellam pays four times the trial's sponsor rewards**, so it is worth the risk: for a careful bot, 84% of Pellam trips succeed at 0.15 deaths each. Its long routes are a gamble from a fresh guild, and the prep sheet says so.
+- **The cautious bot goes bankrupt** because it takes too little work, not because work kills it.
+- **Short trips on the thin sites are close to riskless money.** Contracts below threat 3 are scaled no lower than 0.93 of base, but the real fix is content: more varied rooms when workstream 4 fills the sites.
+- **Pack costs are small** (about 4% of spending), so a full pack is never a real trade-off yet. That's for workstream 5.
 
 The trial's own numbers, for one squad from a fresh guild (`exp:sim`, 300 seeds), were: short, good prep 100% intact; medium 97%; long 31%.
 
