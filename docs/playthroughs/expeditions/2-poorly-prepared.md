@@ -97,7 +97,7 @@ Leofric's shot goes over the front rank and into the third knot of rats. *(8)*
 
 The third knot of rats breaks up and flees down the pipes.
 
-> Leofric 17/28 hp, fatigue 10 · Agnes 7/22 hp, fatigue 15 · Greta 31/31 hp, fatigue 14 · Osric 31/31 hp, fatigue 9
+> Leofric 17/28 hp, fatigue 9 · Agnes 7/22 hp, fatigue 14 · Greta 31/31 hp, fatigue 13 · Osric 31/31 hp, fatigue 8
 
 Osric kneels by Agnes and packs the wound while the fight goes on around them. *(+10)*
 
@@ -111,7 +111,7 @@ The grate overhead hangs by one rusted bracket. Without tools they detour round 
 
 They stop and eat cold bread and hard cheese. Osric says it is the best meal of their life. *(1 food)*
 
-> Leofric 17/28 hp, fatigue 20 · Agnes 17/22 hp, fatigue 26 · Greta 31/31 hp, fatigue 23 · Osric 31/31 hp, fatigue 18
+> Leofric 17/28 hp, fatigue 17 · Agnes 17/22 hp, fatigue 23 · Greta 31/31 hp, fatigue 20 · Osric 31/31 hp, fatigue 15
 
 The next room is a collapsed coal store, where the Lower Town dumped its rubbish for a century.
 
@@ -119,9 +119,11 @@ On a high shelf, wrapped in oilcloth and still dry, Greta finds a piece of Pella
 
 **They make camp in a dry cellar where a grate lets a little air down.**
 
+> Leofric 17/28 hp, fatigue 16 · Agnes 17/22 hp, fatigue 22 · Greta 31/31 hp, fatigue 19 · Osric 31/31 hp, fatigue 14
+
 **There is nothing to eat. They lie in the dark and listen to each other's stomachs.**
 
-> Leofric 19/28 hp, fatigue 14 · Agnes 19/22 hp, fatigue 20 · Greta 31/31 hp, fatigue 17 · Osric 31/31 hp, fatigue 12
+> Leofric 19/28 hp, fatigue 10 · Agnes 19/22 hp, fatigue 16 · Greta 31/31 hp, fatigue 13 · Osric 31/31 hp, fatigue 8
 
 **There is no lamp oil in the pack. They go into the dark with their hands out in front of them.**
 
@@ -169,7 +171,7 @@ Leofric sways. The bite has gone purple and hot. *(3)*
 
 **Leofric does not get up again. They will be counted among the guild's dead, and it was spider venom that did it.**
 
-> Leofric dead · Agnes 7/22 hp, fatigue 29, exposure 1 · Greta 31/31 hp, fatigue 24, exposure 1 · Osric 31/31 hp, fatigue 19, exposure 1
+> Leofric dead · Agnes 7/22 hp, fatigue 23, exposure 1 · Greta 31/31 hp, fatigue 20, exposure 1 · Osric 31/31 hp, fatigue 15, exposure 1
 
 Agnes gets an arm up just in time.
 
@@ -237,7 +239,7 @@ The spider's venom is still working in Agnes. *(3)*
 
 **Agnes is dead. It was spider venom, in the end.**
 
-> Leofric dead · Agnes dead · Greta 18/31 hp, fatigue 24, exposure 1 · Osric 31/31 hp, fatigue 19, exposure 1
+> Leofric dead · Agnes dead · Greta 18/31 hp, fatigue 20, exposure 1 · Osric 31/31 hp, fatigue 15, exposure 1
 
 Osric steps in and hits the first spider hard with the flanged mace. *(7)*
 
@@ -269,7 +271,7 @@ The first spider curls its legs in and dies.
 
 That is the end of it. Everybody checks their hands for missing fingers.
 
-> Leofric dead · Agnes dead · Greta 10/31 hp, fatigue 24, exposure 1 · Osric 31/31 hp, fatigue 19, exposure 1
+> Leofric dead · Agnes dead · Greta 10/31 hp, fatigue 20, exposure 1 · Osric 31/31 hp, fatigue 15, exposure 1
 
 In the dark, Osric keeps hearing things behind them.
 
@@ -287,5 +289,5 @@ Renown: First to reach the Buried Streets (+2 renown).
 
 - **Leofric Holloway**: died (spider venom).
 - **Agnes Stroud**: died (spider venom).
-- **Greta Harl**: 10 HP, fatigue 34, exposure 2, +17 experience.
-- **Osric Brack**: 31 HP, fatigue 29, exposure 2, +17 experience; new habit: hates_dark.
+- **Greta Harl**: 10 HP, fatigue 28, exposure 2, +17 experience.
+- **Osric Brack**: 31 HP, fatigue 23, exposure 2, +17 experience; new habit: hates_dark.

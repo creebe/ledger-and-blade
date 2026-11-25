@@ -18,7 +18,7 @@ export const EXP_TUNING = {
   heal: { bandage: 8, chaplainBandage: 8, dress: 4 },
   camp: { heal: 0.25, healHungry: 0.08, visit: 0.15 },
   /** physical wear: what each thing adds (negative clears it) */
-  fatigue: { tired: 35, spent: 70, tiredPenalty: 5, spentPenalty: 12, room: { culverts: 4, streets: 6, sink: 7 }, bulkDiv: 4, dark: 2, hungry: 10, fight: 2, boss: 6, trap: 3, meal: -4, camp: 18, chaplainCamp: 6, campHungry: 6, secondWind: 10, loadEvery: 8 },
+  fatigue: { tired: 40, spent: 70, tiredPenalty: 5, spentPenalty: 12, room: { culverts: 3, streets: 5, sink: 5 }, bulkDiv: 4, dark: 2, hungry: 10, fight: 2, boss: 6, trap: 3, meal: -4, camp: 25, chaplainCamp: 8, campHungry: 6, secondWind: 10, loadEvery: 8 },
   /** reagent runoff in the body, and where it leaves a lasting condition */
   exposure: { streetsRoom: 1, sinkRoom: 3, seepHit: 4, gas: 8, kilnBlast: 5, bloodCast: 3, stillBad: 6, thresholds: [40, 70, 95], homeDrop: 3, treat: 40, treatCost: 30 },
   /** at the guild, each week */

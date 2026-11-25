@@ -334,7 +334,7 @@ export function suggestPlan(g: ExpGame, length: ExpLength, orders: StandingOrder
     draughts: length === 'long' ? 2 : 1,
   };
   // trim to fit the pack, least important first
-  const trim: SupplyId[] = ['draughts', 'masks', 'tools', 'reagents', 'bandages', 'oil', 'food'];
+  const trim: SupplyId[] = ['masks', 'draughts', 'tools', 'reagents', 'bandages', 'oil', 'food'];
   for (const k of trim) while (packSlots(pack) > T.packSlots && (pack[k] ?? 0) > 0) pack[k] = (pack[k] ?? 0) - 1;
   return { length, squad: picked.map((d) => d.id), pack, orders: { ...orders } };
 }

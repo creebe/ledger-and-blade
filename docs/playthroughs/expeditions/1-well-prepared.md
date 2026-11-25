@@ -95,7 +95,7 @@ Cass steps in and hits the knot of rats hard with the arming sword. *(10)*
 
 The knot of rats breaks up and flees down the pipes.
 
-> Cass 21/37 hp, fatigue 9 · Hesper 22/34 hp, fatigue 17 · Osric 31/31 hp, fatigue 9 · Agnes 22/22 hp, fatigue 15
+> Cass 21/37 hp, fatigue 8 · Hesper 22/34 hp, fatigue 16 · Osric 31/31 hp, fatigue 8 · Agnes 22/22 hp, fatigue 14
 
 They wipe the blades on whatever is nearest and count the bandages.
 
@@ -131,7 +131,7 @@ Hesper swats the last of the cloud of moths out of the air.
 
 It goes quiet again, apart from something dripping.
 
-> Cass 23/37 hp, fatigue 24 · Hesper 22/34 hp, fatigue 31 · Osric 31/31 hp, fatigue 21 · Agnes 22/22 hp, fatigue 29
+> Cass 23/37 hp, fatigue 21 · Hesper 22/34 hp, fatigue 28 · Osric 31/31 hp, fatigue 18 · Agnes 22/22 hp, fatigue 26
 
 They come into a smuggler's cellar under the old fish market. It is mostly empty.
 
@@ -139,15 +139,15 @@ Cass fishes a piece of college glass out of the water with a bent nail on a stic
 
 They eat sitting on a step with their boots in the wet. Nobody talks much. *(1 food)*
 
-> Cass 23/37 hp, fatigue 31 · Hesper 22/34 hp, fatigue 38 · Osric 31/31 hp, fatigue 27 · Agnes 22/22 hp, fatigue 36
+> Cass 23/37 hp, fatigue 27 · Hesper 22/34 hp, fatigue 34 · Osric 31/31 hp, fatigue 23 · Agnes 22/22 hp, fatigue 31
 
 **They make camp in a dry cellar where a grate lets a little air down.**
 
-> Cass 23/37 hp, fatigue 27 · Hesper 22/34 hp, fatigue 34 · Osric 31/31 hp, fatigue 23 · Agnes 22/22 hp, fatigue 32
+> Cass 23/37 hp, fatigue 23 · Hesper 22/34 hp, fatigue 30 · Osric 31/31 hp, fatigue 19 · Agnes 22/22 hp, fatigue 27
 
 There is hot food, and the chaplain goes round everyone with a lamp and a needle. By morning they are in better shape than they deserve. *(1 food)*
 
-> Cass 36/37 hp, fatigue 3 · Hesper 34/34 hp, fatigue 10 · Osric 31/31 hp, fatigue 0 · Agnes 22/22 hp, fatigue 8
+> Cass 36/37 hp, fatigue 0 · Hesper 34/34 hp, fatigue 0 · Osric 31/31 hp, fatigue 0 · Agnes 22/22 hp, fatigue 0
 
 ### The drain opens out into a street. It has a gutter and a name painted on a corner, and Varrow's foundations sit on its roofs like a lid.
 
@@ -181,7 +181,7 @@ Hesper brings the spear down on the second grubber. *(5)*
 
 The second grubber goes down and stays down.
 
-> Cass 26/37 hp, fatigue 10, exposure 1 · Hesper 34/34 hp, fatigue 17, exposure 1 · Osric 31/31 hp, fatigue 6, exposure 1 · Agnes 22/22 hp, fatigue 14, exposure 1
+> Cass 26/37 hp, fatigue 6, exposure 1 · Hesper 34/34 hp, fatigue 6, exposure 1 · Osric 31/31 hp, fatigue 5, exposure 1 · Agnes 22/22 hp, fatigue 5, exposure 1
 
 Hesper follows through and opens the first grubber up a second time. *(6)*
 
@@ -229,7 +229,7 @@ The spider curls its legs in and dies.
 
 They win that one. Nobody says anything for a while.
 
-> Cass 15/37 hp, fatigue 10, exposure 1 · Hesper 21/34 hp, fatigue 17, exposure 1 · Osric 31/31 hp, fatigue 6, exposure 1 · Agnes 22/22 hp, fatigue 14, exposure 1
+> Cass 15/37 hp, fatigue 6, exposure 1 · Hesper 21/34 hp, fatigue 6, exposure 1 · Osric 31/31 hp, fatigue 5, exposure 1 · Agnes 22/22 hp, fatigue 5, exposure 1
 
 They cross a square with a dry fountain. Somebody has stacked bones in the basin, very neatly, by size.
 
@@ -275,7 +275,7 @@ Cass batters the eel with the flat of the arming sword. *(5)*
 
 The eel rolls over in the water, belly up, and sinks.
 
-> Cass 21/37 hp, fatigue 26, exposure 3 · Hesper 14/34 hp, fatigue 32, exposure 3 · Osric 31/31 hp, fatigue 19, exposure 3 · Agnes 18/22 hp, fatigue 29, exposure 3
+> Cass 21/37 hp, fatigue 20, exposure 3 · Hesper 14/34 hp, fatigue 19, exposure 3 · Osric 31/31 hp, fatigue 16, exposure 3 · Agnes 18/22 hp, fatigue 18, exposure 3
 
 The last of them goes down. Somebody laughs, too loudly.
 
@@ -283,7 +283,7 @@ The last of them goes down. Somebody laughs, too loudly.
 
 They stop and eat cold bread and hard cheese. Osric says it is the best meal of their life. *(1 food)*
 
-> Cass 21/37 hp, fatigue 37, exposure 4 · Hesper 14/34 hp, fatigue 44, exposure 4 · Osric 31/31 hp, fatigue 28, exposure 4 · Agnes 18/22 hp, fatigue 39, exposure 4
+> Cass 21/37 hp, fatigue 30, exposure 4 · Hesper 14/34 hp, fatigue 29, exposure 4 · Osric 31/31 hp, fatigue 24, exposure 4 · Agnes 18/22 hp, fatigue 28, exposure 4
 
 Somebody's buckle clinks, and the tallow moths turn round.
 
@@ -315,7 +315,7 @@ Hesper swats the last of the second cloud of moths out of the air.
 
 It is over. They stand there breathing hard and counting each other.
 
-> Cass 22/37 hp, fatigue 33, exposure 4 · Hesper 14/34 hp, fatigue 40, exposure 4 · Osric 31/31 hp, fatigue 24, exposure 4 · Agnes 18/22 hp, fatigue 35, exposure 4
+> Cass 22/37 hp, fatigue 26, exposure 4 · Hesper 14/34 hp, fatigue 25, exposure 4 · Osric 31/31 hp, fatigue 20, exposure 4 · Agnes 18/22 hp, fatigue 24, exposure 4
 
 The counting house of Pellam stands at the bottom of the street, with its doors open and something moving inside.
 
@@ -379,7 +379,7 @@ The crab is bleeding badly. *(3)*
 
 The crab goes down at last from the bleeding.
 
-> Cass 24/37 hp, fatigue 35, exposure 4 · Hesper down · Osric 31/31 hp, fatigue 26, exposure 4 · Agnes 20/22 hp, fatigue 37, exposure 4
+> Cass 24/37 hp, fatigue 28, exposure 4 · Hesper down · Osric 31/31 hp, fatigue 22, exposure 4 · Agnes 20/22 hp, fatigue 26, exposure 4
 
 There are no doses left, so Agnes cuts their own palm and casts from that. *(4 of their own)*
 
@@ -397,7 +397,7 @@ Cass finishes the eel. It takes a long time to stop moving.
 
 That is the end of it. Everybody checks their hands for missing fingers.
 
-> Cass 24/37 hp, fatigue 35, exposure 4 · Hesper down · Osric 31/31 hp, fatigue 26, exposure 4 · Agnes 16/22 hp, fatigue 37, exposure 4
+> Cass 24/37 hp, fatigue 28, exposure 4 · Hesper down · Osric 31/31 hp, fatigue 22, exposure 4 · Agnes 16/22 hp, fatigue 26, exposure 4
 
 Hesper comes round and gets up very slowly.
 
@@ -413,7 +413,7 @@ Outcome: **complete**, 9 of 9 rooms.
 Loot: 2 college glass, 2 eel oil, 4 pellam coin, worth 104 crowns, plus 72 in coin.
 Renown: Completed a medium expedition (+3 renown); Fought off 2 wandering packs (+2 renown); Brought a fallen member home (+1 renown); First to reach the Buried Streets (+2 renown).
 
-- **Cass Holloway**: 24 HP, fatigue 37, exposure 4, +43 experience.
-- **Hesper Mercer**: 1 HP, fatigue 42, exposure 4, +43 experience; new habit: old_hand.
-- **Osric Brack**: 31 HP, fatigue 28, exposure 4, +43 experience.
-- **Agnes Stroud**: 16 HP, fatigue 40, exposure 4, +43 experience.
+- **Cass Holloway**: 24 HP, fatigue 30, exposure 4, +43 experience.
+- **Hesper Mercer**: 1 HP, fatigue 27, exposure 4, +43 experience; new habit: old_hand.
+- **Osric Brack**: 31 HP, fatigue 24, exposure 4, +43 experience.
+- **Agnes Stroud**: 16 HP, fatigue 28, exposure 4, +43 experience.
