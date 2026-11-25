@@ -2,6 +2,16 @@
 
 Newest first. Each entry says what changed for a player, why (quoting the owner's feedback where it came from playtesting), and what was and wasn't checked. The live site is https://creebe.github.io/ledger-and-blade/ and is only republished on the owner's word; each entry notes whether it is live.
 
+## v0.13.2 (2026-11-25): Loose ends from Act I
+The owner chose which of the proposed payoffs to build: Half a Year lines for every Act I outcome, two door scenes and a colder Isbet. Site lines that read story facts are on the backlog.
+- **Half a Year remembers more.** Abandoning the Crown's silver, taking a seat at the Exchequer's table, failing to prove Hesketh's short weights, telling Marta about Isbet, and the fate of the Siege of Carrow and the Aske silver all get a line.
+- **New at the door.** If the guild abandoned the silver, a squad bound for Port Anselm can bring home the Exchequer clerk who has been living in an empty Crown wagon at Wenmouth ford (Exchequer +3, Fenn +10, fatigue +8). With a seat at the Exchequer's table, Fenn can send a writ for the Crown's post-houses (fatigue −15, Lower Town −2). Each happens at most once.
+- **Isbet remembers.** If you told Marta about her offer, Isbet's crew leaves for the same job without a word to yours.
+- **The almshouse fever is the Sink fever** (the owner's call). Sister Brune now says so, and the story bible agrees. The abandoned silver's expiry text now matches the door scene.
+- **Checked:** `npm run check` (61 tests, story checker 0 violations, 0 unreached, no unused facts); `npm run sim` against main, identical (careful 72%, cautious 65%, bold 52%, poor prep 1%); story and writing reviewers. The Crown's wagons are rare (about 4% of games abandon the silver) and are covered by a test.
+- **Not checked:** a browser pass (no UI changed).
+- **Live** (republished on the owner's word, 2026-11-25).
+
 ## v0.13.1 (2026-11-25): Expedition writing, joined to the story
 Expedition text now agrees with the rest of the story, and the owner's story document covers it.
 - **Fevers fit their place.** Fever and Sink-change lines on Varrow, Kell Mines and the overland roads no longer mention the Sink or the fen. Each site has its own version, and the Lower Town's version blames the wells, so a fever never passes from person to person.
