@@ -131,16 +131,16 @@ It breaks once. After that, long expeditions end in the Kiln's yard, where two l
 
 ## 9c. Balance in the full game (`npm run sim`, 300 games of 48 weeks)
 
-v0.14.0, with every site at full depth (v0.13 in brackets):
+v0.14.0, with every site at full depth, 1000 games (main at v0.13 in brackets, also 1000 games):
 
 | Bot | First-year survival | Deaths per expedition | Squads lost | Expeditions a year | Deaths a year |
 |---|---|---|---|---|---|
-| Bold, good prep | 55% (60%) | 0.20 (0.18) | 11% (10%) | 18 (19) | 3.5 (3.4) |
-| **Careful, good prep** | **69% (71%)** | **0.12 (0.11)** | **7% (6%)** | **19 (20)** | **2.2 (2.2)** |
-| Cautious, good prep | 57% (62%) | 0.07 (0.07) | 4% (4%) | 17 (18) | 1.2 (1.3) |
-| Careful, poor prep | 1% (1%) | 0.75 (0.70) | 23% (24%) | 4 (4) | 3.1 (3.0) |
+| Bold, good prep | 58% (61%) | 0.19 | 10% | 18 | 3.4 |
+| **Careful, good prep** | **71% (70%)** | **0.11** | **6%** | **19** | **2.1** |
+| Cautious, good prep | 64% (61%) | 0.07 | 4% | 18 | 1.2 |
+| Careful, poor prep | 1% (1%) | 0.73 | 24% | 4 | 3.2 |
 
-Careful bot, deaths per expedition by site: Old Pellam 0.20, Varrow 0.10, Kell Mines 0.13, the Saltfens 0.16, Drover's Road 0.09, Harrowmere 0.15, Port Anselm 0.08. The bot now reads every site's own postings (a goal other than "see it through") the way it reads Old Pellam's, and keeps pairs out of them; without that it took the long boss jobs with green squads and survived 40%. It still underrates the medium site postings, which play like easy classic work, so it seldom takes them.
+Careful bot, deaths per expedition by site: Old Pellam 0.19, Varrow 0.09, Kell Mines 0.14, the Saltfens 0.14, Drover's Road 0.09, Harrowmere 0.13, Port Anselm 0.07. The site postings are contested like other work (a quarter of the time, never for a boss), the medium ones are posted less often than Old Pellam's, and the bosses carry threat 8 (Moyle 7) and pay for their road weeks: Rudd 480, Moyle 650, Crewe 620, the Bailiff 600, the Dean and Tull 700. The bot now reads every site's own postings (a goal other than "see it through") the way it reads Old Pellam's, and keeps pairs out of them; without that it took the long boss jobs with green squads and survived 40%. It still underrates the medium site postings, which play like easy classic work, so it seldom takes them.
 
 A fresh guild's starting squad on a long boss trip (`suggestPlan`, no dangers, 120 seeds) loses the whole squad 16–29% of the time, against 54% for the Kiln Engine.
 

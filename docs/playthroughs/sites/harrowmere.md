@@ -143,9 +143,9 @@ _Medium route. Outcome: complete, 9 of 9 rooms, job done._
 
 _Home: nobody lost. Deeds: Completed a medium expedition (+2 renown); Fought off a wandering pack (+1 renown)._
 
-## The Big Pike: Land the Bailiff
+## The Bailiff: Land the Bailiff
 
-_Long route. Outcome: complete, 14 of 14 rooms, job done._
+_Long route. Outcome: lost, 13 of 14 rooms, job not done._
 
 
 **Week 1**
@@ -165,170 +165,165 @@ _Long route. Outcome: complete, 14 of 14 rooms, job done._
 - The second smuggler sits down hard and says they have had enough. Dunstan takes that as a yes.
 - Hesper slams a shoulder into the first smuggler. _(5)_
 - The first smuggler swings at Dunstan and hits the air where Dunstan was standing.
-- The third smuggler catches Hesper with a knife on the backswing. _(7)_
+- The third smuggler catches Hesper with a knife on the backswing. _(8)_
 - Dace points out to the first smuggler that the others have left them at the front to die. The first smuggler looks round to check.
 - Ros goes clean through the first smuggler and does not look surprised about it. _(15)_
 - Ros gets the first smuggler on the ground, and the first smuggler decides that is where they will stay.
 - Dunstan steps in and hits the third smuggler hard with the spear. _(5)_
 - Dunstan tries a second strike and nearly loses the spear.
-- The third smuggler gets in close and lands a hard one on Hesper. _(5)_
+- The third smuggler gets in close and lands a hard one on Hesper. _(6)_
 - Hesper charges the third smuggler and finds only air.
 - The third smuggler hears Dace out and comes on regardless.
-- Dunstan lunges, slips in the mud and misses the third smuggler.
+- Dunstan chops at the third smuggler and connects. _(5)_
 - Dunstan's second strike finds the third smuggler. _(5)_
-- Ros shoots, and the third smuggler moves at the last moment.
-- Dace flicks a blade into the third smuggler from the back. _(4)_
-- Hesper batters the third smuggler with the flat of the arming sword. _(5)_
-- Hesper puts the third smuggler down, and the third smuggler stays down.
-- They wipe the blades on whatever is nearest and count the bandages.
-- They come to a boathouse with its doors chained shut, and a new padlock on the old chain.
-- Dunstan finds 4 lengths of timber in a boat pulled up under the bridge. _(4 lengths of timber)_
-- **They step onto the old bridge. The boards creak under them, and the houses lean in over the road from both sides.**
-- The lamps go up, and now anyone watching knows exactly where they are.
-- They keep still in cover, and the smugglers go by close enough to smell.
-- The first night boatman climbs up out of a boat under the bridge and asks the squad if they are lost. It is not a kind question.
-- Dace pays the first night boatman out of the squad's finds to be somewhere else. The squad is lighter, and nobody is bleeding. _(−24 crowns)_
-- They eat standing up. Dunstan passes an onion round, which is generous of them, and nobody thanks them for it. _(1 food)_
-- "You didn't see us," says the smuggler, and reaches for a knife to make sure of it.
-- Ros's shot goes over the front rank and into the smuggler. _(9)_
-- The smuggler lunges at Hesper and overreaches.
-- Dunstan chops at the smuggler and connects. _(6)_
+- Ros's shot goes over the front rank and into the third smuggler. _(10)_
+- Ros puts the third smuggler down, and the third smuggler stays down.
+- When it is done, somebody's hands will not stop shaking, and nobody mentions it.
+- They keep still in cover, and the mere pike go by close enough to smell.
+- On the bridge there is a toll house nobody has used in fifty years. Somebody is using it now.
+- Dunstan finds 2 lengths of timber in a boat pulled up under the bridge. _(2 lengths of timber)_
+- **The bridge houses are dark, with nailed shutters and doors that open onto the water. Hesper lights the lamps.**
+- They light the lamps, which makes everything outside the light a good deal darker.
+- A boat comes out of the dark with muffled oars. The first night boatman stands up in it with a cudgel.
+- Dace tries talking to the first night boatman, and it does not take.
+- Dunstan slashes at the first night boatman and leaves it bleeding. _(6)_
+- Ros picks a spot on the first night boatman and puts an arrow in it. _(10)_
+- The second night boatman clubs Hesper across the side of the head. _(9)_
+- Hesper gets the arming sword into the first night boatman and twists. _(9)_
+- The first night boatman drops their weapon and puts both hands up. Hesper lets them go, minus their boots.
+- "Is this worth what they're paying you?" Dace asks the second night boatman. It is a fair question, and the second night boatman lowers the blade to think about it.
+- Dunstan catches the second night boatman with the spear and something cracks. _(5)_
 - Dunstan's second cut goes wide.
-- Hesper gets the arming sword into the smuggler and twists. _(10)_
-- The smuggler drops their weapon and puts both hands up. Hesper lets them go, minus their boots.
-- Dace throws a knife over the front rank. It sticks in the crayfish. _(1, it shrugs)_
-- The crayfish bites Dunstan on the arm and shakes. _(10)_
-- Ros picks a spot on the crayfish and puts an arrow in it. _(3, it shrugs)_
-- Hesper shoves the crayfish back and off their footing. _(5, it hates that)_
-- The crayfish lurches and loses track of the fight.
-- Dunstan catches the crayfish with the spear and something cracks. _(2, it shrugs)_
-- Dunstan follows through and opens the crayfish up a second time. _(2, it shrugs)_
-- The crayfish gives a last kick and lies still.
+- Ros shoots between two shoulders and hits the second night boatman. _(8)_
+- Dace throws a knife over the front rank. It sticks in the second night boatman. _(4)_
+- The second night boatman gives ground, and Hesper stumbles past it.
+- Dunstan brings the spear down on the second night boatman. _(6)_
+- The second night boatman takes one look at how the fight is going and runs for it.
 - That is the end of it. Everybody checks their hands for missing fingers.
+- They eat sitting on the packs with the wind in their faces. Nobody talks much. _(1 food)_
+- The pike comes out of the weed at the water's edge with its mouth open.
+- **They walk straight into it. The pike has the first move.**
+- The pike hits Dunstan at full weight, and something in Dunstan gives. _(20)_
+- The crayfish knocks Hesper flat and goes for them on the ground. _(9)_
+- Hesper finds an opening and hits the crayfish in it. _(4, it shrugs)_
+- Ros looses, and the arrow takes the crayfish. _(4, it shrugs)_
+- Dunstan swings the spear into the crayfish and keeps swinging. _(2, it shrugs)_
+- Dunstan follows through and opens the crayfish up a second time. _(2, it shrugs)_
+- Dace flicks a blade into the crayfish from the back. _(1, it shrugs)_
+- The pike rakes Hesper and draws blood. _(17)_
+- **Hesper drops, then sits up again with the empty draught bottle still in their mouth.** _(a draught)_
+- Hesper times it perfectly and the crayfish pays for it. _(8, it shrugs)_
+- The crayfish limps off a few yards and falls over.
+- Dunstan goes in low, and the pike is not there.
+- Ros looses, and the arrow takes the pike. _(10)_
+- Dace throws a knife over the front rank. It sticks in the pike. _(3)_
+- A bolt from Ros thumps into the pike. _(10)_
+- The pike snaps at Hesper and gets nothing.
+- Dunstan brings the spear down on the pike. _(6)_
+- Dunstan gets the pike in the right place, and it drops.
+- The last of them goes down. Somebody laughs, too loudly.
+- They stop long enough to bandage Hesper. _(+8)_
 
 **Week 3**
 
-- Dunstan finds a little shrine to Saint Oda, older than the hall in Varrow. They stop for a breather. _(−4 fatigue each)_
+- Somebody hid a strongbox here and thought it would not be found. Hesper levers it open with the tools. _(3 purses of coin)_
 - "You didn't see us," says the smuggler, and reaches for a knife to make sure of it.
-- Dace tries talking to the smuggler, and it does not take.
-- Ros doesn't have a clear shot and takes it anyway. It misses.
-- The night boatman feints at Dunstan and then forgets to follow it up.
-- Hesper shoves the night boatman back and off their footing. _(7)_
-- Dunstan brings the spear down on the night boatman. _(6)_
-- Dunstan comes back the other way and catches the night boatman. _(5)_
-- The night boatman takes one look at how the fight is going and runs for it.
-- The smuggler clubs Dunstan across the side of the head. _(9)_
-- "Is this worth what they're paying you?" Dace asks the smuggler. It is a fair question, and the smuggler lowers the blade to think about it.
-- Dunstan finds an opening and hits the smuggler in it. _(6)_
-- Dunstan cuts again, faster, and finds the smuggler. _(4)_
-- Ros shoots between two shoulders and hits the smuggler. _(9)_
-- Hesper swings the arming sword into the smuggler and keeps swinging. _(10)_
-- Hesper knocks the smuggler senseless into the mud.
-- When it is done, somebody's hands will not stop shaking, and nobody mentions it.
-- **They make camp in a sail loft at the top of a bridge house. Dace sleeps by the window, where they can see the shore.**
-- They eat hot food for the first time in days. Dace sleeps sitting up with the spoon still in hand. _(1 food)_
+- "Would this help?" Dace asks, holding up a purse from the haul. It helps, and the smuggler takes it and leaves with the others. _(−24 crowns)_
+- **They camp in a bridge house with the door barred. The water is loud under the floor all night.**
+- They get a small fire going under a pot. Wounds get looked at, and people sleep where they sit. _(1 food)_
 - **Hesper poles them out to the first of the Holms. The water under the punt is black and goes down a long way.**
 - Something clicks in the dark under the bridge. The first crayfish comes up out of the water, claws first.
-- Ros looses, and the arrow takes the first crayfish. _(4, it shrugs)_
-- Dunstan gets out of the way of the first crayfish.
-- The second crayfish lunges, and Dunstan sidesteps it.
-- Dunstan chops at the first crayfish and connects. _(1, it shrugs)_
-- Dunstan follows through and opens the first crayfish up a second time. _(2, it shrugs)_
-- The first crayfish gives ground, and Hesper stumbles past it.
-- Dace flicks a blade into the first crayfish from the back. _(1, it shrugs)_
-- Ros's arrow goes over the first crayfish and into the distance.
-- The first crayfish gets its teeth into Hesper. _(12)_
-- Hesper's blow lands on nothing.
-- Dunstan misses, and says something the chaplains would not repeat.
-- Dunstan does not wait to see what the first one did, and hits the first crayfish again. _(2, it shrugs)_
-- Dace times it perfectly and the first crayfish pays for it. _(2, it shrugs)_
-- The second crayfish slams into Hesper from the side. _(12)_
-- Ros shoots between two shoulders and hits the first crayfish. _(3, it shrugs)_
-- Hesper brings the arming sword down on the first crayfish. _(4, it shrugs)_
-- Hesper gets the first crayfish in the right place, and it drops.
-- Dunstan puts their weight behind the spear, and the second crayfish takes all of it. _(2, it shrugs)_
-- Dunstan's second strike finds the second crayfish. _(2, it shrugs)_
-- Dace throws and misses, and now has one fewer knife.
-- The second crayfish goes for Hesper and overshoots.
-- Dunstan finds the weak place on the second crayfish, and it goes in deep. _(5, it shrugs)_
-- Dunstan cuts again, faster, and finds the second crayfish. _(2, it shrugs)_
+- Dunstan cuts the first crayfish somewhere that will keep bleeding. _(3, it shrugs)_
 - Ros picks a spot on the second crayfish and puts an arrow in it. _(3, it shrugs)_
+- The pike pushes at the ones in front and cannot get through.
+- The first crayfish is bleeding badly. _(3)_
+- Hesper jabs at the first crayfish, and it backs off.
+- The first crayfish twists away from the arming sword.
+- The second crayfish slams into Hesper from the side. _(10)_
+- Dace flicks a blade into the first crayfish from the back. _(1, it shrugs)_
+- Dunstan swings at the first crayfish and hits the dirt.
+- Dunstan comes back the other way and catches the first crayfish. _(1, it shrugs)_
+- The pike waits behind the others for a gap.
+- Ros shoots between two shoulders and hits the first crayfish. _(3, it shrugs)_
+- Hesper's blow lands on nothing.
+- The first crayfish is leaving a trail of blood. _(3)_
+- The first crayfish goes for Dunstan and overshoots.
+- Dace throws a knife over the front rank. It sticks in the first crayfish. _(1, it shrugs)_
+- The second crayfish bites Hesper on the arm and shakes. _(8)_
+- Ros's shot goes over the front rank and into the first crayfish. _(4, it shrugs)_
+- Ros finishes the first crayfish with a blow behind the head.
+- Hesper batters the pike with the flat of the arming sword. _(7)_
+- Hesper gets out of the way of the second crayfish.
+- The pike closes its jaws on Dunstan's pack strap and comes away with the strap.
+- Dunstan goes low and opens a long cut in the pike. _(5)_
+- Dace flicks a blade into the pike from the back. _(3)_
+- Ros picks a spot on the pike and puts an arrow in it. _(9)_
+- The pike is leaving a trail of blood. _(3)_
+- The pike catches Hesper with a glancing blow that still hurts a great deal. _(16)_
+- **A draught brings Hesper back up off the stones, white and swearing.** _(a draught)_
+- Hesper shoves the pike back and off their footing. _(5)_
+- Dunstan misses, and says something the chaplains would not repeat.
+- Dunstan cuts again, faster, and finds the pike. _(4)_
+- The pike gives a last kick and lies still.
+- The second crayfish lunges, and Hesper sidesteps it.
+- Dace throws a knife over the front rank. It sticks in the second crayfish. _(1, it shrugs)_
+- Dunstan lunges, slips in the mud and misses the second crayfish.
+- Dunstan comes back the other way and catches the second crayfish. _(1, it shrugs)_
+- Ros looses, and the arrow takes the second crayfish. _(3, it shrugs)_
+- The second crayfish gets its teeth into Hesper. _(13)_
+- The second crayfish twists away from the arming sword.
 - Dace's thrown knife goes into the grass, and somebody will have to find it later.
-- Hesper steps in and hits the second crayfish hard with the arming sword. _(4, it shrugs)_
-- Hesper finishes the second crayfish with a blow behind the head.
-- The last of them goes down. Somebody laughs, too loudly.
-- They leave the path and give the mere pike a wide berth.
-- Ros notices a cord across the way tied to something heavy, and makes it fast before they pass. _(1 tools)_
+- Dunstan lunges, slips in the mud and misses the second crayfish.
+- Dunstan does not wait to see what the first one did, and hits the second crayfish again. _(2, it shrugs)_
+- A bolt from Ros thumps into the second crayfish. _(3, it shrugs)_
+- Hesper finds the weak place on the second crayfish, and it goes in deep. _(9, it shrugs)_
+- Hesper puts the second crayfish down at last.
+- They win that one. Nobody says anything for a while.
+- Hesper wraps a bandage round the worst of it and pulls it tight. _(+8)_
+- Ros sees the reeds leaning wrong and throws down a hurdle before anyone steps there. _(1 tools)_
+- Hesper binds their own cuts with a fresh bandage. _(+8)_
 
 **Week 4**
 
-- They hear smugglers coming and get down out of sight until the noise has gone by.
+- They try to wait it out, and the smugglers find them anyway.
+- "You didn't see us," says the first smuggler, and reaches for a knife to make sure of it.
+- Dace counts some of the coin they found into the first smuggler's hand. That settles it, and the other side goes home. _(−24 crowns)_
+- Dunstan finds a little shrine to Saint Oda, older than the hall in Varrow. They stop for a breather. _(−4 fatigue each)_
+- They eat standing up. Ros passes an onion round, which is generous of them, and nobody thanks them for it. _(1 food)_
 - There is a wayside shrine to Saint Oda here, with nobody to say the words. They sit in front of it anyway and rest their legs. _(−4 fatigue each)_
-- They stop and eat cold bread and hard cheese. Hesper says it is the best meal of their life. _(1 food)_
-- Dace searches a boathouse and finds a tin of biscuits and a few coins in a tobacco jar. _(a purse of coin, 1 food)_
 - **They make camp on the largest island, under the alders. Hesper keeps watch on the water. Twice in the night something turns over out there, close to the shore.**
-- They get a small fire going under a pot. Wounds get looked at, and people sleep where they sit. _(1 food)_
+- They eat and sleep in turns. Hesper takes the first watch and does not complain about it. _(1 food)_
 - **The water off the far Holms goes very still, and then something comes up under it, longer than the punt. The Bailiff has come for its share.**
-- Dunstan jabs at the pike, and it backs off.
-- Dunstan hits the pike so hard that the others stop to look. _(12)_
-- Dunstan jumps back, and the Bailiff's jaws close on nothing.
-- Ros's shot goes over the front rank and into the pike. _(9)_
-- Hesper swings at the pike and hits the dirt.
-- Dace's thrown knife goes into the grass, and somebody will have to find it later.
-- The Bailiff lunges at Dunstan and gets a mouthful of shingle instead.
-- Hesper swings the arming sword into the pike and keeps swinging. _(9)_
-- The pike twists away from the spear.
-- Dunstan comes back the other way and catches the pike. _(5)_
-- Dunstan puts the pike down at last.
-- Ros looses, and the arrow takes the Bailiff. _(10)_
-- Dace throws a knife over the front rank. It sticks in the Bailiff. _(2)_
-- A bolt from Ros thumps into the Bailiff. _(8)_
-- The Bailiff hits Dunstan with its tail and knocks them flat on the shingle. _(10)_
-- Hesper finds an opening and hits the Bailiff in it. _(10)_
-- The Bailiff twists away from the spear.
-- Dunstan's second strike finds the Bailiff. _(5)_
-- Dace flicks a blade into the Bailiff from the back. _(2)_
-- Dunstan cuts the Bailiff somewhere that will keep bleeding. _(7)_
-- The Bailiff is leaving a trail of blood. _(3)_
-- The Bailiff comes out of the water and takes Dunstan by the leg. _(16)_
-- Ros's shot goes over the front rank and into the Bailiff. _(8)_
-- Hesper steps in front of Dunstan. "Get behind me."
-- Dace throws a knife over the front rank. It sticks in the Bailiff. _(2)_
-- Dunstan catches the Bailiff with the spear and something cracks. _(6)_
-- Dunstan goes for a second cut, and the Bailiff is ready for that one.
-- Hesper gets the arming sword into the Bailiff and twists. _(9)_
-- Ros shoots between two shoulders and hits the Bailiff. _(8)_
-- Dace flicks a blade into the Bailiff from the back. _(3)_
-- The Bailiff is bleeding badly. _(3)_
-- Hesper takes the blow meant for Dunstan.
-- The Bailiff gets its teeth into Hesper and drags them toward the water. _(17)_
-- The Bailiff lunges at Hesper and gets a mouthful of shingle instead.
-- Hesper finds an opening and hits the Bailiff in it. _(11)_
-- The Bailiff thrashes in the shallows and then lies still, half out of the water. It is longer than anybody's boat.
-- It is over. The mere is calm, and for the first time in living memory nothing is taking its share.
-- On the last island Dunstan finds 3 purses of old coin, hidden in a hollow tree. _(3 purses of old coin)_
-- They leave Harrowmere with full packs and the job done, and argue for the first mile about who carries what.
-- They try to wait it out, and the night boatmen find them anyway.
-- A boat comes out of the dark with muffled oars. The night boatman stands up in it with a cudgel.
-- Dace offers the night boatman a way out. The night boatman laughs, and that is the end of the talking.
-- **They walk straight into it. The night boatman has the first move.**
-- The smuggler goes for Hesper and gets tangled up with their own side.
-- The night boatman gets a blade into Hesper. _(12)_
-- Dunstan gets the blow they were waiting for. The night boatman feels all of it. _(9)_
-- Dunstan cuts again, faster, and finds the night boatman. _(6)_
-- Hesper swings the arming sword into the night boatman and keeps swinging. _(10)_
-- The night boatman drops their weapon and puts both hands up. Hesper lets them go, minus their boots.
-- The wind takes Ros's arrow wide of the smuggler.
-- Dace tells the smuggler that the guild knows where they live. The smuggler stops to think about whether that is true.
-- Ros looses, and the arrow takes the smuggler. _(10)_
-- Dunstan catches the smuggler with the spear and something cracks. _(5)_
-- Dunstan follows through and opens the smuggler up a second time. _(6)_
-- Hesper steps in and hits the smuggler hard with the arming sword. _(11)_
-- Hesper gets the smuggler on the ground, and the smuggler decides that is where they will stay.
-- It goes quiet again, apart from something dripping.
+- Ros shoots between two shoulders and hits the Bailiff. _(10)_
+- The pike gets Dunstan down and does real damage before anyone can drag it off. _(26)_
+- The Bailiff gets its teeth into Dunstan and drags them toward the water. _(12)_
+- **Dunstan falls. The others close up over them.**
+- Hesper catches the Bailiff with the arming sword and something cracks. _(10)_
+- Dace flicks a blade into the Bailiff from the back. _(4)_
+- The pike gets its teeth into Ros. _(21)_
+- The Bailiff comes out of the water and takes Ros by the leg. _(17)_
+- **Ros crumples and somebody drags them back by the collar.**
+- Hesper shoves the Bailiff back and off their footing. _(7)_
+- The Bailiff lurches and loses track of the fight.
+- Dace's blow lands on nothing.
+- Hesper misses, and says something the chaplains would not repeat.
+- The pike rakes Dace and draws blood. _(21)_
+- Dace swings the dagger into the Bailiff and keeps swinging. _(4)_
+- The Bailiff hits Hesper with its tail and knocks them flat on the shingle. _(17)_
+- The pike goes for Hesper and overshoots.
+- Hesper batters the Bailiff with the flat of the arming sword. _(7)_
+- Dace steps in and hits the Bailiff hard with the dagger. _(5)_
+- Hesper slams a shoulder into the Bailiff. _(7)_
+- Hesper jumps back, and the Bailiff's jaws close on nothing.
+- The pike bites Dace on the arm and shakes. _(20)_
+- **Dace does not get up again. They will be counted among the guild's dead, and it was a pike that did it.**
+- Hesper gets the arming sword into the Bailiff and twists. _(10)_
+- The pike catches Hesper with a glancing blow that still hurts a great deal. _(21)_
+- **Hesper goes down and does not get up.**
+- **Hesper wakes up in the open. The squad has been beaten, and those still breathing drag themselves out of Harrowmere with nothing.**
 
 **Week 5**
 
-- **They come in through the gate at dusk and up Tallow Street with the haul. Jory comes to the hall door with the ledger already open.**
+- **What is left of the squad limps back in through the gate. People on Tallow Street stop what they are doing to count them.**
 
-_Home: nobody lost. Deeds: Completed a long expedition (+4 renown); Landed the Bailiff (+8 renown); Fought off a wandering pack (+1 renown)._
+_Home: lost Dace Greave (a pike). Deeds: Talked their way past 2 fights (+1 renown)._

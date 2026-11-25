@@ -97,7 +97,7 @@ _Medium route. Outcome: complete, 9 of 9 rooms, job done._
 
 _Home: nobody lost. Deeds: Completed a medium expedition (+2 renown); Fought off a wandering pack (+1 renown)._
 
-## Moyle's Vein: Throw Gaffer Moyle off the Trevick level
+## The Trevick Level: Throw Gaffer Moyle off the Trevick level
 
 _Long route. Outcome: lost, 13 of 14 rooms, job not done._
 

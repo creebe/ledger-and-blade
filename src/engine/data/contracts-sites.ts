@@ -1,14 +1,14 @@
 // Postings for the six sites beyond Old Pellam: work that uses their deeper
 // zones and their bosses, built like the pellam_* postings in contracts.ts.
 // Each site has a medium posting or two and a long one for its boss. Their threat
-// sits just under what is usual for their length (4 medium, 7 long; see
+// sits just under what is usual for their length (4 medium, 7 or 8 long; see
 // EXP_TUNING.threatByLength): the zones carry the danger.
 import type { PhaseDef } from '../core/types';
 import type { ContractTemplate } from './contracts';
 
 const P = (name: string, text: string, danger: number): PhaseDef => ({ name, approaches: ['assault'], weight: 1, danger, text });
 
-const base = { tags: [], perThreat: 0, contestChance: 0.1, minSquad: 2, maxSquad: 4 };
+const base = { tags: [], perThreat: 0, contestChance: 0.25, minSquad: 2, maxSquad: 4 };
 
 export const SITE_CONTRACTS: ContractTemplate[] = [
   // ---- Varrow: the Quays and the Rookeries ----
@@ -25,7 +25,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
     baseReward: 210,
     onSuccess: { standing: { exchequer: 4 }, renown: 1 },
     onFailure: { standing: { exchequer: -2 } },
-    weight: 1,
+    weight: 0.6,
     expedition: { site: 'varrow', length: 'medium', goal: { kind: 'bring', good: 'brandy', count: 3 } },
   },
   {
@@ -41,12 +41,12 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
     baseReward: 180,
     onSuccess: { standing: { lowertown: 4 }, renown: 1 },
     onFailure: { standing: { lowertown: -2 } },
-    weight: 1,
+    weight: 0.6,
     expedition: { site: 'varrow', length: 'medium', goal: { kind: 'kill', monster: 'yard_dog', count: 2 } },
   },
   {
     ...base,
-    threat: [7, 7],
+    threat: [8, 8],
     id: 'varrow_rudd',
     type: 'Hunt',
     titles: ["Rudd's Yard", 'Muscle for Hire'],
@@ -54,7 +54,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
     description: "Every crowd that gets broken up in the Lower Town is broken up by men Lew Rudd hired out that morning. The Porters' Fraternity would like him out of business, and has taken up a collection.",
     regions: ['varrow'],
     phases: [P("Rudd's yard", 'At the bottom of the Rookeries.', 1.4)],
-    baseReward: 560,
+    baseReward: 480,
     contestChance: 0,
     onSuccess: { standing: { lowertown: 8 }, renown: 3 },
     onFailure: { standing: { lowertown: -3 } },
@@ -76,7 +76,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
     baseReward: 230,
     onSuccess: { standing: { weighhouse: 4 }, renown: 1 },
     onFailure: { standing: { weighhouse: -2 } },
-    weight: 1,
+    weight: 0.6,
     expedition: { site: 'kell', length: 'medium', goal: { kind: 'bring', good: 'ore', count: 3 } },
   },
   {
@@ -92,7 +92,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
     baseReward: 190,
     onSuccess: { standing: { ostranders: 4 }, renown: 1 },
     onFailure: { standing: { ostranders: -2 } },
-    weight: 0.8,
+    weight: 0.5,
     requiresFlag: 'ostranders_open',
     expedition: { site: 'kell', length: 'medium', goal: { kind: 'reach', zone: 'sump' } },
   },
@@ -128,12 +128,12 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
     baseReward: 200,
     onSuccess: { standing: { oda: 5 }, renown: 1 },
     onFailure: { standing: { oda: -2 } },
-    weight: 1,
+    weight: 0.6,
     expedition: { site: 'saltfens', length: 'medium', goal: { kind: 'bring', good: 'pan_salt', count: 4 } },
   },
   {
     ...base,
-    threat: [7, 7],
+    threat: [8, 8],
     id: 'fens_dean',
     type: 'Hunt',
     titles: ['The Dean', 'A Boar in the Withies'],
@@ -141,7 +141,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
     description: 'The salt-cutters will not work the Withies while the Dean is in them, and Varrow is running short of salt. Somebody has to go and have a word with it.',
     regions: ['saltfens'],
     phases: [P('The Withies', 'Where the fens run into the river.', 1.5)],
-    baseReward: 620,
+    baseReward: 700,
     contestChance: 0,
     onSuccess: { standing: { weighhouse: 6, lowertown: 2 }, renown: 3 },
     onFailure: { standing: { weighhouse: -2 } },
@@ -163,7 +163,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
     baseReward: 180,
     onSuccess: { standing: { weighhouse: 3, lowertown: 2 }, renown: 1 },
     onFailure: { standing: { weighhouse: -2 } },
-    weight: 1,
+    weight: 0.6,
     expedition: { site: 'drovers', length: 'medium', goal: { kind: 'kill', monster: 'moor_bull', count: 1 } },
   },
   {
@@ -179,12 +179,12 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
     baseReward: 170,
     onSuccess: { standing: { weighhouse: 4 }, renown: 1 },
     onFailure: { standing: { weighhouse: -2 } },
-    weight: 0.8,
+    weight: 0.5,
     expedition: { site: 'drovers', length: 'medium', goal: { kind: 'bring', good: 'fleece', count: 4 } },
   },
   {
     ...base,
-    threat: [7, 7],
+    threat: [8, 8],
     id: 'drovers_crewe',
     type: 'Hunt',
     titles: ['The Toll House at Skell Gap', "Crewe's Toll"],
@@ -214,12 +214,12 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
     baseReward: 200,
     onSuccess: { standing: { weighhouse: 4 }, renown: 1 },
     onFailure: { standing: { weighhouse: -2 } },
-    weight: 1,
+    weight: 0.6,
     expedition: { site: 'harrowmere', length: 'medium', goal: { kind: 'bring', good: 'bog_oak', count: 2 } },
   },
   {
     ...base,
-    threat: [7, 7],
+    threat: [8, 8],
     id: 'mere_bailiff',
     type: 'Hunt',
     titles: ['The Bailiff', 'The Big Pike'],
@@ -249,7 +249,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
     baseReward: 230,
     onSuccess: { standing: { weighhouse: 4 }, renown: 1 },
     onFailure: { standing: { weighhouse: -2 } },
-    weight: 1,
+    weight: 0.6,
     expedition: { site: 'anselm', length: 'medium', goal: { kind: 'bring', good: 'ambergris', count: 2 } },
   },
   {
@@ -265,13 +265,13 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
     baseReward: 210,
     onSuccess: { standing: { ostranders: 4 }, renown: 1 },
     onFailure: { standing: { ostranders: -2 } },
-    weight: 0.8,
+    weight: 0.5,
     requiresFlag: 'ostranders_open',
     expedition: { site: 'anselm', length: 'medium', goal: { kind: 'reach', zone: 'burrows' } },
   },
   {
     ...base,
-    threat: [7, 7],
+    threat: [8, 8],
     id: 'anselm_tull',
     type: 'Hunt',
     titles: ["Mags Tull's Lantern", 'The Wreckers of the Burrows'],
@@ -279,7 +279,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
     description: "The Crown's silver goes to Port Anselm along a coast where Mags Tull lights false lanterns for a living. The Exchequer would like the lantern put out before the next shipment.",
     regions: ['anselm'],
     phases: [P("Tull's cove", 'At the end of the Strand.', 1.5)],
-    baseReward: 620,
+    baseReward: 700,
     contestChance: 0,
     onSuccess: { standing: { exchequer: 8 }, renown: 3 },
     onFailure: { standing: { exchequer: -3 } },

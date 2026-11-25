@@ -6,7 +6,7 @@ Zones: the Wenmouth road, the Burrows, the Strand. Boss: put out Mags Tull's lan
 
 Written by `npm run exp:logs`: a seasoned squad of four (level 3, rested) on a medium trip and on the long trip to the boss. Log lines as the player reads them; bold lines are the ones the game bolds.
 
-## Ambergris: Bring back 2 lumps of ambergris
+## What the Sea Brings: Bring back 2 lumps of ambergris
 
 _Medium route. Outcome: complete, 9 of 9 rooms, job done._
 
@@ -91,7 +91,7 @@ _Long route. Outcome: complete, 14 of 14 rooms, job done._
 - Quentin knocks the first road agent senseless into the mud.
 - Rosamund charges the second road agent and finds only air.
 - Cass looses, and the arrow takes the second road agent. _(10)_
-- The second road agent catches Rosamund with a knife on the backswing. _(8)_
+- The second road agent catches Rosamund with a knife on the backswing. _(9)_
 - Ursel's arrow goes over the second road agent and into the distance.
 - Quentin puts their weight behind the spear, and the second road agent takes all of it. _(5)_
 - Quentin does not wait to see what the first one did, and hits the second road agent again. _(6)_
@@ -100,126 +100,190 @@ _Long route. Outcome: complete, 14 of 14 rooms, job done._
 - They keep still in cover, and the deserters go by close enough to smell.
 - The first road agent steps out from behind a wall with a crossbow and asks for the toll. There is no toll on this road.
 - Ursel puts an arrow into the first road agent, and it won't be aiming at anyone for a while. _(5)_
-- Quentin steps in and hits the first road agent hard with the spear. _(7)_
-- Quentin times it perfectly and the first road agent pays for it. _(11)_
-- The first road agent drops their weapon and puts both hands up. Quentin lets them go, minus their boots.
-- The second road agent drives the point into Rosamund's shoulder. _(10)_
+- Quentin goes low and opens a long cut in the first road agent. _(5)_
+- The second road agent hits Cass with everything they have, and Cass folds up round it. _(12)_
+- Cass doesn't have a clear shot and takes it anyway. It misses.
+- The first road agent is bleeding badly. _(3)_
+- The first road agent goes for Cass and gets tangled up with their own side.
+- Rosamund steps in and hits the first road agent hard with the arming sword. _(8)_
+- The first road agent drops their weapon and puts both hands up. Rosamund lets them go, minus their boots.
+- Quentin cuts the second road agent somewhere that will keep bleeding. _(5)_
 - Cass shoots between two shoulders and hits the second road agent. _(9)_
-- Rosamund chops at the second road agent and connects. _(8)_
-- Rosamund puts the second road agent down, and the second road agent stays down.
+- The second road agent is leaving a trail of blood. _(3)_
+- Quentin ducks, and the second road agent goes stumbling past.
+- A bolt from Ursel thumps into the second road agent. _(11)_
+- Ursel puts the second road agent down, and the second road agent stays down.
 - It is over. They stand there breathing hard and counting each other.
-- **The road runs out into soft sand at the edge of the Burrows. The wind is full of it, and Rosamund is already shaking it out of a boot.**
-- They cross a slack of wet sand between dunes where somebody has been digging.
-- They stop and eat cold bread and hard cheese. Ursel says it is the best meal of their life. _(1 food)_
-- There are crossbows behind the rocks. "Purses on the road, please," says the road agent.
-- Quentin brings the spear down on the road agent. _(6)_
-- Quentin comes back the other way and catches the road agent. _(7)_
-- Ursel hits the road agent so hard that the others stop to look. _(17)_
-- The road agent takes one look at how the fight is going and runs for it.
-- A bolt from Cass thumps into the wrecker. _(9)_
-- The wrecker goes for Rosamund and gets tangled up with their own side.
-- Rosamund lunges, slips in the mud and misses the wrecker.
-- Ursel picks a spot on the wrecker and puts an arrow in it. _(10)_
-- The wrecker sits down hard and says they have had enough. Ursel takes that as a yes.
+- **They leave the road and go into the Burrows, which are miles of dunes and marram grass with the ribs of old ships sticking out of the sand.**
+- They walk along the bottom of a dune, out of the wind. It is very quiet there, apart from the sea.
+- They share out bread and the end of a sausage. Ursel makes theirs last as long as it can. _(1 food)_
+- "This beach is taken," says the first wrecker, stepping out from behind a wreck. "Whatever washes up on it is ours, and you've washed up."
+- Quentin lunges, slips in the mud and misses the first wrecker.
+- Quentin comes back the other way and catches the first wrecker. _(6)_
+- Rosamund slams a shoulder into the first wrecker. _(5)_
+- The first wrecker goes down and is slow getting up.
+- Cass picks a spot on the first wrecker and puts an arrow in it. _(8)_
+- Ursel gets the blow they were waiting for. The first wrecker feels all of it. _(12)_
+- The first wrecker takes one look at how the fight is going and runs for it.
+- The second wrecker swings at Rosamund and hits the air where Rosamund was standing.
+- Ursel shoots between two shoulders and hits the second wrecker. _(11)_
+- Quentin chops at the second wrecker and connects. _(6)_
+- Quentin goes for a second cut, and the second wrecker is ready for that one.
+- Rosamund brings the arming sword down on the second wrecker. _(10)_
+- The second wrecker sits down hard and says they have had enough. Rosamund takes that as a yes.
 - When it is done, somebody's hands will not stop shaking, and nobody mentions it.
 
 **Week 4**
 
-- Rosamund finds a little shrine to Saint Oda, older than the hall in Varrow. They stop for a breather. _(−4 fatigue each)_
-- Cass notices the steps are wet higher than they should be, and gets everyone up onto the next landing before the river comes up. _(1 tools)_
+- Rosamund prises the planks off a wreck's hold with the tools and climbs in. They come out with something worth having. _(a lump of ambergris, a purse of coin)_
+- Nobody sees it.
+- The water comes in faster than anyone expected and knocks Rosamund off their feet against the stones. _(10)_
+- A surge comes up the steps and drags Quentin down two of them before letting go. _(12)_
 - **They make camp in the hut of ship's timbers. It smells of tar and the people who built it.**
-- They get a small fire going under a pot. Wounds get looked at, and people sleep where they sit. _(1 food)_
-- **The Strand is the port's waterfront, a mile of sheds and warehouses. Everything here has a number painted on it, and somebody is counting.**
-- The first tidewaiter steps out of a customs shed with a lantern and a ledger, and asks for their papers. They have none that would help.
-- Quentin catches the second tidewaiter with the spear and something cracks. _(6)_
-- Quentin follows through and opens the second tidewaiter up a second time. _(5)_
-- Cass looses, and the arrow takes the second tidewaiter. _(9)_
-- Ursel pins the first tidewaiter where it stands. _(4)_
-- Rosamund slams a shoulder into the second tidewaiter. _(3)_
-- The second tidewaiter gets in close and lands a hard one on Rosamund. _(13)_
-- Rosamund ducks, and the first tidewaiter goes stumbling past.
-- Quentin swings the spear into the second tidewaiter and keeps swinging. _(6)_
-- The second tidewaiter takes one look at how the fight is going and runs for it.
-- Quentin cuts again, faster, and finds the first tidewaiter. _(4)_
-- Ursel picks a spot on the first tidewaiter and puts an arrow in it. _(8)_
-- The first tidewaiter clubs Rosamund across the side of the head. _(7)_
-- A bolt from Cass thumps into the first tidewaiter. _(9)_
-- The first tidewaiter drops their weapon and puts both hands up. Cass lets them go, minus their boots.
+- They eat and sleep in turns. Ursel takes the first watch and does not complain about it. _(1 food)_
+- **They come into Port Anselm along the Strand: customs sheds, rope walks, Ostrander's warehouses and the bank's ships out beyond the bar.**
+- They try to wait it out, and the tidewaiters find them anyway.
+- The tidewaiter steps out of a customs shed with a lantern and a ledger, and asks for their papers. They have none that would help.
+- **The tidewaiter gets the first blow in before anyone sees it coming.**
+- The tidewaiter drives the point into Rosamund's shoulder. _(13)_
+- Quentin slashes at the tidewaiter and leaves it bleeding. _(4)_
+- Ursel goes clean through the tidewaiter and does not look surprised about it. _(12)_
+- Cass's shot goes over the front rank and into the tidewaiter. _(8)_
+- Rosamund catches the tidewaiter with the arming sword and something cracks. _(9)_
+- Rosamund knocks the tidewaiter senseless into the mud.
 - They wipe the blades on whatever is nearest and count the bandages.
+- The first flock of gulls has been following them since the road. Now the gulls come down, beaks first, for the food.
+- The first flock of gulls rakes Cass and draws blood. _(4)_
+- The second flock of gulls lunges, and Rosamund sidesteps it.
+- The first flock of gulls gives ground, and Rosamund stumbles past it.
+- The second flock of gulls twists away from the spear.
+- Quentin follows through and opens the second flock of gulls up a second time. _(7)_
+- The wind takes Cass's arrow wide of the second flock of gulls.
+- Ursel shoots, and the second flock of gulls moves at the last moment.
+- The wrecker pushes at the ones in front and cannot get through.
+- Ursel pins the wrecker where it stands. _(7)_
+- The wrecker waits behind the others for a gap.
+- Quentin swings the spear into the second flock of gulls and keeps swinging. _(7)_
+- The second flock of gulls limps off a few yards and falls over.
+- Quentin cuts again, faster, and finds the wrecker. _(7)_
+- Quentin gets out of the way of the first flock of gulls.
+- Rosamund shoves the wrecker back and off their footing. _(6)_
+- The wrecker lurches and loses track of the fight.
+- A bolt from Cass thumps into the wrecker. _(9)_
+- The wrecker drops their weapon and puts both hands up. Cass lets them go, minus their boots.
+- The first flock of gulls gets its teeth into Rosamund. _(3)_
+- Cass looses, and the arrow takes the first flock of gulls. _(10)_
+- The first flock of gulls gives a last kick and lies still.
+- That is the end of it. Everybody checks their hands for missing fingers.
 - Rosamund wraps a bandage round the worst of it and pulls it tight. _(+8)_
-- The Strand opens into the fish market, empty at this hour, with gulls on every stall.
-- Rosamund finds 2 casks of bonded brandy in a crate in the customs yard that has been waiting a long time for somebody to claim it. _(2 casks of bonded brandy)_
+- They try to slip past the tidewaiters and get caught in the open.
+- "Nobody goes past here without the bank's say-so," says the first tidewaiter, and calls for the others.
+- **They walk straight into it. The first tidewaiter has the first move.**
+- The second tidewaiter gets in close and lands a hard one on Rosamund. _(10)_
+- The first tidewaiter clubs Quentin across the side of the head. _(11)_
+- Quentin goes low and opens a long cut in the first tidewaiter. _(6)_
+- Ursel picks a spot on the first tidewaiter and puts an arrow in it. _(9)_
+- Rosamund gets the arming sword into the first tidewaiter and twists. _(8)_
+- Cass shoots, and the first tidewaiter moves at the last moment.
+- The wind takes Cass's arrow wide of the first tidewaiter.
+- Ursel's shot goes over the front rank and into the first tidewaiter. _(10)_
+- The first tidewaiter takes one look at how the fight is going and runs for it.
+- Quentin cuts the second tidewaiter somewhere that will keep bleeding. _(5)_
+- The second tidewaiter is bleeding badly. _(3)_
+- The second tidewaiter gets a blade into Rosamund. _(13)_
+- **A draught brings Rosamund back up off the stones, white and swearing.** _(a draught)_
+- Rosamund batters the second tidewaiter with the flat of the arming sword. _(4)_
+- The second tidewaiter reels and stands there with no idea where it is.
+- Quentin gets the spear into the second tidewaiter and twists. _(5)_
+- Quentin's second strike finds the second tidewaiter. _(5)_
+- Ursel hits the second tidewaiter so hard that the others stop to look. _(15)_
+- Ursel puts the second tidewaiter down, and the second tidewaiter stays down.
+- It goes quiet again, apart from something dripping.
+- They come into a customs yard full of crates waiting for their duty to be paid.
+- Under a pile of nets on the pier, Cass finds a lump of ambergris. _(a lump of ambergris)_
+- They stop long enough to bandage Rosamund. _(+8)_
 
 **Week 5**
 
-- Nobody sees it.
-- The water comes in faster than anyone expected and knocks Rosamund off their feet against the stones. _(10)_
-- A surge comes up the steps and drags Quentin down two of them before letting go. _(7)_
-- They eat standing up. Cass passes an onion round, which is generous of them, and nobody thanks them for it. _(1 food)_
-- Rosamund binds their own cuts with a fresh bandage. _(+8)_
-- Somebody signals, and they wait while the wreckers go past.
+- Cass gets the tools on it, then slips.
+- Rosamund is halfway across when the tide arrives. It is cold, and it is in a hurry. _(14)_
+- The water comes in faster than anyone expected and knocks Quentin off their feet against the stones. _(13)_
+- They eat standing up. Rosamund passes an onion round, which is generous of them, and nobody thanks them for it. _(1 food)_
+- Someone gets a bandage onto Rosamund. It soaks through, but slowly. _(+8)_
+- Quentin binds their own cuts with a fresh bandage. _(+8)_
 - They pass a warehouse with Ostrander's mark on the door and a guard on the roof.
-- While the others rest, Cass goes through a heap of junk by the path and comes back with a purse of old coin. _(a purse of old coin)_
-- **They camp in an empty net loft above the fish market. It smells of fish, and so do they by morning.**
-- They eat and sleep in turns. Cass takes the first watch and does not complain about it. _(1 food)_
-- **Mags Tull's cove is at the end of the Strand, where the Burrows come down to the sea. She is standing on the beach with the false lantern in one hand, and she waves with the other.**
-- Quentin goes in low, and Mags Tull is not there.
-- Ursel shoots between two shoulders and hits the second wrecker. _(10)_
-- Mags Tull gets Quentin with her hook and pulls them off their feet. _(19)_
-- Cass's shot goes over the front rank and into the second wrecker. _(8)_
-- Rosamund gets the arming sword into Mags Tull and twists. _(9)_
-- The first wrecker gets a blade into Rosamund. _(10)_
-- Quentin goes low for Mags Tull and gets nothing but mud.
-- Mags Tull kicks sand in Rosamund's face and cuts them while they are blinking. _(16)_
-- **Rosamund drops, then sits up again with the empty draught bottle still in their mouth.** _(a draught)_
-- The first wrecker swings at Rosamund and hits the air where Rosamund was standing.
+- **Ursel's boots are full of water and their shoulders are raw from the pack. They are spent.**
+- Rosamund binds their own cuts with a fresh bandage. _(+8)_
+- **They rent a room at an inn on the Strand, all of them in one bed, and nobody sleeps.**
+- Ursel gets their breath back and picks the hunting bow up again.
+- They get a small fire going under a pot. Wounds get looked at, and people sleep where they sit. _(1 food)_
+- Something finds the camp in the night.
+- "Nobody goes past here without the bank's say-so," says the tidewaiter, and calls for the others.
+- Ursel's arrow goes over the tidewaiter and into the distance.
+- Quentin slashes at the tidewaiter and leaves it bleeding. _(6)_
+- Cass picks a spot on the tidewaiter and puts an arrow in it. _(7)_
+- The tidewaiter is leaving a trail of blood. _(3)_
+- The tidewaiter kicks Rosamund in the knee and hits them while they are bent over. _(15)_
+- Rosamund puts their weight behind the arming sword, and the tidewaiter takes all of it. _(8)_
+- Rosamund times it perfectly and the tidewaiter pays for it. _(14)_
+- Rosamund gets the tidewaiter on the ground, and the tidewaiter decides that is where they will stay.
+- They win that one. Nobody says anything for a while.
+- **The wreckers' cove is full of cargo from a dozen ships. Mags Tull comes out from behind it with a hook, and her people come with her.**
+- Ursel finds the weak place on the second wrecker, and it goes in deep. _(18)_
+- The first wrecker clubs Rosamund across the side of the head. _(15)_
+- Quentin goes clean through the first wrecker and does not look surprised about it. _(9)_
 - The second wrecker waits behind the others for a gap.
-- Rosamund chops at Mags Tull and connects. _(8)_
-- Cass picks a spot on the second wrecker and puts an arrow in it. _(9)_
-- Cass puts the second wrecker down, and the second wrecker stays down.
-- Ursel doesn't have a clear shot and takes it anyway. It misses.
-- Quentin slashes at Mags Tull and leaves it bleeding. _(5)_
+- A bolt from Cass thumps into the second wrecker. _(8)_
+- The second wrecker sits down hard and says they have had enough. Cass takes that as a yes.
+- Mags Tull swings a wrecker's crowbar into Rosamund's ribs. _(15)_
+- **Rosamund goes down, and somebody gets a draught between their teeth before they finish falling. They come up coughing.** _(a draught)_
+- Rosamund chops at the first wrecker and connects. _(8)_
+- Ursel pins Mags Tull where it stands. _(5)_
+- Quentin steps in and hits the first wrecker hard with the spear. _(5)_
+- Quentin comes back the other way and catches the first wrecker. _(6)_
+- Quentin gets the first wrecker on the ground, and the first wrecker decides that is where they will stay.
+- Cass doesn't have a clear shot and takes it anyway. It misses.
+- Rosamund steps back, and Mags Tull's hook buries itself in a cask of brandy.
+- Mags Tull gives ground, and Rosamund stumbles past it.
+- Quentin finds the weak place on Mags Tull, and it goes in deep. _(11)_
+- Quentin cuts again, faster, and finds Mags Tull. _(5)_
+- Mags Tull kicks sand in Quentin's face and cuts them while they are blinking. _(16)_
+- Ursel puts an arrow into Mags Tull, and it won't be aiming at anyone for a while. _(6)_
+- Cass looses, and the arrow takes Mags Tull. _(9)_
+- Rosamund batters Mags Tull with the flat of the arming sword. _(4)_
+- Mags Tull reels and stands there with no idea where it is.
+- Quentin swings the spear into Mags Tull and keeps swinging. _(6)_
+- Quentin tries a second strike and nearly loses the spear.
 - Ursel shoots between two shoulders and hits Mags Tull. _(10)_
-- The first wrecker kicks Rosamund in the knee and hits them while they are bent over. _(15)_
-- **A draught brings Rosamund back up off the stones, white and swearing.** _(a draught)_
-- Mags Tull is leaving a trail of blood. _(3)_
-- Mags Tull swings her hook at Quentin and catches nothing but sea air.
-- Rosamund batters Mags Tull with the flat of the arming sword. _(5)_
-- Cass's shot goes over the front rank and into Mags Tull. _(8)_
-- A bolt from Ursel thumps into Mags Tull. _(10)_
-- Quentin steps in and hits Mags Tull hard with the spear. _(4)_
-- Quentin goes clean through Mags Tull and does not look surprised about it. _(12)_
-- Mags Tull is bleeding badly. _(3)_
-- Mags Tull swings a wrecker's crowbar into Rosamund's ribs. _(18)_
-- **Rosamund hits the stones and lies there.**
-- Cass looses, and the arrow takes Mags Tull. _(8)_
-- The first wrecker clubs Quentin across the side of the head. _(14)_
-- Cass steps back, and Mags Tull's hook buries itself in a cask of brandy.
-- Mags Tull twists away from the spear.
-- Quentin comes back the other way and catches Mags Tull. _(5)_
+- Cass shoots between two shoulders and hits Mags Tull. _(8)_
+- Rosamund swings at Mags Tull and hits the dirt.
 - Ursel picks a spot on Mags Tull and puts an arrow in it. _(9)_
-- The first wrecker feints at Cass and then forgets to follow it up.
-- The wind takes Cass's arrow wide of Mags Tull.
-- Ursel puts an arrow into Mags Tull, and it won't be aiming at anyone for a while. _(5)_
-- Quentin brings the spear down on Mags Tull. _(4)_
-- Mags Tull drops her hook and walks into the sea up to her waist, and then she swims for it. Nobody follows.
-- Quentin's second strike finds the first wrecker. _(7)_
-- Cass finds the weak place on the first wrecker, and it goes in deep. _(14)_
-- The first wrecker gets in close and lands a hard one on Quentin. _(13)_
-- **Quentin does not get up again. They will be counted among the guild's dead, and it was a wrecker that did it.**
-- Ursel gets the blow they were waiting for. The first wrecker feels all of it. _(18)_
-- Ursel knocks the first wrecker senseless into the mud.
+- Quentin slashes at Mags Tull and leaves it bleeding. _(6)_
+- Mags Tull is bleeding badly. _(3)_
+- Mags Tull hooks Rosamund by the belt and drags them into the surf. _(26)_
+- **Rosamund goes down and does not get up.**
+- A bolt from Cass thumps into Mags Tull. _(8)_
+- Quentin finds an opening and hits Mags Tull in it. _(4)_
+- Quentin does not wait to see what the first one did, and hits Mags Tull again. _(4)_
+- Ursel's shot goes over the front rank and into Mags Tull. _(9)_
+- Cass doesn't have a clear shot and takes it anyway. It misses.
+- Mags Tull is leaving a trail of blood. _(3)_
+- Mags Tull gets Quentin with her hook and pulls them off their feet. _(21)_
+- **Quentin falls. The others close up over them.**
+- Ursel looses, and the arrow takes Mags Tull. _(10)_
+- Mags Tull goes down on her own beach and does not get up. Her lantern is still burning on the rock.
 - The cove is taken. Cass blows out Mags Tull's lantern, and the coast is dark for the first time in years.
-- Somebody slaps Rosamund awake. They are alive, though not by much.
-- Cass goes through a shed at the end of the Strand and comes out with 6 purses of old coin. _(6 purses of old coin)_
+- Rosamund is alive. The chaplains at home will call it "cracked ribs", and Rosamund will call it worse. _(Cracked ribs)_
+- Somebody slaps Quentin awake. They are alive, though not by much.
+- At the end of the Strand Rosamund finds 4 casks of bonded brandy, hidden under a boat turned upside down. _(4 casks of bonded brandy)_
 - They leave Port Anselm with full packs and the job done, and argue for the first mile about who carries what.
 
 **Week 6**
 
-- It is another week on the road home. Ursel keeps checking the packs to make sure the haul is still in them.
+- They walk back toward Varrow with the loads shared out differently for the second time since breakfast.
 
 **Week 7**
 
-- **The squad walks back into Varrow footsore, with the job done. Rosamund goes straight to the Copper Kettle and is not seen again until morning.**
+- **They are home. The hall smells of tallow and wet dog, and Rosamund sits down in the doorway and takes their boots off where they are.**
 
-_Home: lost Quentin Quarry (a wrecker). Deeds: Completed a long expedition (+4 renown); Put out Mags Tull's lantern (+8 renown); Brought a fallen member home (+1 renown)._
+_Home: nobody lost. Deeds: Completed a long expedition (+4 renown); Put out Mags Tull's lantern (+8 renown); Fought off 3 wandering packs (+3 renown); Brought 2 fallen members home (+2 renown)._
