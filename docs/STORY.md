@@ -186,9 +186,9 @@ Contracts are walked as **expeditions** to real places (`docs/EXPEDITIONS.md`). 
 ### How an expedition reads
 
 - **The yard and the door.** A squad gets ready in the yard of the hall on Tallow Street in its dispatch week. Bound for a distant site, it may hear news at the door (§5b). After that nobody can send it orders: there are no messengers, no recalls and no arrival reports. The prep sheet is the guild's last word.
-- **The log** is written in the narrator's dry voice, in the present tense. Members are named or called "they". Each situation (a passage, a hit, a kill, a camp) has several versions, used in turn before any repeats. A site's own version replaces the general one (`key:<site>`), then a kind of place (`key:town` for Varrow, `key:overland` for the distant sites), then the default, which is written for Old Pellam.
-- **Down below.** The week report has a Down below row for each squad: rooms, fights, finds, who went down. A squad home brings a report: the tier (Triumph, Success, Costly Success, a retreat, or a lost squad), who died, the loot and the pay.
-- **Bodies, not minds.** Nothing in an expedition touches a member's mind. They carry **Fatigue** (wear) and **Exposure** (what got into them), and bring home scars, habits and Sink changes. There are no afflictions, no madness and no torch meter. This is our own game, not a copy of Darkest Dungeon (the owner turned down Grit as "too much of a ripoff").
+- **The log** is written in the narrator's dry voice, in the present tense. Members are named or called "they". Most situations (a passage, a hit, a kill, a camp) have two or more versions, used in turn before any repeats; some rare ones (a crit, each Sink change) have one. A site's own version replaces the general one (`key:<site>`), then a kind of place (`key:town` for Varrow, `key:overland` for the distant sites), then the default, which is written for Old Pellam.
+- **Down below.** The week report has a Down below row for each squad: rooms, fights, finds, who went down. A squad home brings a report: the tier (Triumph, Success, Costly Success, Failure or Disaster; Withdrawn if it was called off at the door), who died, the loot and the pay.
+- **Wear, not breakdowns.** Members carry **Fatigue** (wear) and **Exposure** (what got into them), and bring home scars, habits and Sink changes. Habits are quirks a member picks up down there (hating the dark, humming on the march), not breakdowns: there is no stress meter, no afflictions, no madness and no torch meter. This is our own game, not a copy of Darkest Dungeon (the owner turned down Grit as "too much of a ripoff").
 
 ### The sites
 
@@ -230,9 +230,10 @@ The distant sites add road weeks there and back (`road_out`, `road_on`, `road_ba
 
 ### Exposure, the Sink fever and Sink changes
 
-- Exposure is what gets into the body down there: the Sink's runoff above all, and also the Buried Streets' damp, the fens' bad water, gas in Kell's workings, a hidden fever on a job, a seep's burn and the Kiln's blast. A wet mask of linen and charcoal halves it.
+- Exposure is what gets into the body down there: the Sink's runoff above all, and also the Buried Streets' damp, the fens' bad water, gas in Kell's workings, a hidden fever on a job, a seep's burn, a bad college still and the Kiln's blast. A wet mask of linen and charcoal, put on at the edge of the College Sink, halves what the wearer takes from there on. A job's fever (the Sickness tag) gives no Exposure if a Chaplain is in the squad or someone carries Fen Remedies.
 - Given time, it changes the body: violet skin, pale eyes, a thick hide, iron bones, storm in the fingers, reagent in the blood. Twelve changes in three tiers, all gifts, some of them embarrassing. This is chemistry, not a curse.
-- A rested body fights the change and runs the **Sink fever** first. The Lower Town calls it that wherever it's caught; out in the fens they call it the marsh fever. A worn-out body takes the change at once. A member who dies in the fever loses the change.
+- A rested body fights the change and runs the **Sink fever** first. The Lower Town calls it that wherever it's caught; out in the fens they call it the marsh fever. A worn-out body takes the change at once. A member who dies in the fever loses the change. A member still in the fever when the squad gets home spends a week in bed and gets up changed.
+- **It doesn't pass from person to person.** A "fever on a job" means bad air or bad water on the way. In Varrow it is the Lower Town's water: its wells and cellars take some of Pellam's runoff, which is why the street knows the Sink fever by name. *(Open: whether Saint Oda's almshouse fever in Act I, the one the fever salts are for, is the same thing. Nothing says either way yet.)*
 - The Lower Town calls changed people **Sink-touched**.
 - **Saint Oda's fever beds** draw Exposure out with vinegar, charcoal and water, for 30 crowns. The beds are the almshouse's, open to anyone who pays, so a guild can use them before it has met Sister Brune. The faction itself, as a power in the city, is known once you meet her (§3).
 
@@ -245,7 +246,7 @@ The distant sites add road weeks there and back (`road_out`, `road_on`, `road_ba
 - **The Mudlarks** (Pask) want eel oil, which waterproofs everything on the flats. Pellam's buried river channel is the oldest way round the toll chain. *(Draft: a hook for Act III's river.)*
 - **The Weighhouse** buys Pellam silver by weight, "the only honest way to pay for anything". The posting does not name Coster, who can be gone after `coster_exposed`.
 - **The Lower Town** (the Porters' Fraternity) wants fewer rats coming up through the Tallow Street cellars. Porters wait at the top of the rungs and count squads out and back in.
-- **Hobb & Daughters** go into the same sites. A rival ahead on a job has thinned it. **Isbet Hobb** leads the Hobb crew in the door scene *Hobb's People Are Packing*. Rivals can also wait on the road home and take a third of what the squad carries.
+- **Hobb & Daughters** go into the same sites. A rival ahead on a job has thinned it. **Isbet Hobb** leads the Hobb crew in the door scene *Hobb's People Are Packing*. Rivals can also wait on the road home and take a third of what the squad carries, unless a Scout or Infiltrator who walked home spots them first.
 - **The Ninth.** Deserters from the company work Drover's Road and the Wenmouth road.
 - **Jory** meets squads coming home with the ledger open, and only ever makes remarks.
 - **Patrons who must be met first.** Saint Oda's and the Mudlarks only post once the guild has met them (`met_oda`, `met_mudlarks`). A patron at −30 or worse stops posting. Vorn's survey needs `ostranders_open`.
@@ -272,7 +273,7 @@ The distant sites add road weeks there and back (`road_out`, `road_on`, `road_ba
 - **No lectures.** Characters never explain what any Varrow resident would know. Common knowledge sits in the **Codex** from the start, as reference.
 - **The Codex** (`src/engine/data/codex.ts`) unlocks entries from play: places your squads visit, enemies they face, people you meet, members' own pasts (a veteran in the roster tells you about Cassel Ford), and street talk. Every entry records how the guild learned it.
 - **In the hall:** about one week in four, Jory Abbot remarks on the state of the guild (low funds, Heat, a death, a crowded hall). Lines are in `JORY` in `codex.ts` and never explain the world.
-- **Expeditions** unlock no Codex entries yet. Old Pellam, its zones and its monsters are described only in their own text (the site and zone cards, and the log). *(Open: Codex entries for Old Pellam.)*
+- **Expeditions** unlock Codex entries the way contracts always did: a squad home from a region unlocks that place, and the dangers it faced unlock their entries. Old Pellam, its zones and the dive's own monsters have no entries yet (a Pellam job counts as Varrow); they are described only in their own text (the site and zone cards, and the log). *(Open: Codex entries for Old Pellam.)*
 - **Heard in Varrow:** one line of street talk a week in the week report, chosen to reflect the Debt clocks, decrees in force and story facts. Some lines unlock Codex entries.
 
 ## 7. Writing rules
@@ -294,7 +295,7 @@ Run `npm run style` to flag the habits below. It's advisory: a flag is a prompt 
 - **Characters have their own registers:** Vorn is clipped and practical, Fenn is tired and polite, Marta is chatty and folksy, Dagny is blunt and swears a little. Coster is fussy about exact amounts, Brune is brisk and practical, Pask never answers a question directly, Mayne is loud and friendly, Plaice reads clauses aloud, Lady Aske is charming and vague about money, and Jory only ever makes remarks.
 
 
-- **Expedition log lines** are the narrator's, in the present tense, one or two sentences each. Members are named (`{a}`) or called "they", never "he" or "she". Each situation needs at least two versions, and a line that only makes sense in one place (a grate, a drain, the Sink, the fens) goes under that place's key (`key:<site>`, `key:town`, `key:overland`) so it never turns up somewhere else. Keep the number of versions of an existing situation the same when rewording it: the count feeds the dive's random draws, so changing it changes what happens in trips already in a save.
+- **Expedition log lines** are the narrator's, in the present tense, one or two sentences each. Members are named (`{a}`) or called "they", never "he" or "she". Give each situation at least two versions (some rare ones, such as crits and the Sink changes, still have only one), and a line that only makes sense in one place (a grate, a drain, the Sink, the fens) goes under that place's key (`key:<site>`, `key:town`, `key:overland`) so it never turns up somewhere else. Keep the number of versions of an existing situation the same when rewording it: the count feeds the dive's random draws, so changing it changes what happens in trips already in a save.
 - **Monsters are animals, people or mechanisms.** Write them as such: hungry, frightened, paid, or following old instructions. Nothing is evil, cursed or ancient.
 - **Plain, concrete language.** Name the thing: "a porter's hook", not "a weapon of the common folk".
 - **Avoid tired fantasy vocabulary.** No "ward" as a city district; avoid "shadows gather", "ancient evil", "the realm trembles", chosen ones, prophecies. Names should sound like real places and people, not adjective-noun compounds (*Gilded X*, *Iron Y*).

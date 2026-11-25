@@ -679,7 +679,8 @@ export const SITE_LINES: Record<string, string[]> = {
 
   // ---- exposure away from the Sink ----
   // Exposure also comes from the fens, from bad air in Kell's workings and from
-  // fever on a job. The illness is the Sink fever wherever it is caught; only
+  // fever on a job (in Varrow, from the Lower Town's wells and cellars, which
+  // take some of Pellam's runoff). The illness is the Sink fever wherever it is caught; only
   // the Saltfens call it the marsh fever.
   'fever_start:saltfens': [
     "The fen gets into {a} all at once. They go hot, then cold, and their hands won't keep still. It's the marsh fever, and it has to run its course.",
@@ -721,20 +722,20 @@ export const SITE_LINES: Record<string, string[]> = {
     "They stop and turn their head a moment before anything happens, every time. Nobody can say where they learned it.",
   ],
   'fever_start:town': [
-    "{a} has caught whatever is going round the Lower Town. They go hot, then cold, and their hands won't keep still. It's the Sink fever, the street says, and it has to run its course.",
-    "{a} starts sweating and says they're fine. Half the street had the same fever last month, and none of them were fine either.",
+    "Something in the Lower Town's water gets into {a} all at once. They go hot, then cold, and their hands won't keep still. It's the Sink fever, the street says, and it has to run its course.",
+    "{a} starts sweating and says they're fine. They drank from a well down the hill, and the street knows what fine looks like after that.",
     "{a} goes grey and shivery on a back stair. The fever has started, and they'll fight worse until it breaks.",
   ],
   'change_take:town': [
-    "{a} is too tired to fight whatever they picked up in these streets, so it simply happens.",
-    "{a} is worn out, and whatever is going round the street takes the shortcut.",
+    "{a} is too tired to fight what the Lower Town's water is doing to them, so it simply happens.",
+    "{a} is worn out, and the bad water takes the shortcut.",
     "There's no fever this time. {a} is too spent to fight the change, so it just comes.",
   ],
   'change_deep_lungs:town': [
     "They breathe slow and deep, and the smoke of the Lower Town doesn't catch in their throat any more.",
   ],
   'change_iron_bones:town': [
-    "Their bones feel heavier, and they don't bruise. Whatever is going round the Lower Town has gone into the marrow.",
+    "Their bones feel heavier, and they don't bruise. Something in the Lower Town's water has gone into the marrow.",
   ],
   'change_sink_sense:town': [
     "They stop and turn their head a moment before anything happens, every time. The Lower Town has taught them its habits.",

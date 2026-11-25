@@ -5535,17 +5535,17 @@ _Source: expeditions/data/lines-sites.ts:657._
 | `line:change_deep_lungs:overland.1` | They breathe slow and deep, and bad air doesn't catch in their throat any more. |
 | `line:change_iron_bones:overland.1` | Their bones feel heavier, and they don't bruise. Something they breathed in out here has gone into the marrow. |
 | `line:change_sink_sense:overland.1` | They stop and turn their head a moment before anything happens, every time. Nobody can say where they learned it. |
-| `line:fever_start:town.1` | {a} has caught whatever is going round the Lower Town. They go hot, then cold, and their hands won't keep still. It's the Sink fever, the street says, and it has to run its course. |
-| `line:fever_start:town.2` | {a} starts sweating and says they're fine. Half the street had the same fever last month, and none of them were fine either. |
+| `line:fever_start:town.1` | Something in the Lower Town's water gets into {a} all at once. They go hot, then cold, and their hands won't keep still. It's the Sink fever, the street says, and it has to run its course. |
+| `line:fever_start:town.2` | {a} starts sweating and says they're fine. They drank from a well down the hill, and the street knows what fine looks like after that. |
 | `line:fever_start:town.3` | {a} goes grey and shivery on a back stair. The fever has started, and they'll fight worse until it breaks. |
-| `line:change_take:town.1` | {a} is too tired to fight whatever they picked up in these streets, so it simply happens. |
-| `line:change_take:town.2` | {a} is worn out, and whatever is going round the street takes the shortcut. |
+| `line:change_take:town.1` | {a} is too tired to fight what the Lower Town's water is doing to them, so it simply happens. |
+| `line:change_take:town.2` | {a} is worn out, and the bad water takes the shortcut. |
 | `line:change_take:town.3` | There's no fever this time. {a} is too spent to fight the change, so it just comes. |
 | `line:change_deep_lungs:town.1` | They breathe slow and deep, and the smoke of the Lower Town doesn't catch in their throat any more. |
-| `line:change_iron_bones:town.1` | Their bones feel heavier, and they don't bruise. Whatever is going round the Lower Town has gone into the marrow. |
+| `line:change_iron_bones:town.1` | Their bones feel heavier, and they don't bruise. Something in the Lower Town's water has gone into the marrow. |
 | `line:change_sink_sense:town.1` | They stop and turn their head a moment before anything happens, every time. The Lower Town has taught them its habits. |
 
-_Source: expeditions/data/lines-sites.ts:684._
+_Source: expeditions/data/lines-sites.ts:685._
 
 ### The dark, food and camps
 
@@ -5570,7 +5570,7 @@ _Source: expeditions/data/lines-sites.ts:684._
 | `line:camp_hurt:overland.1` | They are in no state to go on, so they make camp where they are. |
 | `line:camp_hurt:overland.2` | Too many of them are hurt. They stop where they stand and get a fire going. |
 
-_Source: expeditions/data/lines-sites.ts:744._
+_Source: expeditions/data/lines-sites.ts:745._
 
 ### Curiosities
 
@@ -5593,7 +5593,7 @@ _Source: expeditions/data/lines-sites.ts:744._
 | `line:strongbox_ruin:town.1` | There is a strongbox here. With no tools, {a} smashes it open with a paving stone and breaks everything inside it. |
 | `line:strongbox_ruin:overland.1` | There is a strongbox here. With no tools, {a} smashes it open with a rock and breaks everything inside it. |
 
-_Source: expeditions/data/lines-sites.ts:776._
+_Source: expeditions/data/lines-sites.ts:777._
 
 ### Turning back and going home
 
@@ -5640,7 +5640,7 @@ _Source: expeditions/data/lines-sites.ts:776._
 | `line:lost_home:town.1` | They are within sight of Tallow Street when they are caught. Fewer of them reach the hall than went out, and they have less with them. |
 | `line:lost_home:overland.1` | They are nearly clear of {p} when they are caught. Fewer of them start for home than went in, and they carry less. |
 
-_Source: expeditions/data/lines-sites.ts:814._
+_Source: expeditions/data/lines-sites.ts:815._
 
 ## Down below and expedition reports
 
