@@ -10,7 +10,7 @@ export const EXP_TUNING = {
   /** deeper zones scale monsters by this much per zone below their own */
   depthScale: 0.22,
   /** every monster's damage and HP */
-  foe: { dmg: 1.7, hp: 1.2 },
+  foe: { dmg: 1.8, hp: 1.2 },
   /** the chance of a wandering monster before each room: base + per zone depth, more in the dark */
   wander: { base: 0.1, perDepth: 0.06, dark: 0.1, rivalAhead: -0.06 },
   /** the roll for a member's life when they go down */

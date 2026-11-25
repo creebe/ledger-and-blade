@@ -228,7 +228,7 @@ export const LINES: Record<string, string[]> = {
   ],
   stunned: [
     '{m} reels and loses its footing.',
-    '{m} shakes its head and does not know where it is for a moment.',
+    '{m} lurches and loses track of the fight.',
     '{m} goes down and is slow getting up.',
   ],
   hamstring_hit: [
@@ -266,7 +266,7 @@ export const LINES: Record<string, string[]> = {
     '{a} traces the figure without looking and the spell finds {m}.',
   ],
   spark_hit: [
-    '{a} saves the doses and flicks a small working at {m}.',
+    '{a} flicks a small working at {m}, the cheapest one they know.',
     '{a} flicks a spark off the {w} at {m}. It stings, at least.',
     '{a} taps {m} with a working the size of a candle flame.',
   ],
@@ -519,7 +519,7 @@ export const LINES: Record<string, string[]> = {
 
   // ---- wanderers ----
   wander_avoided: [
-    'They hear {m} coming and get into a doorway until it passes.',
+    'They hear {m} coming and get into a doorway until they have gone by.',
     'Lamps hooded, backs to the wall. The {m} go by close enough to smell.',
     'The scout signals, and they wait in the dark while {m} go past.',
     'They take a side passage and leave the {m} to it.',

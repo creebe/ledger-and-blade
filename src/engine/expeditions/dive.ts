@@ -106,7 +106,7 @@ export function delverStats(d: Delver, gear: DiveContext['gear']) {
   const trinket = gear(d.trinket);
   return {
     maxHp: delverMaxHp(d),
-    acc: 66 + d.attrs.finesse * 2 + d.level * 2 + (trinket?.acc ?? 0) + sum(ms, 'acc'),
+    acc: 74 + d.attrs.finesse * 2 + d.level * 2 + (trinket?.acc ?? 0) + sum(ms, 'acc'),
     dodge: Math.max(0, 4 + d.attrs.finesse * 2 - (armor?.bulk ?? 0) + (trinket?.dodge ?? 0) + sum(ms, 'dodge')),
     prot: armor?.protection ?? 0,
     speed: d.attrs.finesse + sum(ms, 'speed'),
@@ -912,7 +912,7 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
   };
 
   // ---- the expedition ----
-  put('zone', say(`setout_${plan.length}`, { a: A[0].name, b: A[A.length - 1].name }));
+  put('room', say(`setout_${plan.length}`, { a: A[0].name, b: A[A.length - 1].name }));
   if (ctx.rivalAhead) put('room', say('rival_ahead', {}));
   let i = 0;
   for (; i < route.length; i++) {
