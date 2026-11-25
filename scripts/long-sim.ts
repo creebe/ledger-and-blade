@@ -14,16 +14,30 @@ const topStage = (s: GameState) => Math.max(0, ...(Object.keys(s.rivals) as Riva
 export function longSim(games: number, provoke = false) {
   let feudY1 = 0, warY1 = 0, warBy96 = 0, warAt96 = 0, alive96 = 0, legends = 0, before50 = 0;
   const firstLegend: number[] = [];
+  let changes = 0, quick = 0;
+  const feudLengths: number[] = [];
   for (let g = 0; g < games; g++) {
     const s = newGame(1000 + g * 7919);
     const opts: BotOpts = { minChance: 0.5, prep: 'good', provoke };
     const seen = new Set<string>();
     let maxY1 = 0, max96 = 0;
+    const last: Partial<Record<RivalId, { stage: number; week: number }>> = {};
     for (let w = 0; w < 96 && !s.gameOver; w++) {
       botTurn(s, opts);
       if (advanceWeek(s) && !s.gameOver) {
         botTurn(s, opts);
         advanceWeek(s);
+      }
+      for (const id of Object.keys(s.rivals) as RivalId[]) {
+        if (!s.rivals[id].active) continue;
+        const st = feudStage(s, id);
+        const prev = last[id] ?? { stage: 0, week: 0 };
+        if (st !== prev.stage) {
+          changes++;
+          if (s.week - prev.week <= 4 && prev.week > 0) quick++;
+          if (prev.stage === 1 && st === 0) feudLengths.push(s.week - prev.week);
+          last[id] = { stage: st, week: s.week };
+        }
       }
       const stage = topStage(s);
       if (w < 48) maxY1 = Math.max(maxY1, stage);
@@ -46,6 +60,7 @@ export function longSim(games: number, provoke = false) {
   }
   const pct = (n: number, d = games) => `${((n / Math.max(1, d)) * 100).toFixed(1)}%`;
   firstLegend.sort((a, b) => a - b);
+  feudLengths.sort((a, b) => a - b);
   return {
     games,
     bot: provoke ? 'provoking' : 'passive',
@@ -54,6 +69,9 @@ export function longSim(games: number, provoke = false) {
     everAtWarBy96: pct(warBy96),
     atWarInWeek96OfSurvivors: pct(warAt96, alive96),
     survivedTo96: pct(alive96),
+    stageChangesPerGame: +(changes / games).toFixed(2),
+    changesWithin4WeeksOfLast: quick,
+    medianFeudWeeks: feudLengths[feudLengths.length >> 1],
     legendsPerGame: +(legends / games).toFixed(2),
     legendsBeforeWeek50: before50,
     firstLegendWeek: firstLegend[0],

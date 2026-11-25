@@ -48,6 +48,13 @@ export const WAR_AT = 60;
 export const FEUD_RESENT = 1;
 export const FEUD_COOL = 0.3;
 export const FEUD_DECAY = 0.04;
+/**
+ * A stage, once reached, holds until the feud falls this far below its line, so
+ * one contested job doesn't flip a rival into a feud and out again a week later.
+ * A truce or tribute ends the stage at once.
+ */
+export const FEUD_HOLD = 6;
+export const WAR_HOLD = 8;
 /** Feud from each move a rival makes against you. Kept small so a feud can't feed itself into war. */
 export const FEUD_THEIR_MOVE = 1;
 /** Feud from beating a rival to a contested job. */

@@ -13,6 +13,7 @@ import {
   revealRivalPlan,
   RIVALS,
   activeRivals,
+  feudDrift,
   feudStage,
   guards,
   hallDefense,
@@ -287,7 +288,9 @@ function RivalCard({ id }: { id: RivalId }) {
             {inTruce(g, id) && <span className="muted"> · truce until {shortDate(r.truceUntil!, g.week)}</span>}
             {r.ourSpy && <span className="muted"> · your spy is inside</span>}
           </span>
-          <span className="tiny muted">Feud {Math.round(r.feud ?? 0)}/100</span>
+          <span className="tiny muted">
+            Feud {Math.floor(r.feud ?? 0)}/100, {feudDrift(g, id) > 0.05 ? 'rising' : feudDrift(g, id) < -0.05 ? 'cooling' : 'steady'}
+          </span>
         </div>
         <Meter value={r.feud ?? 0} tone={feudStage(g, id) === 2 ? 'bad' : feudStage(g, id) === 1 ? 'mid' : 'good'} />
       </div>
