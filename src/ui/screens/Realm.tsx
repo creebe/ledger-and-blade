@@ -252,6 +252,13 @@ export function RealmScreen() {
   );
 }
 
+// a feud pinned at 0 (or 100) can't move further, so it reads as steady there
+function driftWord(feud: number, drift: number) {
+  if (drift > 0.05 && feud < 100) return 'rising';
+  if (drift < -0.05 && feud > 0) return 'cooling';
+  return 'steady';
+}
+
 function RivalCard({ id }: { id: RivalId }) {
   const g = useStore((s) => s.game)!;
   const act = useStore((s) => s.act);
@@ -288,8 +295,8 @@ function RivalCard({ id }: { id: RivalId }) {
             {inTruce(g, id) && <span className="muted"> · truce until {shortDate(r.truceUntil!, g.week)}</span>}
             {r.ourSpy && <span className="muted"> · your spy is inside</span>}
           </span>
-          <span className="tiny muted">
-            Feud {Math.floor(r.feud ?? 0)}/100, {feudDrift(g, id) > 0.05 ? 'rising' : feudDrift(g, id) < -0.05 ? 'cooling' : 'steady'}
+          <span className="tiny muted feud-reading">
+            Feud {Math.floor(r.feud ?? 0)}/100, {driftWord(r.feud ?? 0, feudDrift(g, id))}
           </span>
         </div>
         <Meter value={r.feud ?? 0} tone={feudStage(g, id) === 2 ? 'bad' : feudStage(g, id) === 1 ? 'mid' : 'good'} />
