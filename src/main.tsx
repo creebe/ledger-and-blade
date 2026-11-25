@@ -6,7 +6,8 @@ import { ExpApp } from './ui/expeditions/ExpApp';
 import { trialOn } from './features';
 import './styles.css';
 
-registerSW({ immediate: true });
+// a preview build served from another origin (VITE_NO_SW=1) skips the offline worker
+if (import.meta.env.VITE_NO_SW !== '1') registerSW({ immediate: true });
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
