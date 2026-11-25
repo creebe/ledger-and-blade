@@ -30,7 +30,7 @@ export const FAME_KNOWN = 20;
 export const FAME_RENOWNED = 75;
 export const FAME_LEGENDARY = 120;
 /** A Legend also needs a long record, not just one lucky year. */
-export const LEGEND_NEEDS = { level: 5, missions: 25 };
+export const LEGEND_NEEDS = { level: 5, missions: 23 };
 
 // ---- Guild wars ----
 /** Feud level at which a rivalry becomes a feud, and then open war. */

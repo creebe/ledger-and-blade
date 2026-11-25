@@ -256,10 +256,10 @@ _Long route. Outcome: lost, 13 of 14 rooms, job not done._
 - Kit slams a shoulder into Gaffer Moyle. _(4)_
 - Gaffer Moyle hits Kit with a pick handle that has done this before. _(17)_
 - **Kit falls. The others close up over them.**
-- **Kit wakes up in the open. The squad has been beaten, and those still breathing drag themselves out of Kell Mines with nothing.**
+- **Kit wakes up in the open with the whole squad around them, beaten and alive. They drag themselves out of Kell Mines with nothing.**
 
 **Week 5**
 
-- **They come home late and short of people. Jory meets them at the door and does not ask for the ledger yet.**
+- **They come home late, every one of them, with nothing but the bandages. Jory counts them twice and closes the ledger.**
 
 _Home: nobody lost. Deeds: Fought off 2 wandering packs (+2 renown)._

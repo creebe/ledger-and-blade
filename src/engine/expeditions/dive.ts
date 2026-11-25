@@ -1350,7 +1350,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
     if (a.state !== 'dead') {
       if (a.bossKill && boss) {
         a.deeds.push(boss.memberDeed);
-        a.fame += 5;
+        a.fame += T.bossFame;
       }
       if (a.kills >= 4) {
         a.deeds.push(`killed ${a.kills} things on one trip`);

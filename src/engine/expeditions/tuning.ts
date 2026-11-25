@@ -42,6 +42,8 @@ export const EXP_TUNING = {
   /** experience in the dive's units, and how many of them make one point of classic experience */
   xp: { room: 1, fight: 3, perDepth: 2, perClassic: 3 },
   renown: { zoneFirst: { culverts: 0, streets: 2, sink: 4, quays: 1, rookeries: 2, sump: 1, trevick: 2, pans: 1, withies: 2, brannock: 1, skell: 2, bridge: 1, holms: 2, burrows: 1, strand: 2 } as Record<string, number>, boss: 8, wanderer: 1, carried: 1, nobodyFell: 2 },
+  /** fame (before fameScale) for the member who lands the blow on a site's boss */
+  bossFame: 8,
   /** fame from dive deeds is multiplied by this to fit the Legends scale */
   fameScale: 2,
   /** what a death costs at home: weeks of their wage paid to the family, and how much dearer recruits get per recent death */
