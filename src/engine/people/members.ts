@@ -49,6 +49,10 @@ export function createMember(state: GameState, profession: ProfessionId, quality
     joinedWeek: state.week,
     missions: 0,
     record: [],
+    exposure: 0,
+    changes: [],
+    scars: [],
+    habits: [],
   };
   for (const g of prof.startingGear) {
     const id = addItem(state, g);

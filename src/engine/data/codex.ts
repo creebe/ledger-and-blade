@@ -19,7 +19,7 @@ export interface CodexEntry {
 const reports = (s: GameState) => [...s.history, ...s.missions].filter((m) => m.report);
 const visited = (s: GameState, region: string) => reports(s).some((m) => m.contract.region === region);
 const faced = (s: GameState, tag: TagId) =>
-  reports(s).some((m) => (m.report?.phases.length ?? 0) > 0 && [...m.contract.tags, ...m.contract.hidden.map((h) => h.trueTag), ...(m.extraTags ?? [])].includes(tag));
+  reports(s).some((m) => m.report?.tier !== 'Withdrawn' && [...m.contract.tags, ...m.contract.hidden.map((h) => h.trueTag), ...(m.extraTags ?? [])].includes(tag));
 const fired = (s: GameState, id: string) => s.eventWeeks[id] !== undefined;
 const someone = (s: GameState, pred: (m: GameState['members'][number]) => boolean) => s.members.find(pred);
 const crier = (s: GameState, id: string) => (s.crierSeen ?? []).includes(id);

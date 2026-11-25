@@ -7,11 +7,23 @@ import { addDispatch, clamp } from '../core/util';
 import { REWARD_SCALE } from '../core/tuning';
 import { season } from '../core/calendar';
 import { applyContractEffect } from '../core/effects';
+import type { ContractExpedition, ExpLength, SiteId } from '../expeditions/types';
+
+/** Where a posting sends the squad: the template's own say, else its region at a length for its threat. */
+export function expeditionFor(t: ContractTemplate, regionId: string, threat: number): ContractExpedition {
+  const site = (t.expedition?.site ?? (REGIONS[regionId] ? regionId : 'varrow')) as SiteId;
+  const travel = REGIONS[regionId]?.travel ?? 0;
+  let length: ExpLength = threat <= 3 ? 'short' : threat <= 6 ? 'medium' : 'long';
+  if (travel >= 2 && length === 'long') length = 'medium';
+  return { site, length: t.expedition?.length ?? length, goal: t.expedition?.goal ?? { kind: 'complete' } };
+}
 
 function eligibleTemplates(state: GameState): ContractTemplate[] {
   return CONTRACT_TEMPLATES.filter((t) => {
     if (t.story || t.weight <= 0) return false;
     if (t.requiresFlag && !state.flags[t.requiresFlag]) return false;
+    // the Kiln Engine breaks once
+    if (t.expedition?.goal?.kind === 'kill' && t.expedition.goal.monster === 'kiln' && state.delve?.kilnBroken) return false;
     // patrons who hate you stop offering work
     if (t.patrons.every((p) => state.factions[p].standing <= -30 || !factionKnown(state, p))) return false;
     return true;
@@ -86,6 +98,7 @@ export function generateContract(state: GameState, template?: ContractTemplate):
     story: t.story,
     minSquad: t.minSquad,
     maxSquad: t.maxSquad,
+    expedition: expeditionFor(t, regionId, threat),
   };
 }
 

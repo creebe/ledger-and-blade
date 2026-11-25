@@ -24,10 +24,8 @@ export function alerts(g: GameState): { tone: 'warn' | 'bad' | 'info'; text: str
   if (g.insolventWeeks) out.push({ tone: 'bad', text: `In the red for ${plural(g.insolventWeeks, 'week')}. At 4, the guild is bankrupt.`, to: { tab: 'hall', guide: 'ledger' } });
   if (g.charterWeeks) out.push({ tone: 'bad', text: `Charter in danger: ${plural(6 - g.charterWeeks, 'week')} left to fix it.`, to: { tab: 'realm', realm: 'powers', guide: 'heat' } });
   if (g.heat >= 60) out.push({ tone: 'warn', text: `Heat is ${g.heat}. The Exchequer is watching.`, to: { tab: 'realm', realm: 'powers', guide: 'heat' } });
-  const back = g.missions.filter((m) => m.returnWeek === g.week);
-  if (back.length) out.push({ tone: 'info', text: `${plural(back.length, 'squad')} ${back.length === 1 ? 'returns' : 'return'} at the end of this week.`, to: { tab: 'contracts' } });
-  const arriving = g.missions.filter((m) => !m.report && m.arriveWeek === g.week);
-  if (arriving.length) out.push({ tone: 'info', text: `${plural(arriving.length, 'squad')} ${arriving.length === 1 ? 'reaches its' : 'reach their'} objective this week.`, to: { tab: 'contracts' } });
+  const back = g.missions.filter((m) => !m.report && m.dispatchedWeek + m.plannedWeeks - 1 === g.week);
+  if (back.length) out.push({ tone: 'info', text: `${plural(back.length, 'squad')} ${back.length === 1 ? 'is' : 'are'} due home at the end of this week.`, to: { tab: 'contracts' } });
   const home = living(g).filter((m) => m.status !== 'mission').length;
   if (g.supplies < home * 2) out.push({ tone: 'warn', text: `Supplies are low (${g.supplies}). Buy more at the Armory.`, to: { tab: 'armory', armory: 'market', guide: 'supplies' } });
   const story = g.board.find((c) => c.story);

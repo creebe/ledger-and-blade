@@ -10,9 +10,9 @@ import { Toast } from './ui/kit/Toast';
 import { EventCard } from './ui/sheets/EventCard';
 import { HelpSheet } from './ui/sheets/HelpSheet';
 import { MenuSheet } from './ui/sheets/MenuSheet';
-import { MissionReplay } from './ui/sheets/MissionReplay';
+import { ExpLogSheet } from './ui/sheets/ExpLogSheet';
 import { WeekReport } from './ui/sheets/WeekReport';
-import { Planner } from './ui/sheets/Planner';
+import { PrepSheet } from './ui/sheets/PrepSheet';
 import { useScrollLock } from './ui/kit/theme';
 import { Icon } from './ui/kit/icons';
 import { GuideNudge } from './ui/panels/Guide';
@@ -241,13 +241,13 @@ export default function App() {
         const el = (() => {
         switch (s.kind) {
           case 'planner':
-            return <Planner key={i} contractId={s.contractId} />;
+            return <PrepSheet key={i} contractId={s.contractId} />;
           case 'member':
             return <MemberSheet key={i} id={s.id} />;
           case 'orders':
             return <OrdersSheet key={i} id={s.id} />;
           case 'mission':
-            return <MissionReplay key={i} id={s.id} />;
+            return <ExpLogSheet key={i} id={s.id} />;
           case 'report':
             return <WeekReport key={i} dispatchIds={s.dispatchIds} week={s.week} before={s.before} />;
           case 'endweek':

@@ -4,7 +4,9 @@ import { discoverLore, weeklyCrier, weeklyJory } from '../story/codex';
 import { denIntel, healBonus, level, trainCost, trainWeeks, upkeep, weeklyWorkshop } from '../economy/buildings';
 import { triggerEvents } from '../story/scenes';
 import { dateWarning, datesPhase, scheduleDates } from '../story/dates';
-import { resolveMission } from '../missions/missions';
+import { sealExpedition, settleExpedition, sellGoods } from '../expeditions/run';
+import { CHANGES } from '../expeditions/data/content';
+import { EXP_TUNING } from '../expeditions/tuning';
 import { executeRival, planRival } from '../rivals/rival';
 import { weeklyWar } from '../rivals/war';
 import { chance } from './rng';
@@ -41,7 +43,8 @@ export function projectLedger(s: GameState, weeks = 4): Projection[] {
     const homeCount = living(s).filter((m) => m.status !== 'mission').length;
     const loan = s.loans.reduce((sum, l) => sum + (l.dueWeek === week ? l.paymentDue : 0), 0);
     // missions resolving this week pay roughly their listed reward
-    const expectedIncome = s.missions.filter((m) => !m.report && m.arriveWeek === week).reduce((sum, m) => sum + m.contract.reward, 0);
+    // squads due home this week pay roughly their listed reward (the real outcome stays hidden until then)
+    const expectedIncome = s.missions.filter((m) => !m.report && m.dispatchedWeek + m.plannedWeeks - 1 === week).reduce((sum, m) => sum + m.contract.reward, 0);
     supplies -= homeCount;
     const shortfall = supplies < 0 ? Math.ceil(-supplies * supplyPrice(s)) : 0;
     if (supplies < 0) supplies = 0;
@@ -87,8 +90,17 @@ export function advanceWeek(s: GameState): string | undefined {
 /** Members at home rest, train, gather rumors, labor or scout. */
 function homePhase(s: GameState) {
   for (const m of living(s)) {
-    if (m.status === 'mission') {
-      m.fatigue = clamp(m.fatigue + 3, 0, 100);
+    // squads away carry their own wear: the trip's log settles it when they're home
+    if (m.status === 'mission') continue;
+    m.exposure = Math.max(0, (m.exposure ?? 0) - EXP_TUNING.exposure.homeDrop);
+    if (m.fever) {
+      m.fever.weeks -= 1;
+      m.health = clamp(m.health + 4, 0, 100);
+      if (m.fever.weeks > 0) continue;
+      const c = m.fever.change;
+      m.fever = undefined;
+      if (!m.changes.includes(c)) m.changes.push(c);
+      addDispatch(s, 'roster', `${m.name} gets up changed`, [`The Sink fever breaks, and ${m.name.split(' ')[0]} is back on their feet with something new: ${CHANGES[c].name.toLowerCase()}. ${CHANGES[c].text}`]);
       continue;
     }
     const frail = m.traits.includes('frail');
@@ -159,23 +171,19 @@ function homePhase(s: GameState) {
   }
 }
 
-/** Squads that arrive resolve their jobs; squads that are home again report back. */
+/** Squads leave the yard (their trips are sealed), and squads whose trips are over come home. */
 function missionPhase(s: GameState) {
-  for (const mission of s.missions) {
-    if (!mission.report && mission.arriveWeek <= s.week) resolveMission(s, mission);
+  for (const ms of s.missions) {
+    if (ms.sealed || ms.report) continue;
+    // simulated again with the squad as it leaves: gear changed in the yard or a scene at the door counts
+    sealExpedition(s, ms);
+    ms.sealed = true;
   }
-  for (const mission of [...s.missions]) {
-    if (mission.report && mission.returnWeek <= s.week) {
-      for (const id of mission.memberIds) {
-        const m = s.members.find((x) => x.id === id);
-        if (m && m.status === 'mission') {
-          m.status = m.health < 40 ? 'recovering' : 'idle';
-          m.missionId = undefined;
-          m.assignment = 'rest';
-        }
-      }
-      s.missions = s.missions.filter((x) => x !== mission);
-      s.history.push(mission);
+  for (const ms of [...s.missions]) {
+    if (!ms.report && ms.returnWeek <= s.week) settleExpedition(s, ms);
+    if (ms.report && ms.returnWeek <= s.week) {
+      s.missions = s.missions.filter((x) => x !== ms);
+      s.history.push(ms);
       if (s.history.length > 30) s.history.shift();
     }
   }
@@ -214,6 +222,18 @@ function economyPhase(s: GameState) {
     loan.principal *= 1 + loan.weeklyRate * modProduct(s, 'loanRate');
     if (loan.dueWeek === s.week) {
       const due = Math.min(loan.paymentDue, Math.ceil(loan.principal));
+      // short of coin: sell what the squads brought back, and if a squad is still away, the Weighhouse waits for it
+      if (s.crowns < due && Object.values(s.goods ?? {}).some((n) => (n ?? 0) > 0)) {
+        const got = sellGoods(s);
+        addDispatch(s, 'economy', 'Goods sold for the Weighhouse', [`The coin at home fell short, so the guild sold its goods for ${got} crowns to make the payment.`]);
+      }
+      if (s.crowns < due && s.missions.some((m) => !m.report && m.returnWeek > s.week) && (loan.waited ?? 0) < 3) {
+        loan.waited = (loan.waited ?? 0) + 1;
+        loan.dueWeek += 1;
+        addDispatch(s, 'economy', 'The Weighhouse waits', [`The payment of ${due} crowns is due, and a squad is still away. Alderman Coster agrees to wait a week for them, and writes to say so.`]);
+        continue;
+      }
+      loan.waited = 0;
       if (s.crowns >= due) {
         spend(s, 'Loan payment', due);
         loan.principal -= due;

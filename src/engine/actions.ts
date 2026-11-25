@@ -2,10 +2,9 @@
 // (shown to the player) or undefined on success.
 import { ITEMS } from './data/items';
 import { describePlan } from './rivals/rival';
-import { counteredTags, knownTags, suppliesNeeded } from './missions/odds';
-import { revealCost, rosterCap, tripWeeks } from './economy/buildings';
-import { uid } from './core/rng';
-import type { Member, Approach, Assignment, Attribute, FactionId, GameState, ItemSlot, MaterialId, RivalId } from './core/types';
+import { cancelExpedition } from './expeditions/run';
+import { revealCost, rosterCap } from './economy/buildings';
+import type { Assignment, Attribute, FactionId, GameState, ItemSlot, MaterialId, RivalId } from './core/types';
 import { RIVALS } from './data/factions';
 import { addDispatch, clamp, living } from './core/util';
 import { addItem, equippedBy, removeItem } from './economy/items';
@@ -103,7 +102,7 @@ export function equip(s: GameState, memberId: string, slot: ItemSlot, itemUid: s
 export function isPreparing(s: GameState, m: { status: string; missionId?: string }): boolean {
   if (m.status !== 'mission') return false;
   const ms = s.missions.find((x) => x.id === m.missionId);
-  return !!ms && !ms.report && ms.dispatchedWeek === s.week;
+  return !!ms && !ms.report && !ms.sealed;
 }
 
 /** Why a member's gear can't be touched right now, if it can't. */
@@ -113,22 +112,9 @@ export function awayReason(s: GameState, m: { name: string; status: string; miss
   return ms ? `${m.name.split(' ')[0]} is away on "${ms.contract.title}" until the end of week ${ms.returnWeek}. Gear can't be changed in the field.` : 'They are away';
 }
 
-/** Call off a squad that hasn't left yet: supplies come back and the contract returns to the board. */
+/** Call off a squad that hasn't left yet: the pack comes back and the contract returns to the board. */
 export function cancelDispatch(s: GameState, missionId: string): string | undefined {
-  const ms = s.missions.find((x) => x.id === missionId);
-  if (!ms) return 'No such mission';
-  if (ms.dispatchedWeek !== s.week || ms.report) return 'They have already left';
-  s.supplies += ms.supplies;
-  for (const id of ms.memberIds) {
-    const m = findMember(s, id);
-    if (m) {
-      m.status = 'idle';
-      m.missionId = undefined;
-    }
-  }
-  s.missions = s.missions.filter((x) => x !== ms);
-  if (ms.contract.expiresWeek >= s.week) s.board.unshift(ms.contract);
-  return undefined;
+  return cancelExpedition(s, missionId);
 }
 
 export function buyItem(s: GameState, defId: string): string | undefined {
@@ -193,51 +179,6 @@ export function revealTag(s: GameState, contractId: string, hiddenIndex: number)
   s.intel -= cost;
   h.revealed = true;
   track(s, 'reveal');
-  return undefined;
-}
-
-export function dispatchMission(
-  s: GameState,
-  contractId: string,
-  memberIds: string[],
-  approaches: Approach[],
-  retreatOnCritical: boolean,
-): string | undefined {
-  const c = s.board.find((x) => x.id === contractId);
-  if (!c) return 'Contract is gone';
-  if (memberIds.length < c.minSquad) return `Needs at least ${c.minSquad} members`;
-  if (memberIds.length > c.maxSquad) return `At most ${c.maxSquad} members`;
-  const members = memberIds.map((id) => findMember(s, id));
-  for (const m of members) {
-    if (!m || m.status !== 'idle') return `${m?.name ?? 'A member'} is not available`;
-    if (m.health < 40) return `${m.name} is too badly wounded`;
-  }
-  const need = suppliesNeeded(c, memberIds.length, s);
-  const trip = tripWeeks(s, c.travelWeeks);
-  if (s.supplies < need) return `Needs ${need} supplies (you have ${s.supplies})`;
-  s.supplies -= need;
-  track(s, 'dispatch');
-  if (counteredTags(s, members as Member[], knownTags(c)).size > 0) track(s, 'countered');
-  for (const m of members) {
-    m!.status = 'mission';
-    m!.missionId = undefined;
-  }
-  const id = uid(s, 'x');
-  for (const m of members) m!.missionId = id;
-  s.missions.push({
-    id,
-    contract: c,
-    memberIds,
-    approaches: c.phases.map((p, i) => (p.approaches.includes(approaches[i]) ? approaches[i] : p.approaches[0])),
-    retreatOnCritical,
-    supplies: need,
-    dispatchedWeek: s.week,
-    arriveWeek: s.week + trip.out,
-    returnWeek: s.week + trip.out + trip.back,
-  });
-  s.board = s.board.filter((x) => x.id !== c.id);
-  // members scouting this contract can stop
-  for (const m of s.members) if (m.assignment === 'scout' && m.scoutTarget === c.id) m.assignment = 'rest';
   return undefined;
 }
 

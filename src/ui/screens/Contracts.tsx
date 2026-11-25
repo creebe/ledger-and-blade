@@ -1,100 +1,33 @@
-import { useState } from 'react';
-import type React from 'react';
-import { cancelDispatch, FACTIONS, RIVALS, missionWeeks, type Contract, type GameState, type Mission } from '../../engine';
+import { cancelDispatch, FACTIONS, RIVALS, postingInfo, squadStatus, type Contract, type GameState, type Mission } from '../../engine';
 import { Icon } from '../kit/icons';
-import { CONTRACT_TYPE_ICON, OddsPill, PhaseStrip, Portrait, useBestOdds } from '../kit/visual';
+import { CONTRACT_TYPE_ICON, Portrait } from '../kit/visual';
 import { useStore } from '../../store';
-import { Empty, FactionBadge, Section, TagChip, ThreatPips } from '../kit/common';
-import { weeks, wk } from '../kit/format';
+import { Btn, Empty, FactionBadge, Section, TagChip, ThreatPips } from '../kit/common';
+import { wk } from '../kit/format';
 
-/** Tappable only once there's a report to read; otherwise a plain panel. */
-function MissionShell({ report, onOpen, children }: { report: boolean; onOpen: () => void; children: React.ReactNode }) {
-  return report ? (
-    <button className="mission-card tappable" onClick={onOpen}>
-      {children}
-    </button>
-  ) : (
-    <div className="mission-card">{children}</div>
-  );
-}
-
-/** The strip-map: depart, travel, the phases on site, return home. */
+/** A squad out on an expedition: where they are and the latest line. Tap to read the log. */
 function MissionTrack({ m, g }: { m: Mission; g: GameState }) {
   const open = useStore((s) => s.open);
-  const c = m.contract;
-  const travel = c.travelWeeks;
-  type Node = { label: string; kind: 'town' | 'road' | 'site'; done: boolean; current?: boolean; result?: string };
-  const nodes: Node[] = [];
-  // each node is tied to the week it happens in
-  const at = (week: number) => ({ done: g.week > week, current: g.week === week });
-  nodes.push({ label: 'Varrow', kind: 'town', done: true });
-  for (let i = 0; i < travel; i++) nodes.push({ label: 'Road', kind: 'road', ...at(m.dispatchedWeek + i) });
-  c.phases.forEach((p, i) => {
-    const log = m.report?.phases[i];
-    nodes.push({ label: p.name, kind: 'site', done: !!m.report, current: !m.report && g.week === m.arriveWeek, result: log?.result ?? (m.report ? 'skipped' : undefined) });
-  });
-  for (let i = 0; i < travel; i++) nodes.push({ label: 'Road', kind: 'road', ...at(m.arriveWeek + 1 + i) });
-  nodes.push({ label: 'Home', kind: 'town', done: false });
-
-  const status = m.report
-    ? `${m.report.tier} · ${m.returnWeek <= g.week ? 'home at the end of this week' : `home in ${weeks(m.returnWeek - g.week + 1)}`}`
-    : m.arriveWeek === g.week
-      ? 'Reaches the objective at the end of this week'
-      : `Arrives in ${weeks(m.arriveWeek - g.week + 1)}`;
-
-  const preparing = m.dispatchedWeek === g.week && !m.report;
-  const [expanded, setExpanded] = useState(false);
-  const short = m.report
-    ? `${m.report.tier} · ${m.returnWeek <= g.week ? 'home this week' : `home in ${wk(m.returnWeek - g.week + 1)}`}`
+  const st = squadStatus(g, m);
+  const preparing = !m.sealed && !m.report;
+  const where = m.report
+    ? `${m.report.tier} · home`
     : preparing
-      ? 'Leaving this week'
-      : m.arriveWeek === g.week
-        ? 'At the objective this week'
-        : `Arrives in ${wk(m.arriveWeek - g.week + 1)}`;
-  if (!expanded) {
-    return (
-      <button
-        className={`mission-row tappable ${m.report ? 'has-report' : ''}`}
-        onClick={() => (m.report ? open({ kind: 'mission', id: m.id }) : setExpanded(true))}
-        aria-expanded={false}
-      >
-        <span className="mission-row-main">
-          <b>{c.title}</b>
-          <span className="meta">
-            <Icon name={m.report ? 'scroll' : 'road'} size={14} />
-            {short}
-            {m.report ? ' · read the report' : ''}
-          </span>
-        </span>
-        <span className="mission-row-dots" aria-hidden>
-          {nodes
-            .filter((n) => n.kind !== 'road')
-            .map((n, i) => (
-              <i key={i} className={`${n.done ? 'done' : ''} ${n.current ? 'current' : ''} ${n.result ? `r-${n.result}` : ''}`} />
-            ))}
-        </span>
-      </button>
-    );
-  }
+      ? 'In the yard · leaves at the end of this week'
+      : `Week ${st.revealed} of about ${m.plannedWeeks} · ${st.zone ? `${st.zone}, room ${st.room} of ${st.rooms}` : 'on the road'}`;
   return (
     <div className="mission-wrap">
-      <button className="link-btn small mission-collapse" onClick={() => setExpanded(false)}>
-        Show less
-      </button>
-    <MissionShell report={!!m.report} onOpen={() => open({ kind: 'mission', id: m.id })}>
-      <div className="row between">
-        <b>{c.title}</b>
-        <span className="small muted">{c.region}</span>
-      </div>
-      <div className="strip" aria-label="Mission route">
-        {nodes.map((n, i) => (
-          <div key={i} className={`node ${n.kind} ${n.done ? 'done' : ''} ${n.current ? 'current' : ''} ${n.result ? `r-${n.result}` : ''}`}>
-            <span className="dot" />
-            <span className="node-l">{n.kind === 'road' ? '' : n.label}</span>
-          </div>
-        ))}
-      </div>
-      <div className="row between small">
+      <button className="mission-card tappable x-squad-card" onClick={() => open({ kind: 'mission', id: m.id })}>
+        <div className="row between">
+          <b>
+            Squad {m.number} · {m.contract.title}
+          </b>
+          <Icon name="chevron" size={16} />
+        </div>
+        <span className="meta">
+          <Icon name="road" size={14} />
+          {st.site} · {where}
+        </span>
         <span className="squad-faces">
           {m.memberIds
             .map((id) => g.members.find((x) => x.id === id))
@@ -103,46 +36,37 @@ function MissionTrack({ m, g }: { m: Mission; g: GameState }) {
               <Portrait key={x!.id} m={x!} size={30} showStatus={false} />
             ))}
         </span>
-        <span className="meta">
-          <Icon name="clock" size={14} />
-          {status}
-        </span>
-      </div>
-      {m.report && <div className="tiny" style={{ marginTop: 4 }}>Tap to read the journal</div>}
-      {!m.report && (
-        <div className="row gap tiny muted" style={{ marginTop: 4 }}>
-          Plan: <PhaseStrip c={c} chosen={m.approaches} />
+        {st.latest && <span className="small muted x-squad-latest">{st.latest.text}</span>}
+      </button>
+      {preparing && (
+        <div className="preparing">
+          <span className="small">Leaving at the end of this week. Gear can still change:</span>
+          <span className="row wrap gap">
+            {m.memberIds.map((id) => {
+              const x = g.members.find((y) => y.id === id)!;
+              return (
+                <button key={id} className="btn ghost small" onClick={() => open({ kind: 'member', id })}>
+                  <Icon name="armor" size={14} /> {x.name.split(' ')[0]}
+                </button>
+              );
+            })}
+            <Btn
+              className="btn ghost small danger"
+              blocked={m.fieldWeeks?.length ? 'They are already on the road. Only word from the door can call them back now.' : undefined}
+              onClick={() =>
+                useStore.getState().confirm({
+                  title: 'Cancel this dispatch?',
+                  body: [`The squad stays home. What they packed goes back to the stores, and "${m.contract.title}" returns to the board.`],
+                  confirmLabel: 'Cancel dispatch',
+                  onConfirm: () => useStore.getState().act((s) => cancelDispatch(s, m.id)) && useStore.getState().notify('Dispatch cancelled. The squad is back in the hall.'),
+                })
+              }
+            >
+              Cancel
+            </Btn>
+          </span>
         </div>
       )}
-    </MissionShell>
-    {preparing && (
-      <div className="preparing">
-        <span className="small">Leaving at the end of this week. Gear can still change:</span>
-        <span className="row wrap gap">
-          {m.memberIds.map((id) => {
-            const x = g.members.find((y) => y.id === id)!;
-            return (
-              <button key={id} className="btn ghost small" onClick={() => open({ kind: 'member', id })}>
-                <Icon name="armor" size={14} /> {x.name.split(' ')[0]}
-              </button>
-            );
-          })}
-          <button
-            className="btn ghost small danger"
-            onClick={() =>
-              useStore.getState().confirm({
-                title: 'Cancel this dispatch?',
-                body: [`The squad stays home. The ${m.supplies} supplies they packed go back to the stores, and "${c.title}" returns to the board.`],
-                confirmLabel: 'Cancel dispatch',
-                onConfirm: () => useStore.getState().act((s) => cancelDispatch(s, m.id)) && useStore.getState().notify('Dispatch cancelled. The squad is back in the hall.'),
-              })
-            }
-          >
-            Cancel
-          </button>
-        </span>
-      </div>
-    )}
     </div>
   );
 }
@@ -174,7 +98,7 @@ export function ContractsScreen() {
 }
 
 function ContractCard({ c, g, onOpen }: { c: Contract; g: GameState; onOpen: () => void }) {
-  const best = useBestOdds(g, c);
+  const info = postingInfo(g, c);
   const expiring = c.expiresWeek <= g.week;
   return (
     <button className={`contract-card tappable ${c.story ? 'story' : ''}`} onClick={onOpen} style={{ ['--fc' as string]: FACTIONS[c.patron].color }}>
@@ -204,14 +128,13 @@ function ContractCard({ c, g, onOpen }: { c: Contract; g: GameState; onOpen: () 
             </span>
             <span className="meta">
               <Icon name="clock" size={14} />
-              {wk(missionWeeks(c, g))}
+              {wk(info.weeks)}
             </span>
           </div>
         </div>
       </div>
-      <div className="row between" style={{ marginTop: 6 }}>
-        <PhaseStrip c={c} />
-        {best ? <OddsPill min={best.min} max={best.max} label="best squad" /> : <span className="meta">Not enough people free</span>}
+      <div className="small x-posting">
+        <b>{info.siteName}:</b> {info.goalText}.
       </div>
       <div className="tags">
         {c.tags.map((t) => (

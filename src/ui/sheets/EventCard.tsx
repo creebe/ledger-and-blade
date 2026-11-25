@@ -2,7 +2,7 @@ import { APPROACH_INFO, PROFESSIONS, canChoose, checkDetail, dateLabel, resolveE
 import { useStore } from '../../store';
 import { pct, weeks } from '../kit/format';
 import { Icon } from '../kit/icons';
-import { PhaseStrip, Portrait, ap } from '../kit/visual';
+import { Portrait, ap } from '../kit/visual';
 
 export function EventCard({ ev }: { ev: GameEvent }) {
   const g = useStore((s) => s.game)!;
@@ -30,9 +30,8 @@ export function EventCard({ ev }: { ev: GameEvent }) {
             </span>
             <span className="meta">
               <Icon name="road" size={14} />
-              {mission.contract.region} · arrives {mission.arriveWeek <= g.week ? 'this week' : `in ${weeks(mission.arriveWeek - g.week + 1)}`}
+              Squad {mission.number} · setting out for {mission.contract.region} · {weeks(mission.plannedWeeks)} away
             </span>
-            <PhaseStrip c={mission.contract} chosen={mission.approaches} />
           </div>
         )}
         {transcript.length > 0 && (

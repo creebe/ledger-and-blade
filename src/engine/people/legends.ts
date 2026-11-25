@@ -168,6 +168,16 @@ export function earnFame(state: GameState, m: Member, x: FameInput): number {
   return gain;
 }
 
+/** Fame from what a member did on an expedition: deeds the street talks about. */
+export function earnDeedFame(state: GameState, m: Member, gain: number, deed?: string, region = '') {
+  if (gain <= 0) return;
+  if (deed) addFeat(m, { week: state.week, kind: 'foe', text: `how ${m.name.split(' ')[0]} ${deed}`, region });
+  const before = fameTier(m);
+  m.fame = (m.fame ?? 0) + gain;
+  const after = fameTier(m);
+  if (after > before) reachTier(state, m, after);
+}
+
 /** What happens when a member's fame crosses into a new tier. */
 function reachTier(state: GameState, m: Member, tier: number) {
   const first = m.name.split(' ')[0];

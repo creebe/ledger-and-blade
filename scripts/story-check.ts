@@ -5,8 +5,8 @@ import { EVENT_DEFS } from '../src/engine/data/registry';
 import { EXCLUSIVE_FACTS, FACTS, type FactId } from '../src/engine/data/facts';
 import { STORY_EVENTS } from '../src/engine/data/events';
 import { CODEX, CODEX_BY_ID } from '../src/engine/data/codex';
-import { advanceWeek, bestApproaches, canChoose, dispatchMission, living, newGame, previewMission, type GameState } from '../src/engine';
-import { botTurn } from './sim';
+import { advanceWeek, canChoose, dispatchExpedition, newGame, planBlocked, suggestPlan, type GameState } from '../src/engine';
+import { botTurn, resolvePending } from './sim';
 
 const BAD_TEXT = /undefined|NaN|\[object |\{\w+\}|\$\{|null\b/;
 
@@ -130,16 +130,11 @@ export function exploreStory(runs: number, weeks: number): StoryReport {
       // explore story contracts too: usually attempt them with the best squad available
       for (const c of s.board.filter((x) => x.story)) {
         if (rand() > 0.75) continue;
-        const idle = living(s).filter((m) => m.status === 'idle' && m.health >= 40);
-        if (idle.length < c.minSquad) continue;
-        const ranked = [...idle].sort((a, b) => {
-          const sa = previewMission(s, c, [a], bestApproaches(s, c, [a])).phases.reduce((t, p) => t + p.chance, 0);
-          const sb = previewMission(s, c, [b], bestApproaches(s, c, [b])).phases.reduce((t, p) => t + p.chance, 0);
-          return sb - sa;
-        });
-        const team = ranked.slice(0, Math.min(c.maxSquad, idle.length));
-        if (s.supplies < team.length * (c.travelWeeks * 2 + 1) + 4) s.supplies += 20; // explorer only: never blocked on supplies
-        dispatchMission(s, c.id, team.map((m) => m.id), bestApproaches(s, c, team), rand() < 0.5);
+        const plan = suggestPlan(s, c);
+        if (s.supplies < 30) s.supplies += 20; // explorer only: never blocked on supplies
+        if (planBlocked(s, c, plan)) continue;
+        dispatchExpedition(s, c.id, plan);
+        resolvePending(s, { minChance: 0.45, chooser });
       }
       void before;
       if (s.pendingEvents.length) violate('stuck', `Events left unresolved: ${s.pendingEvents.map((e) => e.defId).join(', ')}`);

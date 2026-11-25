@@ -402,7 +402,8 @@ export function hostilePlan(state: GameState, id: RivalId): { kind: HostileKind;
     if (chance(state, 0.08 + a * 0.08)) return { kind: 'arson' };
   }
   if (stage >= 1) {
-    const away = state.missions.filter((m) => !m.report && m.contract.travelWeeks > 0 && m.arriveWeek > state.week);
+    // a squad on a long trip to a distant site: they wait for it on the road home
+    const away = state.missions.filter((m) => !m.report && !m.ambush && m.contract.travelWeeks > 0 && m.returnWeek > state.week);
     if (away.length && chance(state, 0.15 + a * 0.15 + spyBoost)) return { kind: 'ambush', target: pick(state, away).id };
     const bribable = living(state).filter((m) => m.status === 'idle' && m.loyalty < 35);
     if (bribable.length && chance(state, 0.12 + a * 0.1)) return { kind: 'bribe', target: pick(state, bribable).id };
@@ -412,7 +413,6 @@ export function hostilePlan(state: GameState, id: RivalId): { kind: HostileKind;
   return undefined;
 }
 
-const AMBUSH_TAG: Record<RivalId, string> = { hobbs: 'thugs', ninth: 'soldiers', assay: 'warded' };
 
 export function describeHostile(state: GameState, _id: RivalId, kind: HostileKind, target?: string): string {
   const m = target ? state.members.find((x) => x.id === target) : undefined;
@@ -421,7 +421,7 @@ export function describeHostile(state: GameState, _id: RivalId, kind: HostileKin
     case 'plant':
       return 'They are trying to get someone inside your guild.';
     case 'ambush':
-      return `They mean to ambush your squad on "${ms?.contract.title ?? 'the road'}".`;
+      return `They mean to ambush your squad on the road home from "${ms?.contract.title ?? 'their job'}".`;
     case 'theft':
       return 'They are planning to rob your stores.';
     case 'bribe':
@@ -445,18 +445,9 @@ export function executeHostile(state: GameState, id: RivalId, kind: HostileKind,
     case 'ambush': {
       const ms = state.missions.find((x) => x.id === target && !x.report);
       if (!ms) return;
-      const squad = ms.memberIds.map((i) => state.members.find((m) => m.id === i)!).filter(Boolean);
-      const spotted = squad.some((m) => m.profession === 'scout') && chance(state, 0.4 + (squad.length >= 4 ? 0.2 : 0));
-      if (spotted) {
-        ms.fieldLog = [...(ms.fieldLog ?? []), `A scout spotted ${name}'s people waiting by the road, and the squad went round them.`];
-        addDispatch(state, 'rival', `An ambush avoided`, [`Your squad on "${ms.contract.title}" spotted ${name}'s people in time and went round.`]);
-        return;
-      }
-      const tag = AMBUSH_TAG[id];
-      if (!ms.contract.tags.includes(tag)) ms.extraTags = [...new Set([...(ms.extraTags ?? []), tag])];
-      ms.difficultyMult = (ms.difficultyMult ?? 1) * (squad.length >= 4 ? 1.08 : 1.15);
-      ms.fieldLog = [...(ms.fieldLog ?? []), `${name}'s people were waiting on the road, and the squad had to fight its way through before the job had even started.`];
-      addDispatch(state, 'rival', `${name} ambushed your squad`, [`Your people on "${ms.contract.title}" were attacked on the road. The job just got harder.`]);
+      // the trip itself is sealed: they wait on the road home, and the homecoming settles it
+      ms.ambush = id;
+      addDispatch(state, 'rival', `${name} are waiting for your squad`, [`Word is that ${name}'s people are watching the road home from ${ms.contract.region}. Squad ${ms.number} will have to get past them.`]);
       return;
     }
     case 'theft': {

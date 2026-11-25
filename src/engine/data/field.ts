@@ -1,11 +1,9 @@
-// Decisions while a squad is in the field. They fire at the start of a week
-// for squads on the road, and when a squad arrives at the job. Text and choice
-// functions receive one squad member; missionOf() finds their mission.
-import { bestApproaches, chanceFrom, counteredTags, knownTags, previewMission, squadScore, trueTags } from '../missions/odds';
-import type { Approach, Contract, EventChoice, GameState, Member, Mission } from '../core/types';
-import { TAGS } from './tags';
+// Decisions at the door of an expedition: they fire as a squad sets out on
+// the road to a distant site, before the trip is sealed. Text and choice
+// functions receive one squad member; missionOf() finds their expedition.
+import { chanceFrom, counteredTags, knownTags, squadScore } from '../missions/odds';
+import type { Approach, GameState, Member, Mission } from '../core/types';
 import type { EventDef } from './events';
-import { APPROACH_INFO } from './professions';
 import { seasonOf } from '../core/calendar';
 
 export function missionOf(s: GameState, m?: Member): Mission | undefined {
@@ -17,17 +15,6 @@ export function squadOf(s: GameState, ms?: Mission): Member[] {
 const first = (m?: Member) => (m ? m.name.split(' ')[0] : 'The squad');
 const pct = (p: number) => `${Math.round(p * 100)}%`;
 
-/** The job as it really is: hidden tags revealed, plus anything the road added. */
-function revealedContract(ms: Mission): Contract {
-  return { ...ms.contract, tags: [...trueTags(ms.contract), ...(ms.extraTags ?? [])], hidden: [] };
-}
-
-function objectiveOdds(s: GameState, ms: Mission, approaches = ms.approaches) {
-  const squad = squadOf(s, ms);
-  const pv = previewMission(s, revealedContract(ms), squad, approaches);
-  return { weakest: Math.min(...pv.phases.map((p) => p.min)), objective: pv.phases[pv.phases.length - 1]?.min ?? 0 };
-}
-
 /** Best single squad member's chance at a field check (for detail text). */
 export function squadCheck(s: GameState, ms: Mission | undefined, approach: Approach, difficulty: number) {
   const squad = squadOf(s, ms);
@@ -36,55 +23,6 @@ export function squadCheck(s: GameState, ms: Mission | undefined, approach: Appr
   for (const m of squad) best = Math.max(best, squadScore(s, approach, { tags: knownTags(ms.contract), countered: counteredTags(s, [m], []), members: [m] }).score);
   return chanceFrom(best, difficulty);
 }
-
-/** Worth a report on arrival: something is still unknown, or the plan looks shaky. */
-export function needsArrivalReport(s: GameState, ms: Mission): boolean {
-  return ms.contract.hidden.some((h) => !h.revealed) || objectiveOdds(s, ms).objective < 0.55;
-}
-
-export function replanned(s: GameState, ms: Mission) {
-  return bestApproaches(s, revealedContract(ms), squadOf(s, ms));
-}
-
-export const ARRIVAL: EventDef = {
-  id: 'field_arrival',
-  title: 'Field report',
-  text: (s, m) => {
-    const ms = missionOf(s, m)!;
-    const real = revealedContract(ms);
-    const unknown = ms.contract.hidden.filter((h) => !h.revealed).map((h) => TAGS[h.trueTag]?.name);
-    const o = objectiveOdds(s, ms);
-    return (
-      `${first(m)} sends word from ${ms.contract.region}: the squad has reached "${ms.contract.title}" and looked the place over.\n\n` +
-      (unknown.length ? `What you didn't know: ${unknown.join(' and ')}. ` : 'It is much as you expected. ') +
-      `They face ${real.tags.map((t) => TAGS[t]?.name ?? t).join(', ')}.\n\n` +
-      `With your plan (${ms.approaches.map((a) => APPROACH_INFO[a].name).join(' → ')}), the objective succeeds ${pct(o.objective)} of the time, and the hardest phase is ${pct(o.weakest)}.`
-    );
-  },
-  choices: (s, m) => {
-    const ms = missionOf(s, m)!;
-    const squad = squadOf(s, ms);
-    const best = bestApproaches(s, revealedContract(ms), squad);
-    const now = objectiveOdds(s, ms);
-    const alt = objectiveOdds(s, ms, best);
-    const changed = best.some((a, i) => a !== ms.approaches[i]) && alt.objective > now.objective + 0.03;
-    const out: EventChoice[] = [{ label: 'Proceed as planned', detail: `Objective ${pct(now.objective)}`, effects: { mission: { reveal: true } }, resultText: 'Your orders stand.' }];
-    if (changed)
-      out.push({
-        label: `Change the plan: ${best.map((a) => APPROACH_INFO[a].name).join(' → ')}`,
-        detail: `Objective ${pct(alt.objective)}, hardest phase ${pct(alt.weakest)}`,
-        effects: { mission: { reveal: true, approaches: 'best' }, log: 'New orders reached them before the job: they changed their approach.' },
-        resultText: 'You send a rider with new orders. He should reach them in time.',
-      });
-    out.push({
-      label: 'Withdraw and come home',
-      detail: `Nobody gets hurt. The contract fails and ${ms.contract.patron === 'ostranders' ? "Ostrander's" : 'the patron'} is annoyed (−3).`,
-      effects: { mission: { withdraw: true } },
-      resultText: 'You send a rider to call them home.',
-    });
-    return out;
-  },
-};
 
 const onRoad = (s: GameState, m: Member) => {
   const ms = missionOf(s, m);
@@ -154,7 +92,7 @@ export const FIELD_EVENTS: EventDef[] = [
       return [
         {
           label: 'Ambush the riders',
-          detail: `Assault check (${pct(pa)}). Success makes the first phase easier. Failure: someone is hurt.`,
+          detail: `Assault check (${pct(pa)}). Success makes the fights there easier. Failure: someone is hurt.`,
           check: { approach: 'assault', difficulty: 14 + t * 1.5 },
           effects: { mission: { chain: 0.85 }, log: 'They ambushed the riders who had been shadowing them. Nobody went ahead to warn the enemy.' },
           failEffects: { mission: { wounds: 16 }, log: 'They tried to ambush their shadows and came off worse.' },
@@ -163,14 +101,14 @@ export const FIELD_EVENTS: EventDef[] = [
         },
         {
           label: 'Lose them in the hills',
-          detail: `Stealth check (${pct(ps)}). Success: first phase a little easier. Failure: the enemy is warned (first phase harder).`,
+          detail: `Stealth check (${pct(ps)}). Success: the fights there are a little easier. Failure: the enemy is warned (the fights there will be harder).`,
           check: { approach: 'stealth', difficulty: 9 + t },
           effects: { mission: { chain: 0.9 }, log: 'They shook off the riders following them.' },
           failEffects: { mission: { chain: 1.15 }, log: 'They tried to shake their shadows and failed. The enemy knew they were coming.' },
           resultText: 'By the next morning the riders are gone.',
           failText: 'The riders stay with them all the way.',
         },
-        { label: 'Ignore them', detail: 'The enemy will be expecting them (first phase harder).', effects: { mission: { chain: 1.1 }, log: 'Riders shadowed them all the way. The enemy was expecting them.' }, resultText: 'The squad presses on, watched.' },
+        { label: 'Ignore them', detail: 'The enemy will be expecting them (the fights there will be harder).', effects: { mission: { chain: 1.1 }, log: 'Riders shadowed them all the way. The enemy was expecting them.' }, resultText: 'The squad presses on, watched.' },
       ];
     },
   },
@@ -181,7 +119,7 @@ export const FIELD_EVENTS: EventDef[] = [
     member: onRoad,
     text: (s, m) => `An old drover offers to take the squad to ${missionOf(s, m)?.contract.region} by the sheep tracks, which he swears are quicker and drier than the road.`,
     choices: [
-      { label: 'Hire the guide', detail: '−25 crowns. The squad arrives fresher and better placed (every phase a little easier).', requires: { crowns: 25 }, effects: { crowns: -25, mission: { difficulty: 0.94, fatigue: -15 }, log: 'An old drover guided them by the back ways.' }, resultText: 'The drover knows every sheep-track in the hills.' },
+      { label: 'Hire the guide', detail: '−25 crowns. The squad arrives fresher and better placed (the fights a little easier).', requires: { crowns: 25 }, effects: { crowns: -25, mission: { difficulty: 0.94, fatigue: -15 }, log: 'An old drover guided them by the back ways.' }, resultText: 'The drover knows every sheep-track in the hills.' },
       { label: 'Decline', effects: {}, resultText: 'They keep to the road.' },
     ],
   },
@@ -227,7 +165,7 @@ export const FIELD_EVENTS: EventDef[] = [
           resultText: "Isbet Hobb's squad wakes up to cut girths and scattered horses.",
           failText: 'Isbet was waiting for them.',
         },
-        { label: 'Let them go ahead', detail: 'They will have stirred things up (first phase harder).', effects: { mission: { chain: 1.1 } }, resultText: 'The Hobbs ride on ahead.' },
+        { label: 'Let them go ahead', detail: 'They will have stirred things up (the fights there will be harder).', effects: { mission: { chain: 1.1 } }, resultText: 'The Hobbs ride on ahead.' },
       ];
     },
   },
@@ -252,7 +190,7 @@ export const FIELD_EVENTS: EventDef[] = [
       return `${first(sc)} found fresh tracks a mile from the job and wants to follow them for a day.`;
     },
     choices: [
-      { label: 'Follow the tracks', detail: 'Reveals what the squad will face, and the first phase is easier. Fatigue +10.', effects: { mission: { reveal: true, chain: 0.9, fatigue: 10 }, log: 'They followed fresh tracks and learned what they were walking into.' }, resultText: 'By nightfall they know exactly what is waiting.' },
+      { label: 'Follow the tracks', detail: 'Reveals what the squad will face, and the fights there are a little easier. Fatigue +10.', effects: { mission: { reveal: true, chain: 0.9, fatigue: 10 }, log: 'They followed fresh tracks and learned what they were walking into.' }, resultText: 'By nightfall they know exactly what is waiting.' },
       { label: 'Stay on schedule', effects: {}, resultText: 'They keep to the plan.' },
     ],
   },

@@ -7,8 +7,9 @@ import { freshNpcs } from '../data/facts';
 import { freshFactions } from '../politics/factions';
 import { freshRivals } from '../rivals/rival';
 import { freshDates, scheduleDates } from '../story/dates';
+import { migrateToExpeditions } from '../expeditions/migrate';
 
-export const SAVE_VERSION = 12;
+export const SAVE_VERSION = 13;
 
 /** Upgrade older saves in place. Returns null if the save can't be used. */
 export function migrateSave(g: GameState): GameState | null {
@@ -69,6 +70,11 @@ export function migrateSave(g: GameState): GameState | null {
     g.dates = freshDates();
     scheduleDates(g);
     g.version = 12;
+  }
+  if (g.version === 12) {
+    // expeditions: contracts are walked as trips to real sites (docs/EXPEDITIONS-API.md)
+    migrateToExpeditions(g);
+    g.version = 13;
   }
   return g.version === SAVE_VERSION ? g : null;
 }
