@@ -86,6 +86,63 @@ describe('expeditions', () => {
     }
   });
 
+  it("every site's postings, bosses and beaten bosses walk with no missing line", () => {
+    const sitePostings = CONTRACT_TEMPLATES.filter((t) => t.expedition?.site && t.expedition.site !== 'pellam');
+    for (const site of SITE_IDS.filter((x) => x !== 'pellam')) {
+      const mine = sitePostings.filter((t) => t.expedition!.site === site);
+      expect(mine.some((t) => t.expedition!.goal?.kind === 'kill' && t.expedition!.length === 'long'), `${site} has a boss posting`).toBe(true);
+      for (const tpl of mine) {
+        for (let seed = 0; seed < 12; seed++) {
+          const s = newGame(300 + seed);
+          for (const m of s.members) m.level = 4;
+          const c = generateContract(s, tpl);
+          const ms = { contract: c, plan: suggestPlan(s, c), plannedWeeks: 5, setup: { seed: 8000 + seed * 7 } } as unknown as Mission;
+          const setup = { ...buildSetup(s, ms), bossBeaten: seed % 3 === 0 || undefined };
+          const r = runExpedition(setup);
+          for (const l of r.log) {
+            expect(l.text, `${tpl.id}: ${l.text}`).toMatch(/\s/);
+            expect(l.text, `${tpl.id}: ${l.text}`).not.toMatch(/\{\w+\}|undefined|  /);
+          }
+        }
+      }
+    }
+  });
+
+  it("a site's boss is beaten once: its postings come off the board and its room holds a lesser fight", () => {
+    const s = newGame(111);
+    clearEvents(s);
+    const c = post(s, 'kell_moyle');
+    const won = { ...c.expedition };
+    expect(won.length).toBe('long');
+    // fake a trip home with Moyle killed
+    let found = false;
+    for (let seed = 0; seed < 60 && !found; seed++) {
+      const ms = { contract: c, plan: suggestPlan(s, c), plannedWeeks: 5, setup: { seed: 4000 + seed } } as unknown as Mission;
+      for (const m of s.members) m.level = 5;
+      const r = runExpedition(buildSetup(s, ms));
+      if ((r.kills.moyle ?? 0) > 0) found = true;
+    }
+    expect(found).toBe(true);
+    s.delve.bossesBeaten.push('kell');
+    for (let i = 0; i < 200; i++) expect(generateContract(s).expedition.goal).not.toEqual({ kind: 'kill', monster: 'moyle', count: 1 });
+    const ms = { contract: c, plan: suggestPlan(s, c), plannedWeeks: 5, setup: { seed: 4242 } } as unknown as Mission;
+    const setup = buildSetup(s, ms);
+    expect(setup.bossBeaten).toBe(true);
+    const r = runExpedition(setup);
+    expect(r.kills.moyle ?? 0).toBe(0);
+  });
+
+  it('a plain job on a long route walks the last zone and stops short of the boss', () => {
+    const s = newGame(112);
+    const tpl = CONTRACT_TEMPLATES.find((t) => t.regions[0] === 'drovers' && !t.story && !t.expedition)!;
+    const c = generateContract(s, tpl);
+    c.expedition = { site: 'drovers', length: 'long', goal: { kind: 'complete' } };
+    const ms = { contract: c, plan: suggestPlan(s, c), plannedWeeks: 5, setup: { seed: 77 } } as unknown as Mission;
+    const r = runExpedition(buildSetup(s, ms));
+    expect(r.kills.crewe ?? 0).toBe(0);
+    expect(r.log.some((l) => l.zone === 'skell')).toBe(r.roomsCleared > 7);
+  });
+
   it('a trip is sealed when it leaves, revealed one week at a time, and settled when it is home', () => {
     const s = newGame(102);
     clearEvents(s);

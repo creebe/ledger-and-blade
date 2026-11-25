@@ -8,6 +8,7 @@ import type { Contract, GameState, Member } from '../core/types';
 import { living } from '../core/util';
 import { DELVER_PROFS, GOODS, LENGTHS, MONSTERS, SITES, SUPPLIES, SUPPLY_IDS, ZONES, routeOf, type RouteStep } from './data/content';
 import { delverMaxHp } from './dive';
+import { bossBeaten } from './bosses';
 import { EXP_TUNING as T } from './tuning';
 import type { ExpPlan, PostingInfo, StandingOrders, SupplyId, ZoneId } from './types';
 
@@ -126,6 +127,10 @@ export function planWarnings(s: GameState, c: Contract, plan: ExpPlan): string[]
   if (c.story) w.push('This is story work. If the squad turns back or is lost, the job fails, and the story goes on without it.');
   if (c.expedition.site === 'pellam' && c.expedition.length === 'long' && squad.length && squad.every((m) => m.level <= 2))
     w.push('This is the deepest route in Old Pellam, and nobody in this squad is past level 2. Squads this green often don\'t come back from the College Sink.');
+  else if (steps.includes('boss') && !bossBeaten(s, c.expedition.site) && squad.length && squad.every((m) => m.level <= 2)) {
+    const boss = SITES[c.expedition.site].boss;
+    if (boss) w.push(`This route ends with ${MONSTERS[boss.monster].name}, and nobody in this squad is past level 2. Squads this green often don't come back.`);
+  }
   if (c.contestedBy) w.push(`A rival wants this job too. If their crew goes in first, there will be fewer fights at the start and thinner finds.`);
   return w;
 }

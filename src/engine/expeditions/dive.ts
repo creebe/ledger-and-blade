@@ -168,7 +168,8 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
   const foeProt = tagFx.reduce((n, x) => n + (x.foeProt ?? 0), 0);
   const tagGroups = tagFx.flatMap((x) => x.groups ?? []);
   const sigs = new Set(squad.map((d) => d.signature).filter(Boolean));
-  const threatScale = Math.max(T.threat.min, 1 + (setup.threat - T.threat.base) * T.threat.perPoint) * (setup.foeScale || 1) * (setup.site === 'pellam' ? 1 : T.thinFoe);
+  const threatBase = setup.site === 'pellam' ? T.threat.base : T.threatByLength[setup.length];
+  const threatScale = Math.max(T.threat.min, 1 + (setup.threat - threatBase) * T.threat.perPoint) * (setup.foeScale || 1) * (setup.site === 'pellam' ? 1 : T.thinFoe);
   const darkZone = (z: ZoneId) => ZONES[z].dark || tagDark;
   const pack: Record<SupplyId, number> = { food: 0, bandages: 0, oil: 0, tools: 0, masks: 0, reagents: 0, draughts: 0, ...plan.pack } as Record<SupplyId, number>;
   const packed = { ...pack };

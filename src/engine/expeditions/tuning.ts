@@ -13,8 +13,10 @@ export const EXP_TUNING = {
   depthScale: 0.22,
   /** every monster's damage and HP */
   foe: { dmg: 2.0, hp: 1.2 },
-  /** a contract's threat scales enemies by this much per point above `threatBase` */
+  /** a contract's threat scales enemies by this much per point above `base` */
   threat: { base: 3, perPoint: 0.07, min: 0.93 },
+  /** beyond Old Pellam, a route's depth carries most of the danger: threat counts from what is usual for its length */
+  threatByLength: { short: 3, medium: 5, long: 8 },
   /** enemies on the one-zone sites (everywhere but Old Pellam) are this much tougher */
   thinFoe: 1,
   /** the chance of a wandering monster before each room: base + per zone depth, more in the dark */

@@ -17,6 +17,7 @@
     "playthroughs": "vite-node scripts/playthrough.ts",
     "style": "vite-node scripts/style-lint.ts",
     "fingerprint": "vite-node scripts/fingerprint.ts",
+    "exp:logs": "vite-node scripts/exp-logs.ts",
     "check": "tsc --noEmit -p . && vitest run && vite-node scripts/run-story.ts && vite-node scripts/style-lint.ts"
   },
   "repository": {

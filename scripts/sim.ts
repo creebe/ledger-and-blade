@@ -49,7 +49,8 @@ export function resolvePending(s: GameState, opts: BotOpts) {
 
 /** How hard a posting is, on the contract threat scale. */
 export function postingDifficulty(c: Contract) {
-  if (c.expedition.site === 'pellam') return { short: 2.5, medium: 5, long: 7.5 }[c.expedition.length];
+  // Old Pellam's postings and the other sites' own postings (a goal beyond "see it through") read like Old Pellam's
+  if (c.expedition.site === 'pellam' || c.expedition.goal.kind !== 'complete') return { short: 2.5, medium: 5, long: 7.5 }[c.expedition.length];
   return c.threat + (c.expedition.length === 'medium' ? 1 : c.expedition.length === 'long' ? 2.5 : 0);
 }
 
@@ -74,7 +75,7 @@ export function botTurn(s: GameState, opts: BotOpts) {
     const team = plan.squad.map((id) => s.members.find((m) => m.id === id)!);
     if (team.length < Math.min(c.minSquad, 4)) continue;
     // a careful player doesn't send a pair into Old Pellam
-    if (c.expedition.site === 'pellam' && team.length < 3 && caution >= 0.5) continue;
+    if ((c.expedition.site === 'pellam' || c.expedition.goal.kind !== 'complete') && team.length < 3 && caution >= 0.5) continue;
     if (team.some((m) => m.health < minHealth || m.fatigue >= 45)) continue;
     const level = team.reduce((t, m) => t + m.level, 0) / team.length;
     const power = level * 1.2 + team.length * 0.5;
