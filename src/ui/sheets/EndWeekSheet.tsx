@@ -28,8 +28,8 @@ export function EndWeekSheet() {
   const endWeek = useStore((s) => s.endWeek);
   const warnings = endWeekWarnings(g);
   const leaving = g.missions.filter((m) => m.dispatchedWeek === g.week && !m.report);
-  const arriving = g.missions.filter((m) => !m.report && m.arriveWeek === g.week && m.dispatchedWeek !== g.week);
-  const returning = g.missions.filter((m) => m.returnWeek === g.week);
+  const below = g.missions.filter((m) => !m.report && m.sealed && m.dispatchedWeek + m.plannedWeeks - 1 !== g.week);
+  const returning = g.missions.filter((m) => !m.report && m.dispatchedWeek + m.plannedWeeks - 1 === g.week);
   const home = living(g).filter((m) => m.status === 'idle');
   const orders = ASSIGNMENTS.map((a) => ({ a, n: home.filter((m) => m.assignment === a.id).length })).filter((x) => x.n > 0);
   const loanDue = g.loans.find((l) => l.dueWeek === g.week);
@@ -84,11 +84,11 @@ export function EndWeekSheet() {
             </span>
           </li>
         ))}
-        {arriving.map((m) => (
+        {below.map((m) => (
           <li key={m.id}>
             <Icon name="road" size={14} />
             <span>
-              <b>{m.contract.title}</b>: the squad reaches the objective.
+              <b>{m.contract.title}</b>: squad {m.number} goes on. Their next stretch is in the week report.
             </span>
           </li>
         ))}
@@ -96,7 +96,7 @@ export function EndWeekSheet() {
           <li key={m.id}>
             <Icon name="hall" size={14} />
             <span>
-              <b>{m.contract.title}</b>: the squad comes home.
+              <b>{m.contract.title}</b>: the squad is due home.
             </span>
           </li>
         ))}

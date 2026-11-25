@@ -1,4 +1,5 @@
-import { dateLabel } from '../../engine';
+import { SITES, dateLabel, feedForWeek, tripWeekOf, weekSummary, type Mission } from '../../engine';
+import { SquadBadge } from '../expeditions/SquadStrip';
 import { snap, type ResourceSnap, useStore } from '../../store';
 import { Sheet } from '../kit/common';
 import { Icon } from '../kit/icons';
@@ -19,6 +20,7 @@ const RES_LABEL: { key: keyof ResourceSnap; icon: string; name: string; invert?:
 export function WeekReport({ dispatchIds, week, before }: { dispatchIds: string[]; week: number; before: ResourceSnap }) {
   const g = useStore((s) => s.game)!;
   const close = useStore((s) => s.close);
+  const open = useStore((s) => s.open);
   const items = g.dispatches.filter((d) => dispatchIds.includes(d.id));
   const after = snap(g);
   const last = g.ledger[g.ledger.length - 1];
@@ -26,6 +28,12 @@ export function WeekReport({ dispatchIds, week, before }: { dispatchIds: string[
   const dates = items.filter((d) => d.kind === 'date');
   const missions = items.filter((d) => d.kind === 'mission');
   const rest = items.filter((d) => d.kind !== 'mission' && d.kind !== 'date');
+  // every squad whose lines this End Week revealed, for Down below
+  const feed = feedForWeek(g, week);
+  const below = [...new Set(feed.map((f) => f.missionId))]
+    .map((id) => [...g.missions, ...g.history].find((m) => m.id === id))
+    .filter((m): m is Mission => !!m)
+    .sort((a, b) => a.number - b.number);
   return (
     <Sheet
       title="The week's end"
@@ -66,6 +74,28 @@ export function WeekReport({ dispatchIds, week, before }: { dispatchIds: string[
             ))}
           </ul>
         </details>
+      )}
+      {below.length > 0 && (
+        <section className="x-below">
+          <div className="row between x-below-head">
+            <h3 className="subhead">Down below</h3>
+            <button className="btn small x-watch-open" onClick={() => open({ kind: 'watch', week })}>
+              Watch together
+            </button>
+          </div>
+          {below.map((m) => {
+            const sum = weekSummary(m, tripWeekOf(m, week));
+            return (
+              <button key={m.id} className="tappable x-below-row" onClick={() => open({ kind: 'mission', id: m.id })}>
+                <SquadBadge n={m.number} />
+                <span className="x-below-main">
+                  <b>{SITES[m.contract.expedition.site].name}</b>
+                  <small className={sum.dead.length ? 'bad' : sum.down.length ? 'warn' : 'muted'}>{sum.text[0].toUpperCase() + sum.text.slice(1)}.</small>
+                </span>
+              </button>
+            );
+          })}
+        </section>
       )}
       {dates.map((d) => (
         <article key={d.id} className={`date-result ${d.title.endsWith(': met') ? 'met' : d.title.endsWith(': missed') ? 'missed' : 'off'}`}>

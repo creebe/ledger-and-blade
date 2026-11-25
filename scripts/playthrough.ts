@@ -4,7 +4,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { FACTS } from '../src/engine/data/facts';
 import { NPCS } from '../src/engine/data/facts';
-import { APPROACH_INFO, advanceWeek, canChoose, CLOCKS, dateLabel, FACTIONS, living, newGame, PROFESSIONS, type GameState } from '../src/engine';
+import { advanceWeek, canChoose, CLOCKS, dateLabel, expeditionLog, FACTIONS, goalText, living, newGame, PROFESSIONS, SITES, SUPPLIES, weekSummary, tripWeekOf, type GameState, type SupplyId } from '../src/engine';
 import { botTurn } from './sim';
 
 const weeks = Number(process.argv[2] ?? 26);
@@ -34,6 +34,7 @@ for (const { seed, style } of SEEDS) {
   L.push(`# Playthrough ${seed}: ${style}`, '');
   L.push(`Starting roster: ${living(s).map((m) => `${m.name} (${PROFESSIONS[m.profession].name})`).join(', ')}.`, '');
   let seen = 0;
+  let fullLogs = 0;
   for (let w = 0; w < weeks && !s.gameOver; w++) {
     L.push(`## ${dateLabel(s.week)}`, '');
     // decisions made this week
@@ -47,24 +48,28 @@ for (const { seed, style } of SEEDS) {
     }
     for (const m of s.missions.filter((m) => !outBefore.has(m.id))) {
       const names = m.memberIds.map((id) => s.members.find((x) => x.id === id)!.name.split(' ')[0]);
-      L.push(`**Dispatched** ${names.join(', ')} on "${m.contract.title}" (${m.contract.region}, threat ${m.contract.threat}, ${m.contract.reward}◉). Plan: ${m.approaches.map((a) => APPROACH_INFO[a].name).join(' → ')}.`, '');
+      const pack = (Object.keys(m.plan.pack) as SupplyId[]).filter((k) => m.plan.pack[k]).map((k) => `${m.plan.pack[k]} ${SUPPLIES[k].name.toLowerCase()}`);
+      L.push(`**Squad ${m.number} sets out:** ${names.map((n, i) => `${i + 1}. ${n}`).join(', ')} on "${m.contract.title}" (${SITES[m.contract.expedition.site].name}, ${m.contract.expedition.length}, ${goalText(m.contract)}; ${m.contract.reward}◉). Pack: ${pack.join(', ') || 'nothing'}. Orders: ${Object.values(m.plan.orders).join(', ')}.`, '');
     }
     const crowns = s.crowns;
     seen = s.dispatches.length;
     advanceWeek(s);
-    // what happened at the end of the week
+    // what happened at the end of the week: each squad's stretch, then the news
+    for (const m of [...s.missions, ...s.history.filter((x) => x.returnWeek === s.week - 1)]) {
+      const w = tripWeekOf(m, s.week - 1);
+      if (!w || !m.sealed) continue;
+      const full = m.contract.story || fullLogs < 4;
+      L.push(`### Down below: squad ${m.number}, "${m.contract.title}", week ${w} (${weekSummary(m, w).text})`, '');
+      for (const l of expeditionLog(m).filter((x) => x.week === w && (full || x.big))) L.push(`${l.big ? '**' : ''}${l.text}${l.big ? '**' : ''}${l.note ? ` *(${l.note})*` : ''}`);
+      L.push('');
+      if (m.report && full) fullLogs++;
+    }
     for (const d of s.dispatches.slice(seen)) {
       if (d.kind === 'mission' && d.missionId) {
         const m = [...s.missions, ...s.history].find((x) => x.id === d.missionId);
         const r = m?.report;
         if (!m || !r) continue;
-        L.push(`### Journal: ${m.contract.title} (${r.tier})`, '');
-        if (r.outbound) L.push(`*${r.outbound.title}.* ${r.outbound.lines.join(' ')}`, '');
-        for (const p of r.phases) {
-          L.push(`*${p.phase}* (${APPROACH_INFO[p.approach].name}, ${Math.round(p.chance * 100)}%, ${p.result}). ${(p.story ?? []).join(' ')} ${p.lines.slice(1).join(' ')}`.trim(), '');
-        }
-        if (r.homeward) L.push(`*${r.homeward.title}.* ${r.homeward.lines.join(' ')}`, '');
-        L.push(`Outcome: ${r.summary.join(' ')}`, '');
+        L.push(`### Home: ${m.contract.title} (${r.tier})`, '', `${d.body.join(' ')}`, '');
       } else if (['rival', 'roster', 'warning', 'economy', 'politics'].includes(d.kind) || (d.kind === 'story' && !d.body[0]?.startsWith('▸'))) {
         L.push(`- *${d.title}.* ${d.body.join(' ')}`);
       }

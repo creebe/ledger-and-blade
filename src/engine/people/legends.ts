@@ -44,12 +44,12 @@ export interface Signature {
 }
 
 export const SIGNATURES: Record<string, Signature> = {
-  front_rank: { id: 'front_rank', name: 'Front rank', text: 'Everyone in the squad fights better with them in front: Assault +1.5 each.', approach: 'assault', bonus: 1.5 },
-  quiet_feet: { id: 'quiet_feet', name: 'Quiet feet', text: 'They teach the squad where to step: Stealth +1.5 each.', approach: 'stealth', bonus: 1.5 },
-  known_face: { id: 'known_face', name: 'A known face', text: 'People open doors for them: Guile +1.5 each.', approach: 'guile', bonus: 1.5 },
-  keeps_walking: { id: 'keeps_walking', name: 'Keeps them walking', text: 'Nobody wants to be the one who stopped first: Endurance +1.5 each.', approach: 'endurance', bonus: 1.5 },
-  steady_hands: { id: 'steady_hands', name: 'Steady hands', text: 'Their calm spreads to the spellwork: Arcana +1.5 each.', approach: 'arcana', bonus: 1.5 },
-  nobody_dies: { id: 'nobody_dies', name: 'Nobody dies today', text: 'They watch everyone\'s back: the squad takes a quarter less harm.' },
+  front_rank: { id: 'front_rank', name: 'Front rank', text: 'Everyone in the squad fights better with them along: aim +4 each.', approach: 'assault', bonus: 1.5 },
+  quiet_feet: { id: 'quiet_feet', name: 'Quiet feet', text: 'They teach the squad where to step, so it slips past wanderers more often.', approach: 'stealth', bonus: 1.5 },
+  known_face: { id: 'known_face', name: 'A known face', text: 'People open doors for them: an Envoy in the same squad talks people round more often.', approach: 'guile', bonus: 1.5 },
+  keeps_walking: { id: 'keeps_walking', name: 'Keeps them walking', text: 'Nobody wants to be the one who stopped first, so the whole squad tires a little slower.', approach: 'endurance', bonus: 1.5 },
+  steady_hands: { id: 'steady_hands', name: 'Steady hands', text: 'Their calm spreads to the spellwork: an Arcanist in the same squad hits harder.', approach: 'arcana', bonus: 1.5 },
+  nobody_dies: { id: 'nobody_dies', name: 'Nobody dies today', text: 'They watch everyone\'s back: anyone in the squad who goes down is likelier to live.' },
   worth_the_fee: { id: 'worth_the_fee', name: 'Worth the fee', text: 'Patrons pay more to have them: +10% pay on any job they go on.' },
   draws_a_crowd: { id: 'draws_a_crowd', name: 'Draws a crowd', text: 'Every job they finish is talked about: Renown +1 on any success.' },
 };
@@ -166,6 +166,16 @@ export function earnFame(state: GameState, m: Member, x: FameInput): number {
   const after = fameTier(m);
   if (after > before) reachTier(state, m, after);
   return gain;
+}
+
+/** Fame from what a member did on an expedition: deeds the street talks about. */
+export function earnDeedFame(state: GameState, m: Member, gain: number, deed?: string, region = '') {
+  if (gain <= 0) return;
+  if (deed) addFeat(m, { week: state.week, kind: 'foe', text: `how ${m.name.split(' ')[0]} ${deed}`, region });
+  const before = fameTier(m);
+  m.fame = (m.fame ?? 0) + gain;
+  const after = fameTier(m);
+  if (after > before) reachTier(state, m, after);
 }
 
 /** What happens when a member's fame crosses into a new tier. */

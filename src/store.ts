@@ -2,12 +2,13 @@ import { create } from 'zustand';
 import { produce } from 'immer';
 import { advanceWeek, checkTutorial, discoverLore, migrateSave, newGame, type GameState, type Objective } from './engine';
 
-export type Tab = 'hall' | 'contracts' | 'roster' | 'armory' | 'realm';
+export type Tab = 'hall' | 'field' | 'contracts' | 'roster' | 'armory' | 'realm';
 export type Sheet =
   | { kind: 'planner'; contractId: string }
   | { kind: 'member'; id: string }
   | { kind: 'orders'; id: string }
   | { kind: 'mission'; id: string }
+  | { kind: 'watch'; week: number }
   | { kind: 'report'; dispatchIds: string[]; week: number; before: ResourceSnap }
   | { kind: 'confirm'; title: string; body: string[]; cost?: string; confirmLabel: string; danger?: boolean; onConfirm: () => void }
   | { kind: 'endweek' }

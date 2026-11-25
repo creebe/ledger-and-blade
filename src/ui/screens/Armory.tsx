@@ -1,4 +1,11 @@
 import {
+  STORE_IDS,
+  SUPPLIES,
+  GOODS,
+  buyStores,
+  goodsValue,
+  sellGoods,
+  type GoodId,
   awayReason,
   buyItem,
   buyMaterial,
@@ -83,6 +90,65 @@ export function ArmoryScreen() {
               ))}
             </div>
           </Section>
+          <Section title="Expedition stores">
+            <p className="small">What squads pack besides food. Anything short when a squad sets out is bought then, at these prices.</p>
+            {STORE_IDS.map((k) => (
+              <div key={k} className="x-pack-row">
+                <span className="x-pack-what">
+                  <span>
+                    <b>{SUPPLIES[k].name}</b>
+                    <small className="muted"> · {g.stores[k] ?? 0} in the stores · <Price n={SUPPLIES[k].price} /> each</small>
+                  </span>
+                </span>
+                <Btn
+                  className="btn ghost small"
+                  blocked={short(g, 'crowns', SUPPLIES[k].price * SUPPLIES[k].perSlot, SUPPLIES[k].name.toLowerCase())}
+                  onClick={() =>
+                    confirm({
+                      title: `Buy ${SUPPLIES[k].perSlot} ${SUPPLIES[k].name.toLowerCase()}?`,
+                      body: [`The stores go from ${g.stores[k] ?? 0} to ${(g.stores[k] ?? 0) + SUPPLIES[k].perSlot}.`],
+                      cost: `Costs ${crowns(SUPPLIES[k].price * SUPPLIES[k].perSlot)} · treasury ${g.crowns} → ${g.crowns - SUPPLIES[k].price * SUPPLIES[k].perSlot}`,
+                      confirmLabel: 'Buy',
+                      onConfirm: () =>
+                        act((d) => buyStores(d, k, SUPPLIES[k].perSlot)) &&
+                        notify(`Bought ${SUPPLIES[k].perSlot} ${SUPPLIES[k].name.toLowerCase()}. The stores now hold ${(g.stores[k] ?? 0) + SUPPLIES[k].perSlot}.`),
+                    })
+                  }
+                >
+                  +{SUPPLIES[k].perSlot} · <Price n={SUPPLIES[k].price * SUPPLIES[k].perSlot} />
+                </Btn>
+              </div>
+            ))}
+          </Section>
+          {goodsValue(g) > 0 && (
+            <Section title="Goods from expeditions">
+              {(Object.keys(g.goods) as GoodId[])
+                .filter((k) => (g.goods[k] ?? 0) > 0)
+                .map((k) => (
+                  <div key={k} className="row between small">
+                    <span>
+                      {g.goods[k]} × {GOODS[k].name}
+                    </span>
+                    <Price n={(g.goods[k] ?? 0) * GOODS[k].value} />
+                  </div>
+                ))}
+              <button
+                className="btn primary small"
+                onClick={() => {
+                  const v = goodsValue(g);
+                  confirm({
+                    title: 'Sell everything the squads brought back?',
+                    body: ['All the goods above go to the market at once. Materials stay in the stores.'],
+                    cost: `Earns ${crowns(v)} · treasury ${g.crowns} → ${g.crowns + v}`,
+                    confirmLabel: 'Sell it all',
+                    onConfirm: () => act((d) => void sellGoods(d)) && notify(`Sold the goods for ${crowns(v)}.`),
+                  });
+                }}
+              >
+                Sell it all · <Price n={goodsValue(g)} />
+              </button>
+            </Section>
+          )}
           <Section title="For sale this week">
             <p className="tiny muted">Stock changes weekly, and better goods appear as your renown grows. Weak coin raises prices, and Weighhouse friendship lowers them.</p>
             {slots.map((slot) => {

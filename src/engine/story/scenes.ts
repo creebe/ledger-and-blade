@@ -1,8 +1,8 @@
 import { EVENT_DEFS, STORY_IDS } from '../data/registry';
 import { RANDOM_EVENTS, STORY_EVENTS, type EventDef } from '../data/events';
 import { raiseFeud } from '../rivals/war';
-import { ARRIVAL, FIELD_EVENTS, needsArrivalReport, replanned, squadOf } from '../data/field';
-import { withdrawMission } from '../missions/missions';
+import { FIELD_EVENTS, squadOf } from '../data/field';
+import { sealExpedition, withdrawAtDoor } from '../expeditions/run';
 import { TRAITS } from '../data/traits';
 import { chanceFrom, counteredTags, squadScore } from '../missions/odds';
 import { chance, nextFloat, pick, uid, weighted } from '../core/rng';
@@ -36,36 +36,28 @@ function instantiate(state: GameState, def: EventDef, member?: Member, missionId
   return ev;
 }
 
-/** Decisions for squads in the field: road encounters and arrival reports. */
-function triggerFieldEvents(state: GameState) {
-  for (const ms of state.missions) {
-    if (ms.report || ms.contract.travelWeeks === 0) continue;
-    if (state.week <= ms.dispatchedWeek || state.week > ms.arriveWeek) continue;
-    if (ms.fieldWeeks?.includes(state.week)) continue;
-    const squad = squadOf(state, ms);
-    if (!squad.length) continue;
-    const who = pick(state, squad);
-    let def: EventDef | undefined;
-    if (state.week === ms.arriveWeek && needsArrivalReport(state, ms)) def = ARRIVAL;
-    else if (chance(state, state.week === ms.arriveWeek ? 0.3 : 0.55)) {
-      const eligible = FIELD_EVENTS.filter((d) => {
-        const last = state.eventWeeks[d.id];
-        if (last !== undefined && state.week - last < (d.cooldown ?? 3)) return false;
-        return (!d.member || d.member(state, who)) && (!d.condition || d.condition(state));
-      });
-      if (eligible.length) def = weighted(state, eligible.map((d) => ({ item: d, weight: d.weight ?? 1 })));
-    }
-    if (!def) continue;
-    ms.fieldWeeks = [...(ms.fieldWeeks ?? []), state.week];
-    state.eventWeeks[def.id] = state.week;
-    const ev = instantiate(state, def, who, ms.id);
-    ev.title = def.id === 'field_arrival' ? `Field report: ${ms.contract.title}` : `On the road: ${def.title}`;
-    state.pendingEvents.push(ev);
-  }
+/** Door scenes: as a squad sets out for a distant site, something on the road may want a decision. */
+export function triggerDoorScene(state: GameState, ms: GameState['missions'][number]) {
+  if (ms.report || ms.sealed || ms.contract.travelWeeks === 0) return;
+  if (ms.fieldWeeks?.includes(state.week)) return;
+  const squad = squadOf(state, ms);
+  if (!squad.length || !chance(state, 0.4)) return;
+  const who = pick(state, squad);
+  const eligible = FIELD_EVENTS.filter((d) => {
+    const last = state.eventWeeks[d.id];
+    if (last !== undefined && state.week - last < (d.cooldown ?? 3)) return false;
+    return (!d.member || d.member(state, who)) && (!d.condition || d.condition(state)) && npcsAvailable(state, d);
+  });
+  if (!eligible.length) return;
+  const def = weighted(state, eligible.map((d) => ({ item: d, weight: d.weight ?? 1 })));
+  ms.fieldWeeks = [...(ms.fieldWeeks ?? []), state.week];
+  state.eventWeeks[def.id] = state.week;
+  const ev = instantiate(state, def, who, ms.id);
+  ev.title = `At the door: ${def.title}`;
+  state.pendingEvents.push(ev);
 }
 
 export function triggerEvents(state: GameState) {
-  triggerFieldEvents(state);
   // a new Legend is named the week after they earn it
   for (const id of state.pendingLegends ?? []) {
     const m = state.members.find((x) => x.id === id && x.status !== 'dead' && x.status !== 'left');
@@ -322,12 +314,12 @@ function applyMissionEffect(state: GameState, ms: GameState['missions'][number],
     ms.extraTags = [...(ms.extraTags ?? []), x.tag];
     lines.push(`The squad will also face: ${x.tag}.`);
   }
-  if (x.chain) ms.chainStart = (ms.chainStart ?? 1) * x.chain;
-  if (x.difficulty) ms.difficultyMult = (ms.difficultyMult ?? 1) * x.difficulty;
+  // a better or worse start makes the whole trip's fights easier or harder
+  if (x.chain) ms.foeScale = (ms.foeScale ?? 1) * (1 + (x.chain - 1) * 0.6);
+  if (x.difficulty) ms.foeScale = (ms.foeScale ?? 1) * x.difficulty;
   if (x.reward) ms.bonusReward = (ms.bonusReward ?? 0) + x.reward;
   if (x.delay) {
-    ms.arriveWeek += x.delay;
-    ms.returnWeek += x.delay;
+    ms.plannedWeeks += x.delay;
     lines.push(`Delayed ${x.delay} week.`);
   }
   if (x.supplies) {
@@ -340,6 +332,10 @@ function applyMissionEffect(state: GameState, ms: GameState['missions'][number],
     v.health = Math.max(10, v.health - x.wounds);
     lines.push(`${v.name} was hurt.`);
   }
-  if (x.approaches === 'best') ms.approaches = replanned(state, ms);
-  if (x.withdraw) withdrawMission(state, ms);
+  if (x.withdraw) {
+    withdrawAtDoor(state, ms);
+    return;
+  }
+  // the trip is simulated again with what the door changed
+  if (!ms.report && !ms.sealed) sealExpedition(state, ms);
 }

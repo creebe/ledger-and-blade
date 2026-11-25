@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { APPROACH_INFO, FAME_TIERS, ITEMS, PROFESSIONS, SIGNATURES, TRAITS, awayReason, dismissMember, equip, equippedBy, fameTier, isPreparing, memberScore, type Approach, type Attribute, type GameState, type ItemSlot, type Member, xpToLevel } from '../../engine';
+import { EXP_TUNING, treatExposure, APPROACH_INFO, FAME_TIERS, ITEMS, PROFESSIONS, SIGNATURES, TRAITS, awayReason, dismissMember, equip, equippedBy, fameTier, isPreparing, memberScore, type Approach, type Attribute, type GameState, type ItemSlot, type Member, xpToLevel } from '../../engine';
 import { useStore } from '../../store';
 import { Btn, Meter, Sheet } from '../kit/common';
 import { SLOT_LABEL, cap, crowns, datedLine, shortDate } from '../kit/format';
 import { Icon } from '../kit/icons';
 import { ItemIcon, ItemStats, PROFESSION_APPROACH, Portrait, ap } from '../kit/visual';
 import { OrderPicker } from '../kit/members';
+import { Marks } from '../expeditions/xkit';
+import { short } from '../kit/shortfall';
 
 const STATUS_LABEL: Record<Member['status'], string> = {
   idle: 'At the hall',
@@ -19,7 +21,7 @@ function statusLine(m: Member, game: GameState) {
   if (m.status === 'mission') {
     const ms = game.missions.find((x) => x.id === m.missionId);
     if (!ms) return 'On a mission';
-    const left = ms.returnWeek - game.week;
+    const left = ms.dispatchedWeek + ms.plannedWeeks - 1 - game.week;
     return `On "${ms.contract.title}", back ${left <= 0 ? 'at the end of this week' : `in ${left + 1} weeks`}`;
   }
   if (m.status === 'recovering') return 'Recovering from wounds';
@@ -92,7 +94,33 @@ export function MemberSheet({ id }: { id: string }) {
         <label><span className="meta"><Icon name="bolt" size={14} />Fatigue</span> <Meter value={m.fatigue} tone={m.fatigue > 50 ? 'bad' : 'mid'} /> <span>{m.fatigue}</span></label>
         <label><span className="meta"><Icon name="smile" size={14} />Morale</span> <Meter value={m.morale} tone={m.morale < 35 ? 'bad' : 'good'} /> <span>{Math.round(m.morale)}</span></label>
         <label><span className="meta"><Icon name="link" size={14} />Loyalty</span> <Meter value={m.loyalty} tone={m.loyalty < 35 ? 'bad' : 'good'} /> <span>{m.loyalty}</span></label>
+        {(m.exposure ?? 0) > 0 && (
+          <label title="Runoff and fever in the body. At 40, 70 and 95 it brings a Sink change.">
+            <span className="meta"><Icon name="flask" size={14} />Exposure</span> <Meter value={m.exposure} tone="mid" /> <span>{m.exposure}</span>
+          </label>
+        )}
       </div>
+      {m.fever && <p className="small warn">In bed with the Sink fever for {m.fever.weeks === 1 ? 'another week' : `${m.fever.weeks} more weeks`}. They'll get up changed.</p>}
+      <Marks m={m} />
+      {(m.exposure ?? 0) > 0 && m.status !== 'mission' && m.status !== 'dead' && m.status !== 'left' && (
+        <Btn
+          className="btn ghost small"
+          blocked={short(game, 'crowns', EXP_TUNING.exposure.treatCost, "Saint Oda's fever beds")}
+          onClick={() =>
+            useStore.getState().confirm({
+              title: `Send ${m.name.split(' ')[0]} to Saint Oda's?`,
+              body: [`A night in the fever beds draws ${EXP_TUNING.exposure.treat} Exposure out of them. It puts off a Sink change; it doesn't undo one they already have.`],
+              cost: `Costs ${crowns(EXP_TUNING.exposure.treatCost)} · treasury ${game.crowns} → ${game.crowns - EXP_TUNING.exposure.treatCost}`,
+              confirmLabel: 'Send them',
+              onConfirm: () =>
+                useStore.getState().act((d) => treatExposure(d, m.id)) &&
+                useStore.getState().notify(`${m.name.split(' ')[0]} spends a night at Saint Oda's. Exposure is down to ${Math.max(0, (m.exposure ?? 0) - EXP_TUNING.exposure.treat)}.`),
+            })
+          }
+        >
+          Saint Oda's fever beds · −{EXP_TUNING.exposure.treat} Exposure
+        </Btn>
+      )}
 
       {!locked && m.status === 'idle' && (
         <>

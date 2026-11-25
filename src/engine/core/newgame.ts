@@ -16,6 +16,7 @@ import { dateLabel } from './calendar';
 import { refreshBoard } from '../economy/board';
 import { refreshMarket } from '../economy/market';
 import { SAVE_VERSION } from './save';
+import { freshStores } from '../expeditions/run';
 
 export function newGame(seed = Date.now() % 2147483647): GameState {
   const s: GameState = {
@@ -59,6 +60,9 @@ export function newGame(seed = Date.now() % 2147483647): GameState {
     eventWeeks: {},
     weekBook: { income: {}, expenses: {} },
     history: [],
+    stores: freshStores(),
+    goods: {},
+    delve: { zonesReached: [], count: 0 },
     petitioned: [],
     dates: freshDates(),
     nextId: 0,

@@ -1,6 +1,6 @@
 import type { MaterialId } from '../core/types';
 
-export type FacilityId = 'hall' | 'forge' | 'stillroom' | 'infirmary' | 'yard' | 'den' | 'stables';
+export type FacilityId = 'hall' | 'forge' | 'stillroom' | 'infirmary' | 'yard' | 'den' | 'stables' | 'muster';
 
 export interface FacilityLevel {
   crowns: number;
@@ -102,6 +102,14 @@ export const FACILITIES: Record<FacilityId, FacilityDef> = {
       { crowns: 200, materials: { timber: 12, leather: 6 }, weeks: 3, upkeep: 5, effect: 'Return trips are 1 week shorter.' },
       { crowns: 400, materials: { timber: 15, leather: 10 }, weeks: 4, upkeep: 8, effect: 'Trips of 2 weeks each way are also 1 week shorter going out.' },
     ],
+  },
+  muster: {
+    id: 'muster',
+    name: 'Muster room',
+    icon: 'people',
+    blurb: 'A back room with a long table, pegs for packs and a map of everywhere the guild sends people.',
+    start: 0,
+    levels: [{ crowns: 220, materials: { timber: 10, iron: 4 }, weeks: 3, upkeep: 4, effect: 'A third squad can be out at once.' }],
   },
 };
 

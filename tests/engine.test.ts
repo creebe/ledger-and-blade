@@ -4,7 +4,9 @@ import {
   bestApproaches,
   buyItem,
   chanceFrom,
-  dispatchMission,
+  dispatchExpedition,
+  suggestPlan,
+  expeditionLog,
   equip,
   living,
   newGame,
@@ -16,6 +18,10 @@ import {
 import { runSim } from '../scripts/sim';
 import { currentDate, datesPhase, dateTargets, nextDate, scheduleDates, DATE_BY_ID } from '../src/engine';
 import { afterLeaderDies, executeHostile, feudStage, hallDefense, operationOptions, raiseFeud, resolveOperation, runOperation, earnFame, fameTier, triggerEvents, SAVE_VERSION, BACKERS, CIRCUMSTANCE_BY_ID, claimNote, buySupplies, supplyCost, buyMaterial, cancelDispatch, discoverLore, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
+
+/** Send a squad with a little food and nothing else, so nothing has to be bought. */
+const send = (s: GameState, c: GameState['board'][number], team: { id: string }[]) =>
+  dispatchExpedition(s, c.id, { ...suggestPlan(s, c), squad: team.slice(0, Math.min(4, c.maxSquad)).map((m) => m.id), pack: { food: 2 } });
 
 const clearEvents = (s: GameState) => {
   while (s.pendingEvents.length) resolveEvent(s, s.pendingEvents[0].uid, 0);
@@ -77,15 +83,15 @@ describe('engine', () => {
     expect(withFire).toBeLessThan(withFrost);
   });
 
-  it('runs a mission from dispatch to return', () => {
+  it('runs an expedition from dispatch to return', () => {
     const s = newGame(11);
     clearEvents(s);
     const c = [...s.board].sort((a, b) => a.travelWeeks - b.travelWeeks)[0];
     const team = living(s).slice(0, c.minSquad);
-    const err = dispatchMission(s, c.id, team.map((m) => m.id), bestApproaches(s, c, team), true);
+    const err = send(s, c, team);
     expect(err).toBeUndefined();
     expect(team.every((m) => m.status === 'mission')).toBe(true);
-    for (let i = 0; i <= c.travelWeeks * 2 + 1; i++) {
+    for (let i = 0; i < 12 && !s.history.length; i++) {
       clearEvents(s);
       advanceWeek(s);
     }
@@ -116,48 +122,39 @@ describe('engine', () => {
     expect(d.body.length).toBe(3); // the whole conversation is recorded
   });
 
-  it('missions produce a journal and a service record', () => {
+  it('expeditions write a log and a service record', () => {
     const s = newGame(13);
     clearEvents(s);
     const c = [...s.board].sort((a, b) => a.travelWeeks - b.travelWeeks)[0];
-    const team = living(s).slice(0, c.maxSquad);
-    dispatchMission(s, c.id, team.map((m) => m.id), bestApproaches(s, c, team), false);
-    for (let i = 0; i <= c.travelWeeks * 2 + 1; i++) {
+    const team = living(s).slice(0, Math.min(4, c.maxSquad));
+    send(s, c, team);
+    for (let i = 0; i < 12 && !s.history.length; i++) {
       clearEvents(s);
       advanceWeek(s);
     }
-    const r = s.history[0].report!;
-    expect(r.outbound?.lines.length).toBeGreaterThan(0);
-    expect(r.homeward?.lines.length).toBeGreaterThan(0);
-    expect(r.phases.every((p) => (p.story ?? []).length > 0)).toBe(true);
+    const ms = s.history[0];
+    expect(ms.report!.trip).toBeDefined();
+    expect(expeditionLog(ms).length).toBeGreaterThan(5);
     expect(team.some((m) => m.record.length > 0)).toBe(true);
   });
 
-  it('squads on the road can be reported on and withdrawn', () => {
-    for (let seed = 1; seed < 60; seed++) {
+  it('a scene at the door changes the trip before it is sealed', () => {
+    for (let seed = 1; seed < 200; seed++) {
       const s = newGame(seed);
       clearEvents(s);
-      const c = s.board.find((x) => x.travelWeeks > 0 && x.hidden.length > 0);
+      const c = s.board.find((x) => x.travelWeeks > 0);
       if (!c) continue;
       const team = living(s).slice(0, Math.max(c.minSquad, 3));
-      if (dispatchMission(s, c.id, team.map((m) => m.id), bestApproaches(s, c, team), true)) continue;
-      // advance to the arrival week, answering anything else that comes up
-      while (s.week < s.missions[0].arriveWeek) {
-        clearEvents(s);
-        advanceWeek(s);
-      }
-      const report = s.pendingEvents.find((e) => e.defId === 'field_arrival');
-      expect(report?.missionId).toBe(s.missions[0].id);
-      const withdraw = report!.choices.findIndex((ch) => ch.effects.mission?.withdraw);
-      resolveEvent(s, report!.uid, withdraw);
-      expect(s.missions[0].report?.tier).toBe('Withdrawn');
-      expect(c.hidden.every((h) => h.revealed)).toBe(false);
-      for (let i = 0; i < 4 && s.missions.length; i++) {
-        clearEvents(s);
-        advanceWeek(s);
-      }
-      expect(team.every((m) => m.status !== 'mission')).toBe(true);
-      expect(team.every((m) => m.status !== 'dead')).toBe(true);
+      if (send(s, c, team)) continue;
+      const ms = s.missions[0];
+      const ev = s.pendingEvents.find((e) => e.missionId === ms.id);
+      if (!ev) continue;
+      const i = ev.choices.findIndex((ch) => ch.effects.log && !ch.check && !ch.requires);
+      if (i < 0) continue;
+      resolveEvent(s, ev.uid, i);
+      expect(ms.fieldLog?.length).toBeGreaterThan(0);
+      expect(expeditionLog(ms).some((l) => l.text === ms.fieldLog![0])).toBe(true);
+      expect(cancelDispatch(s, ms.id)).toMatch(/on the road/);
       return;
     }
     throw new Error('no suitable seed found');
@@ -527,7 +524,7 @@ describe('engine', () => {
     const c = [...s.board].sort((a, b) => a.travelWeeks - b.travelWeeks)[0];
     const team = living(s).slice(0, c.minSquad);
     const crowns = s.crowns;
-    dispatchMission(s, c.id, team.map((m) => m.id), bestApproaches(s, c, team), true);
+    send(s, c, team);
     const done = checkTutorial(s).map((o) => o.id);
     expect(done).toContain('first_contract');
     expect(s.crowns).toBe(crowns); // nothing paid until collected
@@ -561,10 +558,10 @@ describe('engine', () => {
   it('a squad can be re-geared or called off until the week ends, but not once it has left', () => {
     const s = newGame(51);
     clearEvents(s);
-    const c = s.board.find((x) => x.travelWeeks > 0) ?? s.board[0];
+    const c = s.board.find((x) => x.travelWeeks === 0) ?? s.board[0];
     const team = living(s).slice(0, c.minSquad);
     const supplies = s.supplies;
-    dispatchMission(s, c.id, team.map((m) => m.id), bestApproaches(s, c, team), true);
+    send(s, c, team);
     const spare = s.items.find((i) => !living(s).some((m) => m.loadout.weapon === i.uid || m.loadout.armor === i.uid));
     expect(equip(s, team[0].id, 'consumable', undefined, 0)).toBeUndefined(); // allowed while preparing
     expect(cancelDispatch(s, s.missions[0].id)).toBeUndefined();
@@ -572,7 +569,7 @@ describe('engine', () => {
     expect(s.board.some((x) => x.id === c.id)).toBe(true);
     expect(team.every((m) => m.status === 'idle')).toBe(true);
     // send again, end the week: now they're gone
-    dispatchMission(s, c.id, team.map((m) => m.id), bestApproaches(s, c, team), true);
+    send(s, c, team);
     advanceWeek(s);
     clearEvents(s);
     if (s.missions[0] && !s.missions[0].report) {
@@ -589,7 +586,7 @@ describe('engine', () => {
     const c = s.board[0];
     const team = living(s).slice(0, c.minSquad);
     const crowns = s.crowns;
-    dispatchMission(s, c.id, team.map((m) => m.id), bestApproaches(s, c, team), true);
+    send(s, c, team);
     expect(checkTutorial(s).map((o) => o.id)).toContain('first_contract');
     claimNote(s, 'first_contract');
     expect(s.crowns).toBe(crowns + 20);

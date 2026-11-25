@@ -3,6 +3,7 @@ import type { FactId, NpcId, NpcStatus } from '../data/facts';
 import type { FacilityId } from '../data/facilities';
 import type { BackerId } from '../data/starts';
 import type { Feat } from '../people/legends';
+import type { ContractExpedition, DelveState, DiveSetup, ExpeditionResult, ExpPlan, GoodId, StoreId } from '../expeditions/types';
 export type { FactId, NpcId, NpcStatus, FacilityId, BackerId };
 
 export type Attribute = 'might' | 'finesse' | 'wits' | 'resolve';
@@ -107,6 +108,13 @@ export interface Member {
   feats?: Feat[]; // the deeds people talk about
   epithet?: string; // the name the street gave a Legend
   signature?: string; // a Legend's signature ability
+  // expeditions
+  exposure: number; // 0-100: reagent runoff and fen fever in the body
+  changes: string[]; // Sink changes: lasting gifts of Exposure
+  fever?: { change: string; weeks: number }; // in bed with the Sink fever
+  scars: string[];
+  habits: string[];
+  kills?: number;
   diedWeek?: number;
   causeOfDeath?: string;
 }
@@ -167,6 +175,7 @@ export interface Contract {
   minSquad: number;
   maxSquad: number;
   op?: { rival: RivalId; kind: 'intercept' | 'raid' | 'kill'; target?: NpcId }; // an operation against a rival
+  expedition: ContractExpedition; // where the job is, how far in, and what for
 }
 
 export type PhaseResult = 'strong' | 'success' | 'fail' | 'severe';
@@ -187,6 +196,19 @@ export interface JournalSection {
   lines: string[];
 }
 
+export interface TripSummary {
+  outcome: 'complete' | 'retreated' | 'lost' | 'withdrawn';
+  deepest?: string; // zone name
+  rooms: number;
+  roomsPlanned: number;
+  loot: Partial<Record<GoodId, number>>;
+  lootValue: number;
+  crownsFound: number;
+  goalMet: boolean;
+  deeds: string[];
+  wentDown: string[]; // member ids who went down and got up
+}
+
 export interface MissionReport {
   tier: OutcomeTier;
   phases: PhaseLog[];
@@ -196,29 +218,38 @@ export interface MissionReport {
   materials: Partial<Record<MaterialId, number>>;
   summary: string[];
   outbound?: JournalSection; // the road there
+  trip?: TripSummary; // what the expedition found and did
   homeward?: JournalSection; // the road back
 }
 
+/**
+ * A squad out on a contract: an expedition. The whole trip is simulated when
+ * it is sealed and revealed week by week. See docs/EXPEDITIONS-API.md.
+ */
 export interface Mission {
   id: string;
   contract: Contract;
-  memberIds: string[];
-  approaches: Approach[]; // chosen approach per phase
-  retreatOnCritical: boolean;
-  supplies: number;
+  memberIds: string[]; // the squad in rank order (= plan.squad)
+  plan: ExpPlan;
+  number: number; // the squad's number (1-3) while it is out, for badges
   dispatchedWeek: number;
-  arriveWeek: number;
-  returnWeek: number;
-  report?: MissionReport;
-  // changes made by decisions on the road
+  plannedWeeks: number; // how long the trip should take, road included
+  returnWeek: number; // the week whose End Week brings them home (from the sealed result)
+  sealed: boolean; // false while the squad is still in the yard (its dispatch week)
+  setup: DiveSetup; // the frozen inputs: the log is rebuilt from these on demand
+  result: ExpeditionResult; // the sealed outcome, without its log (see expeditionLog())
+  report?: MissionReport; // the settled outcome, once they are home
+  // changes made by a scene at the door, or a rival on the road
   extraTags?: TagId[];
-  chainStart?: number; // difficulty multiplier for the first phase
-  difficultyMult?: number; // multiplier for every phase
+  foeScale?: number;
   bonusReward?: number;
-  fieldLog?: string[]; // what happened on the road, for the journal
-  fieldWeeks?: number[]; // weeks a field decision already happened
-  // equipment consumed snapshot not needed: consumables are removed on dispatch
+  fieldLog?: string[];
+  fieldWeeks?: number[];
+  ambush?: RivalId; // a rival waits on the road home
 }
+
+/** The same record, by its new name. */
+export type Expedition = Mission;
 
 export interface Faction {
   id: FactionId;
@@ -259,6 +290,7 @@ export interface Loan {
   paymentDue: number; // amount due at next due week
   dueWeek: number;
   missed: number;
+  waited?: number; // weeks this payment has been put off for a squad that's away
 }
 
 export interface EventChoice {
@@ -406,6 +438,9 @@ export interface GameState {
   eventWeeks: Record<string, number>; // last week each event fired
   weekBook: { income: Record<string, number>; expenses: Record<string, number> };
   history: Mission[]; // completed missions (most recent last)
+  stores: Record<StoreId, number>; // expedition supplies at home (food is `supplies`)
+  goods: Partial<Record<GoodId, number>>; // loot waiting to be sold
+  delve: DelveState;
   petitioned: string[]; // faction ids petitioned this week
   dates: DatesState; // the next dated checkpoint, the one after it, and how past ones went
   gameOver?: { reason: GameOverReason; week: number; text: string };
