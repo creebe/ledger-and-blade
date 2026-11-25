@@ -113,7 +113,7 @@ export const SUPPLIES: Record<SupplyId, SupplyDef> = {
   food: { id: 'food', name: 'Food', one: 'meal', perSlot: 3, price: 3, text: "One feeds the squad once. They eat every few rooms and at every camp. It comes out of the guild's supplies." },
   bandages: { id: 'bandages', name: 'Bandages', one: 'bandage', perSlot: 3, price: 4, text: 'Heal between rooms. Twice as good with a Chaplain standing.' },
   oil: { id: 'oil', name: 'Lamp oil', one: 'flask of oil', perSlot: 4, price: 2, text: 'Dark places need light. One flask lights a room.' },
-  tools: { id: 'tools', name: 'Tools', one: 'set of tools', perSlot: 2, price: 6, text: 'Crowbar, rope and wedges. Disarm traps, force strongboxes, clear rubble.' },
+  tools: { id: 'tools', name: 'Tools', one: 'set of tools', perSlot: 2, price: 6, text: 'A crowbar and a bag of wedges. They make traps safe and force strongboxes, and they help with rubble.' },
   masks: { id: 'masks', name: 'Wet masks', one: 'wet mask', perSlot: 2, price: 5, text: 'Linen and charcoal, soaked before use. One keeps a member breathing cleaner in the College Sink: half the Exposure.' },
   reagents: { id: 'reagents', name: 'Reagents', one: 'dose', perSlot: 3, price: 6, text: "Doses for the Arcanist's spells and the Chaplain's censer." },
   draughts: { id: 'draughts', name: 'Draughts', one: 'draught', perSlot: 1, price: 20, text: 'Brings a member who goes down straight back up. No roll for their life.' },
@@ -179,11 +179,11 @@ export const MONSTERS: Record<MonsterId, MonsterDef> = {
   wolf: M({ id: 'wolf', one: 'wolf', name: 'Hill wolf', plural: 'hill wolves', depth: 1, hp: 14, acc: 76, dodge: 18, prot: 0, dmg: [3, 7], speed: 8, weak: ['pierce', 'fire'], resist: [], xp: 2, loot: { good: 'leather', chance: 0.4 }, voice: 'beast', text: 'Grey hill wolves, thin from a bad winter and bolder than they should be.' }),
   pike: M({ id: 'pike', one: 'pike', name: 'Mere pike', plural: 'mere pike', depth: 1, hp: 20, acc: 76, dodge: 14, prot: 1, dmg: [5, 9], speed: 7, weak: ['storm', 'frost'], resist: [], special: 'ambush', xp: 3, voice: 'beast', text: 'A pike as long as a man that lies in the shallows and takes ankles.' }),
   smuggler: M({ id: 'smuggler', one: 'smuggler', name: 'Smuggler', plural: 'smugglers', depth: 1, hp: 15, acc: 72, dodge: 12, prot: 1, dmg: [4, 7], speed: 6, weak: [], resist: [], special: 'thief', xp: 2, coin: 10, people: true, voice: 'people', text: 'Lake people who move cargo at night and do not want to be counted.' }),
-  thug: M({ id: 'thug', one: 'thug', name: 'Hired thug', plural: 'thugs', depth: 1, hp: 15, acc: 70, dodge: 8, prot: 1, dmg: [4, 7], speed: 5, weak: [], resist: [], xp: 2, coin: 5, people: true, voice: 'people', text: 'Muscle by the day. Brave in a crowd and keen on being paid.' }),
-  soldier: M({ id: 'soldier', one: 'soldier', name: 'Sell-sword', plural: 'sell-swords', depth: 1, hp: 22, acc: 78, dodge: 8, prot: 4, dmg: [5, 9], speed: 5, weak: [], resist: [], xp: 3, coin: 6, people: true, voice: 'people', text: 'Drilled, armored and paid to stand still while you try to move them.' }),
+  thug: M({ id: 'thug', one: 'thug', name: 'Hired thug', plural: 'thugs', depth: 1, hp: 15, acc: 70, dodge: 8, prot: 1, dmg: [4, 7], speed: 5, weak: [], resist: [], xp: 2, coin: 5, people: true, voice: 'people', text: 'Muscle hired by the day. They are brave in a crowd and keen on being paid.' }),
+  soldier: M({ id: 'soldier', one: 'soldier', name: 'Sell-sword', plural: 'sell-swords', depth: 1, hp: 22, acc: 78, dodge: 8, prot: 4, dmg: [5, 9], speed: 5, weak: [], resist: [], xp: 3, coin: 6, people: true, voice: 'people', text: 'Soldiers in armor who have been drilled, and are paid to stand still while you try to move them.' }),
   guard: M({ id: 'guard', one: 'guard', name: 'Guard', plural: 'guards', depth: 1, hp: 18, acc: 76, dodge: 8, prot: 3, dmg: [4, 8], speed: 5, weak: [], resist: [], xp: 2, coin: 3, people: true, voice: 'people', text: 'A watchman with a cudgel and a lantern, who will shout for his friends first.' }),
-  hedge_wizard: M({ id: 'hedge_wizard', one: 'hedge-wizard', name: 'Hedge-wizard', plural: 'hedge-wizards', depth: 1, hp: 14, acc: 76, dodge: 10, prot: 4, dmg: [5, 8], speed: 6, ranged: true, weak: ['storm'], resist: ['pierce'], xp: 3, coin: 6, people: true, voice: 'people', text: 'Unlicensed spellwork for hire, behind wards the college would not pass.' }),
-  troll: M({ id: 'troll', one: 'troll', name: 'Troll', plural: 'trolls', depth: 1, hp: 55, acc: 70, dodge: 2, prot: 3, dmg: [7, 12], speed: 3, weak: ['fire'], resist: ['frost'], special: 'regen', xp: 8, voice: 'beast', text: 'Huge, grey and patient. It heals while you watch, unless you burn it.' }),
+  hedge_wizard: M({ id: 'hedge_wizard', one: 'hedge-wizard', name: 'Hedge-wizard', plural: 'hedge-wizards', depth: 1, hp: 14, acc: 76, dodge: 10, prot: 4, dmg: [5, 8], speed: 6, ranged: true, weak: ['storm'], resist: ['pierce'], xp: 3, coin: 6, people: true, voice: 'people', text: 'A wizard for hire with no license, hiding behind protective workings the college would never pass.' }),
+  troll: M({ id: 'troll', one: 'troll', name: 'Troll', plural: 'trolls', depth: 1, hp: 55, acc: 70, dodge: 2, prot: 3, dmg: [7, 12], speed: 3, weak: ['fire'], resist: ['frost'], special: 'regen', xp: 8, voice: 'beast', text: 'A big grey troll that is in no hurry about anything. It heals while you watch, unless you burn it.' }),
   salamander: M({ id: 'salamander', one: 'salamander', name: 'Salamander', plural: 'salamanders', depth: 1, hp: 24, acc: 74, dodge: 12, prot: 2, dmg: [5, 9], speed: 6, weak: ['frost'], resist: ['fire'], xp: 4, loot: { good: 'reagents', chance: 0.5 }, voice: 'beast', text: 'A lizard the length of a cart, living where the rock is warm. It burns what it bites.' }),
   rioter: M({ id: 'rioter', one: 'rioter', name: 'Rioter', plural: 'rioters', depth: 1, hp: 10, acc: 66, dodge: 6, prot: 0, dmg: [2, 5], speed: 5, weak: [], resist: [], xp: 1, people: true, voice: 'people', text: 'Somebody with a grievance and a cobblestone. Hurting them costs the guild its name.' }),
 };
@@ -389,9 +389,9 @@ export interface SiteDef {
 
 export const SITES: Record<SiteId, SiteDef> = {
   pellam: { id: 'pellam', name: 'Old Pellam', region: 'varrow', zones: ['culverts', 'streets', 'sink'], group: 'under', text: "The first town on the river, under Varrow's Lower Town. Its cellars and streets are still down there, and so is the drain where the college poured its spent reagents for a century." },
-  varrow: { id: 'varrow', name: 'Varrow', region: 'varrow', zones: ['lowertown'], group: 'town', text: 'Work in the city: guarded doors, back stairs and crowds.' },
+  varrow: { id: 'varrow', name: 'Varrow', region: 'varrow', zones: ['lowertown'], group: 'town', text: 'Work in the city itself, where the trouble is guarded doors and angry crowds.' },
   kell: { id: 'kell', name: 'Kell Mines', region: 'kell', zones: ['workings'], group: 'overland', text: 'Silver workings in the northern hills, half of them flooded.' },
-  saltfens: { id: 'saltfens', name: 'The Saltfens', region: 'saltfens', zones: ['reeds'], group: 'overland', text: 'Marshes along the estuary, rich in reagents and fever.' },
+  saltfens: { id: 'saltfens', name: 'The Saltfens', region: 'saltfens', zones: ['reeds'], group: 'overland', text: 'The marshes along the estuary, good for reagents and for catching fever.' },
   drovers: { id: 'drovers', name: "Drover's Road", region: 'drovers', zones: ['hillroad'], group: 'overland', text: 'The cattle road through the hills east of the city.' },
   harrowmere: { id: 'harrowmere', name: 'Harrowmere', region: 'harrowmere', zones: ['shore'], group: 'overland', text: 'A lake town with an old bridge.' },
   anselm: { id: 'anselm', name: 'Port Anselm', region: 'anselm', zones: ['wenmouth'], group: 'overland', text: "The coast road to the port where Ostrander's ships take on the Crown's silver." },
@@ -597,14 +597,14 @@ export const CHANGES: Record<string, MarkDef> = {
   slow_stomach: { id: 'slow_stomach', tier: 1, good: true, name: 'A slow stomach', text: 'A missed meal tires them half as much. They eat once a day at home and nobody likes watching.', hungerHalf: true },
   // tier 2: useful
   pale_eyes: { id: 'pale_eyes', tier: 2, good: true, name: 'Pale eyes', text: 'No aim penalty in the dark, and a worse one with their mother.', nightEyes: true },
-  thick_hide: { id: 'thick_hide', tier: 2, good: true, name: 'A thick hide', text: 'Armor +1. Their skin has gone tough as boiled leather.', prot: 1 },
+  thick_hide: { id: 'thick_hide', tier: 2, good: true, name: 'A thick hide', text: 'Armor +1. Their skin has gone thick and stiff, and they can\'t feel a pinch.', prot: 1 },
   quick_blood: { id: 'quick_blood', tier: 2, good: true, name: 'Quick blood', text: 'Venom and bleeding stop after one round, and bandages heal them 4 more.', shortPoison: true, bandageBonus: 4 },
   deep_lungs: { id: 'deep_lungs', tier: 2, good: true, name: 'Deep lungs', text: 'They take half the Exposure, and tire 1 slower each room.', exposureRate: 0.5, roomFatigue: -1 },
   // tier 3: powerful
   reagent_blood: { id: 'reagent_blood', tier: 3, good: true, name: 'Reagent blood', text: 'Their first spell or censer in every fight costs no dose, and their weapon blows burn.', freeCast: true, fireBlows: true },
   iron_bones: { id: 'iron_bones', tier: 3, good: true, name: 'Iron bones', text: 'Max HP +6, and their life is much safer when they go down.', maxHp: 6, deathRoll: -0.1 },
   storm_fingers: { id: 'storm_fingers', tier: 3, good: true, name: 'Storm in the fingers', text: 'When a fight starts, a crack of storm jumps from their hands to the nearest enemy.', openingStrike: 9 },
-  sink_sense: { id: 'sink_sense', tier: 3, good: true, name: 'Sink sense', text: 'They feel the Sink move before it does: much better at spotting traps and slipping past wanderers.', spot: 0.15, avoid: 0.15 },
+  sink_sense: { id: 'sink_sense', tier: 3, good: true, name: 'Sink sense', text: 'They can tell when something nearby is about to move: much better at spotting traps and slipping past wanderers.', spot: 0.15, avoid: 0.15 },
 };
 
 export const BAD_HABITS = Object.values(HABITS).filter((h) => !h.good).map((h) => h.id);

@@ -115,10 +115,10 @@ export function planWarnings(s: GameState, c: Contract, plan: ExpPlan): string[]
     if (m.fatigue >= T.fatigue.tired) w.push(`${first} is ${m.fatigue >= T.fatigue.spent ? 'worn out' : 'tired'} before they start (fatigue ${m.fatigue}).`);
     const nextTh = T.exposure.thresholds.find((t) => t > (m.exposure ?? 0));
     if (nextTh && (m.exposure ?? 0) >= nextTh - 12 && (steps.includes('sink') || steps.includes('reeds')))
-      w.push(`${first} is close to a Sink change (Exposure ${m.exposure} of ${nextTh}). Rested, they'll run the Sink fever first; worn out, it takes at once.`);
+      w.push(`${first} is close to a Sink change (Exposure ${m.exposure} of ${nextTh}). If they're rested they'll run the Sink fever first. If they're worn out, it takes at once.`);
   });
-  if (!squad.some((m) => m.profession === 'chaplain') && !(plan.pack.bandages ?? 0)) w.push('No Chaplain and no bandages.');
-  if (steps.includes('sink') && (plan.pack.masks ?? 0) < squad.length) w.push(`The Sink ahead, and ${plan.pack.masks ?? 0} wet masks for ${squad.length} people.`);
+  if (!squad.some((m) => m.profession === 'chaplain') && !(plan.pack.bandages ?? 0)) w.push('There is no Chaplain in the squad and no bandages in the pack.');
+  if (steps.includes('sink') && (plan.pack.masks ?? 0) < squad.length) w.push(`The Sink is on the route, and there are ${plan.pack.masks ?? 0} wet masks for ${squad.length} people.`);
   const loan = s.loans[0];
   const weeks = plannedWeeks(s, c);
   if (loan && loan.dueWeek < s.week + weeks) w.push(`A Weighhouse payment of ${loan.paymentDue} falls due while they're away. If the money at home is short, the Weighhouse waits for the squad.`);

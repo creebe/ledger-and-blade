@@ -52,7 +52,7 @@ export function readiness(m: Member, g?: GameState): { text: string; tone: '' | 
   if (m.status === 'mission') {
     const ms = g?.missions.find((x) => x.id === m.missionId);
     if (ms && ms.dispatchedWeek === g!.week && !ms.report) return { text: 'Leaving this week', tone: '' };
-    return { text: ms ? (ms.returnWeek <= g!.week ? 'Away · back this week' : `Away · back in ${wk(ms.returnWeek - g!.week + 1)}`) : 'Away', tone: '' };
+    return { text: ms ? (ms.dispatchedWeek + ms.plannedWeeks - 1 <= g!.week ? 'Away · due back this week' : `Away · due back in ${wk(ms.dispatchedWeek + ms.plannedWeeks - 1 - g!.week + 1)}`) : 'Away', tone: '' };
   }
   if (m.health < 40) return { text: `Wounded (${m.health} HP)`, tone: 'bad' };
   if (m.health < 70) return { text: `Hurt (${m.health} HP)`, tone: 'mid' };

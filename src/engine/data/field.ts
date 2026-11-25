@@ -138,7 +138,7 @@ export const FIELD_EVENTS: EventDef[] = [
     id: 'field_rivals',
     title: 'Hobb\'s People on the Road',
     weight: 3,
-    member: (s, m) => onRoad(s, m) && !!missionOf(s, m)?.contract.contestedBy,
+    member: (s, m) => onRoad(s, m) && missionOf(s, m)?.contract.contestedBy === 'hobbs' && s.npcs.isbet?.status === 'alive',
     text: (s, m) => `${first(m)} spots a Hobb & Daughters squad on the same road, heading for the same job: "${missionOf(s, m)?.contract.title}". Isbet Hobb is leading them.`,
     choices: (s, m) => {
       const ms = missionOf(s, m);

@@ -27,6 +27,12 @@ const mix = (a: number, b: number) => {
   return (h ^ (h >>> 16)) | 0 || 1;
 };
 
+const hashId = (id: string) => {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (Math.imul(h, 31) + id.charCodeAt(i)) | 0;
+  return h;
+};
+
 const trueTags = (c: Contract) => [...c.tags, ...c.hidden.map((h) => h.trueTag)];
 
 /** The frozen inputs for a trip, from the squad and the world as they are now. */
@@ -35,7 +41,8 @@ export function buildSetup(s: GameState, ms: Mission): DiveSetup {
   const road = roadWeeks(s, c);
   const extraDelay = Math.max(0, ms.plannedWeeks - plannedWeeks(s, c));
   return {
-    seed: ms.setup?.seed ?? mix(s.seed, (s.delve?.count ?? 0) + 1),
+    // the seed belongs to the job, so calling a squad off and sending it again doesn't reroll the trip
+    seed: ms.setup?.seed ?? mix(s.seed, hashId(c.id)),
     site: c.expedition.site,
     length: c.expedition.length,
     goal: c.expedition.goal,
@@ -48,7 +55,7 @@ export function buildSetup(s: GameState, ms: Mission): DiveSetup {
     foeScale: ms.foeScale ?? 1,
     fieldLog: [...(ms.fieldLog ?? [])],
     plan: JSON.parse(JSON.stringify(ms.plan)) as ExpPlan,
-    squad: ms.plan.squad.map((id) => s.members.find((m) => m.id === id)).filter((m): m is Member => !!m).map((m) => delverOf(s, m)),
+    squad: ms.plan.squad.map((id) => s.members.find((m) => m.id === id)).filter((m): m is Member => !!m && m.status !== 'dead' && m.status !== 'left').map((m) => delverOf(s, m)),
   };
 }
 
@@ -59,9 +66,12 @@ const cacheKey = (setup: DiveSetup) => JSON.stringify(setup);
 export function sealExpedition(s: GameState, ms: Mission) {
   ms.setup = buildSetup(s, ms);
   const full = runExpedition(ms.setup);
+  // bounded here too: headless runs (sim, playthroughs) seal thousands of trips and never read a log
+  if (LOG_CACHE.size > 40) LOG_CACHE.clear();
   LOG_CACHE.set(cacheKey(ms.setup), full.log);
   ms.result = { ...full, log: [] };
-  ms.returnWeek = ms.dispatchedWeek + full.weeks - 1;
+  // until it has left, the real return week stays hidden: an early one would give away a retreat
+  ms.returnWeek = ms.sealed ? ms.dispatchedWeek + full.weeks - 1 : ms.dispatchedWeek + ms.plannedWeeks - 1;
 }
 
 /** The whole log of a trip, rebuilt from its frozen inputs. Don't show lines past `revealedWeeks()`. */
@@ -83,6 +93,8 @@ export function expeditionLog(ms: Pick<Mission, 'setup'>): LogLine[] {
 
 /** How many of the trip's weeks the player has seen. 0 while the squad is still in the yard. */
 export function revealedWeeks(s: GameState, ms: Mission): number {
+  // a squad called off at the door never went: its first simulation is not to be shown
+  if (ms.report?.tier === 'Withdrawn') return 0;
   if (ms.report) return ms.result.weeks;
   if (!ms.sealed) return 0;
   return Math.max(0, Math.min(ms.result.weeks, s.week - ms.dispatchedWeek));
@@ -101,6 +113,7 @@ export function weekLines(ms: Mission, tripWeek: number): LogLine[] {
 
 /** The trip week that the End Week of game week `gameWeek` reveals for this squad (0 if none). */
 export const tripWeekOf = (ms: Mission, gameWeek: number) => {
+  if (ms.report?.tier === 'Withdrawn') return 0;
   const w = gameWeek - ms.dispatchedWeek + 1;
   return w >= 1 && w <= ms.result.weeks ? w : 0;
 };
@@ -163,7 +176,8 @@ export function squadStatus(s: GameState, ms: Mission) {
 export function feedForWeek(s: GameState, gameWeek: number, missions: Mission[] = [...s.missions, ...s.history.slice(-3)]) {
   const out: { missionId: string; number: number; line: LogLine }[] = [];
   for (const ms of missions) {
-    if (!ms.sealed) continue;
+    // a squad called back at the door never went: it has no lines to show
+    if (!ms.sealed || ms.report?.tier === 'Withdrawn') continue;
     const w = tripWeekOf(ms, gameWeek);
     if (!w) continue;
     for (const line of weekLines(ms, w)) out.push({ missionId: ms.id, number: ms.number, line });
@@ -329,10 +343,13 @@ export function settleExpedition(s: GameState, ms: Mission) {
   // a rival waiting on the road home
   if (ms.ambush && res.outcome !== 'lost') {
     const name = RIVALS[ms.ambush].name;
-    const eyes = squad.some((m) => m.status !== 'dead' && (m.profession === 'scout' || m.profession === 'infiltrator'));
+    // only someone who walked home can spot them: the trip's dead are not marked dead until further down
+    const eyes = squad.some((m) => !res.members.find((o) => o.id === m.id)?.died && (m.profession === 'scout' || m.profession === 'infiltrator'));
     if (eyes && chance(s, 0.5)) summary.push(`${name}'s people were waiting on the road home. The squad saw them first and went round.`);
     else {
-      for (const k of Object.keys(loot) as GoodId[]) loot[k] = Math.floor((loot[k] ?? 0) * 0.66);
+      // they take a third of what the squad carries, but the job's own goods were kept back
+      const kept = c.expedition.goal.kind === 'bring' ? c.expedition.goal.good : undefined;
+      for (const k of Object.keys(loot) as GoodId[]) if (k !== kept) loot[k] = Math.floor((loot[k] ?? 0) * 0.66);
       summary.push(`${name}'s people were waiting on the road home and took a third of what the squad was carrying.`);
       raiseFeud(s, ms.ambush, 3);
     }
@@ -428,12 +445,15 @@ export function settleExpedition(s: GameState, ms: Mission) {
   }
   if ((res.kills.kiln ?? 0) > 0 && !s.delve.kilnBroken) {
     s.delve.kilnBroken = true;
+    // nobody can break it twice: postings for it come off the board
+    s.board = s.board.filter((x) => !(x.expedition.goal.kind === 'kill' && x.expedition.goal.monster === 'kiln'));
     summary.push("The college sends a cart for the Kiln Engine's core, and a letter that is mostly about who is going to pay for the cart.");
   }
 
   // the contract
   const rewardMult = tier === 'Triumph' ? 1.25 : tier === 'Success' ? 1 : tier === 'Costly Success' ? 0.8 : 0;
-  const fee = squadHas(squad, 'worth_the_fee') ? 1.1 : 1;
+  const alive = squad.filter((m) => m.status !== 'dead');
+  const fee = squadHas(alive, 'worth_the_fee') ? 1.1 : 1;
   let reward = Math.round(c.reward * rewardMult * fee) + (rewardMult > 0 ? (ms.bonusReward ?? 0) : 0);
   const materials: Partial<Record<MaterialId, number>> = {};
   if (rewardMult > 0) {
@@ -459,7 +479,7 @@ export function settleExpedition(s: GameState, ms: Mission) {
       s.renown += 2;
       summary.push('Renown +2 for a flawless job');
     }
-    if (squadHas(squad, 'draws_a_crowd')) {
+    if (squadHas(alive, 'draws_a_crowd')) {
       s.renown += 1;
       summary.push('Renown +1: people came out to watch');
     }
@@ -496,8 +516,8 @@ export function settleExpedition(s: GameState, ms: Mission) {
       deepest: ZONES[res.deepest]?.name,
       rooms: res.roomsCleared,
       roomsPlanned: res.roomsPlanned,
-      loot: res.loot,
-      lootValue: res.lootValue,
+      loot,
+      lootValue: (Object.keys(loot) as GoodId[]).reduce((t, g) => t + (loot[g] ?? 0) * GOODS[g].value, 0),
       crownsFound: res.crownsFound,
       goalMet: res.goalMet,
       deeds: res.deeds,
@@ -528,6 +548,9 @@ export function withdrawAtDoor(s: GameState, ms: Mission) {
   ms.report = { tier: 'Withdrawn', phases: [], casualties: [], wounded: [], reward: 0, materials: {}, summary, trip: { outcome: 'withdrawn', rooms: 0, roomsPlanned: ms.result.roomsPlanned, loot: {}, lootValue: 0, crownsFound: 0, goalMet: false, deeds: [], wentDown: [] } };
   ms.sealed = true;
   ms.returnWeek = s.week;
+  // a story job called off counts as failed, so the story can move on
+  const tpl = TEMPLATE_BY_ID[c.templateId];
+  if (tpl?.failFlag) s.flags[tpl.failFlag] = true;
   addDispatch(s, 'mission', `Withdrawn: ${c.title}`, summary, ms.id);
 }
 

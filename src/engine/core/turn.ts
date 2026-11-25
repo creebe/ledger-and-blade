@@ -100,7 +100,7 @@ function homePhase(s: GameState) {
       const c = m.fever.change;
       m.fever = undefined;
       if (!m.changes.includes(c)) m.changes.push(c);
-      addDispatch(s, 'roster', `${m.name} gets up changed`, [`The Sink fever breaks, and ${m.name.split(' ')[0]} is back on their feet with something new: ${CHANGES[c].name.toLowerCase()}. ${CHANGES[c].text}`]);
+      addDispatch(s, 'roster', `${m.name} is over the fever`, [`The Sink fever breaks, and ${m.name.split(' ')[0]} is back on their feet with something new: ${CHANGES[c].name.toLowerCase()}. ${CHANGES[c].text}`]);
       continue;
     }
     const frail = m.traits.includes('frail');
@@ -176,12 +176,19 @@ function missionPhase(s: GameState) {
   for (const ms of s.missions) {
     if (ms.sealed || ms.report) continue;
     // simulated again with the squad as it leaves: gear changed in the yard or a scene at the door counts
-    sealExpedition(s, ms);
     ms.sealed = true;
+    sealExpedition(s, ms);
   }
   for (const ms of [...s.missions]) {
     if (!ms.report && ms.returnWeek <= s.week) settleExpedition(s, ms);
     if (ms.report && ms.returnWeek <= s.week) {
+      // anyone still marked away on it comes in (a classic squad that had its report before the save moved across)
+      for (const m of s.members) {
+        if (m.status !== 'mission' || m.missionId !== ms.id) continue;
+        m.status = m.health < 40 ? 'recovering' : 'idle';
+        m.missionId = undefined;
+        m.assignment = 'rest';
+      }
       s.missions = s.missions.filter((x) => x !== ms);
       s.history.push(ms);
       if (s.history.length > 30) s.history.shift();
@@ -230,10 +237,13 @@ function economyPhase(s: GameState) {
       if (s.crowns < due && s.missions.some((m) => !m.report && m.returnWeek > s.week) && (loan.waited ?? 0) < 3) {
         loan.waited = (loan.waited ?? 0) + 1;
         loan.dueWeek += 1;
-        addDispatch(s, 'economy', 'The Weighhouse waits', [`The payment of ${due} crowns is due, and a squad is still away. Alderman Coster agrees to wait a week for them, and writes to say so.`]);
+        addDispatch(s, 'economy', 'The Weighhouse waits', [`The payment of ${due} crowns is due, and a squad is still away. The Weighhouse agrees to wait a week for them, and writes to say so.`]);
         continue;
       }
+      // the schedule keeps its old rhythm: weeks spent waiting come off the next interval
+      const waited = loan.waited ?? 0;
       loan.waited = 0;
+      loan.dueWeek -= waited;
       if (s.crowns >= due) {
         spend(s, 'Loan payment', due);
         loan.principal -= due;

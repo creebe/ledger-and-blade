@@ -30,7 +30,7 @@ The Field UI for expeditions in the full game, built on the engine API in `docs/
   - The Board heading shows "n of m squads out", in orange when the hall is full.
   - The prep sheet opens with the squad limit. When the hall is full, the blocked Set out offers "See the Field", which goes to the Field.
   - The existing shortfall (`short()` for crowns), `Btn blocked` and the confirmation on Set out are unchanged.
-- **Withdrawn squads.** A squad called back at the door is sealed and goes to history, so `feedForWeek` returns its log, which never happened. Down below and Watch together filter it out. Main has been told, so the engine can skip it in `feedForWeek`.
+- **Withdrawn squads.** exp-engine's `feedForWeek` now skips a squad called back at the door, so the UI needs no filter of its own.
 
 ## What was checked
 

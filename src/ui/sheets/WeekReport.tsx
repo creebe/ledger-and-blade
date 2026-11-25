@@ -32,7 +32,7 @@ export function WeekReport({ dispatchIds, week, before }: { dispatchIds: string[
   const feed = feedForWeek(g, week);
   const below = [...new Set(feed.map((f) => f.missionId))]
     .map((id) => [...g.missions, ...g.history].find((m) => m.id === id))
-    .filter((m): m is Mission => !!m && m.report?.tier !== 'Withdrawn')
+    .filter((m): m is Mission => !!m)
     .sort((a, b) => a.number - b.number);
   return (
     <Sheet

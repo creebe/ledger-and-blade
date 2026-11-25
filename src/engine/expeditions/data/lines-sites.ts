@@ -77,12 +77,14 @@ export const SITE_LINES: Record<string, string[]> = {
   ],
   'rival_ahead:town': [
     "Somebody has been asking questions in these streets this week. The doors that should be open are shut, and the people behind them have already been paid.",
-    "Hobb's people came through a few days ago. Half the street owes them money now, and the other half is frightened of them.",
+    'Another crew has worked these streets this week. Whoever they were, they paid for silence and got it.',
   ],
+  'rival_ahead_hobbs:town': ["Hobb's people came through a few days ago. Half the street owes them money now, and the other half is frightened of them."],
   'rival_ahead:overland': [
     "Somebody has been through here this week. There are fresh hoof prints and a cold fire, and the easy pickings are gone.",
-    "Hobb's people came through a few days ago. They took what was easy and left the gates open behind them.",
+    'Another crew came this way a few days ago. They took what was easy and left the gates open behind them.',
   ],
+  'rival_ahead_hobbs:overland': ["Hobb's people came through a few days ago. They took what was easy and left the gates open behind them."],
   'lamps_lit:kell': [
     "They light the lamps at the mouth of the adit. Kell is not improved by being able to see it.",
     "The lamps go up. The light reaches about four yards down the gallery and gives up.",
@@ -684,7 +686,7 @@ export const SITE_LINES: Record<string, string[]> = {
   'change_take:overland': [
     "{a} is too tired to fight what the fen is doing to them, so it simply happens.",
     "{a} is worn out, and the fen takes the shortcut.",
-    "There's no fever: {a} is too spent to argue with it.",
+    "There's no fever this time. {a} is too spent to fight the change, so it just comes.",
   ],
   'change_deep_lungs:overland': [
     "They breathe slow and deep, and the fen air doesn't catch in their throat any more.",
@@ -781,7 +783,7 @@ export const SITE_LINES: Record<string, string[]> = {
   ],
   'climb_back:overland': [
     "The packs are full. They turn round and start back out of {p}, watching both sides of the path.",
-    "They leave {p} with full packs and the job done, which is the part people tell stories about.",
+    "They leave {p} with full packs and the job done, and argue for the first mile about who carries what.",
   ],
   'climb_back:town': [
     "They head back up the hill toward Tallow Street with full packs.",
@@ -846,9 +848,9 @@ export const SITE_LINES: Record<string, string[]> = {
     "Nobody comes back from {p}. It is a month before the news reaches Tallow Street, and it comes with a carter who heard it at an inn.",
   ],
   'lost_home:town': [
-    "They are within sight of Tallow Street when they are caught. What comes home is less than what went out.",
+    "They are within sight of Tallow Street when they are caught. Fewer of them reach the hall than went out, and they have less with them.",
   ],
   'lost_home:overland': [
-    "They are nearly clear of {p} when they are caught. What starts for home is less than what went in.",
+    "They are nearly clear of {p} when they are caught. Fewer of them start for home than went in, and they carry less.",
   ],
 };

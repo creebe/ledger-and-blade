@@ -21,7 +21,7 @@ function statusLine(m: Member, game: GameState) {
   if (m.status === 'mission') {
     const ms = game.missions.find((x) => x.id === m.missionId);
     if (!ms) return 'On a mission';
-    const left = ms.returnWeek - game.week;
+    const left = ms.dispatchedWeek + ms.plannedWeeks - 1 - game.week;
     return `On "${ms.contract.title}", back ${left <= 0 ? 'at the end of this week' : `in ${left + 1} weeks`}`;
   }
   if (m.status === 'recovering') return 'Recovering from wounds';

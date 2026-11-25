@@ -109,7 +109,7 @@ export function isPreparing(s: GameState, m: { status: string; missionId?: strin
 export function awayReason(s: GameState, m: { name: string; status: string; missionId?: string }): string | undefined {
   if (m.status !== 'mission' || isPreparing(s, m)) return undefined;
   const ms = s.missions.find((x) => x.id === m.missionId);
-  return ms ? `${m.name.split(' ')[0]} is away on "${ms.contract.title}" until the end of week ${ms.returnWeek}. Gear can't be changed in the field.` : 'They are away';
+  return ms ? `${m.name.split(' ')[0]} is away on "${ms.contract.title}" until the end of week ${ms.dispatchedWeek + ms.plannedWeeks - 1}. Gear can't be changed in the field.` : 'They are away';
 }
 
 /** Call off a squad that hasn't left yet: the pack comes back and the contract returns to the board. */
