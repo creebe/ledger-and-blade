@@ -197,7 +197,7 @@ describe('engine', () => {
     Object.assign(s.flags, { silver_abandoned: true, silver_lost: true, fenn_ally: true, weights_failed: true, isbet_betrayed: true, tapestry_sold: true, aske_plate_lost: true });
     const def = STORY_EVENTS.find((d) => d.id === 'act1_slice_end')!;
     const text = typeof def.text === 'function' ? def.text(s) : def.text;
-    for (const bit of ['Wenmouth ford', 'Thursdays', "Hesketh's bushels are still short", 'Isbet never brings it', 'wool merchant', 'assessors took her silver']) expect(text).toContain(bit);
+    for (const bit of ['Wenmouth ford', 'Thursdays', "Hesketh's bushels are still short", 'Isbet Hobb has stopped going', 'wool merchant', 'assessors took her silver']) expect(text).toContain(bit);
     s.flags.tapestry_sold = false;
     s.flags.tapestry_lost = true;
     s.npcs.isbet.status = 'dead';

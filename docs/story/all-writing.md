@@ -425,10 +425,10 @@ _Speaker: Lord Treasurer Aubrey Fenn_
   > Ambush at the Ford: Someone will be waiting. Fight them, or take the wagons the long way round.
 
 - _phases[4]:_ “The Harbor: Hand the silver to the bank's factor, and count every coin twice.”
-- _expire.title:_ “The Crown's silver never left Varrow”
+- _expire.title:_ “The escort never came”
 - _expire.text:_
 
-  > You accepted the commission, but no squad was ever sent. The wagons sat in the Exchequer yard until it was too late to reach the ships. The Crown has missed its payment.
+  > You accepted the commission, but no squad was ever sent. The Exchequer's own guard took the wagons as far as Wenmouth ford and waited there for you until the ships had sailed. The Crown has missed its payment.
 
 - _Sets:_ `silver_delivered` → [The Notice Board](#the-notice-board) (`vorn_board`), [Quarter Day](#quarter-day) (`quarter_day`), [The Last Tapestry](#the-last-tapestry) (`fenn_tapestry`), [Half a Year](#half-a-year) (`act1_slice_end`), street talk "paid_talk" (`paid_talk`), Date "The Lord Treasurer Visits" (`treasurer_visit`); `silver_lost` → [The Notice Board](#the-notice-board) (`vorn_board`), [Quarter Day](#quarter-day) (`quarter_day`), [The Last Tapestry](#the-last-tapestry) (`fenn_tapestry`), [The Family Silver](#the-family-silver) (`aske_plate`), [Half a Year](#half-a-year) (`act1_slice_end`), codex "The Treaty of Cassel" (`the_treaty`), street talk "default_talk" (`default_talk`), rules in `src/engine/core/turn.ts`; `silver_abandoned` → [Half a Year](#half-a-year) (`act1_slice_end`), [The Crown's Wagons](#the-crowns-wagons) (`field_crown_wagons`)
 
@@ -1818,7 +1818,7 @@ The squad in the yard. Door scenes: news brought to the yard on Tallow Street as
 
 **Reads:** `silver_abandoned` (set by contract [The Crown's Last Silver](#contract-the-crowns-last-silver) (`silver_convoy`)).
 
-> A carter in from the coast road tells {member} that the Crown's wagons are still at Wenmouth ford. They went that far with the Exchequer's own guard to meet the escort the Crown had hired, and the escort never came. The guard went home weeks ago. The wagons are empty now, but a clerk from the Exchequer is still there, living in one of them, because nobody has told him to come back.
+> A carter in from the coast road tells {member} that the Crown's wagons are still at Wenmouth ford. They went that far with the Exchequer's own guard to meet the escort the Crown had hired, and the escort never came. When the ships had sailed, the guard took the silver back to the Exchequer's vault and went home. The wagons are still there, empty, and so is a clerk from the Exchequer is still there, living in one of them, because nobody has told him to come back.
 
 - **Bring the clerk home** · _Exchequer +3, Fenn +10. The squad stops at the ford for him (fatigue +8)._ · `field_crown_wagons/root/c1`
   “Fenn writes two lines to thank you, and spends one of them apologizing for the clerk.”
@@ -2387,10 +2387,10 @@ Job templates on the board. A contract takes one of its titles at random. Story 
   > Ambush at the Ford: Someone will be waiting. Fight them, or take the wagons the long way round.
 
 - _phases[4]:_ “The Harbor: Hand the silver to the bank's factor, and count every coin twice.”
-- _expire.title:_ “The Crown's silver never left Varrow”
+- _expire.title:_ “The escort never came”
 - _expire.text:_
 
-  > You accepted the commission, but no squad was ever sent. The wagons sat in the Exchequer yard until it was too late to reach the ships. The Crown has missed its payment.
+  > You accepted the commission, but no squad was ever sent. The Exchequer's own guard took the wagons as far as Wenmouth ford and waited there for you until the ships had sailed. The Crown has missed its payment.
 
 - _Sets:_ `silver_delivered` → [The Notice Board](#the-notice-board) (`vorn_board`), [Quarter Day](#quarter-day) (`quarter_day`), [The Last Tapestry](#the-last-tapestry) (`fenn_tapestry`), [Half a Year](#half-a-year) (`act1_slice_end`), street talk "paid_talk" (`paid_talk`), Date "The Lord Treasurer Visits" (`treasurer_visit`); `silver_lost` → [The Notice Board](#the-notice-board) (`vorn_board`), [Quarter Day](#quarter-day) (`quarter_day`), [The Last Tapestry](#the-last-tapestry) (`fenn_tapestry`), [The Family Silver](#the-family-silver) (`aske_plate`), [Half a Year](#half-a-year) (`act1_slice_end`), codex "The Treaty of Cassel" (`the_treaty`), street talk "default_talk" (`default_talk`), rules in `src/engine/core/turn.ts`; `silver_abandoned` → [Half a Year](#half-a-year) (`act1_slice_end`), [The Crown's Wagons](#the-crowns-wagons) (`field_crown_wagons`)
 

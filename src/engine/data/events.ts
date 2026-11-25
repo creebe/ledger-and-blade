@@ -449,8 +449,8 @@ const CORE_STORY: EventDef[] = [
         s.flags.silver_abandoned && "The Crown's wagons waited at Wenmouth ford for an escort that never came.",
         s.flags.fenn_ally && "You sit at the Exchequer's table on Thursdays. Fenn was right about the arguing.",
         s.flags.weights_failed && "Hesketh's bushels are still short, and the bakers have stopped asking you about it.",
-        s.flags.isbet_betrayed && s.npcs.marta?.status === 'alive' && s.npcs.isbet?.status === 'alive' && "Marta sends a cake now and then. Isbet never brings it.",
-        s.flags.tapestry_sold && 'The Siege of Carrow hangs in a wool merchant\'s house in Harrowmere, and the Exchequer is a few months richer.',
+        s.flags.isbet_betrayed && s.npcs.isbet?.status === 'alive' && "Isbet Hobb has stopped going to the Copper Kettle on the nights your people are there.",
+        s.flags.tapestry_sold && 'The Siege of Carrow hangs in a wool merchant\'s house in Harrowmere, and the Exchequer has a little more to pay the bank with.',
         s.flags.tapestry_lost && "Somewhere between here and Harrowmere, the Siege of Carrow is keeping somebody's hay dry.",
         s.flags.aske_plate_lost && 'Lady Aske tells everyone the assessors took her silver, which is nearly true.',
       ].filter(Boolean);

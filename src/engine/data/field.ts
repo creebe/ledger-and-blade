@@ -213,7 +213,7 @@ export const FIELD_EVENTS: EventDef[] = [
     npcs: ['fenn'],
     member: (s, m) => onRoad(s, m) && !!s.flags.silver_abandoned && missionOf(s, m)?.contract.expedition?.site === 'anselm',
     text: (_s, m) =>
-      `A carter in from the coast road tells ${first(m)} that the Crown's wagons are still at Wenmouth ford. They went that far with the Exchequer's own guard to meet the escort the Crown had hired, and the escort never came. The guard went home weeks ago. The wagons are empty now, but a clerk from the Exchequer is still there, living in one of them, because nobody has told him to come back.`,
+      `A carter in from the coast road tells ${first(m)} that the Crown's wagons are still at Wenmouth ford. They went that far with the Exchequer's own guard to meet the escort the Crown had hired, and the escort never came. When the ships had sailed, the guard took the silver back to the Exchequer's vault and went home. The wagons are still there, empty, and so is a clerk from the Exchequer is still there, living in one of them, because nobody has told him to come back.`,
     choices: [
       {
         label: 'Bring the clerk home',
