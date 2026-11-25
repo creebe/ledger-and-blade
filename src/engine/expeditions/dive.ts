@@ -182,6 +182,9 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
   let outcome: ExpeditionResult['outcome'] = 'complete';
   let wanderersWon = 0;
   let parleys = 0;
+  // the last group the squad met (fought, talked off or slipped past), and where: the next meeting is with someone else
+  let lastMet: MonsterId[] = [];
+  let lastMetRoom = -99;
   let foes: Foe[] = [];
   // the week each line falls in: the road out, the rooms spread over the length's weeks, the road home
   const diveWeeks = LENGTHS[setup.length].weeks;
@@ -722,6 +725,8 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
 
   // ---- a fight ----
   const fight = (ids: MonsterId[], z: ZoneId, o: { ambushed?: boolean; boss?: boolean; wanderer?: boolean } = {}): 'won' | 'lost' => {
+    lastMet = [...ids];
+    lastMetRoom = roomNo ?? 999;
     foes = makeFoes(ids, z);
     const lead = foes[0].def;
     // the first sight of each kind of monster
@@ -930,8 +935,11 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
       put('camp', say('camp_hungry', { a: pick(r, standing())?.name }), { big: true });
     }
     if (chance(r, T.camp.visit + (dark ? 0.1 : 0))) {
-      put('fight', say('camp_visit', {}));
-      return fight(wandererGroup(z), z, { wanderer: true });
+      const visitors = wandererGroup(z);
+      if (visitors) {
+        put('fight', say('camp_visit', {}));
+        return fight(visitors, z, { wanderer: true });
+      }
     }
     return 'won';
   };
@@ -939,19 +947,32 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
   /** a fight for this zone: its own groups, and the contract's dangers weighted up */
   const fightGroup = (z: ZoneId): MonsterId[] =>
     weighted(r, [...ZONES[z].fights.map((g) => ({ item: g, weight: 1 })), ...(ZONES[z].site === 'pellam' ? [] : tagGroups.map((g) => ({ item: g, weight: 2 })))]);
-  const wandererGroup = (z: ZoneId): MonsterId[] => {
-    const g = fightGroup(z);
+  /** a group that isn't the one the squad has only just dealt with; undefined if the zone has nobody else */
+  const freshGroup = (z: ZoneId): MonsterId[] | undefined => {
+    const recent = (roomNo ?? 999) - lastMetRoom <= 1;
+    for (let i = 0; i < 6; i++) {
+      const g = fightGroup(z);
+      if (!recent || !lastMet.includes(g[0])) return g;
+    }
+    return undefined;
+  };
+  const wandererGroup = (z: ZoneId): MonsterId[] | undefined => {
+    const g = freshGroup(z);
+    if (!g) return undefined;
     return g.slice(0, Math.min(g.length, randInt(r, 1, 2)));
   };
 
   const wander = (z: ZoneId, prob: number): 'won' | 'lost' | 'none' => {
     if (!chance(r, prob)) return 'none';
     const ids = wandererGroup(z);
+    if (!ids) return 'none';
     if (O.wanderers === 'avoid') {
       const bulk = standing().reduce((t, a) => t + (a.d.gear.armor?.bulk ?? 0), 0);
       const quiet = standing().reduce((t, a) => t + kitSum(a, 'avoid'), 0);
       const p = Math.max(0.15, Math.min(0.92, 0.45 + (hasProf('scout') ? 0.25 : 0) + (hasProf('infiltrator') ? 0.2 : 0) + (sigs.has('quiet_feet') ? 0.15 : 0) + tagAvoid + Math.max(0, ...standing().map((a) => sum(a.marks, 'avoid'))) + quiet - bulk * 0.012 - (dark ? 0.15 : 0)));
       if (chance(r, p)) {
+        lastMet = [...ids];
+        lastMetRoom = roomNo ?? 999;
         put('room', say('wander_avoided', { m: MONSTERS[ids[0]].plural }));
         return 'none';
       }
@@ -1141,7 +1162,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
         }
         break;
       case 'fight':
-        res = fight(fightGroup(z), z);
+        res = fight(freshGroup(z) ?? fightGroup(z), z);
         break;
       case 'trap':
         trap(z);

@@ -14,7 +14,7 @@ export const EXP_TUNING = {
   /** every monster's damage and HP */
   foe: { dmg: 2.0, hp: 1.2 },
   /** a contract's threat scales enemies by this much per point above `threatBase` */
-  threat: { base: 3, perPoint: 0.07, min: 0.85 },
+  threat: { base: 3, perPoint: 0.07, min: 0.93 },
   /** the chance of a wandering monster before each room: base + per zone depth, more in the dark */
   wander: { base: 0.1, perDepth: 0.06, dark: 0.1, rivalAhead: -0.06 },
   /** the roll for a member's life when they go down */

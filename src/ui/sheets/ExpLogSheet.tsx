@@ -1,7 +1,7 @@
 // One squad's expedition log, as far as it has been revealed. The latest
 // week's lines play in at a readable pace; tap to speed up, Skip to show all.
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { PROFESSIONS, SITES, revealedWeeks, squadStatus, visibleLog, type LogLine } from '../../engine';
+import { PROFESSIONS, SITES, track, revealedWeeks, squadStatus, visibleLog, type LogLine } from '../../engine';
 import { useStore } from '../../store';
 import { Sheet } from '../kit/common';
 import { MonsterSilhouette, ProfSilhouette } from '../expeditions/Silhouette';
@@ -19,6 +19,10 @@ export function ExpLogSheet({ id }: { id: string }) {
   const [shown, setShown] = useState(() => (ms?.report ? log.length : Math.min(log.length, firstNew + 1)));
   const [speed, setSpeed] = useState(1);
   const end = useRef<HTMLDivElement>(null);
+  // reading a finished trip's log counts for the Guildmaster's Notes
+  useEffect(() => {
+    if (ms?.report) useStore.getState().act((s) => track(s, 'journal'));
+  }, [ms?.id, ms?.report]);
   const done = shown >= log.length;
   useEffect(() => {
     if (done) return;

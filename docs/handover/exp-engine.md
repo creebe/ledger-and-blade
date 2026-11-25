@@ -39,8 +39,9 @@ Expeditions in the full game, the engine merge. Branch `claude/exp-engine`; the 
 
 - `npm run check`: types, 52 tests (8 new in `tests/expeditions.test.ts`, including every site walked with no missing lines, and the v12 migration), the story checker at 0 violations, and the style checker (advisory).
 - `npm run sim` (100 games, 48 weeks). The table is in `docs/EXPEDITIONS.md` §9c.
-  - Careful bot: **73%** first-year survival and **0.11 deaths per expedition**.
-  - Poor prep: 0% survival and 0.71 deaths per expedition.
+  - Careful bot: **72%** first-year survival and **0.10 deaths per expedition** (1.9 deaths a year).
+  - Poor prep: 1% survival and 0.71 deaths per expedition.
+  - The balance reviewer raised Old Pellam's pay fourfold, so it is worth the risk. Expeditions now take at least two people, and contracts below threat 3 are scaled no lower than 0.93 of base.
 - `npm run fingerprint` changed. That's expected: this is not a pure refactor.
 - Browser at 390×844: contracts, the log, prep, confirm, the yard, End Week and the report, with no console errors.
 
@@ -54,4 +55,24 @@ Expeditions in the full game, the engine merge. Branch `claude/exp-engine`; the 
   - The cautious bot goes bankrupt because it takes too little work.
   - Old Pellam's long routes are a gamble from a fresh guild.
   - Deaths are much higher than in the classic game (about 2 a year for a careful player, against 0.1). That's intended, but the owner should feel it.
+- **Left by the reviewers, for later workstreams:**
+  - **Story:**
+    - Door scenes still read as if the squad is days down the road. They fire in the dispatch week: reword them, or accept them as "word from the first days".
+    - `mayne_offer` and other beats that need an idle member can slip while every squad is out.
+    - Old Pellam has no Codex entries.
+    - Scene checks still roll the classic approach scores.
+  - **Rivals and economy:**
+    - A rival can still be "ahead" on a job the player took first.
+    - Ambushes only trim goods.
+    - Pack prices skip the prices decree and the Mudlarks' perk.
+    - Saint Oda's treatment ignores standing.
+    - Year-one feuds fell from 23% of games on main to about 8% here, cause not found.
+  - **Sites:**
+    - "One squad per site" isn't enforced, so two long Old Pellam squads could both break the Kiln.
+    - Short trips on the thin sites are close to riskless money.
+  - **UI (Field UI):**
+    - About 35 unused trial CSS rules (`.x-app`, `.x-news`, `.x-good` and others) should go once the Field UI settles.
+    - Whether Sink changes should be styled as good (green) is a design call.
+    - The End Week bar now says "2 out" so it fits at 390 px.
+- **The fingerprint** is `npm run fingerprint` on this branch. It no longer matches main's `39f9b740…565a`, as expected.
 - **Names for main to approve:** Varrow (zone "the Lower Town") and Port Anselm (zone "the Wenmouth road") as sites, and the generic enemies thug, sell-sword, guard, hedge-wizard, troll, salamander, rioter and hill wolf.

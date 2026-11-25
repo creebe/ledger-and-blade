@@ -49,7 +49,7 @@ export function resolvePending(s: GameState, opts: BotOpts) {
 
 /** How hard a posting is, on the contract threat scale. */
 export function postingDifficulty(c: Contract) {
-  if (c.expedition.site === 'pellam') return { short: 2, medium: 3.5, long: 7 }[c.expedition.length];
+  if (c.expedition.site === 'pellam') return { short: 2.5, medium: 5, long: 7.5 }[c.expedition.length];
   return c.threat + (c.expedition.length === 'medium' ? 1 : c.expedition.length === 'long' ? 2.5 : 0);
 }
 
@@ -73,6 +73,8 @@ export function botTurn(s: GameState, opts: BotOpts) {
     let plan = suggestPlan(s, c);
     const team = plan.squad.map((id) => s.members.find((m) => m.id === id)!);
     if (team.length < Math.min(c.minSquad, 4)) continue;
+    // a careful player doesn't send a pair into Old Pellam
+    if (c.expedition.site === 'pellam' && team.length < 3 && caution >= 0.5) continue;
     if (team.some((m) => m.health < minHealth || m.fatigue >= 45)) continue;
     const level = team.reduce((t, m) => t + m.level, 0) / team.length;
     const power = level * 1.2 + team.length * 0.5;

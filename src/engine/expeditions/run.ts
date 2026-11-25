@@ -4,6 +4,8 @@
 import { TEMPLATE_BY_ID } from '../data/contracts';
 import { RIVALS } from '../data/factions';
 import { removeItem } from '../economy/items';
+import { ITEMS } from '../data/items';
+import { PROFESSIONS } from '../data/professions';
 import { MATERIAL_INFO } from '../economy/market';
 import { earnDeedFame, earnFame, mournLegend, squadHas } from '../people/legends';
 import { levelUp } from '../missions/missions';
@@ -11,7 +13,7 @@ import { triggerDoorScene } from '../story/scenes';
 import { addRecord } from '../missions/narrative';
 import { raiseFeud, resolveOperation } from '../rivals/war';
 import { chance, uid } from '../core/rng';
-import type { Contract, GameState, MaterialId, Member, Mission, MissionReport, OutcomeTier } from '../core/types';
+import type { Approach, Contract, GameState, MaterialId, Member, Mission, MissionReport, OutcomeTier } from '../core/types';
 import { addDispatch, clamp, living } from '../core/util';
 import { applyContractEffect, applyStanding, earn, factionName, spend, track } from '../core/effects';
 import { CHANGES, GOODS, SITES, SUPPLY_IDS, ZONES, ZONE_ORDER } from './data/content';
@@ -204,6 +206,12 @@ export function dispatchExpedition(s: GameState, contractId: string, plan: ExpPl
     else s.stores[k] = Math.max(0, have - want);
   }
   track(s, 'dispatch');
+  const known = [...c.tags, ...c.hidden.filter((h) => h.revealed).map((h) => h.trueTag)];
+  const carried = plan.squad.flatMap((id) => {
+    const m = s.members.find((x) => x.id === id);
+    return m ? [m.loadout.trinket, ...m.loadout.consumables].map((u) => ITEMS[s.items.find((i) => i.uid === u)?.defId ?? '']?.counters ?? []).flat() : [];
+  });
+  if (known.some((t) => carried.includes(t))) track(s, 'countered');
   const id = uid(s, 'x');
   const used = new Set(s.missions.filter((m) => !m.report).map((m) => m.number));
   let number = 1;
@@ -406,7 +414,10 @@ export function settleExpedition(s: GameState, ms: Mission) {
     const bits = [o.wentDown ? 'went down and got up' : '', o.kills >= 4 ? `${o.kills} kills` : '', ...o.scars.map(() => 'a new scar')].filter(Boolean);
     addRecord(m, `Week ${s.week} · "${c.title}" (${site.name}): ${tier}${bits.length ? ` (${bits.join('; ')})` : ''}.`);
     levelUp(s, m);
-    earnFame(s, m, { contract: c, tier, tags: trueTags(c), led: [] });
+    // what they did down there counts as leading with their Profession's strength
+    const apt = PROFESSIONS[m.profession].aptitude;
+    const approach = (Object.keys(apt) as Approach[]).sort((a, b) => (apt[b] ?? 0) - (apt[a] ?? 0))[0] ?? 'endurance';
+    earnFame(s, m, { contract: c, tier, tags: trueTags(c), led: [{ approach, result: tier === 'Triumph' ? 'strong' : won ? 'success' : 'fail', danger: 1 }] });
     if (o.fame) earnDeedFame(s, m, o.fame * T.fameScale, o.deeds[0], site.name);
   }
 

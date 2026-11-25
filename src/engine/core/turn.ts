@@ -95,7 +95,9 @@ function homePhase(s: GameState) {
     m.exposure = Math.max(0, (m.exposure ?? 0) - EXP_TUNING.exposure.homeDrop);
     if (m.fever) {
       m.fever.weeks -= 1;
+      // a week in bed: they rest, though the fever keeps them from healing fully
       m.health = clamp(m.health + 4, 0, 100);
+      m.fatigue = clamp(m.fatigue - 30, 0, 100);
       if (m.fever.weeks > 0) continue;
       const c = m.fever.change;
       m.fever = undefined;
@@ -237,27 +239,27 @@ function economyPhase(s: GameState) {
       if (s.crowns < due && s.missions.some((m) => !m.report && m.returnWeek > s.week) && (loan.waited ?? 0) < 3) {
         loan.waited = (loan.waited ?? 0) + 1;
         loan.dueWeek += 1;
-        addDispatch(s, 'economy', 'The Weighhouse waits', [`The payment of ${due} crowns is due, and a squad is still away. The Weighhouse agrees to wait a week for them, and writes to say so.`]);
+        addDispatch(s, 'economy', 'The Weighhouse waits', [`The payment of ${due} crowns is due, and a squad is still away. The Weighhouse agrees to wait a week for them, and writes to say so. It wants paying in week ${loan.dueWeek}, and ${loan.waited === 3 ? 'it will not wait again' : 'it will wait at most three weeks in all'}.`]);
         continue;
       }
-      // the schedule keeps its old rhythm: weeks spent waiting come off the next interval
+      // the schedule keeps its old rhythm (weeks spent waiting come off the next interval), but never less than two weeks' grace
       const waited = loan.waited ?? 0;
       loan.waited = 0;
-      loan.dueWeek -= waited;
+      const nextDue = Math.max(loan.dueWeek - waited + 4, s.week + 2);
       if (s.crowns >= due) {
         spend(s, 'Loan payment', due);
         loan.principal -= due;
-        addDispatch(s, 'economy', 'Loan payment made', [`Paid ${due} crowns to the Weighhouse. ${Math.ceil(loan.principal)} still owed.`]);
+        addDispatch(s, 'economy', 'Loan payment made', [`Paid ${due} crowns to the Weighhouse. ${Math.ceil(loan.principal)} still owed. The next payment is due in week ${nextDue}.`]);
       } else {
         loan.missed += 1;
         loan.principal += 20;
         applyStanding(s, loan.lender, -8);
         addDispatch(s, 'warning', 'Missed loan payment!', [
           `You could not pay the ${due} crowns due. A 20-crown penalty was added, and the Weighhouse is displeased.`,
-          `Missed payments: ${loan.missed} of 3. At 3, your assets will be seized.`,
+          `Missed payments: ${loan.missed} of 3. At 3, your assets will be seized. The next payment is due in week ${nextDue}.`,
         ]);
       }
-      loan.dueWeek += 4;
+      loan.dueWeek = nextDue;
       loan.paymentDue = Math.max(25, Math.round(loan.principal * 0.06));
     }
   }

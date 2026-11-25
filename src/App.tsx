@@ -28,7 +28,6 @@ import { RosterScreen } from './ui/screens/Roster';
 import { GameOver, Title } from './ui/screens/Title';
 import { alerts } from './ui/screens/Hall';
 import { OrdersSheet } from './ui/sheets/OrdersSheet';
-import { plural } from './ui/kit/format';
 
 const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: 'hall', label: 'Hall', icon: 'hall' },
@@ -181,7 +180,7 @@ function EndWeekButton() {
         {away > 0 && !(g.tutorial?.enabled && !g.tutorial.finished) && (
           <span className="meta">
             <Icon name="road" size={14} />
-            {plural(away, 'squad')} out
+            <span aria-label={`${away} squads out`}>{away} out</span>
           </span>
         )}
       </span>

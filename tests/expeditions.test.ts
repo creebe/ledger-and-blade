@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { join } from 'node:path';
 import {
   advanceWeek,
   buildSetup,
@@ -198,6 +200,60 @@ describe('expeditions', () => {
       advanceWeek(g);
     }
     expect(g.members.filter((m) => ids.includes(m.id)).every((m) => m.status !== 'mission')).toBe(true);
+  });
+
+  it("every Guildmaster's Note counter is recorded somewhere", () => {
+    const keys = [...readFileSync('src/engine/data/tutorial.ts', 'utf8').matchAll(/n\(s, '(\w+)'\)/g)].map((m) => m[1]);
+    const files: string[] = [];
+    const walk = (d: string) => readdirSync(d).forEach((f) => (statSync(join(d, f)).isDirectory() ? walk(join(d, f)) : files.push(join(d, f))));
+    walk('src');
+    const src = files.filter((f) => /\.tsx?$/.test(f)).map((f) => readFileSync(f, 'utf8')).join('\n');
+    for (const k of new Set(keys)) expect(src, k).toMatch(new RegExp(`track\\([a-z]+, '${k}'\\)`));
+  });
+
+  it('the Weighhouse waits for a squad that is away, then keeps its schedule', () => {
+    const s = newGame(110);
+    clearEvents(s);
+    const c = post(s, 'pellam_plate');
+    dispatchExpedition(s, c.id, suggestPlan(s, c));
+    clearEvents(s);
+    const loan = s.loans[0];
+    loan.dueWeek = s.week;
+    s.crowns = 0;
+    s.goods = {};
+    advanceWeek(s);
+    expect(loan.waited).toBe(1);
+    expect(loan.missed).toBe(0);
+    expect(loan.dueWeek).toBe(s.week);
+  });
+
+  it('a group talked off or slipped past is not met again straight away', () => {
+    let checked = 0;
+    for (let seed = 0; seed < 150; seed++) {
+      const s = newGame(400 + seed);
+      const c = post(s, seed % 2 ? 'pellam_rats' : 'pellam_streets');
+      const plan = suggestPlan(s, c);
+      const r = runExpedition(buildSetup(s, { contract: c, plan, plannedWeeks: 2, setup: { seed: 50 + seed } } as unknown as Mission));
+      // encounters: runs of lines that show enemies. One with no blows struck was talked off.
+      const enc: { start: number; end: number; monsters: string[]; fought: boolean }[] = [];
+      r.log.forEach((l, i) => {
+        if (!l.enemies) return;
+        const prev = enc[enc.length - 1];
+        if (prev && prev.end === i - 1) prev.end = i;
+        else enc.push({ start: i, end: i, monsters: l.enemies.map((e) => e.monster), fought: false });
+        if (['hit', 'miss', 'enemy'].includes(l.kind)) enc[enc.length - 1].fought = true;
+      });
+      for (let k = 1; k < enc.length; k++) {
+        const a = enc[k - 1];
+        const b = enc[k];
+        const ra = r.log[a.start].room;
+        const rb = r.log[b.start].room;
+        if (a.fought || ra === undefined || rb === undefined || rb - ra > 1) continue;
+        checked++;
+        expect(a.monsters, `seed ${seed}: ${r.log[b.start].text}`).not.toContain(b.monsters[0]);
+      }
+    }
+    expect(checked).toBeGreaterThan(0);
   });
 
   it('plans say why they cannot go', () => {
