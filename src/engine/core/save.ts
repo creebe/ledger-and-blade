@@ -9,7 +9,7 @@ import { freshRivals } from '../rivals/rival';
 import { freshDates, scheduleDates } from '../story/dates';
 import { migrateToExpeditions } from '../expeditions/migrate';
 
-export const SAVE_VERSION = 13;
+export const SAVE_VERSION = 14;
 
 /** Upgrade older saves in place. Returns null if the save can't be used. */
 export function migrateSave(g: GameState): GameState | null {
@@ -75,6 +75,13 @@ export function migrateSave(g: GameState): GameState | null {
     // expeditions: contracts are walked as trips to real sites (docs/EXPEDITIONS-API.md)
     migrateToExpeditions(g);
     g.version = 13;
+  }
+  if (g.version === 13) {
+    // bosses on every site: "the Kiln Engine is broken" becomes a list of sites whose boss is beaten
+    const d = g.delve as typeof g.delve & { kilnBroken?: boolean };
+    d.bossesBeaten = d.kilnBroken ? ['pellam'] : [];
+    delete d.kilnBroken;
+    g.version = 14;
   }
   return g.version === SAVE_VERSION ? g : null;
 }

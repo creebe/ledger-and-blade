@@ -322,4 +322,27 @@ describe('expeditions', () => {
     expect(home.report?.tier).toBe('Success');
     expect(g.members.filter((m) => home.memberIds.includes(m.id)).every((m) => m.status !== 'mission')).toBe(true);
   });
+
+  it('a version 13 save keeps a broken Kiln Engine as a beaten boss, and its sealed trips replay the same', () => {
+    const s = newGame(107);
+    clearEvents(s);
+    const c = s.board[0];
+    dispatchExpedition(s, c.id, suggestPlan(s, c));
+    clearEvents(s);
+    const setup = buildSetup(s, s.missions[0]);
+    const raw = JSON.parse(JSON.stringify(s));
+    raw.version = 13;
+    delete raw.delve.bossesBeaten;
+    raw.delve.kilnBroken = true;
+    const g = migrateSave(raw)!;
+    expect(g.version).toBe(SAVE_VERSION);
+    expect(g.delve.bossesBeaten).toEqual(['pellam']);
+    expect('kilnBroken' in g.delve).toBe(false);
+    // a trip sealed before the change still reads the old flag the way it did
+    const old = { ...setup, site: 'pellam' as const, length: 'long' as const, bossBeaten: undefined, kilnBroken: true };
+    const now = { ...old, kilnBroken: undefined, bossBeaten: true };
+    expect(runExpedition(old).log.map((l) => l.text)).toEqual(runExpedition(now).log.map((l) => l.text));
+    const fresh = migrateSave({ ...JSON.parse(JSON.stringify(s)), version: 13, delve: { zonesReached: [], count: 0 } })!;
+    expect(fresh.delve.bossesBeaten).toEqual([]);
+  });
 });

@@ -256,7 +256,9 @@ export interface DiveSetup {
   roadBack: number;
   /** a rival crew went through first: fewer fights, thinner finds */
   rivalAhead?: RivalId;
-  /** the Kiln Engine is already broken: its yard instead */
+  /** the site's boss is already beaten: its room holds a lesser fight */
+  bossBeaten?: boolean;
+  /** the same, as trips sealed before save version 14 stored it */
   kilnBroken?: boolean;
   /** multiplier on enemy strength (door scenes, ambushes) */
   foeScale: number;
@@ -274,7 +276,8 @@ export interface DiveSetup {
 export interface DelveState {
   /** zones any squad has reached at least once */
   zonesReached: ZoneId[];
-  kilnBroken?: boolean;
+  /** sites whose boss has been beaten: each boss is beaten once */
+  bossesBeaten: SiteId[];
   /** expeditions sealed so far: seeds the next one */
   count: number;
   /** the plan used last, so preparation can start from it */

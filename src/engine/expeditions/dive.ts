@@ -1190,7 +1190,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
       }
       case 'boss':
         if (!boss) break;
-        if (setup.kilnBroken) {
+        if (setup.bossBeaten ?? (setup.site === 'pellam' && setup.kilnBroken)) {
           // the boss is gone; its room is still busy
           put('room', say(boss.afterKey, {}));
           res = fight(boss.after, z);

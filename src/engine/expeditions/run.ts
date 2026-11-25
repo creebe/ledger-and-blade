@@ -54,7 +54,7 @@ export function buildSetup(s: GameState, ms: Mission): DiveSetup {
     roadOut: road.out + extraDelay,
     roadBack: road.back,
     rivalAhead: c.contestedBy && s.rivals[c.contestedBy]?.active ? c.contestedBy : undefined,
-    kilnBroken: s.delve?.kilnBroken,
+    bossBeaten: bossBeaten(s, c.expedition.site) || undefined,
     foeScale: ms.foeScale ?? 1,
     fieldLog: [...(ms.fieldLog ?? [])],
     plan: JSON.parse(JSON.stringify(ms.plan)) as ExpPlan,

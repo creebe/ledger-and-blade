@@ -5,9 +5,9 @@ import type { SiteId } from './types';
 
 /** Whether a site's boss has already been beaten. */
 export function bossBeaten(s: GameState, site: SiteId): boolean {
-  return site === 'pellam' && !!s.delve?.kilnBroken;
+  return !!s.delve?.bossesBeaten?.includes(site);
 }
 
 export function markBossBeaten(s: GameState, site: SiteId) {
-  if (site === 'pellam') s.delve.kilnBroken = true;
+  if (!s.delve.bossesBeaten.includes(site)) s.delve.bossesBeaten.push(site);
 }
