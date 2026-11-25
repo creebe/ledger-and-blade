@@ -144,7 +144,8 @@ function targetMet(s: GameState, a: ActiveDate, t: DateTarget, final: boolean): 
   switch (t.kind) {
     case 'loanPaid':
       if (!loan) return true;
-      if (final) return loan.missed === a.base.missed;
+      // a payment the Weighhouse waited for wasn't paid on the day
+      if (final) return loan.missed === a.base.missed && !loan.waited;
       // wages and upkeep are paid before the loan, so count them first
       return loan.missed === a.base.missed && (loan.dueWeek > a.dueWeek || s.crowns - weeklyCosts(s) >= loan.paymentDue);
     case 'crowns':

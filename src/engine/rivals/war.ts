@@ -340,6 +340,9 @@ export function resolveOperation(state: GameState, c: Contract, won: boolean, su
       r.feud = 100;
       summary.push(`${NPCS[op.target].name} is dead. Heat +25, Exchequer −15.`);
       afterLeaderDies(state, op.rival, op.target);
+    } else if (op.target && state.npcs[op.target].status !== 'alive') {
+      // somebody else got there while the squad was away
+      summary.push(`By the time the squad got there, ${NPCS[op.target].name} was already beyond their reach.`);
     } else {
       raiseFeud(state, op.rival, 20);
       r.aggression = clamp(r.aggression + 0.3, 0, 1);

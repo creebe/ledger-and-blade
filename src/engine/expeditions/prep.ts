@@ -122,6 +122,9 @@ export function planWarnings(s: GameState, c: Contract, plan: ExpPlan): string[]
   const loan = s.loans[0];
   const weeks = plannedWeeks(s, c);
   if (loan && loan.dueWeek < s.week + weeks) w.push(`A Weighhouse payment of ${loan.paymentDue} falls due while they're away. If the money at home is short, the Weighhouse waits for the squad.`);
+  if (c.story) w.push('This is story work. If the squad turns back or is lost, the job fails, and the story goes on without it.');
+  if (c.expedition.site === 'pellam' && c.expedition.length === 'long' && squad.length && squad.every((m) => m.level <= 2))
+    w.push('This is the deepest route in Old Pellam, and nobody in this squad is past level 2. Squads this green often don\'t come back from the College Sink.');
   if (c.contestedBy) w.push(`A rival wants this job too. If their crew goes in first, there will be fewer fights at the start and thinner finds.`);
   return w;
 }

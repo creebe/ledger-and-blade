@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { join } from 'node:path';
 import {
   advanceWeek,
   buildSetup,
@@ -198,6 +200,31 @@ describe('expeditions', () => {
       advanceWeek(g);
     }
     expect(g.members.filter((m) => ids.includes(m.id)).every((m) => m.status !== 'mission')).toBe(true);
+  });
+
+  it("every Guildmaster's Note counter is recorded somewhere", () => {
+    const keys = [...readFileSync('src/engine/data/tutorial.ts', 'utf8').matchAll(/n\(s, '(\w+)'\)/g)].map((m) => m[1]);
+    const files: string[] = [];
+    const walk = (d: string) => readdirSync(d).forEach((f) => (statSync(join(d, f)).isDirectory() ? walk(join(d, f)) : files.push(join(d, f))));
+    walk('src');
+    const src = files.filter((f) => /\.tsx?$/.test(f)).map((f) => readFileSync(f, 'utf8')).join('\n');
+    for (const k of new Set(keys)) expect(src, k).toMatch(new RegExp(`track\\([a-z]+, '${k}'\\)`));
+  });
+
+  it('the Weighhouse waits for a squad that is away, then keeps its schedule', () => {
+    const s = newGame(110);
+    clearEvents(s);
+    const c = post(s, 'pellam_plate');
+    dispatchExpedition(s, c.id, suggestPlan(s, c));
+    clearEvents(s);
+    const loan = s.loans[0];
+    loan.dueWeek = s.week;
+    s.crowns = 0;
+    s.goods = {};
+    advanceWeek(s);
+    expect(loan.waited).toBe(1);
+    expect(loan.missed).toBe(0);
+    expect(loan.dueWeek).toBe(s.week);
   });
 
   it('plans say why they cannot go', () => {

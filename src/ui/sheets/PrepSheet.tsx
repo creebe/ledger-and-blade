@@ -1,7 +1,7 @@
 // Preparing an expedition for a contract: the squad in ranks, the pack and
 // the standing orders. Reached from the contract board. The trip is sealed
 // when the squad leaves the yard at the end of the week.
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   DELVER_PROFS,
   EXP_TUNING,
@@ -26,6 +26,7 @@ import {
   stockOf,
   suggestPlan,
   TAGS,
+  track,
   type Contract,
   type ExpPlan,
   type GameState,
@@ -103,6 +104,10 @@ export function PrepSheet({ contractId }: { contractId: string }) {
   const open = useStore((s) => s.open);
   const c = g.board.find((x) => x.id === contractId);
   const [plan, setPlan] = useState<ExpPlan | undefined>(() => (c ? startingPlan(g, c) : undefined));
+  // opening a plan counts for the Guildmaster's Notes
+  useEffect(() => {
+    useStore.getState().act((s) => track(s, 'why'));
+  }, []);
   if (!c || !plan) {
     return (
       <Sheet title="Contract">
