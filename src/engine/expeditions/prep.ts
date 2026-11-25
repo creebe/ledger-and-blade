@@ -8,7 +8,7 @@ import type { Contract, GameState, Member } from '../core/types';
 import { living } from '../core/util';
 import { DELVER_PROFS, GOODS, LENGTHS, MONSTERS, SITES, SUPPLIES, SUPPLY_IDS, ZONES, routeOf, type RouteStep } from './data/content';
 import { delverMaxHp } from './dive';
-import { bossBeaten } from './bosses';
+import { bossBeaten, bossBusy } from './bosses';
 import { EXP_TUNING as T } from './tuning';
 import type { ExpPlan, PostingInfo, StandingOrders, SupplyId, ZoneId } from './types';
 
@@ -80,6 +80,9 @@ export function planBlocked(s: GameState, c: Contract, plan: ExpPlan): string | 
     const why = memberBlocked(s, m);
     if (why) return why;
   }
+  const boss = SITES[c.expedition.site].boss;
+  if (boss && contractRoute(c).includes('boss') && !bossBeaten(s, c.expedition.site) && bossBusy(s, c.expedition.site))
+    return `A squad is already on its way to ${MONSTERS[boss.monster].name}.`;
   if (packSlots(plan.pack) > T.packSlots) return `The pack holds ${T.packSlots} slots.`;
   const cost = packCost(s, plan.pack);
   if (cost > 0 && cost > s.crowns) return `Packing this means buying ${cost} crowns of supplies, and the guild has ${s.crowns}.`;
@@ -90,7 +93,7 @@ export function planBlocked(s: GameState, c: Contract, plan: ExpPlan): string | 
 function darkRooms(steps: RouteStep[], c: Contract) {
   const tagDark = [...c.tags, ...c.hidden.filter((h) => h.revealed).map((h) => h.trueTag)].some((t) => t === 'dark' || t === 'night');
   return steps.filter((x, i) => {
-    const z = (x === 'boss' ? 'sink' : x === 'camp' ? steps[i - 1] : x) as ZoneId;
+    const z = (x === 'boss' ? (SITES[c.expedition.site].boss?.zone ?? steps[i - 1]) : x === 'camp' ? steps[i - 1] : x) as ZoneId;
     return i > 0 && x !== 'camp' && (ZONES[z].dark || tagDark);
   }).length;
 }
@@ -116,7 +119,7 @@ export function planWarnings(s: GameState, c: Contract, plan: ExpPlan): string[]
     if (m.health < 60) w.push(`${first} is still hurt (health ${m.health}).`);
     if (m.fatigue >= T.fatigue.tired) w.push(`${first} is ${m.fatigue >= T.fatigue.spent ? 'worn out' : 'tired'} before they start (fatigue ${m.fatigue}). If they go down tired, they're likelier to die.`);
     const nextTh = T.exposure.thresholds.find((t) => t > (m.exposure ?? 0));
-    if (nextTh && (m.exposure ?? 0) >= nextTh - 12 && (steps.includes('sink') || steps.includes('reeds')))
+    if (nextTh && (m.exposure ?? 0) >= nextTh - 12 && steps.some((x) => x === 'sink' || (x !== 'camp' && x !== 'boss' && !!ZONES[x].exposure)))
       w.push(`${first} is close to a Sink change (Exposure ${m.exposure} of ${nextTh}). If they're rested they'll run the Sink fever first. If they're worn out, it takes at once.`);
   });
   if (!squad.some((m) => m.profession === 'chaplain') && !(plan.pack.bandages ?? 0)) w.push('There is no Chaplain in the squad and no bandages in the pack.');

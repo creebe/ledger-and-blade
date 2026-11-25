@@ -106,7 +106,7 @@ _Medium route. Outcome: complete, 9 of 9 rooms, job done._
 
 _Home: nobody lost. Deeds: Completed a medium expedition (+2 renown)._
 
-## Crewe's Toll: Take the toll house at Skell Gap from Sergeant Crewe
+## The Toll House at Skell Gap: Take the toll house at Skell Gap from Sergeant Crewe
 
 _Long route. Outcome: complete, 14 of 14 rooms, job done._
 

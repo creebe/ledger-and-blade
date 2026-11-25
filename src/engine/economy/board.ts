@@ -8,8 +8,8 @@ import { REWARD_SCALE } from '../core/tuning';
 import { season } from '../core/calendar';
 import { applyContractEffect } from '../core/effects';
 import type { ContractExpedition, ExpLength, SiteId } from '../expeditions/types';
-import { MONSTERS } from '../expeditions/data/content';
-import { bossBeaten } from '../expeditions/bosses';
+import { MONSTERS, SITES } from '../expeditions/data/content';
+import { bossBeaten, bossBusy } from '../expeditions/bosses';
 
 /** Where a posting sends the squad: the template's own say, else its region at a length for its threat. */
 export function expeditionFor(t: ContractTemplate, regionId: string, threat: number): ContractExpedition {
@@ -25,7 +25,12 @@ function eligibleTemplates(state: GameState): ContractTemplate[] {
     if (t.story || t.weight <= 0) return false;
     if (t.requiresFlag && !state.flags[t.requiresFlag]) return false;
     // a site's boss is beaten once
-    if (t.expedition?.goal?.kind === 'kill' && t.expedition.site && MONSTERS[t.expedition.goal.monster].boss && bossBeaten(state, t.expedition.site)) return false;
+    if (t.expedition?.goal?.kind === 'kill' && t.expedition.site && MONSTERS[t.expedition.goal.monster].boss) {
+      const site = t.expedition.site;
+      if (bossBeaten(state, site) || bossBusy(state, site)) return false;
+      // beyond Old Pellam, a boss is only posted once the guild has been as far as the site's second zone
+      if (site !== 'pellam' && !state.delve?.zonesReached?.includes(SITES[site].zones[1])) return false;
+    }
     // patrons who hate you stop offering work
     if (t.patrons.every((p) => state.factions[p].standing <= -30 || !factionKnown(state, p))) return false;
     return true;
@@ -53,7 +58,9 @@ export function generateContract(state: GameState, template?: ContractTemplate):
   const region = REGIONS[regionId];
   // threat creeps up as the guild's renown grows
   const cap = threatCap(state);
-  const threat = t.story ? t.threat[0] : clamp(randInt(state, Math.min(t.threat[0], cap), Math.min(t.threat[1], cap)), 1, 10);
+  // the other sites' own postings keep their threat: their depth is the danger, and the board should say so
+  const fixed = t.story || (!!t.expedition?.site && t.expedition.site !== 'pellam');
+  const threat = fixed ? t.threat[0] : clamp(randInt(state, Math.min(t.threat[0], cap), Math.min(t.threat[1], cap)), 1, 10);
   const s = season(state);
   const tags = [...t.tags];
   for (const o of t.optionalTags ?? []) {

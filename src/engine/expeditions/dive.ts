@@ -1229,6 +1229,8 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
         put('room', say(`goalroom_${z}`, {}));
         const group = g.kind === 'kill' && !MONSTERS[g.monster].boss ? [g.monster, ...fightGroup(z).filter((x) => x !== g.monster)].slice(0, g.monster === 'rats' ? 3 : 2) : fightGroup(z);
         if (g.kind === 'kill' && g.monster === 'rats') group.splice(0, group.length, 'rats', 'rats', 'rats');
+        // beyond Old Pellam, a job to kill several of something finds them together at the end
+        else if (g.kind === 'kill' && setup.site !== 'pellam' && g.count > 1 && !MONSTERS[g.monster].boss) group.splice(0, group.length, ...Array<MonsterId>(Math.min(3, g.count)).fill(g.monster));
         res = fight(group, z);
         if (res === 'won') find(z, true, g.kind === 'bring' ? g.good : undefined);
         break;

@@ -16,7 +16,7 @@ import { chance, uid } from '../core/rng';
 import type { Approach, Contract, GameState, MaterialId, Member, Mission, MissionReport, OutcomeTier } from '../core/types';
 import { addDispatch, clamp, living } from '../core/util';
 import { applyContractEffect, applyStanding, earn, factionName, spend, track } from '../core/effects';
-import { CHANGES, GOODS, SITES, SUPPLY_IDS, ZONES, ZONE_ORDER } from './data/content';
+import { CHANGES, GOODS, MONSTERS, SITES, SUPPLY_IDS, ZONES, ZONE_ORDER } from './data/content';
 import { runExpedition } from './dive';
 import { bossBeaten, markBossBeaten } from './bosses';
 import { delverOf } from './gear';
@@ -35,6 +35,8 @@ const hashId = (id: string) => {
   for (let i = 0; i < id.length; i++) h = (Math.imul(h, 31) + id.charCodeAt(i)) | 0;
   return h;
 };
+
+const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
 
 const trueTags = (c: Contract) => [...c.tags, ...c.hidden.map((h) => h.trueTag)];
 
@@ -358,7 +360,7 @@ export function settleExpedition(s: GameState, ms: Mission) {
     else {
       // they take a third of what the squad carries, but the job's own goods were kept back
       const kept = c.expedition.goal.kind === 'bring' ? c.expedition.goal.good : undefined;
-      for (const k of Object.keys(loot) as GoodId[]) if (k !== kept) loot[k] = Math.floor((loot[k] ?? 0) * 0.66);
+      for (const k of Object.keys(loot) as GoodId[]) if (k !== kept) loot[k] = (loot[k] ?? 0) - Math.floor((loot[k] ?? 0) / 3);
       summary.push(`${name}'s people were waiting on the road home and took a third of what the squad was carrying.`);
       raiseFeud(s, ms.ambush, 3);
     }
@@ -465,7 +467,18 @@ export function settleExpedition(s: GameState, ms: Mission) {
     markBossBeaten(s, c.expedition.site);
     // nobody can beat it twice: postings for it come off the board
     s.board = s.board.filter((x) => !(x.expedition.goal.kind === 'kill' && x.expedition.goal.monster === boss.monster));
-    summary.push(boss.report);
+    summary.push(res.outcome === 'lost' ? `${cap(MONSTERS[boss.monster].name)} is dead, and nobody who did it came home to say so.` : boss.report);
+  }
+  // killing the bank's customs men or the watch is noticed
+  const tw = Math.min(3, res.kills.tidewaiter ?? 0);
+  if (tw) {
+    applyStanding(s, 'ostranders', -tw);
+    summary.push(`Ostrander's has heard about its tidewaiters on the Strand (standing −${tw}).`);
+  }
+  const ws = Math.min(3, res.kills.watch_sergeant ?? 0);
+  if (ws) {
+    s.heat = clamp(s.heat + ws * 2, 0, 100);
+    summary.push(`The watch wants to know who hurt its sergeants (Heat +${ws * 2}).`);
   }
 
   // the contract

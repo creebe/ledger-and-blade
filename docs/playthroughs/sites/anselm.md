@@ -6,7 +6,7 @@ Zones: the Wenmouth road, the Burrows, the Strand. Boss: put out Mags Tull's lan
 
 Written by `npm run exp:logs`: a seasoned squad of four (level 3, rested) on a medium trip and on the long trip to the boss. Log lines as the player reads them; bold lines are the ones the game bolds.
 
-## What the Sea Brings: Bring back 2 lumps of ambergris
+## Ambergris: Bring back 2 lumps of ambergris
 
 _Medium route. Outcome: complete, 9 of 9 rooms, job done._
 

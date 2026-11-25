@@ -132,6 +132,23 @@ describe('expeditions', () => {
     expect(r.kills.moyle ?? 0).toBe(0);
   });
 
+  it('only one squad at a time goes after a boss, and boss postings wait until the second zone is reached', () => {
+    const s = newGame(113);
+    clearEvents(s);
+    for (let i = 0; i < 4; i++) s.members.push(generateRecruit(s).member);
+    for (const m of s.members) m.level = 4;
+    s.delve.zonesReached.push('sump');
+    const a = post(s, 'kell_moyle');
+    const b = post(s, 'kell_moyle');
+    const planA = suggestPlan(s, a);
+    expect(dispatchExpedition(s, a.id, planA)).toBeUndefined();
+    const planB = suggestPlan(s, b);
+    expect(planBlocked(s, b, planB)).toMatch(/already on its way to Gaffer Moyle/);
+    for (let i = 0; i < 300; i++) expect(generateContract(s).templateId).not.toBe('kell_moyle');
+    const fresh = newGame(114);
+    for (let i = 0; i < 300; i++) expect(generateContract(fresh).templateId).not.toBe('kell_moyle');
+  });
+
   it('a plain job on a long route walks the last zone and stops short of the boss', () => {
     const s = newGame(112);
     const tpl = CONTRACT_TEMPLATES.find((t) => t.regions[0] === 'drovers' && !t.story && !t.expedition)!;

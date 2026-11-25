@@ -14,7 +14,7 @@ The owner's brief: "make our game feel a lot more like Darkest Dungeon. More abo
   - Drover's Road: the hill road, Brannock Moor, Skell Gap; Sergeant Crewe.
   - Harrowmere: the lake shore, the bridge houses, the Holms; the Bailiff.
   - Port Anselm: the Wenmouth road, the Burrows, the Strand; Mags Tull.
-- **Bosses are beaten once.** Each site's boss falls once (`delve.bossesBeaten`); its posting comes off the board, and long routes there end in its room with a lesser fight. Each site has two or three postings of its own (`data/contracts-sites.ts`): reach a zone, bring a find, kill something, and the boss.
+- **Bosses are beaten once, one squad at a time.** Only one squad can be on its way to a boss; beyond Old Pellam a boss is posted once a squad has reached the site's second zone. Each site's boss falls once (`delve.bossesBeaten`); its posting comes off the board, and long routes there end in its room with a lesser fight. Each site has two or three postings of its own (`data/contracts-sites.ts`): reach a zone, bring a find, kill something, and the boss.
 - **Depth carries the danger beyond Old Pellam.** A classic contract's threat now counts from what is usual for its route length (3 short, 5 medium, 8 long), because the deeper zones already make the trip harder.
 - **A contract's dangers come along.** Hidden tags are what is rumoured to be there. Enemy tags bring their own fights (thugs, sell-swords, guards, hedge-wizards, trolls, salamanders, rioters); place tags bring the dark, cold, mud or fever. Lanterns, fur cloaks, remedies and climbing kits cancel them as before.
 - **All eight Professions fight.** The Envoy talks people out of fights or buys them off; the Infiltrator opens locks and traps without tools and gets the squad past sentries.
@@ -135,12 +135,12 @@ v0.14.0, with every site at full depth (v0.13 in brackets):
 
 | Bot | First-year survival | Deaths per expedition | Squads lost | Expeditions a year | Deaths a year |
 |---|---|---|---|---|---|
-| Bold, good prep | 49% (60%) | 0.21 (0.18) | 12% (10%) | 16 (19) | 3.3 (3.4) |
-| **Careful, good prep** | **68% (71%)** | **0.11 (0.11)** | **6% (6%)** | **18 (20)** | **2.1 (2.2)** |
-| Cautious, good prep | 63% (62%) | 0.07 (0.07) | 4% (4%) | 17 (18) | 1.2 (1.3) |
-| Careful, poor prep | 1% (1%) | 0.73 (0.70) | 23% (24%) | 4 (4) | 3.1 (3.0) |
+| Bold, good prep | 55% (60%) | 0.20 (0.18) | 11% (10%) | 18 (19) | 3.5 (3.4) |
+| **Careful, good prep** | **69% (71%)** | **0.12 (0.11)** | **7% (6%)** | **19 (20)** | **2.2 (2.2)** |
+| Cautious, good prep | 57% (62%) | 0.07 (0.07) | 4% (4%) | 17 (18) | 1.2 (1.3) |
+| Careful, poor prep | 1% (1%) | 0.75 (0.70) | 23% (24%) | 4 (4) | 3.1 (3.0) |
 
-Careful bot, deaths per expedition by site: Old Pellam 0.15, Varrow 0.09, Kell Mines 0.17, the Saltfens 0.16, Drover's Road 0.10, Harrowmere 0.13, Port Anselm 0.04. The bot now reads every site's own postings (a goal other than "see it through") the way it reads Old Pellam's, and keeps pairs out of them; without that it took the long boss jobs with green squads and survived 40%.
+Careful bot, deaths per expedition by site: Old Pellam 0.20, Varrow 0.10, Kell Mines 0.13, the Saltfens 0.16, Drover's Road 0.09, Harrowmere 0.15, Port Anselm 0.08. The bot now reads every site's own postings (a goal other than "see it through") the way it reads Old Pellam's, and keeps pairs out of them; without that it took the long boss jobs with green squads and survived 40%. It still underrates the medium site postings, which play like easy classic work, so it seldom takes them.
 
 A fresh guild's starting squad on a long boss trip (`suggestPlan`, no dangers, 120 seeds) loses the whole squad 16–29% of the time, against 54% for the Kiln Engine.
 
