@@ -315,7 +315,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
     description: "Gaffer Moyle is gone, and new claim-jumpers are sitting in his chair at the end of the Trevick level. The lease-holders would like them gone too, preferably before they find his powder.",
     regions: ['kell'],
     phases: [P('The Trevick level', 'At the end of the old silver gallery.', 1.3)],
-    baseReward: 420,
+    baseReward: 480,
     onSuccess: { standing: { weighhouse: 4 }, renown: 2 },
     onFailure: { standing: { weighhouse: -2 } },
     weight: 0.5,

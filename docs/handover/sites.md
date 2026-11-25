@@ -81,9 +81,28 @@ The six sites beyond Old Pellam, built out to its depth. Branch `claude/sites`, 
   - Lowering missions alone barely helped (0.63 at 23, 0.66 at 21). Once missions were low, fame was the limit.
   - The member sheet now reads the requirement from `LEGEND_NEEDS`.
 - **A beaten squad with nobody dead** gets its own lines on the way home instead of "short of people". A test covers it.
-- **The boss's room after it falls.** Each site has an `*_after` posting once its boss is beaten (threat 7, base 360–460, weight 0.5). It ends in the boss's room and its lesser fight. A test covers it.
+- **The boss's room after it falls.** Each site has an `*_after` posting once its boss is beaten (threat 7, base 360–480, weight 0.5). It ends in the boss's room and its lesser fight. A test covers it.
 - **The tutorial and the help sheet** no longer say unknown tags "turn your odds into a range".
 - **Merged:** PR #13 (`claude/ui-fixes`) and PR #12 (`claude/story-doc-sync`), with `src/version.ts` kept at v0.14.0.
+
+- **Re-review fixes:**
+  - The colours can't be sold twice. The market holds them back while Mayne's scene waits.
+  - Mayne only comes the week they come home, and not in open war with the Ninth.
+  - The beaten-squad lines keep the old line counts, so the draws are unchanged.
+  - The toll-house posting no longer asks for the colours.
+  - `kell_level_after` pays 480.
+- **Final numbers** (1000 games, branch against main):
+
+  | Bot | Branch | Main |
+  |---|---|---|
+  | Careful (0.5) | 71.1% | 69.6% |
+  | Cautious (0.65) | 64.3% | 61.1% |
+  | Bold | 57.5% | 60.6% |
+  | Poor prep | 0.5% | 0.7% |
+
+  - Careful deaths per expedition: 0.110.
+  - Legends: 0.78 per game by week 96 (main 0.80), none before week 50. Half the Legends never felled a boss.
+- **Labels:** the sim calls 0.5 "careful" and 0.65 "cautious". The balance brief calls 0.65 careful. At 64.3% that one sits just under 65%, but it is 3 points better than main.
 
 ## What's open
 
@@ -97,5 +116,9 @@ The six sites beyond Old Pellam, built out to its depth. Branch `claude/sites`, 
 - **Balance, from the reviewer:**
   - Year-one feuds: re-check after the `contestChance` change.
   - The bot rarely takes medium site postings, which play like easy classic work.
+- **For main's backlog (balance reviewer):**
+  - Year-one feuds are far below the target, and year-two wars are common. Look at `FEUD_AT` and `WAR_AT`. This was already so on main.
+  - `FAME_LEGENDARY` 115 would give about 1 Legend per campaign. It is shared tuning, so it belongs in its own PR.
+  - Recruit names include Jory and Fenn.
 - **Spelling** is mixed: the new text has colours and harbour, the older text has harbor.
 - **The story document (Claude Doc)** isn't synced. `docs/story/all-writing.md` is regenerated, and syncing follows `docs/story/README.md` step 5 after merge.
