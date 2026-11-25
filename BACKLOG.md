@@ -4,8 +4,8 @@ What's next, what's open, and what to watch after each release. Main keeps this 
 
 ## Expeditions: next workstreams
 v0.13.0 brought expeditions into the full game (engine and Field UI done, 2026-11-25). The owner approved the names for Varrow, Port Anselm, the one-zone sites and the generic enemies. Still to do, in order:
-3. **Story.** Expedition text in the story bible and the story document's export, without losing the owner's comments. Fold in the seven outcomes nothing reacts to yet (`tapestry_sold`, `isbet_betrayed` and others).
-4. **Sites.** Full zones for Varrow, Kell Mines, the Saltfens, Drover's Road, Harrowmere and Port Anselm (Old Pellam is the model).
+3. **Story.** Bible and export done in v0.13.1. Now building (owner chose option a): Half a Year lines for all seven loose outcomes, door scenes for `silver_abandoned` and `fenn_ally`, and the Isbet variant of Hobb's crew. Saint Oda's Act I fever is the Sink fever (owner's call). Later, if wanted: dive lines that read story facts (needs an engine change).
+4. **Sites** (started 2026-11-25). Full zones for Varrow, Kell Mines, the Saltfens, Drover's Road, Harrowmere and Port Anselm (Old Pellam is the model).
 5. **Economy.** Trim the book-keeping toward "combat prep, the riches, and growing the guild's reputation by heroic deeds".
 6. **Balance.** Watch that repeating one short safe trip doesn't become a free income loop; recheck the bots after workstreams 4 and 5.
 

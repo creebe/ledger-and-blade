@@ -2,6 +2,16 @@
 
 Newest first. Each entry says what changed for a player, why (quoting the owner's feedback where it came from playtesting), and what was and wasn't checked. The live site is https://creebe.github.io/ledger-and-blade/ and is only republished on the owner's word; each entry notes whether it is live.
 
+## v0.13.1 (2026-11-25): Expedition writing, joined to the story
+Expedition text now agrees with the rest of the story, and the owner's story document covers it.
+- **Fevers fit their place.** Fever and Sink-change lines on Varrow, Kell Mines and the overland roads no longer mention the Sink or the fen. Each site has its own version, and the Lower Town's version blames the wells, so a fever never passes from person to person.
+- **No false recall.** The message after a squad's last orders no longer suggests it can still be called back.
+- **Writing pass:** six log lines that opened with fragments are now sentences.
+- **Story bible and story document:** `docs/STORY.md` covers expeditions in full (sites, zones, monsters and people, Exposure and the Sink fever, how the dives tie to factions, cast and acts). `npm run story-export` has an Expeditions part, and the owner's Claude Doc has a new Expeditions tab, with the other tabs brought up to v0.13.0. The doc had no comments or edits to keep.
+- **Checked:** `npm run check` (59 tests, story checker at 0 violations and 0 unreached nodes). The fingerprint is the same as v0.13.0, so game outcomes are unchanged. Story and writing reviewers.
+- **Not checked:** the balance bot (no numbers changed); iOS Safari.
+- **Live** (republished on the owner's word, 2026-11-25).
+
 ## v0.13.0 (2026-11-25): Expeditions
 Contracts are walked as expeditions. The owner asked to "make our game feel a lot more like Darkest Dungeon. More about actual dungeon dives. Monsters. Outfitting a squad and managing THEM as a resource", wanted the whole trip "auto played" and read "live" line by line, and approved the plan for bringing the trial into the full game with every classic system kept.
 - **Postings.** Each contract names a site, a route length and a goal. Old Pellam, the buried town under the Lower Town, has its own work: rats, a survey, Pellam plate, eel oil, Assay seals, reagent salts, an account of the Sink and the Kiln Engine. Varrow, Kell Mines, the Saltfens, Drover's Road, Harrowmere and Port Anselm have one zone each for now.
