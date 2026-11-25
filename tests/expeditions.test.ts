@@ -130,6 +130,19 @@ describe('expeditions', () => {
     expect(setup.bossBeaten).toBe(true);
     const r = runExpedition(setup);
     expect(r.kills.moyle ?? 0).toBe(0);
+    // the work in Moyle's room afterwards is posted now, and its trip ends there
+    expect(Array.from({ length: 400 }, () => generateContract(s).templateId)).toContain('kell_level_after');
+    const after = post(s, 'kell_level_after');
+    let sawRoom = false;
+    for (let seed = 0; seed < 40 && !sawRoom; seed++) {
+      const ams = { contract: after, plan: suggestPlan(s, after), plannedWeeks: 5, setup: { seed: 4343 + seed } } as unknown as Mission;
+      const ar = runExpedition(buildSetup(s, ams));
+      expect(ar.kills.moyle ?? 0).toBe(0);
+      sawRoom = ar.log.some((l) => /Moyle's (chair|working)/.test(l.text));
+    }
+    expect(sawRoom).toBe(true);
+    const fresh = newGame(115);
+    for (let i = 0; i < 300; i++) expect(generateContract(fresh).templateId).not.toBe('kell_level_after');
   });
 
   it('only one squad at a time goes after a boss, and boss postings wait until the second zone is reached', () => {

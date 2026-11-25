@@ -33,6 +33,8 @@ export interface ContractTemplate {
   expire?: { title: string; text: string };
   // where the expedition goes, how far and what for. Unset parts come from the region and threat
   expedition?: Partial<ContractExpedition>;
+  /** posted only once the site's boss is beaten: the work in its room afterwards */
+  afterBoss?: boolean;
 }
 
 const P = (name: string, approaches: PhaseDef['approaches'], weight: number, danger: number, text: string): PhaseDef => ({

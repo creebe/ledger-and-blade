@@ -31,6 +31,8 @@ function eligibleTemplates(state: GameState): ContractTemplate[] {
       // beyond Old Pellam, a boss is only posted once the guild has been as far as the site's second zone
       if (site !== 'pellam' && !state.delve?.zonesReached?.includes(SITES[site].zones[1])) return false;
     }
+    // the work in a boss's room once the boss is gone
+    if (t.afterBoss && t.expedition?.site && (!bossBeaten(state, t.expedition.site) || bossBusy(state, t.expedition.site))) return false;
     // patrons who hate you stop offering work
     if (t.patrons.every((p) => state.factions[p].standing <= -30 || !factionKnown(state, p))) return false;
     return true;
