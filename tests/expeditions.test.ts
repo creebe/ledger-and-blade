@@ -20,6 +20,8 @@ import {
   suggestPlan,
   visibleLog,
   weekSummary,
+  tripWeekOf,
+  withdrawAtDoor,
   type Contract,
   type GameState,
   type Mission,
@@ -143,6 +145,21 @@ describe('expeditions', () => {
     expect(s.supplies).toBe(before.supplies);
     expect(s.stores).toEqual(before.stores);
     expect(living(s).every((m) => m.status !== 'mission')).toBe(true);
+  });
+
+  it('a squad called back at the door shows nothing in the feed', () => {
+    const s = newGame(107);
+    clearEvents(s);
+    const c = post(s, 'pellam_plate');
+    dispatchExpedition(s, c.id, suggestPlan(s, c));
+    const ms = s.missions[0];
+    withdrawAtDoor(s, ms);
+    clearEvents(s);
+    advanceWeek(s);
+    const gone = s.history.find((m) => m.id === ms.id)!;
+    expect(gone.report?.tier).toBe('Withdrawn');
+    expect(tripWeekOf(gone, s.week - 1)).toBe(0);
+    expect(feedForWeek(s, s.week - 1).some((f) => f.missionId === ms.id)).toBe(false);
   });
 
   it('plans say why they cannot go', () => {

@@ -101,6 +101,7 @@ export function weekLines(ms: Mission, tripWeek: number): LogLine[] {
 
 /** The trip week that the End Week of game week `gameWeek` reveals for this squad (0 if none). */
 export const tripWeekOf = (ms: Mission, gameWeek: number) => {
+  if (ms.report?.tier === 'Withdrawn') return 0;
   const w = gameWeek - ms.dispatchedWeek + 1;
   return w >= 1 && w <= ms.result.weeks ? w : 0;
 };
@@ -163,7 +164,8 @@ export function squadStatus(s: GameState, ms: Mission) {
 export function feedForWeek(s: GameState, gameWeek: number, missions: Mission[] = [...s.missions, ...s.history.slice(-3)]) {
   const out: { missionId: string; number: number; line: LogLine }[] = [];
   for (const ms of missions) {
-    if (!ms.sealed) continue;
+    // a squad called back at the door never went: it has no lines to show
+    if (!ms.sealed || ms.report?.tier === 'Withdrawn') continue;
     const w = tripWeekOf(ms, gameWeek);
     if (!w) continue;
     for (const line of weekLines(ms, w)) out.push({ missionId: ms.id, number: ms.number, line });

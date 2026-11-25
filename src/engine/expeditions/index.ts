@@ -23,6 +23,8 @@ export {
   treatExposure,
   tierOf,
   awaySquads,
+  withdrawAtDoor,
+  settleExpedition,
 } from './run';
 export type { WeekSummary } from './run';
 export { EXP_TUNING } from './tuning';
