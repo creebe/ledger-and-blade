@@ -4866,7 +4866,7 @@ _Source: expeditions/data/lines.ts:476._
 | `line:camp_fed_chaplain.1` | The chaplain makes everyone eat and cleans every cut, and is the last one to sleep. |
 | `line:camp_fed_chaplain.2` | There is hot food, and the chaplain goes round everyone with a lamp and a needle. By morning they are in better shape than they deserve. |
 | `line:camp_hungry.1` | There is nothing to eat. They lie in the dark and listen to each other's stomachs. |
-| `line:camp_hungry.2` | A camp without food. They rest, but they do not sleep much, and {a} talks about pies until somebody tells them to stop. |
+| `line:camp_hungry.2` | There is no supper at this camp. They rest, but they do not sleep much, and {a} talks about pies until somebody tells them to stop. |
 | `line:camp_visit.1` | Something finds the camp in the night. |
 | `line:camp_visit.2` | The watch shouts that they have company. |
 
@@ -4928,14 +4928,14 @@ _Source: expeditions/data/lines.ts:543._
 |---|---|
 | `line:shrine_chaplain.1` | They find a shrine to Saint Oda in the wall. {a} says the words over it and makes everyone sit down for a while. |
 | `line:shrine_chaplain.2` | {a} cleans the silt off a cellar shrine and says a few words. They all rest their legs while it lasts. |
-| `line:shrine_pass.1` | A little shrine in the wall, with nobody to say the words. They sit in front of it anyway and rest their legs. |
+| `line:shrine_pass.1` | There is a little shrine in the wall, and nobody to say the words over it. They sit in front of it anyway and rest their legs. |
 | `line:shrine_pass.2` | There is a cellar shrine to Saint Oda here, older than the hall upstairs. {a} nods at it, and they stop for a breather. |
-| `line:strongbox_open.1` | An Assay Office strongbox, sealed in brass. {a} levers it open with the tools. |
+| `line:strongbox_open.1` | There is an Assay Office strongbox here, sealed in brass. {a} levers it open with the tools. |
 | `line:strongbox_open.2` | {a} works the tools into an old Assay strongbox and the lid comes up. |
-| `line:strongbox_smash.1` | An Assay strongbox. There are no tools, so {a} smashes it open with a rock. Most of what's inside survives that. |
-| `line:strongbox_ruin.1` | An Assay strongbox. With no tools, {a} smashes it open, and breaks everything inside it. |
+| `line:strongbox_smash.1` | They find an Assay strongbox. There are no tools, so {a} smashes it open with a rock. Most of what's inside survives that. |
+| `line:strongbox_ruin.1` | They find an Assay strongbox. With no tools, {a} smashes it open and breaks everything inside it. |
 | `line:cache.1` | {a} spots a grubber's cache behind a loose panel: coin and a bag of dried peas. |
-| `line:cache.2` | A grubber stash under a flagstone. {a} takes the coin and the food, and leaves the dice. |
+| `line:cache.2` | There is a grubber stash under a flagstone. {a} takes the coin and the food, and leaves the dice. |
 | `line:cache_missed.1` | There are grubber marks on the wall here, pointing at something. Nobody can work out what. |
 | `line:cart_tools.1` | A cart lies on its side in the flood. With a crowbar, {a} gets the strongbox off its bed. |
 | `line:cart_tools.2` | {a} levers open a drowned cart's chest and finds the silver still in it. |
@@ -5518,7 +5518,7 @@ _Source: expeditions/data/lines-sites.ts:657._
 | ID | Line |
 |---|---|
 | `line:fever_start:saltfens.1` | The fen gets into {a} all at once. They go hot, then cold, and their hands won't keep still. It's the marsh fever, and it has to run its course. |
-| `line:fever_start:saltfens.2` | {a} starts sweating and says they're fine. They are running the fen fever, and everyone can see it. |
+| `line:fever_start:saltfens.2` | {a} starts sweating and says they're fine. They are running the marsh fever, and everyone can see it. |
 | `line:fever_start:saltfens.3` | {a} goes grey and shivery out on the planks. The fever has started, and they'll fight worse until it breaks. |
 | `line:change_take:saltfens.1` | {a} is too tired to fight what the fen is doing to them, so it simply happens. |
 | `line:change_take:saltfens.2` | {a} is worn out, and the fen takes the shortcut. |
@@ -5538,12 +5538,12 @@ _Source: expeditions/data/lines-sites.ts:657._
 | `line:fever_start:town.1` | {a} has caught whatever is going round the Lower Town. They go hot, then cold, and their hands won't keep still. It's the Sink fever, the street says, and it has to run its course. |
 | `line:fever_start:town.2` | {a} starts sweating and says they're fine. Half the street had the same fever last month, and none of them were fine either. |
 | `line:fever_start:town.3` | {a} goes grey and shivery on a back stair. The fever has started, and they'll fight worse until it breaks. |
-| `line:change_take:town.1` | {a} is too tired to fight what the fever is doing to them, so it simply happens. |
-| `line:change_take:town.2` | {a} is worn out, and the fever takes the shortcut. |
+| `line:change_take:town.1` | {a} is too tired to fight whatever they picked up in these streets, so it simply happens. |
+| `line:change_take:town.2` | {a} is worn out, and whatever is going round the street takes the shortcut. |
 | `line:change_take:town.3` | There's no fever this time. {a} is too spent to fight the change, so it just comes. |
 | `line:change_deep_lungs:town.1` | They breathe slow and deep, and the smoke of the Lower Town doesn't catch in their throat any more. |
-| `line:change_iron_bones:town.1` | Their bones feel heavier, and they don't bruise. The fever has left something in the marrow. |
-| `line:change_sink_sense:town.1` | They stop and turn their head a moment before anything happens, every time. Nobody can say where they learned it. |
+| `line:change_iron_bones:town.1` | Their bones feel heavier, and they don't bruise. Whatever is going round the Lower Town has gone into the marrow. |
+| `line:change_sink_sense:town.1` | They stop and turn their head a moment before anything happens, every time. The Lower Town has taught them its habits. |
 
 _Source: expeditions/data/lines-sites.ts:684._
 

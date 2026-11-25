@@ -683,7 +683,7 @@ export const SITE_LINES: Record<string, string[]> = {
   // the Saltfens call it the marsh fever.
   'fever_start:saltfens': [
     "The fen gets into {a} all at once. They go hot, then cold, and their hands won't keep still. It's the marsh fever, and it has to run its course.",
-    "{a} starts sweating and says they're fine. They are running the fen fever, and everyone can see it.",
+    "{a} starts sweating and says they're fine. They are running the marsh fever, and everyone can see it.",
     "{a} goes grey and shivery out on the planks. The fever has started, and they'll fight worse until it breaks.",
   ],
   'change_take:saltfens': [
@@ -726,18 +726,18 @@ export const SITE_LINES: Record<string, string[]> = {
     "{a} goes grey and shivery on a back stair. The fever has started, and they'll fight worse until it breaks.",
   ],
   'change_take:town': [
-    "{a} is too tired to fight what the fever is doing to them, so it simply happens.",
-    "{a} is worn out, and the fever takes the shortcut.",
+    "{a} is too tired to fight whatever they picked up in these streets, so it simply happens.",
+    "{a} is worn out, and whatever is going round the street takes the shortcut.",
     "There's no fever this time. {a} is too spent to fight the change, so it just comes.",
   ],
   'change_deep_lungs:town': [
     "They breathe slow and deep, and the smoke of the Lower Town doesn't catch in their throat any more.",
   ],
   'change_iron_bones:town': [
-    "Their bones feel heavier, and they don't bruise. The fever has left something in the marrow.",
+    "Their bones feel heavier, and they don't bruise. Whatever is going round the Lower Town has gone into the marrow.",
   ],
   'change_sink_sense:town': [
-    "They stop and turn their head a moment before anything happens, every time. Nobody can say where they learned it.",
+    "They stop and turn their head a moment before anything happens, every time. The Lower Town has taught them its habits.",
   ],
 
   // ---- the dark, food and camps ----

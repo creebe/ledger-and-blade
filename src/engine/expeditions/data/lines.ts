@@ -517,7 +517,7 @@ export const LINES: Record<string, string[]> = {
   ],
   camp_hungry: [
     'There is nothing to eat. They lie in the dark and listen to each other\'s stomachs.',
-    'A camp without food. They rest, but they do not sleep much, and {a} talks about pies until somebody tells them to stop.',
+    'There is no supper at this camp. They rest, but they do not sleep much, and {a} talks about pies until somebody tells them to stop.',
   ],
   camp_visit: ['Something finds the camp in the night.', 'The watch shouts that they have company.'],
 
@@ -561,18 +561,18 @@ export const LINES: Record<string, string[]> = {
     "{a} cleans the silt off a cellar shrine and says a few words. They all rest their legs while it lasts.",
   ],
   shrine_pass: [
-    "A little shrine in the wall, with nobody to say the words. They sit in front of it anyway and rest their legs.",
+    "There is a little shrine in the wall, and nobody to say the words over it. They sit in front of it anyway and rest their legs.",
     "There is a cellar shrine to Saint Oda here, older than the hall upstairs. {a} nods at it, and they stop for a breather.",
   ],
   strongbox_open: [
-    "An Assay Office strongbox, sealed in brass. {a} levers it open with the tools.",
+    "There is an Assay Office strongbox here, sealed in brass. {a} levers it open with the tools.",
     '{a} works the tools into an old Assay strongbox and the lid comes up.',
   ],
-  strongbox_smash: ["An Assay strongbox. There are no tools, so {a} smashes it open with a rock. Most of what's inside survives that."],
-  strongbox_ruin: ["An Assay strongbox. With no tools, {a} smashes it open, and breaks everything inside it."],
+  strongbox_smash: ["They find an Assay strongbox. There are no tools, so {a} smashes it open with a rock. Most of what's inside survives that."],
+  strongbox_ruin: ["They find an Assay strongbox. With no tools, {a} smashes it open and breaks everything inside it."],
   cache: [
     "{a} spots a grubber's cache behind a loose panel: coin and a bag of dried peas.",
-    'A grubber stash under a flagstone. {a} takes the coin and the food, and leaves the dice.',
+    'There is a grubber stash under a flagstone. {a} takes the coin and the food, and leaves the dice.',
   ],
   cache_missed: ['There are grubber marks on the wall here, pointing at something. Nobody can work out what.'],
   cart_tools: ["A cart lies on its side in the flood. With a crowbar, {a} gets the strongbox off its bed.", "{a} levers open a drowned cart's chest and finds the silver still in it."],
