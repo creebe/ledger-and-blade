@@ -1,4 +1,6 @@
 :root {
+  /* the top safe area plus clear room under the iPhone status bar; 0 where there is no inset */
+  --safe-top: calc(env(safe-area-inset-top) + min(env(safe-area-inset-top), 12px));
   --bg: #efe5cf;
   --paper: #f8f1e1;
   --paper-2: #f2e8d2;
@@ -199,7 +201,7 @@ p {
   z-index: 20;
   background: var(--paper);
   border-bottom: 1px solid var(--line);
-  padding: calc(6px + env(safe-area-inset-top)) 12px 6px;
+  padding: calc(6px + var(--safe-top)) 12px 6px;
   box-shadow: var(--shadow);
 }
 .topbar .date {
@@ -1270,12 +1272,14 @@ details summary {
   align-items: center;
   justify-content: center;
   padding: 16px;
+  padding-top: max(16px, var(--safe-top));
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
   animation: fade 0.2s;
 }
 .event-card {
   max-width: 520px;
   width: 100%;
-  max-height: 92dvh;
+  max-height: min(92dvh, 100%);
   overflow-y: auto;
   background: var(--paper);
   border: 1px solid var(--line);
@@ -1434,7 +1438,7 @@ details summary {
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  top: calc(96px + env(safe-area-inset-top));
+  top: calc(96px + var(--safe-top));
   width: max-content;
   pointer-events: none;
   background: var(--ink);
@@ -1685,7 +1689,7 @@ details summary {
 }
 .theme-toggle {
   position: absolute;
-  top: calc(12px + env(safe-area-inset-top));
+  top: calc(12px + var(--safe-top));
   right: 16px;
   border: 1px solid var(--line);
   background: var(--paper);
@@ -2777,7 +2781,7 @@ details summary {
   background: rgba(10, 8, 6, 0.72);
 }
 .sheet {
-  height: calc(100dvh - 40px - env(safe-area-inset-top));
+  height: calc(100dvh - 40px - var(--safe-top));
   max-height: none;
 }
 .sheet-head {
@@ -2951,7 +2955,7 @@ details summary {
   bottom: calc(var(--nav-h) + 64px + env(safe-area-inset-bottom));
 }
 .toast.over-sheet {
-  top: calc(8px + env(safe-area-inset-top));
+  top: calc(8px + var(--safe-top));
 }
 
 /* top bar: number on top, a label under it in the first season */
@@ -3208,7 +3212,7 @@ details summary {
 }
 /* an alert or a note that scrolls to a section stops below the fixed top bar */
 [data-guide] {
-  scroll-margin-top: calc(112px + env(safe-area-inset-top));
+  scroll-margin-top: calc(112px + var(--safe-top));
 }
 /* the top bar's Journal and Menu buttons win over the resource padding below them */
 .topbar .icon-btn {
@@ -4201,7 +4205,7 @@ details summary {
   flex: none;
   background: var(--paper);
   border-bottom: 1px solid var(--line);
-  padding: calc(8px + env(safe-area-inset-top)) 12px 8px;
+  padding: calc(8px + var(--safe-top)) 12px 8px;
 }
 .x-log-title {
   font-family: var(--display);

@@ -23,6 +23,18 @@ Two fixes from the owner's v0.13.2 phone playtest. Branch `claude/ui-fixes`. Onl
    - **On the prep sheet:** the tag spells out the candidates ("? Watchful Guards or Thugs"). Below it, a hint names the Intel cost and the Scout order.
    - Scouting still works and is reachable: Roster → Orders → "Scout a contract" (`kit/members.tsx` `OrderPicker`). The engine resolves it in `turn.ts`, and it also counts for the `reveal` objective.
 
+3. **Room under the iPhone status bar** (owner, via main: "can we also lower the very top HUD info? It gets semi obscured by the iPhone darkening the display").
+   - A new `--safe-top` in `styles.css` is the top inset plus 12px. It is 0 where there is no inset (`min(inset, 12px)`), so desktop doesn't move.
+   - It replaces every `env(safe-area-inset-top)`:
+     - the top bar;
+     - the sheet height, so the sheet top follows;
+     - the toasts;
+     - the title screen's theme toggle;
+     - the full-screen log head;
+     - the `[data-guide]` scroll margin.
+   - Scene cards (`.event-backdrop`) now pad by `--safe-top` and the bottom inset. Before, a tall scene card ran up under the status bar.
+   - This is CSS only. It was checked with Playwright on an iPhone 15 with a simulated 59px top inset. The shots are in `docs/reports/ui-fixes-top-inset.png`.
+
 ## What was checked
 
 - `npm run check` passes, before and after merging main: 61 tests, story checker 0 violations and 0 unreached, style flags 38 (all in engine data, none from this diff).
