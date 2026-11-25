@@ -46,7 +46,7 @@ export function raiseFeud(state: GameState, id: RivalId, amount: number) {
         after === 2
           ? `It is open war with ${name}. Expect raids, fire and knives, and expect the Exchequer to blame you for all of it.`
           : after === 1 && before === 2
-            ? `${name} have stopped sending knives. It is still a feud, and they will still go after your jobs and your stores.`
+            ? `${name} have stopped sending knives. It is still a feud, though, and they will keep going after your jobs and your stores.`
             : after === 1
               ? `What was business with ${name} has become personal. They will start going after your jobs, your stores and your people.`
               : `${name} have stopped treating you as an enemy, for now.`,
