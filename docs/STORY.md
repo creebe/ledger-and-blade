@@ -189,7 +189,7 @@ Only the expeditions trial on `claude/expeditions` uses this (`docs/EXPEDITIONS.
   - Seeps are spills of reagent that never stopped reacting.
   - The Assay engines and the college's **Kiln Engine** are clockwork and reagent mechanisms. They have no will of their own and still run the last instructions anyone gave them.
 - **People down there.** Grubbers are people who live below and dig for what Pellam left. Hobb & Daughters and the Ninth sometimes send crews down.
-- **Exposure.** The Sink's runoff gets into the body. Saint Oda's fever beds treat it with vinegar, charcoal and water.
+- **Exposure and Sink changes.** The Sink's runoff gets into the body and, given time, changes it: violet skin, pale eyes, iron bones, storm in the fingers. This is chemistry, not a curse. The Lower Town calls such people Sink-touched. A rested body fights the change with the Sink fever. Saint Oda's fever beds draw Exposure out with vinegar, charcoal and water.
 - **Factions as sponsors.** Saint Oda's (Brune) wants reagent salts. The Exchequer wants the Assay seals found and the Kiln Engine stopped. The Mudlarks (Pask) want eel oil. The Weighhouse (Coster) buys Pellam plate by weight. Ostrander's (Vorn) wants a survey of the Sink, because the bank holds a note on the college. The Porters' Fraternity wants fewer rats.
 
 ## 6. Acts II–IV (Draft outline, not yet written)

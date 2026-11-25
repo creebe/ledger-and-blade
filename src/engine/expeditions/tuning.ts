@@ -20,7 +20,17 @@ export const EXP_TUNING = {
   /** physical wear: what each thing adds (negative clears it) */
   fatigue: { tired: 40, spent: 70, tiredPenalty: 5, spentPenalty: 12, room: { culverts: 3, streets: 5, sink: 5 }, bulkDiv: 4, dark: 2, hungry: 10, fight: 2, boss: 6, trap: 3, meal: -4, camp: 25, chaplainCamp: 8, campHungry: 6, secondWind: 10, loadEvery: 8 },
   /** reagent runoff in the body, and where it leaves a lasting condition */
-  exposure: { streetsRoom: 1, sinkRoom: 3, seepHit: 4, gas: 8, kilnBlast: 5, bloodCast: 3, stillBad: 6, thresholds: [40, 70, 95], homeDrop: 3, treat: 40, treatCost: 30 },
+  exposure: {
+    streetsRoom: 1, sinkRoom: 3, seepHit: 4, gas: 8, kilnBlast: 5, bloodCast: 3, stillBad: 6,
+    /** each threshold starts a Sink change */
+    thresholds: [40, 70, 95],
+    /** the odds of drawing tier 1, 2 or 3 at each threshold */
+    tierOdds: [[7, 3, 0], [1, 6, 3], [0, 3, 7]],
+    /** at or above this fatigue the change takes at once; below it, the Sink fever comes first */
+    takeAt: 50,
+    feverRooms: 3, feverPenalty: 6, feverFatigue: 3, feverWeeks: 1,
+    homeDrop: 3, treat: 40, treatCost: 30,
+  },
   /** at the guild, each week */
   home: { heal: 0.2, infirmary: 0.15, rest: 40, taproom: 20, trainXp: 6, trainCost: 10, trainFatigue: 15 },
   xp: { room: 1, fight: 3, perDepth: 2, levels: [0, 20, 50, 95, 160] },

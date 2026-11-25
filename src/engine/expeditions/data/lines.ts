@@ -636,23 +636,68 @@ export const LINES: Record<string, string[]> = {
     "Nobody packed wet masks. They go into the Sink breathing it.",
     "No masks. They tie their scarves over their faces, which does about as much good as you'd expect.",
   ],
-  cond_tremor: [
-    "{a}'s hands have started to shake, and they don't stop when the fighting does. The Sink has got into them.",
-  ],
-  cond_burned_lungs: [
-    "{a} coughs up something violet. Their lungs will remember the Sink for a long time.",
-  ],
-  cond_brittle: [
-    "{a} jars a wrist on the wall and something cracks that shouldn't have. The runoff has been at their bones.",
-  ],
-  cond_stained_skin: [
-    "{a}'s hands have gone a deep violet, and the seeps don't seem to burn them as much. Nobody can decide if that's good news.",
-  ],
-  cond_pale_eyes: [
-    "{a}'s eyes have gone pale and strange, and they can see a little in the dark now. Their mother will have things to say.",
-  ],
   kiln_yard: [
     "The Kiln Engine's yard is still there, and so are the smaller engines that used to feed it. Without the Kiln to answer to, they test whatever walks in.",
     "Where the Kiln Engine stood there is only a scorched floor and two of the college's lesser engines, going about their business.",
+  ],
+  fever_start: [
+    "The Sink gets into {a} all at once. They go hot, then cold, and their hands won't keep still. It's the Sink fever, and it has to run its course.",
+    "{a} starts sweating violet. They say they're fine. They are running the Sink fever, and everyone can see it.",
+    "{a} goes grey and shivery in the middle of the Sink. The fever has started, and they'll fight worse until it breaks.",
+  ],
+  fever_room: [
+    "{a} is burning up and keeps having to stop.",
+    "The fever has {a} talking to people who aren't there.",
+    "{a} shivers through another room, teeth chattering.",
+  ],
+  fever_breaks: [
+    "{a}'s fever breaks all at once, and they come out of it different.",
+    "{a} stops shaking, sits up straight and blinks. The fever has done its work.",
+    "The fever lets go of {a}, and leaves something behind.",
+  ],
+  change_take: [
+    "{a} is too tired to fight what the Sink is doing to them, so it simply happens.",
+    "{a} is worn out, and the Sink takes the shortcut.",
+    "There's no fever: {a} is too spent to argue with it.",
+  ],
+  storm_fingers: [
+    "A crack of storm jumps from {a}'s hands to {m} before anyone has moved.",
+    "{a} flexes their fingers and {m} takes a bolt of storm to open the fight.",
+  ],
+  change_violet_skin: [
+    "Their skin has gone a deep, even violet, and the seeps don't seem to bite it the same way.",
+  ],
+  change_copper_tongue: [
+    "Everything tastes of copper now, and they can tell what's in a still by the smell alone.",
+  ],
+  change_rat_smell: [
+    "The rats have started giving them a wide berth. Nobody can smell anything, but the rats can.",
+  ],
+  change_slow_stomach: [
+    "They say they aren't hungry, and they mean it. They may not be hungry until Thursday.",
+  ],
+  change_pale_eyes: [
+    "Their eyes have gone pale and strange, and the dark doesn't trouble them now.",
+  ],
+  change_thick_hide: [
+    "Their skin has thickened like boiled leather. A knife would have to work at it.",
+  ],
+  change_quick_blood: [
+    "Their blood runs fast and bright now, and a cut closes while you watch it.",
+  ],
+  change_deep_lungs: [
+    "They breathe slow and deep, and the Sink air doesn't catch in their throat any more.",
+  ],
+  change_reagent_blood: [
+    "Their blood has gone half reagent. A drop of it on a blade smokes.",
+  ],
+  change_iron_bones: [
+    "Their bones feel heavier, and they don't bruise. Something in the runoff has gone into the marrow.",
+  ],
+  change_storm_fingers: [
+    "Their fingertips crackle when they rub them together, and the hair on their arms stands up.",
+  ],
+  change_sink_sense: [
+    "They stop and turn their head a moment before anything happens, every time. The Sink has taught them its habits.",
   ],
 };

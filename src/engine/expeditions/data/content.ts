@@ -364,6 +364,19 @@ export interface MarkDef {
   campRest?: number; // multiplier for fatigue cleared at camps
   homeRest?: number; // extra fatigue cleared at the guild each week
   homeHeal?: number; // extra HP restored at the guild each week
+  // Sink changes
+  tier?: 1 | 2 | 3; // amusing, useful, powerful
+  prot?: number; // extra armor
+  foeAccVs?: { monster: MonsterId; acc: number }; // that monster's aim against them
+  stillSafe?: boolean; // college stills never hurt them
+  hungerHalf?: boolean; // a missed meal tires them half as much
+  shortPoison?: boolean; // venom and bleeding stop after one round
+  bandageBonus?: number; // bandages heal them this much more
+  exposureRate?: number; // multiplier on Exposure they take
+  freeCast?: boolean; // their first spell or censer each fight costs no dose
+  fireBlows?: boolean; // their weapon blows carry fire
+  openingStrike?: number; // a free storm strike at the front enemy when a fight starts
+  avoid?: number; // better odds of slipping past wanderers
 }
 
 export const SCARS: Record<string, MarkDef> = {
@@ -389,13 +402,28 @@ export const HABITS: Record<string, MarkDef> = {
   old_hand: { id: 'old_hand', name: 'Old hand at camp', text: 'Camps heal them a little more.', campHeal: 0.06, good: true },
 };
 
-/** Lasting conditions left by Exposure to the Sink's runoff. Chemistry, not curses. */
-export const CONDITIONS: Record<string, MarkDef> = {
-  tremor: { id: 'tremor', name: 'A tremor', text: 'Aim −5. Their hands shake in the mornings.', acc: -5 },
-  burned_lungs: { id: 'burned_lungs', name: 'Burned lungs', text: 'Tires 1 faster each room.', roomFatigue: 1 },
-  brittle: { id: 'brittle', name: 'Brittle bones', text: 'Their life is less safe when they go down.', deathRoll: 0.05 },
-  stained_skin: { id: 'stained_skin', name: 'Stained skin', text: 'Seeps and the Kiln Engine do 2 less damage to them. The skin is a lovely violet.', burnGuard: 2, good: true },
-  pale_eyes: { id: 'pale_eyes', name: 'Pale eyes', text: 'No aim penalty in the dark, and a worse one with their mother.', nightEyes: true, good: true },
+/**
+ * Sink changes: what Exposure does to a body, given time. Chemistry, not curses.
+ * Crossing an Exposure threshold starts one. A worn-out body (high fatigue) takes it at once;
+ * a rested one fights it and runs the Sink fever first, and gains the change only if it sees the fever out.
+ * Deeper thresholds draw from better tiers.
+ */
+export const CHANGES: Record<string, MarkDef> = {
+  // tier 1: amusing, with a small use
+  violet_skin: { id: 'violet_skin', tier: 1, good: true, name: 'Violet skin', text: 'Seeps and the Kiln Engine do 2 less damage to them. The colour is lovely and does not wash off.', burnGuard: 2 },
+  copper_tongue: { id: 'copper_tongue', tier: 1, good: true, name: 'A copper tongue', text: 'They can taste what a college still holds, so stills never hurt them. Everything else tastes of pennies.', stillSafe: true },
+  rat_smell: { id: 'rat_smell', tier: 1, good: true, name: 'Smells wrong to rats', text: 'Rats aim 12 worse at them. Dogs are not keen either.', foeAccVs: { monster: 'rats', acc: -12 } },
+  slow_stomach: { id: 'slow_stomach', tier: 1, good: true, name: 'A slow stomach', text: 'A missed meal tires them half as much. They eat once a day at home and nobody likes watching.', hungerHalf: true },
+  // tier 2: useful
+  pale_eyes: { id: 'pale_eyes', tier: 2, good: true, name: 'Pale eyes', text: 'No aim penalty in the dark, and a worse one with their mother.', nightEyes: true },
+  thick_hide: { id: 'thick_hide', tier: 2, good: true, name: 'A thick hide', text: 'Armor +1. Their skin has gone tough as boiled leather.', prot: 1 },
+  quick_blood: { id: 'quick_blood', tier: 2, good: true, name: 'Quick blood', text: 'Venom and bleeding stop after one round, and bandages heal them 4 more.', shortPoison: true, bandageBonus: 4 },
+  deep_lungs: { id: 'deep_lungs', tier: 2, good: true, name: 'Deep lungs', text: 'They take half the Exposure, and tire 1 slower each room.', exposureRate: 0.5, roomFatigue: -1 },
+  // tier 3: powerful
+  reagent_blood: { id: 'reagent_blood', tier: 3, good: true, name: 'Reagent blood', text: 'Their first spell or censer in every fight costs no dose, and their weapon blows burn.', freeCast: true, fireBlows: true },
+  iron_bones: { id: 'iron_bones', tier: 3, good: true, name: 'Iron bones', text: 'Max HP +6, and their life is much safer when they go down.', maxHp: 6, deathRoll: -0.1 },
+  storm_fingers: { id: 'storm_fingers', tier: 3, good: true, name: 'Storm in the fingers', text: 'When a fight starts, a crack of storm jumps from their hands to the nearest enemy.', openingStrike: 9 },
+  sink_sense: { id: 'sink_sense', tier: 3, good: true, name: 'Sink sense', text: 'They feel the Sink move before it does: much better at spotting traps and slipping past wanderers.', spot: 0.15, avoid: 0.15 },
 };
 
 export const BAD_HABITS = Object.values(HABITS).filter((h) => !h.good).map((h) => h.id);

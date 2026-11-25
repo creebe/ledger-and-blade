@@ -3,7 +3,7 @@
 // squad and plan always give the same log. No React, no Math.random.
 import { chance, nextFloat, pick, randInt, shuffle, weighted } from '../core/rng';
 import type { DamageType, Element } from '../core/types';
-import { CONDITIONS, GEAR, GOODS, HABITS, LENGTHS, MONSTERS, SCARS, ZONES, BAD_HABITS, GOOD_HABITS, type MarkDef, type MonsterDef } from './data/content';
+import { CHANGES, GEAR, GOODS, HABITS, LENGTHS, MONSTERS, SCARS, ZONES, BAD_HABITS, GOOD_HABITS, type MarkDef, type MonsterDef } from './data/content';
 import { LINES } from './data/lines';
 import { EXP_TUNING as T } from './tuning';
 import type {
@@ -56,7 +56,10 @@ interface Actor {
   gotUp: boolean;
   wasSpent: boolean;
   sawDeath: boolean;
-  newConditions: string[];
+  newChanges: string[];
+  /** running the Sink fever: the change it will leave, and rooms to go */
+  fever?: { change: string; rooms: number };
+  freeCastUsed: boolean;
   healed: number;
   covers: number;
   bossKill: boolean;
@@ -95,7 +98,7 @@ export interface DiveContext {
   gear: (uid: string | undefined) => GearDef | undefined;
 }
 
-const mark = (d: Delver): MarkDef[] => [...d.scars.map((s) => SCARS[s]), ...(d.conditions ?? []).map((c) => CONDITIONS[c]), ...d.habits.map((h) => HABITS[h])].filter(Boolean);
+const mark = (d: Delver): MarkDef[] => [...d.scars.map((s) => SCARS[s]), ...(d.changes ?? []).map((c) => CHANGES[c]), ...d.habits.map((h) => HABITS[h])].filter(Boolean);
 const sum = (ms: MarkDef[], k: keyof MarkDef) => ms.reduce((s, m) => s + ((m[k] as number | undefined) ?? 0), 0);
 
 /** Max HP for a member, scars included. */
@@ -112,7 +115,7 @@ export function delverStats(d: Delver, gear: DiveContext['gear']) {
     maxHp: delverMaxHp(d),
     acc: 74 + d.attrs.finesse * 2 + d.level * 2 + (trinket?.acc ?? 0) + sum(ms, 'acc'),
     dodge: Math.max(0, 4 + d.attrs.finesse * 2 - (armor?.bulk ?? 0) + (trinket?.dodge ?? 0) + sum(ms, 'dodge')),
-    prot: armor?.protection ?? 0,
+    prot: (armor?.protection ?? 0) + sum(ms, 'prot'),
     speed: d.attrs.finesse + sum(ms, 'speed'),
     crit: 0.05 + d.attrs.wits * 0.006,
   };
@@ -198,7 +201,8 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
       gotUp: false,
       wasSpent: false,
       sawDeath: false,
-      newConditions: [],
+      newChanges: [],
+      freeCastUsed: false,
       healed: 0,
       covers: 0,
       bossKill: false,
@@ -232,6 +236,7 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
     maxHp: A.map((a) => a.maxHp),
     fatigue: A.map((a) => Math.round(a.fatigue)),
     exposure: A.map((a) => Math.round(a.exposure)),
+    fever: A.map((a) => !!a.fever),
     state: A.map((a) => (a.state === 'dead' ? 'dead' : a.state === 'down' ? 'down' : a.fatigue >= 100 ? 'out' : a.fatigue >= T.fatigue.spent ? 'spent' : 'ok')),
   });
   const snapFoes = (): EnemySnap[] | undefined =>
@@ -259,25 +264,63 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
     }
   };
   const tireAll = (n: number) => standing().forEach((a) => tire(a, n));
-  /** Reagent runoff in the body. Wet masks halve it; past each threshold it leaves a lasting condition. */
+  /** Give a member a Sink change now: it works from this room on. */
+  const takeChange = (a: Actor, c: string, key: string) => {
+    const def = CHANGES[c];
+    a.newChanges.push(c);
+    a.marks.push(def);
+    a.maxHp += def.maxHp ?? 0;
+    a.hp += Math.max(0, def.maxHp ?? 0);
+    a.prot += def.prot ?? 0;
+    a.fever = undefined;
+    put('exposure', `${say(key, { a: a.name })} ${say(`change_${c}`, { a: a.name })}`, { big: true, note: def.name });
+  };
+  /** Pick the change a threshold brings: deeper thresholds draw from better tiers. */
+  const drawChange = (a: Actor, th: number): string | undefined => {
+    const have = new Set([...(a.d.changes ?? []), ...a.newChanges, ...(a.fever ? [a.fever.change] : [])]);
+    const odds = T.exposure.tierOdds[th];
+    for (let tries = 0; tries < 3; tries++) {
+      const tier = weighted(r, [1, 2, 3].map((t, i) => ({ item: t, weight: odds[i] })));
+      const free = Object.keys(CHANGES).filter((c) => CHANGES[c].tier === tier && !have.has(c));
+      if (free.length) return pick(r, free);
+    }
+    const any = Object.keys(CHANGES).filter((c) => !have.has(c));
+    return any.length ? pick(r, any) : undefined;
+  };
+  /**
+   * Reagent runoff in the body. Wet masks halve it. Crossing a threshold starts a Sink change:
+   * a worn-out body takes it at once; a rested one runs the Sink fever first.
+   */
   const expose = (a: Actor, n: number) => {
     if (a.state === 'dead' || n <= 0) return;
     if (a.masked) n = n / 2;
+    n *= a.marks.reduce((m, x) => m * (x.exposureRate ?? 1), 1);
     const before = a.exposure;
     a.exposure = Math.min(100, a.exposure + n);
-    for (const th of T.exposure.thresholds) {
-      if (before < th && a.exposure >= th) {
-        const free = Object.keys(CONDITIONS).filter((c) => !(a.d.conditions ?? []).includes(c) && !a.newConditions.includes(c));
-        if (!free.length) continue;
-        const c = pick(r, free);
-        a.newConditions.push(c);
-        put('exposure', say(`cond_${c}`, { a: a.name }), { big: true, note: CONDITIONS[c].name });
+    T.exposure.thresholds.forEach((th, i) => {
+      if (before >= th || a.exposure < th || a.fever) return;
+      const c = drawChange(a, i);
+      if (!c) return;
+      if (a.fatigue >= T.exposure.takeAt) takeChange(a, c, 'change_take');
+      else {
+        a.fever = { change: c, rooms: T.exposure.feverRooms };
+        put('exposure', say('fever_start', { a: a.name }), { big: true, note: 'the Sink fever' });
       }
+    });
+  };
+  /** Each room, the fever runs its course, or a tired body gives in to the change early. */
+  const feverTick = () => {
+    for (const a of standing()) {
+      if (!a.fever) continue;
+      tire(a, T.exposure.feverFatigue);
+      a.fever.rooms -= 1;
+      if (a.fatigue >= T.exposure.takeAt || a.fever.rooms <= 0) takeChange(a, a.fever.change, 'fever_breaks');
+      else if (chance(r, 0.35)) put('exposure', say('fever_room', { a: a.name }));
     }
   };
   const exposeAll = (n: number) => standing().forEach((a) => expose(a, n));
   /** aim and dodge lost to fatigue */
-  const wear = (a: Actor) => (a.fatigue >= T.fatigue.spent ? T.fatigue.spentPenalty : a.fatigue >= T.fatigue.tired ? T.fatigue.tiredPenalty : 0);
+  const wear = (a: Actor) => (a.fatigue >= T.fatigue.spent ? T.fatigue.spentPenalty : a.fatigue >= T.fatigue.tired ? T.fatigue.tiredPenalty : 0) + (a.fever ? T.exposure.feverPenalty : 0);
 
   // ---- helpers ----
   const zoneScale = (def: MonsterDef, z: ZoneId) => 1 + Math.max(0, ZONES[z].depth - ZONES[def.zone].depth) * T.depthScale;
@@ -363,6 +406,7 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
   };
   /** One blow. Returns true if it landed. */
   const strike = (a: Actor, f: Foe, o: { key: string; power: number; type?: DamageType; el?: Element; accMod?: number; armorPierce?: number; critMod?: number; mult?: number }) => {
+    if (!o.el && o.type && a.marks.some((m) => m.fireBlows)) o = { ...o, el: 'fire' };
     const vs = a.marks.reduce((s, m) => s + (m.accVs?.monster === f.def.id ? m.accVs.acc : 0), 0);
     const hitP = Math.max(0.12, Math.min(0.96, (a.acc + (o.accMod ?? 0) + vs - f.dodge - (dark && !a.marks.some((m) => m.nightEyes) ? 10 : 0) - wear(a)) / 100));
     const v = { a: a.name, m: f.label, w: (a.weapon?.name ?? 'bare hands').toLowerCase() };
@@ -395,7 +439,11 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
   };
 
   // ---- members act ----
-  const useDose = (n: number) => {
+  const useDose = (n: number, a?: Actor) => {
+    if (a && !a.freeCastUsed && a.marks.some((m) => m.freeCast)) {
+      a.freeCastUsed = true;
+      return true;
+    }
     if (pack.reagents >= n) {
       pack.reagents -= n;
       return true;
@@ -488,7 +536,7 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
           for (const f of [...live]) strike(a, f, { key: 'spell', power: Math.round(pow * 0.6), el, accMod: accMod + 10 });
           return;
         }
-        if (boltOk && useDose(1)) return void strike(a, t, { key: 'spell', power: pow, el, accMod: accMod + 8, mult: 1.1 });
+        if ((boltOk || (!a.freeCastUsed && a.marks.some((m) => m.freeCast))) && useDose(1, a)) return void strike(a, t, { key: 'spell', power: pow, el, accMod: accMod + 8, mult: 1.1 });
         if (pack.reagents <= 0 && t.hp >= 20 && a.hp > a.maxHp * 0.5) {
           a.hp -= 4;
           put('enemy', say('blood_cast', { a: a.name }), { note: '4 of their own' });
@@ -517,7 +565,7 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
         }
         if (w?.focus && w.element === 'radiant' && pack.reagents > 0 && O.consumables !== 'hoard') {
           const t = pickTarget(liveFoes(), (f) => (multFor(f, undefined, 'radiant') > 1 ? 0.6 : 0));
-          if (t && useDose(1)) strike(a, t, { key: 'censer', power: w.power! + Math.floor(wits / 2), el: 'radiant', accMod: 6 });
+          if (t && useDose(1, a)) strike(a, t, { key: 'censer', power: w.power! + Math.floor(wits / 2), el: 'radiant', accMod: 6 });
           return;
         }
         if (rank > 2) return put('miss', say('cant_reach', { a: a.name }));
@@ -571,7 +619,7 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
       put('heal', say('covered', { a: cover.name, t: t.name, m: f.label }));
       t = cover;
     }
-    const hitP = Math.max(0.1, Math.min(0.95, (f.acc + (dark ? 5 : 0) - t.dodge + wear(t) - (f.pinned > 0 ? 20 : 0)) / 100));
+    const hitP = Math.max(0.1, Math.min(0.95, (f.acc + (dark ? 5 : 0) - t.dodge + wear(t) - (f.pinned > 0 ? 20 : 0) + t.marks.reduce((x, m) => x + (m.foeAccVs?.monster === f.def.id ? m.foeAccVs.acc : 0), 0)) / 100));
     if (!chance(r, hitP)) {
       put('miss', say(`${f.def.id}_miss`, v(t)));
       return;
@@ -586,7 +634,7 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
     dmg = Math.max(1, Math.round((dmg - (crit ? 0 : t.prot * 0.6)) * (crit ? 1.5 : 1)) - skin);
     t.hp -= dmg;
     put('enemy', say(crit ? `${f.def.id}_crit` : `${f.def.id}_hit`, v(t)), { note: `${dmg}` });
-    if (f.def.special === 'poison' && t.hp > 0) t.poison = 2;
+    if (f.def.special === 'poison' && t.hp > 0) t.poison = t.marks.some((m) => m.shortPoison) ? 1 : 2;
     if (f.def.id === 'seep') expose(t, T.exposure.seepHit);
     if (f.def.special === 'thief' && chance(r, 0.12)) {
       const have = (Object.keys(loot) as GoodId[]).filter((g) => (loot[g] ?? 0) > 0);
@@ -606,6 +654,22 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
     // the first sight of each kind of monster
     const kinds = [...new Set(ids)];
     put('fight', say(o.boss ? 'boss_sight' : `sight_${lead.id}`, { m: foes[0].label, n: foes.length }), { big: !!o.boss });
+    for (const a of A.filter((x) => x.state === 'ok')) a.freeCastUsed = false;
+    for (const a of standing()) {
+      const bolt = sum(a.marks, 'openingStrike');
+      const t = foes[0];
+      if (!bolt || !t) continue;
+      t.hp -= bolt;
+      put('hit', say('storm_fingers', { a: a.name, m: t.label }), { note: `${bolt}` });
+      if (t.hp <= 0) {
+        killFoe(a, t);
+        foes = foes.filter((x) => x !== t);
+      }
+    }
+    if (!foes.length) {
+      put('win', say('fight_won', {}));
+      return 'won';
+    }
     if (kinds.includes('moths') && pack.oil > 0) {
       const n = Math.min(pack.oil, randInt(r, 1, 2));
       pack.oil -= n;
@@ -709,6 +773,7 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
   // ---- between rooms ----
   const bandageAt = O.consumables === 'freely' ? 0.65 : O.consumables === 'sparingly' ? 0.4 : 0.2;
   const upkeep = (z: ZoneId) => {
+    feverTick();
     // every room wears on them: more deeper down, more in heavy armor, more under a heavy bag
     const load = Math.floor((Object.values(loot) as number[]).reduce((x, y) => x + y, 0) / T.fatigue.loadEvery);
     for (const a of standing()) tire(a, T.fatigue.room[z] + (ctx.gear(a.d.armor)?.bulk ?? 0) / T.fatigue.bulkDiv + load + sum(a.marks, 'roomFatigue'));
@@ -738,7 +803,7 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
         tireAll(T.fatigue.meal);
       } else {
         put('camp', say('hungry', { a: pick(r, standing())?.name }), { big: true, note: `+${T.fatigue.hungry} fatigue each` });
-        tireAll(T.fatigue.hungry);
+        standing().forEach((a) => tire(a, a.marks.some((m) => m.hungerHalf) ? T.fatigue.hungry / 2 : T.fatigue.hungry));
       }
     }
     for (const a of hurtOrder(standing().filter((x) => x.hp < x.maxHp * bandageAt))) {
@@ -746,7 +811,7 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
       if (a.hp >= a.maxHp * bandageAt) continue;
       pack.bandages -= 1;
       const chap = standing().find((x) => x.prof === 'chaplain');
-      const n = heal(a, T.heal.bandage + (chap ? T.heal.chaplainBandage + (chap.trinket?.heal ?? 0) : 0));
+      const n = heal(a, T.heal.bandage + sum(a.marks, 'bandageBonus') + (chap ? T.heal.chaplainBandage + (chap.trinket?.heal ?? 0) : 0));
       if (chap) chap.healed += n;
       put('heal', say(chap && chap !== a ? 'bandage_chaplain' : 'bandage', { a: a.name, t: chap?.name }), { note: `+${n}` });
     }
@@ -792,7 +857,7 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
     if (O.wanderers === 'avoid') {
       const bulk = standing().reduce((s, a) => s + (ctx.gear(a.d.armor)?.bulk ?? 0), 0);
       const quiet = standing().reduce((s, a) => s + (a.trinket?.dodge ? 0.05 : 0), 0);
-      const p = Math.max(0.15, Math.min(0.92, 0.45 + (hasProf('scout') ? 0.25 : 0) + quiet - bulk * 0.012 - (dark ? 0.15 : 0)));
+      const p = Math.max(0.15, Math.min(0.92, 0.45 + (hasProf('scout') ? 0.25 : 0) + Math.max(0, ...standing().map((a) => sum(a.marks, 'avoid'))) + quiet - bulk * 0.012 - (dark ? 0.15 : 0)));
       if (chance(r, p)) {
         put('room', say('wander_avoided', { m: MONSTERS[ids[0]].plural }));
         return 'none';
@@ -900,7 +965,7 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
         if (arc) {
           pack.reagents += 2;
           put('find', say('still_arcanist', { a: arc.name }), { note: '+2 reagents' });
-        } else if (chance(r, 0.5)) {
+        } else if (who.marks.some((m) => m.stillSafe) || chance(r, 0.5)) {
           heal(who, 6);
           tire(who, -8);
           put('find', say('still_good', { a: who.name }));
@@ -1114,7 +1179,8 @@ export function runExpedition(squad: Delver[], plan: ExpPlan, ctx: DiveContext):
       hp: Math.max(0, Math.round(a.hp)),
       fatigue: Math.round(a.fatigue),
       exposure: Math.round(a.exposure),
-      conditions: a.newConditions,
+      changes: a.newChanges,
+      fever: a.state !== 'dead' ? a.fever?.change : undefined,
       xp: a.state === 'dead' ? 0 : a.xp + (outcome === 'complete' ? L.xp : 0),
       died: a.state === 'dead' ? (a.died ?? 'Old Pellam') : undefined,
       scars: a.newScars,

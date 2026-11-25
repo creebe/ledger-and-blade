@@ -4,12 +4,12 @@
 import { FIRST_NAMES, LAST_NAMES } from '../data/traits';
 import { chance, pick, randInt, shuffle } from '../core/rng';
 import type { RivalId } from '../core/types';
-import { DELVER_PROFS, DELVER_PROF_IDS, GEAR, GEAR_IDS, GOODS, HABITS, LENGTHS, SPONSORS, SUPPLIES, SUPPLY_IDS, ZONES, ZONE_ORDER } from './data/content';
+import { CHANGES, DELVER_PROFS, DELVER_PROF_IDS, GEAR, GEAR_IDS, GOODS, HABITS, LENGTHS, SPONSORS, SUPPLIES, SUPPLY_IDS, ZONES, ZONE_ORDER } from './data/content';
 import { delverMaxHp, runExpedition } from './dive';
 import { EXP_TUNING as T } from './tuning';
 import type { Delver, DelverProf, DelverRecruit, ExpeditionResult, ExpGame, ExpLength, ExpPlan, GearDef, GoodId, Sponsor, StandingOrders, SupplyId } from './types';
 
-export const EXP_SAVE_VERSION = 2;
+export const EXP_SAVE_VERSION = 3;
 
 const uidX = (g: ExpGame, p: string) => {
   g.nextId += 1;
@@ -57,7 +57,7 @@ export function createDelver(g: ExpGame, prof: DelverProf, quality = 0): Delver 
     hp: 0,
     fatigue: randInt(g, 0, 10),
     exposure: 0,
-    conditions: [],
+    changes: [],
     wage: def.wage,
     scars: [],
     habits: [],
@@ -266,6 +266,7 @@ export function planBlocked(g: ExpGame, plan: ExpPlan): string | undefined {
     const d = livingDelvers(g).find((m) => m.id === id);
     if (!d) return 'One of the squad is no longer with the guild.';
     if (d.hp < 1) return `${d.name.split(' ')[0]} cannot walk yet.`;
+    if (d.fever) return `${d.name.split(' ')[0]} is in bed with the Sink fever for ${d.fever.weeks === 1 ? 'another week' : `${d.fever.weeks} more weeks`}.`;
   }
   if (packSlots(plan.pack) > T.packSlots) return `The pack holds ${T.packSlots} slots.`;
   const cost = packCost(g, plan.pack);
@@ -293,7 +294,8 @@ export function planWarnings(g: ExpGame, plan: ExpPlan): string[] {
     if (!ranks.includes(i + 1)) w.push(`${d.name.split(' ')[0]} is a ${DELVER_PROFS[d.prof].name} in rank ${i + 1}. They work best from rank ${ranks.join(' or ')}.`);
     if (d.hp < delverMaxHp(d) * 0.6) w.push(`${d.name.split(' ')[0]} is still hurt (${d.hp} of ${delverMaxHp(d)} HP).`);
     if (d.fatigue >= T.fatigue.tired) w.push(`${d.name.split(' ')[0]} is ${d.fatigue >= T.fatigue.spent ? 'worn out' : 'tired'} before they start (fatigue ${d.fatigue}).`);
-    if (d.exposure >= T.exposure.thresholds[0] - 10 && L.route.includes('sink')) w.push(`${d.name.split(' ')[0]} already carries Exposure ${d.exposure}. More in the Sink may leave a lasting condition.`);
+    const nextTh = T.exposure.thresholds.find((t) => t > d.exposure);
+    if (nextTh && d.exposure >= nextTh - 12 && L.route.includes('sink')) w.push(`${d.name.split(' ')[0]} is close to a Sink change (Exposure ${d.exposure} of ${nextTh}). Rested, they'll run the Sink fever first; worn out, it takes at once.`);
   });
   if (!squad.some((d) => d.prof === 'chaplain') && !(plan.pack.bandages ?? 0)) w.push('No Chaplain and no bandages.');
   if (L.route.includes('sink') && (plan.pack.masks ?? 0) < 4) w.push(`The Sink ahead, and ${plan.pack.masks ?? 0} wet masks for four members.`);
@@ -384,6 +386,15 @@ export function passWeek(g: ExpGame, away: string[] = [], deferDebt = false) {
       } else d.task = 'rest';
     }
     d.fatigue = Math.max(0, Math.min(100, d.fatigue - rest));
+    if (d.fever) {
+      d.fever.weeks -= 1;
+      if (d.fever.weeks <= 0) {
+        const c = d.fever.change;
+        d.fever = undefined;
+        if (!d.changes.includes(c)) d.changes.push(c);
+        news(g, `${d.name}'s Sink fever breaks. They get up changed: ${CHANGES[c].name.toLowerCase()}.`, 'good');
+      }
+    }
     d.exposure = Math.max(0, d.exposure - T.exposure.homeDrop);
   }
   if (!deferDebt) settleDebt(g);
@@ -529,7 +540,11 @@ export function applyResult(g: ExpGame, res: ExpeditionResult, sponsorAtLaunch?:
     d.hp = Math.max(1, o.hp);
     d.fatigue = o.fatigue;
     d.exposure = o.exposure;
-    d.conditions = [...(d.conditions ?? []), ...o.conditions];
+    d.changes = [...(d.changes ?? []), ...o.changes];
+    if (o.fever) {
+      d.fever = { change: o.fever, weeks: T.exposure.feverWeeks };
+      news(g, `${d.name} came home with the Sink fever and goes to bed. If it runs its course, they'll get up changed.`, 'warn');
+    }
     d.scars.push(...o.scars);
     d.habits.push(...o.habits);
     d.deeds.push(...o.deeds);
@@ -611,7 +626,7 @@ export function migrateExpSave(g: ExpGame | null | undefined): ExpGame | null {
       delete (d as unknown as V1).grit;
       d.fatigue = Math.max(0, Math.min(100, 70 - grit));
       d.exposure = 0;
-      d.conditions = [];
+      d.changes = [];
     }
     const stores = g.stores as unknown as Record<string, number>;
     stores.masks = stores.charms ?? 0;
@@ -626,6 +641,18 @@ export function migrateExpSave(g: ExpGame | null | undefined): ExpGame | null {
     // an old log can't be replayed with the new squad strip
     g.last = undefined;
     g.version = 2;
+  }
+  if (g.version === 2) {
+    // v3: Exposure gives Sink changes (gifts) instead of conditions (harms). Keep the two good ones.
+    const keep: Record<string, string> = { stained_skin: 'violet_skin', pale_eyes: 'pale_eyes' };
+    type V2 = { conditions?: string[] };
+    for (const d of [...g.members, ...g.recruits.map((r) => r.delver)]) {
+      const old = (d as unknown as V2).conditions ?? [];
+      delete (d as unknown as V2).conditions;
+      d.changes = old.map((c) => keep[c]).filter(Boolean);
+    }
+    g.last = undefined;
+    g.version = 3;
   }
   return g.version === EXP_SAVE_VERSION ? g : null;
 }

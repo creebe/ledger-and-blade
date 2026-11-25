@@ -16,7 +16,7 @@ export {
   GOODS,
   SCARS,
   HABITS,
-  CONDITIONS,
+  CHANGES,
 } from './data/content';
 export type { DelverProfDef, SupplyDef, MonsterDef, ZoneDef, LengthDef, MarkDef } from './data/content';
 export * from './bot';

@@ -1,5 +1,5 @@
 // What came back up: loot, deeds, the dead, and what happened to each member.
-import { CONDITIONS, DELVER_PROFS, GOODS, HABITS, LENGTHS, SCARS, SUPPLIES, ZONES, type GoodId, type SupplyId } from '../../engine';
+import { CHANGES, DELVER_PROFS, GOODS, HABITS, LENGTHS, SCARS, SUPPLIES, ZONES, type GoodId, type SupplyId } from '../../engine';
 import { useX } from '../../expStore';
 import { Price, Section } from '../kit/common';
 import { ProfSilhouette } from './Silhouette';
@@ -74,11 +74,12 @@ export function ResultScreen() {
                       New scar: {SCARS[s].name}. {SCARS[s].text}
                     </span>
                   ))}
-                  {o.conditions.map((c) => (
-                    <span key={c} className={`small ${CONDITIONS[c].good ? 'good' : 'bad'}`}>
-                      From the Sink: {CONDITIONS[c].name}. {CONDITIONS[c].text}
+                  {o.changes.map((c) => (
+                    <span key={c} className={`small ${CHANGES[c].good ? 'good' : 'bad'}`}>
+                      Sink change: {CHANGES[c].name}. {CHANGES[c].text}
                     </span>
                   ))}
+                  {o.fever && <span className="small warn">Came home with the Sink fever: a week in bed, then a change.</span>}
                   {o.habits.map((h) => (
                     <span key={h} className={`small ${HABITS[h].good ? 'good' : 'bad'}`}>
                       New habit: {HABITS[h].name}. {HABITS[h].text}

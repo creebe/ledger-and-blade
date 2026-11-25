@@ -70,7 +70,17 @@ Hits roll accuracy against dodge, and damage against armor. Weaknesses and resis
 Two physical meters, nothing mental. Both carry over between expeditions.
 
 - **Fatigue (0–100): wear.** Every room adds some, more deeper down, more in heavy armor (mail and plate cost here as well as in dodge), more in the dark, under a heavy bag of loot, after fights and traps, and a lot from a missed meal. At 40 a member is *tired* (aim and dodge −5). At 70 they're *spent* (−12, and they sometimes fumble a turn). At 100 they can't fight and have to be carried, which draws wanderers. Meals, shrines, camps and the Chaplain's *second wind* take some off. At home, a week of rest clears 40 (more with the Taproom). Training adds some.
-- **Exposure (0–100): the College Sink's runoff in the body.** Each Sink room adds some, as do seep hits, gas traps, the Kiln Engine's blast, blood-casting in the Sink and tasting the wrong college still. Wet masks halve it. Past 40, 70 and 95 it leaves a lasting **condition**: a tremor, burned lungs, brittle bones, or the two odd good ones (stained skin that seeps don't burn as much, pale eyes that see in the dark). It fades slowly at home; **Saint Oda's** fever beds draw out 40 for 30 crowns.
+- **Exposure (0–100): the College Sink's runoff in the body, and a long-term gift.** Each Sink room adds some, as do seep hits, gas traps, the Kiln Engine's blast, blood-casting in the Sink and tasting the wrong college still. Wet masks halve it.
+  - At 40, 70 and 95 it brings a **Sink change**: a permanent gift, drawn from twelve in three tiers. Deeper thresholds draw better ones.
+    - *Amusing:* violet skin that seeps burn less, a copper tongue that can tell a bad still, smelling wrong to rats, a slow stomach.
+    - *Useful:* pale eyes that see in the dark, a thick hide, quick blood, deep lungs.
+    - *Powerful:* reagent blood (a free spell each fight, and blows that burn), iron bones, storm in the fingers (a free bolt to open each fight), Sink sense.
+  - **Fatigue decides how it arrives (the owner's idea).**
+    - At fatigue 50 or more, the body is too tired to fight it and the change takes at once.
+    - Below 50, the member runs the **Sink fever** first: aim and dodge −6 and extra fatigue for 3 rooms. If their fatigue climbs to 50 during the fever, it breaks early.
+    - If they die during the fever, the change is lost. If they come home still feverish, they spend a week in bed and then get up changed.
+  - So a rested squad entering the Sink risks being weakened at the worst moment, and a worn-out one gets the gift straight away but is worn out.
+  - Masks and **Saint Oda's** treatment (−40 Exposure for 30 crowns) are now about timing a change, not avoiding harm.
 - Habits and scars that used to touch grit now touch fatigue (Hates the dark, Jumpy, Sleeps badly, Hums on the march, Drinks).
 
 ## 7. Members are the resource
@@ -105,7 +115,7 @@ It breaks once. After that, long expeditions end in the Kiln's yard, where two l
 | Medium, good / poor | 97% / 24% | 0.04 / 1.84 | 205 / 95 |
 | Long, good / poor | 31% / 4% | 1.54 / 2.59 | 242 / 24 |
 
-A careful player over 24 weeks: 79% of guilds still open, 0.5 deaths, the Kiln broken in 83% of games. Poor preparation: 0% open, 4.2 deaths. Long from a fresh, level-1 guild is meant to be a gamble.
+A careful player over 24 weeks: 79% of guilds still open, 0.6 deaths, the Kiln broken in 83% of games, about 6.7 Sink changes across the roster. Poor preparation: 0% open, 4.2 deaths. Long from a fresh, level-1 guild is meant to be a gamble.
 
 ## 10. Code
 

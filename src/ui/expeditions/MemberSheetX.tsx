@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CONDITIONS, DELVER_PROFS, EXP_TUNING, GEAR, HABITS, SCARS, delverStats, dismissDelver, equipGear, gearLookup, livingDelvers, storedGear, treatExposure } from '../../engine';
+import { CHANGES, DELVER_PROFS, EXP_TUNING, GEAR, HABITS, SCARS, delverStats, dismissDelver, equipGear, gearLookup, livingDelvers, storedGear, treatExposure } from '../../engine';
 import { useX } from '../../expStore';
 import { useStore } from '../../store';
 import { Btn, Section } from '../kit/common';
@@ -103,7 +103,7 @@ export function MemberSheetX({ id }: { id: string }) {
           Fatigue {d.fatigue} of 100. At {EXP_TUNING.fatigue.tired} they lose a little aim and dodge; at {EXP_TUNING.fatigue.spent} a lot, and they fumble; at 100 they have to be carried. A week at home takes off {EXP_TUNING.home.rest}.
         </p>
         <p className="small">
-          Exposure {d.exposure} of 100: the College Sink's runoff in their body. Past {EXP_TUNING.exposure.thresholds.join(', ')} it leaves a lasting condition. It fades by {EXP_TUNING.exposure.homeDrop} a week at home.
+          Exposure {d.exposure} of 100: the College Sink's runoff in their body. At {EXP_TUNING.exposure.thresholds.join(', ')} it brings a Sink change, a lasting gift that ranges from odd to remarkable. If they're worn out (fatigue {EXP_TUNING.exposure.takeAt} or more) it takes at once; if they're rested they run the Sink fever first, fighting worse for a few rooms, and only gain the change if they see it out. A fever still running when they get home keeps them in bed for a week. It fades by {EXP_TUNING.exposure.homeDrop} a week at home.
         </p>
         {d.exposure > 0 && (
           <Btn
@@ -112,7 +112,7 @@ export function MemberSheetX({ id }: { id: string }) {
             onClick={() =>
               confirm({
                 title: `Send ${first(d)} to Saint Oda's?`,
-                body: `A night in the fever beds draws ${EXP_TUNING.exposure.treat} Exposure out of them. Sister Brune's people use vinegar, charcoal and a great deal of water.`,
+                body: `A night in the fever beds draws ${EXP_TUNING.exposure.treat} Exposure out of them, which puts off the next Sink change. Sister Brune's people use vinegar, charcoal and a great deal of water.`,
                 cost: `${EXP_TUNING.exposure.treatCost} crowns`,
                 confirmLabel: 'Send them',
                 onConfirm: () => notify(act((x) => treatExposure(x, d.id)) ?? `${first(d)} comes back from Saint Oda's smelling of vinegar.`),
@@ -131,11 +131,11 @@ export function MemberSheetX({ id }: { id: string }) {
           </p>
         ))}
       </Section>
-      {(d.scars.length > 0 || d.habits.length > 0 || (d.conditions ?? []).length > 0) && (
-        <Section title="Scars, conditions and habits">
-          {(d.conditions ?? []).map((c) => (
+      {(d.scars.length > 0 || d.habits.length > 0 || (d.changes ?? []).length > 0) && (
+        <Section title="Scars, Sink changes and habits">
+          {(d.changes ?? []).map((c) => (
             <p key={c} className="small">
-              <b className={CONDITIONS[c].good ? 'good' : 'bad'}>{CONDITIONS[c].name}.</b> {CONDITIONS[c].text}
+              <b className={CHANGES[c].good ? 'good' : 'bad'}>{CHANGES[c].name}.</b> {CHANGES[c].text}
             </p>
           ))}
           {d.scars.map((s) => (

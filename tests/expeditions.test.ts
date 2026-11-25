@@ -148,6 +148,49 @@ describe('expeditions: fatigue and exposure', () => {
   });
 });
 
+describe('expeditions: Sink changes', () => {
+  const runWith = (fatigue: number, seed: number) => {
+    const g = newExpGame(seed);
+    g.crowns = 1000;
+    for (const d of g.members) {
+      d.exposure = 38;
+      d.fatigue = fatigue;
+      d.hp = 999;
+    }
+    const plan = suggestPlan(g, 'long');
+    plan.orders.retreat = 'stubborn';
+    launchExpedition(g, plan);
+    return g.last!;
+  };
+
+  it('a worn-out body takes the change at once; a rested one runs the fever first', () => {
+    let hotFevers = 0;
+    let coolFevers = 0;
+    let gained = 0;
+    for (let i = 0; i < 30; i++) {
+      const hot = runWith(60, 40 + i);
+      const cool = runWith(0, 40 + i);
+      hotFevers += hot.log.filter((l) => l.note === 'the Sink fever').length;
+      coolFevers += cool.log.filter((l) => l.note === 'the Sink fever').length;
+      gained += [...hot.members, ...cool.members].reduce((x, m) => x + m.changes.length, 0);
+    }
+    expect(gained).toBeGreaterThan(0);
+    expect(coolFevers).toBeGreaterThan(hotFevers);
+  });
+
+  it('a fever brought home keeps the member in bed, then leaves a change', () => {
+    const g = newExpGame(12);
+    const d = g.members[0];
+    d.fever = { change: 'thick_hide', weeks: 1 };
+    const plan = suggestPlan(g, 'short');
+    plan.squad = [d.id, ...plan.squad.filter((x) => x !== d.id)].slice(0, 4);
+    expect(planBlocked(g, plan)).toMatch(/fever/);
+    restWeek(g);
+    expect(d.fever).toBeUndefined();
+    expect(d.changes).toContain('thick_hide');
+  });
+});
+
 describe('expeditions: the guild keeps its promises', () => {
   it('pays a Weighhouse installment that falls due mid-trip from what the squad brings home', () => {
     let checked = 0;
@@ -214,6 +257,20 @@ describe('expeditions: the guild keeps its promises', () => {
   });
 });
 
+describe('expeditions: saves (v2 to v3)', () => {
+  it('turns v2 conditions into Sink changes, keeping only the good ones', () => {
+    const g = JSON.parse(JSON.stringify(newExpGame(6))) as Record<string, any>;
+    g.version = 2;
+    for (const m of g.members) {
+      delete m.changes;
+      m.conditions = ['tremor', 'stained_skin'];
+    }
+    const up = migrateExpSave(g as unknown as ExpGame)!;
+    expect(up.version).toBe(EXP_SAVE_VERSION);
+    expect(up.members[0].changes).toEqual(['violet_skin']);
+  });
+});
+
 describe('expeditions: saves', () => {
   it('round-trips a trial save and refuses anything else', () => {
     const g = newExpGame(5);
@@ -232,13 +289,13 @@ describe('expeditions: saves', () => {
     for (const m of g.members) {
       delete m.fatigue;
       delete m.exposure;
-      delete m.conditions;
+      delete m.changes;
       m.grit = 40;
     }
     g.stores.charms = 3;
     delete g.stores.masks;
     const up = migrateExpSave(g as unknown as ExpGame)!;
-    expect(up.version).toBe(2);
+    expect(up.version).toBe(EXP_SAVE_VERSION);
     expect(up.members[0].fatigue).toBe(30);
     expect(up.members[0].exposure).toBe(0);
     expect(up.stores.masks).toBe(3);

@@ -52,7 +52,7 @@ export function LiveLog() {
                 <XBar v={cur.squad.hp[i]} max={cur.squad.maxHp[i]} kind="hp" label={`HP ${cur.squad.hp[i]} of ${cur.squad.maxHp[i]}`} />
                 <XBar v={cur.squad.fatigue[i]} max={100} kind="fatigue" label={`Fatigue ${cur.squad.fatigue[i]}`} />
                 <span className="x-strip-num">
-                  {st === 'dead' ? 'dead' : st === 'down' ? 'down' : st === 'out' ? 'carried' : `${cur.squad.hp[i]} hp${st === 'spent' ? ' · spent' : ''}${cur.squad.exposure[i] >= 10 ? ` · exp ${cur.squad.exposure[i]}` : ''}`}
+                  {st === 'dead' ? 'dead' : st === 'down' ? 'down' : st === 'out' ? 'carried' : `${cur.squad.hp[i]} hp${st === 'spent' ? ' · spent' : ''}${cur.squad.fever?.[i] ? ' · fever' : ''}${cur.squad.exposure[i] >= 10 ? ` · exp ${cur.squad.exposure[i]}` : ''}`}
                 </span>
               </div>
             );

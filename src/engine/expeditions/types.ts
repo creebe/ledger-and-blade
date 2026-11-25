@@ -62,8 +62,10 @@ export interface Delver {
   fatigue: number;
   /** reagent runoff in the body, 0-100. Builds in the deep; Saint Oda's can treat it */
   exposure: number;
-  /** lasting conditions left by Exposure */
-  conditions: string[];
+  /** Sink changes: lasting gifts of Exposure (see CHANGES) */
+  changes: string[];
+  /** running the Sink fever at home: the change it will leave, and weeks to go */
+  fever?: { change: string; weeks: number };
   wage: number;
   weapon?: string; // gear uid
   armor?: string;
@@ -127,6 +129,8 @@ export interface SquadSnap {
   maxHp: number[];
   fatigue: number[];
   exposure: number[];
+  /** running the Sink fever */
+  fever?: boolean[];
   state: ('ok' | 'spent' | 'out' | 'down' | 'dead')[];
 }
 
@@ -174,7 +178,9 @@ export interface DelverOutcome {
   hp: number;
   fatigue: number;
   exposure: number;
-  conditions: string[]; // new conditions from Exposure
+  changes: string[]; // Sink changes gained on this trip
+  /** still running the Sink fever when they came home: the change it will leave */
+  fever?: string;
   xp: number;
   died?: string; // cause of death
   scars: string[]; // new scars

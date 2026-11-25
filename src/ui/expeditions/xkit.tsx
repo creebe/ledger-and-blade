@@ -1,6 +1,6 @@
 // Small shared pieces for the expeditions trial screens.
 import type { ReactNode } from 'react';
-import { CONDITIONS, EXP_TUNING, delverMaxHp, DELVER_PROFS, HABITS, SCARS, type Delver } from '../../engine';
+import { CHANGES, EXP_TUNING, delverMaxHp, DELVER_PROFS, HABITS, SCARS, type Delver } from '../../engine';
 import { useX } from '../../expStore';
 import { Icon } from '../kit/icons';
 import { ProfSilhouette } from './Silhouette';
@@ -55,9 +55,14 @@ export function Vitals({ d }: { d: Delver }) {
         <b className={d.fatigue >= EXP_TUNING.fatigue.spent ? 'bad' : d.fatigue >= EXP_TUNING.fatigue.tired ? 'warn' : ''}>{d.fatigue}</b>
       </span>
       {d.exposure > 0 && (
-        <span className="x-vital x-exposure" title="Exposure: reagent runoff in the body. Past 40, 70 and 95 it leaves a lasting condition.">
+        <span className="x-vital x-exposure" title="Exposure: the Sink's runoff in the body. At 40, 70 and 95 it brings a Sink change.">
           <small>Exposure</small>
-          <b className={d.exposure >= 60 ? 'bad' : d.exposure >= 30 ? 'warn' : ''}>{d.exposure}</b>
+          <b>{d.exposure}</b>
+        </span>
+      )}
+      {d.fever && (
+        <span className="x-vital">
+          <b className="warn">Sink fever, {d.fever.weeks} wk</b>
         </span>
       )}
     </span>
@@ -65,8 +70,8 @@ export function Vitals({ d }: { d: Delver }) {
 }
 
 export function Marks({ d }: { d: Delver }) {
-  const conds = d.conditions ?? [];
-  if (!d.scars.length && !d.habits.length && !conds.length) return null;
+  const chg = d.changes ?? [];
+  if (!d.scars.length && !d.habits.length && !chg.length) return null;
   return (
     <span className="x-marks">
       {d.scars.map((s) => (
@@ -74,9 +79,9 @@ export function Marks({ d }: { d: Delver }) {
           {SCARS[s].name}
         </span>
       ))}
-      {conds.map((c) => (
-        <span key={c} className={`x-mark ${CONDITIONS[c].good ? 'x-mark-good' : 'x-mark-bad'}`} title={CONDITIONS[c].text}>
-          {CONDITIONS[c].name}
+      {chg.map((c) => (
+        <span key={c} className={`x-mark ${CHANGES[c].good ? 'x-mark-good' : 'x-mark-bad'}`} title={CHANGES[c].text}>
+          {CHANGES[c].name}
         </span>
       ))}
       {d.habits.map((h) => (

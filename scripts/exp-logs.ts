@@ -46,7 +46,7 @@ function write(file: string, title: string, intro: string, run: { g: ExpGame; pl
   lines.push('');
   for (const m of r.members) {
     const d = g.members.find((x) => x.id === m.id)!;
-    lines.push(`- **${d.name}**: ${m.died ? `died (${m.died})` : `${m.hp} HP, fatigue ${m.fatigue}, exposure ${m.exposure}, +${m.xp} experience`}${m.scars.length ? `; new scar: ${m.scars.join(', ')}` : ''}${m.habits.length ? `; new habit: ${m.habits.join(', ')}` : ''}${m.conditions.length ? `; from the Sink: ${m.conditions.join(', ')}` : ''}.`);
+    lines.push(`- **${d.name}**: ${m.died ? `died (${m.died})` : `${m.hp} HP, fatigue ${m.fatigue}, exposure ${m.exposure}, +${m.xp} experience`}${m.scars.length ? `; new scar: ${m.scars.join(', ')}` : ''}${m.habits.length ? `; new habit: ${m.habits.join(', ')}` : ''}${m.changes.length ? `; Sink change: ${m.changes.join(', ')}` : ''}${m.fever ? `; came home with the Sink fever (will become ${m.fever})` : ''}.`);
   }
   writeFileSync(`${DIR}/${file}`, lines.join('\n') + '\n');
   console.log(`${DIR}/${file}: ${r.outcome}, ${r.log.length} lines, ${r.members.filter((m) => m.died).length} dead`);

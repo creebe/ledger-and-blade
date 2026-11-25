@@ -2,14 +2,14 @@
 
 A good squad with a full pack goes all the way down to the College Sink and the Kiln Engine. They are not quite good enough yet.
 
-Seed 3011. Long expedition: To the bottom of the College Sink, where the Kiln Engine walks.
+Seed 3014. Long expedition: To the bottom of the College Sink, where the Kiln Engine walks.
 
 ## The preparation
 
-1. **Tam Wick**, Vanguard: Arming Sword, Mail Hauberk
-2. **Petra Eskett**, Skirmisher: Spear, Gambeson
-3. **Kester Dunning**, Chaplain: Flanged Mace, Gambeson
-4. **Dace Marrow**, Arcanist: Plain Focus Rod, Padded Robes
+1. **Elric Lusk**, Vanguard: Arming Sword, Mail Hauberk
+2. **Wat Eskett**, Skirmisher: Spear, Gambeson
+3. **Wenna Ashby**, Chaplain: Flanged Mace, Gambeson
+4. **Ros Dunning**, Arcanist: Plain Focus Rod, Padded Robes
 
 **Pack:** 6 food, 11 lamp oil, 6 bandages, 4 tools, 6 reagents, 1 draughts.
 
@@ -19,593 +19,739 @@ Seed 3011. Long expedition: To the bottom of the College Sink, where the Kiln En
 
 They go down with as much as they can carry and one map of Pellam, which is two hundred years out of date.
 
-### The Culverts are old brick, and wet. Daylight comes down through the grates in grey squares.
+### They are in the Culverts now. Water runs ankle deep over the brick, and somewhere ahead something drops into it.
 
-They come into a smuggler's cellar under the old fish market. It is mostly empty.
+There is a dry room off the main drain, with shelves.
 
-Dace fishes 3 purses of Pellam coin out of the water with a bent nail on a stick. *(3 purses of Pellam coin)*
+Wat fishes 2 purses of Pellam coin out of the water with a bent nail on a stick. *(2 purses of Pellam coin)*
 
-The drain here is so low that everyone stoops. Dace hits their head twice and stops apologising to the ceiling.
+The water starts moving against the current. It is rats, a lot of them, and they are all coming this way.
 
-A soft noise fills the drain, the sound of a great deal of paper being folded. Moths as wide as a hand come out of it.
+The third knot of rats pushes at the ones in front and cannot get through.
 
-A moth lands on a flask and drinks through the cork. They lose some oil to the swarm. *(−2 oil)*
+Wat steps in and hits the second knot of rats hard with the spear. *(5)*
 
-Moths get into Tam's mouth. *(1)*
+Wat follows through and opens the second knot of rats up a second time. *(6)*
 
-The second cloud of moths smothers Petra's lamp hand. *(2)*
+The second knot of rats breaks up and flees down the pipes.
 
-Petra chops at the first cloud of moths and connects. *(6)*
+> Elric 40/40 hp, fatigue 5 · Wat 31/31 hp, fatigue 6 · Wenna 31/31 hp, fatigue 11 · Ros 22/22 hp, fatigue 4
 
-Petra's second strike finds the first cloud of moths. *(5)*
+Ros's little working dies before it reaches the first knot of rats.
 
-The first cloud of moths falls apart in a shower of pale powder.
+Rats bite Elric in several places at once. *(6)*
 
-The knot of rats goes for Tam's hands. *(2)*
+The third knot of rats twists away from the arming sword.
 
-Dace's little working dies before it reaches the knot of rats.
+Wenna waits behind the others for an opening that never comes.
 
-Kester can't reach anything from back here and shouts advice instead.
+Wat finds an opening and hits the first knot of rats in it. *(6)*
 
-Tam's blow lands on nothing.
+Wat does not wait to see what the first one did, and hits the first knot of rats again. *(5)*
 
-Tam swats through the moths.
+Wat kills enough of the first knot of rats that the rest give up and scatter.
 
-Petra goes clean through the second cloud of moths and does not look surprised about it. *(9)*
+The rats break around Elric and come back together behind them.
 
-Petra swats the last of the second cloud of moths out of the air.
+Ros taps the third knot of rats with a working the size of a candle flame. *(7)*
 
-Petra follows through and opens the knot of rats up a second time. *(7)*
+Wenna can't reach anything from back here and shouts advice instead.
 
-Dace flicks a spark at the knot of rats and misses.
+Elric catches the third knot of rats with the arming sword and something cracks. *(10)*
 
-Rats bite Petra in several places at once. *(9)*
+Elric stamps on the slowest of the third knot of rats, and the others decide they have business elsewhere.
 
-Tam misses, and says something the chaplains would not repeat.
+The last of them goes down. Somebody laughs, too loudly.
 
-Kester tries to push forward past the others and gets an elbow for it.
+> Elric 34/40 hp, fatigue 5 · Wat 31/31 hp, fatigue 6 · Wenna 31/31 hp, fatigue 11 · Ros 22/22 hp, fatigue 4
 
-Kester is too far back to hit anything, and knows it.
+They try to wait it out, and the grubbers find them anyway.
 
-Tam stamps, and the rats scatter for a moment.
+A lamp goes out ahead of them, and then people with picks step into the light. They are grubbers, and they are not here to talk.
 
-Petra gets the spear into the knot of rats and twists. *(7)*
+**The grubber gets the first blow in before anyone sees it coming.**
 
-Petra stamps on the slowest of the knot of rats, and the others decide they have business elsewhere.
+Elric steps inside the grubber's swing.
 
-It goes quiet again, apart from something dripping.
+Wat brings the spear down on the grubber. *(6)*
 
-> Tam 37/40 hp, fatigue 13 · Petra 23/34 hp, fatigue 11 · Kester 25/25 hp, fatigue 11 · Dace 19/19 hp, fatigue 13
+Wat cuts again, faster, and finds the grubber. *(4)*
 
-### Below the Culverts the brick changes to Pellam's yellow stone. These were streets once, and they still have doorsteps.
+Ros pinches out a little working at the grubber. It is not much, but it lands. *(4)*
 
-The lamps go up. The light reaches about four yards and gives up.
+Elric shoves the grubber back into the dark. *(7)*
 
-They walk down the middle of a buried street. A baker's sign still hangs over one door, and the loaf on it is the right shape.
+Elric puts the grubber down for good.
 
-They stop and eat cold bread and hard cheese. Tam says it is the best meal of their life. *(1 food)*
+> Elric 34/40 hp, fatigue 11 · Wat 31/31 hp, fatigue 11 · Wenna 31/31 hp, fatigue 16 · Ros 22/22 hp, fatigue 9
 
-> Tam 37/40 hp, fatigue 26, exposure 2 · Petra 23/34 hp, fatigue 24, exposure 2 · Kester 25/25 hp, fatigue 21, exposure 2 · Dace 19/19 hp, fatigue 24, exposure 2
+It is over. They stand there breathing hard and counting each other.
 
-They cross a square with a dry fountain. Somebody has stacked bones in the basin, very neatly, by size.
+Something squeals, and then everything squeals. It is rats.
 
-It happens before anyone can shout.
+Wat stamps, and the rats scatter for a moment.
 
-The floor gives way under Kester, who drops into the cellar below. *(9)*
+Wat's blow lands on nothing.
 
-They go into a merchant's house. Varrow's foundations have crushed the upper floor, but the ground floor is still whole.
+Wat's second strike finds the second knot of rats. *(5)*
 
-Tam finds 2 pieces of college glass wedged up a chimney, left by whoever ran out of here when the river moved. *(2 pieces of college glass)*
+Wat kicks the rats away.
 
-**They make camp in a buried house, upstairs, where the silt didn't reach.**
+Elric slams a shoulder into the second knot of rats. *(12, it hates that)*
 
-> Tam 37/40 hp, fatigue 42, exposure 5 · Petra 23/34 hp, fatigue 39, exposure 5 · Kester 16/25 hp, fatigue 32, exposure 5 · Dace 19/19 hp, fatigue 37, exposure 5
+There is not much left of the second knot of rats, and what there is runs off squealing.
 
-There is hot food, and the chaplain goes round everyone with a lamp and a needle. By morning they are in better shape than they deserve. *(1 food)*
+Wenna tries to push forward past the others and gets an elbow for it.
 
-> Tam 40/40 hp, fatigue 9, exposure 5 · Petra 34/34 hp, fatigue 6, exposure 5 · Kester 25/25 hp, fatigue 0, exposure 5 · Dace 19/19 hp, fatigue 4, exposure 5
+Ros flicks a spark at the first knot of rats and misses.
 
-The watch shouts. They have company.
+Wat swings the spear into the third knot of rats and keeps swinging. *(6)*
 
-Pale shapes come down out of the dark toward the lamps. They are tallow moths, and they want the oil.
+Wat comes back the other way and catches the third knot of rats. *(6)*
 
-The moths go straight for the oil flasks and get into them before anyone can stop it. *(−1 oil)*
+Wat stamps on the slowest of the third knot of rats, and the others decide they have business elsewhere.
 
-The moths flutter round Tam and away.
+The rats get under Wat's guard and into their boots. *(8)*
 
-Petra swings the spear into the cloud of moths and keeps swinging. *(6)*
+Elric puts their weight behind the arming sword, and the first knot of rats takes all of it. *(12)*
 
-Petra's second cut goes wide.
+The first knot of rats breaks up and flees down the pipes.
 
-Kester waits behind the others for an opening that never comes.
+> Elric 34/40 hp, fatigue 12 · Wat 23/31 hp, fatigue 12 · Wenna 31/31 hp, fatigue 17 · Ros 22/22 hp, fatigue 11
 
-Dace pinches out a little working at the cloud of moths. It is not much, but it lands. *(5)*
+When it is done, somebody's hands will not stop shaking, and nobody mentions it.
 
-The cloud of moths falls apart in a shower of pale powder.
+### They come out into the Buried Streets. The houses stand where they were left, full to the windows with silt, and there is no light at all.
+
+They light the lamps. Pellam is not improved by being able to see it.
+
+They try to slip past the pale hogs and get caught in the open.
+
+Something big snorts in the dark ahead. A pale hog, blind and the size of a pony, has smelled them.
+
+**They walk straight into it. The hog has the first move.**
+
+The hog gores Elric with a yellow tusk. *(19)*
+
+Wat cuts the hog somewhere that will keep bleeding. *(7, it hates that)*
+
+Elric swings at the hog and hits the wall.
+
+Wenna gets a pad of lint on Elric and leans on it until it stops. *(+10)*
+
+Ros's spell splashes off the stones beside the hog.
+
+Wat chops at the hog and connects. *(7, it hates that)*
+
+Wat tries a second strike and nearly loses the spear.
+
+Ros gets the figure wrong. The spell fizzles.
+
+Wenna is too far back to hit anything, and knows it.
+
+The hog leaves a trail behind it now. *(3)*
+
+The hog tramples Elric. *(10)*
+
+Elric gets the arming sword into the hog and twists. *(10)*
+
+Wat catches the hog with the spear and something cracks. *(7, it hates that)*
+
+Wat's second strike finds the hog. *(7, it hates that)*
+
+The hog goes down with a noise that shakes the silt off the walls.
+
+> Elric 15/40 hp, fatigue 20, exposure 1 · Wat 23/31 hp, fatigue 19, exposure 1 · Wenna 31/31 hp, fatigue 24, exposure 1 · Ros 22/22 hp, fatigue 18, exposure 1
 
 They wipe the blades on whatever is nearest and count the bandages.
 
-### The stone gives way to a glassy crust that crunches underfoot. This is the College Sink, and it is warm.
+They cross a little bridge over a culvert that used to be the river. The water under it is black and goes the wrong way.
+
+They eat sitting on a step with their boots in the wet. Nobody talks much. *(1 food)*
+
+> Elric 15/40 hp, fatigue 27, exposure 2 · Wat 23/31 hp, fatigue 26, exposure 2 · Wenna 31/31 hp, fatigue 31, exposure 2 · Ros 22/22 hp, fatigue 25, exposure 2
+
+Wenna sits Elric down on a step and does the job properly. *(+16)*
+
+A soft noise fills the drain, the sound of a great deal of paper being folded. Moths as wide as a hand come out of it.
+
+The moths go straight for the oil flasks and get into them before anyone can stop it. *(−1 oil)*
+
+Moths get into Elric's mouth. *(3)*
+
+The moths flutter round Wenna and away.
+
+Wat brings the spear down on the first cloud of moths. *(6)*
+
+Wat goes for a second cut, and the first cloud of moths is ready for that one.
+
+Ros cracks two doses together and the plain working goes off across the whole front. *(2 doses)*
+
+Ros casts, and the working comes apart in the wet air.
+
+The air goes tight around Ros, and then the second cloud of moths takes the spell full on. *(7)*
+
+Ros lets go of the working. The spider is in the way of it. *(8)*
+
+Wenna tries to push forward past the others and gets an elbow for it.
+
+Elric puts their weight behind the arming sword, and the second cloud of moths takes all of it. *(12)*
+
+The second cloud of moths falls apart in a shower of pale powder.
+
+Wat chops at the first cloud of moths and connects. *(7)*
+
+Wat swats the last of the first cloud of moths out of the air.
+
+Wat does not wait to see what the first one did, and hits the spider again. *(6)*
+
+The spider sinks both fangs into Elric and holds on. *(17)*
+
+Elric is sweating and their hands have gone numb. *(3)*
+
+Elric swings the arming sword into the spider and keeps swinging. *(10)*
+
+Elric splits the spider open and the smell is terrible.
+
+They win that one. Nobody says anything for a while.
+
+> Elric 8/40 hp, fatigue 23, exposure 2 · Wat 23/31 hp, fatigue 22, exposure 2 · Wenna 31/31 hp, fatigue 27, exposure 2 · Ros 22/22 hp, fatigue 21, exposure 2
+
+Wenna cleans and bandages Elric properly, the way they teach it at Saint Oda's. *(+16)*
+
+"This is ours," says a grubber with no front teeth. There are more behind them.
+
+Wat hits the first grubber so hard that the others stop for a moment to look. *(9)*
+
+Wat cuts again, faster, and finds the first grubber. *(6)*
+
+Ros opens a hand and the focus spits at the first grubber. *(13)*
+
+The first grubber goes down and stays down.
+
+> Elric 24/40 hp, fatigue 31, exposure 3 · Wat 23/31 hp, fatigue 28, exposure 3 · Wenna 31/31 hp, fatigue 33, exposure 3 · Ros 22/22 hp, fatigue 28, exposure 3
+
+The second grubber gets Elric with a short, dirty knife. *(11)*
+
+In the scuffle the second grubber gets away with a purse of Pellam coin.
+
+Elric gets an arm up just in time.
+
+Elric goes clean through the second grubber and does not look surprised about it. *(15)*
+
+"Hold still," Wenna tells Elric, and pours something on the cut that makes Elric swear. *(+10)*
+
+Wat steps in and hits the second grubber hard with the spear. *(4)*
+
+Wat follows through and opens the second grubber up a second time. *(5)*
+
+The second grubber drops the pick and does not get up.
+
+Elric misses, and says something the chaplains would not repeat.
+
+Wenna can't reach anything from back here and shouts advice instead.
+
+The spider drops onto Wat from above. *(6)*
+
+Ros flicks a spark off the plain focus rod at the spider. It stings, at least. *(6)*
+
+The spider bites Elric, and the bite goes numb straight away. *(6)*
+
+Wat sways. The bite has gone purple and hot. *(3)*
+
+Wat gets the spear into the spider and twists. *(7)*
+
+Wat's second cut goes wide.
+
+Wenna gets a dressing on Elric, tight and fast. *(+10)*
+
+Elric is sick against the wall and wipes their mouth and carries on. *(3)*
+
+Elric finds an opening and hits the spider in it. *(11)*
+
+The spider curls its legs in and dies.
+
+It goes quiet again, apart from something dripping.
+
+> Elric 24/40 hp, fatigue 31, exposure 3 · Wat 14/31 hp, fatigue 28, exposure 3 · Wenna 31/31 hp, fatigue 33, exposure 3 · Ros 22/22 hp, fatigue 28, exposure 3
+
+An old college still is dripping in a corner. Ros knows what it is and drains two good doses from it. *(+2 reagents)*
+
+**They make camp in a buried house, upstairs, where the silt didn't reach.**
+
+> Elric 24/40 hp, fatigue 44, exposure 5 · Wat 14/31 hp, fatigue 39, exposure 5 · Wenna 31/31 hp, fatigue 44, exposure 5 · Ros 22/22 hp, fatigue 40, exposure 5
+
+There is hot food, and the chaplain goes round everyone with a lamp and a needle. By morning they are in better shape than they deserve. *(1 food)*
+
+> Elric 38/40 hp, fatigue 11, exposure 5 · Wat 25/31 hp, fatigue 6, exposure 5 · Wenna 31/31 hp, fatigue 11, exposure 5 · Ros 22/22 hp, fatigue 7, exposure 5
+
+### They reach the Sink. A hundred years of spent reagents went down here, and none of it has quite finished reacting.
 
 They light the lamps, and the flames burn a little blue down here. Nobody likes it.
 
 Nobody packed wet masks. They go into the Sink breathing it.
 
-Nobody notices anything wrong until it is too late.
+Somebody's buckle clinks, and the seeps turn round.
 
-Tam coughs until they bring something up. *(8)*
+Something bright and wet crawls out of a drain, fizzing where it touches the stone. It is a seep, and it has noticed them.
 
-A pocket of bad air bursts out of the crust. Petra breathes it in. *(8)*
+**Nobody was watching that side. The seep is already among them.**
 
-A pocket of bad air bursts out of the crust. Kester breathes it in. *(6)*
+The seep spits at Elric and the stone hisses where it lands.
 
-Dace coughs until they bring something up. *(5)*
+Wat finds an opening and hits the seep in it. *(3, it shrugs)*
 
-Kester sees the candle flame go blue and they seal the crack with clay. *(1 tools)*
+Wat comes back the other way and catches the seep. *(3, it shrugs)*
 
-Claws click on the stone. The crabs down here grew big on runoff, and they grew mean as well.
+Elric times it perfectly and the seep pays for it. *(9, it shrugs)*
 
-Kester is too far back to hit anything, and knows it.
+Ros speaks the working and it hits the seep square. *(13)*
 
-The second crab closes a claw on Tam. *(11)*
+Wenna is too far back to hit anything, and knows it.
 
-The first crab pinches Tam hard enough to bend their armor. *(15)*
+Wat catches the seep with the spear and something cracks. *(3, it shrugs)*
 
-Petra goes in low, and the second crab is not there.
+Wat breaks the seep apart, and the pieces crust over in the air.
 
-Dace spends two doses at once. The plain burst fills the room. *(2 doses)*
+> Elric 38/40 hp, fatigue 17, exposure 10 · Wat 25/31 hp, fatigue 11, exposure 10 · Wenna 31/31 hp, fatigue 16, exposure 8 · Ros 22/22 hp, fatigue 12, exposure 9
 
-Dace gets the blow they were waiting for. The first crab feels all of it. *(8)*
+That is the end of it. Everybody checks their hands for missing fingers.
 
-Dace speaks the working and it hits the second crab square. *(3)*
+The floor moves toward them. A seep, a spill of reagents that never stopped reacting, has found something warm.
 
-Dace lets go of the working. The seep is in the way of it. *(7)*
+Wat swings the spear into the seep and keeps swinging. *(3, it shrugs)*
 
-Tam steps in and hits the second crab hard with the arming sword. *(4, it shrugs)*
+Wat cuts again, faster, and finds the crab. *(2, it shrugs)*
 
-The first crab batters Petra with a claw. *(16)*
+Elric batters the seep with the flat of the arming sword. *(8)*
 
-Dace cracks two doses together and the plain working goes off across the whole front. *(2 doses)*
+The seep lurches and loses track of the fight.
 
-The air goes tight around Dace, and then the first crab takes the spell full on. *(2)*
+Wenna waits behind the others for an opening that never comes.
 
-Dace opens a hand and the focus spits at the second crab. *(3)*
+Ros traces the figure without looking and the spell finds the seep. *(12)*
 
-Dace traces the figure without looking and the spell finds the seep. *(5)*
+The crab batters Elric with a claw. *(12)*
 
-The second crab pinches Petra hard enough to bend their armor. *(10)*
+Wat gets the blow they were waiting for. The seep feels all of it. *(5, it shrugs)*
 
-**A draught brings Petra back up off the stones, white and swearing. *(a draught)***
-
-Petra goes low for the first crab and gets nothing but stone.
-
-"Hold still," Kester tells Tam, and pours something on the cut that makes Tam swear. *(+11)*
-
-Tam catches the first crab with the arming sword and something cracks. *(4, it shrugs)*
-
-Petra brings the spear down on the second crab. *(2, it shrugs)*
-
-Petra does not wait to see what the first one did, and hits the first crab again. *(2, it shrugs)*
-
-Dace speaks the working and it hits the first crab square. *(8)*
-
-The seep waits behind the others for a gap.
-
-Tam swings at the first crab and hits the wall.
-
-Kester gets a dressing on Petra, tight and fast. *(+11)*
-
-The second crab closes a claw on Petra. *(17)*
-
-The first crab snaps at Petra and misses.
-
-Petra puts their weight behind the spear, and the first crab takes all of it. *(2, it shrugs)*
-
-Petra cuts again, faster, and finds the first crab. *(2, it shrugs)*
-
-The first crab batters Tam with a claw. *(14)*
-
-The second crab scuttles sideways and its claw closes on nothing.
-
-Tam finds an opening and hits the first crab in it. *(4, it shrugs)*
-
-Kester stitches Tam up in three movements. It is not tidy, but it holds. *(+11)*
-
-The air goes tight around Dace, and then the first crab takes the spell full on. *(8)*
-
-Dace cracks the first crab open.
-
-The seep washes over Tam's boots, and the leather starts to smoke. *(9)*
-
-Petra goes low and opens a long cut in the seep. *(4, it shrugs)*
-
-Dace taps the seep with a working the size of a candle flame. *(5)*
-
-The second crab pinches Tam hard enough to bend their armor. *(9)*
-
-**Tam goes down and does not get up.**
-
-Kester gets a pad of lint on Petra and leans on it until it stops. *(+11)*
-
-The seep is bleeding badly. *(3)*
-
-The seep surges at Petra, who gets out of the way.
-
-Dace has nothing better left and throws a spark at the seep anyway. *(6)*
+Wat's second strike finds the seep. *(3, it shrugs)*
 
 The seep stops moving and goes dull, then hard.
 
-Petra slashes at the second crab and leaves it bleeding. *(3, it shrugs)*
+Ros traces the figure without looking and the spell finds the crab. *(10)*
 
-Kester steps in and hits the second crab hard with the flanged mace. *(6, it hates that)*
+Elric puts their weight behind the arming sword, and the crab takes all of it. *(5, it shrugs)*
 
-The second crab leaves a trail behind it now. *(3)*
+The crab closes a claw on Elric. *(14)*
 
-The second crab gets Kester in both claws and squeezes. *(27)*
+Wenna drags Elric back a yard and ties off the worst of the bleeding. *(+10)*
 
-**Kester hits the stones and lies there.**
+Wat steps in and hits the crab hard with the spear. *(2, it shrugs)*
 
-Petra chops at the second crab and connects. *(2, it shrugs)*
+Wat does not wait to see what the first one did, and hits the crab again. *(1, it shrugs)*
 
-Petra tries a second strike and nearly loses the spear.
+Elric shoves the crab back into the dark. *(6, it hates that)*
 
-The second crab leaves a trail behind it now. *(3)*
+The crab goes down and is slow getting up.
 
-The second crab snaps at Petra and misses.
+Ros flicks a spark at the crab and misses.
 
-Dace flicks a spark off the plain focus rod at the second crab. It stings, at least. *(1)*
+Wenna is too far back to hit anything, and knows it.
 
-Petra gets the spear into the second crab and twists. *(2, it shrugs)*
+Wat chops at the crab and connects. *(2, it shrugs)*
 
-Petra comes back the other way and catches the second crab. *(2, it shrugs)*
+Wat follows through and opens the crab up a second time. *(2, it shrugs)*
 
-Dace's little working dies before it reaches the second crab.
+Elric gets the arming sword into the crab and twists. *(4, it shrugs)*
 
-The second crab scuttles sideways and its claw closes on nothing.
+Wenna waits behind the others for an opening that never comes.
 
-Petra swings the spear into the second crab and keeps swinging. *(2, it shrugs)*
+Ros has nothing better left and throws a spark at the crab anyway. *(2)*
 
-The second crab's legs fold up under it.
+Ros cracks the crab open.
 
-It is over. They stand there breathing hard and counting each other.
+They win that one. Nobody says anything for a while.
 
-> Tam down · Petra 17/34 hp, fatigue 27, exposure 22 · Kester down · Dace 14/19 hp, fatigue 23, exposure 26
+> Elric 22/40 hp, fatigue 19, exposure 10 · Wat 25/31 hp, fatigue 13, exposure 10 · Wenna 31/31 hp, fatigue 18, exposure 8 · Ros 22/22 hp, fatigue 14, exposure 9
 
-Tam lives. At Saint Oda's they will write "a limp" on a chart and tell Tam it is for good. *(A limp)*
+The floor moves toward them. A seep, a spill of reagents that never stopped reacting, has found something warm.
 
-Kester gets up again, though not as they were. Jory will write "stitched brow" next to their name in the roster. *(Stitched brow)*
+The first spider's fangs go through Elric's sleeve. *(11)*
 
-**The last of the lamp oil gutters out. They go on in the dark.**
+Wat brings the spear down on the first spider. *(6)*
 
-Without the lamps they walk with a hand on the shoulder in front. Petra counts steps to stay calm.
+Wat comes back the other way and catches the first spider. *(7)*
 
-They eat standing up. Tam shares an onion, which is generous and unwise. *(1 food)*
+Elric's arm has swollen up tight inside the sleeve. *(3)*
 
-> Tam 1/40 hp, fatigue 38, exposure 30 · Petra 17/34 hp, fatigue 37, exposure 25 · Kester 1/25 hp, fatigue 22, exposure 25 · Dace 14/19 hp, fatigue 31, exposure 31
+Elric puts their weight behind the arming sword, and the first spider takes all of it. *(10)*
 
-Kester takes a bandage to Tam and makes it go twice as far as anyone else would. *(+16)*
+The first spider curls its legs in and dies.
 
-Kester wraps a bandage round the worst of it and pulls it tight. *(+16)*
+Ros has run out of reagents. They spend their own blood instead, and go grey. *(4 of their own)*
 
-A brass plate on its chest reads "Assay Office. Do not obstruct." It is coming straight for them.
+Ros lets go of the working. The seep is in the way of it. *(10)*
 
-Kester drags Tam back a yard and ties off the worst of the bleeding. *(+11)*
+Wenna stitches Elric up in three movements. It is not tidy, but it holds. *(+10)*
 
-Tam times it perfectly and the engine pays for it. *(15)*
+The seep splashes Elric, and it burns. *(6)*
 
-Petra catches the engine with the spear and something cracks. *(1, it shrugs)*
+The second spider bites Wat, and the bite goes numb straight away. *(7)*
 
-Petra comes back the other way and catches the engine. *(1, it shrugs)*
+The spider's venom is still working in Elric. *(3)*
 
-Dace opens the cut on their palm again and casts from that. *(4 of their own)*
+Elric batters the seep with the flat of the arming sword. *(8)*
 
-Dace lets go of the working. The engine is in the way of it. *(7)*
+The spider's venom is still working in Wat. *(3)*
 
-The engine stamps on Petra. *(12)*
+Wat gets the spear into the seep and twists. *(3, it shrugs)*
 
-Petra finds an opening and hits the engine in it. *(1, it shrugs)*
+Wat comes back the other way and catches the seep. *(4, it shrugs)*
 
-Petra's second strike finds the engine. *(1, it shrugs)*
+Ros flicks a small working at the seep, the cheapest one they know. *(7)*
 
-Kester kneels by Petra and packs the wound while the fight goes on around them. *(+11)*
+Ros breaks the seep apart, and the pieces crust over in the air.
 
-Dace casts dry. It comes out of them instead of the doses, and it hurts. *(4 of their own)*
+> Elric 9/40 hp, fatigue 26, exposure 18 · Wat 15/31 hp, fatigue 20, exposure 14 · Wenna 31/31 hp, fatigue 25, exposure 11 · Ros 18/22 hp, fatigue 21, exposure 15
 
-Dace opens a hand and the focus spits at the engine. *(6)*
+Wenna kneels by Elric and packs the wound while the fight goes on around them. *(+10)*
 
-The engine brings a testing arm down on Tam. *(13)*
+Wat's arm has swollen up tight inside the sleeve. *(3)*
 
-The engine twists away from the arming sword.
+Wat goes low for the second spider and gets nothing but stone.
 
-Petra brings the spear down on the engine. *(1, it shrugs)*
+The second spider's fangs go through Elric's sleeve. *(5)*
 
-Petra cuts again, faster, and finds the engine. *(1, it shrugs)*
+Elric is sweating and their hands have gone numb. *(3)*
 
-Dace flicks a small working at the engine, the cheapest one they know. *(1)*
+The second spider gives ground, and Elric stumbles past it.
 
-Kester drags Dace back a yard and ties off the worst of the bleeding. *(+11)*
+Wenna drags Elric back a yard and ties off the worst of the bleeding. *(+10)*
 
-Tam lunges, slips on the wet stone and misses the engine.
+Ros opens the cut on their palm again and casts from that. *(4 of their own)*
 
-The engine grips Tam in its calipers and squeezes, testing. *(20)*
+Ros opens a hand and the focus spits at the second spider. *(10)*
 
-**Tam falls. The others close up over them.**
+Wat chops at the second spider and connects. *(5)*
 
-Petra puts their weight behind the spear, and the engine takes all of it. *(2, it shrugs)*
+Wat's second cut goes wide.
 
-Petra follows through and opens the engine up a second time. *(1, it shrugs)*
+The second spider strikes at Elric and hits the floor.
 
-Dace flicks a small working at the engine, the cheapest one they know. *(1)*
+Ros pinches out a little working at the second spider. It is not much, but it lands. *(5)*
 
-The engine swings and the arm sticks halfway, grinding.
+Elric is sick against the wall and wipes their mouth and carries on. *(3)*
 
-Kester gets a pad of lint on Petra and leans on it until it stops. *(+11)*
+Elric steps in and hits the second spider hard with the arming sword. *(12)*
 
-Dace has nothing better left and throws a spark at the engine anyway. *(1)*
-
-Petra catches the engine with the spear and something cracks. *(2, it shrugs)*
-
-Petra goes for a second cut, and the engine is ready for that one.
-
-Kester lunges, slips on the wet stone and misses the engine.
-
-The engine brings a testing arm down on Petra. *(11)*
-
-The engine twists away from the spear.
-
-Petra does not wait to see what the first one did, and hits the engine again. *(1, it shrugs)*
-
-Dace flicks a spark at the engine and misses.
-
-Kester gets a dressing on Petra, tight and fast. *(+11)*
-
-The engine grips Kester in its calipers and squeezes, testing. *(15)*
-
-Petra finds an opening and hits the engine in it. *(1, it shrugs)*
-
-Petra's second strike finds the engine. *(1, it shrugs)*
-
-Kester binds their own arm with their teeth and one hand. *(+11)*
-
-Dace flicks a spark off the plain focus rod at the engine. It stings, at least. *(1)*
-
-The engine reaches for Petra and closes on air.
-
-Dace's little working dies before it reaches the engine.
-
-Kester brings the flanged mace down on the engine. *(7, it hates that)*
-
-Kester smashes something inside the engine, and it winds down with a long whine.
-
-> Tam down · Petra 27/34 hp, fatigue 33, exposure 25 · Kester 13/25 hp, fatigue 18, exposure 25 · Dace 17/19 hp, fatigue 27, exposure 37
+Elric splits the second spider open and the smell is terrible.
 
 The last of them goes down. Somebody laughs, too loudly.
 
-Tam gets up on the second try.
+> Elric 18/40 hp, fatigue 26, exposure 18 · Wat 12/31 hp, fatigue 20, exposure 14 · Wenna 31/31 hp, fatigue 25, exposure 11 · Ros 14/22 hp, fatigue 21, exposure 18
 
-**Dace jars a wrist on the wall and something cracks that shouldn't have. The runoff has been at their bones. *(Brittle bones)***
+Wenna takes a bandage to Wat and makes it go twice as far as anyone else would. *(+16)*
 
-In the dark, Kester keeps hearing things behind them.
+They pass an old college sluice gate, jammed half open. Somebody's initials are scratched into the brass, with a date and a rude word.
 
-Kester sits Tam down on a step and does the job properly. *(+16)*
+They eat standing up. Elric shares an onion, which is generous and unwise. *(1 food)*
 
-**They camp in a dead college storeroom, where the shelves glow faintly all night.**
+> Elric 18/40 hp, fatigue 39, exposure 25 · Wat 28/31 hp, fatigue 31, exposure 21 · Wenna 31/31 hp, fatigue 36, exposure 19 · Ros 14/22 hp, fatigue 33, exposure 26
 
-> Tam 17/40 hp, fatigue 41, exposure 34 · Petra 27/34 hp, fatigue 42, exposure 28 · Kester 13/25 hp, fatigue 26, exposure 29 · Dace 17/19 hp, fatigue 36, exposure 41
+They try to slip past the Assay engines and get caught in the open.
+
+A brass plate on its chest reads "Assay Office. Do not obstruct." It is coming straight for them.
+
+**They walk straight into it. The engine has the first move.**
+
+The engine brings a testing arm down on Elric. *(11)*
+
+The seep washes over Wat's boots, and the leather starts to smoke. *(12)*
+
+Wat goes in low, and the seep is not there.
+
+Elric slams a shoulder into the seep. *(8)*
+
+The seep reels, and for a moment it has no idea where it is.
+
+Wenna stitches Elric up in three movements. It is not tidy, but it holds. *(+10)*
+
+Ros casts dry. It comes out of them instead of the doses, and it hurts. *(4 of their own)*
+
+Ros speaks the working and it hits the seep square. *(10)*
+
+Wat brings the spear down on the seep. *(3, it shrugs)*
+
+Wat cuts again, faster, and finds the seep. *(4, it shrugs)*
+
+Wenna gets a pad of lint on Elric and leans on it until it stops. *(+10)*
+
+Elric finds an opening and hits the seep in it. *(6, it shrugs)*
+
+The seep stops moving and goes dull, then hard.
+
+Ros has nothing better left and throws a spark at the engine anyway. *(2)*
+
+The engine stamps on Elric. *(18)*
+
+Wat catches the engine with the spear and something cracks. *(2, it shrugs)*
+
+Wat does not wait to see what the first one did, and hits the engine again. *(1, it shrugs)*
+
+Elric finds the weak place on the engine, and it goes in deep. *(15)*
+
+Ros flicks a small working at the engine, the cheapest one they know. *(3)*
+
+The engine grips Wat in its calipers and squeezes, testing. *(12)*
+
+Wenna kneels by Wat and packs the wound while the fight goes on around them. *(+10)*
+
+Wat swings the spear into the engine and keeps swinging. *(1, it shrugs)*
+
+Wat's second strike finds the engine. *(1, it shrugs)*
+
+Ros flicks a spark off the plain focus rod at the engine. It stings, at least. *(3)*
+
+Elric catches the engine with the arming sword and something cracks. *(7)*
+
+"Hold still," Wenna tells Elric, and pours something on the cut that makes Elric swear. *(+10)*
+
+The engine grips Elric in its calipers and squeezes, testing. *(13)*
+
+Wat steps in and hits the engine hard with the spear. *(1, it shrugs)*
+
+Wat tries a second strike and nearly loses the spear.
+
+Elric finds an opening and hits the engine in it. *(6)*
+
+Wenna gets a dressing on Elric, tight and fast. *(+10)*
+
+Ros taps the engine with a working the size of a candle flame. *(1)*
+
+The engine reaches for Wat and closes on air.
+
+Wat puts their weight behind the spear, and the engine takes all of it. *(2, it shrugs)*
+
+Wat follows through and opens the engine up a second time. *(1, it shrugs)*
+
+Elric gets the arming sword into the engine and twists. *(8)*
+
+The engine stops in the middle of a movement, ticks twice and falls over.
+
+> Elric 16/40 hp, fatigue 35, exposure 25 · Wat 14/31 hp, fatigue 27, exposure 25 · Wenna 31/31 hp, fatigue 32, exposure 19 · Ros 10/22 hp, fatigue 29, exposure 29
+
+It is over. They stand there breathing hard and counting each other.
+
+Ros reads the labels on a college still and draws off two doses. *(+2 reagents)*
+
+**They make camp on a ledge above the spill, where the air is almost clean.**
+
+> Elric 16/40 hp, fatigue 43, exposure 30 · Wat 14/31 hp, fatigue 33, exposure 29 · Wenna 31/31 hp, fatigue 38, exposure 22 · Ros 10/22 hp, fatigue 36, exposure 34
 
 The chaplain makes everyone eat and cleans every cut, and is the last one to sleep. *(1 food)*
 
-> Tam 31/40 hp, fatigue 8, exposure 34 · Petra 34/34 hp, fatigue 9, exposure 28 · Kester 22/25 hp, fatigue 0, exposure 29 · Dace 19/19 hp, fatigue 3, exposure 41
+> Elric 30/40 hp, fatigue 10, exposure 30 · Wat 25/31 hp, fatigue 0, exposure 29 · Wenna 31/31 hp, fatigue 5, exposure 22 · Ros 18/22 hp, fatigue 3, exposure 34
 
-**The Kiln Engine turns toward the lamps. The college built it to burn the spill, and it burns whatever it can reach.**
+**The last of the lamp oil gutters out. They go on in the dark.**
 
-Kester can't reach anything from back here and shouts advice instead.
+**At the bottom of the Sink the Kiln Engine walks out of its own glow. It is the size of a chapel, and there is fire moving behind the grilles in its chest.**
 
-Dace has run out of reagents. They spend their own blood instead, and go grey. *(4 of their own)*
+Wat chops at the seep and connects. *(4, it shrugs)*
 
-Dace traces the figure without looking and the spell finds the seep. *(10)*
+Wat comes back the other way and catches the seep. *(4, it shrugs)*
 
-Tam hits the seep so hard that the others stop for a moment to look. *(11)*
+Wenna tries to push forward past the others and gets an elbow for it.
 
-The seep goes down and is slow getting up.
+The air goes tight around Ros, and then the seep takes the spell full on. *(12)*
 
-Petra rolls clear of a burning arm.
+Elric slams a shoulder into the seep. *(6)*
 
-Petra steps in and hits the seep hard with the spear. *(4, it shrugs)*
+The seep surges at Elric, who gets out of the way.
 
-Petra does not wait to see what the first one did, and hits the seep again. *(4, it shrugs)*
+The Kiln Engine opens its door and breathes fire on Wat. *(22)*
 
-Petra breaks the seep apart, and the pieces crust over in the air.
+Wat brings the spear down on the seep. *(4, it shrugs)*
 
-> Tam 31/40 hp, fatigue 16, exposure 38 · Petra 34/34 hp, fatigue 17, exposure 32 · Kester 22/25 hp, fatigue 6, exposure 31 · Dace 15/19 hp, fatigue 9, exposure 48
+The seep stops moving and goes dull, then hard.
 
-Petra swings at the Kiln Engine and hits the wall.
+Wat goes for a second cut, and the Kiln Engine is ready for that one.
 
-Petra finds the weak place on the Kiln Engine, and it goes in deep. *(5, it shrugs)*
+Elric lunges, slips on the wet stone and misses the Kiln Engine.
 
-There are no doses left, so Dace cuts their own palm and casts from that. *(4 of their own)*
+Ros gets the figure wrong. The spell fizzles.
 
-Dace speaks the working and it hits the Kiln Engine square. *(6)*
+Wenna drags Wat back a yard and ties off the worst of the bleeding. *(+10)*
 
-Kester tries to push forward past the others and gets an elbow for it.
+The Kiln Engine swings a burning arm into Elric. *(16)*
 
-The Kiln Engine opens its door and breathes fire on Tam. *(12)*
+Wat swings the spear into the Kiln Engine and keeps swinging. *(2, it shrugs)*
 
-Tam chops at the Kiln Engine and connects. *(8)*
+Wat cuts again, faster, and finds the Kiln Engine. *(2, it shrugs)*
 
-Petra swings the spear into the Kiln Engine and keeps swinging. *(2, it shrugs)*
+Elric chops at the Kiln Engine and connects. *(8)*
 
-Petra comes back the other way and catches the Kiln Engine. *(2, it shrugs)*
+Wenna gets a pad of lint on Elric and leans on it until it stops. *(+10)*
 
-Tam gets the arming sword into the Kiln Engine and twists. *(8)*
+Ros pays for the next working in blood. Their lips have gone blue. *(4 of their own)*
 
-Dace pays for the next working in blood. Their lips have gone blue. *(4 of their own)*
+**The Sink gets into Ros all at once. They go hot, then cold, and their hands won't keep still. It's the Sink fever, and it has to run its course. *(the Sink fever)***
 
-The air goes tight around Dace, and then the Kiln Engine takes the spell full on. *(7)*
+Ros lets go of the working. The Kiln Engine is in the way of it. *(8)*
 
-Kester stitches Dace up in three movements. It is not tidy, but it holds. *(+11)*
+The Kiln Engine treads on Elric. *(19)*
 
-The Kiln Engine swings a burning arm into Petra. *(17)*
+Wat puts their weight behind the spear, and the Kiln Engine takes all of it. *(1, it shrugs)*
 
-Petra puts their weight behind the spear, and the Kiln Engine takes all of it. *(2, it shrugs)*
+Wat's second strike finds the Kiln Engine. *(2, it shrugs)*
 
-Petra cuts again, faster, and finds the Kiln Engine. *(1, it shrugs)*
+"Hold still," Wenna tells Elric, and pours something on the cut that makes Elric swear. *(+10)*
 
-Dace has run out of reagents. They spend their own blood instead, and go grey. *(4 of their own)*
+Elric brings the arming sword down on the Kiln Engine. *(7)*
 
-Dace's spell splashes off the stones beside the Kiln Engine.
+There are no doses left, so Ros cuts their own palm and casts from that. *(4 of their own)*
 
-Tam gets the arming sword into the Kiln Engine and twists. *(7)*
+Ros's spell splashes off the stones beside the Kiln Engine.
+
+**The Kiln Engine opens every door in its body at once. Fire rolls across the whole squad.**
+
+Wat catches the Kiln Engine with the spear and something cracks. *(2, it shrugs)*
+
+Wat follows through and opens the Kiln Engine up a second time. *(2, it shrugs)*
+
+Wenna stitches Ros up in three movements. It is not tidy, but it holds. *(+10)*
+
+Ros casts dry. It comes out of them instead of the doses, and it hurts. *(4 of their own)*
+
+Ros speaks the working and it hits the Kiln Engine square. *(7)*
+
+Elric steps in and hits the Kiln Engine hard with the arming sword. *(8)*
+
+The Kiln Engine swings a burning arm into Elric. *(16)*
+
+**Elric goes down, and somebody gets a draught between their teeth before they finish falling. They come up coughing. *(a draught)***
+
+Wat gets the spear into the Kiln Engine and twists. *(1, it shrugs)*
+
+Wat times it perfectly and the Kiln Engine pays for it. *(4, it shrugs)*
+
+Ros flicks a spark off the plain focus rod at the Kiln Engine. It stings, at least. *(2)*
+
+Elric finds an opening and hits the Kiln Engine in it. *(8)*
+
+The Kiln Engine treads on Elric. *(13)*
+
+Wenna gets a dressing on Elric, tight and fast. *(+10)*
+
+Wat swings the spear into the Kiln Engine and keeps swinging. *(2, it shrugs)*
+
+Wat does not wait to see what the first one did, and hits the Kiln Engine again. *(1, it shrugs)*
+
+The Kiln Engine twists away from the arming sword.
+
+Ros finds the weak place on the Kiln Engine, and it goes in deep. *(9)*
+
+Wenna kneels by Elric and packs the wound while the fight goes on around them. *(+10)*
+
+The Kiln Engine opens its door and breathes fire on Elric. *(16)*
+
+Wat swings the spear into the Kiln Engine and keeps swinging. *(1, it shrugs)*
+
+Wat does not wait to see what the first one did, and hits the Kiln Engine again. *(1, it shrugs)*
+
+Elric lunges, slips on the wet stone and misses the Kiln Engine.
+
+Wenna gets a pad of lint on Elric and leans on it until it stops. *(+10)*
 
 **The Kiln Engine vents its firebox. The heat hits everyone at the same time.**
 
-**Tam coughs up something violet. Their lungs will remember the Sink for a long time. *(Burned lungs)***
+**Elric starts sweating violet. They say they're fine. They are running the Sink fever, and everyone can see it. *(the Sink fever)***
 
-"Hold still," Kester tells Tam, and pours something on the cut that makes Tam swear. *(+11)*
+**Wat goes grey and shivery in the middle of the Sink. The fever has started, and they'll fight worse until it breaks. *(the Sink fever)***
 
-Petra finds the weak place on the Kiln Engine, and it goes in deep. *(4, it shrugs)*
+Ros taps the Kiln Engine with a working the size of a candle flame. *(4)*
 
-Petra follows through and opens the Kiln Engine up a second time. *(2, it shrugs)*
+Wat gets the spear into the Kiln Engine and twists. *(2, it shrugs)*
 
-Kester kneels by Petra and packs the wound while the fight goes on around them. *(+11)*
+Wat gets the blow they were waiting for. The Kiln Engine feels all of it. *(5, it shrugs)*
 
-Tam misses, and says something the chaplains would not repeat.
+Elric brings the arming sword down on the Kiln Engine. *(8)*
 
-Dace flicks a spark at the Kiln Engine and misses.
+The Kiln Engine swings a burning arm into Elric. *(17)*
 
-The Kiln Engine treads on Tam. *(18)*
+**Elric falls. The others close up over them.**
 
-Petra steps in and hits the Kiln Engine hard with the spear. *(1, it shrugs)*
+"Hold still," Wenna tells Wat, and pours something on the cut that makes Wat swear. *(+10)*
 
-Petra times it perfectly and the Kiln Engine pays for it. *(5, it shrugs)*
+Ros pinches out a little working at the Kiln Engine. It is not much, but it lands. *(2)*
 
-Tam's blow lands on nothing.
+Wat puts their weight behind the spear, and the Kiln Engine takes all of it. *(1, it shrugs)*
 
-Dace pinches out a little working at the Kiln Engine. It is not much, but it lands. *(1)*
+Wat's second strike finds the Kiln Engine. *(2, it shrugs)*
 
-Kester kneels by Tam and packs the wound while the fight goes on around them. *(+11)*
+Wat rolls clear of a burning arm.
 
-The Kiln Engine swings at Tam and melts a hole in the wall instead.
+Wenna gets a dressing on Ros, tight and fast. *(+10)*
 
-Petra goes clean through the Kiln Engine and does not look surprised about it. *(5, it shrugs)*
+Ros's little working dies before it reaches the Kiln Engine.
 
-Petra's second strike finds the Kiln Engine. *(2, it shrugs)*
+Wat steps in and hits the Kiln Engine hard with the spear. *(1, it shrugs)*
 
-The Kiln Engine swings a burning arm into Tam. *(18)*
+Wat comes back the other way and catches the Kiln Engine. *(2, it shrugs)*
 
-**They lose Tam to the Kiln Engine. Somebody keeps pressing on the wound long after there is any point.**
+Wenna stitches Wat up in three movements. It is not tidy, but it holds. *(+10)*
 
-> Tam dead · Petra 23/34 hp, fatigue 17, exposure 37 · Kester 18/25 hp, fatigue 6, exposure 36 · Dace 8/19 hp, fatigue 9, exposure 62
+Ros flicks a spark at the Kiln Engine and misses.
 
-Kester stitches Dace up in three movements. It is not tidy, but it holds. *(+11)*
+The Kiln Engine treads on Wenna. *(15)*
 
-Dace casts dry. It comes out of them instead of the doses, and it hurts. *(4 of their own)*
+Wat finds an opening and hits the Kiln Engine in it. *(1, it shrugs)*
 
-Dace opens a hand and the focus spits at the Kiln Engine. *(6)*
+Wat follows through and opens the Kiln Engine up a second time. *(2, it shrugs)*
 
-There are no doses left, so Dace cuts their own palm and casts from that. *(4 of their own)*
-
-Dace casts, and the working comes apart in the wet air.
-
-Petra puts their weight behind the spear, and the Kiln Engine takes all of it. *(2, it shrugs)*
-
-Petra does not wait to see what the first one did, and hits the Kiln Engine again. *(2, it shrugs)*
-
-Kester catches the Kiln Engine with the flanged mace and something cracks. *(4)*
+Ros's little working dies before it reaches the Kiln Engine.
 
 **The Kiln Engine opens every door in its body at once. Fire rolls across the whole squad.**
 
-**Petra's eyes have gone pale and strange, and they can see a little in the dark now. Their mother will have things to say. *(Pale eyes)***
+**Wenna dies down here, under the Lower Town. The Kiln Engine did it.**
 
-**Kester's eyes have gone pale and strange, and they can see a little in the dark now. Their mother will have things to say. *(Pale eyes)***
+> Elric down · Wat 20/31 hp, fatigue 7, exposure 46 · Wenna dead · Ros 14/22 hp, fatigue 10, exposure 57
 
-**Dace coughs up something violet. Their lungs will remember the Sink for a long time. *(Burned lungs)***
+Wat hits the Kiln Engine so hard that the others stop for a moment to look. *(4, it shrugs)*
 
-Petra swings the spear into the Kiln Engine and keeps swinging. *(2, it shrugs)*
+Wat cuts again, faster, and finds the Kiln Engine. *(2, it shrugs)*
 
-Petra's second cut goes wide.
+The Kiln Engine opens its door and breathes fire on Wat. *(20)*
 
-Dace taps the Kiln Engine with a working the size of a candle flame. *(2)*
+**Wat crumples and somebody drags them back by the collar.**
 
-Kester gets a pad of lint on Dace and leans on it until it stops. *(+11)*
+Ros flicks a small working at the Kiln Engine, the cheapest one they know. *(4)*
 
-The Kiln Engine swings at Kester and melts a hole in the wall instead.
+Ros has nothing better left and throws a spark at the Kiln Engine anyway. *(4)*
 
-Petra brings the spear down on the Kiln Engine. *(2, it shrugs)*
+The Kiln Engine stops. It stands there cooling and ticking, and then it falls forward and does not get up.
 
-Petra gets the blow they were waiting for. The Kiln Engine feels all of it. *(4, it shrugs)*
+The Kiln Engine is dead, if an engine can be dead. The squad sits down on the crust, all at once.
 
-Kester finds an opening and hits the Kiln Engine in it. *(5)*
+> Elric down · Wat down · Wenna dead · Ros 8/22 hp, fatigue 10, exposure 62
 
-Dace pays for the next working in blood. Their lips have gone blue. *(4 of their own)*
+Somebody slaps Elric awake. They are alive, though not by much.
 
-Dace gets the figure wrong. The spell fizzles.
+Wat gets up again, though not as they were. Jory will write "half an ear" next to their name in the roster. *(Half an ear)*
 
-The Kiln Engine opens its door and breathes fire on Petra. *(13)*
-
-Petra chops at the Kiln Engine and connects. *(1, it shrugs)*
-
-Petra cuts again, faster, and finds the Kiln Engine. *(2, it shrugs)*
-
-Dace opens the cut on their palm again and casts from that. *(4 of their own)*
-
-Dace's spell splashes off the stones beside the Kiln Engine.
-
-Kester gets a dressing on Petra, tight and fast. *(+11)*
-
-Kester rolls clear of a burning arm.
-
-Petra misses, and says something the chaplains would not repeat.
-
-Petra comes back the other way and catches the Kiln Engine. *(1, it shrugs)*
-
-Dace flicks a small working at the Kiln Engine, the cheapest one they know. *(2)*
-
-**The Kiln Engine opens every door in its body at once. Fire rolls across the whole squad.**
-
-"Hold still," Kester tells Dace, and pours something on the cut that makes Dace swear. *(+11)*
-
-Petra gets the spear into the Kiln Engine and twists. *(2, it shrugs)*
-
-Petra follows through and opens the Kiln Engine up a second time. *(1, it shrugs)*
-
-The Kiln Engine swings at Petra and melts a hole in the wall instead.
-
-Dace pinches out a little working at the Kiln Engine. It is not much, but it lands. *(1)*
-
-Kester drags Petra back a yard and ties off the worst of the bleeding. *(+11)*
-
-Petra brings the spear down on the Kiln Engine. *(2, it shrugs)*
-
-Petra comes back the other way and catches the Kiln Engine. *(2, it shrugs)*
-
-Dace's little working dies before it reaches the Kiln Engine.
-
-Kester packs their own wound and keeps going. *(+11)*
-
-Petra rolls clear of a burning arm.
-
-The Kiln Engine has had enough and backs off into the dark.
-
-Nobody believes it at first. The Kiln Engine is down, and the Sink is getting colder already.
-
-> Tam dead · Petra 19/34 hp, fatigue 17, exposure 47 · Kester 19/25 hp, fatigue 6, exposure 46 · Dace 12/19 hp, fatigue 9, exposure 84
-
-In the ashes where the Kiln Engine stood, Petra finds 5 jars of reagent salts, still warm. They wrap the lot in a wet blanket and do not complain about the weight. *(5 jars of reagent salts)*
+They pick through the wreck of the Kiln Engine and take 3 Assay seals. The college will want all of it back. *(3 Assay seals)*
 
 They climb back up toward the Lower Town with full packs.
-
-They put their backs to the wall and keep still, and the Assay engines go by close enough to smell.
 
 **They come out of Old Pellam into the light. Somebody has to tell them it is a Tuesday.**
 
 ## What came home
 
 Outcome: **complete**, 14 of 14 rooms.
-Loot: 3 pellam coin, 2 college glass, 7 reagent salts, 1 assay seals, worth 247 crowns, plus 33 in coin.
-Renown: Completed a long expedition (+6 renown); Fought off a wandering pack (+1 renown); Brought a fallen member home (+1 renown); First to reach the Buried Streets (+2 renown); First to reach the College Sink (+4 renown).
+Loot: 1 pellam coin, 4 reagent salts, 4 assay seals, 1 kiln core, worth 473 crowns, plus 77 in coin.
+Renown: Completed a long expedition (+6 renown); Broke the Kiln Engine (+8 renown); Fought off 4 wandering packs (+4 renown); Brought 2 fallen members home (+2 renown); First to reach the Buried Streets (+2 renown); First to reach the College Sink (+4 renown).
 
-- **Tam Wick**: died (the Kiln Engine); new scar: limp; from the Sink: burned_lungs.
-- **Petra Eskett**: 19 HP, fatigue 23, exposure 47, +61 experience; from the Sink: pale_eyes.
-- **Kester Dunning**: 19 HP, fatigue 11, exposure 46, +61 experience; new scar: stitched_brow; from the Sink: pale_eyes.
-- **Dace Marrow**: 12 HP, fatigue 15, exposure 84, +61 experience; from the Sink: brittle, burned_lungs.
+- **Elric Lusk**: 1 HP, fatigue 17, exposure 43, +91 experience; came home with the Sink fever (will become violet_skin).
+- **Wat Eskett**: 1 HP, fatigue 7, exposure 46, +91 experience; new scar: half_ear; came home with the Sink fever (will become thick_hide).
+- **Wenna Ashby**: died (the Kiln Engine).
+- **Ros Dunning**: 8 HP, fatigue 16, exposure 62, +91 experience; new habit: drinks; came home with the Sink fever (will become violet_skin).

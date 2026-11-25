@@ -80,11 +80,13 @@ export interface CampaignStats {
   crowns: number;
   bossKills: number;
   debtPaid: number;
+  /** Sink changes carried by living members at the end */
+  changes: number;
 }
 
 /** A careful player over a number of weeks: rest the hurt, pick a length the squad can manage. */
 export function sampleCampaigns(games: number, weeks: number, prep: Prep, seed0 = 5000): CampaignStats {
-  const s: CampaignStats = { games, open: 0, expeditions: 0, deaths: 0, renown: 0, crowns: 0, bossKills: 0, debtPaid: 0 };
+  const s: CampaignStats = { games, open: 0, expeditions: 0, deaths: 0, renown: 0, crowns: 0, bossKills: 0, debtPaid: 0, changes: 0 };
   for (let i = 0; i < games; i++) {
     const g = newExpGame(seed0 + i * 104729);
     let guard = 0;
@@ -124,6 +126,7 @@ export function sampleCampaigns(games: number, weeks: number, prep: Prep, seed0 
     s.renown += g.renown;
     s.crowns += g.crowns;
     s.debtPaid += T.debt.principal - g.debt.principal;
+    s.changes += livingDelvers(g).reduce((x, d) => x + d.changes.length, 0);
   }
   return s;
 }

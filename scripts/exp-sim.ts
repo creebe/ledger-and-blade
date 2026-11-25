@@ -16,6 +16,6 @@ const games = Math.max(40, Math.round(runs / 3));
 for (const p of ['good', 'poor'] as const) {
   const c = sampleCampaigns(games, 24, p);
   console.log(
-    `\nCampaign, ${p} preparation, ${games} games of 24 weeks: ${pct(c.open, games)} still open, ${(c.expeditions / games).toFixed(1)} expeditions, ${(c.deaths / games).toFixed(1)} deaths, renown ${(c.renown / games).toFixed(0)}, ${(c.crowns / games).toFixed(0)} crowns at the end, ${Math.round(c.debtPaid / games)} of the loan repaid, Kiln Engine broken in ${pct(c.bossKills, games)} of games`,
+    `\nCampaign, ${p} preparation, ${games} games of 24 weeks: ${pct(c.open, games)} still open, ${(c.expeditions / games).toFixed(1)} expeditions, ${(c.deaths / games).toFixed(1)} deaths, renown ${(c.renown / games).toFixed(0)}, ${(c.crowns / games).toFixed(0)} crowns at the end, ${Math.round(c.debtPaid / games)} of the loan repaid, Kiln Engine broken in ${pct(c.bossKills, games)} of games, ${(c.changes / games).toFixed(1)} Sink changes in the roster`,
   );
 }
