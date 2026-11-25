@@ -3,7 +3,23 @@
 What's next, what's open, and what to watch after each release. Main keeps this current; workstream sessions suggest additions in their hand-over notes.
 
 ## In trial: Expeditions (branch `claude/expeditions`, not for merging yet)
-The owner asked for a major alternative that "feels a lot more like Darkest Dungeon": real expeditions, monsters, outfitting a squad and managing them as a resource. Expeditions are played out automatically and read as a live log. Preparation is where the skill goes. The book-keeping is trimmed. It's a first slice (one site, six Professions, about ten monsters) on its own branch, with a private preview link. The owner may scrap it. The design is in `docs/EXPEDITIONS.md` on that branch.
+The owner asked for a major alternative that "feels a lot more like Darkest Dungeon": real expeditions, monsters, outfitting a squad and managing them as a resource. Expeditions are played out automatically and read as a live log. Preparation is where the skill goes. The book-keeping is trimmed. It's a first slice (one site, six Professions, about ten monsters) on its own branch, with a private preview link. The design is in `docs/EXPEDITIONS.md` on that branch.
+
+**Approved for the full game (2026-11-25):** the plan in `docs/PROPOSAL-EXPEDITIONS-IN-MAIN.md` (on `claude/expeditions`).
+- Every classic system stays.
+- Two squads can be out at once, rising to three with a hall upgrade.
+- Trips are sealed once they leave.
+- Watching several squads uses one merged, numbered feed.
+- The classic tabs stay as they are.
+- The proposed names are approved.
+
+Workstreams:
+1. Engine merge (`exp-engine`, in progress).
+2. Field UI (starts once the engine API is pushed).
+3. Story: this includes updating the story document's export to cover expedition text, without losing the owner's comments.
+4. Sites.
+5. Economy.
+6. Balance.
 
 ## To watch from v0.12.2 (live since 2026-11-24)
 - **The final look on a phone:** the deeper red buttons in dark mode, the gauge icon for Heat, and the material colors. `docs/DESIGN-TOKENS.md` is now the reference for every color and type choice.
