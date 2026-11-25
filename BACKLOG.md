@@ -2,6 +2,9 @@
 
 What's next, what's open, and what to watch after each release. Main keeps this current; workstream sessions suggest additions in their hand-over notes.
 
+## In trial: Expeditions (branch `claude/expeditions`, not for merging yet)
+The owner asked for a major alternative that "feels a lot more like Darkest Dungeon": real expeditions, monsters, outfitting a squad and managing them as a resource. Expeditions are played out automatically and read as a live log. Preparation is where the skill goes. The book-keeping is trimmed. It's a first slice (one site, six Professions, about ten monsters) on its own branch, with a private preview link. The owner may scrap it. The design is in `docs/EXPEDITIONS.md` on that branch.
+
 ## To watch from v0.12.2 (live since 2026-11-24)
 - **The final look on a phone:** the deeper red buttons in dark mode, the gauge icon for Heat, and the material colors. `docs/DESIGN-TOKENS.md` is now the reference for every color and type choice.
 - **PR #6** (the story document's export script) is waiting for the owner's yes. The owner's comments in the story document will become a writing workstream.
