@@ -7,7 +7,8 @@ src/
   engine/            pure game rules: no React, no DOM, no Math.random
     core/            the skeleton every system hangs on
     people/          members and Legends
-    missions/        odds, mission resolution, journals
+    missions/        odds (still used by scene checks), levelling, journals
+    expeditions/     contracts walked as trips: the dive simulation, dispatch, the weekly reveal, settlement
     economy/         contract board, market, items, buildings
     politics/        Council, faction perks
     rivals/          rival AI and guild wars
@@ -34,7 +35,7 @@ docs/                design doc, story bible, reports, playthroughs
 1. The player acts. Each action is a function in `engine/actions.ts` (or a system module) that takes the `GameState` and changes it. The UI calls `act(fn)` from `store.ts`, which runs the action inside an Immer draft, checks the Guildmaster's Notes, discovers lore and autosaves.
 2. **End Week** calls `advanceWeek()` in `engine/core/turn.ts`. It runs named phases in order:
    1. `homePhase`
-   2. `missionPhase`
+   2. `missionPhase` (squads leaving the yard are sealed; squads whose trips are over come home and are settled)
    3. `worldPhase` (rivals, wars, the Council, street talk)
    4. `economyPhase`
    5. `memberPhase`
@@ -58,6 +59,7 @@ docs/                design doc, story bible, reports, playthroughs
 | `core/newgame.ts` | `newGame(seed)` and the rolled start. |
 | `core/save.ts` | `SAVE_VERSION` and `migrateSave()`, which upgrades older saves step by step. |
 | `core/calendar.ts` | Seasons and date labels. |
+| `expeditions/run.ts` | An expedition's life: dispatch, seal, reveal a week at a time, settle. See `docs/EXPEDITIONS-API.md`. |
 
 ## Content versus rules
 
@@ -73,4 +75,5 @@ docs/                design doc, story bible, reports, playthroughs
   - add a step to `migrateSave()`;
   - add a test in `tests/engine.test.ts`.
 - **Import cycles.** Data modules import each other (scenes import legends for naming, for example). Keep `core/util.ts` and `core/types.ts` free of data imports, and import shared helpers from there. Top-level code must never call into another module at import time.
+- **Expedition logs are rebuilt, not stored.** A trip stores its frozen inputs (`Mission.setup`) and its outcome; the log is replayed from the setup when the UI asks (`expeditionLog`). A change to `dive.ts` or the lines changes the text of trips already in a save (not their outcomes), so keep the dive deterministic and treat such changes like a save change.
 - **CSS class names.** Two bugs have come from colliding class names (`.phase`, `.objective`). Use specific names.

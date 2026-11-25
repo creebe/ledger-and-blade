@@ -148,7 +148,7 @@ See `EXCLUSIVE_FACTS` in `facts.ts`. Besides the silver pairs: the three riot ou
 
 ## 5b. Field decisions (Canon)
 
-Not story beats: they fire for squads on the road (`src/engine/data/field.ts`) and are covered by the story checker. Characters who can appear: **Isbet Hobb** leads the rival squad in *Hobb's People on the Road* (attitude falls if you sabotage her camp). The arrival report is written from what the squad can see; it never reveals anything the mission wouldn't.
+Not story beats: they fire **at the door of an expedition**, as a squad sets out for a distant site, before the trip is sealed (`src/engine/data/field.ts`). Once a squad is through the door nobody can send it orders, so there is no arrival report any more. They are covered by the story checker. Characters who can appear: **Isbet Hobb** leads the rival squad in *Hobb's People on the Road* (attitude falls if you sabotage her camp).
 
 ## 5c. Dates (Canon)
 
@@ -177,6 +177,22 @@ A **Date** is a day on the guild's calendar, three to six weeks ahead, that the 
 | Marta Hobb's Wager | Marta | Week 12+, the Hobbs active, not at open war | Renown above the Hobbs' | Called off if Marta dies or the feud turns to open war |
 
 **Writing.** A Date's text is one or two sentences in the narrator's voice. It says who is coming and what they will judge, and never explains the world. Jory only ever makes remarks. The met and missed lines report what happened, in the dry register of the week report, and promise nothing the stakes don't give.
+
+## 5d. Expeditions and Old Pellam (Canon from v0.13.0)
+
+Contracts are walked as **expeditions** to real places (`docs/EXPEDITIONS.md`). A posting names a site, a route length and a goal; the patron and the story facts work as before. Story contracts are story expeditions: each keeps its success, failure and expiry facts, and succeeds when its goal is met.
+
+- **Old Pellam** was the first town on the river. When the river moved two hundred years ago, Pellam silted up and Varrow was built on top of it. Its cellars and streets are still down there, under the Lower Town. You get in by the steps behind the chandler's on Tallow Street.
+- **The Culverts** are the Lower Town's brick drains and cellars. **The Buried Streets** are Pellam's own streets, roofed over by Varrow's foundations. **The College Sink** is where the college poured its spent reagents for a century.
+- **Nothing down there is supernatural.**
+  - The animals grew big and pale, or strange, on runoff: rats, tallow moths, sink eels, cellar spiders, pale hogs and sink crabs.
+  - Seeps are spills of reagent that never stopped reacting.
+  - The Assay engines and the college's **Kiln Engine** are clockwork and reagent mechanisms. They have no will of their own and still run the last instructions anyone gave them. The Kiln Engine breaks once.
+- **People down there.** Grubbers are people who live below and dig for what Pellam left. Hobb & Daughters and the Ninth sometimes send crews down.
+- **Exposure and Sink changes.** The Sink's runoff, and the Saltfens' fever, get into the body and, given time, change it: violet skin, pale eyes, iron bones, storm in the fingers. This is chemistry, not a curse. The Lower Town calls such people Sink-touched. A rested body fights the change with the Sink fever. Saint Oda's fever beds draw Exposure out with vinegar, charcoal and water.
+- **Patrons in Pellam.** Saint Oda's (Brune) wants reagent salts. The Exchequer wants the Assay seals found, a survey of the Buried Streets and the Kiln Engine stopped. The Mudlarks (Pask) want eel oil. The Weighhouse (Coster) buys Pellam plate by weight. Ostrander's (Vorn) wants an account of the Sink, because the bank holds a note on the college. The Porters' Fraternity wants fewer rats.
+- **The other sites** are the classic regions, each with one zone until its own work fills it out: Varrow (the Lower Town: yards, warehouses, back stairs), Kell Mines (the upper workings), the Saltfens (the reed paths), Drover's Road (the hill road), Harrowmere (the lake shore) and Port Anselm (the Wenmouth road). Their people are claim-jumpers, salt-cutters gone feral, road agents, deserters from the Ninth and lake smugglers; their animals are cave crabs, marsh hogs, hill wolves and mere pike. A contract's dangers bring their own: hired thugs, sell-swords, guards, hedge-wizards, trolls, salamanders and rioters. Hurting rioters costs renown.
+- **Envoys** can talk people out of a fight or buy them off with what the squad has found. **Infiltrators** open locks and make traps safe without tools.
 
 ## 6. Acts II–IV (Draft outline, not yet written)
 
