@@ -136,7 +136,7 @@ export function planWarnings(s: GameState, c: Contract, plan: ExpPlan): string[]
     if (boss) w.push(`This route ends with ${MONSTERS[boss.monster].name}, and nobody in this squad is past level 2. Squads this green often don't come back.`);
   }
   if (c.contestedBy)
-    w.push(`${RIVALS[c.contestedBy].name} want this job too. If their crew goes in first, there will be fewer fights at the start and thinner finds. If your squad gets the job done, the feud with them rises by ${FEUD_CONTESTED}.`);
+    w.push(`${RIVALS[c.contestedBy].name} want this job too. If their crew goes in first, there will be fewer fights at the start and thinner finds. They'll take it badly if your squad finishes the job, and the feud with them rises by ${FEUD_CONTESTED}.`);
   return w;
 }
 
