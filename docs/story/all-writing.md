@@ -2396,7 +2396,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Duty Unpaid
 
-`contract:varrow_brandy` · data/contracts-sites.ts:13
+`contract:varrow_brandy` · data/contracts-sites.ts:15
 
 - _type:_ “Salvage”
 - _titles[1]:_ “Duty Unpaid”
@@ -2409,7 +2409,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: The Warehouse Dogs
 
-`contract:varrow_dogs` · data/contracts-sites.ts:28
+`contract:varrow_dogs` · data/contracts-sites.ts:31
 
 - _type:_ “Hunt”
 - _titles[1]:_ “The Warehouse Dogs”
@@ -2422,7 +2422,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Rudd's Yard
 
-`contract:varrow_rudd` · data/contracts-sites.ts:43
+`contract:varrow_rudd` · data/contracts-sites.ts:47
 
 - _type:_ “Hunt”
 - _titles[1]:_ “Rudd's Yard”
@@ -2435,7 +2435,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Ore by the Sack
 
-`contract:kell_ore` · data/contracts-sites.ts:61
+`contract:kell_ore` · data/contracts-sites.ts:66
 
 - _type:_ “Salvage”
 - _titles[1]:_ “Ore by the Sack”
@@ -2448,7 +2448,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: The Crown's Mineral Rights
 
-`contract:kell_sump` · data/contracts-sites.ts:76
+`contract:kell_sump` · data/contracts-sites.ts:82
 
 - _type:_ “Survey”
 - _titles[1]:_ “The Crown's Mineral Rights”
@@ -2461,7 +2461,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: The Trevick Level
 
-`contract:kell_moyle` · data/contracts-sites.ts:91
+`contract:kell_moyle` · data/contracts-sites.ts:98
 
 - _type:_ “Hunt”
 - _titles[1]:_ “The Trevick Level”
@@ -2474,7 +2474,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Salt for the Wounds
 
-`contract:fens_salt` · data/contracts-sites.ts:109
+`contract:fens_salt` · data/contracts-sites.ts:117
 
 - _type:_ “Salvage”
 - _titles[1]:_ “Salt for the Wounds”
@@ -2487,7 +2487,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: The Dean
 
-`contract:fens_dean` · data/contracts-sites.ts:124
+`contract:fens_dean` · data/contracts-sites.ts:133
 
 - _type:_ “Hunt”
 - _titles[1]:_ “The Dean”
@@ -2500,7 +2500,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: The Red Bull
 
-`contract:drovers_bull` · data/contracts-sites.ts:142
+`contract:drovers_bull` · data/contracts-sites.ts:152
 
 - _type:_ “Hunt”
 - _titles[1]:_ “The Red Bull”
@@ -2513,7 +2513,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Moor Fleeces
 
-`contract:drovers_fleece` · data/contracts-sites.ts:157
+`contract:drovers_fleece` · data/contracts-sites.ts:168
 
 - _type:_ “Salvage”
 - _titles[1]:_ “Moor Fleeces”
@@ -2526,7 +2526,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: The Toll House at Skell Gap
 
-`contract:drovers_crewe` · data/contracts-sites.ts:172
+`contract:drovers_crewe` · data/contracts-sites.ts:184
 
 - _type:_ “Hunt”
 - _titles[1]:_ “The Toll House at Skell Gap”
@@ -2539,7 +2539,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Bog Oak
 
-`contract:mere_oak` · data/contracts-sites.ts:190
+`contract:mere_oak` · data/contracts-sites.ts:203
 
 - _type:_ “Salvage”
 - _titles[1]:_ “Bog Oak”
@@ -2552,7 +2552,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: The Bailiff
 
-`contract:mere_bailiff` · data/contracts-sites.ts:205
+`contract:mere_bailiff` · data/contracts-sites.ts:219
 
 - _type:_ “Hunt”
 - _titles[1]:_ “The Bailiff”
@@ -2565,7 +2565,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Ambergris
 
-`contract:anselm_ambergris` · data/contracts-sites.ts:223
+`contract:anselm_ambergris` · data/contracts-sites.ts:238
 
 - _type:_ “Salvage”
 - _titles[1]:_ “Ambergris”
@@ -2578,7 +2578,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: The Insurers' Survey
 
-`contract:anselm_burrows` · data/contracts-sites.ts:238
+`contract:anselm_burrows` · data/contracts-sites.ts:254
 
 - _type:_ “Survey”
 - _titles[1]:_ “The Insurers' Survey”
@@ -2592,7 +2592,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 ### Contract: Mags Tull's Lantern
 
-`contract:anselm_tull` · data/contracts-sites.ts:254
+`contract:anselm_tull` · data/contracts-sites.ts:271
 
 - _type:_ “Hunt”
 - _titles[1]:_ “Mags Tull's Lantern”

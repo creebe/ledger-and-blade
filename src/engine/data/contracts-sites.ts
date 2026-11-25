@@ -1,17 +1,20 @@
 // Postings for the six sites beyond Old Pellam: work that uses their deeper
 // zones and their bosses, built like the pellam_* postings in contracts.ts.
-// Each site has a medium posting or two and a long one for its boss.
+// Each site has a medium posting or two and a long one for its boss. Their threat
+// sits just under what is usual for their length (4 medium, 7 long; see
+// EXP_TUNING.threatByLength): the zones carry the danger.
 import type { PhaseDef } from '../core/types';
 import type { ContractTemplate } from './contracts';
 
 const P = (name: string, text: string, danger: number): PhaseDef => ({ name, approaches: ['assault'], weight: 1, danger, text });
 
-const base = { threat: [3, 3] as [number, number], tags: [], perThreat: 0, contestChance: 0.1, minSquad: 2, maxSquad: 4 };
+const base = { tags: [], perThreat: 0, contestChance: 0.1, minSquad: 2, maxSquad: 4 };
 
 export const SITE_CONTRACTS: ContractTemplate[] = [
   // ---- Varrow: the Quays and the Rookeries ----
   {
     ...base,
+    threat: [4, 4],
     id: 'varrow_brandy',
     type: 'Salvage',
     titles: ['Duty Unpaid', 'The Bonded Brandy'],
@@ -27,6 +30,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
   },
   {
     ...base,
+    threat: [4, 4],
     id: 'varrow_dogs',
     type: 'Hunt',
     titles: ['The Warehouse Dogs', 'Dogs on the Quays'],
@@ -42,6 +46,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
   },
   {
     ...base,
+    threat: [7, 7],
     id: 'varrow_rudd',
     type: 'Hunt',
     titles: ["Rudd's Yard", 'Muscle for Hire'],
@@ -60,6 +65,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
   // ---- Kell Mines: the Sump and the Trevick level ----
   {
     ...base,
+    threat: [4, 4],
     id: 'kell_ore',
     type: 'Salvage',
     titles: ['Ore by the Sack', 'Assay Samples'],
@@ -75,6 +81,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
   },
   {
     ...base,
+    threat: [4, 4],
     id: 'kell_sump',
     type: 'Survey',
     titles: ["The Crown's Mineral Rights", 'How Deep the Water Is'],
@@ -90,6 +97,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
   },
   {
     ...base,
+    threat: [7, 7],
     id: 'kell_moyle',
     type: 'Hunt',
     titles: ['The Trevick Level', "Moyle's Vein"],
@@ -108,6 +116,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
   // ---- The Saltfens: the Pans and the Withies ----
   {
     ...base,
+    threat: [4, 4],
     id: 'fens_salt',
     type: 'Salvage',
     titles: ['Salt for the Wounds', 'Pan Salt'],
@@ -123,6 +132,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
   },
   {
     ...base,
+    threat: [7, 7],
     id: 'fens_dean',
     type: 'Hunt',
     titles: ['The Dean', 'A Boar in the Withies'],
@@ -141,6 +151,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
   // ---- Drover's Road: Brannock Moor and Skell Gap ----
   {
     ...base,
+    threat: [4, 4],
     id: 'drovers_bull',
     type: 'Hunt',
     titles: ['The Red Bull', 'A Bull on the Moor'],
@@ -156,6 +167,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
   },
   {
     ...base,
+    threat: [4, 4],
     id: 'drovers_fleece',
     type: 'Salvage',
     titles: ['Moor Fleeces', 'The Wool Clip'],
@@ -171,6 +183,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
   },
   {
     ...base,
+    threat: [7, 7],
     id: 'drovers_crewe',
     type: 'Hunt',
     titles: ['The Toll House at Skell Gap', "Crewe's Toll"],
@@ -189,6 +202,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
   // ---- Harrowmere: the bridge houses and the Holms ----
   {
     ...base,
+    threat: [4, 4],
     id: 'mere_oak',
     type: 'Salvage',
     titles: ['Bog Oak', 'Black Timber'],
@@ -204,6 +218,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
   },
   {
     ...base,
+    threat: [7, 7],
     id: 'mere_bailiff',
     type: 'Hunt',
     titles: ['The Bailiff', 'The Big Pike'],
@@ -222,6 +237,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
   // ---- Port Anselm: the Burrows and the Strand ----
   {
     ...base,
+    threat: [4, 4],
     id: 'anselm_ambergris',
     type: 'Salvage',
     titles: ['Ambergris', 'What the Sea Brings'],
@@ -237,6 +253,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
   },
   {
     ...base,
+    threat: [4, 4],
     id: 'anselm_burrows',
     type: 'Survey',
     titles: ["The Insurers' Survey", 'False Lights'],
@@ -253,6 +270,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
   },
   {
     ...base,
+    threat: [7, 7],
     id: 'anselm_tull',
     type: 'Hunt',
     titles: ["Mags Tull's Lantern", 'The Wreckers of the Burrows'],
