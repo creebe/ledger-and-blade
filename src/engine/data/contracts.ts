@@ -902,8 +902,8 @@ export const CONTRACT_TEMPLATES: ContractTemplate[] = [
     failFlag: 'silver_lost',
     expireFlags: ['silver_abandoned', 'silver_lost'],
     expire: {
-      title: "The Crown's silver never left Varrow",
-      text: 'You accepted the commission, but no squad was ever sent. The wagons sat in the Exchequer yard until it was too late to reach the ships. The Crown has missed its payment.',
+      title: 'The escort never came',
+      text: "You accepted the commission, but no squad was ever sent. The Exchequer's own guard took the wagons as far as Wenmouth ford and waited there for you until the ships had sailed. The Crown has missed its payment.",
     },
   },
 ];
