@@ -145,7 +145,7 @@ export function PrepSheet({ contractId }: { contractId: string }) {
   const setOut = () => {
     const wages = squad.reduce((t, m) => t + m.wage, 0) * info.weeks;
     confirm({
-      title: `Send squad of ${squad.length} to ${info.siteName}?`,
+      title: `Send a squad of ${squad.length} to ${info.siteName}?`,
       body: [
         `${squad.map(first).join(', ')}: ${info.goalText}. They should be away about ${info.weeks === 1 ? 'a week' : `${info.weeks} weeks`}, and leave the yard at the end of this one.`,
         `Their wages while away: about ${wages} crowns.`,

@@ -67,7 +67,7 @@ export const LINES: Record<string, string[]> = {
   ],
   passage_sink: [
     'The spill has cut a channel through the crust and runs along it in a thin bright stream. Everybody steps over it with great care.',
-    "They pass an old college sluice gate, jammed half open. Somebody's initials are scratched into the brass, with a date and a rude word.",
+    "They pass an old college sluice gate, jammed half open. Somebody has scratched their initials into the brass, and a rude word under them.",
     'The floor here is crystal, and it rings when they walk on it. {a} tries to walk more quietly and it rings anyway.',
     'They go through a gallery of dead pipes, each one stained a different color. The air stings the eyes.',
     'They walk past a wall of fused glassware, thousands of broken retorts that melted together. It is almost pretty.',
@@ -232,7 +232,7 @@ export const LINES: Record<string, string[]> = {
     '{m} gives ground, and {a} stumbles past it.',
   ],
   stunned: [
-    '{m} reels, and for a moment it has no idea where it is.',
+    '{m} reels and stands there with no idea where it is.',
     '{m} lurches and loses track of the fight.',
     '{m} goes down and is slow getting up.',
   ],
@@ -275,7 +275,7 @@ export const LINES: Record<string, string[]> = {
     '{a} flicks a spark off the {w} at {m}. It stings, at least.',
     '{a} taps {m} with a working the size of a candle flame.',
     '{a} has nothing better left and throws a spark at {m} anyway.',
-    '{a} pinches out a little working at {m}. It is not much, but it lands.',
+    '{a} pinches out a little working at {m}, about as much as they can spare, and it lands.',
   ],
   spark_miss: ["{a}'s little working dies before it reaches {m}.", '{a} flicks a spark at {m} and misses.'],
   spell_miss: [
@@ -313,7 +313,7 @@ export const LINES: Record<string, string[]> = {
   crit: [
     "{a} finds the weak place on {m}, and it goes in deep.",
     '{a} gets the blow they were waiting for. {m} feels all of it.',
-    "{a} hits {m} so hard that the others stop for a moment to look.",
+    "{a} hits {m} so hard that the others stop to look.",
     '{a} goes clean through {m} and does not look surprised about it.',
     '{a} times it perfectly and {m} pays for it.',
   ],
@@ -338,7 +338,7 @@ export const LINES: Record<string, string[]> = {
   dress: [
     '{a} kneels by {t} and packs the wound while the fight goes on around them.',
     '{a} gets a dressing on {t}, tight and fast.',
-    '{a} stitches {t} up in three movements. It is not tidy, but it holds.',
+    '{a} stitches {t} up in three movements, with big crooked stitches that hold anyway.',
     '"Hold still," {a} tells {t}, and pours something on the cut that makes {t} swear.',
     '{a} drags {t} back a yard and ties off the worst of the bleeding.',
     '{a} gets a pad of lint on {t} and leans on it until it stops.',
@@ -373,7 +373,7 @@ export const LINES: Record<string, string[]> = {
 
   // ---- enemies attack ----
   rats_hit: ['{m} swarms up {t}\'s legs, biting.', 'The rats get under {t}\'s guard and into their boots.', '{m} goes for {t}\'s hands.', 'Rats bite {t} in several places at once.'],
-  rats_miss: ['{t} kicks the rats away.', 'The rats break around {t} and come back together behind them.', '{t} stamps, and the rats scatter for a moment.'],
+  rats_miss: ['{t} kicks the rats away.', 'The rats break around {t} and come back together behind them.', '{t} stamps, and the rats scatter and then come straight back.'],
   rats_crit: ['The rats get {t} by the throat, and it takes two people to pull them off.'],
   moths_hit: ['{m} beats against {t}\'s face, all powder and wings.', 'Moths get into {t}\'s mouth.', '{m} smothers {t}\'s lamp hand.'],
   moths_miss: ['{t} swats through the moths.', 'The moths flutter round {t} and away.'],
@@ -425,7 +425,7 @@ export const LINES: Record<string, string[]> = {
   kill_hog: ['{m} goes down with a noise that shakes the silt off the walls.', '{a} gets {m} at last. It falls over and takes a while to finish.'],
   kill_crab: ['{a} cracks {m} open.', "{m}'s legs fold up under it."],
   kill_seep: ['{m} stops moving and goes dull, then hard.', '{a} breaks {m} apart, and the pieces crust over in the air.'],
-  kill_engine: ['{m} stops in the middle of a movement, ticks twice and falls over.', "{a} smashes something inside {m}, and it winds down with a long whine."],
+  kill_engine: ['{m} stops in the middle of a movement and ticks twice. Then it falls over.', "{a} smashes something inside {m}, and it winds down with a long whine."],
   kill_kiln: [
     "{a} breaks the Kiln Engine's firebox, and the fire inside it goes out for the first time in sixty years.",
     'The Kiln Engine stops. It stands there cooling and ticking, and then it falls forward and does not get up.',
@@ -518,7 +518,7 @@ export const LINES: Record<string, string[]> = {
     'There is nothing to eat. They lie in the dark and listen to each other\'s stomachs.',
     'A camp without food. They rest, but they do not sleep much, and {a} talks about pies until somebody tells them to stop.',
   ],
-  camp_visit: ['Something finds the camp in the night.', 'The watch shouts. They have company.'],
+  camp_visit: ['Something finds the camp in the night.', 'The watch shouts that they have company.'],
 
   // ---- wanderers ----
   wander_avoided: [
@@ -590,15 +590,15 @@ export const LINES: Record<string, string[]> = {
   home_short: ['They come up out of the Culverts into the Tallow Street evening, filthy and pleased with themselves.', "The grate goes back over the culvert, and the squad goes into the Copper Kettle to be stared at."],
   home_medium: ['Two weeks after they went down, the squad climbs out into daylight. They stand in the street blinking.', 'They come back up out of Pellam. The porters at the top count them, and the count comes out right.'],
   home_long: [
-    'Three weeks after they went down, the squad walks into the hall on Tallow Street. Jory looks up, writes something down, and looks up again.',
+    'Three weeks after they went down, the squad walks into the hall on Tallow Street. Jory writes something in the ledger before he sees who it is, and then looks up again.',
     'They come out of Old Pellam into the light. Somebody has to tell them it is a Tuesday.',
   ],
   home_retreat: ['They are home, which is the main thing.', 'They come up early and empty-handed. The others look at their faces and do not ask.'],
   lost_crawl: ["{a} wakes up in the dark. The squad has been beaten, and those still breathing crawl out of Old Pellam with nothing.", 'When {a} comes round, the fight is long over. They get the survivors back up the rungs somehow.'],
   lost_all: ['Nobody comes back up out of Old Pellam. The porters wait at the grate until dark, and then they go and tell Tallow Street.'],
-  lost_home: ['They get within sight of the grate, and then they are caught. What comes home is less than what went down.'],
+  lost_home: ['They get within sight of the grate, and then they are caught. Fewer of them come up than went down, and they have less with them.'],
   spent_fumble: [
-    "{a} swings the {w} a beat behind everyone else and hits nothing.",
+    "{a} swings the {w} half a second behind everyone else and hits nothing.",
     "{a} is too tired to lift the {w} properly, and it shows.",
     "{a}'s legs go, and they spend the moment getting their feet back under them.",
     "{a} stops to breathe in the middle of the fight, which is a bad place for it.",
@@ -626,7 +626,7 @@ export const LINES: Record<string, string[]> = {
   ],
   masks_all: [
     "Before they go down into the Sink, everyone soaks a mask and ties it on. They look ridiculous and breathe better.",
-    "Wet masks on. The air in the Sink tastes of pennies even through the charcoal.",
+    "They put the wet masks on. The air in the Sink still tastes of pennies through the charcoal.",
   ],
   masks_some: [
     "There aren't enough wet masks to go round. The ones without them breathe through their sleeves.",
@@ -634,7 +634,7 @@ export const LINES: Record<string, string[]> = {
   ],
   masks_none: [
     "Nobody packed wet masks. They go into the Sink breathing it.",
-    "No masks. They tie their scarves over their faces, which does about as much good as you'd expect.",
+    "There are no masks, so they tie their scarves over their faces, which does about as much good as you'd expect.",
   ],
   kiln_yard: [
     "The Kiln Engine's yard is still there, and so are the smaller engines that used to feed it. Without the Kiln to answer to, they test whatever walks in.",
@@ -652,13 +652,13 @@ export const LINES: Record<string, string[]> = {
   ],
   fever_breaks: [
     "{a}'s fever breaks all at once, and they come out of it different.",
-    "{a} stops shaking, sits up straight and blinks. The fever has done its work.",
+    "{a} stops shaking and sits up, blinking at the others. The fever has done its work.",
     "The fever lets go of {a}, and leaves something behind.",
   ],
   change_take: [
     "{a} is too tired to fight what the Sink is doing to them, so it simply happens.",
     "{a} is worn out, and the Sink takes the shortcut.",
-    "There's no fever: {a} is too spent to argue with it.",
+    "There's no fever this time. {a} is too spent to fight the change, so it just comes.",
   ],
   storm_fingers: [
     "A crack of storm jumps from {a}'s hands to {m} before anyone has moved.",

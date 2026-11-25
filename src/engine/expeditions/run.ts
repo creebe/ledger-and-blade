@@ -59,6 +59,8 @@ const cacheKey = (setup: DiveSetup) => JSON.stringify(setup);
 export function sealExpedition(s: GameState, ms: Mission) {
   ms.setup = buildSetup(s, ms);
   const full = runExpedition(ms.setup);
+  // bounded here too: headless runs (sim, playthroughs) seal thousands of trips and never read a log
+  if (LOG_CACHE.size > 40) LOG_CACHE.clear();
   LOG_CACHE.set(cacheKey(ms.setup), full.log);
   ms.result = { ...full, log: [] };
   ms.returnWeek = ms.dispatchedWeek + full.weeks - 1;
@@ -83,6 +85,8 @@ export function expeditionLog(ms: Pick<Mission, 'setup'>): LogLine[] {
 
 /** How many of the trip's weeks the player has seen. 0 while the squad is still in the yard. */
 export function revealedWeeks(s: GameState, ms: Mission): number {
+  // a squad called off at the door never went: its first simulation is not to be shown
+  if (ms.report?.tier === 'Withdrawn') return 0;
   if (ms.report) return ms.result.weeks;
   if (!ms.sealed) return 0;
   return Math.max(0, Math.min(ms.result.weeks, s.week - ms.dispatchedWeek));
@@ -331,7 +335,8 @@ export function settleExpedition(s: GameState, ms: Mission) {
   // a rival waiting on the road home
   if (ms.ambush && res.outcome !== 'lost') {
     const name = RIVALS[ms.ambush].name;
-    const eyes = squad.some((m) => m.status !== 'dead' && (m.profession === 'scout' || m.profession === 'infiltrator'));
+    // only someone who walked home can spot them: the trip's dead are not marked dead until further down
+    const eyes = squad.some((m) => !res.members.find((o) => o.id === m.id)?.died && (m.profession === 'scout' || m.profession === 'infiltrator'));
     if (eyes && chance(s, 0.5)) summary.push(`${name}'s people were waiting on the road home. The squad saw them first and went round.`);
     else {
       for (const k of Object.keys(loot) as GoodId[]) loot[k] = Math.floor((loot[k] ?? 0) * 0.66);

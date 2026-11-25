@@ -100,7 +100,7 @@ function homePhase(s: GameState) {
       const c = m.fever.change;
       m.fever = undefined;
       if (!m.changes.includes(c)) m.changes.push(c);
-      addDispatch(s, 'roster', `${m.name} gets up changed`, [`The Sink fever breaks, and ${m.name.split(' ')[0]} is back on their feet with something new: ${CHANGES[c].name.toLowerCase()}. ${CHANGES[c].text}`]);
+      addDispatch(s, 'roster', `${m.name} is over the fever`, [`The Sink fever breaks, and ${m.name.split(' ')[0]} is back on their feet with something new: ${CHANGES[c].name.toLowerCase()}. ${CHANGES[c].text}`]);
       continue;
     }
     const frail = m.traits.includes('frail');
@@ -230,7 +230,7 @@ function economyPhase(s: GameState) {
       if (s.crowns < due && s.missions.some((m) => !m.report && m.returnWeek > s.week) && (loan.waited ?? 0) < 3) {
         loan.waited = (loan.waited ?? 0) + 1;
         loan.dueWeek += 1;
-        addDispatch(s, 'economy', 'The Weighhouse waits', [`The payment of ${due} crowns is due, and a squad is still away. Alderman Coster agrees to wait a week for them, and writes to say so.`]);
+        addDispatch(s, 'economy', 'The Weighhouse waits', [`The payment of ${due} crowns is due, and a squad is still away. The Weighhouse agrees to wait a week for them, and writes to say so.`]);
         continue;
       }
       loan.waited = 0;
