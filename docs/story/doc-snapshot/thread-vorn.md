@@ -139,7 +139,7 @@ _Speaker: Factor Vorn_
 
 ### An Offer from the Bank
 
-`bank_offer` · Follow-up · data/events.ts:684
+`bank_offer` · Follow-up · data/events.ts:691
 
 **When:** when ostranders standing >= 15 and loans.length > 0; needs alive: Factor Maelis Vorn; random draw, weight 1.5; not again for 12 weeks.
 

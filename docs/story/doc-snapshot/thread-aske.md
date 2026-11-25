@@ -68,4 +68,4 @@ _Speaker: Lady Honora Aske_
 
   > Nobody went for the silver. The bank's assessors listed every spoon, and Lady Aske signed the inventory herself.
 
-- _Sets:_ `aske_plate_saved` → **Half a Year** (`act1_slice_end`); `aske_plate_lost` → _nothing reads it_
+- _Sets:_ `aske_plate_saved` → **Half a Year** (`act1_slice_end`); `aske_plate_lost` → **Half a Year** (`act1_slice_end`)

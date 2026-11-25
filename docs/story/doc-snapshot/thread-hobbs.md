@@ -86,7 +86,7 @@ _Speaker: Isbet Hobb_
 
 **Leads to:**
 
-- `isbet_betrayed` → _nothing reads it_
+- `isbet_betrayed` → **Half a Year** (`act1_slice_end`), **Hobb's People Are Packing** (`field_rivals`)
 - `isbet_pact` → **Half a Year** (`act1_slice_end`), rules in `src/engine/economy/board.ts`
 
 ### A Cake from Hobb & Daughters

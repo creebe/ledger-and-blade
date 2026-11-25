@@ -410,7 +410,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
   > Coster's job sat on the board until Hesketh heard someone was asking about his measures and replaced them. Coster has noted it, as he notes everything.
 
-- _Sets:_ `weights_exposed` → **Half a Year** (`act1_slice_end`); `weights_failed` → _nothing reads it_
+- _Sets:_ `weights_exposed` → **Half a Year** (`act1_slice_end`); `weights_failed` → **Half a Year** (`act1_slice_end`)
 
 ### Contract: Salts for Saint Oda's
 
@@ -469,7 +469,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
   > The cart never left. Fenn sold the tapestry in Varrow in the end, for a third of its worth, and by the end of the week the whole city knew.
 
-- _Sets:_ `tapestry_sold` → _nothing reads it_; `tapestry_lost` → _nothing reads it_
+- _Sets:_ `tapestry_sold` → **Half a Year** (`act1_slice_end`); `tapestry_lost` → **Half a Year** (`act1_slice_end`)
 
 ### Contract: The Aske Silver
 
@@ -488,7 +488,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
   > Nobody went for the silver. The bank's assessors listed every spoon, and Lady Aske signed the inventory herself.
 
-- _Sets:_ `aske_plate_saved` → **Half a Year** (`act1_slice_end`); `aske_plate_lost` → _nothing reads it_
+- _Sets:_ `aske_plate_saved` → **Half a Year** (`act1_slice_end`); `aske_plate_lost` → **Half a Year** (`act1_slice_end`)
 
 ### Contract: Beat them to a job
 
@@ -535,9 +535,9 @@ Job templates on the board. A contract takes one of its titles at random. Story 
   > Ambush at the Ford: Someone will be waiting. Fight them, or take the wagons the long way round.
 
 - _phases[4]:_ “The Harbor: Hand the silver to the bank's factor, and count every coin twice.”
-- _expire.title:_ “The Crown's silver never left Varrow”
+- _expire.title:_ “The escort never came”
 - _expire.text:_
 
-  > You accepted the commission, but no squad was ever sent. The wagons sat in the Exchequer yard until it was too late to reach the ships. The Crown has missed its payment.
+  > You accepted the commission, but no squad was ever sent. The Exchequer's own guard took the wagons as far as Wenmouth ford and waited there for you until the ships had sailed. The Crown has missed its payment.
 
-- _Sets:_ `silver_delivered` → **The Notice Board** (`vorn_board`), **Quarter Day** (`quarter_day`), **The Last Tapestry** (`fenn_tapestry`), **Half a Year** (`act1_slice_end`), street talk "paid_talk" (`paid_talk`), Date "The Lord Treasurer Visits" (`treasurer_visit`); `silver_lost` → **The Notice Board** (`vorn_board`), **Quarter Day** (`quarter_day`), **The Last Tapestry** (`fenn_tapestry`), **The Family Silver** (`aske_plate`), **Half a Year** (`act1_slice_end`), codex "The Treaty of Cassel" (`the_treaty`), street talk "default_talk" (`default_talk`), rules in `src/engine/core/turn.ts`; `silver_abandoned` → _nothing reads it_
+- _Sets:_ `silver_delivered` → **The Notice Board** (`vorn_board`), **Quarter Day** (`quarter_day`), **The Last Tapestry** (`fenn_tapestry`), **Half a Year** (`act1_slice_end`), street talk "paid_talk" (`paid_talk`), Date "The Lord Treasurer Visits" (`treasurer_visit`); `silver_lost` → **The Notice Board** (`vorn_board`), **Quarter Day** (`quarter_day`), **The Last Tapestry** (`fenn_tapestry`), **The Family Silver** (`aske_plate`), **Half a Year** (`act1_slice_end`), codex "The Treaty of Cassel" (`the_treaty`), street talk "default_talk" (`default_talk`), rules in `src/engine/core/turn.ts`; `silver_abandoned` → **Half a Year** (`act1_slice_end`), **The Crown's Wagons** (`field_crown_wagons`)

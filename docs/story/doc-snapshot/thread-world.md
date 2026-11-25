@@ -4,7 +4,7 @@ No fixed character. Random world events that can fire any week.
 
 ### A Whisper in the Taverns
 
-`lead` · World event · data/events.ts:579
+`lead` · World event · data/events.ts:586
 
 **When:** when board.some((c) => c.hidden.some((h) => not h.revealed)); picks a member where m.status is 'idle' and ['envoy', 'infiltrator', 'scout'].includes(m.profession); random draw, weight 2; not again for 5 weeks.
 
@@ -17,7 +17,7 @@ No fixed character. Random world events that can fire any week.
 
 ### A Petition at the Gate
 
-`petition` · World event · data/events.ts:617
+`petition` · World event · data/events.ts:624
 
 **When:** random draw, weight 2; not again for 5 weeks.
 
