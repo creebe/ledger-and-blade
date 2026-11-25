@@ -16,7 +16,7 @@ This is a trial of a major change, and the owner may scrap it. It lives on `clau
   - `bot.ts`: the balance bot.
   - `tuning.ts`: the headline numbers.
   - `data/content.ts`: Professions, gear, supplies, monsters, zones, goods, scars, habits, conditions and sponsors.
-  - `data/lines.ts`: about 600 log lines.
+  - `data/lines.ts`: about 500 log lines across 195 situations.
 - **UI** (`src/ui/expeditions/`, `src/expStore.ts`, the `x-` section of `styles.css`):
   - the title screen;
   - the Hall, Squad and Market tabs, and the member sheet;
