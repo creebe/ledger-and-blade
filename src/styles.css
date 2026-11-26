@@ -4886,6 +4886,11 @@ details summary {
   min-height: 100%;
   transform: translateY(-50%);
 }
+/* wrapped rows of small buttons (the supply orders, the loan repayments): a 10px row gap
+   so the 44px touch areas of one row don't reach the next */
+.row.wrap.gap:has(> .btn.small) {
+  row-gap: 10px;
+}
 /* the lineup's move buttons are stacked tight: they fill the card's height instead,
    and are 44px wide, so their touch areas don't reach into each other */
 .x-rank-moves .btn.small::before {
@@ -4896,7 +4901,7 @@ details summary {
 }
 /* the date pill reaches the full 44px */
 .date-pill::before {
-  inset: -7px 0;
+  inset: -8px 0; /* from the padding box: 28 + 16 = 44px */
 }
 /* the guide nudge: the label clips itself, so the pill can carry a touch area */
 .guide-nudge {

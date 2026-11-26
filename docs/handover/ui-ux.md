@@ -31,7 +31,7 @@ Branch `claude/ui-ux` holds Part 1 of the UI/UX brief, the owner's five playtest
 - **UI reviewer:** 360 and 390 px, both themes, every fix. It fixed a 360 px wrap on the bench.
 - **Before and after screenshots:** `docs/reports/ui-ux-*.png`.
 
-## What's open
+## What's open (v0.14.4)
 
 - **A small rule change to note:** a member still marked `recovering` at exactly 40 health (only after one rival attack) now stays home one more week before they can go out. This matches how their orders already worked.
 - **Part 2, found but not fixed:**
@@ -52,3 +52,33 @@ Owner: "We should begin a new guild with more of a story and setting intro. It's
   - Every step can be cut short.
   - Each step's detail line names the tab that holds what was just shown.
 - **Story bible:** a canon line on chartered guilds and a paragraph on the opening.
+
+## Part 2, batch 1: v0.15.1 (branch `claude/ui-polish`)
+
+**What was done**
+- **Touch areas.** Small buttons (`.btn.small`) get a 44px `::before` touch area, like the tags, chips and links already had.
+  - The lineup's stacked move buttons opt out and are 44px wide instead.
+  - The date pill reaches 44px.
+  - The guide nudge drops its own `overflow: hidden` (its label still clips itself) so it can carry a touch area.
+  - `.icon-btn` is 44×44 and `.seg button` is 40px tall.
+  - Wrapped rows of small buttons are 10px apart (`:has()`, Safari 15.4+), so a tap between rows lands on the right one.
+- **Roster.** A long status drops below the name (`.member-row-head`) instead of squeezing the name onto two lines.
+- **Date crowns target.** "Have N crowns ... after the bills" now forecasts with `projectLedger`, so it can't show a tick while the ledger says the week will close below N. It reads "about N by then". The judged result and its dispatch text are unchanged.
+- **Prologue dots** are readable in light mode.
+
+**What was checked**
+- `npm run check`: 79 tests, story checker clean, style flags 40.
+- The fingerprint matches main (c636ff3) exactly.
+- UI reviewer: 360 and 390 px, both themes; it fixed the row gap and the date pill's last 2px. Engine reviewer: the import cycle is safe; it fixed the judged view's tick and added a test.
+- Screenshots: `docs/reports/ui-polish-*.png`.
+
+**Open**
+- **Waiting on the owner (sent to main):**
+  - Should scene choices that spend money ask for confirmation?
+  - Should bottom panels keep ✕ or switch to Back or swipe-down?
+- **The ledger projection is pessimistic, in three ways:**
+  - it charges coin for missing supplies, which the game never buys;
+  - it subtracts a loan payment the Weighhouse has agreed to wait for;
+  - it counts squads' listed pay by `plannedWeeks`, not by when they actually return.
+- **A red figure on day one:** in a new game, the first Date's crowns target shows a negative "about … by then" from week 1, because no future contract income is counted.
+- **Two forecasts in one Date:** the `loanPaid` target still forecasts from the current treasury, so within the first Date one target shows the treasury and the other shows the projection.
