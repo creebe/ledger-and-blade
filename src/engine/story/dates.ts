@@ -196,7 +196,7 @@ export function dateTargets(s: GameState, a: ActiveDate = s.dates.current!, fina
   if (!a) return [];
   const loan = s.loans[0];
   return a.targets.map((t): DateTargetView => {
-    const met = targetMet(s, a, t, false);
+    const met = targetMet(s, a, t, final);
     const f = (now: number, goal: number) => clamp(goal > 0 ? now / goal : 1, 0, 1);
     switch (t.kind) {
       case 'loanPaid':
