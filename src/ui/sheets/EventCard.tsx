@@ -65,7 +65,7 @@ export function EventCard({ ev, done }: { ev: GameEvent; done?: boolean }) {
     if (!cost.length && !failCost.length) return choose(i);
     const lines = [c.detail, failCost.length && !cost.length ? `If the check fails, it costs ${failCost.join(' and ')}.` : ''].filter(Boolean) as string[];
     useStore.getState().confirm({
-      title: `${c.label}?`,
+      title: `${c.label.replace(/[.!?…]+$/, '')}?`,
       body: lines.length ? lines : ['This choice spends from the guild.'],
       cost: cost.length ? `Costs ${cost.join(' and ')}${c.effects.crowns && c.effects.crowns < 0 ? ` · treasury ${g.crowns} → ${g.crowns + c.effects.crowns}` : ''}` : undefined,
       confirmLabel: c.label.length <= 22 ? c.label : 'Go ahead',
