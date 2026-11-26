@@ -23,7 +23,7 @@ _how_ is the instruction; _why_ is the reason given; _available_ is the message 
 
 | ID | title | how | why | available |
 |---|---|---|---|---|
-| `tutorial:reveal` | Uncover a hidden danger | Tap a dashed “?” tag on a contract to spend Intel, or set a member to Scout a contract. | Unknown tags turn your odds into a range. Knowing tells you what to bring. |  |
+| `tutorial:reveal` | Uncover a hidden danger | Tap a dashed “?” tag on a contract to spend Intel, or set a member to Scout a contract. | Knowing what you face tells you what to pack and who to send. |  |
 | `tutorial:counter` | Send a squad prepared for a tag | Give a squad member a counter for one of the job’s known tags (a lantern for Dark, a fur cloak for Cold, remedies for Swamp) before they set out. | A countered tag stops costing the squad: no darkness without a lantern’s light, no extra wear from the cold or the mud. |  |
 | `tutorial:supplies` | Buy supplies | Armory → Shop → buy supplies (bigger orders are cheaper). Everyone eats one a week, and squads carry their own. | Hungry members lose morale. Running out mid-crisis is how guilds fail. |  |
 

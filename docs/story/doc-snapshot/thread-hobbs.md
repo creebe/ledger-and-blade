@@ -34,7 +34,7 @@ _Speaker: Marta Hobb_
   Sets `hobbs_share`.
 - **Refuse politely** · _Hobbs become more aggressive._ · `hobbs_arrive/details/c2`
   “"Suit yourself, dear." She takes her time getting up, and Isbet holds the door for her.”
-- **Humiliate her in front of her daughters** · _Guile check. Success: Renown +4. Failure: Renown −2. Either way, the Hobbs grow much more aggressive, and it becomes personal._ · (guile check, difficulty 13) · `hobbs_arrive/details/c3`
+- **Humiliate her in front of her daughters** · _Guile check. Success: Renown +4, and it becomes personal. Failure: Renown −2. Either way, the Hobbs grow much more aggressive._ · (guile check, difficulty 13) · `hobbs_arrive/details/c3`
   On success: “You say something about the umbrella that makes her youngest daughter snort before she can stop herself. Marta doesn't laugh. By evening the line is being repeated in taverns all along the river.”
   On failure: “Marta laughs, leans over and pats your hand. That's the part people repeat for the rest of the week.”
 

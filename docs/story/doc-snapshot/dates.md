@@ -4,7 +4,7 @@ Dated checkpoints the player prepares for. _met_, _missed_ and _gone_ are the di
 
 ### The Weighhouse Collects
 
-`date:first_payment` · data/dates.ts:56
+`date:first_payment` · data/dates.ts:60
 
 - _who:_ “Alderman Coster's clerk”
 - _text:_
@@ -27,7 +27,7 @@ Dated checkpoints the player prepares for. _met_, _missed_ and _gone_ are the di
 
 ### The Exchequer's List
 
-`date:exchequer_list` · data/dates.ts:75
+`date:exchequer_list` · data/dates.ts:79
 
 - _who:_ “The Lord Treasurer's office”
 - _text:_
@@ -46,7 +46,7 @@ Dated checkpoints the player prepares for. _met_, _missed_ and _gone_ are the di
 
 ### The Council Votes
 
-`date:council_vote` · data/dates.ts:95
+`date:council_vote` · data/dates.ts:99
 
 - _who:_ “The Council of Varrow”
 - _text:_
@@ -65,7 +65,7 @@ Dated checkpoints the player prepares for. _met_, _missed_ and _gone_ are the di
 
 ### The Lord Treasurer Visits
 
-`date:treasurer_visit` · data/dates.ts:111
+`date:treasurer_visit` · data/dates.ts:115
 
 - _who:_ “Lord Treasurer Fenn”
 - _text:_
@@ -85,7 +85,7 @@ Dated checkpoints the player prepares for. _met_, _missed_ and _gone_ are the di
 
 ### Ostrander's Reads the Books
 
-`date:vorn_books` · data/dates.ts:132
+`date:vorn_books` · data/dates.ts:136
 
 - _who:_ “Factor Vorn”
 - _text:_
@@ -105,7 +105,7 @@ Dated checkpoints the player prepares for. _met_, _missed_ and _gone_ are the di
 
 ### Saint Oda's Fair
 
-`date:oda_fair` · data/dates.ts:153
+`date:oda_fair` · data/dates.ts:157
 
 - _who:_ “Sister Brune”
 - _text:_
@@ -125,7 +125,7 @@ Dated checkpoints the player prepares for. _met_, _missed_ and _gone_ are the di
 
 ### The Exchequer's Auditors
 
-`date:auditors` · data/dates.ts:173
+`date:auditors` · data/dates.ts:177
 
 - _who:_ “The Exchequer”
 - _text:_
@@ -144,7 +144,7 @@ Dated checkpoints the player prepares for. _met_, _missed_ and _gone_ are the di
 
 ### The Porters' Feast
 
-`date:porters_feast` · data/dates.ts:189
+`date:porters_feast` · data/dates.ts:193
 
 - _who:_ “The Porters' Fraternity”
 - _text:_
@@ -169,7 +169,7 @@ Dated checkpoints the player prepares for. _met_, _missed_ and _gone_ are the di
 
 ### The Weighhouse Reviews the Note
 
-`date:loan_review` · data/dates.ts:209
+`date:loan_review` · data/dates.ts:213
 
 - _who:_ “Alderman Coster”
 - _text:_
@@ -192,7 +192,7 @@ Dated checkpoints the player prepares for. _met_, _missed_ and _gone_ are the di
 
 ### The Muster on the Green
 
-`date:muster` · data/dates.ts:227
+`date:muster` · data/dates.ts:231
 
 - _who:_ “The Crown's muster officers”
 - _text:_
@@ -211,7 +211,7 @@ Dated checkpoints the player prepares for. _met_, _missed_ and _gone_ are the di
 
 ### Before the Snow
 
-`date:winter_stores` · data/dates.ts:243
+`date:winter_stores` · data/dates.ts:247
 
 - _who:_ “Jory Abbot”
 - _text:_
@@ -230,14 +230,14 @@ Dated checkpoints the player prepares for. _met_, _missed_ and _gone_ are the di
 
 ### Marta Hobb's Wager
 
-`date:hobbs_wager` · data/dates.ts:259
+`date:hobbs_wager` · data/dates.ts:263
 
 - _who:_ “Marta Hobb”
 - _text:_
 
   > Marta Hobb has told half the Copper Kettle that her daughters will be better known than your guild by the end of the month. She has put twenty crowns on it with the landlord.
 
-- _available:_ when week >= 12 and hobbs active and (hobbs feud ?? 0) < 60
+- _available:_ when week >= 12 and hobbs active and not hobbsAtWar(s)
 - _met:_
 
   > Marta paid her bets in full and sent the guild a cake. The cake was very good, and the note with it said she'd win the next one.
@@ -246,7 +246,7 @@ Dated checkpoints the player prepares for. _met_, _missed_ and _gone_ are the di
 
   > Marta collected on her wager in the Copper Kettle, loudly, while two of your people were drinking there.
 
-- _cancel.when:_ when not alive(s, 'marta') or (hobbs feud ?? 0) >= 60
+- _cancel.when:_ when not alive(s, 'marta') or hobbsAtWar(s)
 - _cancel.text:_
 
   > [IF alive(s, 'marta')] Marta has called off her wager. Nobody bets on a guild her firm is at war with. [ELSE IF alive(s, 'isbet')] With Marta dead, the wager is off. Isbet paid back all thirty-one bets herself and kept a receipt for each. [ELSE] With Marta dead, the wager is off. Her younger daughters paid back the bets on their way to the coast. [END]

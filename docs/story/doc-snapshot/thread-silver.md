@@ -222,7 +222,7 @@ _Speaker: Lord Treasurer Aubrey Fenn_
 
 #### Story contract: The Crown's Last Silver
 
-`contract:silver_convoy` · data/contracts.ts:875
+`contract:silver_convoy` · data/contracts.ts:880
 
 - _type:_ “Story”
 - _titles[1]:_ “The Crown's Last Silver”
@@ -290,7 +290,7 @@ _Speaker: Lord Treasurer Aubrey Fenn_
 **Leads to:**
 
 - `fenn_ally` → **Half a Year** (`act1_slice_end`), **An Exchequer Writ** (`field_writ`)
-- `ostranders_open` → **Coster's Page** (`coster_page`), **The Bank's Gift** (`brune_donation`), contract **How Deep It Goes** (`pellam_deep`), contract **A Matter of Arrears** (`debt_collection`), contract **Deliver the Bank's Terms** (`deliver_terms`), Date "Ostrander's Reads the Books" (`vorn_books`), rules in `src/engine/actions.ts`
+- `ostranders_open` → **Coster's Page** (`coster_page`), **The Bank's Gift** (`brune_donation`), contract **How Deep It Goes** (`pellam_deep`), contract **A Matter of Arrears** (`debt_collection`), contract **Deliver the Bank's Terms** (`deliver_terms`), contract **The Bank's Warrants** (`kell_sump`), contract **The Insurers' Survey** (`anselm_burrows`), Date "Ostrander's Reads the Books" (`vorn_books`), rules in `src/engine/actions.ts`
 
 ### The Last Tapestry
 
@@ -323,7 +323,7 @@ _Speaker: Lord Treasurer Fenn_
 
 #### Story contract: The Exchequer's Last Tapestry
 
-`contract:last_tapestry` · data/contracts.ts:745
+`contract:last_tapestry` · data/contracts.ts:750
 
 - _type:_ “Story”
 - _titles[1]:_ “The Exchequer's Last Tapestry”

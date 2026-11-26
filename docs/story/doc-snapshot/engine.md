@@ -255,7 +255,7 @@ Text the rules write into the week report, dispatches, mission journals and warn
 | ID | Line |
 |---|---|
 | `engine/rivals/war.ts#raiseFeud.1` | [IF after > before] {name}: {STAGES[after].toLowerCase()} [ELSE] {name}: things have cooled [END] |
-| `engine/rivals/war.ts#raiseFeud.2` | [IF after is 2] It is open war with {name}. Expect raids, fire and knives, and expect the Exchequer to blame you for all of it. [ELSE IF after is 1] What was business with {name} has become personal. They will start going after your jobs, your stores and your people. [ELSE] {name} have stopped treating you as an enemy, for now. [END] |
+| `engine/rivals/war.ts#raiseFeud.2` | [IF after is 2] It is open war with {name}. Expect raids, fire and knives, and expect the Exchequer to blame you for all of it. [ELSE IF after is 1 and before is 2] {name} have stopped sending knives. It is still a feud, though, and they will keep going after your jobs and your stores. [ELSE IF after is 1] What was business with {name} has become personal. They will start going after your jobs, your stores and your people. [ELSE] {name} have stopped treating you as an enemy, for now. [END] |
 | `engine/rivals/war.ts#SHIPMENT.hobbs.1` | Hobb & Daughters' collection cart |
 | `engine/rivals/war.ts#SHIPMENT.ninth.1` | the Ninth's pay chest |
 | `engine/rivals/war.ts#SHIPMENT.assay.1` | the Assay Office's reagent wagon |
@@ -364,13 +364,14 @@ Text the rules write into the week report, dispatches, mission journals and warn
 |---|---|
 | `engine/story/scenes.ts#resolveEvent.1` | [IF ok] Success [ELSE] Failure [END] at {Math.round(p * 100)}% |
 | `engine/story/scenes.ts#resolveEvent.2` | [IF STORY_IDS[ev.defId]] story [ELSE IF ev.missionId] mission [ELSE] info [END] |
-| `engine/story/scenes.ts#applyEventEffect.1` | Item added to the armory. |
-| `engine/story/scenes.ts#applyEventEffect.2` | New contract on the board. |
-| `engine/story/scenes.ts#applyEventEffect.3` | [IF sourceId is 'charter'] arcanist [ELSE] [ONE OF] skirmisher [OR] scout [OR] vanguard [OR] marksman [END] [END] |
-| `engine/story/scenes.ts#applyEventEffect.4` | {member full name} joins the guild. |
-| `engine/story/scenes.ts#applyEventEffect.5` | {member full name} leaves the guild. Their gear stays in the armory. |
-| `engine/story/scenes.ts#applyEventEffect.6` | A Mail Hauberk and 2 Fire Oils are added to the armory. |
-| `engine/story/scenes.ts#applyEventEffect.7` | Your loan is reduced by 200 crowns. |
+| `engine/story/scenes.ts#applyEventEffect.1` | [IF d < 0] {GOODS[g].name}: gone from the guild's goods. [ELSE] +{d} {GOODS[g].name}. [END] |
+| `engine/story/scenes.ts#applyEventEffect.2` | Item added to the armory. |
+| `engine/story/scenes.ts#applyEventEffect.3` | New contract on the board. |
+| `engine/story/scenes.ts#applyEventEffect.4` | [IF sourceId is 'charter'] arcanist [ELSE] [ONE OF] skirmisher [OR] scout [OR] vanguard [OR] marksman [END] [END] |
+| `engine/story/scenes.ts#applyEventEffect.5` | {member full name} joins the guild. |
+| `engine/story/scenes.ts#applyEventEffect.6` | {member full name} leaves the guild. Their gear stays in the armory. |
+| `engine/story/scenes.ts#applyEventEffect.7` | A Mail Hauberk and 2 Fire Oils are added to the armory. |
+| `engine/story/scenes.ts#applyEventEffect.8` | Your loan is reduced by 200 crowns. |
 | `engine/story/scenes.ts#applyMissionEffect.1` | The squad will also face: {x.tag}. |
 
 ### story/tutorial.ts

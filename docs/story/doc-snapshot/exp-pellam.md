@@ -362,7 +362,7 @@ _Source: expeditions/data/lines.ts:329._
 | `line:poisoned.4` | {a} is sick against the wall and wipes their mouth and carries on. |
 | `line:poisoned.5` | {a}'s arm has swollen up tight inside the sleeve. |
 | `line:bleeds.1` | {m} is bleeding badly. |
-| `line:bleeds.2` | {m} leaves a trail behind it now. |
+| `line:bleeds.2` | {m} is leaving a trail of blood. |
 
 _Source: expeditions/data/lines.ts:376._
 

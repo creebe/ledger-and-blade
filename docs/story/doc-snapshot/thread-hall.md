@@ -98,7 +98,7 @@ _Speaker: Jory Abbot_
 
 ### A Name in the Streets
 
-`legend_named` · Queued scene · data/cast.ts:785
+`legend_named` · Queued scene · data/cast.ts:815
 
 _Speaker: Jory Abbot_
 
@@ -141,5 +141,5 @@ One line about one week in four, in the week report.
 | `jory:j_back_door` | Jory has put a second bolt on the back door of the stores, and a bell on the first one. | when (mudlarks standing ?? 0) <= -25 |
 | `jory:j_lines` | Jory spent the morning re-ruling the ledger. He says the old lines were crooked, and that he drew them himself when he was young. |  |
 | `jory:j_stove` | Jory says this is the coldest the hall has been since the second guildmaster, who sold the stove. | when (week - 1) % 48 >= 36 |
-| `jory:j_hobbs` | Jory says one of the Hobb girls has been sitting in the window of the Copper Kettle all week, and that she's very good at not looking at the hall. | when hobbs aggression >= 0.6 |
-| `jory:j_mayne` | Jory says Captain Mayne bought him a drink, and that he has never been recruited so pleasantly in his life. | when ninth_active |
+| `jory:j_hobbs` | Jory says one of the Hobb girls has been sitting in the window of the Copper Kettle all week, and that she's very good at not looking at the hall. | when hobbs active and hobbs aggression >= 0.6 |
+| `jory:j_mayne` | Jory says Captain Mayne bought him a drink, and that he has never been recruited so pleasantly in his life. | when ninth_active and mayne status is 'alive' |

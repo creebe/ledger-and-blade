@@ -43,6 +43,15 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 | `ui/kit/members.tsx#choose.2` | {m.name.split(' ')[0]}: {a.label} this week. [IF a.id is 'train'] Pick what to train below. [ELSE] {a.blurb} [END] |
 | `ui/kit/members.tsx#OrderPicker.1` | [IF a.id is 'train'] +1 to an attribute every {trainWeeks(game)} weeks. Costs {crowns(trainCost(game))} a week and adds fatigue. [ELSE] {a.blurb} [END] |
 
+### ui/kit/reveal.tsx
+
+| ID | Line |
+|---|---|
+| `ui/kit/reveal.tsx#askReveal.1` | Learn the hidden danger? |
+| `ui/kit/reveal.tsx#askReveal.2` | Your informants will find out which of these the squad will meet: {h.candidates.map(tagName).join(' or ')}. |
+| `ui/kit/reveal.tsx#askReveal.3` | Knowing it tells you what to pack and who to send. |
+| `ui/kit/reveal.tsx#HiddenTag.1` | A hidden danger: {names}. Tap to learn which it is for {cost} Intel. |
+
 ### ui/kit/shortfall.ts
 
 | ID | Line |
@@ -335,10 +344,9 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 | `ui/sheets/HelpSheet.tsx#HelpSheet.12` | to see every number. The final phase is the objective. Strong results make the next phase easier, and failures make it harder and hurt people. |
 | `ui/sheets/HelpSheet.tsx#HelpSheet.13` | Tags and preparation |
 | `ui/sheets/HelpSheet.tsx#HelpSheet.14` | Enemies and environments have |
-| `ui/sheets/HelpSheet.tsx#HelpSheet.15` | . Armored enemies laugh at swords but fear hammers, Fireborn shrug off fire but dread frost, and Cold saps endurance unless someone packs furs. Weapons, oils, salts and kit counter tags. Unknown tags (“?”) turn your odds into a |
-| `ui/sheets/HelpSheet.tsx#HelpSheet.16` | . Spend Intel or send a Scout ahead to know what you face. |
-| `ui/sheets/HelpSheet.tsx#HelpSheet.17` | Members tire, bleed, level up and can die for good. Wounded and exhausted members perform badly, so rest them. Idle members can train, gather rumors (Intel), work the docks, or scout a contract. Unpaid or unhappy members lose loyalty, and Hobb & Daughters will poach the disloyal. |
-| `ui/sheets/HelpSheet.tsx#HelpSheet.18` | Every contract pleases someone and annoys someone else. Watch your standing with the Exchequer (who holds your charter), the Weighhouse, Ostrander's and the Lower Town, and keep your Heat low. The Debt clocks show where the realm is heading. |
+| `ui/sheets/HelpSheet.tsx#HelpSheet.15` | . Armored enemies laugh at swords but fear hammers, Fireborn shrug off fire but dread frost, and Cold saps endurance unless someone packs furs. Weapons, oils, salts and kit counter tags. Unknown tags (“?”) are dangers you don't know about yet. Spend Intel or send a Scout ahead to find out, so you know what to pack and who to send. |
+| `ui/sheets/HelpSheet.tsx#HelpSheet.16` | Members tire, bleed, level up and can die for good. Wounded and exhausted members perform badly, so rest them. Idle members can train, gather rumors (Intel), work the docks, or scout a contract. Unpaid or unhappy members lose loyalty, and Hobb & Daughters will poach the disloyal. |
+| `ui/sheets/HelpSheet.tsx#HelpSheet.17` | Every contract pleases someone and annoys someone else. Watch your standing with the Exchequer (who holds your charter), the Weighhouse, Ostrander's and the Lower Town, and keep your Heat low. The Debt clocks show where the realm is heading. |
 
 ### ui/sheets/Journal.tsx
 
@@ -378,7 +386,7 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 | `ui/sheets/MemberSheet.tsx#MemberSheet.20` | The others will notice (morale −3). |
 | `ui/sheets/MemberSheet.tsx#MemberSheet.21` | Dismiss from the guild |
 | `ui/sheets/MemberSheet.tsx#FameBlock.1` | [IF m.epithet] {m.epithet}, a Legend of Varrow [ELSE IF tier] {FAME_TIERS[tier].name} [ELSE] Not yet known [END] |
-| `ui/sheets/MemberSheet.tsx#FameBlock.2` | [IF tier < 3] Fame {fame} of {next.min} to be {next.name}[IF next.name is 'Legendary']  (also needs level 5 and 25 missions) [END]. [ELSE] Fame {fame}. [END] |
+| `ui/sheets/MemberSheet.tsx#FameBlock.2` | [IF tier < 3] Fame {fame} of {next.min} to be {next.name}[IF next.name is 'Legendary']  (also needs level {LEGEND_NEEDS.level} and {LEGEND_NEEDS.missions} missions) [END]. [ELSE] Fame {fame}. [END] |
 | `ui/sheets/MemberSheet.tsx#FameBlock.3` | : people tell |
 
 ### ui/sheets/MenuSheet.tsx
@@ -432,19 +440,21 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 | `ui/sheets/PrepSheet.tsx#PrepSheet.5` | . Away for about |
 | `ui/sheets/PrepSheet.tsx#PrepSheet.6` | [IF info.weeks is 1] a week [ELSE] {info.weeks} weeks [END] |
 | `ui/sheets/PrepSheet.tsx#PrepSheet.7` | , road included. |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.8` | want this job too. |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.9` | The squad, front to back ([IF size.min is size.max] {size.max} [ELSE] {size.min} to {size.max} [END]) |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.10` | Ranks 1 and 2 are in front: they can reach with a blade, and most enemies hit them. Bows and spells work from further back. Tap a member to change their gear. |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.11` | · best in rank |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.12` | [IF i < size.min] Empty. Choose someone from the bench. [ELSE] Empty. Optional. [END] |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.13` | Move [IF m] {member} [ELSE] rank [END] forward |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.14` | Move [IF m] {member} [ELSE] rank [END] back |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.15` | Leave [IF m] {member} [ELSE] rank [END] at home |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.16` | a slot · |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.17` | [IF k is 'food'] in the guild supplies [ELSE] in the stores [END] |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.18` | Buying what the stores don't have: |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.19` | Nobody can send orders once they've gone. These are what the squad will do. |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.20` | Start again from a suggested plan |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.8` | A dashed “?” is a danger nobody has confirmed. Tap one to learn which it is for |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.9` | Intel (you have |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.10` | ), or give a member the Scout order on the Roster and they'll report back at the end of the week. |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.11` | The squad, front to back ([IF size.min is size.max] {size.max} [ELSE] {size.min} to {size.max} [END]) |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.12` | Ranks 1 and 2 are in front: they can reach with a blade, and most enemies hit them. Bows and spells work from further back. Tap a member to change their gear. |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.13` | · best in rank |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.14` | [IF i < size.min] Empty. Choose someone from the bench. [ELSE] Empty. Optional. [END] |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.15` | Move [IF m] {member} [ELSE] rank [END] forward |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.16` | Move [IF m] {member} [ELSE] rank [END] back |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.17` | Leave [IF m] {member} [ELSE] rank [END] at home |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.18` | a slot · |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.19` | [IF k is 'food'] in the guild supplies [ELSE] in the stores [END] |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.20` | Buying what the stores don't have: |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.21` | Nobody can send orders once they've gone. These are what the squad will do. |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.22` | Start again from a suggested plan |
 
 ### ui/sheets/WatchSheet.tsx
 

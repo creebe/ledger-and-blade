@@ -1,26 +1,26 @@
 ## Expeditions: places, monsters and people
 
-Every contract is walked as an expedition to a site. Old Pellam has three zones and the Kiln Engine; the other sites have one zone each for now. Door scenes (news brought to the yard as a squad sets out for a distant site) are in the thread On the road, in the Story threads. The story bible's account of all this is `docs/STORY.md` §5d.
+Every contract is walked as an expedition to a site. Every site has three zones and a boss at the bottom of its long route, beaten once. Door scenes (news brought to the yard as a squad sets out for a distant site) are in the thread On the road, in the Story threads. The story bible's account of all this is `docs/STORY.md` §5d.
 
 ### Sites
 
 | ID | Site | Zones | Text |
 |---|---|---|---|
 | `site:pellam` | Old Pellam | the Culverts, the Buried Streets, the College Sink | The first town on the river, under Varrow's Lower Town. Its cellars and streets are still down there, and so is the drain where the college poured its spent reagents for a century. |
-| `site:varrow` | Varrow | the Lower Town | Work in the city itself, where the trouble is guarded doors and angry crowds. |
-| `site:kell` | Kell Mines | the upper workings | Silver workings in the northern hills, half of them flooded. |
-| `site:saltfens` | The Saltfens | the reed paths | The marshes along the estuary, good for reagents and for catching fever. |
-| `site:drovers` | Drover's Road | the hill road | The cattle road through the hills east of the city. |
-| `site:harrowmere` | Harrowmere | the lake shore | A lake town with an old bridge. |
-| `site:anselm` | Port Anselm | the Wenmouth road | The coast road to the port where Ostrander's ships take on the Crown's silver. |
+| `site:varrow` | Varrow | the Lower Town, the Quays, the Rookeries | Work in the city itself, where the trouble is guarded doors and angry crowds, and further down the hill, people who rent out both. |
+| `site:kell` | Kell Mines | the upper workings, the Sump, the Trevick level | Silver workings in the northern hills, half of them flooded, and the deepest of them held by people who never paid for it. |
+| `site:saltfens` | The Saltfens | the reed paths, the Pans, the Withies | The marshes along the estuary, good for reagents and salt and for catching fever. |
+| `site:drovers` | Drover's Road | the hill road, Brannock Moor, Skell Gap | The cattle road through the hills east of the city, over Brannock Moor to the pass at Skell Gap. |
+| `site:harrowmere` | Harrowmere | the lake shore, the bridge houses, the Holms | A lake town on a mere that goes deeper than anyone has sounded. Its old bridge still carries the wool road, and nobody farms the islands. |
+| `site:anselm` | Port Anselm | the Wenmouth road, the Burrows, the Strand | The coast road to the port where Ostrander's ships take on the Crown's silver, past the dunes where the wreckers live. |
 
-_Source: expeditions/data/content.ts:391._
+_Source: expeditions/data/content.ts:667._
 
 ### Zones
 
 #### The Culverts (Old Pellam)
 
-`zone:culverts` · expeditions/data/content.ts:220 · depth 1
+`zone:culverts` · expeditions/data/content.ts:255 · depth 1
 
 - _text:_ “Brick drains and cellars under the Lower Town. Grates let a little daylight down.”
 - _met here:_ Culvert rats, Grubber, Tallow moths
@@ -29,7 +29,7 @@ _Source: expeditions/data/content.ts:391._
 
 #### The Buried Streets (Old Pellam)
 
-`zone:streets` · expeditions/data/content.ts:238 · depth 2, dark, Exposure every room
+`zone:streets` · expeditions/data/content.ts:273 · depth 2, dark, Exposure every room
 
 - _text:_ “Pellam's old streets, roofed over by Varrow's foundations. The houses are full of silt.”
 - _met here:_ Cellar spider, Pale hog, Culvert rats, Sink eel, Sink crab, Grubber, Tallow moths
@@ -38,7 +38,7 @@ _Source: expeditions/data/content.ts:391._
 
 #### The College Sink (Old Pellam)
 
-`zone:sink` · expeditions/data/content.ts:258 · depth 3, dark
+`zone:sink` · expeditions/data/content.ts:293 · depth 3, dark
 
 - _text:_ “Where the college poured its spent reagents for a hundred years. The walls sweat colors.”
 - _met here:_ Seep, Assay engine, Sink crab, Cellar spider
@@ -47,67 +47,213 @@ _Source: expeditions/data/content.ts:391._
 
 #### The Lower Town (Varrow)
 
-`zone:lowertown` · expeditions/data/content.ts:277 · depth 1
+`zone:lowertown` · expeditions/data/content.ts:312 · depth 1
 
 - _text:_ “Varrow's streets below the hill: yards, warehouses, back stairs and people who saw nothing.”
 - _met here:_ Hired thug, Guard
 - _found here:_ Old coin
 - _curiosities:_ strongbox, shrine · _traps:_ snare
 
+#### The Quays (Varrow)
+
+`zone:quays` · expeditions/data/content.ts:326 · depth 2, dark
+
+- _text:_ “The river warehouses below the chain, at night, with lighters tied up three deep and men paid to stand in the doorways of the bonded stores.”
+- _met here:_ Lighterman, Footpad, Hired thug, Yard dog, Watch sergeant, Guard
+- _found here:_ Bonded brandy, Old coin
+- _curiosities:_ strongbox, boathouse · _traps:_ tide, snare
+
+#### The Rookeries (Varrow)
+
+`zone:rookeries` · expeditions/data/content.ts:343 · depth 3
+
+- _text:_ “Tenement courts behind the tanneries, six storeys of rented rooms leaning on each other, with washing across every gap and a way over the roofs for anyone who knows it.”
+- _met here:_ Footpad, Hired thug, Watch sergeant, Yard dog, Lighterman
+- _found here:_ Old coin, Bonded brandy, Pellam silver
+- _curiosities:_ strongbox, shrine · _traps:_ floor, snare
+
 #### The upper workings (Kell Mines)
 
-`zone:workings` · expeditions/data/content.ts:291 · depth 1, dark
+`zone:workings` · expeditions/data/content.ts:361 · depth 1, dark
 
 - _text:_ “Galleries cut into the hill a century ago, propped with timber that has seen better centuries.”
 - _met here:_ Claim-jumper, Cave crab, Culvert rats
 - _found here:_ Iron, Old coin
 - _curiosities:_ strongbox, shrine · _traps:_ collapse, gas
 
+#### The Sump (Kell Mines)
+
+`zone:sump` · expeditions/data/content.ts:378 · depth 2, dark
+
+- _text:_ “The lower galleries, where the pumps gave out the year after the war. The water stands at the knee and is colder than it has any right to be.”
+- _met here:_ Cave crab, Pit pony, Claim-jumper, Powder man, Culvert rats
+- _found here:_ Silver ore, Iron, Old coin
+- _curiosities:_ strongbox, shrine · _traps:_ collapse, gas
+
+#### The Trevick level (Kell Mines)
+
+`zone:trevick` · expeditions/data/content.ts:396 · depth 3, dark
+
+- _text:_ “The old silver gallery, cut by a mine captain called Trevick who died rich and was buried with his pick. The vein is still there, and so are the people who found it first.”
+- _met here:_ Claim-jumper, Powder man, Pit pony, Cave crab
+- _found here:_ Silver ore, Old coin
+- _curiosities:_ strongbox, shrine · _traps:_ collapse, gas
+
 #### The reed paths (The Saltfens)
 
-`zone:reeds` · expeditions/data/content.ts:308 · depth 1, Exposure every room
+`zone:reeds` · expeditions/data/content.ts:413 · depth 1, Exposure every room
 
 - _text:_ “Plank paths through reeds higher than a man, over water nobody should drink.”
 - _met here:_ Marsh hog, Salt-cutter
 - _found here:_ Reagents, Old coin
 - _curiosities:_ shrine · _traps:_ bog
 
+#### The Pans (The Saltfens)
+
+`zone:pans` · expeditions/data/content.ts:431 · depth 2, Exposure every room
+
+- _text:_ “The salt pans and brine flats at the edge of the estuary. Low mud walls cut the white crust into squares, and the only shelter is in the boiling huts.”
+- _met here:_ Salt-cutter, Marsh hog, Fowler, Fen leeches
+- _found here:_ Pan salt, Reagents, Old coin
+- _curiosities:_ shrine, boathouse · _traps:_ brine, bog
+
+#### The Withies (The Saltfens)
+
+`zone:withies` · expeditions/data/content.ts:450 · depth 3, Exposure every room
+
+- _text:_ “Willow beds cut through by deep channels, where the fens run into the river. You can see about as far as the next willow.”
+- _met here:_ Fen leeches, Marsh hog, Fowler, Salt-cutter
+- _found here:_ Reagents, Pan salt, Old coin
+- _curiosities:_ shrine, boathouse · _traps:_ bog, snare
+
 #### The hill road (Drover's Road)
 
-`zone:hillroad` · expeditions/data/content.ts:326 · depth 1
+`zone:hillroad` · expeditions/data/content.ts:469 · depth 1
 
 - _text:_ “The Drover's Road climbing into the hills: stone walls, sheep, and long views of nobody coming to help.”
 - _met here:_ Road agent, Hill wolf, Deserter
 - _found here:_ Leather, Old coin
 - _curiosities:_ shrine, strongbox · _traps:_ snare
 
+#### Brannock Moor (Drover's Road)
+
+`zone:brannock` · expeditions/data/content.ts:486 · depth 2
+
+- _text:_ “The high moor the road crosses on its way to the pass: heather, standing water, old cairns and wind from every side at once.”
+- _met here:_ Hill wolf, Reiver, Moor bull, Deserter
+- _found here:_ Fleeces, Leather, Old coin
+- _curiosities:_ cairn, shrine · _traps:_ snare, stampede
+
+#### Skell Gap (Drover's Road)
+
+`zone:skell` · expeditions/data/content.ts:504 · depth 3
+
+- _text:_ “The pass at the top of the Drover's Road, between two scree slopes, with the old Crown toll house at the narrowest point.”
+- _met here:_ Deserter, Road agent, Reiver, Moor bull
+- _found here:_ Old coin, Fleeces, Leather
+- _curiosities:_ cairn, strongbox · _traps:_ collapse, snare
+
 #### The lake shore (Harrowmere)
 
-`zone:shore` · expeditions/data/content.ts:343 · depth 1
+`zone:shore` · expeditions/data/content.ts:522 · depth 1
 
 - _text:_ “Shingle, boathouses and cold water, with the old bridge standing out over the mere.”
 - _met here:_ Mere pike, Smuggler
 - _found here:_ Timber, Old coin
 - _curiosities:_ shrine, strongbox · _traps:_ snare
 
+#### The bridge houses (Harrowmere)
+
+`zone:bridge` · expeditions/data/content.ts:539 · depth 2, dark
+
+- _text:_ “The houses built along the old bridge, empty since the middle span fell and the road was carried over the gap on timber. The floors have gone soft, and the water moves underneath all of it.”
+- _met here:_ Smuggler, Night boatman, Crayfish, Mere pike
+- _found here:_ Old coin, Bog oak, Timber
+- _curiosities:_ strongbox, shrine · _traps:_ floor, snare
+
+#### The Holms (Harrowmere)
+
+`zone:holms` · expeditions/data/content.ts:557 · depth 3
+
+- _text:_ “The islands out on the mere, reached by punt and by wading: alder, reed, a ruined chapel or two, and the deepest water anyone has sounded.”
+- _met here:_ Mere pike, Crayfish, Smuggler, Night boatman
+- _found here:_ Bog oak, Old coin, Timber
+- _curiosities:_ boathouse, shrine · _traps:_ bog, snare
+
 #### The Wenmouth road (Port Anselm)
 
-`zone:wenmouth` · expeditions/data/content.ts:360 · depth 1
+`zone:wenmouth` · expeditions/data/content.ts:575 · depth 1
 
 - _text:_ “The coast road to Port Anselm: salt marsh on one side, dunes on the other, and a ford at every river mouth.”
 - _met here:_ Road agent, Deserter
 - _found here:_ Old coin
 - _curiosities:_ shrine, strongbox · _traps:_ snare
 
-### Old Pellam's goals
+#### The Burrows (Port Anselm)
 
-The room at the end of each route length. Other sites use their goalroom lines (see the log lines).
+`zone:burrows` · expeditions/data/content.ts:589 · depth 2
 
-| ID | Length | Goal |
-|---|---|---|
-| `pellam_goal:short` | Short | Through the Culverts to the old pump house |
-| `pellam_goal:medium` | Medium | Down to the Buried Streets and the old counting house |
-| `pellam_goal:long` | Long | To the bottom of the College Sink, where the Kiln Engine walks |
+- _text:_ “The dunes between the coast road and the sea, miles of them, full of marram grass and rabbit holes, with the ribs of old ships sticking out of the sand.”
+- _met here:_ Wrecker, Herring gulls, Road agent, Deserter
+- _found here:_ Old coin, Ambergris, Timber
+- _curiosities:_ wreck, shrine · _traps:_ tide, snare
+
+#### The Strand (Port Anselm)
+
+`zone:strand` · expeditions/data/content.ts:607 · depth 3
+
+- _text:_ “Port Anselm's waterfront, a mile of customs sheds and Ostrander's warehouses, with the bank's ships riding at anchor beyond the bar.”
+- _met here:_ Tidewaiter, Guard, Herring gulls, Wrecker
+- _found here:_ Old coin, Ambergris, Bonded brandy
+- _curiosities:_ wreck, strongbox · _traps:_ tide, snare
+
+### Goals
+
+What each route length is for, as the board says it. A plain job on a long route stops short of the boss (_deep_).
+
+| ID | Site | Length | Goal |
+|---|---|---|---|
+| `pellam_goal:short` | Old Pellam | Short | Through the Culverts to the old pump house |
+| `pellam_goal:medium` | Old Pellam | Medium | Down to the Buried Streets and the old counting house |
+| `pellam_goal:long` | Old Pellam | Long | To the bottom of the College Sink, where the Kiln Engine walks |
+| `site_goal:varrow:short` | Varrow | Short | Through the Lower Town to the cooper's yard |
+| `site_goal:varrow:medium` | Varrow | Medium | Down to the Quays and the bonded warehouse |
+| `site_goal:varrow:long` | Varrow | Long | Into the Rookeries, to Rudd's yard |
+| `site_goal:varrow:deep` | Varrow | Long, a plain job | To the far side of the Rookeries |
+| `site_goal:kell:short` | Kell Mines | Short | Through the upper workings to the old winding shaft |
+| `site_goal:kell:medium` | Kell Mines | Medium | Down into the Sump, to the drowned pump house |
+| `site_goal:kell:long` | Kell Mines | Long | To the end of the Trevick level, where Gaffer Moyle holds the vein |
+| `site_goal:kell:deep` | Kell Mines | Long, a plain job | To the end of the Trevick level |
+| `site_goal:saltfens:short` | The Saltfens | Short | Along the reed paths to the cutters' landing |
+| `site_goal:saltfens:medium` | The Saltfens | Medium | Out to the Pans and the old boiling house |
+| `site_goal:saltfens:long` | The Saltfens | Long | Into the Withies, where the Dean lies up |
+| `site_goal:saltfens:deep` | The Saltfens | Long, a plain job | Through the Withies to the river |
+| `site_goal:drovers:short` | Drover's Road | Short | Along the hill road to the drovers' inn |
+| `site_goal:drovers:medium` | Drover's Road | Medium | Across Brannock Moor to the standing cairn |
+| `site_goal:drovers:long` | Drover's Road | Long | Up to Skell Gap and the old toll house |
+| `site_goal:drovers:deep` | Drover's Road | Long, a plain job | Up to Skell Gap |
+| `site_goal:harrowmere:short` | Harrowmere | Short | Along the shore to the boathouses |
+| `site_goal:harrowmere:medium` | Harrowmere | Medium | Out along the bridge houses to the timber span |
+| `site_goal:harrowmere:long` | Harrowmere | Long | Out to the Holms, where the Bailiff feeds |
+| `site_goal:harrowmere:deep` | Harrowmere | Long, a plain job | Out to the far Holms |
+| `site_goal:anselm:short` | Port Anselm | Short | Along the Wenmouth road to the ford |
+| `site_goal:anselm:medium` | Port Anselm | Medium | Into the Burrows, to the wreck on the point |
+| `site_goal:anselm:long` | Port Anselm | Long | Down the Strand to Mags Tull's cove |
+| `site_goal:anselm:deep` | Port Anselm | Long, a plain job | To the end of the Strand |
+
+### Bosses
+
+Each is beaten once. After that, long routes end in its room with a lesser fight.
+
+| ID | Site | Boss | Deed | First beaten (report) | Posting goal |
+|---|---|---|---|---|---|
+| `boss:pellam` | Old Pellam | the Kiln Engine | Broke the Kiln Engine | The college sends a cart for the Kiln Engine's core, and a letter that is mostly about who is going to pay for the cart. | Break the Kiln Engine |
+| `boss:varrow` | Varrow | Lew Rudd | Put Lew Rudd out of business | The Lower Town hears about Rudd's yard before the squad is back on Tallow Street. Nobody admits to having worked for him, which is a first. | Put Lew Rudd out of business |
+| `boss:kell` | Kell Mines | Gaffer Moyle | Threw Gaffer Moyle off the Trevick level | The lease-holders write to say they always knew the Trevick level was theirs, and ask whether the guild could also see about the pumps. | Throw Gaffer Moyle off the Trevick level |
+| `boss:saltfens` | The Saltfens | the Dean | Killed the Dean | The salt-cutters send a ham, which is in poor taste, and a jar of pan salt, which is not. | Kill the Dean |
+| `boss:drovers` | Drover's Road | Sergeant Crewe | Took the toll house at Skell Gap | The drovers bring their herds over the Gap without paying anybody for the first time in two years, and drink to the guild at the inn. | Take the toll house at Skell Gap from Sergeant Crewe |
+| `boss:harrowmere` | Harrowmere | the Bailiff | Landed the Bailiff | Harrowmere hangs the Bailiff from the bridge for a week, and three different families claim the rings in its belly were their grandmother's. | Land the Bailiff |
+| `boss:anselm` | Port Anselm | Mags Tull | Put out Mags Tull's lantern | The harbour master at Port Anselm writes to thank the guild, and to ask it not to mention the wreckers to the bank. | Put out Mags Tull's lantern |
 
 ### Monsters and people
 
@@ -115,7 +261,7 @@ _Met in_ lists the zones where they turn up, and the contract dangers that bring
 
 | ID | Name | Met in | Text |
 |---|---|---|---|
-| `monster:rats` | Culvert rats | the Culverts, the Buried Streets, the upper workings, contracts with Swarm | A knot of rats the size of cats, fed on everything that comes down the drains. |
+| `monster:rats` | Culvert rats | the Culverts, the Buried Streets, the upper workings, the Sump, contracts with Swarm | A knot of rats the size of cats, fed on everything that comes down the drains. |
 | `monster:moths` | Tallow moths | the Culverts, the Buried Streets | Pale moths as wide as a hand. They drink lamp oil, and they will drink it out of the lamp. |
 | `monster:grubber` | Grubber (people) | the Culverts, the Buried Streets | People who live down here and dig for what Pellam left behind. They do not like company. |
 | `monster:eel` | Sink eel | the Buried Streets | A grey eel as long as a cart, living in the flooded cellars. It strikes from the water first. |
@@ -124,25 +270,46 @@ _Met in_ lists the zones where they turn up, and the contract dangers that bring
 | `monster:crab` | Sink crab | the Buried Streets, the College Sink | River crabs grown huge on reagent runoff. Blades skid off them. |
 | `monster:seep` | Seep | the College Sink | A spill of spent reagents that never stopped reacting. It moves toward warmth and it burns what it touches. |
 | `monster:engine` | Assay engine (engine) | the College Sink | An iron testing engine the Assay Office left running when it moved upstairs. It still tests anything it finds, very hard. |
-| `monster:kiln` | the Kiln Engine (engine) | the bottom of the College Sink | The college's great reagent furnace, built to walk the length of the Sink and burn the spill. Nobody told it to stop. |
-| `monster:claim_jumper` | Claim-jumper (people) | the upper workings | Miners working galleries that belong to somebody else. They would rather fight than be written down. |
-| `monster:cave_crab` | Cave crab | the upper workings | Pale crabs that came up the flooded galleries and liked it. Blades skid off them. |
-| `monster:salt_cutter` | Salt-cutter (people) | the reed paths | Cutters who stayed out on the pans too long. The fever took their manners first. |
-| `monster:marsh_hog` | Marsh hog | the reed paths | A bristled black hog that lives in the reeds and charges anything that moves in them. |
-| `monster:road_agent` | Road agent (people) | the hill road, the Wenmouth road | A highwayman with a crossbow and a speech about tolls. |
-| `monster:deserter` | Deserter (people) | the hill road, the Wenmouth road, contracts with Soldiers | A soldier of the Ninth who walked away with his mail and his spear and kept walking. |
-| `monster:wolf` | Hill wolf | the hill road, contracts with Beasts, contracts with Trolls | Grey hill wolves, thin from a bad winter and bolder than they should be. |
-| `monster:pike` | Mere pike | the lake shore | A pike as long as a man that lies in the shallows and takes ankles. |
-| `monster:smuggler` | Smuggler (people) | the lake shore | Lake people who move cargo at night and do not want to be counted. |
-| `monster:thug` | Hired thug (people) | the Lower Town, contracts with Thugs, contracts with Warded, contracts with Crowds | Muscle hired by the day. They are brave in a crowd and keen on being paid. |
+| `monster:kiln` | the Kiln Engine (engine) | the boss room of Old Pellam (the College Sink) | The college's great reagent furnace, built to walk the length of the Sink and burn the spill. Nobody told it to stop. |
+| `monster:claim_jumper` | Claim-jumper (people) | the upper workings, the Sump, the Trevick level | Miners working galleries that belong to somebody else. They would rather fight than be written down. |
+| `monster:cave_crab` | Cave crab | the upper workings, the Sump, the Trevick level | Pale crabs that came up the flooded galleries and liked it. Blades skid off them. |
+| `monster:salt_cutter` | Salt-cutter (people) | the reed paths, the Pans, the Withies | Cutters who stayed out on the pans too long. The fever took their manners first. |
+| `monster:marsh_hog` | Marsh hog | the reed paths, the Pans, the Withies | A bristled black hog that lives in the reeds and charges anything that moves in them. |
+| `monster:road_agent` | Road agent (people) | the hill road, Skell Gap, the Wenmouth road, the Burrows | A highwayman with a crossbow and a speech about tolls. |
+| `monster:deserter` | Deserter (people) | the hill road, Brannock Moor, Skell Gap, the Wenmouth road, the Burrows, contracts with Soldiers | A soldier of the Ninth who walked away with his mail and his spear and kept walking. |
+| `monster:wolf` | Hill wolf | the hill road, Brannock Moor, contracts with Beasts, contracts with Trolls | Grey hill wolves, thin from a bad winter and bolder than they should be. |
+| `monster:pike` | Mere pike | the lake shore, the bridge houses, the Holms | A pike as long as a man that lies in the shallows and takes ankles. |
+| `monster:smuggler` | Smuggler (people) | the lake shore, the bridge houses, the Holms | Lake people who move cargo at night and do not want to be counted. |
+| `monster:footpad` | Footpad (people) | the Quays, the Rookeries | A quick hand with a short knife, who knows every alley and would rather you never saw their face. |
+| `monster:lighterman` | Lighterman (people) | the Quays, the Rookeries | A boatman who unloads ships onto the quays by night, with a boat hook and strong opinions about who walks on their quay. |
+| `monster:watch_sergeant` | Watch sergeant (people) | the Quays, the Rookeries | A sergeant of the watch with a brass badge and a pension to think about. Somebody other than the city is paying them tonight. |
+| `monster:yard_dog` | Yard dog | the Quays, the Rookeries | A warehouse mastiff, kept hungry so it stays interested. |
+| `monster:rudd` | Lew Rudd (people) | the boss room of Varrow (the Rookeries) | Lew Rudd rents out muscle by the day from a yard in the Rookeries. Half the thugs in the Lower Town have worked for him, and the other half owe him money. |
+| `monster:powder_man` | Powder man (people) | the Sump, the Trevick level | A claim-jumper who handles the blasting powder, and throws it at people when there is no rock handy. Most of them are short of eyebrows. |
+| `monster:pit_pony` | Pit pony | the Sump, the Trevick level | The ponies were left below when the mine closed. They found their own way to live, and they bite. |
+| `monster:moyle` | Gaffer Moyle (people) | the boss room of Kell Mines (the Trevick level) | The claim-jumpers' captain. Moyle has held the Trevick level for six years without paying anybody for it, and keeps a keg of powder within reach of his chair. |
+| `monster:leeches` | Fen leeches | the Pans, the Withies | Leeches as long as a hand, which come up out of the channels in a knot when anything warm steps in. |
+| `monster:fowler` | Fowler (people) | the Pans, the Withies | A wildfowler with a punt gun, who shoots duck for the Varrow markets and anything else that comes through the withies uninvited. |
+| `monster:dean` | the Dean | the boss room of The Saltfens (the Withies) | The oldest marsh boar in the fens, the size of a cart, with tusks like hay hooks. The cutters named it after the college's dean, and say the likeness is fair. |
+| `monster:reiver` | Reiver (people) | Brannock Moor, Skell Gap | A cattle thief from the moor farms, who lifts other people's herds in the autumn and calls it a family trade. |
+| `monster:moor_bull` | Moor bull | Brannock Moor, Skell Gap | A shaggy red bull that got away from a drove years ago and has run the moor since. It does not like the look of anybody. |
+| `monster:crewe` | Sergeant Crewe (people) | the boss room of Drover's Road (Skell Gap) | Sergeant Abner Crewe walked out of the Ninth with twenty men and the regiment's colours. He holds the old toll house at Skell Gap, and charges a toll. |
+| `monster:night_boatman` | Night boatman (people) | the bridge houses, the Holms | A smuggler's oarsman, with muffled oars and a cudgel under the thwart. |
+| `monster:crayfish` | Crayfish | the bridge houses, the Holms | Lake crayfish the size of a cat, which live under the bridge piers and pinch anything that wades. |
+| `monster:bailiff` | the Bailiff | the boss room of Harrowmere (the Holms) | The biggest pike in the mere, longer than a boat. The fishermen call it the Bailiff, because it takes its share of every catch. |
+| `monster:wrecker` | Wrecker (people) | the Burrows, the Strand | Dune people who hang lanterns where ships will mistake them for the harbour, and are first down the beach in the morning. |
+| `monster:tidewaiter` | Tidewaiter (people) | the Strand | A customs man on Ostrander's books, who guards the sheds on the Strand and does not care whose papers you have. |
+| `monster:gulls` | Herring gulls | the Burrows, the Strand | Big grey gulls that have learned what a pack looks like. They will have whatever is in it. |
+| `monster:tull` | Mags Tull (people) | the boss room of Port Anselm (the Strand) | Mags Tull runs the wreckers of the Burrows from a cove at the end of the Strand. She has lit the false lantern on more nights than the harbour master has lit the real one. |
+| `monster:thug` | Hired thug (people) | the Lower Town, the Quays, the Rookeries, contracts with Thugs, contracts with Warded, contracts with Crowds | Muscle hired by the day. They are brave in a crowd and keen on being paid. |
 | `monster:soldier` | Sell-sword (people) | contracts with Soldiers | Soldiers in armor who have been drilled, and are paid to stand still while you try to move them. |
-| `monster:guard` | Guard (people) | the Lower Town, contracts with Watchful Guards, contracts with Warded | A watchman with a cudgel and a lantern, who will shout for his friends first. |
+| `monster:guard` | Guard (people) | the Lower Town, the Quays, the Strand, contracts with Watchful Guards, contracts with Warded | A watchman with a cudgel and a lantern, who will shout for his friends first. |
 | `monster:hedge_wizard` | Hedge-wizard (people) | contracts with Warded | A wizard for hire with no license, hiding behind protective workings the college would never pass. |
 | `monster:troll` | Troll | contracts with Trolls | A big grey troll that is in no hurry about anything. It heals while you watch, unless you burn it. |
 | `monster:salamander` | Salamander | contracts with Fireborn | A lizard the length of a cart, living where the rock is warm. It burns what it bites. |
 | `monster:rioter` | Rioter (people) | contracts with Crowds | Somebody with a grievance and a cobblestone. Hurting them costs the guild its name. |
 
-_Source: expeditions/data/content.ts:162 onward._
+_Source: expeditions/data/content.ts:164 onward._
 
 ### What a contract's dangers bring
 
@@ -214,6 +381,18 @@ _Source: expeditions/data/content.ts:162 onward._
 | `good:salts` | Reagent salts | Crystals scraped from the Sink. Apothecaries ask no questions. |
 | `good:seal` | Assay seals | Brass seals from the Assay Office's old engines. The Office pays to get them back. |
 | `good:kiln_core` | Kiln core | The furnace heart of the Kiln Engine. The college would like it back, and will pay. |
+| `good:brandy` | Bonded brandy | Brandy that was waiting on the Quays for the duty to be paid. It still is. |
+| `good:rudd_book` | Rudd's book | Lew Rudd's ledger of who hired whom, for what and when. The watch would pay for it, and so would several people who would rather the watch never saw it. |
+| `good:ore` | Silver ore | Grey rock with a shine in it, from the Kell veins. The Weighhouse assays it and pays by the sack. |
+| `good:moyle_takings` | Moyle's takings | Six years of silver from a vein Gaffer Moyle never paid for, in a chest he kept under his chair. |
+| `good:pan_salt` | Pan salt | White salt boiled off the Saltfens pans and pressed into cakes. Every kitchen in Varrow uses it, and Saint Oda's uses it on wounds. |
+| `good:tusks` | The Dean's tusks | Two yellow tusks as long as a forearm. The college has asked for them, for reasons it will not put in writing. |
+| `good:fleece` | Fleeces | Moor fleeces, greasy and thick, from sheep that will not miss them for long. |
+| `good:colours` | The Ninth's colours | The regiment's flag, carried at Cassel Ford and carried off by Sergeant Crewe. Somebody in the Ninth will pay a great deal for it, or at least shout a great deal. |
+| `good:bog_oak` | Bog oak | Oak that has lain in the mere for centuries and turned black and hard as iron. The furniture makers on Anvil Row fight over it. |
+| `good:rings` | The Bailiff's rings | Mostly rings and buckles, with a bishop's seal among them, from the belly of the biggest pike in Harrowmere. Some of the owners are still alive. |
+| `good:ambergris` | Ambergris | A grey waxy lump that washes up on the Burrows. It smells odd and the perfumers pay a fortune for it. |
+| `good:salvage` | Tull's salvage | What the wreckers took off a dozen ships: plate and bolts of cloth, and a ship's figurehead with the name chiselled off. |
 | `good:iron` | Iron | Ore and old iron. The Forge uses it. |
 | `good:leather` | Leather | Hides for the Forge and the market. |
 | `good:timber` | Timber | Seasoned wood for building and the Forge. |
