@@ -13,7 +13,7 @@ Done: engine and Field UI (v0.13.0), story bible and export (v0.13.1), Act I pay
 - iPhone: does the top bar now clear the clock? Do nested panels keep their place?
 
 ## Expeditions: still to do
-- Story: the Claude Doc needs a sync for v0.14 (sites, colours, feud lines).
+- Spelling: "Draught" (Healing Draught, Draughts supply) and "Coldharbour" kept British for now; owner hasn't decided.
 - Economy (workstream 5): trim the book-keeping toward "combat prep, the riches, and growing the guild's reputation by heroic deeds".
 - Dive lines that read story facts (deferred by the owner).
 - Housekeeping from the balance reviewer: recruit names include Jory and Fenn; the sim calls caution 0.5 "careful" while the brief calls 0.65 careful.

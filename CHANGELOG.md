@@ -2,6 +2,17 @@
 
 Newest first. Each entry says what changed for a player, why (quoting the owner's feedback where it came from playtesting), and what was and wasn't checked. The live site is https://creebe.github.io/ledger-and-blade/ and is only republished on the owner's word; each entry notes whether it is live.
 
+## v0.14.3 (2026-11-26): Old Gullet, and the house style
+The owner answered four questions from the story pass.
+- **Old Gullet.** The great pike of Harrowmere is called Old Gullet now, for its appetite; the owner didn't want "the Bailiff". The hunt still comes from the Mudlarks.
+- **Anvil Row is the armorers' street.** Bog oak goes to an armorer for a presentation shield, not to a cabinet-maker.
+- **American spelling** in every line the player reads: colors, gray, harbor and the rest (the owner's call). Saves are untouched. "Draught" and the place name "Coldharbour" are kept for now.
+- **The salt-cutters** were changed by the pans and are proud of it, rather than driven feral by the fever, which in this world ends in a gift.
+- **The story document** (the owner's Claude Doc) covers all of v0.14, and the story bible agrees with the game again.
+- **Checked:** `npm run check` (72 tests, story checker clean), re-run by main; story and writing reviewers; the fingerprint with strings blanked is unchanged, so only text moved; the doc compared word for word with the snapshot.
+- **Not checked:** a browser pass (no UI changed).
+- **Live** (deployed on the owner's word, 2026-11-26).
+
 ## v0.14.2 (2026-11-26): Legends a little rarer
 Legends need 115 fame (was 105), with the same level and missions. The owner's call after v0.14.1: "Let's change the legends threshold to 115."
 - **Checked:** 1000 games. Legends per game by week 96 went from 1.44 to 1.04, none before week 63. Survival and feud rates unchanged (careful 69.5%). `npm run check` passed (72 tests), also re-run by main.
