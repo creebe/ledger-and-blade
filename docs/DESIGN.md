@@ -91,11 +91,11 @@ Individuals you recruit, gear and send on missions. Target roster: 6–20.
 - **Permadeath.** Injuries can become permanent *scars* (stat loss or new traits).
 
 > **Implemented (v0.10): Legends.** Members earn **fame** from deeds rather than experience: leading phases well (more for a strong result), flawless jobs, story contracts, beating dangerous foes, and coming home from disasters. The deeds people talk about are kept as feats.
-> - **Tiers:** Known (20), Renowned (75; wage +2, rivals start making offers) and Legendary (105 fame, level 5 and 23 missions; wage +3, Renown +4).
+> - **Tiers:** Known (20), Renowned (75; wage +2, rivals start making offers) and Legendary (115 fame, level 5 and 23 missions; wage +3, Renown +4).
 > - **Naming:** a new Legend is named by the street. You choose between a nickname from how they work ("Quiet Maud", "Honest Godwin", "Lucky" for surviving two disasters) and a place from their best deed ("Maud of the Saltfens").
 > - **Signature ability:** you choose between their approach's squad aura (+1.5 to everyone at that approach) and a general ability: a quarter less harm to the squad, +10% pay, or Renown on every success.
 > - **Elsewhere:** Legends feature in street talk. A Renowned or Legendary member's death costs the whole guild morale.
-> - **Rarity:** the owner's target is one or two Legends per campaign by the end of year two (week 96), and rarely before week 50. In tests (v0.14.1) it is about 1.45 per game, the first in about week 65.
+> - **Rarity:** the owner's target is one or two Legends per campaign by the end of year two (week 96), and rarely before week 50. In tests (v0.14.2, threshold 115) it is about 1.0 per game started, the first in about week 63.
 
 ### 5.2 Companies (macro: the rank and file)
 Generic units counted by headcount, not individually managed:
