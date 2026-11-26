@@ -426,7 +426,7 @@ export const CAST_STORY: EventDef[] = [
     speaker: 'Master Assayer Corwin Plaice',
     text: (s) =>
       (s.facilities.stillroom
-        ? 'A thin man with a leather satchel is standing in your stillroom when you come down in the morning. He has already taken the lids off three jars.\n\n"Corwin Plaice, Master Assayer. Your door was open, which under section four of the Reagents Charter counts as an invitation." He holds up a jar. "None of these are labelled to standard."'
+        ? 'A thin man with a leather satchel is standing in your stillroom when you come down in the morning. He has already taken the lids off three jars.\n\n"Corwin Plaice, Master Assayer. Your door was open, which under section four of the Reagents Charter counts as an invitation." He holds up a jar. "None of these are labeled to standard."'
         : s.start?.backer === 'college'
           ? 'A thin man with a leather satchel is waiting in your yard, reading the sign over your door.\n\n"Corwin Plaice, Master Assayer. I knew your founders at the college. I wrote the report on the fire." He looks over your hall. "I\'ve kept your guild on my list since the day you were chartered."'
           : 'A thin man with a leather satchel is waiting in your yard, reading the sign over your door.\n\n"Corwin Plaice, Master Assayer. I\'m making a list of the guilds in Varrow that use licensed magic." He looks over your hall. "You aren\'t on it yet. Everyone is, sooner or later."') +

@@ -137,7 +137,7 @@ flowchart LR
 | The Assay Office | Master Assayer Corwin Plaice | 14. Clause Eleven (wk 12–18) → An Assay-Peddler (follow-up) |
 | The Fourteen | Lady Honora Aske | 16. The Family Silver (wk 17–22) |
 | The hall | Jory Abbot and the members | A Tavern Brawl (follow-up) → A Matter of Wages (follow-up) → A Letter from Home (follow-up) → Bad Nights (follow-up) → A Volunteer (follow-up) → A Page in the Roll (follow-up) → A Name in the Streets (queued) |
-| Varrow at large | No fixed character | A Whisper in the Taverns (world) → A Petition at the Gate (world) → The Ninth's Colours (queued) |
+| Varrow at large | No fixed character | A Whisper in the Taverns (world) → A Petition at the Gate (world) → The Ninth's Colors (queued) |
 | On the road | The squad in the yard | The Bridge Is Out (road) → A Deserter at the Door (road) → Watched (road) → A Local Guide (road) → A Wounded Carter (road) → Hobb's People Are Packing (road) → The Weather Turns (road) → Fresh Tracks (road) → The Crown's Wagons (road) → An Exchequer Writ (road) |
 
 ### Where threads cross
@@ -1395,7 +1395,7 @@ _Speaker: Master Assayer Corwin Plaice_
 
 > [IF facilities.stillroom] A thin man with a leather satchel is standing in your stillroom when you come down in the morning. He has already taken the lids off three jars.
 >
-> "Corwin Plaice, Master Assayer. Your door was open, which under section four of the Reagents Charter counts as an invitation." He holds up a jar. "None of these are labelled to standard." [ELSE IF backer is college] A thin man with a leather satchel is waiting in your yard, reading the sign over your door.
+> "Corwin Plaice, Master Assayer. Your door was open, which under section four of the Reagents Charter counts as an invitation." He holds up a jar. "None of these are labeled to standard." [ELSE IF backer is college] A thin man with a leather satchel is waiting in your yard, reading the sign over your door.
 >
 > "Corwin Plaice, Master Assayer. I knew your founders at the college. I wrote the report on the fire." He looks over your hall. "I've kept your guild on my list since the day you were chartered." [ELSE] A thin man with a leather satchel is waiting in your yard, reading the sign over your door.
 >
@@ -1684,7 +1684,7 @@ No fixed character. Random world events that can fire any week.
 - **Turn her away** · _Lower Town −1_ · `petition/root/c2`
   “She goes without arguing. Your gatekeeper watches her all the way down the street.”
 
-### The Ninth's Colours
+### The Ninth's Colors
 
 `ninth_colours` · Queued scene · data/cast.ts:785
 
@@ -1694,13 +1694,13 @@ _Speaker: Captain Rufus Mayne_
 
 > Captain Mayne is at the hall before the squad has finished unpacking. He has heard, and so has half the Copper Kettle, because he told them on the way.
 >
-> "Abner Crewe!" he says. "I stood next to that man for twenty years. He could drill a goat to march in step, and he walked off with the colours, the daft sod." He looks at the bundle on the table and lowers his voice, which for Mayne means people in the yard can no longer hear him. "They were at Cassel Ford. What do you want for them?"
+> "Abner Crewe!" he says. "I stood next to that man for twenty years. He could drill a goat to march in step, and he walked off with the colors, the daft sod." He looks at the bundle on the table and lowers his voice, which for Mayne means people in the yard can no longer hear him. "They were at Cassel Ford. What do you want for them?"
 
-- **Give them back to the Ninth** · _The colours go. Renown +2, Mayne +20, the Ninth's renown +3_ · `ninth_colours/root/c1`
+- **Give them back to the Ninth** · _The colors go. Renown +2, Mayne +20, the Ninth's renown +3_ · `ninth_colours/root/c1`
   “Mayne carries them out of the hall himself and down Tallow Street at the slow march, with nobody following. By evening the whole Ninth is drunk, and three of them have asked Jory whether the guild is hiring.”
-- **Sell them to him** · _The colours go. +200 crowns, Mayne −5_ · `ninth_colours/root/c2`
+- **Sell them to him** · _The colors go. +200 crowns, Mayne −5_ · `ninth_colours/root/c2`
   “Mayne pays in Crown Pennies and counts them out on the table one at a time. "Worth every one," he says. "I'll be telling the lads what it cost, mind."”
-- **Hang them in the hall** · _The colours stay and are not for sale. Renown +3, Mayne −15, the Ninth grow more aggressive_ · `ninth_colours/root/c3`
+- **Hang them in the hall** · _The colors stay and are not for sale. Renown +3, Mayne −15, the Ninth grow more aggressive_ · `ninth_colours/root/c3`
   “Jory has them hung over the hall door, a little crooked. Mayne stands under them for some time, says the guild has a nerve, and then asks two of your people whether they have ever thought of soldiering.”
 
 ## Thread: On the road
@@ -2566,7 +2566,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 - _titles[2]:_ “Black Timber”
 - _description:_
 
-  > A cabinet-maker on Anvil Row has a commission for a table from a man who can afford one, and needs two lengths of bog oak out of Harrowmere to make it.
+  > An armorer on Anvil Row has a commission for a presentation shield from a man who can afford one, and needs two lengths of bog oak out of Harrowmere for its boards.
 
 - _phases[1]:_ “The bridge houses: Out along the old bridge.”
 
@@ -3136,7 +3136,7 @@ Dated checkpoints the player prepares for. _met_, _missed_ and _gone_ are the di
 - _available:_ when week <= 2 and loans.length > 0 and loans[0].dueWeek - week >= 3
 - _met:_
 
-  > The clerk counted the payment twice and initialled the receipt in two places. Coster sends word that the sum was correct to the penny, and that he has noted the date.
+  > The clerk counted the payment twice and initialed the receipt in two places. Coster sends word that the sum was correct to the penny, and that he has noted the date.
 
 - _missed:_
 
@@ -4564,7 +4564,7 @@ _Source: expeditions/data/content.ts:667._
 
 `zone:rookeries` · expeditions/data/content.ts:343 · depth 3
 
-- _text:_ “Tenement courts behind the tanneries, six storeys of rented rooms leaning on each other, with washing across every gap and a way over the roofs for anyone who knows it.”
+- _text:_ “Tenement courts behind the tanneries, six stories of rented rooms leaning on each other, with washing across every gap and a way over the roofs for anyone who knows it.”
 - _met here:_ Footpad, Hired thug, Watch sergeant, Yard dog, Lighterman
 - _found here:_ Old coin, Bonded brandy, Pellam silver
 - _curiosities:_ strongbox, shrine · _traps:_ floor, snare
@@ -4750,7 +4750,7 @@ Each is beaten once. After that, long routes end in its room with a lesser fight
 | `boss:saltfens` | The Saltfens | the Dean | Killed the Dean | The salt-cutters send a ham, which is in poor taste, and a jar of pan salt, which is not. | Kill the Dean |
 | `boss:drovers` | Drover's Road | Sergeant Crewe | Took the toll house at Skell Gap | The drovers bring their herds over the Gap without paying anybody for the first time in two years, and drink to the guild at the inn. | Take the toll house at Skell Gap from Sergeant Crewe |
 | `boss:harrowmere` | Harrowmere | the Bailiff | Landed the Bailiff | Harrowmere hangs the Bailiff from the bridge for a week, and three different families claim the rings in its belly were their grandmother's. | Land the Bailiff |
-| `boss:anselm` | Port Anselm | Mags Tull | Put out Mags Tull's lantern | The harbour master at Port Anselm writes to thank the guild, and to ask it not to mention the wreckers to the bank. | Put out Mags Tull's lantern |
+| `boss:anselm` | Port Anselm | Mags Tull | Put out Mags Tull's lantern | The harbor master at Port Anselm writes to thank the guild, and to ask it not to mention the wreckers to the bank. | Put out Mags Tull's lantern |
 
 ### Monsters and people
 
@@ -4761,7 +4761,7 @@ _Met in_ lists the zones where they turn up, and the contract dangers that bring
 | `monster:rats` | Culvert rats | the Culverts, the Buried Streets, the upper workings, the Sump, contracts with Swarm | A knot of rats the size of cats, fed on everything that comes down the drains. |
 | `monster:moths` | Tallow moths | the Culverts, the Buried Streets | Pale moths as wide as a hand. They drink lamp oil, and they will drink it out of the lamp. |
 | `monster:grubber` | Grubber (people) | the Culverts, the Buried Streets | People who live down here and dig for what Pellam left behind. They do not like company. |
-| `monster:eel` | Sink eel | the Buried Streets | A grey eel as long as a cart, living in the flooded cellars. It strikes from the water first. |
+| `monster:eel` | Sink eel | the Buried Streets | A gray eel as long as a cart, living in the flooded cellars. It strikes from the water first. |
 | `monster:spider` | Cellar spider | the Buried Streets, the College Sink | A long-legged spider the color of wet plaster. Its bite keeps working after it lets go. |
 | `monster:hog` | Pale hog | the Buried Streets | Pigs got down here a century ago and kept breeding. They are white and blind, and as big as ponies. |
 | `monster:crab` | Sink crab | the Buried Streets, the College Sink | River crabs grown huge on reagent runoff. Blades skid off them. |
@@ -4770,11 +4770,11 @@ _Met in_ lists the zones where they turn up, and the contract dangers that bring
 | `monster:kiln` | the Kiln Engine (engine) | the boss room of Old Pellam (the College Sink) | The college's great reagent furnace, built to walk the length of the Sink and burn the spill. Nobody told it to stop. |
 | `monster:claim_jumper` | Claim-jumper (people) | the upper workings, the Sump, the Trevick level | Miners working galleries that belong to somebody else. They would rather fight than be written down. |
 | `monster:cave_crab` | Cave crab | the upper workings, the Sump, the Trevick level | Pale crabs that came up the flooded galleries and liked it. Blades skid off them. |
-| `monster:salt_cutter` | Salt-cutter (people) | the reed paths, the Pans, the Withies | Cutters who stayed out on the pans too long. The fever took their manners first. |
+| `monster:salt_cutter` | Salt-cutter (people) | the reed paths, the Pans, the Withies | Cutters who stayed out on the pans long enough to come back changed. They are proud of it, and they do not like visitors. |
 | `monster:marsh_hog` | Marsh hog | the reed paths, the Pans, the Withies | A bristled black hog that lives in the reeds and charges anything that moves in them. |
 | `monster:road_agent` | Road agent (people) | the hill road, Skell Gap, the Wenmouth road, the Burrows | A highwayman with a crossbow and a speech about tolls. |
 | `monster:deserter` | Deserter (people) | the hill road, Brannock Moor, Skell Gap, the Wenmouth road, the Burrows, contracts with Soldiers | A soldier of the Ninth who walked away with his mail and his spear and kept walking. |
-| `monster:wolf` | Hill wolf | the hill road, Brannock Moor, contracts with Beasts, contracts with Trolls | Grey hill wolves, thin from a bad winter and bolder than they should be. |
+| `monster:wolf` | Hill wolf | the hill road, Brannock Moor, contracts with Beasts, contracts with Trolls | Gray hill wolves, thin from a bad winter and bolder than they should be. |
 | `monster:pike` | Mere pike | the lake shore, the bridge houses, the Holms | A pike as long as a man that lies in the shallows and takes ankles. |
 | `monster:smuggler` | Smuggler (people) | the lake shore, the bridge houses, the Holms | Lake people who move cargo at night and do not want to be counted. |
 | `monster:footpad` | Footpad (people) | the Quays, the Rookeries | A quick hand with a short knife, who knows every alley and would rather you never saw their face. |
@@ -4790,19 +4790,19 @@ _Met in_ lists the zones where they turn up, and the contract dangers that bring
 | `monster:dean` | the Dean | the boss room of the Saltfens (the Withies) | The oldest marsh boar in the fens, the size of a cart, with tusks like hay hooks. The cutters named it after the college's dean, and say the likeness is fair. |
 | `monster:reiver` | Reiver (people) | Brannock Moor, Skell Gap | A cattle thief from the moor farms, who lifts other people's herds in the autumn and calls it a family trade. |
 | `monster:moor_bull` | Moor bull | Brannock Moor, Skell Gap | A shaggy red bull that got away from a drove years ago and has run the moor since. It does not like the look of anybody. |
-| `monster:crewe` | Sergeant Crewe (people) | the boss room of Drover's Road (Skell Gap) | Sergeant Abner Crewe walked out of the Ninth with twenty men and the regiment's colours. He holds the old toll house at Skell Gap, and charges a toll. |
+| `monster:crewe` | Sergeant Crewe (people) | the boss room of Drover's Road (Skell Gap) | Sergeant Abner Crewe walked out of the Ninth with twenty men and the regiment's colors. He holds the old toll house at Skell Gap, and charges a toll. |
 | `monster:night_boatman` | Night boatman (people) | the bridge houses, the Holms | A smuggler's oarsman, with muffled oars and a cudgel under the thwart. |
 | `monster:crayfish` | Crayfish | the bridge houses, the Holms | Lake crayfish the size of a cat, which live under the bridge piers and pinch anything that wades. |
 | `monster:bailiff` | the Bailiff | the boss room of Harrowmere (the Holms) | The biggest pike in the mere, longer than a boat. The fishermen call it the Bailiff, because it takes its share of every catch. |
-| `monster:wrecker` | Wrecker (people) | the Burrows, the Strand | Dune people who hang lanterns where ships will mistake them for the harbour, and are first down the beach in the morning. |
+| `monster:wrecker` | Wrecker (people) | the Burrows, the Strand | Dune people who hang lanterns where ships will mistake them for the harbor, and are first down the beach in the morning. |
 | `monster:tidewaiter` | Tidewaiter (people) | the Strand | A customs man on Ostrander's books, who guards the sheds on the Strand and does not care whose papers you have. |
-| `monster:gulls` | Herring gulls | the Burrows, the Strand | Big grey gulls that have learned what a pack looks like. They will have whatever is in it. |
-| `monster:tull` | Mags Tull (people) | the boss room of Port Anselm (the Strand) | Mags Tull runs the wreckers of the Burrows from a cove at the end of the Strand. She has lit the false lantern on more nights than the harbour master has lit the real one. |
+| `monster:gulls` | Herring gulls | the Burrows, the Strand | Big gray gulls that have learned what a pack looks like. They will have whatever is in it. |
+| `monster:tull` | Mags Tull (people) | the boss room of Port Anselm (the Strand) | Mags Tull runs the wreckers of the Burrows from a cove at the end of the Strand. She has lit the false lantern on more nights than the harbor master has lit the real one. |
 | `monster:thug` | Hired thug (people) | the Lower Town, the Quays, the Rookeries, contracts with Thugs, contracts with Warded, contracts with Crowds | Muscle hired by the day. They are brave in a crowd and keen on being paid. |
 | `monster:soldier` | Sell-sword (people) | contracts with Soldiers | Soldiers in armor who have been drilled, and are paid to stand still while you try to move them. |
 | `monster:guard` | Guard (people) | the Lower Town, the Quays, the Strand, contracts with Watchful Guards, contracts with Warded | A watchman with a cudgel and a lantern, who will shout for his friends first. |
 | `monster:hedge_wizard` | Hedge-wizard (people) | contracts with Warded | A wizard for hire with no license, hiding behind protective workings the college would never pass. |
-| `monster:troll` | Troll | contracts with Trolls | A big grey troll that is in no hurry about anything. It heals while you watch, unless you burn it. |
+| `monster:troll` | Troll | contracts with Trolls | A big gray troll that is in no hurry about anything. It heals while you watch, unless you burn it. |
 | `monster:salamander` | Salamander | contracts with Fireborn | A lizard the length of a cart, living where the rock is warm. It burns what it bites. |
 | `monster:rioter` | Rioter (people) | contracts with Crowds | Somebody with a grievance and a cobblestone. Hurting them costs the guild its name. |
 
@@ -4880,16 +4880,16 @@ _Source: expeditions/data/content.ts:164 onward._
 | `good:kiln_core` | Kiln core | The furnace heart of the Kiln Engine. The college would like it back, and will pay. |
 | `good:brandy` | Bonded brandy | Brandy that was waiting on the Quays for the duty to be paid. It still is. |
 | `good:rudd_book` | Rudd's book | Lew Rudd's ledger of who hired whom, for what and when. The watch would pay for it, and so would several people who would rather the watch never saw it. |
-| `good:ore` | Silver ore | Grey rock with a shine in it, from the Kell veins. The Weighhouse assays it and pays by the sack. |
+| `good:ore` | Silver ore | Gray rock with a shine in it, from the Kell veins. The Weighhouse assays it and pays by the sack. |
 | `good:moyle_takings` | Moyle's takings | Six years of silver from a vein Gaffer Moyle never paid for, in a chest he kept under his chair. |
 | `good:pan_salt` | Pan salt | White salt boiled off the Saltfens pans and pressed into cakes. Every kitchen in Varrow uses it, and Saint Oda's uses it on wounds. |
 | `good:tusks` | The Dean's tusks | Two yellow tusks as long as a forearm. The college has asked for them, for reasons it will not put in writing. |
 | `good:fleece` | Fleeces | Moor fleeces, greasy and thick, from sheep that will not miss them for long. |
-| `good:colours` | The Ninth's colours | The regiment's flag, carried at Cassel Ford and carried off by Sergeant Crewe. Somebody in the Ninth will pay a great deal for it, or at least shout a great deal. |
-| `good:bog_oak` | Bog oak | Oak that has lain in the mere for centuries and turned black and hard as iron. The furniture makers on Anvil Row fight over it. |
+| `good:colours` | The Ninth's colors | The regiment's flag, carried at Cassel Ford and carried off by Sergeant Crewe. Somebody in the Ninth will pay a great deal for it, or at least shout a great deal. |
+| `good:bog_oak` | Bog oak | Oak that has lain in the mere for centuries and turned black and hard as iron. The armorers on Anvil Row fight over it for shield rims and sword grips. |
 | `good:rings` | The Bailiff's rings | Mostly rings and buckles, with a bishop's seal among them, from the belly of the biggest pike in Harrowmere. Some of the owners are still alive. |
-| `good:ambergris` | Ambergris | A grey waxy lump that washes up on the Burrows. It smells odd and the perfumers pay a fortune for it. |
-| `good:salvage` | Tull's salvage | What the wreckers took off a dozen ships: plate and bolts of cloth, and a ship's figurehead with the name chiselled off. |
+| `good:ambergris` | Ambergris | A gray waxy lump that washes up on the Burrows. It smells odd and the perfumers pay a fortune for it. |
+| `good:salvage` | Tull's salvage | What the wreckers took off a dozen ships: plate and bolts of cloth, and a ship's figurehead with the name chiseled off. |
 | `good:iron` | Iron | Ore and old iron. The Forge uses it. |
 | `good:leather` | Leather | Hides for the Forge and the market. |
 | `good:timber` | Timber | Seasoned wood for building and the Forge. |
@@ -4918,7 +4918,7 @@ Marks a member brings home. Sink changes are tier 1 (amusing), 2 (useful) or 3 (
 | `habit:counts_coin` | Counts the coins | Finds are worth a tenth more with them in the squad. |
 | `habit:rat_hater` | Hates rats | Deals 3 more damage to rats. |
 | `habit:old_hand` | Old hand at camp | Camps heal them a little more. |
-| `change:violet_skin` | Violet skin (tier 1) | Seeps and the Kiln Engine do 2 less damage to them. The colour is lovely and does not wash off. |
+| `change:violet_skin` | Violet skin (tier 1) | Seeps and the Kiln Engine do 2 less damage to them. The color is lovely and does not wash off. |
 | `change:copper_tongue` | A copper tongue (tier 1) | They can taste what a college still holds, so stills never hurt them. Everything else tastes of pennies. |
 | `change:rat_smell` | Smells wrong to rats (tier 1) | Rats aim 12 worse at them. Dogs are not keen either. |
 | `change:slow_stomach` | A slow stomach (tier 1) | A missed meal tires them half as much. They eat once a day at home and nobody likes watching. |
@@ -4959,7 +4959,7 @@ _Source: expeditions/data/lines.ts:9._
 
 | ID | Line |
 |---|---|
-| `line:enter_culverts.1` | The Culverts are old brick, and wet. Daylight comes down through the grates in grey squares. |
+| `line:enter_culverts.1` | The Culverts are old brick, and wet. Daylight comes down through the grates in gray squares. |
 | `line:enter_culverts.2` | They are in the Culverts now. Water runs ankle deep over the brick, and somewhere ahead something drops into it. |
 | `line:enter_culverts.3` | The Culverts begin under the chandler's cellar. Everything the Lower Town throws away ends up down here, sooner or later. |
 | `line:enter_streets.1` | The drain opens out into a street. It has a gutter and a name painted on a corner, and Varrow's foundations sit on its roofs like a lid. |
@@ -4978,7 +4978,7 @@ _Source: expeditions/data/lines.ts:31._
 
 | ID | Line |
 |---|---|
-| `line:passage_culverts.1` | The drain here is so low that everyone stoops. {a} hits their head twice and stops apologising to the ceiling. |
+| `line:passage_culverts.1` | The drain here is so low that everyone stoops. {a} hits their head twice and stops apologizing to the ceiling. |
 | `line:passage_culverts.2` | They wade through a junction where four drains meet. One of them is warm, and nobody asks why. |
 | `line:passage_culverts.3` | They pass through a cellar whose stairs were bricked up from above. Someone has carved a list of names into the wall, and the most recent is from last spring. |
 | `line:passage_culverts.4` | The drain narrows to a pipe they have to crawl through. {a} goes first and reports that it gets better, which is a lie. |
@@ -5055,7 +5055,7 @@ _Source: expeditions/data/lines.ts:83._
 | `line:sight_grubber.3` | These are grubbers. They have been digging here a long time, and they do not want to share it. |
 | `line:sight_grubber.4` | Someone throws a stone, and then the grubbers come at them out of a side tunnel. |
 | `line:sight_eel.1` | The flooded cellar is too still. Then the water stands up. |
-| `line:sight_eel.2` | Something long and grey turns over in the water beside the path, and it is longer than the path. |
+| `line:sight_eel.2` | Something long and gray turns over in the water beside the path, and it is longer than the path. |
 | `line:sight_spider.1` | There are webs across the doorway, thick enough to hold a dog. Whatever made them is coming down the wall. |
 | `line:sight_spider.2` | A spider the color of wet plaster unfolds from the ceiling. Its legs keep unfolding for some time. |
 | `line:sight_spider.3` | Somebody brushes a thread, and the room starts moving. |
@@ -5147,7 +5147,7 @@ _Source: expeditions/data/lines.ts:142._
 | `line:burst.2` | {a} spends two doses at once. The {el} burst fills the room. |
 | `line:burst.3` | {a} shouts for everyone to get their heads down, and lets the {el} working go wide. |
 | `line:blood_cast.1` | There are no doses left, so {a} cuts their own palm and casts from that. |
-| `line:blood_cast.2` | {a} has run out of reagents. They spend their own blood instead, and go grey. |
+| `line:blood_cast.2` | {a} has run out of reagents. They spend their own blood instead, and go gray. |
 | `line:blood_cast.3` | {a} casts dry. It comes out of them instead of the doses, and it hurts. |
 | `line:blood_cast.4` | {a} opens the cut on their palm again and casts from that. |
 | `line:blood_cast.5` | {a} pays for the next working in blood. Their lips have gone blue. |
@@ -5541,7 +5541,7 @@ _Source: expeditions/data/lines.ts:559._
 | `line:kiln_yard.2` | Where the Kiln Engine stood there is only a scorched floor and two of the college's lesser engines, going about their business. |
 | `line:fever_start.1` | The Sink gets into {a} all at once. They go hot, then cold, and their hands won't keep still. It's the Sink fever, and it has to run its course. |
 | `line:fever_start.2` | {a} starts sweating violet. They say they're fine. They are running the Sink fever, and everyone can see it. |
-| `line:fever_start.3` | {a} goes grey and shivery in the middle of the Sink. The fever has started, and they'll fight worse until it breaks. |
+| `line:fever_start.3` | {a} goes gray and shivery in the middle of the Sink. The fever has started, and they'll fight worse until it breaks. |
 | `line:fever_room.1` | {a} is burning up and keeps having to stop. |
 | `line:fever_room.2` | The fever has {a} talking to people who aren't there. |
 | `line:fever_room.3` | {a} shivers through another room, teeth chattering. |
@@ -5685,7 +5685,7 @@ _Source: expeditions/data/lines-sites.ts:108._
 | `line:goalroom_workings.2` | They reach the old winding shaft at the bottom of the upper workings. Somebody else got here first and has no intention of leaving. |
 | `line:goal_workings.1` | At the end of the gallery {a} finds {g}, stacked under a tarpaulin for a wagon that did not come. |
 | `line:goal_workings.2` | {a} loads {g} into the packs while the props groan overhead. |
-| `line:camp_workings.1` | They camp in a dry gallery near the adit, where they can see a little grey daylight at the end. |
+| `line:camp_workings.1` | They camp in a dry gallery near the adit, where they can see a little gray daylight at the end. |
 | `line:camp_workings.2` | They make camp in the old powder store, because it is dry and has a door. Nobody lights a pipe. |
 
 _Source: expeditions/data/lines-sites.ts:143._
@@ -5746,7 +5746,7 @@ _Source: expeditions/data/lines-sites.ts:213._
 
 | ID | Line |
 |---|---|
-| `line:enter_shore.1` | The road comes down to the shore at Harrowmere. The lake is grey and very big, and the old bridge walks out into it on stone legs. |
+| `line:enter_shore.1` | The road comes down to the shore at Harrowmere. The lake is gray and very big, and the old bridge walks out into it on stone legs. |
 | `line:enter_shore.2` | They come down to the water between boathouses and nets hung up to dry. The mere is cold even to look at. |
 | `line:enter_shore.3` | They reach the lake shore. The shingle crunches under their boots, and out on the water the old bridge has lost two of its arches. |
 | `line:passage_shore.1` | They walk the shingle between the boathouses and the water. {a} skims a stone and gets four bounces out of it. |
@@ -5802,15 +5802,15 @@ _Source: expeditions/data/lines-sites.ts:283._
 | `line:sight_claim_jumper.2` | "Nobody's working here," says {m}, standing in front of a fresh heap of ore. |
 | `line:sight_cave_crab.1` | Something pale clatters up out of a flooded winze. It is a cave crab, and it is the size of a cartwheel. |
 | `line:sight_cave_crab.2` | The water on the gallery floor moves, and {m} climbs out of it claws first. |
-| `line:sight_salt_cutter.1` | People come out of the reeds with salt rakes in their hands. They have been out on the pans too long, and they do not look well. |
-| `line:sight_salt_cutter.2` | {m} is standing on the path with a cutter's blade and a fever flush, talking to somebody who is not there. |
+| `line:sight_salt_cutter.1` | People come out of the reeds with salt rakes in their hands. Most of them are violet to the elbow from the pans, and none of them asked for visitors. |
+| `line:sight_salt_cutter.2` | {m} is standing on the path with a cutter's blade, violet to the wrists, and shows no sign of moving out of the way. |
 | `line:sight_marsh_hog.1` | The reeds shake, and a black hog comes through them at a run. |
 | `line:sight_marsh_hog.2` | Something snorts in the reeds close by. {m} has smelled them and does not like it. |
 | `line:sight_road_agent.1` | {m} steps out from behind a wall with a crossbow and asks for the toll. There is no toll on this road. |
 | `line:sight_road_agent.2` | There are crossbows behind the rocks. "Purses on the road, please," says {m}. |
 | `line:sight_deserter.1` | There are people in old Ninth coats by the road, with spears and mail and nowhere to be. {m} looks the squad over. |
 | `line:sight_deserter.2` | {m} still has the regiment's spear and has mislaid the rest of the regiment. They want what the squad is carrying. |
-| `line:sight_wolf.1` | Grey shapes keep pace with them along the wall. The wolves have been following since the last farm. |
+| `line:sight_wolf.1` | Gray shapes keep pace with them along the wall. The wolves have been following since the last farm. |
 | `line:sight_wolf.2` | {m} trots out onto the road ahead, thin as a rake, and the rest of the pack comes after it. |
 | `line:sight_pike.1` | There is a log lying in the shallows, and then the log has teeth. |
 | `line:sight_pike.2` | {m} comes out of the weed at the water's edge with its mouth open. |
@@ -5824,7 +5824,7 @@ _Source: expeditions/data/lines-sites.ts:283._
 | `line:sight_guard.2` | {m} sees them and blows a whistle, and boots start coming from two directions. |
 | `line:sight_hedge_wizard.1` | Somebody in a patched college gown is waiting for them, holding a focus with no Assay stamp on it anywhere. |
 | `line:sight_hedge_wizard.2` | {m} raises a hand, and the air in front of it goes hot. That working is not licensed. |
-| `line:sight_troll.1` | A grey boulder by the path stands up. It is a troll, and it has been waiting a long time for something to walk past. |
+| `line:sight_troll.1` | A gray boulder by the path stands up. It is a troll, and it has been waiting a long time for something to walk past. |
 | `line:sight_troll.2` | {m} steps out of the hillside, huge and slow, and looks at them the way a farmer looks at a field. |
 | `line:sight_salamander.1` | A lizard the length of a cart comes out of a crack in the rock, and the air shimmers above it. |
 | `line:sight_salamander.2` | {m} opens its mouth, and the heat reaches them before the hiss does. |
@@ -5925,7 +5925,7 @@ _Source: expeditions/data/lines-sites.ts:421._
 | `line:parley_fail.3` | {a} tries talking to {m}, and it does not take. |
 | `line:regen.1` | The cuts on {m} close up while they watch. It is a horrible thing to see. |
 | `line:regen.2` | {m} shrugs, and the wound in its side knits shut. |
-| `line:regen.3` | {m}'s grey hide creeps back over the cut. Somebody shouts for fire. |
+| `line:regen.3` | {m}'s gray hide creeps back over the cut. Somebody shouts for fire. |
 | `line:strongbox_pick.1` | {a} kneels by a strongbox, listens to the lock and has it open before the others have put their packs down. |
 | `line:strongbox_pick.2` | {a} picks a strongbox's lock with two bent pins and a great deal of swearing. |
 | `line:strongbox_pick.3` | {a} opens a strongbox without leaving a mark on it. The others look at {a} differently for a while. |
@@ -6058,7 +6058,7 @@ _Source: expeditions/data/lines-sites.ts:657._
 |---|---|
 | `line:fever_start:saltfens.1` | The fen gets into {a} all at once. They go hot, then cold, and their hands won't keep still. It's the marsh fever, and it has to run its course. |
 | `line:fever_start:saltfens.2` | {a} starts sweating and says they're fine. They are running the marsh fever, and everyone can see it. |
-| `line:fever_start:saltfens.3` | {a} goes grey and shivery out on the planks. The fever has started, and they'll fight worse until it breaks. |
+| `line:fever_start:saltfens.3` | {a} goes gray and shivery out on the planks. The fever has started, and they'll fight worse until it breaks. |
 | `line:change_take:saltfens.1` | {a} is too tired to fight what the fen is doing to them, so it simply happens. |
 | `line:change_take:saltfens.2` | {a} is worn out, and the fen takes the shortcut. |
 | `line:change_take:saltfens.3` | There's no fever this time. {a} is too spent to fight the change, so it just comes. |
@@ -6067,7 +6067,7 @@ _Source: expeditions/data/lines-sites.ts:657._
 | `line:change_sink_sense:saltfens.1` | They stop and turn their head a moment before anything happens, every time. The fen has taught them its habits. |
 | `line:fever_start:overland.1` | Whatever was in the air out here gets into {a} all at once. They go hot, then cold, and their hands won't keep still. The Lower Town would call it the Sink fever, and it has to run its course. |
 | `line:fever_start:overland.2` | {a} starts sweating and says they're fine. They are running a fever, and everyone can see it. |
-| `line:fever_start:overland.3` | {a} goes grey and shivery halfway through the day. The fever has started, and they'll fight worse until it breaks. |
+| `line:fever_start:overland.3` | {a} goes gray and shivery halfway through the day. The fever has started, and they'll fight worse until it breaks. |
 | `line:change_take:overland.1` | {a} is too tired to fight what got into them out here, so it simply happens. |
 | `line:change_take:overland.2` | {a} is worn out, and whatever they breathed in takes the shortcut. |
 | `line:change_take:overland.3` | There's no fever this time. {a} is too spent to fight the change, so it just comes. |
@@ -6076,7 +6076,7 @@ _Source: expeditions/data/lines-sites.ts:657._
 | `line:change_sink_sense:overland.1` | They stop and turn their head a moment before anything happens, every time. Nobody can say where they learned it. |
 | `line:fever_start:town.1` | Something in the Lower Town's water gets into {a} all at once. They go hot, then cold, and their hands won't keep still. It's the Sink fever, the street says, and it has to run its course. |
 | `line:fever_start:town.2` | {a} starts sweating and says they're fine. They drank from a well down the hill, and the street knows what fine looks like after that. |
-| `line:fever_start:town.3` | {a} goes grey and shivery on a back stair. The fever has started, and they'll fight worse until it breaks. |
+| `line:fever_start:town.3` | {a} goes gray and shivery on a back stair. The fever has started, and they'll fight worse until it breaks. |
 | `line:change_take:town.1` | {a} is too tired to fight what the Lower Town's water is doing to them, so it simply happens. |
 | `line:change_take:town.2` | {a} is worn out, and the bad water takes the shortcut. |
 | `line:change_take:town.3` | There's no fever this time. {a} is too spent to fight the change, so it just comes. |
@@ -6094,7 +6094,7 @@ _Source: expeditions/data/lines-sites.ts:685._
 | `line:dark_room:town.2` | Somebody's hand brushes {a}'s arm in the dark, and nobody in the squad admits to it. |
 | `line:dark_room:town.3` | Without the lamps they walk with a hand on the shoulder in front. {a} counts doorways to stay calm. |
 | `line:dark_room:overland.1` | In the dark, {a} keeps hearing something keep pace with them. |
-| `line:dark_room:overland.2` | {a} walks into something hard in the dark and apologises to it. |
+| `line:dark_room:overland.2` | {a} walks into something hard in the dark and apologizes to it. |
 | `line:dark_room:overland.3` | Without the lamps they walk with a hand on the shoulder in front. {a} counts steps to stay calm. |
 | `line:meal:town.1` | They stop and eat cold bread and hard cheese on a doorstep. {a} says it is the best meal of their life. |
 | `line:meal:town.2` | They eat standing up in an alley. {a} passes an onion round, which is generous of them, and nobody thanks them for it. |
@@ -6196,7 +6196,7 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:passage_quays.2` | They pass a row of bonded warehouses, each with the Exchequer's seal on the door and a much newer padlock beside it. |
 | `line:passage_quays.3` | A lighter goes by in the dark with no lamp, close enough to touch. Nobody on it says anything, and nor does {a}. |
 | `line:passage_quays.4` | {a} steps over a sleeping porter who is holding an empty bottle tight against his chest. |
-| `line:room_quays.1` | They come into a warehouse with its doors propped open, full of crates stencilled for Port Anselm. |
+| `line:room_quays.1` | They come into a warehouse with its doors propped open, full of crates stenciled for Port Anselm. |
 | `line:room_quays.2` | The quay opens out into a timber yard, with stacks of planks higher than a house and paths between them. |
 | `line:room_quays.3` | There is a weighbridge here, and a hut beside it with a light on and nobody inside. |
 | `line:find_quays.1` | {a} finds {g} behind a stack of crates, put there by someone who meant to come back for it. |
@@ -6223,7 +6223,7 @@ Lines for each site's second and third zones, the monsters and people met there,
 | `line:trap_tide_hit.1` | The water comes in faster than anyone expected and knocks {a} off their feet against the stones. |
 | `line:trap_tide_hit.2` | {a} is halfway across when the tide arrives. It is cold, and it is in a hurry. |
 | `line:trap_tide_hit.3` | A surge comes up the steps and drags {a} down two of them before letting go. |
-| `line:enter_rookeries.1` | They climb into the Rookeries by a back stair behind the tanneries. The courts are six storeys deep, and every window has somebody in it. |
+| `line:enter_rookeries.1` | They climb into the Rookeries by a back stair behind the tanneries. The courts are six stories deep, and every window has somebody in it. |
 | `line:enter_rookeries.2` | The Rookeries start where the street gives up. It is all washing lines and rented rooms, and people stop talking when the squad comes past. |
 | `line:enter_rookeries.3` | {a} leads them in under an archway into the Rookeries. It is noisy, and it gets quiet in front of them as they go. |
 | `line:passage_rookeries.1` | They cross a court where six families are cooking on one fire. Nobody looks at them, very hard. |
@@ -6283,12 +6283,12 @@ _Source: expeditions/data/lines-deep.ts:17._
 | `line:camp_sump.1` | They camp on a ledge above the water in the old stables, on dry straw that is twenty years old. |
 | `line:camp_sump.2` | They make camp in a side gallery the water never reached. It drips, but it drips slowly. |
 | `line:sight_pit_pony.1` | {m} comes out of the dark with its ears back and its teeth showing. It has not seen daylight in years, and it hasn't missed it. |
-| `line:sight_pit_pony.2` | There is a pony down here, shaggy and grey with dust. {m} looks at the squad's packs, and then at the squad, and charges. |
+| `line:sight_pit_pony.2` | There is a pony down here, shaggy and gray with dust. {m} looks at the squad's packs, and then at the squad, and charges. |
 | `line:sight_powder_man.1` | {m} lights a fuse off a candle, looks up and sees them, and thinks about it. |
 | `line:sight_powder_man.2` | {m} has a bag over one shoulder that hisses. "Back off," they say, "or I'll show you what's in it." |
 | `line:enter_trevick.1` | They climb up into the Trevick level, the old silver gallery. The walls shine where the lamps catch them. |
 | `line:enter_trevick.2` | The Trevick level was cut by a mine captain who died rich. The vein runs along the wall at shoulder height, and it is still there. |
-| `line:enter_trevick.3` | {a} puts a hand on the wall of the Trevick level and it comes away grey and glittering. |
+| `line:enter_trevick.3` | {a} puts a hand on the wall of the Trevick level and it comes away gray and glittering. |
 | `line:passage_trevick.1` | They walk along the silver gallery past fresh pick marks. Somebody has been working this vein all week. |
 | `line:passage_trevick.2` | The gallery is lit here, with candles in niches, and somebody keeps them trimmed. |
 | `line:passage_trevick.3` | There is a chalk line across the floor with MOYLE written beside it. {a} steps over it. |
@@ -6344,7 +6344,7 @@ _Source: expeditions/data/lines-deep.ts:143._
 | `line:find_pans.2` | On a cart with a broken wheel, {a} finds {g}. |
 | `line:find_pans.3` | {a} pokes about in the heaps on a raked pan and comes up with {g}. |
 | `line:goalroom_pans.1` | They reach the old boiling house the job named, at the far end of the Pans. The fires under its pans are lit, and somebody is feeding them. |
-| `line:goalroom_pans.2` | The boiling house is at the end of the last pan wall. People are standing in its door, and they have the look the fever gives them. |
+| `line:goalroom_pans.2` | The boiling house is at the end of the last pan wall. People are standing in its door, some with the violet skin the pans give anyone who stays out long enough, and they want to know what the squad is doing on their pans. |
 | `line:goal_pans.1` | In the drying loft of the boiling house {a} finds {g}, stacked to the rafters. |
 | `line:goal_pans.2` | {a} loads {g} out of the boiling house while {b} keeps the fire from going out, for no good reason. |
 | `line:camp_pans.1` | They camp in a boiling hut with the fire lit under the pan. It is warm, and everything tastes of salt in the morning. |
@@ -6385,7 +6385,7 @@ _Source: expeditions/data/lines-deep.ts:143._
 | `line:dean_hit.2` | The Dean drives a shoulder into {t}, and it is a great deal of shoulder. |
 | `line:dean_hit.3` | The Dean hooks {t} with one yellow tusk and opens them up. |
 | `line:dean_miss.1` | The Dean charges at {t} and goes past into the willows, taking three of them with it. |
-| `line:dean_miss.2` | {t} jumps aside, and the Dean ploughs into the mud where they were standing. |
+| `line:dean_miss.2` | {t} jumps aside, and the Dean plows into the mud where they were standing. |
 | `line:dean_crit.1` | The Dean tramples {t} into the mud and stands on them for a while. |
 | `line:kill_dean.1` | The Dean goes down on its knees in the wallow, and then all the way. The ground shakes when it lands. |
 | `line:kill_dean.2` | The Dean gives one last heave and lies still in the mud it has lived in for twenty years. |
@@ -6438,7 +6438,7 @@ _Source: expeditions/data/lines-deep.ts:255._
 | `line:trap_collapse_hit:drovers.2` | Rocks come bouncing down the slope. One of them finds {a}. |
 | `line:trap_collapse_hit:drovers.3` | The road gives way under {a}, and they go down the slope with half of it. |
 | `line:enter_skell.1` | The road goes up into Skell Gap between two scree slopes, and at the narrowest point there is the old Crown toll house with smoke coming out of it. |
-| `line:enter_skell.2` | They climb into the pass. The wind comes through it hard, and the slopes on either side are grey and loose. |
+| `line:enter_skell.2` | They climb into the pass. The wind comes through it hard, and the slopes on either side are gray and loose. |
 | `line:enter_skell.3` | Skell Gap is the top of the Drover's Road. {a} looks back over the moor and says it was further than it looked. |
 | `line:passage_skell.1` | They climb the road through the pass, past a cairn with a soldier's helmet on top. |
 | `line:passage_skell.2` | The wind is so strong in the gap that they walk bent over, holding onto each other. |
@@ -6446,7 +6446,7 @@ _Source: expeditions/data/lines-deep.ts:255._
 | `line:passage_skell.4` | There is an empty sentry post here, built of piled stones. Somebody has carved NINTH into the lintel. |
 | `line:room_skell.1` | They come to a stretch of the road where the slopes close in. Somebody has piled stones across it to make a wall. |
 | `line:room_skell.2` | The road opens into a hollow where the drovers used to rest their herds. There are tents in it. |
-| `line:room_skell.3` | They reach an old Crown milestone with the distances to Varrow chiselled off and something else written over them. |
+| `line:room_skell.3` | They reach an old Crown milestone with the distances to Varrow chiseled off and something else written over them. |
 | `line:find_skell.1` | {a} finds {g} in a soldier's pack left by the road. |
 | `line:find_skell.2` | Under the cairn with the helmet on it, {a} finds {g}. |
 | `line:find_skell.3` | {a} goes through an empty tent and comes out with {g}. |
@@ -6456,7 +6456,7 @@ _Source: expeditions/data/lines-deep.ts:255._
 | `line:goal_skell.2` | {a} goes through the deserters' stores at the top of the pass and finds {g}. |
 | `line:camp_skell.1` | They camp in the lee of a boulder in the pass, with the wind going over the top of it all night. |
 | `line:camp_skell.2` | They make camp in the old sentry post with the NINTH over the door. {a} sleeps with a hand on their weapon. |
-| `line:boss_sight:drovers.1` | The old toll house at Skell Gap has the Ninth's colours over the door. Sergeant Abner Crewe comes out under them with his men and asks for the toll. |
+| `line:boss_sight:drovers.1` | The old toll house at Skell Gap has the Ninth's colors over the door. Sergeant Abner Crewe comes out under them with his men and asks for the toll. |
 | `line:boss_sight:drovers.2` | Sergeant Crewe is waiting at the toll house with a pike and twenty years in the Ninth. "Toll's a crown a head," he says. "Or you can turn round." |
 | `line:crewe_hit.1` | Sergeant Crewe gets his pike through {t}'s guard with a thrust straight off the drill square. |
 | `line:crewe_hit.2` | Sergeant Crewe hits {t} with the butt of his pike and then with the point. |
@@ -6464,9 +6464,9 @@ _Source: expeditions/data/lines-deep.ts:255._
 | `line:crewe_miss.1` | Sergeant Crewe thrusts at {t} and misses, and swears at himself the way he used to swear at recruits. |
 | `line:crewe_miss.2` | {t} knocks the pike aside, and Sergeant Crewe steps back into line. |
 | `line:crewe_crit.1` | Sergeant Crewe drives his pike into {t} with all twenty years of the Ninth behind it. |
-| `line:kill_crewe.1` | Sergeant Crewe goes down under the colours he carried away. His men put their spears on the ground. |
+| `line:kill_crewe.1` | Sergeant Crewe goes down under the colors he carried away. His men put their spears on the ground. |
 | `line:kill_crewe.2` | Sergeant Crewe drops his pike and sits on the toll house step. "That's that, then," he says, and he doesn't get up. |
-| `line:boss_won:drovers.1` | The toll house at Skell Gap is taken. The colours are still over the door, torn and faded, and {a} takes them down. |
+| `line:boss_won:drovers.1` | The toll house at Skell Gap is taken. The colors are still over the door, torn and faded, and {a} takes them down. |
 | `line:boss_won:drovers.2` | It is over. The deserters are walking down the far side of the pass, and none of them looks back. |
 | `line:crewe_after.1` | The toll house at Skell Gap has tenants again. They used to stand behind Sergeant Crewe, and they charge his toll without him. |
 | `line:crewe_after.2` | Somebody has rebuilt the barrier at Skell Gap. Crewe's men have come back without him, and they are less polite about it. |
@@ -6497,7 +6497,7 @@ _Source: expeditions/data/lines-deep.ts:372._
 | `line:camp_bridge.1` | They camp in a bridge house with the door barred. The water is loud under the floor all night. |
 | `line:camp_bridge.2` | They make camp in a sail loft at the top of a bridge house. {b} sleeps by the window, where they can see the shore. |
 | `line:trap_floor_disarm:harrowmere.1` | {a} tests the floor ahead and finds it rotten through. They lay a plank across before anyone steps on it. |
-| `line:trap_floor_disarm:harrowmere.2` | {a} notices the boards are soft and grey and gets everyone to walk on the joists. |
+| `line:trap_floor_disarm:harrowmere.2` | {a} notices the boards are soft and gray and gets everyone to walk on the joists. |
 | `line:trap_floor_around:harrowmere.1` | The floor ahead is rotten. With nothing to bridge it, they go back and find another way round, through the house next door. |
 | `line:trap_floor_around:harrowmere.2` | {a} pokes the floor and a board falls through into the mere. They go round. |
 | `line:trap_floor_hit:harrowmere.1` | The floor gives way under {a}, who drops through into the mere and comes up gasping. |
@@ -6506,7 +6506,7 @@ _Source: expeditions/data/lines-deep.ts:372._
 | `line:sight_night_boatman.1` | A boat comes out of the dark with muffled oars. {m} stands up in it with a cudgel. |
 | `line:sight_night_boatman.2` | {m} climbs up out of a boat under the bridge and asks the squad if they are lost. It is not a kind question. |
 | `line:sight_crayfish.1` | Something clicks in the dark under the bridge. {m} comes up out of the water, claws first. |
-| `line:sight_crayfish.2` | {m} crawls out of a drain, the size of a cat and the colour of mud. |
+| `line:sight_crayfish.2` | {m} crawls out of a drain, the size of a cat and the color of mud. |
 | `line:enter_holms.1` | They take a punt out to the Holms, the islands in the middle of the mere. The water around them is the deepest anyone has sounded. |
 | `line:enter_holms.2` | The Holms come out of the mist one at a time, all alder and reed, with a ruined chapel on the nearest. |
 | `line:enter_holms.3` | {a} poles them out to the first of the Holms. The water under the punt is black and goes down a long way. |

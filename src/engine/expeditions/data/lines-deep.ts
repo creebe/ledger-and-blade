@@ -26,7 +26,7 @@ export const DEEP_LINES: Record<string, string[]> = {
     "{a} steps over a sleeping porter who is holding an empty bottle tight against his chest.",
   ],
   room_quays: [
-    "They come into a warehouse with its doors propped open, full of crates stencilled for Port Anselm.",
+    "They come into a warehouse with its doors propped open, full of crates stenciled for Port Anselm.",
     "The quay opens out into a timber yard, with stacks of planks higher than a house and paths between them.",
     "There is a weighbridge here, and a hut beside it with a light on and nobody inside.",
   ],
@@ -275,7 +275,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   ],
   goalroom_pans: [
     "They reach the old boiling house the job named, at the far end of the Pans. The fires under its pans are lit, and somebody is feeding them.",
-    "The boiling house is at the end of the last pan wall. People are standing in its door, some with the violet skin the pans give anyone who stays out long enough, and they want to know what the squad is doing on their pans.",
+    "The boiling house is at the end of the last pan wall. People are standing in its door. Some of them have the violet skin the pans give anyone who stays out long enough, and all of them want to know what the squad is doing here.",
   ],
   goal_pans: [
     "In the drying loft of the boiling house {a} finds {g}, stacked to the rafters.",

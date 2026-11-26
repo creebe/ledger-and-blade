@@ -324,8 +324,8 @@ export const SITE_LINES: Record<string, string[]> = {
     "The water on the gallery floor moves, and {m} climbs out of it claws first.",
   ],
   sight_salt_cutter: [
-    "People come out of the reeds with salt rakes in their hands. They have been out on the pans too long, and they do not look well.",
-    "{m} is standing on the path with a cutter's blade and a fever flush, talking to somebody who is not there.",
+    "People come out of the reeds with salt rakes in their hands. Most of them are violet to the elbow from the pans, and none of them asked for visitors.",
+    "{m} is standing on the path with a cutter's blade, violet to the wrists, and shows no sign of moving out of the way.",
   ],
   sight_marsh_hog: [
     "The reeds shake, and a black hog comes through them at a run.",
