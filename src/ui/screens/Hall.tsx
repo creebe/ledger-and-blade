@@ -114,7 +114,7 @@ export function HallScreen() {
           <button className="loan-line tappable" onClick={() => goTo({ tab: 'hall', guide: 'debt' })}>
             <Icon name="coin" size={14} />
             <span>
-              Loan: {crowns(Math.ceil(loan.principal))} owed · {loanStillDue(loan) > 0 ? `${crowns(loanStillDue(loan))} due` : 'next payment covered'} {dueWhen(loan, g.week)}
+              Loan: {crowns(Math.ceil(loan.principal))} owed · {loanStillDue(loan) > 0 ? `${crowns(loanStillDue(loan))} due` : 'nothing due'} {dueWhen(loan, g.week)}
             </span>
           </button>
         )}
@@ -173,7 +173,7 @@ export function HallScreen() {
                 </>
               ) : (
                 <>
-                  The next payment, {dueWhen(loan, g.week)}, is <b className="pos">already covered</b>.
+                  The payment due {dueWhen(loan, g.week)} is <b className="pos">already covered</b>.
                 </>
               )}
             </p>
@@ -181,7 +181,7 @@ export function HallScreen() {
               <p className="small muted loan-ahead">
                 {loanStillDue(loan) > 0
                   ? `You've paid ${crowns(Math.floor(loan.paidAhead!))} early, which comes off the ${crowns(Math.min(loan.paymentDue, Math.ceil(loan.principal)))} due.`
-                  : `You've paid ${crowns(Math.floor(loan.paidAhead!))} early. The Weighhouse counts it toward the payments due, so nothing is owed on the day.`}
+                  : `You've paid ${crowns(Math.floor(loan.paidAhead!))} early. The Weighhouse counts it toward the next payment, so nothing is owed on the day.`}
               </p>
             )}
             <div className="row wrap gap">

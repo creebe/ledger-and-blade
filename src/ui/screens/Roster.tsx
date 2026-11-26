@@ -91,7 +91,7 @@ export function RosterScreen() {
                     </b>
                     <span className={`readiness ${r.tone}`}>{r.text}</span>
                   </div>
-                  <div className="row between">
+                  <div className="row between member-row-orders">
                     <span className="meta">
                       {PROFESSIONS[m.profession].name} · Lv {m.level}
                     </span>

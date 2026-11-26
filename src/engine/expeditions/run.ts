@@ -21,6 +21,7 @@ import { CHANGES, GOODS, MONSTERS, SITES, SUPPLY_IDS, ZONES, ZONE_ORDER } from '
 import { runExpedition } from './dive';
 import { bossBeaten, markBossBeaten } from './bosses';
 import { delverOf } from './gear';
+import { FIT_HEALTH } from '../people/health';
 import { goalText, packCost, planBlocked, plannedWeeks, roadWeeks, stockOf, supplyUnitPrice } from './prep';
 import { EXP_TUNING as T } from './tuning';
 import type { DiveSetup, ExpeditionResult, ExpPlan, GoodId, LogLine, StoreId, SupplyId } from './types';
@@ -410,7 +411,7 @@ export function settleExpedition(s: GameState, ms: Mission) {
     m.scars = [...(m.scars ?? []), ...o.scars];
     m.habits = [...(m.habits ?? []), ...o.habits];
     m.xp += Math.round(o.xp / T.xp.perClassic);
-    m.status = m.health < 40 ? 'recovering' : 'idle';
+    m.status = m.health < FIT_HEALTH ? 'recovering' : 'idle';
     m.missionId = undefined;
     m.assignment = 'rest';
     // kit: oils and salts are spent on the trip; draughts only if drunk

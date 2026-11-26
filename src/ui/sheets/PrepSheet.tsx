@@ -59,8 +59,8 @@ const ORDER_ROWS: { key: keyof StandingOrders; title: string; options: { value: 
     title: 'Heal first',
     options: [
       { value: 'worst', label: 'Worst hurt', text: 'Bandages and dressings go to whoever is worst off.' },
-      { value: 'front', label: 'Front rank', text: 'Keep the front rank standing, and the rest wait.' },
-      { value: 'back', label: 'Back rank', text: 'Keep the casters and shooters up, and the front looks after itself.' },
+      { value: 'front', label: 'Front line', text: 'Keep the people in front standing, and the rest wait.' },
+      { value: 'back', label: 'Back line', text: 'Keep the casters and shooters up, and the front looks after itself.' },
     ],
   },
   {
@@ -227,7 +227,7 @@ export function PrepSheet({ contractId }: { contractId: string }) {
       </Section>
 
       <Section title={`The squad, front to back (${size.min === size.max ? size.max : `${size.min} to ${size.max}`})`}>
-        <p className="tiny muted">Ranks 1 and 2 are in front: they can reach with a blade, and most enemies hit them. Bows and spells work from further back. Tap a member to change their gear.</p>
+        <p className="tiny muted">Positions 1 and 2 are in front: they can reach with a blade, and most enemies hit them. Bows and spells work from further back. Tap a member to change their gear.</p>
         {Array.from({ length: size.max }, (_, i) => {
           const m = squad[i];
           const ok = m ? DELVER_PROFS[m.profession].ranks.includes(i + 1) : true;
@@ -242,7 +242,7 @@ export function PrepSheet({ contractId }: { contractId: string }) {
                       <b>{first(m)}</b>
                       <small className="muted">
                         {PROFESSIONS[m.profession].name} {m.level}
-                        {!ok && <span className="warn"> · best in rank {DELVER_PROFS[m.profession].ranks.join(' or ')}</span>}
+                        {!ok && <span className="warn"> · best in position {DELVER_PROFS[m.profession].ranks.join(' or ')}</span>}
                       </small>
                     </span>
                     <Vitals m={m} />
@@ -262,13 +262,13 @@ export function PrepSheet({ contractId }: { contractId: string }) {
               )}
               {m ? (
               <span className="x-rank-moves">
-                <button className="btn small ghost" aria-label={`Move ${m ? first(m) : 'rank'} forward`} onClick={() => move(i, -1)} disabled={i === 0 || !m}>
+                <button className="btn small ghost" aria-label={`Move ${m ? first(m) : 'position'} forward`} onClick={() => move(i, -1)} disabled={i === 0 || !m}>
                   ↑
                 </button>
-                <button className="btn small ghost" aria-label={`Move ${m ? first(m) : 'rank'} back`} onClick={() => move(i, 1)} disabled={i >= plan.squad.length - 1 || !m}>
+                <button className="btn small ghost" aria-label={`Move ${m ? first(m) : 'position'} back`} onClick={() => move(i, 1)} disabled={i >= plan.squad.length - 1 || !m}>
                   ↓
                 </button>
-                <button className="btn small ghost" aria-label={`Leave ${m ? first(m) : 'rank'} at home`} onClick={() => remove(i)} disabled={!m}>
+                <button className="btn small ghost" aria-label={`Leave ${m ? first(m) : 'position'} at home`} onClick={() => remove(i)} disabled={!m}>
                   ×
                 </button>
               </span>
@@ -280,7 +280,7 @@ export function PrepSheet({ contractId }: { contractId: string }) {
         })}
         {bench.length > 0 && (
           <>
-            <p className="small muted">At home. Tap a rank number to put someone in that rank.</p>
+            <p className="small muted">These are your people at home. Tap a position number to put one of them in that position.</p>
             {bench.map((m) => {
               const no = memberBlocked(g, m);
               const resting = restingInfo(g, m);
@@ -297,11 +297,11 @@ export function PrepSheet({ contractId }: { contractId: string }) {
                       </small>
                     </span>
                   </span>
-                  {/* the rank buttons keep a line of their own, so the row doesn't reflow as the squad fills */}
+                  {/* the position buttons keep a line of their own, so the row doesn't reflow as the squad fills */}
                   <span className="x-bench-put">
                     {resting && <span className="small bad x-bench-why">{resting.chip}</span>}
                     {Array.from({ length: ranks }, (_, r) => (
-                      <Btn key={r} className="btn small" title={`Put ${first(m)} in rank ${r + 1}`} blocked={no} onClick={() => place(m.id, r)}>
+                      <Btn key={r} className="btn small" title={`Put ${first(m)} in position ${r + 1}`} blocked={no} onClick={() => place(m.id, r)}>
                         {r + 1}
                       </Btn>
                     ))}

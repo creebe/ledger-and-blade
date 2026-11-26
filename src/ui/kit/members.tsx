@@ -32,7 +32,7 @@ export function restingInfo(g: GameState, m: Member): { chip: string; why: strin
     return { chip: `In bed, ${span}`, why: `${first} is in bed with the Sink fever, so they can't take orders or go out. They'll be up ${when}.` };
   return {
     chip: `Resting, ${span}`,
-    why: `${first} is resting with wounds (health ${m.health}, and ${FIT_HEALTH} is needed to work), so they can't take orders or go out. They'll be fit ${when}.${level(g, 'infirmary') < 1 ? ' An Infirmary in the Hall would heal them faster.' : ''}`,
+    why: `${first} is resting while their wounds heal, so they can't take orders or go out. Their health is ${m.health}, and they need ${FIT_HEALTH} to work again. They'll be fit ${when}.${level(g, 'infirmary') < 1 ? ' An Infirmary in the Hall would heal them faster.' : ''}`,
   };
 }
 

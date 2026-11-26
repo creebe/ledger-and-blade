@@ -3045,6 +3045,20 @@ details summary {
 .order-chip-wrap {
   display: inline-flex;
 }
+/* the roster's profession line and order chip: at 360 px a long chip drops to its own line, still on the right, rather than breaking mid-label */
+.member-row-orders {
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+.member-row-orders > .meta,
+.member-row-orders > .order-chip,
+.member-row-orders > .order-chip-wrap {
+  white-space: nowrap;
+}
+.member-row-orders > .order-chip,
+.member-row-orders > .order-chip-wrap {
+  margin-left: auto;
+}
 .member-resting .icon {
   vertical-align: -2px;
 }

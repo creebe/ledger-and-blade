@@ -359,6 +359,21 @@ describe('engine', () => {
     expect(loan.paidAhead).toBe(100 - due);
   });
 
+  it('a prepaid collection sells no goods, even in the red', () => {
+    const s = newGame(52);
+    clearEvents(s);
+    const loan = s.loans[0];
+    loan.dueWeek = s.week;
+    s.crowns = 5000;
+    repayLoan(s, loanStillDue(loan) + 10);
+    s.crowns = -50;
+    s.goods = { glass: 3 };
+    advanceWeek(s);
+    expect(s.dispatches.some((d) => d.title === 'Goods sold for the Weighhouse')).toBe(false);
+    expect(s.goods.glass).toBe(3);
+    expect(loan.missed).toBe(0);
+  });
+
   it('a partly prepaid collection takes only the rest', () => {
     const s = newGame(49);
     clearEvents(s);

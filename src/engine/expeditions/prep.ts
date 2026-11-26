@@ -7,7 +7,7 @@ import { level, tripWeeks } from '../economy/buildings';
 import { supplyPrice } from '../economy/market';
 import type { Contract, GameState, Member } from '../core/types';
 import { living, loanStillDue } from '../core/util';
-import { laidUp } from '../core/turn';
+import { laidUp } from '../people/health';
 import { DELVER_PROFS, GOODS, LENGTHS, MONSTERS, SITES, SUPPLIES, SUPPLY_IDS, ZONES, routeOf, type RouteStep } from './data/content';
 import { delverMaxHp } from './dive';
 import { bossBeaten, bossBusy } from './bosses';
@@ -76,7 +76,7 @@ export function planBlocked(s: GameState, c: Contract, plan: ExpPlan): string | 
   const size = squadSize(c);
   if (plan.squad.length < size.min) return `This job needs at least ${size.min} people.`;
   if (plan.squad.length > size.max) return `This job takes at most ${size.max} people.`;
-  if (new Set(plan.squad).size !== plan.squad.length) return 'Each member can only take one rank.';
+  if (new Set(plan.squad).size !== plan.squad.length) return 'Each member can only take one position.';
   for (const id of plan.squad) {
     const m = s.members.find((x) => x.id === id);
     if (!m) return 'One of the squad is no longer with the guild.';
@@ -118,7 +118,7 @@ export function planWarnings(s: GameState, c: Contract, plan: ExpPlan): string[]
   squad.forEach((m, i) => {
     const first = m.name.split(' ')[0];
     const ranks = DELVER_PROFS[m.profession].ranks;
-    if (!ranks.includes(i + 1)) w.push(`${first} is ${/^[AEIOU]/.test(PROFESSIONS[m.profession].name) ? 'an' : 'a'} ${PROFESSIONS[m.profession].name} in rank ${i + 1}. They work best from rank ${ranks.join(' or ')}.`);
+    if (!ranks.includes(i + 1)) w.push(`${first} is ${/^[AEIOU]/.test(PROFESSIONS[m.profession].name) ? 'an' : 'a'} ${PROFESSIONS[m.profession].name} in position ${i + 1}. They work best from position ${ranks.join(' or ')}.`);
     if (m.health < 60) w.push(`${first} is still hurt (health ${m.health}).`);
     if (m.fatigue >= T.fatigue.tired) w.push(`${first} is ${m.fatigue >= T.fatigue.spent ? 'worn out' : 'tired'} before they start (fatigue ${m.fatigue}). If they go down tired, they're likelier to die.`);
     const nextTh = T.exposure.thresholds.find((t) => t > (m.exposure ?? 0));
