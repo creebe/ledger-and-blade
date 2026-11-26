@@ -280,7 +280,7 @@ export function PrepSheet({ contractId }: { contractId: string }) {
         })}
         {bench.length > 0 && (
           <>
-            <p className="small muted">These are your people at home. Tap a position number to put one of them in that position.</p>
+            <p className="small muted">These are your people at home. Tap a number beside someone to put them in that position.</p>
             {bench.map((m) => {
               const no = memberBlocked(g, m);
               const resting = restingInfo(g, m);

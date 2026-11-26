@@ -17,7 +17,7 @@ import { generateRecruit } from '../people/members';
 import { refreshBoard } from '../economy/board';
 import { refreshMarket, supplyPrice } from '../economy/market';
 import { factionPerks } from '../politics/factions';
-import { FIT_HEALTH, homeHeal } from '../people/health';
+import { FEVER_HEAL, FIT_HEALTH, homeHeal } from '../people/health';
 
 export interface Projection {
   week: number;
@@ -97,7 +97,7 @@ function homePhase(s: GameState) {
     if (m.fever) {
       m.fever.weeks -= 1;
       // a week in bed: they rest, though the fever keeps them from healing fully
-      m.health = clamp(m.health + 4, 0, 100);
+      m.health = clamp(m.health + FEVER_HEAL, 0, 100);
       m.fatigue = clamp(m.fatigue - 30, 0, 100);
       if (m.fever.weeks > 0) continue;
       const c = m.fever.change;

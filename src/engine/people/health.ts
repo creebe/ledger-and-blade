@@ -7,6 +7,9 @@ import { odaHeal } from '../politics/factions';
 /** Health a member needs before they can take orders or go out again. */
 export const FIT_HEALTH = 40;
 
+/** What a member in bed with the Sink fever heals in a week. */
+export const FEVER_HEAL = 4;
+
 /** What a laid-up member heals in a week at home. */
 export const homeHeal = (s: GameState, m: Member) => (m.traits.includes('frail') ? 5 : 9) + healBonus(s) + odaHeal(s);
 
@@ -17,7 +20,14 @@ export const homeHeal = (s: GameState, m: Member) => (m.traits.includes('frail')
  */
 export function laidUp(s: GameState, m: Member): { why: 'wounded' | 'fever'; weeks: number } | undefined {
   if (m.status === 'mission' || m.status === 'dead' || m.status === 'left') return undefined;
-  if (m.fever) return { why: 'fever', weeks: Math.max(1, m.fever.weeks) };
-  if (m.status === 'recovering' || m.health < FIT_HEALTH) return { why: 'wounded', weeks: Math.max(1, Math.ceil((FIT_HEALTH - m.health) / homeHeal(s, m))) };
-  return undefined;
+  const heal = Math.max(1, homeHeal(s, m));
+  const woundWeeks = (status: Member['status'], health: number) =>
+    status === 'recovering' || health < FIT_HEALTH ? Math.max(1, Math.ceil((FIT_HEALTH - health) / heal)) : 0;
+  if (m.fever) {
+    // anyone still hurt when the fever breaks rests on after it
+    const w = Math.max(1, m.fever.weeks);
+    return { why: 'fever', weeks: w + woundWeeks(m.status, Math.min(100, m.health + FEVER_HEAL * w)) };
+  }
+  const weeks = woundWeeks(m.status, m.health);
+  return weeks ? { why: 'wounded', weeks } : undefined;
 }

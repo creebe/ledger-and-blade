@@ -16,6 +16,7 @@ import {
   type GameState,
 } from '../src/engine';
 import { runSim } from '../scripts/sim';
+import { CHANGES } from '../src/engine/expeditions/data/content';
 import { FIELD_EVENTS } from '../src/engine/data/field';
 import { STORY_EVENTS } from '../src/engine/data/events';
 import { currentDate, datesPhase, dateTargets, nextDate, scheduleDates, DATE_BY_ID } from '../src/engine';
@@ -398,6 +399,27 @@ describe('engine', () => {
     m.health = 22;
     const lay = laidUp(s, m)!;
     expect(lay.why).toBe('wounded');
+    s.crowns = 5000;
+    for (let i = 0; i < lay.weeks - 1; i++) {
+      advanceWeek(s);
+      clearEvents(s);
+      expect(laidUp(s, m)).toBeDefined();
+    }
+    advanceWeek(s);
+    expect(laidUp(s, m)).toBeUndefined();
+    expect(m.status).toBe('idle');
+  });
+
+  it('a member with the fever and bad wounds counts the rest after the fever', () => {
+    const s = newGame(53);
+    clearEvents(s);
+    const m = s.members.find((x) => x.status === 'idle')!;
+    m.status = 'recovering';
+    m.health = 10;
+    m.fever = { change: Object.keys(CHANGES)[0] as never, weeks: 2 };
+    const lay = laidUp(s, m)!;
+    expect(lay.why).toBe('fever');
+    expect(lay.weeks).toBeGreaterThan(2);
     s.crowns = 5000;
     for (let i = 0; i < lay.weeks - 1; i++) {
       advanceWeek(s);
