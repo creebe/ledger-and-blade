@@ -206,7 +206,7 @@ export const MONSTERS: Record<MonsterId, MonsterDef> = {
   // ---- Harrowmere: the bridge houses and the Holms ----
   night_boatman: M({ id: 'night_boatman', one: 'night boatman', name: 'Night boatman', plural: 'night boatmen', depth: 2, hp: 16, acc: 72, dodge: 10, prot: 1, dmg: [4, 8], speed: 6, weak: [], resist: [], xp: 2, coin: 8, people: true, voice: 'people', text: 'A smuggler\'s oarsman, with muffled oars and a cudgel under the thwart.' }),
   crayfish: M({ id: 'crayfish', one: 'crayfish', name: 'Crayfish', plural: 'crayfish', depth: 2, hp: 12, acc: 70, dodge: 6, prot: 4, dmg: [3, 6], speed: 4, weak: ['blunt', 'storm'], resist: ['slash', 'pierce'], xp: 2, voice: 'beast', text: 'Lake crayfish the size of a cat, which live under the bridge piers and pinch anything that wades.' }),
-  bailiff: M({ id: 'bailiff', one: 'the Bailiff', name: 'the Bailiff', plural: 'the Bailiff', depth: 3, hp: 80, acc: 76, dodge: 12, prot: 2, dmg: [6, 10], speed: 7, weak: ['storm', 'frost'], resist: [], special: 'ambush', boss: true, xp: 12, voice: 'beast', loot: { good: 'rings', chance: 1 }, text: 'The biggest pike in the mere, longer than a boat. The fishermen call it the Bailiff, because it takes its share of every catch.' }),
+  bailiff: M({ id: 'bailiff', one: 'Old Gullet', name: 'Old Gullet', plural: 'Old Gullet', depth: 3, hp: 80, acc: 76, dodge: 12, prot: 2, dmg: [6, 10], speed: 7, weak: ['storm', 'frost'], resist: [], special: 'ambush', boss: true, xp: 12, voice: 'beast', loot: { good: 'rings', chance: 1 }, text: 'The biggest pike in the mere, longer than a boat. The fishermen call it Old Gullet, because it takes its share of every catch.' }),
 
   // ---- Port Anselm: the Burrows and the Strand ----
   wrecker: M({ id: 'wrecker', one: 'wrecker', name: 'Wrecker', plural: 'wreckers', depth: 2, hp: 17, acc: 72, dodge: 10, prot: 1, dmg: [4, 8], speed: 6, weak: [], resist: [], special: 'thief', xp: 2, coin: 8, people: true, voice: 'people', text: 'Dune people who hang lanterns where ships will mistake them for the harbor, and are first down the beach in the morning.' }),
@@ -799,7 +799,7 @@ export const SITES: Record<SiteId, SiteDef> = {
     goals: {
       short: 'Along the shore to the boathouses',
       medium: 'Out along the bridge houses to the timber span',
-      long: 'Out to the Holms, where the Bailiff feeds',
+      long: 'Out to the Holms, where Old Gullet feeds',
     },
     boss: {
       monster: 'bailiff',
@@ -807,10 +807,10 @@ export const SITES: Record<SiteId, SiteDef> = {
       zone: 'holms',
       after: ['pike', 'pike'],
       afterKey: 'bailiff_after',
-      deed: 'Landed the Bailiff',
-      memberDeed: 'landed the Bailiff',
-      report: 'Harrowmere hangs the Bailiff from the bridge for a week, and three different families claim the rings in its belly were their grandmother\'s.',
-      goalText: 'Land the Bailiff',
+      deed: 'Landed Old Gullet',
+      memberDeed: 'landed Old Gullet',
+      report: 'Harrowmere hangs Old Gullet from the bridge for a week, and three different families claim the rings in its belly were their grandmother\'s.',
+      goalText: 'Land Old Gullet',
     },
   },
   anselm: {
@@ -968,7 +968,7 @@ export const GOODS: Record<GoodId, GoodDef> = {
   fleece: { id: 'fleece', many: 'fleeces', name: 'Fleeces', one: 'a fleece', value: 8, text: 'Moor fleeces, greasy and thick, from sheep that will not miss them for long.' },
   colours: { id: 'colours', many: "sets of the Ninth's colors", name: "The Ninth's colors", one: "the Ninth's colors", value: 170, text: 'The regiment\'s flag, carried at Cassel Ford and carried off by Sergeant Crewe. Somebody in the Ninth will pay a great deal for it, or at least shout a great deal.' },
   bog_oak: { id: 'bog_oak', many: 'lengths of bog oak', name: 'Bog oak', one: 'a length of bog oak', value: 18, text: 'Oak that has lain in the mere for centuries and turned black and hard as iron. The armorers on Anvil Row fight over it for shield rims and sword grips.' },
-  rings: { id: 'rings', many: "handfuls of the Bailiff's rings", name: "The Bailiff's rings", one: "the Bailiff's rings", value: 150, text: "Mostly rings and buckles, with a bishop's seal among them, from the belly of the biggest pike in Harrowmere. Some of the owners are still alive." },
+  rings: { id: 'rings', many: "handfuls of Old Gullet's rings", name: "Old Gullet's rings", one: "Old Gullet's rings", value: 150, text: "Mostly rings and buckles, with a bishop's seal among them, from the belly of the biggest pike in Harrowmere. Some of the owners are still alive." },
   ambergris: { id: 'ambergris', many: 'lumps of ambergris', name: 'Ambergris', one: 'a lump of ambergris', value: 40, text: 'A gray waxy lump that washes up on the Burrows. It smells odd and the perfumers pay a fortune for it.' },
   salvage: { id: 'salvage', many: "loads of Tull's salvage", name: "Tull's salvage", one: "Tull's salvage", value: 180, text: 'What the wreckers took off a dozen ships: plate and bolts of cloth, and a ship\'s figurehead with the name chiseled off.' },
   iron: { id: 'iron', many: 'loads of iron', name: 'Iron', one: 'a load of iron', value: 6, material: true, text: 'Ore and old iron. The Forge uses it.' },

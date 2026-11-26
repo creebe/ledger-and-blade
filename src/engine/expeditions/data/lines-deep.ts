@@ -497,7 +497,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   ],
 
   // ===================================================================
-  // Harrowmere: the bridge houses and the Holms, and the Bailiff
+  // Harrowmere: the bridge houses and the Holms, and Old Gullet
   // ===================================================================
   enter_bridge: [
     "They go out along the old bridge, between the houses built on it. The middle span fell twenty years ago, and when the road was carried over on timber the houses were left as they stood.",
@@ -587,30 +587,30 @@ export const DEEP_LINES: Record<string, string[]> = {
     "They make camp on the largest island, under the alders. {a} keeps watch on the water. Twice in the night something turns over out there, close to the shore.",
   ],
   'boss_sight:harrowmere': [
-    "The water off the far Holms goes very still, and then something comes up under it, longer than the punt. The Bailiff has come for its share.",
+    "The water off the far Holms goes very still, and then something comes up under it, longer than the punt. It is Old Gullet, and it is hungry, which it always is.",
     "A shape moves in the deep water off the island, as long as a boat. The fishermen said it would come, and it has.",
   ],
   bailiff_hit: [
-    "The Bailiff comes out of the water and takes {t} by the leg.",
-    "The Bailiff hits {t} with its tail and knocks them flat on the shingle.",
-    "The Bailiff gets its teeth into {t} and drags them toward the water.",
+    "Old Gullet comes out of the water and takes {t} by the leg.",
+    "Old Gullet hits {t} with its tail and knocks them flat on the shingle.",
+    "Old Gullet gets its teeth into {t} and drags them toward the water.",
   ],
   bailiff_miss: [
-    "The Bailiff lunges at {t} and gets a mouthful of shingle instead.",
-    "{t} jumps back, and the Bailiff's jaws close on nothing.",
+    "Old Gullet lunges at {t} and gets a mouthful of shingle instead.",
+    "{t} jumps back, and Old Gullet's jaws close on nothing.",
   ],
-  bailiff_crit: ["The Bailiff gets {t} in its jaws and shakes them hard."],
+  bailiff_crit: ["Old Gullet gets {t} in its jaws and shakes them hard."],
   kill_bailiff: [
-    "The Bailiff thrashes in the shallows and then lies still, half out of the water. It is longer than anybody's boat.",
-    "The Bailiff rolls over and shows its white belly to the sky. Harrowmere will be talking about this for a hundred years.",
+    "Old Gullet thrashes in the shallows and then lies still, half out of the water. It is longer than anybody's boat.",
+    "Old Gullet rolls over and shows its white belly to the sky. Harrowmere will be talking about this for a hundred years.",
   ],
   'boss_won:harrowmere': [
-    "The Bailiff is landed. It takes all of them to drag it up onto the island, and {a} has to sit down afterwards.",
+    "Old Gullet is landed. It takes all of them to drag it up onto the island, and {a} has to sit down afterwards.",
     "It is over. The mere is calm, and for the first time in living memory nothing is taking its share.",
   ],
   bailiff_after: [
     "The water off the far Holms is still deep, and the pike in it are getting bigger. One of them is already taking a share.",
-    "Something else has moved into the Bailiff's water. It is not as big yet, and it is working on it.",
+    "Something else has moved into Old Gullet's water. It is not as big yet, and it is working on it.",
   ],
 
   // ===================================================================
