@@ -80,7 +80,7 @@ export function Title() {
   const [screen, setScreen] = useState<'title' | 'new' | 'prologue-new' | 'prologue-title'>('title');
   const setChoosing = (v: boolean) => setScreen(v ? (prologueSeen() ? 'new' : 'prologue-new') : 'title');
   if (screen === 'prologue-new') return <Prologue onDone={() => setScreen('new')} doneLabel="Choose your start" />;
-  if (screen === 'prologue-title') return <Prologue onDone={() => setScreen('title')} doneLabel="Back to the title" />;
+  if (screen === 'prologue-title') return <Prologue onDone={() => setScreen('title')} doneLabel="Back to the title screen" />;
   if (screen === 'new') return <NewGuild onBack={() => setScreen('title')} onPrologue={() => setScreen('prologue-new')} />;
   return (
     <div className="title-screen">

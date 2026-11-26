@@ -4848,9 +4848,11 @@ details summary {
 }
 .prologue-actions {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* the wider forward button keeps "Choose your start" on one line at 360 px, so the row doesn't grow on the last page */
+  grid-template-columns: 2fr 3fr;
   gap: 10px;
 }
 .prologue-actions .btn {
   min-height: 48px;
+  white-space: nowrap;
 }

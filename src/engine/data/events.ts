@@ -131,8 +131,8 @@ const CORE_STORY: EventDef[] = [
         speaker: 'Jory Abbot',
         text:
           'By the door there is a notice board with nothing on it but a nail. "Work gets pinned there," Jory says. "Debts to chase and wagons to guard, mostly. Now and then something in the tunnels under the Lower Town that wants clearing out."\n\n' +
-          '"You pick the job and the people for it. They come home with the pay." He looks at the nail. "Most of them come home."\n\n' +
-          'Squads on the road can be followed week by week until they are back.',
+          'You pick a job and the people for it, and they bring the pay home. Squads on the road can be followed week by week until they are back.\n\n' +
+          'Jory looks at the nail. "Most of them come home."',
         choices: [{ label: "That's the hall, then", detail: 'Jobs are on Contracts, and squads that are out are on the Field', effects: {}, next: 'start', resultText: '' }],
       },
       start: {

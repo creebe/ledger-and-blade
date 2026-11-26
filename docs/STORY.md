@@ -82,7 +82,7 @@ Every faction and rival has a face. Each character has a want that is reasonable
 | `mayne` | **Captain Rufus Mayne**, the Ninth | Was a sergeant at Cassel Ford | Loud, friendly, always recruiting | Tries to hire your best fighter. Knows any Cassel Ford veteran in your roster. Comes to the hall for the Ninth's colors if a squad brings them home (*The Ninth's Colors*, §5d). |
 | `plaice` | **Master Assayer Corwin Plaice**, Assay Office | Licenses all magic in Varrow | Pedantic and patient; quotes clauses | Inspects the guild and offers a license. |
 | `aske` | **Lady Honora Aske**, the Fourteen | Head of a founding family; castle pledged to the bank | Charming and careless with money | Asks you to move the family silver before the assessors arrive. |
-| `jory` | **Jory Abbot**, the guild | The hall's clerk through three guildmasters | Dry; gives advice only as remarks | Remarks in the week report ("In the hall"). Asks how to record the dead. |
+| `jory` | **Jory Abbot**, the guild | The hall's clerk through three guildmasters | Dry; gives advice only as remarks | Shows a new guildmaster round the hall in `charter` (wages, the loan, the empty notice board). Remarks in the week report ("In the hall"). Asks how to record the dead. |
 
 
 ---
@@ -117,7 +117,7 @@ Only one beat fires a week. Beats whose window closes first are checked first (`
 
 ### Branches and the facts they set
 
-- **1. Charter.** No exposition (any guildmaster knows the city's situation; that lives in the Codex as common knowledge). Choose: arm the guild (`start_arms`), a free Arcanist, or +80 crowns.
+- **1. Charter.** No exposition about the world (the prologue and the Codex carry that). Jory offers a walk round the hall (`people` → `loan` → `board` → `start`), or the player skips to `start`; each step can be cut short to `start`, and the walk sets no facts. Jory's lines read the guild's own numbers (the living members, their weekly wages, the loan's principal, first payment and due week) so they are right for every backer. In `start`, choose: arm the guild (`start_arms`), a free Arcanist, or +80 crowns.
 - **2. Vorn.** Show her the door (bank −10, Lower Town +6, Vorn −15), or hear her out. You can ask about the people collected from (`vorn_q_people`, Lower Town +2), about the Hobbs (`vorn_q_hobbs`, +1 Intel), and what the bank wants (Guile check: `vorn_slip` on success, `vorn_q_want` on failure). Then the terms: work for the bank (`ostranders_open`, Vorn +15), case by case (`ostranders_open`, Vorn +5), or not today (Vorn −5). Not today can be undone later by courting Ostrander's from the Realm screen, which also sets `ostranders_open`.
 - **4. Marta.** Her greeting changes if bank standing ≥ 8. Choices: refuse; or ask the terms, then sell the share (`hobbs_share`: 25% of contract pay goes to her, the Hobbs compete far less, Marta +15), refuse, or humiliate her (Guile check; Hobbs grow more aggressive either way. If it lands, the feud rises by 25, which is enough to make it a feud at once; if Marta laughs it off, it rises by 15).
 - **5. Riot.** Feed them (8 supplies) or pay the bakers (35 crowns) → meet Dagny → her ears (`dagny_contact`: occasional Intel tips) or nothing (`dagny_friend`, Lower Town +4). Or take the Exchequer's purse → hold the line without blood (Endurance check) or break the crowd. Or bar the doors.

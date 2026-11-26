@@ -19,22 +19,22 @@ export const PROLOGUE: ProloguePage[] = [
   {
     title: 'Varrow',
     paragraphs: [
-      'Varrow is the capital, a river port with a chain across the river. The tolls taken at the chain go to the bank now. Below the walls lies the Lower Town, where the porters and small trades live and pay the taxes that pay the bank, and it is not in a patient mood.',
+      'Varrow is the capital, a port on the river with a chain across it. The tolls taken at the chain go to the bank now. Below the walls lies the Lower Town, home to the porters and small trades. They pay the taxes that pay the bank, and they are not in a patient mood.',
       'Everyone in Varrow owes someone. That makes for a great deal of work, and a fair amount of it needs a blade.',
     ],
   },
   {
     title: 'The Guilds',
     paragraphs: [
-      'The treaty also cut the Crown\'s regiments down to almost nothing. The work soldiers used to do is let out by the job now, to anyone holding a charter from the Exchequer: chasing debts, guarding the Crown\'s silver on the road, clearing the old town buried under the Lower Town, and whatever else the bank, the Crown or the merchants will pay for this week.',
-      'A chartered guild takes the work, sends its people out in squads and splits the pay. Some guilds last for years. Most fold before their first loan is paid.',
+      'The treaty also cut the Crown\'s regiments down to almost nothing. The work soldiers used to do is let out by the job now, to anyone holding a charter from the Exchequer: chasing debts, guarding the Crown\'s silver on the road, clearing the old town buried under the Lower Town, and whatever else the bank, the Crown, the Weighhouse or the Lower Town will pay for this week.',
+      'A chartered guild takes the work, sends its people out in squads and splits the pay. Some guilds last for years, but most fold before their first loan is paid off.',
     ],
   },
   {
     title: 'Your Guild',
     paragraphs: [
       'This morning the Exchequer sealed your charter. You have a drafty hall on Tallow Street and a handful of people who expect to be paid every week. The Weighhouse lent you the money for both, and it will want it back on time.',
-      'Your work is to keep the books balanced and as many of your people alive as you can manage. First, though, someone had to back you, and Varrow is in its own particular state this season.',
+      'Your work is to keep the books balanced and as many of your people alive as you can manage. First, though, someone had to back you, and Varrow has its own troubles this season.',
     ],
   },
 ];
