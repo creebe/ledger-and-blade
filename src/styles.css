@@ -3539,7 +3539,9 @@ details summary {
   min-width: 0;
 }
 .date-target-now {
-  flex: none;
+  /* long forecasts ("if no new pay comes in") wrap instead of squeezing the bar away */
+  flex: 0 1 auto;
+  min-width: 0;
   font-size: var(--fs-s);
   color: var(--muted);
   text-align: right;
@@ -3553,6 +3555,7 @@ details summary {
 .date-bar {
   display: block;
   flex: 1;
+  min-width: 72px;
   height: 4px;
   border-radius: 2px;
   background: color-mix(in srgb, var(--ink-2) 18%, transparent);

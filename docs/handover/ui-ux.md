@@ -103,3 +103,30 @@ Owner: "We should begin a new guild with more of a story and setting intro. It's
     - the see-through panel while dragging.
   - Writing review: the confirm wording.
 - **Not checked:** a real iPhone (rubber-band and momentum scrolling can't be emulated). Worth trying by hand: swiping down on the body while a momentum scroll is still coasting to the top.
+
+## Part 2, batch 2: v0.15.2 (branch `claude/ui-polish-2`)
+
+**What was done**
+- **The ledger projection follows the real week end** (`projectLedger`, core/turn.ts). It runs in the same order: squads due home pay their listed reward, then wages and upkeep, then the loan.
+  - **The loan, as economyPhase collects it:**
+    - goods are sold first if coin is short;
+    - interest is applied;
+    - early-payment credit counts;
+    - the payment is paid, put off while a squad is away (up to three weeks), or missed with no coin taken;
+    - the next collection is scheduled.
+  - **Supplies:** no coin is charged for them. A shortfall is marked as hunger.
+  - **Squads:** a squad past its planned week counts as away. Squad pay stays timed by the planned length on purpose, because the sealed return week would give away the trip's outcome.
+- **Hall:** the Loan column shows "waits" or "missed", with notes under the table, plus a hunger warning. The footnote says the projection assumes every job succeeds.
+- **Dates:** the loan target and the crowns target both forecast from the projection (`loanDay`, `crownsForecast`). When short, they say how far: "about 30 short by then, if no new pay comes in"; "about N short that day". The date bar keeps 72px beside long text.
+- **Backers** in `charter` paid for the charter (the Weighhouse loan paid for the rest). The college start's free recruit reads "Hire a second Arcanist".
+
+**What was checked**
+- `npm run check`: 81 tests, story checker clean, style flags 40.
+- The fingerprint matches main 9c0b0a4 exactly. Scene text isn't stored in state, so the backer lines don't change it.
+- **Engine reviewer:** projection status matched the real `advanceWeek` outcome in 120 of 120 cases (40 seeds × 3 coin levels).
+- **Story reviewer:** fixed the merchant and college lines; the story document is regenerated.
+- **UI reviewer:** 360 and 390 px, both themes; fixed the date bar being squeezed, and two notes' wording.
+- Screenshots: `docs/reports/ui-polish2-*.png`.
+
+**Open**
+- `homeCount` and `wages` stay fixed across the projection's horizon, so hunger can show a week late when a squad comes home. This was already the case before.

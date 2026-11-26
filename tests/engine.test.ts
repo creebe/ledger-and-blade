@@ -19,7 +19,7 @@ import { runSim } from '../scripts/sim';
 import { CHANGES } from '../src/engine/expeditions/data/content';
 import { FIELD_EVENTS } from '../src/engine/data/field';
 import { STORY_EVENTS } from '../src/engine/data/events';
-import { currentDate, datesPhase, dateTargets, nextDate, projectLedger, scheduleDates, DATE_BY_ID } from '../src/engine';
+import { currentDate, datesPhase, dateTargets, nextDate, projectLedger, weeklyWages, scheduleDates, DATE_BY_ID } from '../src/engine';
 import { afterLeaderDies, executeHostile, feudStage, hallDefense, operationOptions, raiseFeud, resolveOperation, runOperation, weeklyWar, FAME_LEGENDARY, FEUD_AT, WAR_AT, WAR_HOLD, FEUD_CONTESTED, planWarnings, earnFame, fameTier, triggerEvents, SAVE_VERSION, BACKERS, CIRCUMSTANCE_BY_ID, claimNote, buySupplies, supplyCost, buyMaterial, cancelDispatch, discoverLore, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, repayLoan, loanStillDue, laidUp, startBuild, tripWeeks, upkeep } from '../src/engine';
 
 /** Send a squad with a little food and nothing else, so nothing has to be bought. */
@@ -302,7 +302,7 @@ describe('engine', () => {
     expect(s.crowns).toBeGreaterThan(at);
     const view = dateTargets(s)[0];
     expect(view.met).toBe(false);
-    expect(view.now).toBe(`about ${at - 1} by then`);
+    expect(view.now).toBe('about 1 short by then, if no new pay comes in');
     expect(dateTargets(s, s.dates.current!, true)[0]).toMatchObject({ met: true, now: `${s.crowns} now` });
   });
 
@@ -442,6 +442,62 @@ describe('engine', () => {
     advanceWeek(s);
     expect(laidUp(s, m)).toBeUndefined();
     expect(m.status).toBe('idle');
+  });
+
+  it('the ledger projection follows the Weighhouse: it waits for a squad away, and buys no supplies', () => {
+    const s = newGame(53);
+    clearEvents(s);
+    const loan = s.loans[0];
+    loan.dueWeek = s.week;
+    // short of coin with nobody away: the payment is missed and takes nothing
+    s.crowns = 10;
+    let row = projectLedger(s, 1)[0];
+    expect(row.loanStatus).toBe('missed');
+    expect(row.loan).toBe(0);
+    // with a squad out past this week, the Weighhouse waits a week
+    s.missions.push({ id: 'm_x', report: undefined, dispatchedWeek: s.week, plannedWeeks: 3, contract: { reward: 0 } } as never);
+    row = projectLedger(s, 1)[0];
+    expect(row.loanStatus).toBe('waits');
+    s.missions.pop();
+    // plenty of coin: paid; and running out of supplies costs no coin, it marks hunger
+    s.crowns = 5000;
+    s.supplies = 0;
+    row = projectLedger(s, 1)[0];
+    expect(row.loanStatus).toBe('paid');
+    expect(row.hungry).toBeGreaterThan(0);
+    expect(row.balance).toBe(5000 - row.wages - row.upkeep - row.loan);
+  });
+
+  it('the ledger projection sells goods for the loan, collects after a wait, and schedules the next payment', () => {
+    const s = newGame(54);
+    clearEvents(s);
+    const loan = s.loans[0];
+    loan.dueWeek = s.week;
+    const costs = weeklyWages(s) + upkeep(s);
+    // short of coin, but the goods cover it: the game sells them, so the projection does too
+    s.crowns = costs;
+    s.goods = { glass: 200 };
+    expect(projectLedger(s, 1)[0].loanStatus).toBe('paid');
+    s.goods = {};
+    // a squad away comes home next week with its pay: the Weighhouse waits, then is paid
+    s.missions.push({ id: 'm_y', report: undefined, dispatchedWeek: s.week, plannedWeeks: 2, contract: { reward: 5000 } } as never);
+    const rows = projectLedger(s, 2);
+    expect(rows[0].loanStatus).toBe('waits');
+    expect(rows[1].loanStatus).toBe('paid');
+    expect(rows[1].loan).toBeGreaterThan(0);
+    s.missions.pop();
+    // paid early in full: nothing taken this week, and the next payment four weeks on still shows
+    s.crowns = 5000;
+    loan.paidAhead = 100000;
+    const ahead = projectLedger(s, 5);
+    expect(ahead[0].loan).toBe(0);
+    expect(ahead[0].loanStatus).toBeUndefined();
+    expect(ahead[4].loanStatus).toBeUndefined(); // the credit still covers it
+    loan.paidAhead = 0;
+    const later = projectLedger(s, 5);
+    expect(later[0].loanStatus).toBe('paid');
+    expect(later[4].loanStatus).toBe('paid');
+    expect(later[4].week).toBe(s.week + 4);
   });
 
   it('saves from v15 load with no early-repayment credit', () => {

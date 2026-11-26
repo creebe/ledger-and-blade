@@ -43,7 +43,7 @@ None found.
 Every conversation node in every story beat was reached.
 
 - **charter/root**: Skip the tour (200) · Let Jory show you round (200)
-- **charter/start**: Arm the guild (127) · Keep the coin (111) · Hire an Arcanist (162)
+- **charter/start**: Arm the guild (127) · Keep the coin (111) · Hire a second Arcanist (43) · Hire an Arcanist (119)
 - **ostrander_agent/root**: Hear her out (194) · Show her the door (206)
 - **ostrander_agent/pitch**: Let's talk terms. (48) · Why not hire Hobb & Daughters? They do this already. (47) · What happens to the people you collect from? (56) · What does the bank really want from Varrow? (43)
 - **ostrander_agent/terms**: We'll work for the bank. (78) · We'll take your jobs case by case. (64) · Not today. (52)
