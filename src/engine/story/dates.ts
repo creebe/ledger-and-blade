@@ -10,6 +10,8 @@ import { addDispatch, clamp, living, loanStillDue } from '../core/util';
 import { applyStanding, earn, spend } from '../core/effects';
 import { tally } from '../politics/council';
 import { upkeep } from '../economy/buildings';
+// a function-only import: turn.ts imports this module too, and neither calls the other at load time
+import { projectLedger } from '../core/turn';
 
 const SUCCESS = ['Triumph', 'Success', 'Costly Success'];
 const MIN_LEAD = 2; // a Date is never set less than this many weeks ahead
@@ -95,7 +97,7 @@ export function datesPhase(s: GameState) {
     return;
   }
   if (s.week < a.dueWeek) return;
-  const views = dateTargets(s, a);
+  const views = dateTargets(s, a, true);
   const failed = a.targets.map((t, i) => (targetMet(s, a, t, true) ? undefined : views[i])).filter(Boolean) as DateTargetView[];
   const met = failed.length === 0;
   const stakes = met ? d.reward : d.cost;
@@ -117,8 +119,12 @@ function paidSince(s: GameState, week: number) {
 }
 
 const weeklyCosts = (s: GameState) => living(s).reduce((n, m) => n + m.wage, 0) + upkeep(s);
-/** What the end of this week will take from the treasury: wages, upkeep and any loan payment due. */
-const billsThisWeek = (s: GameState) => weeklyCosts(s) + s.loans.reduce((n, l) => n + (l.dueWeek === s.week ? loanStillDue(l) : 0), 0);
+
+/** Crowns the ledger projects for the close of a week: known bills, loan payments still due and squads due home. */
+function crownsForecast(s: GameState, week: number) {
+  const rows = projectLedger(s, Math.max(1, week - s.week + 1));
+  return rows[rows.length - 1].balance;
+}
 
 /** Targets of the current Date not met yet, for the end-week warnings on the day it arrives. */
 export function dateWarning(s: GameState): string | undefined {
@@ -149,8 +155,8 @@ function targetMet(s: GameState, a: ActiveDate, t: DateTarget, final: boolean): 
       // wages and upkeep are paid before the loan, so count them first
       return loan.missed === a.base.missed && (loan.dueWeek > a.dueWeek || s.crowns - weeklyCosts(s) >= loanStillDue(loan));
     case 'crowns':
-      // on the day itself, forecast what's left after this week's bills
-      return (final || s.week < a.dueWeek ? s.crowns : s.crowns - billsThisWeek(s)) >= t.at;
+      // the forecast is the ledger's own projection for the close of the due week, so the two never disagree
+      return (final ? s.crowns : crownsForecast(s, a.dueWeek)) >= t.at;
     case 'supplies':
       return (final || s.week < a.dueWeek ? s.supplies : s.supplies - living(s).filter((m) => m.status !== 'mission').length) >= t.at;
     case 'renownGain':
@@ -186,7 +192,7 @@ export interface DateTargetView {
 }
 
 /** What each target asks and where the guild stands, for the UI. */
-export function dateTargets(s: GameState, a: ActiveDate = s.dates.current!): DateTargetView[] {
+export function dateTargets(s: GameState, a: ActiveDate = s.dates.current!, final = false): DateTargetView[] {
   if (!a) return [];
   const loan = s.loans[0];
   return a.targets.map((t): DateTargetView => {
@@ -199,8 +205,11 @@ export function dateTargets(s: GameState, a: ActiveDate = s.dates.current!): Dat
             ? { label: 'Pay the Weighhouse on the day', now: 'Already paid early', met, frac: 1 }
             : { label: `Pay the Weighhouse ${loanStillDue(loan)} crowns on the day`, now: `${s.crowns} in the treasury`, met, frac: f(s.crowns, loanStillDue(loan)), resource: 'crowns' }
           : { label: 'Pay the Weighhouse on the day', now: 'The loan is paid off', met: true, frac: 1 };
-      case 'crowns':
-        return { label: `Have ${t.at} crowns when the week closes, after the bills`, now: `${s.crowns} now`, met, frac: f(s.crowns, t.at), resource: 'crowns' };
+      case 'crowns': {
+        // when the Date is judged, what's in the treasury; before then, what the ledger expects
+        const by = final ? s.crowns : crownsForecast(s, a.dueWeek);
+        return { label: `Have ${t.at} crowns when the week closes, after the bills`, now: final ? `${s.crowns} now` : `about ${by} by then`, met, frac: f(by, t.at), resource: 'crowns' };
+      }
       case 'supplies':
         return { label: `Keep ${t.at} supplies in store`, now: `${s.supplies} now`, met, frac: f(s.supplies, t.at), resource: 'supplies' };
       case 'renownGain': {
