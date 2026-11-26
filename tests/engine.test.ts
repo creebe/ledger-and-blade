@@ -302,7 +302,7 @@ describe('engine', () => {
     expect(s.crowns).toBeGreaterThan(at);
     const view = dateTargets(s)[0];
     expect(view.met).toBe(false);
-    expect(view.now).toBe(`about ${at - 1} by then, if no new pay comes in`);
+    expect(view.now).toBe('about 1 short by then, if no new pay comes in');
     expect(dateTargets(s, s.dates.current!, true)[0]).toMatchObject({ met: true, now: `${s.crowns} now` });
   });
 

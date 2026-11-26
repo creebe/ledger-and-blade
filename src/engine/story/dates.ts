@@ -212,14 +212,14 @@ export function dateTargets(s: GameState, a: ActiveDate = s.dates.current!, fina
               ? { label: `Pay the Weighhouse ${loanStillDue(loan)} crowns on the day`, now: `${s.crowns} in the treasury`, met, frac: f(s.crowns, loanStillDue(loan)), resource: 'crowns' }
               : (() => {
                   const day = loanDay(s, loan.dueWeek);
-                  return { label: `Pay the Weighhouse ${loanStillDue(loan)} crowns on the day`, now: `about ${day.onHand} on hand that day`, met, frac: f(day.onHand, loanStillDue(loan)), resource: 'crowns' as const };
+                  return { label: `Pay the Weighhouse ${loanStillDue(loan)} crowns on the day`, now: day.onHand >= loanStillDue(loan) ? `about ${day.onHand} on hand that day` : `about ${loanStillDue(loan) - day.onHand} short that day`, met, frac: f(day.onHand, loanStillDue(loan)), resource: 'crowns' as const };
                 })()
           : { label: 'Pay the Weighhouse on the day', now: 'The loan is paid off', met: true, frac: 1 };
       case 'crowns': {
         // when the Date is judged, what's in the treasury; before then, what the ledger expects
         const by = final ? s.crowns : crownsForecast(s, a.dueWeek);
         // the projection counts only pay already on its way, so a short forecast says so
-        const forecast = by >= t.at ? `about ${by} by then` : `about ${by} by then, if no new pay comes in`;
+        const forecast = by >= t.at ? `about ${by} by then` : `about ${t.at - by} short by then, if no new pay comes in`;
         return { label: `Have ${t.at} crowns when the week closes, after the bills`, now: final ? `${s.crowns} now` : forecast, met, frac: f(by, t.at), resource: 'crowns' };
       }
       case 'supplies':

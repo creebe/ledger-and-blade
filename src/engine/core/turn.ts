@@ -84,7 +84,8 @@ export function projectLedger(s: GameState, weeks = 4): Projection[] {
           bal += goods;
           goods = 0;
         }
-        const away = s.missions.some((m) => !m.report && m.dispatchedWeek + m.plannedWeeks - 1 > week);
+        // away past this week; a squad already overdue is plainly still out, so it counts as away too
+        const away = s.missions.some((m) => !m.report && (m.dispatchedWeek + m.plannedWeeks - 1 > week || m.dispatchedWeek + m.plannedWeeks - 1 < s.week));
         if (bal < due && away && l.waited < 3) {
           l.waited += 1;
           l.dueWeek += 1;
