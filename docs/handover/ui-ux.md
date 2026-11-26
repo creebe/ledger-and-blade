@@ -82,3 +82,24 @@ Owner: "We should begin a new guild with more of a story and setting intro. It's
   - it counts squads' listed pay by `plannedWeeks`, not by when they actually return.
 - **A red figure on day one:** in a new game, the first Date's crowns target shows a negative "about … by then" from week 1, because no future contract income is counted.
 - **Two forecasts in one Date:** the `loanPaid` target still forecasts from the current treasury, so within the first Date one target shows the treasury and the other shows the projection.
+
+### Added to v0.15.1 on the owner's word (via main)
+- **Scene choices that cost anything ask first.**
+  - `EventCard.pick()` opens `confirm()` when a choice spends crowns, supplies (including door-scene supplies), Intel, Influence, Renown or goods.
+  - On a check choice, a cost that only applies on failure also counts.
+  - The confirm sits above the scene card (`.confirm-backdrop`, z 80).
+- **Swipe a panel down to close it** (`useSwipeDown` in `kit/common.tsx`).
+  - It pops one level, like ✕ or Back.
+  - It starts only on the header, or on the body when the scroller under the finger is at the top and the drag is mostly downward.
+  - It never starts on the footer (End Week's press-and-hold) or on inputs, and confirmations and scenes aren't panels, so they can't be swiped.
+  - It dismisses past 120px, or past 50px if fast; otherwise it snaps back. Only the dim behind the panel lightens while dragging.
+- **Checked:**
+  - CDP touch tests (`swipe.cjs`, `swipe2.cjs` in the session scratchpad) covering every case above. The UI reviewer fixed the following:
+    - sideways drags;
+    - footer drags;
+    - scrolled inner scrollers;
+    - browser scroll takeover;
+    - timer cleanup;
+    - the see-through panel while dragging.
+  - Writing review: the confirm wording.
+- **Not checked:** a real iPhone (rubber-band and momentum scrolling can't be emulated). Worth trying by hand: swiping down on the body while a momentum scroll is still coasting to the top.
