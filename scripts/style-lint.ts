@@ -12,6 +12,7 @@ const FILES = [
   'src/engine/data/contracts.ts',
   'src/engine/data/tutorial.ts',
   'src/engine/data/dates.ts',
+  'src/engine/data/prologue.ts',
   'src/engine/missions/narrative.ts',
   'src/engine/expeditions/data/lines.ts',
   'src/engine/expeditions/data/lines-sites.ts',

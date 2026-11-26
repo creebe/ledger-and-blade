@@ -34,6 +34,7 @@ Every story change goes through these checks. None of them are optional.
 - **Varrow (Canon):** the capital. A river port with a chain across the river where tolls are collected. The **Lower Town** lies below the walls: docks, porters, small trades. **Anvil Row** has the armorers, **Tallow Street** has the guild's hall, and the **Copper Kettle** is a tavern.
 - **Places (Canon):** Old Pellam (the buried first town under the Lower Town, §5d), Drover's Road (cattle road, hills east), Harrowmere (lake town with an old bridge), Kell Mines (silver, partly flooded), the Saltfens (estuary marshes, reagents, fever), Port Anselm (coast; Ostrander's ships take the Crown's silver here), Wenmouth ford (on the road to Anselm), and **the green** below the walls, where fairs and the Crown's muster are held.
 - **Magic (Canon):** common, and practiced like a science or trade. It is studied at **the college**, licensed by the **Assay Office**, sold by the dose (reagents), and keyed to elements: fire, frost, storm, radiant, shadow. It is powerful but never free. **There is no supernatural plot.** Magic is part of the economy, not a mystery.
+- **Chartered guilds (Canon, from the prologue):** the treaty also cut the Crown's regiments to almost nothing (the Ninth were disbanded under its article nine). The work soldiers used to do is let out by the job to anyone holding an Exchequer charter: chasing debts, guarding the Crown's silver, clearing Old Pellam, and whatever the bank, the Crown or the merchants will pay for. Most new guilds fold before their first loan is paid.
 - **Tone (Canon):** in between. Grounded, human-scale politics and money; morally gray choices; dry humor. Nobody is purely evil. The bank is doing what banks do.
 
 ## 3. Factions and their positions on the Debt (Canon)
@@ -111,6 +112,8 @@ Weeks are windows. A beat fires on a random week inside its window, or at the en
 | 17 | `act1_slice_end` Half a Year | 22–26 | 13, 15, 16 | — | — |
 
 Only one beat fires a week. Beats whose window closes first are checked first (`STORY_EVENTS` is sorted by window end).
+
+**The opening (Canon from v0.15.0).** Before the first new guild on a device, the player reads the **prologue** (`data/prologue.ts`, four pages: the Debt, Varrow, the guilds, your guild). It is the narrator's, so it may say what any Varrow resident knows (§6b); it can be skipped and read again from the title and start screens. Beat 1, `charter`, is then a short walk round the hall with Jory: the people and their wages, the strongbox and the loan, the empty notice board, and the last of the coin (the original three starting choices). Each step can be cut short, and every step but the last says in its detail line which tab holds what was just shown. Jory's lines stay remarks, not instructions; the narrator carries the few lines of how-to.
 
 ### Branches and the facts they set
 
@@ -305,7 +308,7 @@ The distant sites add road weeks there and back (`road_out`, `road_on`, `road_ba
 
 ## 6b. How lore reaches the player (Canon)
 
-- **No lectures.** Characters never explain what any Varrow resident would know. Common knowledge sits in the **Codex** from the start, as reference.
+- **No lectures.** Characters never explain what any Varrow resident would know. The prologue is the one place the narrator sets out the world directly, before play starts. Common knowledge sits in the **Codex** from the start, as reference.
 - **The Codex** (`src/engine/data/codex.ts`) unlocks entries from play: places your squads visit, enemies they face, people you meet, members' own pasts (a veteran in the roster tells you about Cassel Ford), and street talk. Every entry records how the guild learned it.
 - **In the hall:** about one week in four, Jory Abbot remarks on the state of the guild (low funds, Heat, a death, a crowded hall). Lines are in `JORY` in `codex.ts` and never explain the world.
 - **Expeditions** unlock Codex entries the way contracts always did: a squad home from a region unlocks that place, and the dangers it faced unlock their entries. Old Pellam, its zones, the other sites' deeper zones and bosses, and the dive's own monsters have no entries yet (a Pellam job counts as Varrow); they are described only in their own text (the site and zone cards, and the log). *(Open: Codex entries for Old Pellam.)*
