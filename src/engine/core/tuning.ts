@@ -28,7 +28,7 @@ export const HEAT_COST = 4;
 /** Fame needed for each tier (Known, Renowned, Legendary). */
 export const FAME_KNOWN = 20;
 export const FAME_RENOWNED = 75;
-export const FAME_LEGENDARY = 105;
+export const FAME_LEGENDARY = 115;
 /** A Legend also needs a long record, not just one lucky year. */
 export const LEGEND_NEEDS = { level: 5, missions: 23 };
 
