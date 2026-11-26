@@ -38,9 +38,9 @@ export interface EventDef {
 // who paid for the charter; the Weighhouse loan paid for everything else (the scene says so just before)
 const BACKER_LINE: Record<string, string> = {
   veterans: 'Four old soldiers paid for the charter out of their back pay. Two of them have already argued about where the weapon racks should go.',
-  merchant: 'Your backer is a wool merchant on the Weighhouse, who has sent a list of his wagons and the dates they leave.',
+  merchant: 'A wool merchant on the Weighhouse paid for the charter. He has already sent a list of his wagons and the dates they leave.',
   coop: "The porters and small trades of the Lower Town paid for the charter, in coins so small that the Exchequer's clerk spent a morning counting them.",
-  college: 'Two Arcanists who left the college after the fire paid for the charter with what they had left. One of them still smells faintly of smoke.',
+  college: 'Two Arcanists who were thrown out of the college after the fire paid for the charter with what they had left. One of them still smells faintly of smoke.',
 };
 
 const living = (s: GameState) => s.members.filter((m) => m.status !== 'dead' && m.status !== 'left');

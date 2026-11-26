@@ -141,8 +141,8 @@ export function HallScreen() {
           </tbody>
         </table>
         <p className="tiny muted">The projection counts known costs and the listed pay of squads already in the field, as if every job succeeds. Supplies are bought separately.</p>
-        {proj.some((p) => p.loanStatus === 'waits') && <p className="tiny muted">"Waits": the coin will be short when the payment falls due, so the Weighhouse waits for the squad that's away, for up to three weeks.</p>}
-        {proj.some((p) => p.loanStatus === 'missed') && <p className="tiny bad">"Missed": the coin will be short when the payment falls due. A missed payment adds 20 crowns to the debt, and three mean ruin.</p>}
+        {proj.some((p) => p.loanStatus === 'waits') && <p className="tiny muted">"Waits": the coin will be short on the day, but a squad is still away, so the Weighhouse holds off until it's home, for up to three weeks.</p>}
+        {proj.some((p) => p.loanStatus === 'missed') && <p className="tiny bad">"Missed": the coin will be short on the day. A missed payment adds 20 crowns to the debt, and a third missed payment means ruin.</p>}
         {proj.find((p) => p.hungry) && (
           <p className="tiny warn">
             Supplies run out {proj.find((p) => p.hungry)!.week === g.week ? 'this week' : `in ${weeks(proj.find((p) => p.hungry)!.week - g.week)}`}, and anyone at home without them goes hungry. Buy more at the Armory.

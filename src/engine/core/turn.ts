@@ -4,7 +4,7 @@ import { discoverLore, weeklyCrier, weeklyJory } from '../story/codex';
 import { denIntel, level, trainCost, trainWeeks, upkeep, weeklyWorkshop } from '../economy/buildings';
 import { triggerEvents } from '../story/scenes';
 import { dateWarning, datesPhase, scheduleDates } from '../story/dates';
-import { sealExpedition, settleExpedition, sellGoods } from '../expeditions/run';
+import { goodsValue, sealExpedition, settleExpedition, sellGoods } from '../expeditions/run';
 import { CHANGES } from '../expeditions/data/content';
 import { EXP_TUNING } from '../expeditions/tuning';
 import { executeRival, planRival } from '../rivals/rival';
@@ -50,7 +50,10 @@ export function projectLedger(s: GameState, weeks = 4): Projection[] {
   const out: Projection[] = [];
   let bal = s.crowns;
   let supplies = s.supplies;
-  const loans = s.loans.map((l) => ({ dueWeek: l.dueWeek, waited: l.waited ?? 0, due: loanStillDue(l) }));
+  // a copy of each loan, run through the same collection as economyPhase: interest, early credit, waiting, rescheduling
+  const loans = s.loans.map((l) => ({ ...l, waited: l.waited ?? 0, paidAhead: l.paidAhead ?? 0 }));
+  const rate = modProduct(s, 'loanRate');
+  let goods = goodsValue(s);
   for (let i = 0; i < weeks; i++) {
     const week = s.week + i;
     const wages = weeklyWages(s);
@@ -62,19 +65,49 @@ export function projectLedger(s: GameState, weeks = 4): Projection[] {
     let loan = 0;
     let loanStatus: Projection['loanStatus'];
     let loanDue: number | undefined;
+    // the worst outcome of the week is the one shown
+    const rank = { paid: 0, waits: 1, missed: 2 } as const;
+    const mark = (st: 'paid' | 'waits' | 'missed') => {
+      if (!loanStatus || rank[st] > rank[loanStatus]) loanStatus = st;
+    };
     for (const l of loans) {
-      if (l.dueWeek !== week || l.due <= 0) continue;
-      loanDue = (loanDue ?? 0) + l.due;
-      const away = s.missions.some((m) => !m.report && m.dispatchedWeek + m.plannedWeeks - 1 > week);
-      if (bal >= l.due) {
-        bal -= l.due;
-        loan += l.due;
-        loanStatus = 'paid';
-      } else if (away && l.waited < 3) {
-        l.waited += 1;
-        l.dueWeek += 1;
-        loanStatus = loanStatus ?? 'waits';
-      } else loanStatus = 'missed';
+      if (l.principal <= 0.5) continue; // paid off: the game drops it
+      l.principal *= 1 + l.weeklyRate * rate;
+      if (l.dueWeek !== week) continue;
+      const full = Math.min(l.paymentDue, Math.ceil(l.principal));
+      const due = Math.max(0, full - Math.floor(l.paidAhead));
+      const credit = full - due;
+      if (due > 0) {
+        loanDue = (loanDue ?? 0) + due;
+        // short of coin: the goods are sold first, as the game does
+        if (bal < due && goods > 0) {
+          bal += goods;
+          goods = 0;
+        }
+        const away = s.missions.some((m) => !m.report && m.dispatchedWeek + m.plannedWeeks - 1 > week);
+        if (bal < due && away && l.waited < 3) {
+          l.waited += 1;
+          l.dueWeek += 1;
+          mark('waits');
+          continue;
+        }
+      }
+      const nextDue = Math.max(l.dueWeek - l.waited + 4, week + 2);
+      l.waited = 0;
+      if (due <= 0) l.paidAhead -= credit;
+      else if (bal >= due) {
+        bal -= due;
+        loan += due;
+        l.principal -= due;
+        l.paidAhead = 0;
+        mark('paid');
+      } else {
+        l.paidAhead = 0;
+        l.principal += 20;
+        mark('missed');
+      }
+      l.dueWeek = nextDue;
+      l.paymentDue = Math.max(25, Math.round(l.principal * 0.06));
     }
     out.push({ week, wages, upkeep: upkeep(s), supplies: homeCount, loan, loanStatus, loanDue, hungry: hungry || undefined, expectedIncome, balance: Math.round(bal) });
   }
