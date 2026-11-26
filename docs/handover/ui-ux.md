@@ -130,3 +130,22 @@ Owner: "We should begin a new guild with more of a story and setting intro. It's
 
 **Open**
 - `homeCount` and `wages` stay fixed across the projection's horizon, so hunger can show a week late when a squad comes home. This was already the case before.
+
+## Where the workstream stopped (after v0.15.2)
+
+Everything in this note is merged and live: v0.14.4, v0.15.0, v0.15.1 and v0.15.2. No branch of this workstream holds unmerged work.
+
+**Candidates for a next sweep (none started; check with main and the owner first):**
+- **Hunger timing in the projection:** `projectLedger` keeps wages and mouths fixed over its horizon, so a squad coming home can make hunger show a week late. Small.
+- **The swipe on a real iPhone:** watch for a fight with momentum scrolling, especially swiping down as a list coasts to the top. Tune the thresholds (120px, or 50px when fast) only after a real-device report.
+- **Scene cost confirms:** if the owner finds them nagging, a middle path is to confirm only crowns costs above a threshold.
+- **A fresh phone pass on screens this workstream didn't touch closely:** the week report, Watch together, the Realm sub-tabs, the Armory workshop.
+
+**Tools left in the session scratchpad** (not in the repo, lost when the container goes):
+- Playwright helpers for save-state screenshots and CDP touch tests (`swipe.cjs`, `swipe2.cjs`);
+- the save-state generators.
+
+They're simple to rebuild:
+1. Write a `GameState` with `newGame()` plus edits, as JSON.
+2. Put it in localStorage `lab.autosave`, with `lab.prologue.seen` set to '1'.
+3. Press Continue.
