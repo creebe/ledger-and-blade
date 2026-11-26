@@ -2,6 +2,11 @@
 
 Newest first. Each entry says what changed for a player, why (quoting the owner's feedback where it came from playtesting), and what was and wasn't checked. The live site is https://creebe.github.io/ledger-and-blade/ and is only republished on the owner's word; each entry notes whether it is live.
 
+## v0.14.2 (2026-11-26): Legends a little rarer
+Legends need 115 fame (was 105), with the same level and missions. The owner's call after v0.14.1: "Let's change the legends threshold to 115."
+- **Checked:** 1000 games. Legends per game by week 96 went from 1.44 to 1.04, none before week 63. Survival and feud rates unchanged (careful 69.5%). `npm run check` passed (72 tests), also re-run by main.
+- **Live** (deployed on the owner's word, 2026-11-26).
+
 ## v0.14.1 (2026-11-26): Feuds that settle, and more Legends
 Rival feuds now rise and fall with what the guild does, and Legends come a little more often. The balance brief asked for about a third of passive games to reach a feud in year one, with open war rare unless the player escalates; the owner set the Legend target at one or two per game by the end of year two.
 - **Feuds fade.** Every week a feud cools in proportion to its size. Left alone, a rivalry settles short of a feud. A rival's own moves against you add less (+1, was +3), so a feud no longer feeds itself into war.
