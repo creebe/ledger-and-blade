@@ -4172,6 +4172,16 @@ details summary {
 .x-bench-why {
   margin-right: auto;
   padding-left: 40px;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* at 360 px, four position buttons leave no room for the indent: the reason starts under the silhouette, on one line */
+@media (max-width: 380px) {
+  .x-bench-why {
+    padding-left: 0;
+  }
 }
 .x-bench-put .btn {
   min-width: 44px;
