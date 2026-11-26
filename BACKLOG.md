@@ -5,6 +5,11 @@ What's next, what's open, and what to watch after each release. Main keeps this 
 ## Expeditions: progress
 Done: engine and Field UI (v0.13.0), story bible and export (v0.13.1), Act I payoffs (v0.13.2), six full sites (v0.14.0), feud and Legend balance (v0.14.1). Remaining items are under "Expeditions: still to do" below; the safe-short-trip income loop is still worth watching in the economy workstream.
 
+## To watch from v0.15.0 (live since 2026-11-26)
+- Does the prologue and hall tour make the start clear, without slowing a returning player down?
+- Do scene endings, resting badges and loan credit read clearly on the phone?
+- UI/UX Part 2 (session ui-ux is continuing): small buttons at 34px across the app; the Date "crowns after the bills" target shows as met before its week while the projection says otherwise; backers' "The money came from…" lines read as clashing with the Weighhouse loan; "Hire an Arcanist" offered when the college backer already gave Arcanists.
+
 ## To watch from v0.14.2 / v0.14.1 (live since 2026-11-26)
 - Do feuds feel like a reaction to what the guild did? Is the "rising/cooling" note on the Realm card enough?
 - Bosses: does each one feel like an event, and is the long return job worth taking?

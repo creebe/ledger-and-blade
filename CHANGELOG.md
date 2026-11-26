@@ -2,6 +2,29 @@
 
 Newest first. Each entry says what changed for a player, why (quoting the owner's feedback where it came from playtesting), and what was and wasn't checked. The live site is https://creebe.github.io/ledger-and-blade/ and is only republished on the owner's word; each entry notes whether it is live.
 
+## v0.15.0 (2026-11-26): The opening
+The owner: "We should begin a new guild with more of a story and setting intro. It's confusing to begin the way we do now." They chose a prologue plus a guided first scene, shown on the first new guild only, with a button to read it again.
+- **A prologue.** Four short pages before your first start screen: the Debt, Varrow, the guilds and your guild. Skip is top right, and Back and Next stay at the bottom. Read it again from the title screen ("Read the prologue") or the start screen.
+- **A walk round the hall.** "A Charter and a Debt" is now a tour with Jory Abbot: your people and their wages, the strongbox and the loan, the empty notice board, then the last of the coin with the same three starting choices. Each step can be cut short and names the tab that holds what you just saw.
+- **Story bible:** a canon line on chartered guilds and a paragraph on the opening.
+- **Checked:** `npm run check` (78 tests, story checker clean, every tour step reached); story, writing and UI reviewers (360/390 px, both themes). Main re-ran check and the sim on the combined v0.14.4 + v0.15.0 build: careful first-year survival 67%.
+- **Not checked:** iOS Safari on a real device.
+- **Live** (deployed on the owner's word, 2026-11-26).
+
+## v0.14.4 (2026-11-26): Five playtest fixes
+Fixes from the owner's iPhone playtest of v0.14.3. Shipped together with v0.15.0.
+- **Scene endings stay on screen.** "I just chose 'humiliate her in front of her daughters' and the story UI vanished... I didn't even get to read the final exchange." A scene's last exchange now stays on screen with a Continue button, for every kind of scene.
+- **Resting members say why.** "I couldn't select them to assign anything for the week... we need to display that and make it clear." Below 40 health, or in bed with the Sink fever, a member can't take orders or go out. The Roster card shows "Resting, 2 weeks", and a tap explains why and when they'll be fit.
+- **The At Home list keeps still.** "It's a jarring change." Each row is now always two lines, with 44px position buttons.
+- **"Home lately" is now "Contracts recently completed"** on the Field tab.
+- **Early loan payments count.** "I had just paid 100 early and then the collection week came and I got docked." Early repayments are credited to the next collection; any leftover counts toward the one after. The Hall, the repay confirmation, End Week and the Date card show what's still due.
+- **Lineup wording.** "Rank" is now "position" (the owner's call); standing orders say "Front line" and "Back line".
+- **New Guild** asks for confirmation in the game's own panel instead of the phone's system dialog.
+- **Saves:** version 16; older saves start with no early-payment credit.
+- **Checked:** `npm run check` (78 tests); sim careful 67–68%; the fingerprint matches main for a player who never prepays; balance reviewer found no prepayment exploit (keep credit uncapped); engine, writing and UI reviewers; before/after phone screenshots.
+- **Not checked:** iOS Safari on a real device.
+- **Live** (deployed on the owner's word, 2026-11-26).
+
 ## v0.14.3 (2026-11-26): Old Gullet, and the house style
 The owner answered four questions from the story pass.
 - **Old Gullet.** The great pike of Harrowmere is called Old Gullet now, for its appetite; the owner didn't want "the Bailiff". The hunt still comes from the Mudlarks.
