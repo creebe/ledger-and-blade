@@ -3,6 +3,7 @@ import { BACKERS, CIRCUMSTANCE_BY_ID, PROFESSIONS, dateLabel, newGame } from '..
 import { hasAutosave, slotInfo, useStore } from '../../store';
 import { HelpSheet } from '../sheets/HelpSheet';
 import { MenuSheet } from '../sheets/MenuSheet';
+import { ConfirmSheet } from '../sheets/Dialogs';
 import { useTheme } from '../kit/theme';
 import { Icon } from '../kit/icons';
 import { VERSION } from '../../version';
@@ -87,7 +88,18 @@ export function Title() {
             Continue
           </button>
         )}
-        <button className={`btn block ${auto ? 'ghost' : 'primary'}`} onClick={() => (!auto || confirm('Start a new guild? Your autosave will be replaced.')) && setChoosing(true)}>
+        <button className={`btn block ${auto ? 'ghost' : 'primary'}`} onClick={() =>
+            auto
+              ? useStore.getState().confirm({
+                  title: 'Start a new guild?',
+                  body: ['The guild you are playing now is lost when you found the new one, unless you have saved it to a slot from the menu. Saves already in slots are kept.'],
+                  confirmLabel: 'Start a new guild',
+                  danger: true,
+                  onConfirm: () => setChoosing(true),
+                })
+              : setChoosing(true)
+          }
+        >
           New Guild
         </button>
         {slots.map(({ n, info }) => (
@@ -103,7 +115,7 @@ export function Title() {
         </button>
       </div>
       <p className="tiny muted title-footnote">Prototype build {VERSION} · progress is saved on this device</p>
-      {sheets.map((s, i) => (s.kind === 'menu' ? <MenuSheet key={i} /> : s.kind === 'help' ? <HelpSheet key={i} /> : null))}
+      {sheets.map((s, i) => (s.kind === 'menu' ? <MenuSheet key={i} /> : s.kind === 'help' ? <HelpSheet key={i} /> : s.kind === 'confirm' ? <ConfirmSheet key={i} {...s} /> : null))}
     </div>
   );
 }

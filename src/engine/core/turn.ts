@@ -1,7 +1,7 @@
 import { activeMods, modProduct, modSum } from '../data/decrees';
 import { councilNewWeek, weeklyCouncil } from '../politics/council';
 import { discoverLore, weeklyCrier, weeklyJory } from '../story/codex';
-import { denIntel, healBonus, level, trainCost, trainWeeks, upkeep, weeklyWorkshop } from '../economy/buildings';
+import { denIntel, level, trainCost, trainWeeks, upkeep, weeklyWorkshop } from '../economy/buildings';
 import { triggerEvents } from '../story/scenes';
 import { dateWarning, datesPhase, scheduleDates } from '../story/dates';
 import { sealExpedition, settleExpedition, sellGoods } from '../expeditions/run';
@@ -11,12 +11,13 @@ import { executeRival, planRival } from '../rivals/rival';
 import { weeklyWar } from '../rivals/war';
 import { chance } from './rng';
 import type { GameState } from './types';
-import { addDispatch, clamp, living } from './util';
+import { addDispatch, clamp, living, loanStillDue } from './util';
 import { applyClock, applyStanding, earn, spend, track } from './effects';
 import { generateRecruit } from '../people/members';
 import { refreshBoard } from '../economy/board';
 import { refreshMarket, supplyPrice } from '../economy/market';
-import { factionPerks, odaHeal } from '../politics/factions';
+import { factionPerks } from '../politics/factions';
+import { FEVER_HEAL, FIT_HEALTH, homeHeal } from '../people/health';
 
 export interface Projection {
   week: number;
@@ -41,7 +42,7 @@ export function projectLedger(s: GameState, weeks = 4): Projection[] {
     const week = s.week + i;
     const wages = weeklyWages(s);
     const homeCount = living(s).filter((m) => m.status !== 'mission').length;
-    const loan = s.loans.reduce((sum, l) => sum + (l.dueWeek === week ? l.paymentDue : 0), 0);
+    const loan = s.loans.reduce((sum, l) => sum + (l.dueWeek === week ? loanStillDue(l) : 0), 0);
     // missions resolving this week pay roughly their listed reward
     // squads due home this week pay roughly their listed reward (the real outcome stays hidden until then)
     const expectedIncome = s.missions.filter((m) => !m.report && m.dispatchedWeek + m.plannedWeeks - 1 === week).reduce((sum, m) => sum + m.contract.reward, 0);
@@ -61,7 +62,7 @@ export function endWeekWarnings(s: GameState): string[] {
   const home = living(s).filter((m) => m.status !== 'mission').length;
   if (s.supplies < home) w.push(`Supplies will run short: ${s.supplies} for ${home} mouths.`);
   const due = s.loans.find((l) => l.dueWeek === s.week);
-  if (due && s.crowns - weeklyWages(s) - upkeep(s) < due.paymentDue) w.push(`You can't cover this week's loan payment of ${due.paymentDue} crowns.`);
+  if (due && loanStillDue(due) > 0 && s.crowns - weeklyWages(s) - upkeep(s) < loanStillDue(due)) w.push(`You can't cover this week's loan payment of ${loanStillDue(due)} crowns.`);
   if (s.crowns - weeklyWages(s) - upkeep(s) < 0) w.push('Wages and upkeep will put you in the red.');
   const expiring = s.board.filter((c) => c.expiresWeek === s.week);
   const dw = dateWarning(s);
@@ -96,7 +97,7 @@ function homePhase(s: GameState) {
     if (m.fever) {
       m.fever.weeks -= 1;
       // a week in bed: they rest, though the fever keeps them from healing fully
-      m.health = clamp(m.health + 4, 0, 100);
+      m.health = clamp(m.health + FEVER_HEAL, 0, 100);
       m.fatigue = clamp(m.fatigue - 30, 0, 100);
       if (m.fever.weeks > 0) continue;
       const c = m.fever.change;
@@ -105,12 +106,11 @@ function homePhase(s: GameState) {
       addDispatch(s, 'roster', `${m.name} is over the fever`, [`The Sink fever breaks, and ${m.name.split(' ')[0]} is back on their feet with something new: ${CHANGES[c].name.toLowerCase()}. ${CHANGES[c].text}`]);
       continue;
     }
-    const frail = m.traits.includes('frail');
-    m.health = clamp(m.health + (frail ? 5 : 9) + healBonus(s) + odaHeal(s), 0, 100);
+    m.health = clamp(m.health + homeHeal(s, m), 0, 100);
     if (level(s, 'infirmary') >= 3) m.fatigue = clamp(m.fatigue - 5, 0, 100);
     m.fatigue = clamp(m.fatigue - 10, 0, 100);
-    if (m.status === 'recovering' || m.health < 40) {
-      m.status = m.health >= 40 ? 'idle' : 'recovering';
+    if (m.status === 'recovering' || m.health < FIT_HEALTH) {
+      m.status = m.health >= FIT_HEALTH ? 'idle' : 'recovering';
       m.fatigue = clamp(m.fatigue - 10, 0, 100);
       continue;
     }
@@ -188,7 +188,7 @@ function missionPhase(s: GameState) {
       // anyone still marked away on it comes in (a classic squad that had its report before the save moved across)
       for (const m of s.members) {
         if (m.status !== 'mission' || m.missionId !== ms.id) continue;
-        m.status = m.health < 40 ? 'recovering' : 'idle';
+        m.status = m.health < FIT_HEALTH ? 'recovering' : 'idle';
         m.missionId = undefined;
         m.assignment = 'rest';
       }
@@ -231,13 +231,16 @@ function economyPhase(s: GameState) {
   for (const loan of s.loans) {
     loan.principal *= 1 + loan.weeklyRate * modProduct(s, 'loanRate');
     if (loan.dueWeek === s.week) {
-      const due = Math.min(loan.paymentDue, Math.ceil(loan.principal));
+      // early repayments since the last collection count toward this one
+      const full = Math.min(loan.paymentDue, Math.ceil(loan.principal));
+      const credit = full - loanStillDue(loan);
+      const due = full - credit;
       // short of coin: sell what the squads brought back, and if a squad is still away, the Weighhouse waits for it
-      if (s.crowns < due && Object.values(s.goods ?? {}).some((n) => (n ?? 0) > 0)) {
+      if (due > 0 && s.crowns < due && Object.values(s.goods ?? {}).some((n) => (n ?? 0) > 0)) {
         const got = sellGoods(s);
         addDispatch(s, 'economy', 'Goods sold for the Weighhouse', [`The coin at home fell short, so the guild sold its goods for ${got} crowns to make the payment.`]);
       }
-      if (s.crowns < due && s.missions.some((m) => !m.report && m.returnWeek > s.week) && (loan.waited ?? 0) < 3) {
+      if (due > 0 && s.crowns < due && s.missions.some((m) => !m.report && m.returnWeek > s.week) && (loan.waited ?? 0) < 3) {
         loan.waited = (loan.waited ?? 0) + 1;
         loan.dueWeek += 1;
         addDispatch(s, 'economy', 'The Weighhouse waits', [`The payment of ${due} crowns is due, and a squad is still away. The Weighhouse agrees to wait a week for them, and writes to say so. It wants paying in week ${loan.dueWeek}, and ${loan.waited === 3 ? 'it will not wait again' : 'it will wait at most three weeks in all'}.`]);
@@ -247,16 +250,25 @@ function economyPhase(s: GameState) {
       const waited = loan.waited ?? 0;
       loan.waited = 0;
       const nextDue = Math.max(loan.dueWeek - waited + 4, s.week + 2);
-      if (s.crowns >= due) {
+      if (due <= 0) {
+        loan.paidAhead = (loan.paidAhead ?? 0) - credit;
+        const left = Math.floor(loan.paidAhead);
+        addDispatch(s, 'economy', 'Loan payment covered', [
+          `The ${full} crowns due this week were paid early, so the Weighhouse takes nothing. You still owe ${Math.ceil(loan.principal)} crowns.${left > 0 ? ` The other ${left} crowns you paid early count toward the next payment, due in week ${nextDue}.` : ` The next payment is due in week ${nextDue}.`}`,
+        ]);
+      } else if (s.crowns >= due) {
         spend(s, 'Loan payment', due);
         loan.principal -= due;
-        addDispatch(s, 'economy', 'Loan payment made', [`Paid ${due} crowns to the Weighhouse. ${Math.ceil(loan.principal)} still owed. The next payment is due in week ${nextDue}.`]);
+        loan.paidAhead = 0;
+        addDispatch(s, 'economy', 'Loan payment made', [`You paid the Weighhouse ${credit ? `the last ${due} of the ${full} crowns due, since ${credit} were paid early` : `${due} crowns`}. You still owe ${Math.ceil(loan.principal)} crowns. The next payment is due in week ${nextDue}.`]);
       } else {
+        // what was paid early still counts: the penalty is for the part left unpaid
+        loan.paidAhead = 0;
         loan.missed += 1;
         loan.principal += 20;
         applyStanding(s, loan.lender, -8);
         addDispatch(s, 'warning', 'Missed loan payment!', [
-          `You could not pay the ${due} crowns due. A 20-crown penalty was added, and the Weighhouse is displeased.`,
+          `You could not pay the ${due} crowns ${credit ? `still due (${credit} of the ${full} were paid early)` : 'due'}. A 20-crown penalty was added, and the Weighhouse is displeased.`,
           `Missed payments: ${loan.missed} of 3. At 3, your assets will be seized. The next payment is due in week ${nextDue}.`,
         ]);
       }

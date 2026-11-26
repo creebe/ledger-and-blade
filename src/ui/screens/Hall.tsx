@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { dateLabel, living, projectLedger, repayLoan, type GameState, upkeep, weeklyWages } from '../../engine';
+import { dateLabel, living, loanStillDue, projectLedger, repayLoan, type GameState, type Loan, upkeep, weeklyWages } from '../../engine';
 import { useStore } from '../../store';
 import { goTo, type NavTarget } from '../kit/navigate';
 import { crowns, crownsDelta, num, plural, weeks } from '../kit/format';
@@ -18,7 +18,8 @@ export function alerts(g: GameState): { tone: 'warn' | 'bad' | 'info'; text: str
   if (g.pendingEvents.length) out.push({ tone: 'warn', text: `${plural(g.pendingEvents.length, 'dispatch', 'dispatches')} ${g.pendingEvents.length === 1 ? 'awaits' : 'await'} your decision.` });
   for (const l of g.loans) {
     const inWeeks = l.dueWeek - g.week;
-    if (inWeeks <= 1) out.push({ tone: g.crowns < l.paymentDue + weeklyWages(g) ? 'bad' : 'warn', text: `Loan payment of ${crowns(l.paymentDue)} due ${inWeeks <= 0 ? 'this week' : 'next week'}.`, to: { tab: 'hall', guide: 'debt' } });
+    const owed = loanStillDue(l);
+    if (inWeeks <= 1 && owed > 0) out.push({ tone: g.crowns < owed + weeklyWages(g) ? 'bad' : 'warn', text: `Loan payment of ${crowns(owed)} due ${inWeeks <= 0 ? 'this week' : 'next week'}.`, to: { tab: 'hall', guide: 'debt' } });
     if (l.missed) out.push({ tone: 'bad', text: `Missed loan payments: ${l.missed} of 3.`, to: { tab: 'hall', guide: 'debt' } });
   }
   if (g.insolventWeeks) out.push({ tone: 'bad', text: `In the red for ${plural(g.insolventWeeks, 'week')}. At 4, the guild is bankrupt.`, to: { tab: 'hall', guide: 'ledger' } });
@@ -31,6 +32,16 @@ export function alerts(g: GameState): { tone: 'warn' | 'bad' | 'info'; text: str
   const story = g.board.find((c) => c.story);
   if (story) out.push({ tone: 'info', text: `Story contract available: "${story.title}".`, to: { planner: story.id } });
   return out;
+}
+
+const dueWhen = (l: Loan, week: number) => (l.dueWeek <= week ? 'this week' : l.dueWeek === week + 1 ? 'next week' : `in ${weeks(l.dueWeek - week)}`);
+
+/** What an early repayment of n does to the next collection, in a line for the confirm. */
+function aheadLine(l: Loan, n: number) {
+  const now = loanStillDue(l);
+  if (now === 0) return 'The next payment is already covered, so this counts toward the one after.';
+  const left = Math.max(0, now - n);
+  return left === 0 ? `This covers the next payment of ${crowns(now)}, so the Weighhouse takes nothing on the day.` : `The next payment falls from ${crowns(now)} to ${crowns(left)}.`;
 }
 
 export function HallScreen() {
@@ -103,7 +114,7 @@ export function HallScreen() {
           <button className="loan-line tappable" onClick={() => goTo({ tab: 'hall', guide: 'debt' })}>
             <Icon name="coin" size={14} />
             <span>
-              Loan: {crowns(Math.ceil(loan.principal))} owed · {crowns(loan.paymentDue)} due {loan.dueWeek <= g.week ? 'this week' : loan.dueWeek === g.week + 1 ? 'next week' : `in ${weeks(loan.dueWeek - g.week)}`}
+              Loan: {crowns(Math.ceil(loan.principal))} owed · {loanStillDue(loan) > 0 ? `${crowns(loanStillDue(loan))} due` : 'nothing due'} {dueWhen(loan, g.week)}
             </span>
           </button>
         )}
@@ -155,9 +166,24 @@ export function HallScreen() {
         {loan ? (
           <>
             <p>
-              You owe the Weighhouse <b>{crowns(Math.ceil(loan.principal))}</b> at {Math.round(loan.weeklyRate * 100)}% interest per week. Next payment: <b>{crowns(loan.paymentDue)}</b>{' '}
-              {loan.dueWeek === g.week ? 'at the end of this week' : loan.dueWeek === g.week + 1 ? 'next week' : `in ${weeks(loan.dueWeek - g.week)}`}.
+              You owe the Weighhouse <b>{crowns(Math.ceil(loan.principal))}</b> at {Math.round(loan.weeklyRate * 100)}% interest per week.{' '}
+              {loanStillDue(loan) > 0 ? (
+                <>
+                  Next payment: <b>{crowns(loanStillDue(loan))}</b> {loan.dueWeek <= g.week ? 'at the end of this week' : dueWhen(loan, g.week)}.
+                </>
+              ) : (
+                <>
+                  The payment due {dueWhen(loan, g.week)} is <b className="pos">already covered</b>.
+                </>
+              )}
             </p>
+            {(loan.paidAhead ?? 0) >= 1 && (
+              <p className="small muted loan-ahead">
+                {loanStillDue(loan) > 0
+                  ? `You've paid ${crowns(Math.floor(loan.paidAhead!))} early, which comes off the ${crowns(Math.min(loan.paymentDue, Math.ceil(loan.principal)))} due.`
+                  : `You've paid ${crowns(Math.floor(loan.paidAhead!))} early. The Weighhouse counts it toward the next payment, so nothing is owed on the day.`}
+              </p>
+            )}
             <div className="row wrap gap">
               {[50, 100, 250].map((n) => (
                 <Btn
@@ -167,7 +193,11 @@ export function HallScreen() {
                   onClick={() =>
                     useStore.getState().confirm({
                       title: `Repay ${n} crowns early?`,
-                      body: [`Your debt falls from ${Math.ceil(loan.principal)} to ${Math.ceil(loan.principal - n)}, saving about ${crowns(Math.round(n * loan.weeklyRate * 10) / 10)} interest every week.`, `Make sure you can still cover weekly costs: ${crowns(weeklyWages(g) + upkeep(g))}.`],
+                      body: [
+                        `Your debt falls from ${Math.ceil(loan.principal)} to ${Math.ceil(loan.principal - n)}, saving about ${crowns(Math.round(n * loan.weeklyRate * 10) / 10)} interest every week.`,
+                        aheadLine(loan, n),
+                        `Make sure you can still cover weekly costs: ${crowns(weeklyWages(g) + upkeep(g))}.`,
+                      ],
                       cost: `Treasury ${g.crowns} → ${g.crowns - n}`,
                       confirmLabel: `Repay ${n}`,
                       onConfirm: () => act((d) => repayLoan(d, n)),
@@ -193,7 +223,7 @@ export function HallScreen() {
                 Repay all
               </Btn>
             </div>
-            <p className="tiny muted">Paying early reduces the interest that piles up each week. Missing 3 payments means ruin.</p>
+            <p className="tiny muted">Paying early cuts the interest that piles up each week, and it counts toward the next payment. Missing 3 payments means ruin.</p>
           </>
         ) : (
           <p className="good">The guild is debt-free.</p>

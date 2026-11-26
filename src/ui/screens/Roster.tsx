@@ -18,7 +18,7 @@ function Vital({ icon, v, label }: { icon: string; v: number; label: string }) {
     </span>
   );
 }
-import { ASSIGNMENTS, ORDER_ICON } from '../kit/members';
+import { ASSIGNMENTS, ORDER_ICON, restingInfo } from '../kit/members';
 import { crowns, plural } from '../kit/format';
 import { short } from '../kit/shortfall';
 import { goTo } from '../kit/navigate';
@@ -62,6 +62,7 @@ export function RosterScreen() {
       <Section guide="roster">
         {crew.map((m) => {
           const r = readiness(m, g);
+          const resting = restingInfo(g, m);
           return (
             <div
               key={m.id}
@@ -90,11 +91,18 @@ export function RosterScreen() {
                     </b>
                     <span className={`readiness ${r.tone}`}>{r.text}</span>
                   </div>
-                  <div className="row between">
+                  <div className="row between member-row-orders">
                     <span className="meta">
                       {PROFESSIONS[m.profession].name} · Lv {m.level}
                     </span>
-                    {m.status === 'idle' && (
+                    {resting ? (
+                      <span className="order-chip-wrap" onClick={(e) => e.stopPropagation()}>
+                        <Btn className="order-chip order-chip-resting" blocked={resting.why} onClick={() => undefined}>
+                          <Icon name="rest" size={14} />
+                          {resting.chip}
+                        </Btn>
+                      </span>
+                    ) : m.status === 'idle' && (
                       <button
                         className="order-chip"
                         aria-label={`Orders for ${m.name}: ${ASSIGNMENTS.find((a) => a.id === m.assignment)?.label}. Tap to change.`}

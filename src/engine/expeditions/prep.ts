@@ -6,7 +6,8 @@ import { FEUD_CONTESTED } from '../core/tuning';
 import { level, tripWeeks } from '../economy/buildings';
 import { supplyPrice } from '../economy/market';
 import type { Contract, GameState, Member } from '../core/types';
-import { living } from '../core/util';
+import { living, loanStillDue } from '../core/util';
+import { laidUp } from '../people/health';
 import { DELVER_PROFS, GOODS, LENGTHS, MONSTERS, SITES, SUPPLIES, SUPPLY_IDS, ZONES, routeOf, type RouteStep } from './data/content';
 import { delverMaxHp } from './dive';
 import { bossBeaten, bossBusy } from './bosses';
@@ -56,12 +57,13 @@ export function plannedWeeks(s: GameState, c: Contract) {
 export const contractRoute = (c: Contract): RouteStep[] => routeOf(c.expedition.site, c.expedition.length, c.expedition.goal);
 
 /** Why this member can't go, if they can't. */
-export function memberBlocked(_s: GameState, m: Member): string | undefined {
+export function memberBlocked(s: GameState, m: Member): string | undefined {
   const first = m.name.split(' ')[0];
   if (m.status === 'mission') return `${first} is already away.`;
   if (m.status !== 'idle' && m.status !== 'recovering') return `${first} is not with the guild.`;
-  if (m.health < 40) return `${first} is too badly hurt to go (health ${m.health}).`;
   if (m.fever) return `${first} is in bed with the Sink fever for ${m.fever.weeks === 1 ? 'another week' : `${m.fever.weeks} more weeks`}.`;
+  const lay = laidUp(s, m);
+  if (lay) return `${first} is too badly hurt to go (health ${m.health}) and is resting. They'll be fit ${lay.weeks === 1 ? 'next week' : `in ${lay.weeks} weeks`}.`;
   return undefined;
 }
 
@@ -74,7 +76,7 @@ export function planBlocked(s: GameState, c: Contract, plan: ExpPlan): string | 
   const size = squadSize(c);
   if (plan.squad.length < size.min) return `This job needs at least ${size.min} people.`;
   if (plan.squad.length > size.max) return `This job takes at most ${size.max} people.`;
-  if (new Set(plan.squad).size !== plan.squad.length) return 'Each member can only take one rank.';
+  if (new Set(plan.squad).size !== plan.squad.length) return 'Each member can only take one position.';
   for (const id of plan.squad) {
     const m = s.members.find((x) => x.id === id);
     if (!m) return 'One of the squad is no longer with the guild.';
@@ -116,7 +118,7 @@ export function planWarnings(s: GameState, c: Contract, plan: ExpPlan): string[]
   squad.forEach((m, i) => {
     const first = m.name.split(' ')[0];
     const ranks = DELVER_PROFS[m.profession].ranks;
-    if (!ranks.includes(i + 1)) w.push(`${first} is ${/^[AEIOU]/.test(PROFESSIONS[m.profession].name) ? 'an' : 'a'} ${PROFESSIONS[m.profession].name} in rank ${i + 1}. They work best from rank ${ranks.join(' or ')}.`);
+    if (!ranks.includes(i + 1)) w.push(`${first} is ${/^[AEIOU]/.test(PROFESSIONS[m.profession].name) ? 'an' : 'a'} ${PROFESSIONS[m.profession].name} in position ${i + 1}. They work best from position ${ranks.join(' or ')}.`);
     if (m.health < 60) w.push(`${first} is still hurt (health ${m.health}).`);
     if (m.fatigue >= T.fatigue.tired) w.push(`${first} is ${m.fatigue >= T.fatigue.spent ? 'worn out' : 'tired'} before they start (fatigue ${m.fatigue}). If they go down tired, they're likelier to die.`);
     const nextTh = T.exposure.thresholds.find((t) => t > (m.exposure ?? 0));
@@ -127,7 +129,7 @@ export function planWarnings(s: GameState, c: Contract, plan: ExpPlan): string[]
   if (steps.includes('sink') && (plan.pack.masks ?? 0) < squad.length) w.push(`The Sink is on the route, and there are ${plan.pack.masks ?? 0} wet masks for ${squad.length} people.`);
   const loan = s.loans[0];
   const weeks = plannedWeeks(s, c);
-  if (loan && loan.dueWeek < s.week + weeks) w.push(`A Weighhouse payment of ${loan.paymentDue} falls due while they're away. If the money at home is short, the Weighhouse waits for the squad.`);
+  if (loan && loanStillDue(loan) > 0 && loan.dueWeek < s.week + weeks) w.push(`A Weighhouse payment of ${loanStillDue(loan)} falls due while they're away. If the money at home is short, the Weighhouse waits for the squad.`);
   if (c.story) w.push('This is story work. If the squad turns back or is lost, the job fails, and the story goes on without it.');
   if (c.expedition.site === 'pellam' && c.expedition.length === 'long' && squad.length && squad.every((m) => m.level <= 2))
     w.push('This is the deepest route in Old Pellam, and nobody in this squad is past level 2. Squads this green often don\'t come back from the College Sink.');

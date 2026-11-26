@@ -1,7 +1,7 @@
 import { PROFESSIONS } from '../../engine';
 import { useStore } from '../../store';
 import { Sheet } from '../kit/common';
-import { OrderPicker } from '../kit/members';
+import { OrderPicker, restingInfo } from '../kit/members';
 import { Portrait, readiness } from '../kit/visual';
 
 /**
@@ -29,7 +29,9 @@ export function OrdersSheet({ id }: { id: string }) {
           </span>
         </span>
       </button>
-      {m.status === 'idle' ? (
+      {restingInfo(g, m) ? (
+        <p className="hint">{restingInfo(g, m)!.why}</p>
+      ) : m.status === 'idle' ? (
         <OrderPicker m={m} onChosen={(a) => a !== 'train' && close()} />
       ) : (
         <p className="hint">{m.name.split(' ')[0]} is not at the hall this week, so there are no orders to give.</p>

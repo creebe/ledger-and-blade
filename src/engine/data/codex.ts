@@ -4,6 +4,7 @@
 // own pasts, and talk in the streets. Each entry says how it was learned.
 import type { GameState, TagId } from '../core/types';
 import { hasStart } from './starts';
+import { loanStillDue } from '../core/util';
 
 export type CodexCategory = 'Common knowledge' | 'History' | 'Places' | 'People' | 'Foes' | 'Powers & trades';
 
@@ -350,7 +351,7 @@ const crew = (s: GameState) => s.members.filter((m) => m.status !== 'dead' && m.
 
 export const JORY: HallLine[] = [
   { id: 'j_candles', text: 'Jory has started weighing the candles before he lights them.', when: (s) => s.crowns < 60, weight: 3 },
-  { id: 'j_loan', text: 'Jory reminds you that the Weighhouse payment is due this week, and that he reminded you last week too.', when: (s) => s.loans.some((l) => l.dueWeek - s.week <= 1), weight: 2 },
+  { id: 'j_loan', text: 'Jory reminds you that the Weighhouse payment is due this week, and that he reminded you last week too.', when: (s) => s.loans.some((l) => l.dueWeek - s.week <= 1 && loanStillDue(l) > 0), weight: 2 },
   { id: 'j_watch', text: "Jory says a man from the watch has walked past the hall four times today, and he's starting to recognize the hat.", when: (s) => s.heat >= 40, weight: 3 },
   { id: 'j_renown', text: "Jory says people have started spelling the guild's name right in their letters. He thinks this is a good sign.", when: (s) => s.renown >= 15 },
   { id: 'j_candle', text: "Jory has left a candle burning in the hall. He doesn't say who it's for.", when: (s) => s.members.some((m) => m.status === 'dead' && (m.diedWeek ?? -99) >= s.week - 1), weight: 4 },

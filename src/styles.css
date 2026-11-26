@@ -1575,6 +1575,26 @@ details summary {
 .event-node {
   animation: rise 0.3s ease-out;
 }
+/* a finished scene: the text that was answered steps back, and the ending reads in full ink */
+.event-node.event-node-answered {
+  animation: none;
+  color: var(--ink-2);
+}
+.event-ending {
+  border-top: 1px solid var(--line);
+  margin-top: 10px;
+  padding-top: 10px;
+  animation: rise 0.3s ease-out;
+  scroll-margin-bottom: 16px;
+}
+.exchange.exchange-last .reply {
+  color: var(--ink);
+  margin-top: 6px;
+}
+.event-continue {
+  margin-top: 12px;
+  min-height: 48px;
+}
 .speaker {
   font-family: var(--display);
   font-variant-numeric: lining-nums;
@@ -3015,6 +3035,33 @@ details summary {
 .order-chip:active {
   background: var(--paper);
 }
+/* a member laid up can't take orders: the chip says why, at full strength, and explains on tap */
+.order-chip.order-chip-resting,
+.order-chip.order-chip-resting.is-blocked {
+  opacity: 1;
+  border-style: dashed;
+  color: var(--ink-2);
+}
+.order-chip-wrap {
+  display: inline-flex;
+}
+/* the roster's profession line and order chip: at 360 px a long chip drops to its own line, still on the right, rather than breaking mid-label */
+.member-row-orders {
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+.member-row-orders > .meta,
+.member-row-orders > .order-chip,
+.member-row-orders > .order-chip-wrap {
+  white-space: nowrap;
+}
+.member-row-orders > .order-chip,
+.member-row-orders > .order-chip-wrap {
+  margin-left: auto;
+}
+.member-resting .icon {
+  vertical-align: -2px;
+}
 .orders-who {
   margin-bottom: 8px;
 }
@@ -4104,19 +4151,41 @@ details summary {
 .x-gear-sum {
   font-size: var(--fs-xs);
 }
+/* a bench row is always two lines: who they are, then the rank buttons, however many ranks are open */
 .x-bench {
+  display: grid;
+  gap: 4px;
   padding: 6px 0;
   border-bottom: 1px solid var(--line);
-  gap: 6px;
-  flex-wrap: wrap;
 }
-.x-bench > .row:first-child {
+.x-bench-who {
   min-width: 0;
-  flex: 1 1 200px;
+  align-items: flex-start;
+}
+.x-bench-put {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  min-height: 44px;
+}
+.x-bench-why {
+  margin-right: auto;
+  padding-left: 40px;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* at 360 px, four position buttons leave no room for the indent: the reason starts under the silhouette, on one line */
+@media (max-width: 380px) {
+  .x-bench-why {
+    padding-left: 0;
+  }
 }
 .x-bench-put .btn {
-  min-width: 38px;
-  min-height: 38px;
+  min-width: 44px;
+  min-height: 44px;
   padding: 4px 8px;
 }
 .x-pack-meter {

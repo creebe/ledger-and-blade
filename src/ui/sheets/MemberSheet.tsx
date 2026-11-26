@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { EXP_TUNING, treatExposure, APPROACH_INFO, FAME_TIERS, LEGEND_NEEDS, ITEMS, PROFESSIONS, SIGNATURES, TRAITS, awayReason, dismissMember, equip, equippedBy, fameTier, isPreparing, memberScore, type Approach, type Attribute, type GameState, type ItemSlot, type Member, xpToLevel } from '../../engine';
+import { EXP_TUNING, treatExposure, APPROACH_INFO, FAME_TIERS, LEGEND_NEEDS, ITEMS, PROFESSIONS, SIGNATURES, TRAITS, awayReason, dismissMember, equip, equippedBy, fameTier, isPreparing, laidUp, memberScore, type Approach, type Attribute, type GameState, type ItemSlot, type Member, xpToLevel } from '../../engine';
 import { useStore } from '../../store';
 import { Btn, Meter, Sheet } from '../kit/common';
 import { SLOT_LABEL, cap, crowns, datedLine, shortDate } from '../kit/format';
 import { Icon } from '../kit/icons';
 import { ItemIcon, ItemStats, PROFESSION_APPROACH, Portrait, ap } from '../kit/visual';
-import { OrderPicker } from '../kit/members';
+import { OrderPicker, restingInfo } from '../kit/members';
 import { Marks } from '../expeditions/xkit';
 import { short } from '../kit/shortfall';
 
@@ -24,7 +24,11 @@ function statusLine(m: Member, game: GameState) {
     const left = ms.dispatchedWeek + ms.plannedWeeks - 1 - game.week;
     return `On "${ms.contract.title}", back ${left <= 0 ? 'at the end of this week' : `in ${left + 1} weeks`}`;
   }
-  if (m.status === 'recovering') return 'Recovering from wounds';
+  const lay = laidUp(game, m);
+  if (lay) {
+    const when = lay.weeks === 1 ? 'next week' : `in ${lay.weeks} weeks`;
+    return lay.why === 'fever' ? `In bed with the Sink fever, up ${when}` : `Resting with wounds, fit ${when}`;
+  }
   return STATUS_LABEL[m.status];
 }
 
@@ -122,11 +126,21 @@ export function MemberSheet({ id }: { id: string }) {
         </Btn>
       )}
 
-      {!locked && m.status === 'idle' && (
+      {!locked && restingInfo(game, m) ? (
         <>
           <h3 className="subhead">This week</h3>
-          <OrderPicker m={m} />
+          <p className="hint member-resting">
+            <Icon name="rest" size={14} /> {restingInfo(game, m)!.why}
+          </p>
         </>
+      ) : (
+        !locked &&
+        m.status === 'idle' && (
+          <>
+            <h3 className="subhead">This week</h3>
+            <OrderPicker m={m} />
+          </>
+        )
       )}
 
       <div className="traits">

@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { PROFESSIONS, setAssignment, trainCost, trainWeeks, type Assignment, type Attribute, type Member } from '../../engine';
+import { FIT_HEALTH, PROFESSIONS, laidUp, level, setAssignment, trainCost, trainWeeks, type Assignment, type Attribute, type GameState, type Member } from '../../engine';
 import { useStore } from '../../store';
 import { cap, crowns } from './format';
 import { Icon } from './icons';
@@ -17,6 +17,24 @@ export const ASSIGNMENTS: { id: Assignment; label: string; blurb: string }[] = [
   { id: 'build', label: 'Build', blurb: 'Help with construction: each builder adds half a week of progress. Tiring.' },
   { id: 'scout', label: 'Scout a contract', blurb: "Reveal a contract's hidden tags by week's end. Scouts, Skirmishers and Infiltrators reveal all of them; others reveal one." },
 ];
+
+/**
+ * Why a member at the hall can't take orders this week, if they can't: a short
+ * label for the chip on their card, and the full reason for a blocked tap.
+ */
+export function restingInfo(g: GameState, m: Member): { chip: string; why: string } | undefined {
+  const lay = laidUp(g, m);
+  if (!lay) return undefined;
+  const first = m.name.split(' ')[0];
+  const when = lay.weeks === 1 ? 'next week' : `in ${lay.weeks} weeks`;
+  const span = lay.weeks === 1 ? '1 week' : `${lay.weeks} weeks`;
+  if (lay.why === 'fever')
+    return { chip: `In bed, ${span}`, why: `${first} is in bed with the Sink fever, so they can't take orders or go out. They'll be up ${when}.` };
+  return {
+    chip: `Resting, ${span}`,
+    why: `${first} is resting while their wounds heal, so they can't take orders or go out. Their health is ${m.health}, and they need ${FIT_HEALTH} to work again. They'll be fit ${when}.${level(g, 'infirmary') < 1 ? ' An Infirmary in the Hall would heal them faster.' : ''}`,
+  };
+}
 
 export function MemberMini({ m, selected, onClick, onLongPress, blocked }: { m: Member; selected?: boolean; onClick?: () => void; onLongPress?: () => void; blocked?: string }) {
   const g = useStore((s) => s.game)!;

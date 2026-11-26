@@ -7,6 +7,7 @@ export * from './economy/items';
 export * from './economy/market';
 export * from './economy/board';
 export * from './people/members';
+export { FIT_HEALTH, laidUp } from './people/health';
 export * from './missions/odds';
 export * from './actions';
 export * from './story/scenes';

@@ -206,7 +206,8 @@ export default function App() {
     const t = window.setTimeout(() => document.querySelector(`[data-guide="${guideTarget}"]`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 80);
     return () => window.clearTimeout(t);
   }, [guideTarget]);
-  useScrollLock(sheets.length > 0 || (!!game && !game.gameOver && game.pendingEvents.length > 0));
+  const closingEvent = useStore((s) => s.closingEvent);
+  useScrollLock(sheets.length > 0 || (!!game && !game.gameOver && (game.pendingEvents.length > 0 || !!closingEvent)));
 
   if (!game)
     return (
@@ -277,7 +278,7 @@ export default function App() {
           </SheetDepth.Provider>
         );
       })}
-      {event && <EventCard ev={event} />}
+      {closingEvent ? <EventCard key={`done-${closingEvent.uid}`} ev={closingEvent} done /> : event && <EventCard key={event.uid} ev={event} />}
       {toast && !sheets.some((x) => x.kind !== 'confirm') && <Toast />}
       {guideTarget && <style>{`[data-guide="${guideTarget}"] { animation: guidepulse 1.1s ease-in-out 4; border-radius: 12px; }`}</style>}
     </div>
