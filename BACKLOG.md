@@ -8,12 +8,12 @@ Done: engine and Field UI (v0.13.0), story bible and export (v0.13.1), Act I pay
 ## To watch from v0.15.1 (live since 2026-11-26)
 - Swipe-down on a real iPhone: does it fight with scrolling, especially a momentum scroll coasting to the top? Does it ever close a panel by accident?
 - Do the cost confirmations on scene choices feel helpful or nagging?
-- UI/UX Part 2 continues. Open from batch 1: the ledger forecast is pessimistic (it charges for supplies the game never buys, subtracts a loan payment the Weighhouse agreed to wait for, and counts squad pay by planned weeks); a new game's first Date shows a negative "about … by then" from week 1; the loan target and the crowns target in one Date forecast from different numbers.
+- The ledger forecast and Date targets were reworked in v0.15.2: does the "waits"/"missed" loan note and the "about N short" wording read clearly?
 
 ## To watch from v0.15.0 (live since 2026-11-26)
 - Does the prologue and hall tour make the start clear, without slowing a returning player down?
 - Do scene endings, resting badges and loan credit read clearly on the phone?
-- UI/UX Part 2 (small buttons and the Date crowns target fixed in v0.15.1). Still open: backers' "The money came from…" lines read as clashing with the Weighhouse loan; "Hire an Arcanist" offered when the college backer already gave Arcanists.
+- UI/UX Part 2 (small buttons and the Date crowns target fixed in v0.15.1). The backer lines and the college "Hire a second Arcanist" were fixed in v0.15.2.
 
 ## To watch from v0.14.2 / v0.14.1 (live since 2026-11-26)
 - Do feuds feel like a reaction to what the guild did? Is the "rising/cooling" note on the Realm card enough?

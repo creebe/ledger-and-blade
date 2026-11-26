@@ -2,6 +2,17 @@
 
 Newest first. Each entry says what changed for a player, why (quoting the owner's feedback where it came from playtesting), and what was and wasn't checked. The live site is https://creebe.github.io/ledger-and-blade/ and is only republished on the owner's word; each entry notes whether it is live.
 
+## v0.15.2 (2026-11-26): A ledger you can trust
+The Hall's money forecast now matches what the week will actually do, and the Date targets read from it. This is UI/UX Part 2, batch 2.
+- **The forecast follows the Weighhouse.** When the coin will be short on the day, the forecast does what the Weighhouse does. It sells goods first, then waits if a squad is still away (up to three weeks). Otherwise the payment is missed and no coin leaves; before, it always subtracted the payment. The Loan column shows "waits" or "missed", with a short note under the table.
+- **No phantom supply bill.** The forecast no longer charges crowns for supplies the game never buys. Instead, a warning says when supplies run out and people at home will go hungry.
+- **Squad pay** still counts in the week a trip is planned to end, as if the job succeeds, so the forecast doesn't give away how the trip went. A squad that's overdue counts as still away.
+- **Date targets use one forecast.** "Pay the Weighhouse" and "Have N crowns" both forecast from the same projection. When short, they say by how much, e.g. "about 30 short by then, if no new pay comes in". That explains the red figure a new guild sees in week 1.
+- **Backers paid for the charter.** Each backer's line in the opening scene now says so, which no longer clashes with the Weighhouse loan. With the college backers, the start choice is "Hire a second Arcanist".
+- **Checked:** main re-ran `npm run check` (81 tests, story checker clean) on the PR head. The fingerprint matches v0.15.1, so the rules are unchanged. Sim: careful first-year survival 68%. The engine reviewer's projection matched the real week's loan outcome in 120 of 120 cases. Story and UI reviewers (360/390 px, both themes).
+- **Not checked:** a real iPhone.
+- **Live** (deployed on the owner's word, 2026-11-26).
+
 ## v0.15.1 (2026-11-26): Easier to tap, safer to choose
 The first batch of UI/UX Part 2, plus two choices the owner made: confirmation on story choices that cost something (A), and keeping ✕/Back while adding swipe-down to close (A).
 - **Scene choices that cost anything ask first.** A choice that spends crowns, supplies, Intel, Influence, Renown or goods now asks you to confirm. On a check, a cost that only applies if you fail also counts.
