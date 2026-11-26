@@ -80,7 +80,7 @@ export function RosterScreen() {
               <div className="card-row" style={{ alignItems: 'center' }}>
                 <Portrait m={m} size={40} />
                 <div className="card-main">
-                  <div className="row between">
+                  <div className="row between member-row-head">
                     <b>
                       {m.name}
                       {fameTier(m) > 0 && (

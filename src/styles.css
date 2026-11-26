@@ -4819,10 +4819,13 @@ details summary {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--line);
+  /* readable in both themes; the current page is the selection red */
+  background: var(--muted);
+  opacity: 0.55;
 }
 .prologue-dot.on {
-  background: var(--ink-2);
+  opacity: 1;
+  background: var(--accent);
 }
 .prologue-skip {
   min-height: 44px;
@@ -4865,4 +4868,72 @@ details summary {
 .prologue-actions .btn {
   min-height: 48px;
   white-space: nowrap;
+}
+
+/* ---------- touch areas (ui-polish) ----------
+   Small buttons keep their look, but a tap within 44px of their middle still lands
+   on them, like the tags, chips and links above. */
+.btn.small {
+  position: relative;
+}
+.btn.small::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 44px;
+  min-height: 100%;
+  transform: translateY(-50%);
+}
+/* wrapped rows of small buttons (the supply orders, the loan repayments): a 10px row gap
+   so the 44px touch areas of one row don't reach the next */
+.row.wrap.gap:has(> .btn.small) {
+  row-gap: 10px;
+}
+/* the lineup's move buttons are stacked tight: they fill the card's height instead,
+   and are 44px wide, so their touch areas don't reach into each other */
+.x-rank-moves .btn.small::before {
+  display: none;
+}
+.x-rank-moves .btn {
+  min-width: 44px;
+}
+/* the date pill reaches the full 44px */
+.date-pill::before {
+  inset: -8px 0; /* from the padding box: 28 + 16 = 44px */
+}
+/* the guide nudge: the label clips itself, so the pill can carry a touch area */
+.guide-nudge {
+  position: relative;
+  overflow: visible;
+}
+.guide-nudge::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
+}
+.icon-btn {
+  min-width: 44px;
+  min-height: 44px;
+}
+.seg button {
+  min-height: 40px;
+}
+/* Roster: a long status ("Away · due back in 2 wk") drops below the name rather than squeezing it onto two lines */
+.member-row-head {
+  flex-wrap: wrap;
+  column-gap: 8px;
+}
+.member-row-head > .readiness {
+  margin-left: auto;
+  white-space: nowrap;
+}
+/* a confirmation sits above everything, scene cards included */
+.event-backdrop.confirm-backdrop {
+  z-index: 80;
 }

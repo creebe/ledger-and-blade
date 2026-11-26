@@ -7,6 +7,26 @@ import { Icon } from '../kit/icons';
 import { Portrait, ap } from '../kit/visual';
 
 type Exchange = NonNullable<GameEvent['transcript']>[number];
+type Choice = GameEvent['choices'][number];
+type Effects = Choice['effects'];
+
+/** What a choice takes from the guild's own stores, as plain parts ("60 crowns", "5 supplies"). */
+function costParts(e: Effects | undefined): string[] {
+  if (!e) return [];
+  const out: string[] = [];
+  const take = (n: number | undefined, what: string) => n && n < 0 && out.push(`${-n} ${what}`);
+  take(e.crowns, 'crowns');
+  take((e.supplies ?? 0) + (e.mission?.supplies ?? 0), 'supplies');
+  take(e.intel, 'Intel');
+  take(e.influence, 'Influence');
+  take(e.renown, 'Renown');
+  const goods = Object.values(e.goods ?? {}).some((n) => (n ?? 0) < 0);
+  if (goods) out.push('goods from the stores');
+  return out;
+}
+
+/** "a", "a and b", "a, b and c" */
+const joinParts = (parts: string[]) => (parts.length < 3 ? parts.join(' and ') : `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`);
 
 function ExchangeLines({ t, last }: { t: Exchange; last?: boolean }) {
   return (
@@ -38,6 +58,22 @@ export function EventCard({ ev, done }: { ev: GameEvent; done?: boolean }) {
   useEffect(() => {
     if (done) endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }, [done, ev.uid]);
+
+  // every spend asks first: a choice that costs anything opens the usual confirmation
+  const pick = (i: number) => {
+    const c = ev.choices[i];
+    const cost = costParts(c.effects);
+    const failCost = c.check ? costParts(c.failEffects) : [];
+    if (!cost.length && !failCost.length) return choose(i);
+    const lines = [c.detail, failCost.length && !cost.length ? `If the check fails, it costs ${joinParts(failCost)}.` : ''].filter(Boolean) as string[];
+    useStore.getState().confirm({
+      title: `${c.label.replace(/[.!?…]+$/, '')}?`,
+      body: lines.length ? lines : ['This choice spends from the guild.'],
+      cost: cost.length ? `Costs ${joinParts(cost)}${c.effects.crowns && c.effects.crowns < 0 ? ` · treasury ${g.crowns} → ${g.crowns + c.effects.crowns}` : ''}` : undefined,
+      confirmLabel: c.label.length <= 22 ? c.label : 'Go ahead',
+      onConfirm: () => choose(i),
+    });
+  };
 
   const choose = (i: number) => {
     let finished: GameEvent | undefined;
@@ -102,7 +138,7 @@ export function EventCard({ ev, done }: { ev: GameEvent; done?: boolean }) {
               const chk = checkDetail(g, c, ev);
               const leadsOn = !!c.next;
               return (
-                <button key={i} className={`choice ${leadsOn ? 'talk' : ''}`} disabled={!!blocked} onClick={() => choose(i)}>
+                <button key={i} className={`choice ${leadsOn ? 'talk' : ''}`} disabled={!!blocked} onClick={() => pick(i)}>
                   <b className={leadsOn && !c.detail ? 'choice-talk' : undefined}>
                     {leadsOn && !c.detail && <Icon name="talk" size={14} />}
                     {c.label}

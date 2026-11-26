@@ -19,7 +19,7 @@ import { runSim } from '../scripts/sim';
 import { CHANGES } from '../src/engine/expeditions/data/content';
 import { FIELD_EVENTS } from '../src/engine/data/field';
 import { STORY_EVENTS } from '../src/engine/data/events';
-import { currentDate, datesPhase, dateTargets, nextDate, scheduleDates, DATE_BY_ID } from '../src/engine';
+import { currentDate, datesPhase, dateTargets, nextDate, projectLedger, scheduleDates, DATE_BY_ID } from '../src/engine';
 import { afterLeaderDies, executeHostile, feudStage, hallDefense, operationOptions, raiseFeud, resolveOperation, runOperation, weeklyWar, FAME_LEGENDARY, FEUD_AT, WAR_AT, WAR_HOLD, FEUD_CONTESTED, planWarnings, earnFame, fameTier, triggerEvents, SAVE_VERSION, BACKERS, CIRCUMSTANCE_BY_ID, claimNote, buySupplies, supplyCost, buyMaterial, cancelDispatch, discoverLore, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, repayLoan, loanStillDue, laidUp, startBuild, tripWeeks, upkeep } from '../src/engine';
 
 /** Send a squad with a little food and nothing else, so nothing has to be bought. */
@@ -291,6 +291,19 @@ describe('engine', () => {
     scheduleDates(met);
     expect(met.dates.current!.id).toBe(expected);
     expect(met.dates.current!.dueWeek - met.week).toBeGreaterThanOrEqual(2);
+  });
+
+  it('Dates: a crowns target forecasts the ledger close of the due week, and is judged on the treasury', () => {
+    const s = newGame(44);
+    const at = 100;
+    s.dates.current = { id: s.dates.current!.id, dueWeek: s.week + 3, setWeek: s.week, targets: [{ kind: 'crowns', at }], base: { renown: 0, principal: 0, missed: 0 } };
+    const close = projectLedger(s, 4)[3].balance;
+    s.crowns += at - close - 1; // the treasury holds more than N now, but the ledger closes the due week one short
+    expect(s.crowns).toBeGreaterThan(at);
+    const view = dateTargets(s)[0];
+    expect(view.met).toBe(false);
+    expect(view.now).toBe(`about ${at - 1} by then`);
+    expect(dateTargets(s, s.dates.current!, true)[0]).toMatchObject({ met: true, now: `${s.crowns} now` });
   });
 
   it('Dates: the story can call one off before it arrives', () => {
