@@ -35,11 +35,12 @@ export interface EventDef {
 }
 
 /** One line in the charter scene about who put up the money. */
+// who paid for the charter; the Weighhouse loan paid for everything else (the scene says so just before)
 const BACKER_LINE: Record<string, string> = {
-  veterans: 'The money came from four old soldiers and their back pay. Two of them have already argued about where the weapon racks should go.',
-  merchant: 'The money came from a wool merchant on the Weighhouse, who has sent a list of his wagons and the dates they leave.',
-  coop: 'The money came from the porters and small trades of the Lower Town, in coins so small that it took Jory two days to count them.',
-  college: 'The money came from two Arcanists who left the college after the fire. One of them still smells faintly of smoke.',
+  veterans: 'Four old soldiers paid for the charter out of their back pay. Two of them have already argued about where the weapon racks should go.',
+  merchant: 'Your backer is a wool merchant on the Weighhouse, who has sent a list of his wagons and the dates they leave.',
+  coop: "The porters and small trades of the Lower Town paid for the charter, in coins so small that the Exchequer's clerk spent a morning counting them.",
+  college: 'Two Arcanists who left the college after the fire paid for the charter with what they had left. One of them still smells faintly of smoke.',
 };
 
 const living = (s: GameState) => s.members.filter((m) => m.status !== 'dead' && m.status !== 'left');
@@ -138,19 +139,27 @@ const CORE_STORY: EventDef[] = [
       start: {
         speaker: 'Jory Abbot',
         text: '"There\'s a little left over from the Weighhouse money," Jory says. "I\'d spend it before the roof does."\n\nHow do you start?',
-        choices: [
+        choices: (s) => [
           {
             label: 'Arm the guild',
             detail: 'Gain a Mail Hauberk and 2 Fire Oils',
             effects: { flag: 'start_arms' },
             resultText: 'You visit the armorers on Anvil Row. Your people will at least look the part.',
           },
-          {
-            label: 'Hire an Arcanist',
-            detail: 'A college-trained Arcanist joins for free',
-            effects: { freeRecruit: true },
-            resultText: 'A young Arcanist from the college, short of fees, signs on for the work and the wage.',
-          },
+          // the college backers already brought one Arcanist, so theirs is a second
+          s.start?.backer === 'college'
+            ? {
+                label: 'Hire a second Arcanist',
+                detail: 'Another college-trained Arcanist joins for free',
+                effects: { freeRecruit: true },
+                resultText: 'Word gets round the college that one of its own is hiring. A second Arcanist turns up the next morning with a sack of books and no questions about the fire.',
+              }
+            : {
+                label: 'Hire an Arcanist',
+                detail: 'A college-trained Arcanist joins for free',
+                effects: { freeRecruit: true },
+                resultText: 'A young Arcanist from the college, short of fees, signs on for the work and the wage.',
+              },
           {
             label: 'Keep the coin',
             detail: '+80 crowns',

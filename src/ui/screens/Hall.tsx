@@ -133,14 +133,21 @@ export function HallScreen() {
               <tr key={p.week}>
                 <td>{p.week === g.week ? 'Now' : `+${p.week - g.week}`}</td>
                 <td>{num(-(p.wages + p.upkeep))}</td>
-                <td>{p.loan ? num(-p.loan) : '—'}</td>
+                <td className={p.loanStatus === 'missed' ? 'neg' : undefined}>{p.loanStatus === 'waits' ? 'waits' : p.loanStatus === 'missed' ? 'missed' : p.loan ? num(-p.loan) : '—'}</td>
                 <td>{p.expectedIncome ? `+${p.expectedIncome}` : '—'}</td>
                 <td className={p.balance < 0 ? 'neg' : ''}>{num(p.balance)}</td>
               </tr>
             ))}
           </tbody>
         </table>
-        <p className="tiny muted">The projection counts known costs and the listed pay of squads already in the field. Supplies are bought separately.</p>
+        <p className="tiny muted">The projection counts known costs and the listed pay of squads already in the field, as if every job succeeds. Supplies are bought separately.</p>
+        {proj.some((p) => p.loanStatus === 'waits') && <p className="tiny muted">"Waits": the coin will be short when the payment falls due, so the Weighhouse waits for the squad that's away, for up to three weeks.</p>}
+        {proj.some((p) => p.loanStatus === 'missed') && <p className="tiny bad">"Missed": the coin will be short when the payment falls due. A missed payment adds 20 crowns to the debt, and three mean ruin.</p>}
+        {proj.find((p) => p.hungry) && (
+          <p className="tiny warn">
+            Supplies run out {proj.find((p) => p.hungry)!.week === g.week ? 'this week' : `in ${weeks(proj.find((p) => p.hungry)!.week - g.week)}`}, and anyone at home without them goes hungry. Buy more at the Armory.
+          </p>
+        )}
         {last && (
           <details>
             <summary className="small">Last week in detail</summary>

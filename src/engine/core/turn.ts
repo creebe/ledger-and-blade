@@ -15,7 +15,7 @@ import { addDispatch, clamp, living, loanStillDue } from './util';
 import { applyClock, applyStanding, earn, spend, track } from './effects';
 import { generateRecruit } from '../people/members';
 import { refreshBoard } from '../economy/board';
-import { refreshMarket, supplyPrice } from '../economy/market';
+import { refreshMarket } from '../economy/market';
 import { factionPerks } from '../politics/factions';
 import { FEVER_HEAL, FIT_HEALTH, homeHeal } from '../people/health';
 
@@ -24,7 +24,12 @@ export interface Projection {
   wages: number;
   upkeep: number;
   supplies: number; // supply units consumed
-  loan: number;
+  loan: number; // crowns the loan actually takes this week
+  /** a payment falls due this week: paid, put off because a squad is away, or missed (no coin taken, a penalty added) */
+  loanStatus?: 'paid' | 'waits' | 'missed';
+  loanDue?: number;
+  /** supplies run out this week: the rest go hungry (the guild doesn't buy more by itself) */
+  hungry?: number;
   expectedIncome: number;
   balance: number;
 }
@@ -33,24 +38,45 @@ export function weeklyWages(s: GameState): number {
   return living(s).reduce((sum, m) => sum + m.wage, 0);
 }
 
-/** Projected cash for the next weeks, counting known costs and rewards of missions in the field. */
+/**
+ * Projected cash for the next weeks, following the order the week closes in:
+ * squads due home pay their listed reward (the real outcome stays hidden until
+ * then, so the planned length is used, not the sealed result), wages and upkeep
+ * go out, then the loan is collected the way the Weighhouse does it: paid if the
+ * coin is there, put off while a squad is away (up to three weeks), else missed.
+ * Supplies are never bought automatically: a shortfall means hunger, not coin.
+ */
 export function projectLedger(s: GameState, weeks = 4): Projection[] {
   const out: Projection[] = [];
   let bal = s.crowns;
   let supplies = s.supplies;
+  const loans = s.loans.map((l) => ({ dueWeek: l.dueWeek, waited: l.waited ?? 0, due: loanStillDue(l) }));
   for (let i = 0; i < weeks; i++) {
     const week = s.week + i;
     const wages = weeklyWages(s);
     const homeCount = living(s).filter((m) => m.status !== 'mission').length;
-    const loan = s.loans.reduce((sum, l) => sum + (l.dueWeek === week ? loanStillDue(l) : 0), 0);
-    // missions resolving this week pay roughly their listed reward
-    // squads due home this week pay roughly their listed reward (the real outcome stays hidden until then)
     const expectedIncome = s.missions.filter((m) => !m.report && m.dispatchedWeek + m.plannedWeeks - 1 === week).reduce((sum, m) => sum + m.contract.reward, 0);
-    supplies -= homeCount;
-    const shortfall = supplies < 0 ? Math.ceil(-supplies * supplyPrice(s)) : 0;
-    if (supplies < 0) supplies = 0;
-    bal += expectedIncome - wages - upkeep(s) - loan - shortfall;
-    out.push({ week, wages, upkeep: upkeep(s), supplies: homeCount, loan, expectedIncome, balance: Math.round(bal) });
+    const hungry = Math.max(0, homeCount - supplies);
+    supplies = Math.max(0, supplies - homeCount);
+    bal += expectedIncome - wages - upkeep(s);
+    let loan = 0;
+    let loanStatus: Projection['loanStatus'];
+    let loanDue: number | undefined;
+    for (const l of loans) {
+      if (l.dueWeek !== week || l.due <= 0) continue;
+      loanDue = (loanDue ?? 0) + l.due;
+      const away = s.missions.some((m) => !m.report && m.dispatchedWeek + m.plannedWeeks - 1 > week);
+      if (bal >= l.due) {
+        bal -= l.due;
+        loan += l.due;
+        loanStatus = 'paid';
+      } else if (away && l.waited < 3) {
+        l.waited += 1;
+        l.dueWeek += 1;
+        loanStatus = loanStatus ?? 'waits';
+      } else loanStatus = 'missed';
+    }
+    out.push({ week, wages, upkeep: upkeep(s), supplies: homeCount, loan, loanStatus, loanDue, hungry: hungry || undefined, expectedIncome, balance: Math.round(bal) });
   }
   return out;
 }

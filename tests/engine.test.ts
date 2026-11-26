@@ -302,7 +302,7 @@ describe('engine', () => {
     expect(s.crowns).toBeGreaterThan(at);
     const view = dateTargets(s)[0];
     expect(view.met).toBe(false);
-    expect(view.now).toBe(`about ${at - 1} by then`);
+    expect(view.now).toBe(`about ${at - 1} by then, if no new pay comes in`);
     expect(dateTargets(s, s.dates.current!, true)[0]).toMatchObject({ met: true, now: `${s.crowns} now` });
   });
 
@@ -442,6 +442,30 @@ describe('engine', () => {
     advanceWeek(s);
     expect(laidUp(s, m)).toBeUndefined();
     expect(m.status).toBe('idle');
+  });
+
+  it('the ledger projection follows the Weighhouse: it waits for a squad away, and buys no supplies', () => {
+    const s = newGame(53);
+    clearEvents(s);
+    const loan = s.loans[0];
+    loan.dueWeek = s.week;
+    // short of coin with nobody away: the payment is missed and takes nothing
+    s.crowns = 10;
+    let row = projectLedger(s, 1)[0];
+    expect(row.loanStatus).toBe('missed');
+    expect(row.loan).toBe(0);
+    // with a squad out past this week, the Weighhouse waits a week
+    s.missions.push({ id: 'm_x', report: undefined, dispatchedWeek: s.week, plannedWeeks: 3, contract: { reward: 0 } } as never);
+    row = projectLedger(s, 1)[0];
+    expect(row.loanStatus).toBe('waits');
+    s.missions.pop();
+    // plenty of coin: paid; and running out of supplies costs no coin, it marks hunger
+    s.crowns = 5000;
+    s.supplies = 0;
+    row = projectLedger(s, 1)[0];
+    expect(row.loanStatus).toBe('paid');
+    expect(row.hungry).toBeGreaterThan(0);
+    expect(row.balance).toBe(5000 - row.wages - row.upkeep - row.loan);
   });
 
   it('saves from v15 load with no early-repayment credit', () => {
