@@ -22,9 +22,16 @@ export function Sheet({ title, children, onClose, footer }: { title: ReactNode; 
   const nested = depth > 0 && !onClose;
   // the toast shows inside the topmost sheet, just above its footer
   const isTop = useStore((s) => s.sheets.filter((x) => x.kind !== 'confirm').length - 1 === depth);
+  const sheetRef = React.useRef<HTMLDivElement>(null);
+  const backdropRef = React.useRef<HTMLDivElement>(null);
+  const dismiss = onClose ?? close;
+  const dismissRef = React.useRef(dismiss);
+  dismissRef.current = dismiss;
+  const swipeDismiss = React.useCallback(() => dismissRef.current(), []);
+  useSwipeDown(sheetRef, backdropRef, swipeDismiss);
   return (
-    <div className="sheet-backdrop" onClick={onClose ?? close}>
-      <div className="sheet" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+    <div className="sheet-backdrop" ref={backdropRef} onClick={onClose ?? close}>
+      <div className="sheet" ref={sheetRef} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
         <div className={`sheet-head ${nested ? 'sheet-head-nested' : ''}`}>
           {nested && (
             <button className="back-btn" onClick={close} aria-label="Back">
@@ -48,6 +55,81 @@ export function Sheet({ title, children, onClose, footer }: { title: ReactNode; 
       </div>
     </div>
   );
+}
+
+/**
+ * Swipe a panel down to close it (one level, like Back or ✕). The drag only
+ * starts on the panel's header, or anywhere once its body is scrolled to the
+ * top and the finger moves down; otherwise the body scrolls as usual.
+ * Confirmations are not panels, so a swipe can't dismiss one.
+ */
+function useSwipeDown(sheetRef: React.RefObject<HTMLDivElement>, backdropRef: React.RefObject<HTMLDivElement>, onDismiss: () => void) {
+  React.useEffect(() => {
+    const sheet = sheetRef.current;
+    if (!sheet) return;
+    let startY = 0;
+    let startT = 0;
+    let dy = 0;
+    let state: 'idle' | 'maybe' | 'drag' | 'scroll' = 'idle';
+    const body = () => sheet.querySelector<HTMLElement>('.sheet-body');
+    const set = (y: number, animate: boolean) => {
+      sheet.style.transition = animate ? 'transform 0.2s ease-out' : 'none';
+      sheet.style.transform = y ? `translateY(${y}px)` : '';
+      const bd = backdropRef.current;
+      if (bd) {
+        bd.style.transition = animate ? 'opacity 0.2s ease-out' : 'none';
+        bd.style.opacity = y ? String(Math.max(0.35, 1 - y / (sheet.offsetHeight || 600))) : '';
+      }
+    };
+    const onStart = (e: TouchEvent) => {
+      if (e.touches.length !== 1) return;
+      const t = e.target as HTMLElement;
+      // controls that drag on their own (sliders, text fields) keep their gesture
+      if (t.closest('input, textarea, select, [data-no-swipe]')) return;
+      const onHead = !!t.closest('.sheet-head');
+      const atTop = (body()?.scrollTop ?? 0) <= 0;
+      state = onHead || atTop ? 'maybe' : 'idle';
+      startY = e.touches[0].clientY;
+      startT = performance.now();
+      dy = 0;
+    };
+    const onMove = (e: TouchEvent) => {
+      if (state === 'idle' || state === 'scroll') return;
+      dy = e.touches[0].clientY - startY;
+      if (state === 'maybe') {
+        if (dy < -4) {
+          state = 'scroll'; // moving up: an ordinary scroll
+          return;
+        }
+        if (dy < 10) return;
+        state = 'drag';
+      }
+      e.preventDefault();
+      set(Math.max(0, dy), false);
+    };
+    const onEnd = () => {
+      if (state !== 'drag') {
+        state = 'idle';
+        return;
+      }
+      state = 'idle';
+      const speed = dy / Math.max(1, performance.now() - startT);
+      if (dy > 120 || (dy > 50 && speed > 0.6)) {
+        set(sheet.offsetHeight || 800, true);
+        window.setTimeout(onDismiss, 180);
+      } else set(0, true);
+    };
+    sheet.addEventListener('touchstart', onStart, { passive: true });
+    sheet.addEventListener('touchmove', onMove, { passive: false });
+    sheet.addEventListener('touchend', onEnd);
+    sheet.addEventListener('touchcancel', onEnd);
+    return () => {
+      sheet.removeEventListener('touchstart', onStart);
+      sheet.removeEventListener('touchmove', onMove);
+      sheet.removeEventListener('touchend', onEnd);
+      sheet.removeEventListener('touchcancel', onEnd);
+    };
+  }, [sheetRef, backdropRef, onDismiss]);
 }
 
 export function Section({ title, children, right, guide }: { title?: ReactNode; children: ReactNode; right?: ReactNode; guide?: string }) {

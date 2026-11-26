@@ -3,7 +3,8 @@ import { useStore } from '../../store';
 export function ConfirmSheet({ title, body, cost, confirmLabel, danger, onConfirm }: { title: string; body: string[]; cost?: string; confirmLabel: string; danger?: boolean; onConfirm: () => void }) {
   const close = useStore((s) => s.close);
   return (
-    <div className="event-backdrop" onClick={close}>
+    // above panels and scene cards alike: a scene's choice can ask for confirmation too
+    <div className="event-backdrop confirm-backdrop" onClick={close}>
       <div className="confirm-card" role="alertdialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
         <h3>{title}</h3>
         {body.map((b, i) => (

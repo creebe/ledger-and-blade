@@ -4933,3 +4933,7 @@ details summary {
   margin-left: auto;
   white-space: nowrap;
 }
+/* a confirmation sits above everything, scene cards included */
+.event-backdrop.confirm-backdrop {
+  z-index: 80;
+}
