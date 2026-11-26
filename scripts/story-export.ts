@@ -1250,7 +1250,7 @@ function expSections(): Section[] {
   const metIn: Record<string, string[]> = {};
   for (const z of Object.values(ZONES)) for (const g of z.fights) for (const m of g) (metIn[m] ??= []).push(z.name);
   for (const [tag, d] of Object.entries(TAG_DIVE)) for (const g of d.groups ?? []) for (const m of g) (metIn[m] ??= []).push(`contracts with ${TAG_NAME(tag)}`);
-  for (const s of Object.values(SITES)) if (s.boss) (metIn[s.boss.monster] ??= []).push(`the boss room of ${s.name} (${ZONES[s.boss.zone].name})`);
+  for (const s of Object.values(SITES)) if (s.boss) (metIn[s.boss.monster] ??= []).push(`the boss room of ${s.name.replace(/^The /, "the ")} (${ZONES[s.boss.zone].name})`);
 
   // the places, the people and the things in them
   {
