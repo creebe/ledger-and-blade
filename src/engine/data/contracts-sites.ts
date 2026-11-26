@@ -209,7 +209,7 @@ export const SITE_CONTRACTS: ContractTemplate[] = [
     type: 'Salvage',
     titles: ['Bog Oak', 'Black Timber'],
     patrons: ['weighhouse'],
-    description: 'A cabinet-maker on Anvil Row has a commission for a table from a man who can afford one, and needs two lengths of bog oak out of Harrowmere to make it.',
+    description: 'An armorer on Anvil Row has a commission for a presentation shield from a man who can afford one, and needs two lengths of bog oak out of Harrowmere for its boards.',
     regions: ['harrowmere'],
     phases: [P('The bridge houses', 'Out along the old bridge.', 0.8)],
     baseReward: 200,
