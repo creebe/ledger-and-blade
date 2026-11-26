@@ -4,6 +4,7 @@ import { CONTRACT_TYPE_ICON } from '../kit/visual';
 import { useStore } from '../../store';
 import { Empty, FactionBadge, Section, TagChip, ThreatPips } from '../kit/common';
 import { plural, wk } from '../kit/format';
+import { HiddenTag } from '../kit/reveal';
 import { SquadBadge } from '../expeditions/SquadStrip';
 
 export function ContractsScreen() {
@@ -53,7 +54,20 @@ function ContractCard({ c, g, onOpen }: { c: Contract; g: GameState; onOpen: () 
   const info = postingInfo(g, c);
   const expiring = c.expiresWeek <= g.week;
   return (
-    <button className={`contract-card tappable ${c.story ? 'story' : ''}`} onClick={onOpen} style={{ ['--fc' as string]: FACTIONS[c.patron].color }}>
+    // a div, not a button, so the "?" tags inside it can be buttons of their own
+    <div
+      role="button"
+      tabIndex={0}
+      className={`contract-card tappable ${c.story ? 'story' : ''}`}
+      onClick={onOpen}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onOpen();
+        }
+      }}
+      style={{ ['--fc' as string]: FACTIONS[c.patron].color }}
+    >
       <div className="card-row">
         <span className="type-icon" title={c.type}>
           <Icon name={CONTRACT_TYPE_ICON[c.type] ?? 'scroll'} size={24} />
@@ -92,7 +106,7 @@ function ContractCard({ c, g, onOpen }: { c: Contract; g: GameState; onOpen: () 
         {c.tags.map((t) => (
           <TagChip key={t} id={t} />
         ))}
-        {c.hidden.map((h, i) => (h.revealed ? <TagChip key={i} id={h.trueTag} /> : <span key={i} className="tag hidden">?</span>))}
+        {c.hidden.map((h, i) => (h.revealed ? <TagChip key={i} id={h.trueTag} /> : <HiddenTag key={i} c={c} i={i} />))}
         {c.contestedBy && (
           <span className="tag contested">
             <Icon name={c.contestedBy} size={14} /> {RIVALS[c.contestedBy].short}
@@ -108,6 +122,6 @@ function ContractCard({ c, g, onOpen }: { c: Contract; g: GameState; onOpen: () 
         <ThreatPips value={c.threat} />
         <span className={expiring ? 'warn' : 'muted'}>{expiring ? 'Expires this week' : `${wk(c.expiresWeek - g.week + 1)} left`}</span>
       </div>
-    </button>
+    </div>
   );
 }

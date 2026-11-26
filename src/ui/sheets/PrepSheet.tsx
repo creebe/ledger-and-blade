@@ -26,7 +26,7 @@ import {
   squadSize,
   stockOf,
   suggestPlan,
-  TAGS,
+  revealCost,
   track,
   type Contract,
   type ExpPlan,
@@ -39,6 +39,7 @@ import { Btn, FactionBadge, Price, Section, Seg, Sheet, TagChip } from '../kit/c
 import { Icon } from '../kit/icons';
 import { short } from '../kit/shortfall';
 import { goTo } from '../kit/navigate';
+import { HiddenTag } from '../kit/reveal';
 import { ProfSilhouette } from '../expeditions/Silhouette';
 import { Marks, Vitals, first } from '../expeditions/xkit';
 
@@ -212,13 +213,15 @@ export function PrepSheet({ contractId }: { contractId: string }) {
               h.revealed ? (
                 <TagChip key={i} id={h.trueTag} />
               ) : (
-                <span key={i} className="tag hidden">
-                  Rumoured: {h.candidates.map((x) => TAGS[x]?.name ?? x).join(' or ')}
-                </span>
+                <HiddenTag key={i} c={c} i={i} long />
               ),
             )}
           </span>
-          {c.contestedBy && <span className="tiny muted">{RIVALS[c.contestedBy].name} want this job too.</span>}
+          {c.hidden.some((h) => !h.revealed) && (
+            <span className="tiny muted x-reveal-hint">
+              A dashed “?” is a danger nobody has confirmed. Tap one to learn which it is for {revealCost(g)} Intel (you have {g.intel}), or give a member the Scout order on the Roster and they'll report back at the end of the week.
+            </span>
+          )}
         </div>
       </Section>
 

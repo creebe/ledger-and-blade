@@ -1,6 +1,6 @@
 ## Thread map
 
-The game has 17 Act I story beats across 11 character threads, plus 30 follow-ups, world events and road decisions. Acts II to IV are planned in the story bible but have no text yet.
+The game has 17 Act I story beats across 11 character threads, plus 32 follow-ups, world events and road decisions. Acts II to IV are planned in the story bible but have no text yet.
 
 | Thread | Who | Scenes in order |
 |---|---|---|
@@ -16,7 +16,7 @@ The game has 17 Act I story beats across 11 character threads, plus 30 follow-up
 | The Fourteen | Lady Honora Aske | 16. The Family Silver (wk 17–22) |
 | The hall | Jory Abbot and the members | A Tavern Brawl (follow-up) → A Matter of Wages (follow-up) → A Letter from Home (follow-up) → Bad Nights (follow-up) → A Volunteer (follow-up) → A Page in the Roll (follow-up) → A Name in the Streets (queued) |
 | Varrow at large | No fixed character | A Whisper in the Taverns (world) → A Petition at the Gate (world) |
-| On the road | The squad in the yard | The Bridge Is Out (road) → A Deserter at the Door (road) → Watched (road) → A Local Guide (road) → A Wounded Carter (road) → Hobb's People Are Packing (road) → The Weather Turns (road) → Fresh Tracks (road) |
+| On the road | The squad in the yard | The Bridge Is Out (road) → A Deserter at the Door (road) → Watched (road) → A Local Guide (road) → A Wounded Carter (road) → Hobb's People Are Packing (road) → The Weather Turns (road) → Fresh Tracks (road) → The Crown's Wagons (road) → An Exchequer Writ (road) |
 
 ### Where threads cross
 
@@ -26,6 +26,7 @@ A choice in one thread sets a fact that a scene or contract in another thread re
 |---|---|---|---|
 | The Fourteen | The Crown's silver | The Family Silver → Half a Year | `aske_betrayed` |
 | The Fourteen | The Crown's silver | contract:aske_plate → Half a Year | `aske_plate_saved` |
+| The Fourteen | The Crown's silver | contract:aske_plate → Half a Year | `aske_plate_lost` |
 | Saint Oda's | Hobb & Daughters | Fever Salts → A Cake from Hobb & Daughters | `met_oda` |
 | Saint Oda's | The Crown's silver | Fever Salts → Half a Year | `salts_accepted` |
 | Saint Oda's | The Crown's silver | contract:fever_salts → Half a Year | `salts_delivered` |
@@ -34,6 +35,7 @@ A choice in one thread sets a fact that a scene or contract in another thread re
 | The Weighhouse | The Crown's silver | The Man with the Scales → Half a Year | `coster_terms` |
 | The Weighhouse | The Crown's silver | Coster's Page → Half a Year | `coster_exposed` |
 | The Weighhouse | The Crown's silver | contract:false_weights → Half a Year | `weights_exposed` |
+| The Weighhouse | The Crown's silver | contract:false_weights → Half a Year | `weights_failed` |
 | The Lower Town | The Mudlarks | Bread and Stones → Under the Chain | `riot_fed` |
 | The Lower Town | The Mudlarks | Bread and Stones → Under the Chain | `riot_broken` |
 | The Lower Town | The Crown's silver | Bread and Stones → A Letter from Fenn | `riot_fed` |
@@ -42,12 +44,16 @@ A choice in one thread sets a fact that a scene or contract in another thread re
 | The Lower Town | The Crown's silver | Dagny Asks → Half a Year | `ansel_freed` |
 | The Lower Town | The Crown's silver | contract:ansel_chain → Half a Year | `ansel_freed` |
 | The Lower Town | The Crown's silver | contract:ansel_chain → Half a Year | `ansel_lost` |
+| Hobb & Daughters | On the road | The Copper Kettle → Hobb's People Are Packing | `isbet_betrayed` |
 | Hobb & Daughters | The Crown's silver | The Copper Kettle → Half a Year | `isbet_pact` |
+| Hobb & Daughters | The Crown's silver | The Copper Kettle → Half a Year | `isbet_betrayed` |
 | The Mudlarks | The Weighhouse | What Came Up in the Strongbox → Coster's Page | `coster_ledger` |
 | The Mudlarks | The Lower Town | Under the Chain → Dagny Asks | `pask_deal` |
 | The Crown's silver | The Fourteen | contract:silver_convoy → The Family Silver | `silver_lost` |
 | The Crown's silver | Saint Oda's | Quarter Day → The Bank's Gift | `ostranders_open` |
 | The Crown's silver | The Weighhouse | Quarter Day → Coster's Page | `ostranders_open` |
+| The Crown's silver | On the road | Quarter Day → An Exchequer Writ | `fenn_ally` |
+| The Crown's silver | On the road | contract:silver_convoy → The Crown's Wagons | `silver_abandoned` |
 | The Crown's silver | Ostrander's | Summoned to the Exchequer → The Notice Board | `silver_accepted` |
 | The Crown's silver | Ostrander's | contract:silver_convoy → The Notice Board | `silver_delivered` |
 | The Crown's silver | Ostrander's | contract:silver_convoy → The Notice Board | `silver_lost` |

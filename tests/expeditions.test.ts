@@ -17,6 +17,7 @@ import {
   resolveEvent,
   revealedWeeks,
   runExpedition,
+  sellGoods,
   SAVE_VERSION,
   SITE_IDS,
   squadLimit,
@@ -24,6 +25,7 @@ import {
   visibleLog,
   weekSummary,
   tripWeekOf,
+  triggerEvents,
   withdrawAtDoor,
   type Contract,
   type GameState,
@@ -84,6 +86,148 @@ describe('expeditions', () => {
         expect(r.weeks).toBe(r.log[r.log.length - 1].week);
       }
     }
+  });
+
+  it("every site's postings, bosses and beaten bosses walk with no missing line", () => {
+    const sitePostings = CONTRACT_TEMPLATES.filter((t) => t.expedition?.site && t.expedition.site !== 'pellam');
+    for (const site of SITE_IDS.filter((x) => x !== 'pellam')) {
+      const mine = sitePostings.filter((t) => t.expedition!.site === site);
+      expect(mine.some((t) => t.expedition!.goal?.kind === 'kill' && t.expedition!.length === 'long'), `${site} has a boss posting`).toBe(true);
+      for (const tpl of mine) {
+        for (let seed = 0; seed < 12; seed++) {
+          const s = newGame(300 + seed);
+          for (const m of s.members) m.level = 4;
+          const c = generateContract(s, tpl);
+          const ms = { contract: c, plan: suggestPlan(s, c), plannedWeeks: 5, setup: { seed: 8000 + seed * 7 } } as unknown as Mission;
+          const setup = { ...buildSetup(s, ms), bossBeaten: seed % 3 === 0 || undefined };
+          const r = runExpedition(setup);
+          for (const l of r.log) {
+            expect(l.text, `${tpl.id}: ${l.text}`).toMatch(/\s/);
+            expect(l.text, `${tpl.id}: ${l.text}`).not.toMatch(/\{\w+\}|undefined|  /);
+          }
+        }
+      }
+    }
+  });
+
+  it("a site's boss is beaten once: its postings come off the board and its room holds a lesser fight", () => {
+    const s = newGame(111);
+    clearEvents(s);
+    const c = post(s, 'kell_moyle');
+    const won = { ...c.expedition };
+    expect(won.length).toBe('long');
+    // fake a trip home with Moyle killed
+    let found = false;
+    for (let seed = 0; seed < 60 && !found; seed++) {
+      const ms = { contract: c, plan: suggestPlan(s, c), plannedWeeks: 5, setup: { seed: 4000 + seed } } as unknown as Mission;
+      for (const m of s.members) m.level = 5;
+      const r = runExpedition(buildSetup(s, ms));
+      if ((r.kills.moyle ?? 0) > 0) found = true;
+    }
+    expect(found).toBe(true);
+    s.delve.bossesBeaten.push('kell');
+    for (let i = 0; i < 200; i++) expect(generateContract(s).expedition.goal).not.toEqual({ kind: 'kill', monster: 'moyle', count: 1 });
+    const ms = { contract: c, plan: suggestPlan(s, c), plannedWeeks: 5, setup: { seed: 4242 } } as unknown as Mission;
+    const setup = buildSetup(s, ms);
+    expect(setup.bossBeaten).toBe(true);
+    const r = runExpedition(setup);
+    expect(r.kills.moyle ?? 0).toBe(0);
+    // the work in Moyle's room afterwards is posted now, and its trip ends there
+    expect(Array.from({ length: 400 }, () => generateContract(s).templateId)).toContain('kell_level_after');
+    const after = post(s, 'kell_level_after');
+    let sawRoom = false;
+    for (let seed = 0; seed < 40 && !sawRoom; seed++) {
+      const ams = { contract: after, plan: suggestPlan(s, after), plannedWeeks: 5, setup: { seed: 4343 + seed } } as unknown as Mission;
+      const ar = runExpedition(buildSetup(s, ams));
+      expect(ar.kills.moyle ?? 0).toBe(0);
+      sawRoom = ar.log.some((l) => /Moyle's (chair|working)/.test(l.text));
+    }
+    expect(sawRoom).toBe(true);
+    const fresh = newGame(115);
+    for (let i = 0; i < 300; i++) expect(generateContract(fresh).templateId).not.toBe('kell_level_after');
+  });
+
+  it('only one squad at a time goes after a boss, and boss postings wait until the second zone is reached', () => {
+    const s = newGame(113);
+    clearEvents(s);
+    for (let i = 0; i < 4; i++) s.members.push(generateRecruit(s).member);
+    for (const m of s.members) m.level = 4;
+    s.delve.zonesReached.push('sump');
+    const a = post(s, 'kell_moyle');
+    const b = post(s, 'kell_moyle');
+    const planA = suggestPlan(s, a);
+    expect(dispatchExpedition(s, a.id, planA)).toBeUndefined();
+    const planB = suggestPlan(s, b);
+    expect(planBlocked(s, b, planB)).toMatch(/already on its way to Gaffer Moyle/);
+    for (let i = 0; i < 300; i++) expect(generateContract(s).templateId).not.toBe('kell_moyle');
+    const fresh = newGame(114);
+    for (let i = 0; i < 300; i++) expect(generateContract(fresh).templateId).not.toBe('kell_moyle');
+  });
+
+  it('a squad beaten with nobody dead is not told it came home short of people', () => {
+    let found = 0;
+    for (const site of ['pellam', 'varrow', 'kell', 'drovers'] as const) {
+      for (let seed = 0; seed < 150 && found < 12; seed++) {
+        const s = newGame(900 + seed);
+        const tpl = CONTRACT_TEMPLATES.find((t) => (t.expedition?.site ?? t.regions[0]) === site && !t.story)!;
+        const c = generateContract(s, tpl);
+        c.expedition = { site, length: 'long', goal: { kind: 'complete' } };
+        const ms = { contract: c, plan: { ...suggestPlan(s, c), squad: suggestPlan(s, c).squad.slice(0, 2) }, plannedWeeks: 5, setup: { seed: 5000 + seed } } as unknown as Mission;
+        const r = runExpedition(buildSetup(s, ms));
+        if (r.outcome !== 'lost' || r.members.some((m) => m.died)) continue;
+        found++;
+        const tail = r.log.filter((l) => l.kind === 'end').map((l) => l.text).join(' ');
+        expect(tail, `${site} ${seed}`).not.toMatch(/short of people|Fewer of them|What is left|the survivors|than went/i);
+      }
+    }
+    expect(found).toBeGreaterThan(0);
+  });
+
+  it("the Ninth's colours bring Captain Mayne to the hall once, and every answer takes them off the market", () => {
+    for (let choice = 0; choice < 3; choice++) {
+      const s = newGame(116);
+      clearEvents(s);
+      s.flags.ninth_active = true;
+      s.goods.colours = 1;
+      // a squad came home with them at the end of last week
+      s.history.unshift({ returnWeek: s.week - 1, report: { trip: { loot: { colours: 1 } } } } as unknown as Mission);
+      triggerEvents(s);
+      // the market holds them back while Mayne is waiting
+      sellGoods(s);
+      expect(s.goods.colours).toBe(1);
+      const ev = s.pendingEvents.find((e) => e.defId === 'ninth_colours')!;
+      expect(ev).toBeDefined();
+      const crowns = s.crowns;
+      resolveEvent(s, ev.uid, choice);
+      expect(s.goods.colours ?? 0).toBe(0);
+      if (choice === 1) expect(s.crowns).toBe(crowns + 200);
+      s.goods.colours = 1;
+      triggerEvents(s);
+      expect(s.pendingEvents.some((e) => e.defId === 'ninth_colours')).toBe(false);
+    }
+    // not before Mayne has come to Varrow
+    const s = newGame(117);
+    clearEvents(s);
+    s.goods.colours = 1;
+    s.history.unshift({ returnWeek: s.week - 1, report: { trip: { loot: { colours: 1 } } } } as unknown as Mission);
+    triggerEvents(s);
+    expect(s.pendingEvents.some((e) => e.defId === 'ninth_colours')).toBe(false);
+    // nor weeks later, when Mayne arrives and the colours have been sitting in the hall
+    s.flags.ninth_active = true;
+    s.week += 3;
+    triggerEvents(s);
+    expect(s.pendingEvents.some((e) => e.defId === 'ninth_colours')).toBe(false);
+  });
+
+  it('a plain job on a long route walks the last zone and stops short of the boss', () => {
+    const s = newGame(112);
+    const tpl = CONTRACT_TEMPLATES.find((t) => t.regions[0] === 'drovers' && !t.story && !t.expedition)!;
+    const c = generateContract(s, tpl);
+    c.expedition = { site: 'drovers', length: 'long', goal: { kind: 'complete' } };
+    const ms = { contract: c, plan: suggestPlan(s, c), plannedWeeks: 5, setup: { seed: 77 } } as unknown as Mission;
+    const r = runExpedition(buildSetup(s, ms));
+    expect(r.kills.crewe ?? 0).toBe(0);
+    expect(r.log.some((l) => l.zone === 'skell')).toBe(r.roomsCleared > 7);
   });
 
   it('a trip is sealed when it leaves, revealed one week at a time, and settled when it is home', () => {
@@ -321,5 +465,36 @@ describe('expeditions', () => {
     const home = untilHome(g, id);
     expect(home.report?.tier).toBe('Success');
     expect(g.members.filter((m) => home.memberIds.includes(m.id)).every((m) => m.status !== 'mission')).toBe(true);
+  });
+
+  it('a version 13 save keeps a broken Kiln Engine as a beaten boss, and its sealed trips replay the same', () => {
+    const s = newGame(107);
+    clearEvents(s);
+    const c = s.board[0];
+    dispatchExpedition(s, c.id, suggestPlan(s, c));
+    clearEvents(s);
+    const setup = buildSetup(s, s.missions[0]);
+    const raw = JSON.parse(JSON.stringify(s));
+    raw.version = 13;
+    delete raw.delve.bossesBeaten;
+    raw.delve.kilnBroken = true;
+    const g = migrateSave(raw)!;
+    expect(g.version).toBe(SAVE_VERSION);
+    expect(g.delve.bossesBeaten).toEqual(['pellam']);
+    expect('kilnBroken' in g.delve).toBe(false);
+    // a trip sealed before the change still reads the old flag the way it did
+    const old = { ...setup, site: 'pellam' as const, length: 'long' as const, bossBeaten: undefined, kilnBroken: true };
+    const now = { ...old, kilnBroken: undefined, bossBeaten: true };
+    expect(runExpedition(old).log.map((l) => l.text)).toEqual(runExpedition(now).log.map((l) => l.text));
+    const fresh = migrateSave({ ...JSON.parse(JSON.stringify(s)), version: 13, delve: { zonesReached: [], count: 0 } })!;
+    expect(fresh.delve.bossesBeaten).toEqual([]);
+    // a trip sealed on another site walked that site's one zone then, and still does
+    const away = JSON.parse(JSON.stringify(s));
+    away.version = 13;
+    away.missions[0].setup = { ...setup, site: 'kell', length: 'long', goal: { kind: 'complete' } };
+    const h = migrateSave(away)!;
+    expect(h.missions[0].setup.oneZone).toBe(true);
+    const zones = new Set(runExpedition(h.missions[0].setup).log.map((l) => l.zone).filter(Boolean));
+    expect([...zones]).toEqual(['workings']);
   });
 });

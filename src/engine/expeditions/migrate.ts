@@ -101,6 +101,6 @@ export function migrateToExpeditions(g: GameState) {
   for (const ms of g.history) convertMission(g, ms as OldMission, 0);
   g.stores = freshStores();
   g.goods = {};
-  g.delve = { zonesReached: [], count: 0 };
+  g.delve = { zonesReached: [], bossesBeaten: [], count: 0 };
   if (g.facilities && g.facilities.muster === undefined) g.facilities.muster = 0;
 }

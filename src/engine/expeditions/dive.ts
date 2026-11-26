@@ -20,15 +20,17 @@ import {
   type MarkDef,
   type MonsterDef,
   type RouteStep,
+  type TrapKind,
 } from './data/content';
 import { LINES as PELLAM_LINES } from './data/lines';
 import { SITE_LINES } from './data/lines-sites';
+import { DEEP_LINES } from './data/lines-deep';
 import { EXP_TUNING as T } from './tuning';
 import type { Delver, DelverOutcome, DiveGear, DiveSetup, EnemySnap, ExpeditionResult, GoodId, LogKind, LogLine, MonsterId, SquadSnap, SupplyId, ZoneId } from './types';
 
 type Rng = { rng: number };
 
-const LINES: Record<string, string[]> = { ...PELLAM_LINES, ...SITE_LINES };
+const LINES: Record<string, string[]> = { ...PELLAM_LINES, ...SITE_LINES, ...DEEP_LINES };
 
 interface Actor {
   d: Delver;
@@ -94,6 +96,9 @@ interface Foe {
   burned: boolean;
 }
 
+/** what a member who goes down to a trap went down to */
+const TRAP_CAUSE: Partial<Record<TrapKind, string>> = { gas: 'bad air', collapse: 'a fall of rock', bog: 'the bog', tide: 'the tide', stampede: 'a stampede', brine: 'the brine' };
+
 type Room = { kind: 'passage' | 'fight' | 'trap' | 'find' | 'curio' | 'camp' | 'boss' | 'goal'; zone: ZoneId };
 
 const mark = (d: Pick<Delver, 'scars' | 'changes' | 'habits'>): MarkDef[] => [...d.scars.map((x) => SCARS[x]), ...(d.changes ?? []).map((c) => CHANGES[c]), ...d.habits.map((h) => HABITS[h])].filter(Boolean);
@@ -119,14 +124,23 @@ export function delverStats(d: Delver) {
   };
 }
 
+/** The route every site but Old Pellam had before save version 14: its first zone only. Trips sealed then replay on it. */
+function oneZoneRoute(site: DiveSetup['site'], length: DiveSetup['length']): RouteStep[] {
+  const z = SITES[site].zones[0];
+  const leg = [z, z, z, z];
+  if (length === 'short') return [z, z, z, z, z];
+  if (length === 'medium') return [...leg, 'camp', ...leg];
+  return [...leg, 'camp', ...leg, 'camp', ...leg];
+}
+
 /** Plan the rooms of a route. Separate from the play so the route is known up front. */
-function buildRoute(r: Rng, steps: RouteStep[], rivalZone: ZoneId | undefined): Room[] {
+function buildRoute(r: Rng, steps: RouteStep[], rivalZone: ZoneId | undefined, bossZone: ZoneId | undefined): Room[] {
   const rooms: Room[] = [];
   let last = '';
   let run = 0;
   steps.forEach((step, i) => {
     if (step === 'camp') return rooms.push({ kind: 'camp', zone: (steps[i - 1] as ZoneId) ?? steps[0] });
-    if (step === 'boss') return rooms.push({ kind: 'boss', zone: 'sink' });
+    if (step === 'boss') return rooms.push({ kind: 'boss', zone: bossZone ?? (steps[i - 1] as ZoneId) });
     const z = ZONES[step];
     if (i === steps.length - 1) return rooms.push({ kind: 'goal', zone: step });
     const w = { ...z.rooms };
@@ -146,10 +160,11 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
   const r: Rng = { rng: setup.seed | 0 || 1 };
   const plan = setup.plan;
   const site = SITES[setup.site];
-  const steps = routeOf(setup.site, setup.length);
+  const steps = setup.oneZone ? oneZoneRoute(setup.site, setup.length) : routeOf(setup.site, setup.length, setup.goal);
   const firstZone = steps[0] as ZoneId;
   const rivalZone = setup.rivalAhead ? firstZone : undefined;
-  const route = buildRoute(r, steps, rivalZone);
+  const boss = site.boss;
+  const route = buildRoute(r, steps, rivalZone, boss?.zone);
   const squad = setup.squad;
   const tagFx = setup.tags.map((t) => TAG_DIVE[t]).filter(Boolean);
   const carried = new Set(squad.flatMap((d) => d.gear.consumables.flatMap((c) => c.counters ?? [])).concat(squad.flatMap((d) => d.gear.trinket?.counters ?? [])));
@@ -162,7 +177,8 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
   const foeProt = tagFx.reduce((n, x) => n + (x.foeProt ?? 0), 0);
   const tagGroups = tagFx.flatMap((x) => x.groups ?? []);
   const sigs = new Set(squad.map((d) => d.signature).filter(Boolean));
-  const threatScale = Math.max(T.threat.min, 1 + (setup.threat - T.threat.base) * T.threat.perPoint) * (setup.foeScale || 1) * (setup.site === 'pellam' ? 1 : T.thinFoe);
+  const threatBase = setup.site === 'pellam' || setup.oneZone ? T.threat.base : T.threatByLength[setup.length];
+  const threatScale = Math.max(T.threat.min, 1 + (setup.threat - threatBase) * T.threat.perPoint) * (setup.foeScale || 1) * (setup.site === 'pellam' ? 1 : T.thinFoe);
   const darkZone = (z: ZoneId) => ZONES[z].dark || tagDark;
   const pack: Record<SupplyId, number> = { food: 0, bandages: 0, oil: 0, tools: 0, masks: 0, reagents: 0, draughts: 0, ...plan.pack } as Record<SupplyId, number>;
   const packed = { ...pack };
@@ -372,7 +388,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
       const s = zoneScale(def, z);
       seen[id] = (seen[id] ?? 0) + 1;
       const nth = ['first', 'second', 'third', 'fourth'][seen[id] - 1];
-      const label = id === 'kiln' ? 'the Kiln Engine' : counts[id] > 1 ? `the ${nth} ${def.one}` : `the ${def.one}`;
+      const label = def.boss ? def.name : counts[id] > 1 ? `the ${nth} ${def.one}` : `the ${def.one}`;
       const hp = Math.round(def.hp * s * T.foe.hp);
       return { def, label, hp, maxHp: hp, acc: def.acc + (s - 1) * 20, dodge: def.dodge, prot: def.prot + foeProt, dmg: [Math.round(def.dmg[0] * s * T.foe.dmg), Math.round(def.dmg[1] * s * T.foe.dmg)], speed: def.speed, stunned: false, bleed: 0, pinned: 0, charged: false, turns: 0, burned: false };
     });
@@ -440,7 +456,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
     a.kills += 1;
     a.killsBy[f.def.id] = (a.killsBy[f.def.id] ?? 0) + 1;
     kills[f.def.id] = (kills[f.def.id] ?? 0) + 1;
-    if (f.def.id === 'kiln') a.bossKill = true;
+    if (f.def.boss) a.bossKill = true;
     if (f.def.coin) crownsFound += f.def.coin + randInt(r, 0, f.def.coin);
     if (f.def.loot && chance(r, f.def.loot.chance)) addLoot(f.def.loot.good, 1);
   };
@@ -675,12 +691,13 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
     const fRank = liveFoes().indexOf(f) + 1;
     const v = (t: Actor) => ({ m: f.label, t: t.name });
     if (f.def.special === 'blast' && f.turns % 4 === 0) {
-      put('enemy', say('kiln_blast', { m: f.label }), { big: true });
+      // the Kiln's firebox, or a powder keg: it reaches the whole squad
+      put('enemy', say(resolve(`blast_${f.def.id}`) ? `blast_${f.def.id}` : 'kiln_blast', { m: f.label }), { big: true });
       for (const t of [...live]) {
         const dmg = Math.max(1, Math.round(randInt(r, 5, 8) - t.prot * 0.3));
         t.hp -= dmg;
-        expose(t, T.exposure.kilnBlast);
-        if (t.hp <= 0 && t.state === 'ok') goDown(t, -t.hp, 'the Kiln Engine');
+        if (f.def.id === 'kiln') expose(t, T.exposure.kilnBlast);
+        if (t.hp <= 0 && t.state === 'ok') goDown(t, -t.hp, f.def.boss ? f.def.name : `a ${f.def.one}`);
       }
       return;
     }
@@ -720,7 +737,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
         put('enemy', say('stolen', { m: f.label, g: GOODS[g].one }));
       }
     }
-    if (t.hp <= 0) goDown(t, -t.hp, f.def.id === 'kiln' ? 'the Kiln Engine' : `a ${f.def.one}`);
+    if (t.hp <= 0) goDown(t, -t.hp, f.def.boss ? f.def.name : `a ${f.def.one}`);
   };
 
   // ---- a fight ----
@@ -731,7 +748,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
     const lead = foes[0].def;
     // the first sight of each kind of monster
     const kinds = [...new Set(ids)];
-    put('fight', say(o.boss ? 'boss_sight' : resolve(`sight_${lead.id}`) ? `sight_${lead.id}` : `sight_${lead.voice ?? 'beast'}`, { m: foes[0].label, n: foes.length }), { big: !!o.boss });
+    put('fight', say(o.boss ? 'boss_sight' : resolve(`sight_${lead.id}`) ? `sight_${lead.id}` : `sight_${lead.voice ?? 'beast'}`, { m: foes[0].label, n: foes.length, a: standing()[0]?.name }), { big: !!o.boss });
     // an Envoy can talk people out of a fight, or buy them off with what the squad found
     const envoy = standing().find((a) => a.prof === 'envoy');
     if (envoy && !o.boss && foes.every((f) => f.def.people)) {
@@ -843,7 +860,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
     if (!won) return 'lost';
     const xp = T.xp.fight + (ZONES[z].depth - 1) * T.xp.perDepth + (o.boss ? 10 : 0);
     for (const a of A) if (a.state !== 'dead') a.xp += xp;
-    put('win', say(o.boss ? 'boss_won' : 'fight_won', {}));
+    put('win', say(o.boss ? 'boss_won' : 'fight_won', { a: standing()[0]?.name }));
     tireAll(o.boss ? T.fatigue.boss : T.fatigue.fight);
     if (o.wanderer) wanderersWon += 1;
     standUp();
@@ -916,7 +933,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
     sinceCamp = 0;
     sinceMeal = 0;
     const chap = hasProf('chaplain');
-    put('camp', say(site ? `camp_${z}` : 'camp_hurt', {}), { big: true });
+    put('camp', say(site ? `camp_${z}` : 'camp_hurt', { a: standing()[0]?.name, b: standing()[standing().length - 1]?.name }), { big: true });
     if (pack.food > 0) {
       pack.food -= 1;
       for (const a of standing()) {
@@ -1005,15 +1022,16 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
         return;
       }
     } else put('trap', say('trap_unseen', {}));
-    const victims = k === 'gas' ? standing() : k === 'grate' || k === 'collapse' ? standing().slice(0, 2) : [pick(r, standing())];
+    const victims = k === 'gas' ? standing() : k === 'grate' || k === 'collapse' || k === 'tide' || k === 'stampede' ? standing().slice(0, 2) : [pick(r, standing())];
     for (const v of victims) {
       const dmg = Math.round(randInt(r, k === 'gas' ? 3 : 5, k === 'gas' ? 5 : 9) * scale);
       v.hp -= dmg;
       put('trap', say(`trap_${k}_hit`, { a: v.name }), { note: `${dmg}` });
       if (k === 'gas') expose(v, T.exposure.gas);
-      if (v.hp <= 0) goDown(v, -v.hp, k === 'gas' ? 'bad air' : k === 'collapse' ? 'a fall of rock' : k === 'bog' ? 'the bog' : 'a trap');
+      if (k === 'brine') expose(v, T.exposure.brine);
+      if (v.hp <= 0) goDown(v, -v.hp, TRAP_CAUSE[k] ?? 'a trap');
     }
-    tireAll(T.fatigue.trap + (k === 'bog' ? 4 : 0));
+    tireAll(T.fatigue.trap + (k === 'bog' || k === 'tide' ? 4 : 0));
   };
 
   const find = (z: ZoneId, big = false, want?: GoodId) => {
@@ -1027,7 +1045,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
       return;
     }
     addLoot(f.good, n);
-    put('find', say(big ? `goal_${zd.id}` : `find_${zd.id}`, { a: pick(r, standing())?.name, g: goodName(f.good, n) }), { note: goodName(f.good, n) });
+    put('find', say(big ? `goal_${zd.id}` : `find_${zd.id}`, { a: pick(r, standing())?.name, b: standing()[standing().length - 1]?.name, g: goodName(f.good, n) }), { note: goodName(f.good, n) });
     if (big) crownsFound += randInt(r, 10, 20) * zd.depth;
   };
 
@@ -1079,6 +1097,34 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
           addLoot('silver', 1);
           put('find', say('cart_reach', { a: who.name }), { note: 'a piece of Pellam silver' });
         }
+        return;
+      case 'wreck':
+        // the ribs of a ship in the sand: tools get into the hold
+        if (pack.tools > 0) {
+          pack.tools -= 1;
+          addLoot('ambergris', 1);
+          addLoot('coin', 1);
+          put('find', say('wreck_tools', { a: who.name }), { note: 'a lump of ambergris, a purse of coin' });
+        } else if (chance(r, 0.5)) {
+          addLoot('coin', 1);
+          put('find', say('wreck_reach', { a: who.name }), { note: 'a purse of coin' });
+        } else put('room', say('wreck_empty', { a: who.name }));
+        return;
+      case 'cairn':
+        // a drovers' cairn: a stone for luck, a rest in the lee of it, and sometimes what the last drover left
+        put('room', say('cairn', { a: who.name }), { note: '−6 fatigue each' });
+        tireAll(-6);
+        if (hasProf('scout') || chance(r, 0.3)) {
+          pack.food += 1;
+          put('find', say('cairn_cache', { a: who.name }), { note: '1 food' });
+        }
+        return;
+      case 'boathouse':
+        if (hasProf('scout') || chance(r, 0.5)) {
+          addLoot('coin', 1);
+          pack.food += 1;
+          put('find', say('boathouse', { a: who.name }), { note: 'a purse of coin, 1 food' });
+        } else put('room', say('boathouse_empty', { a: who.name }));
         return;
       case 'still': {
         const arc = standing().find((a) => a.prof === 'arcanist');
@@ -1133,7 +1179,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
     if (z !== zone) {
       zone = z;
       if (ZONE_ORDER.indexOf(z) > ZONE_ORDER.indexOf(deepest)) deepest = z;
-      put('zone', say(`enter_${z}`, {}), { big: true });
+      put('zone', say(`enter_${z}`, { a: standing()[0]?.name }), { big: true });
       if (darkZone(z) && pack.oil > 0) put('supply', say('lamps_lit', {}));
       if (z === 'sink') {
         const n = Math.min(pack.masks, standing().length);
@@ -1181,19 +1227,22 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
         // the place the job points to holds what the job is about
         const g = setup.goal;
         put('room', say(`goalroom_${z}`, {}));
-        const group = g.kind === 'kill' && g.monster !== 'kiln' ? [g.monster, ...fightGroup(z).filter((x) => x !== g.monster)].slice(0, g.monster === 'rats' ? 3 : 2) : fightGroup(z);
+        const group = g.kind === 'kill' && !MONSTERS[g.monster].boss ? [g.monster, ...fightGroup(z).filter((x) => x !== g.monster)].slice(0, g.monster === 'rats' ? 3 : 2) : fightGroup(z);
         if (g.kind === 'kill' && g.monster === 'rats') group.splice(0, group.length, 'rats', 'rats', 'rats');
+        // beyond Old Pellam, a job to kill several of something finds them together at the end
+        else if (g.kind === 'kill' && setup.site !== 'pellam' && g.count > 1 && !MONSTERS[g.monster].boss) group.splice(0, group.length, ...Array<MonsterId>(Math.min(3, g.count)).fill(g.monster));
         res = fight(group, z);
         if (res === 'won') find(z, true, g.kind === 'bring' ? g.good : undefined);
         break;
       }
       case 'boss':
-        if (setup.kilnBroken) {
-          // the Kiln Engine is gone; its yard is still busy
-          put('room', say('kiln_yard', {}));
-          res = fight(['engine', 'engine', 'seep'], 'sink');
-        } else res = fight(['kiln', 'seep'], 'sink', { boss: true });
-        if (res === 'won') find('sink', true);
+        if (!boss) break;
+        if (setup.bossBeaten ?? (setup.site === 'pellam' && setup.kilnBroken)) {
+          // the boss is gone; its room is still busy
+          put('room', say(boss.afterKey, {}));
+          res = fight(boss.after, z);
+        } else res = fight(boss.group, z, { boss: true });
+        if (res === 'won') find(z, true);
         break;
     }
     if (res === 'lost' || !standing().length) {
@@ -1244,7 +1293,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
     }
     for (const k of Object.keys(loot)) delete loot[k as GoodId];
     crownsFound = 0;
-    put('end', say(survivors.length ? 'lost_crawl' : 'lost_all', { a: survivors[0]?.name, p: site.name }), { big: true });
+    put('end', say(survivors.length ? (A.some((a) => a.state === 'dead') ? 'lost_crawl' : 'lost_crawl_all') : 'lost_all', { a: survivors[0]?.name, p: site.name }), { big: true });
   } else {
     const z = zone ?? firstZone;
     const p = 0.06 + ZONES[z].depth * 0.04 + (dark ? 0.08 : 0);
@@ -1264,7 +1313,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
       for (const k of Object.keys(loot)) delete loot[k as GoodId];
       crownsFound = 0;
       outcome = 'lost';
-      put('end', say('lost_home', { p: site.name }), { big: true });
+      put('end', say(A.some((a) => a.state === 'dead') ? 'lost_home' : 'lost_home_beaten', { p: site.name }), { big: true });
     } else if (!setup.roadBack) {
       put('end', say(outcome === 'complete' ? `home_${setup.length}` : 'home_retreat', { p: site.name }), { big: true });
     }
@@ -1274,14 +1323,14 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
     for (let w = 1; w <= setup.roadBack; w++) {
       week += 1;
       const last = w === setup.roadBack;
-      put(last ? 'end' : 'road', say(last ? (outcome === 'complete' ? 'road_home' : outcome === 'lost' ? 'road_home_lost' : 'home_retreat') : 'road_back', { a: pick(r, A.filter((x) => x.state !== 'dead')).name, p: site.name }), { big: last });
+      put(last ? 'end' : 'road', say(last ? (outcome === 'complete' ? 'road_home' : outcome === 'lost' ? (A.some((a) => a.state === 'dead') ? 'road_home_lost' : 'road_home_beaten') : 'home_retreat') : 'road_back', { a: pick(r, A.filter((x) => x.state !== 'dead')).name, p: site.name }), { big: last });
     }
   }
 
   // ---- deeds, renown and what the members bring home ----
   const L = LENGTHS[setup.length];
   if (outcome === 'complete') renownDeeds.push({ text: `Completed a ${L.name.toLowerCase()} expedition`, renown: L.renown });
-  if (A.some((a) => a.bossKill)) renownDeeds.push({ text: 'Broke the Kiln Engine', renown: T.renown.boss });
+  if (boss && A.some((a) => a.bossKill)) renownDeeds.push({ text: boss.deed, renown: T.renown.boss });
   if (wanderersWon) renownDeeds.push({ text: `Fought off ${wanderersWon === 1 ? 'a wandering pack' : `${wanderersWon} wandering packs`}`, renown: wanderersWon * T.renown.wanderer });
   const carriedHome = A.filter((a) => a.gotUp && a.state !== 'dead').length;
   if (outcome !== 'lost' && carriedHome) renownDeeds.push({ text: `Brought ${carriedHome === 1 ? 'a fallen member' : `${carriedHome} fallen members`} home`, renown: carriedHome * T.renown.carried });
@@ -1299,9 +1348,9 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
   };
   const members: DelverOutcome[] = A.map((a) => {
     if (a.state !== 'dead') {
-      if (a.bossKill) {
-        a.deeds.push('broke the Kiln Engine');
-        a.fame += 5;
+      if (a.bossKill && boss) {
+        a.deeds.push(boss.memberDeed);
+        a.fame += T.bossFame;
       }
       if (a.kills >= 4) {
         a.deeds.push(`killed ${a.kills} things on one trip`);

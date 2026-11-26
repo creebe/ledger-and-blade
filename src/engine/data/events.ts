@@ -230,10 +230,10 @@ const CORE_STORY: EventDef[] = [
           },
           {
             label: 'Humiliate her in front of her daughters',
-            detail: 'Guile check. Success: Renown +4. Failure: Renown −2. Either way, the Hobbs grow much more aggressive, and it becomes personal.',
+            detail: 'Guile check. Success: Renown +4, and it becomes personal. Failure: Renown −2. Either way, the Hobbs grow much more aggressive.',
             check: { approach: 'guile', difficulty: 13 },
-            effects: { renown: 4, rivalAggression: 0.2, feud: 15, npc: { id: 'marta', attitude: -25 } },
-            failEffects: { renown: -2, rivalAggression: 0.35, feud: 10, npc: { id: 'marta', attitude: -10 } },
+            effects: { renown: 4, rivalAggression: 0.2, feud: 25, npc: { id: 'marta', attitude: -25 } },
+            failEffects: { renown: -2, rivalAggression: 0.35, feud: 15, npc: { id: 'marta', attitude: -10 } },
             resultText: 'You say something about the umbrella that makes her youngest daughter snort before she can stop herself. Marta doesn\'t laugh. By evening the line is being repeated in taverns all along the river.',
             failText: 'Marta laughs, leans over and pats your hand. That\'s the part people repeat for the rest of the week.',
           },

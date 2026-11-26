@@ -1,5 +1,6 @@
 // Guild wars. Each rival has a feud level (0-100) with your guild. It rises when
-// either side hurts the other and cools slowly when nobody does. Three stages:
+// either side hurts the other, and fades week by week when nobody does (the
+// FEUD_* numbers in core/tuning.ts). Three stages:
 //   Competition (0-24): spying and smears.
 //   Feud (25-59): intercepting jobs, poaching people, theft, bribes, ambushes.
 //   Open war (60+): raids, arson, murder and assassination of named people.
@@ -18,13 +19,35 @@ import { addDispatch, clamp, living } from '../core/util';
 import { applyStanding, spend } from '../core/effects';
 import { createMember } from '../people/members';
 import { generateContract } from '../economy/board';
-import { FEUD_AT, SWEEP_COST, WAR_AT } from '../core/tuning';
+import { FEUD_AT, FEUD_COOL, FEUD_DECAY, FEUD_HOLD, FEUD_RESENT, FEUD_THEIR_MOVE, SWEEP_COST, WAR_AT, WAR_HOLD } from '../core/tuning';
 
 export const STAGES = ['Competition', 'Feud', 'Open war'] as const;
 
+/** The stage a feud level shows on its own, before any hold. */
+export const stageOfFeud = (f: number): 0 | 1 | 2 => (f >= WAR_AT ? 2 : f >= FEUD_AT ? 1 : 0);
+
+/** The stage of a rivalry. A stage once reached holds until the feud is clearly below its line. */
 export function feudStage(state: GameState, id: RivalId): 0 | 1 | 2 {
-  const f = state.rivals[id].feud ?? 0;
-  return f >= WAR_AT ? 2 : f >= FEUD_AT ? 1 : 0;
+  const r = state.rivals[id];
+  const f = r.feud ?? 0;
+  const held = r.stage === 2 && f >= WAR_AT - WAR_HOLD ? 2 : (r.stage ?? 0) >= 1 && f >= FEUD_AT - FEUD_HOLD ? 1 : 0;
+  return Math.max(stageOfFeud(f), held) as 0 | 1 | 2;
+}
+
+/** Set a feud outright (a truce, a payment, a killing): the stage follows the new level at once. */
+export function setFeud(state: GameState, id: RivalId, value: number) {
+  const r = state.rivals[id];
+  r.feud = clamp(value, 0, 100);
+  r.stage = stageOfFeud(r.feud);
+}
+
+/** How the feud will move on its own this week, before anyone does anything. */
+export function feudDrift(state: GameState, id: RivalId): number {
+  const r = state.rivals[id];
+  // an aggressive rival resents a guild that is catching up with it, and every grudge fades
+  const threat = state.renown >= r.renown - 6 ? r.aggression * FEUD_RESENT : 0;
+  const natural = threat - FEUD_COOL - (r.feud ?? 0) * FEUD_DECAY;
+  return inTruce(state, id) ? Math.min(-3, natural) : natural;
 }
 
 export const inTruce = (state: GameState, id: RivalId) => (state.rivals[id].truceUntil ?? 0) >= state.week;
@@ -35,6 +58,7 @@ export function raiseFeud(state: GameState, id: RivalId, amount: number) {
   const before = feudStage(state, id);
   r.feud = clamp((r.feud ?? 0) + amount, 0, 100);
   const after = feudStage(state, id);
+  r.stage = after;
   if (after !== before) {
     const name = RIVALS[id].name;
     addDispatch(
@@ -44,9 +68,11 @@ export function raiseFeud(state: GameState, id: RivalId, amount: number) {
       [
         after === 2
           ? `It is open war with ${name}. Expect raids, fire and knives, and expect the Exchequer to blame you for all of it.`
-          : after === 1
-            ? `What was business with ${name} has become personal. They will start going after your jobs, your stores and your people.`
-            : `${name} have stopped treating you as an enemy, for now.`,
+          : after === 1 && before === 2
+            ? `${name} have stopped sending knives. It is still a feud, though, and they will keep going after your jobs and your stores.`
+            : after === 1
+              ? `What was business with ${name} has become personal. They will start going after your jobs, your stores and your people.`
+              : `${name} have stopped treating you as an enemy, for now.`,
       ],
     );
   }
@@ -256,7 +282,7 @@ export function runOperation(state: GameState, id: RivalId, kind: OpKind): strin
     case 'truce': {
       const c = homeChance(state, 'guile', 12 + Math.round((r.feud ?? 0) / 10));
       if (chance(state, c.chance)) {
-        r.feud = Math.max(0, (r.feud ?? 0) - 30);
+        setFeud(state, id, (r.feud ?? 0) - 30);
         r.truceUntil = state.week + 8;
         if (r.plan && r.plan.kind !== 'contract') r.plan = { kind: 'none', revealed: true, countered: false };
         addDispatch(state, 'rival', `A truce with ${name}`, [`${c.who ?? 'Your envoy'} and their people shook hands in the back of the Copper Kettle. Neither side moves against the other until week ${r.truceUntil}.`]);
@@ -268,7 +294,7 @@ export function runOperation(state: GameState, id: RivalId, kind: OpKind): strin
     }
     case 'tribute':
       r.crowns += opt.cost.crowns ?? 0;
-      r.feud = Math.max(0, (r.feud ?? 0) - 25);
+      setFeud(state, id, (r.feud ?? 0) - 25);
       addDispatch(state, 'rival', `You paid off ${name}`, ['The money changes hands in a back room. The pressure eases, and half the city hears the price.']);
       break;
     case 'pact': {
@@ -337,7 +363,7 @@ export function resolveOperation(state: GameState, c: Contract, won: boolean, su
       state.npcs[op.target].status = 'dead';
       state.heat = clamp(state.heat + 25, 0, 100);
       applyStanding(state, 'exchequer', -15);
-      r.feud = 100;
+      setFeud(state, op.rival, 100);
       summary.push(`${NPCS[op.target].name} is dead. Heat +25, Exchequer −15.`);
       afterLeaderDies(state, op.rival, op.target);
     } else if (op.target && state.npcs[op.target].status !== 'alive') {
@@ -440,7 +466,7 @@ export function describeHostile(state: GameState, _id: RivalId, kind: HostileKin
 export function executeHostile(state: GameState, id: RivalId, kind: HostileKind, target?: string) {
   const name = RIVALS[id].name;
   const defense = hallDefense(state);
-  raiseFeud(state, id, 3);
+  raiseFeud(state, id, FEUD_THEIR_MOVE);
   switch (kind) {
     case 'plant':
       state.rivals[id].theirSpy = true; // you only find out if you catch them
@@ -522,13 +548,11 @@ export function weeklyWar(state: GameState) {
     if (r.dormantUntil && state.week >= r.dormantUntil && !r.active && id === 'assay') {
       r.active = true;
       r.dormantUntil = undefined;
-      r.feud = 30;
+      setFeud(state, id, 40);
       addDispatch(state, 'rival', 'A new Master Assayer', ['The Assay Office has a new head, appointed by the Exchequer. She has read the file on Plaice, and she has read the file on you.']);
     }
     if (!r.active) continue;
-    // an aggressive rival resents a guild that is catching up with it
-    const threat = state.renown >= r.renown - 6 ? r.aggression * 0.7 : 0;
-    r.feud = clamp((r.feud ?? 0) + (inTruce(state, id) ? -3 : threat - 0.3), 0, 100);
+    raiseFeud(state, id, feudDrift(state, id));
     if (feudStage(state, id) === 2) atWar = true;
     if (r.theirSpy && chance(state, spyCatch(state))) {
       r.theirSpy = false;

@@ -28,6 +28,11 @@ import {
   type ExpPlan,
   type GameState,
   type MaterialId,
+  type OpKind,
+  activeRivals,
+  feudStage,
+  operationOptions,
+  runOperation,
 } from '../src/engine';
 
 export interface BotOpts {
@@ -35,6 +40,21 @@ export interface BotOpts {
   chooser?: (s: GameState, ev: GameState['pendingEvents'][number]) => number;
   /** good: the suggested pack and orders; poor: little in the pack and stubborn orders */
   prep?: 'good' | 'poor';
+  /** a player who picks fights: smears every rival, prefers contested jobs, and runs every operation it can */
+  provoke?: boolean;
+}
+
+/** The provoking player's moves against each rival this week. */
+function provokeRivals(s: GameState) {
+  for (const id of activeRivals(s)) {
+    const stage = feudStage(s, id);
+    for (const kind of ['smear', ...(stage >= 1 ? ['intercept'] : []), ...(stage >= 2 ? ['raid'] : [])] as OpKind[]) {
+      const opt = operationOptions(s, id).find((o) => o.kind === kind);
+      if (!opt || opt.blocked) continue;
+      if ((opt.cost.crowns ?? 0) > 0 && s.crowns - (opt.cost.crowns ?? 0) < 200) continue;
+      runOperation(s, id, kind);
+    }
+  }
 }
 
 export function resolvePending(s: GameState, opts: BotOpts) {
@@ -49,7 +69,8 @@ export function resolvePending(s: GameState, opts: BotOpts) {
 
 /** How hard a posting is, on the contract threat scale. */
 export function postingDifficulty(c: Contract) {
-  if (c.expedition.site === 'pellam') return { short: 2.5, medium: 5, long: 7.5 }[c.expedition.length];
+  // Old Pellam's postings and the other sites' own postings (a goal beyond "see it through") read like Old Pellam's
+  if (c.expedition.site === 'pellam' || c.expedition.goal.kind !== 'complete') return { short: 2.5, medium: 5, long: 7.5 }[c.expedition.length];
   return c.threat + (c.expedition.length === 'medium' ? 1 : c.expedition.length === 'long' ? 2.5 : 0);
 }
 
@@ -65,8 +86,10 @@ export function botTurn(s: GameState, opts: BotOpts) {
   const caution = opts.minChance;
   const margin = caution <= 0.4 ? 3 : caution <= 0.55 ? 1.5 : 0.5;
   const minHealth = caution <= 0.4 ? 45 : caution <= 0.55 ? 65 : 80;
-  // contracts: the best-paying ones the squad can likely handle
-  const board = [...s.board].sort((a, b) => b.reward / Math.max(1, postingDifficulty(b)) - a.reward / Math.max(1, postingDifficulty(a)));
+  if (opts.provoke) provokeRivals(s);
+  // contracts: the best-paying ones the squad can likely handle (a provoking player goes for fights first)
+  const value = (c: Contract) => c.reward / Math.max(1, postingDifficulty(c)) + (opts.provoke && (c.contestedBy || (c.op && c.op.kind !== 'kill')) ? 1000 : 0);
+  const board = [...s.board].sort((a, b) => value(b) - value(a));
   for (const c of board) {
     if (squadsOut(s) >= squadLimit(s)) break;
     if (c.hidden.some((h) => !h.revealed) && s.intel >= 2) revealTag(s, c.id, c.hidden.findIndex((h) => !h.revealed));
@@ -74,7 +97,7 @@ export function botTurn(s: GameState, opts: BotOpts) {
     const team = plan.squad.map((id) => s.members.find((m) => m.id === id)!);
     if (team.length < Math.min(c.minSquad, 4)) continue;
     // a careful player doesn't send a pair into Old Pellam
-    if (c.expedition.site === 'pellam' && team.length < 3 && caution >= 0.5) continue;
+    if ((c.expedition.site === 'pellam' || c.expedition.goal.kind !== 'complete') && team.length < 3 && caution >= 0.5) continue;
     if (team.some((m) => m.health < minHealth || m.fatigue >= 45)) continue;
     const level = team.reduce((t, m) => t + m.level, 0) / team.length;
     const power = level * 1.2 + team.length * 0.5;

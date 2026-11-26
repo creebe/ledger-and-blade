@@ -7,6 +7,10 @@ import type { NpcId } from './facts';
 import { rosterCap, upkeep } from '../economy/buildings';
 import { seasonOf } from '../core/calendar';
 import { living } from '../core/util';
+import { WAR_AT } from '../core/tuning';
+
+/** Open war with the Hobbs, held stage included (see feudStage in rivals/war.ts). */
+const hobbsAtWar = (s: GameState) => s.rivals.hobbs.stage === 2 || (s.rivals.hobbs.feud ?? 0) >= WAR_AT;
 
 export interface DateDef {
   id: string;
@@ -266,14 +270,14 @@ export const DATES: DateDef[] = [
     lead: [4, 5],
     text: () =>
       "Marta Hobb has told half the Copper Kettle that her daughters will be better known than your guild by the end of the month. She has put twenty crowns on it with the landlord.",
-    available: (s) => s.week >= 12 && s.rivals.hobbs.active && (s.rivals.hobbs.feud ?? 0) < 60,
+    available: (s) => s.week >= 12 && s.rivals.hobbs.active && !hobbsAtWar(s),
     targets: () => [{ kind: 'renownAbove', rival: 'hobbs' }],
     reward: { renown: 3, influence: 1 },
     cost: { renown: -2 },
     met: "Marta paid her bets in full and sent the guild a cake. The cake was very good, and the note with it said she'd win the next one.",
     missed: 'Marta collected on her wager in the Copper Kettle, loudly, while two of your people were drinking there.',
     cancel: {
-      when: (s) => !alive(s, 'marta') || (s.rivals.hobbs.feud ?? 0) >= 60,
+      when: (s) => !alive(s, 'marta') || hobbsAtWar(s),
       text: (s) =>
         alive(s, 'marta')
           ? 'Marta has called off her wager. Nobody bets on a guild her firm is at war with.'

@@ -16,7 +16,7 @@ _Speaker: Sister Agathe Brune_
 >
 > "I'm Agathe Brune, the almoner, and you'll have to forgive me. It's colder in the almshouse than it is out there, and I've forgotten what my hands feel like." She sits. "I'll be quick, because I've left Sister Joan with forty people and one pot.
 >
-> "The fen fever has come up the river. I need salts from the Saltfens to treat it, and the apothecaries want two crowns an ounce. God may forgive them for that, but I won't."
+> "The Sink fever is bad down the hill this year. It's the water, it always is. I need salts from the Saltfens to treat it, and the apothecaries want two crowns an ounce. God may forgive them for that, but I won't."
 
 - **We'll fetch the salts.** · _Adds the story contract "Salts for Saint Oda's". It pays little. Success: Saint Oda's +12, Lower Town +4._ · `brune_salts/root/c1`
   “"Thank you. Bring dry sacks. The salt is no good once it's wet, and neither are the people carrying it."”
@@ -69,7 +69,7 @@ _Same choices as the opening (one shared menu)._
 
 ### Saint Oda's Feast
 
-`festival` · Follow-up · data/events.ts:672
+`festival` · Follow-up · data/events.ts:679
 
 **When:** when seasonOf(week) is 'Summer'; random draw, weight 3; not again for 40 weeks.
 

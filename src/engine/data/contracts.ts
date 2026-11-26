@@ -1,5 +1,6 @@
 import type { FactId, ContractEffect, FactionId, MaterialId, PhaseDef, Season, TagId } from '../core/types';
 import type { ContractExpedition } from '../expeditions/types';
+import { SITE_CONTRACTS } from './contracts-sites';
 
 export interface ContractTemplate {
   id: string;
@@ -32,6 +33,8 @@ export interface ContractTemplate {
   expire?: { title: string; text: string };
   // where the expedition goes, how far and what for. Unset parts come from the region and threat
   expedition?: Partial<ContractExpedition>;
+  /** posted only once the site's boss is beaten: the work in its room afterwards */
+  afterBoss?: boolean;
 }
 
 const P = (name: string, approaches: PhaseDef['approaches'], weight: number, danger: number, text: string): PhaseDef => ({
@@ -206,6 +209,8 @@ export const CONTRACT_TEMPLATES: ContractTemplate[] = [
     weight: 0.8,
     expedition: { site: 'pellam', length: 'long', goal: { kind: 'kill', monster: 'kiln', count: 1 } },
   },
+  // ---- the other sites' deeper zones and bosses (contracts-sites.ts) ----
+  ...SITE_CONTRACTS,
   {
     id: 'wolf_cull',
     type: 'Hunt',
@@ -689,7 +694,7 @@ export const CONTRACT_TEMPLATES: ContractTemplate[] = [
     type: 'Story',
     titles: ["Salts for Saint Oda's"],
     patrons: ['oda'],
-    description: "The almshouse needs fen salts for the fever, and the apothecaries want more than the Sisters can pay. The salt pans are out past the last causeway in the Saltfens. Sister Brune will pay what she can, which is not much.",
+    description: "The almshouse needs fen salts for the fever, and the apothecaries want more than the Sisters can pay. The salts grow along the reed paths past the last causeway in the Saltfens. Sister Brune will pay what she can, which is not much.",
     regions: ['saltfens'],
     threat: [3, 3],
     tags: ['swamp'],

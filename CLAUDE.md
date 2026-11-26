@@ -24,6 +24,7 @@ npm test               # Vitest (engine rules + story coherence)
 npm run story          # story checker; writes docs/reports/story-coverage.md
 npm run style          # writing-style flags (advisory); ALL=1 lists every flag
 npm run sim            # balance bot; careful-bot first-year survival should stay ~65-75%
+npm run sim:long       # two years: feud and war rates (passive and provoking bot), Legends per game
 npm run playthroughs   # readable sample games in docs/playthroughs/
 npm run fingerprint    # behaviour hash: must not change in a pure refactor
 npm run build          # typecheck + production build

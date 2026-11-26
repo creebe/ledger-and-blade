@@ -410,7 +410,7 @@ export const LINES: Record<string, string[]> = {
   foe_wait: ['{m} waits behind the others for a gap.', '{m} pushes at the ones in front and cannot get through.'],
   stolen: ['{m} grabs {g} out of a pack and runs off with it.', 'In the scuffle {m} gets away with {g}.'],
   poisoned: ["The spider's venom is still working in {a}.", '{a} is sweating and their hands have gone numb.', '{a} sways. The bite has gone purple and hot.', '{a} is sick against the wall and wipes their mouth and carries on.', "{a}'s arm has swollen up tight inside the sleeve."],
-  bleeds: ['{m} is bleeding badly.', '{m} leaves a trail behind it now.'],
+  bleeds: ['{m} is bleeding badly.', '{m} is leaving a trail of blood.'],
 
   // ---- kills ----
   kill_rats: [

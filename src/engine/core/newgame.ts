@@ -62,7 +62,7 @@ export function newGame(seed = Date.now() % 2147483647): GameState {
     history: [],
     stores: freshStores(),
     goods: {},
-    delve: { zonesReached: [], count: 0 },
+    delve: { zonesReached: [], bossesBeaten: [], count: 0 },
     petitioned: [],
     dates: freshDates(),
     nextId: 0,

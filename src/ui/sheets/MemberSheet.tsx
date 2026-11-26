@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { EXP_TUNING, treatExposure, APPROACH_INFO, FAME_TIERS, ITEMS, PROFESSIONS, SIGNATURES, TRAITS, awayReason, dismissMember, equip, equippedBy, fameTier, isPreparing, memberScore, type Approach, type Attribute, type GameState, type ItemSlot, type Member, xpToLevel } from '../../engine';
+import { EXP_TUNING, treatExposure, APPROACH_INFO, FAME_TIERS, LEGEND_NEEDS, ITEMS, PROFESSIONS, SIGNATURES, TRAITS, awayReason, dismissMember, equip, equippedBy, fameTier, isPreparing, memberScore, type Approach, type Attribute, type GameState, type ItemSlot, type Member, xpToLevel } from '../../engine';
 import { useStore } from '../../store';
 import { Btn, Meter, Sheet } from '../kit/common';
 import { SLOT_LABEL, cap, crowns, datedLine, shortDate } from '../kit/format';
@@ -274,7 +274,7 @@ function FameBlock({ m }: { m: Member }) {
         {m.epithet ? `${m.epithet}, a Legend of Varrow` : tier ? FAME_TIERS[tier].name : 'Not yet known'}
       </b>
       <p className="tiny muted fame-line">
-        {tier < 3 ? `Fame ${fame} of ${next.min} to be ${next.name}${next.name === 'Legendary' ? ' (also needs level 5 and 25 missions)' : ''}.` : `Fame ${fame}.`}
+        {tier < 3 ? `Fame ${fame} of ${next.min} to be ${next.name}${next.name === 'Legendary' ? ` (also needs level ${LEGEND_NEEDS.level} and ${LEGEND_NEEDS.missions} missions)` : ''}.` : `Fame ${fame}.`}
       </p>
       {sig && (
         <p className="small">

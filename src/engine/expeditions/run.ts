@@ -12,12 +12,14 @@ import { levelUp } from '../missions/missions';
 import { triggerDoorScene } from '../story/scenes';
 import { addRecord } from '../missions/narrative';
 import { raiseFeud, resolveOperation } from '../rivals/war';
+import { FEUD_CONTESTED } from '../core/tuning';
 import { chance, uid } from '../core/rng';
 import type { Approach, Contract, GameState, MaterialId, Member, Mission, MissionReport, OutcomeTier } from '../core/types';
 import { addDispatch, clamp, living } from '../core/util';
 import { applyContractEffect, applyStanding, earn, factionName, spend, track } from '../core/effects';
-import { CHANGES, GOODS, SITES, SUPPLY_IDS, ZONES, ZONE_ORDER } from './data/content';
+import { CHANGES, GOODS, MONSTERS, SITES, SUPPLY_IDS, ZONES, ZONE_ORDER } from './data/content';
 import { runExpedition } from './dive';
+import { bossBeaten, markBossBeaten } from './bosses';
 import { delverOf } from './gear';
 import { goalText, packCost, planBlocked, plannedWeeks, roadWeeks, stockOf, supplyUnitPrice } from './prep';
 import { EXP_TUNING as T } from './tuning';
@@ -34,6 +36,8 @@ const hashId = (id: string) => {
   for (let i = 0; i < id.length; i++) h = (Math.imul(h, 31) + id.charCodeAt(i)) | 0;
   return h;
 };
+
+const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
 
 const trueTags = (c: Contract) => [...c.tags, ...c.hidden.map((h) => h.trueTag)];
 
@@ -53,7 +57,7 @@ export function buildSetup(s: GameState, ms: Mission): DiveSetup {
     roadOut: road.out + extraDelay,
     roadBack: road.back,
     rivalAhead: c.contestedBy && s.rivals[c.contestedBy]?.active ? c.contestedBy : undefined,
-    kilnBroken: s.delve?.kilnBroken,
+    bossBeaten: bossBeaten(s, c.expedition.site) || undefined,
     foeScale: ms.foeScale ?? 1,
     fieldLog: [...(ms.fieldLog ?? [])],
     plan: JSON.parse(JSON.stringify(ms.plan)) as ExpPlan,
@@ -296,8 +300,11 @@ export const goodsValue = (s: GameState) => (Object.keys(s.goods ?? {}) as GoodI
 /** Sell loot at the market: all of it, or one kind. Returns the crowns earned. */
 export function sellGoods(s: GameState, good?: GoodId): number {
   let total = 0;
+  // the Ninth's colours wait while Captain Mayne is at the door about them
+  const held = s.pendingEvents.some((e) => e.defId === 'ninth_colours');
   for (const k of Object.keys(s.goods) as GoodId[]) {
     if (good && k !== good) continue;
+    if (held && k === 'colours') continue;
     total += (s.goods[k] ?? 0) * GOODS[k].value;
     delete s.goods[k];
   }
@@ -357,7 +364,7 @@ export function settleExpedition(s: GameState, ms: Mission) {
     else {
       // they take a third of what the squad carries, but the job's own goods were kept back
       const kept = c.expedition.goal.kind === 'bring' ? c.expedition.goal.good : undefined;
-      for (const k of Object.keys(loot) as GoodId[]) if (k !== kept) loot[k] = Math.floor((loot[k] ?? 0) * 0.66);
+      for (const k of Object.keys(loot) as GoodId[]) if (k !== kept) loot[k] = (loot[k] ?? 0) - Math.floor((loot[k] ?? 0) / 3);
       summary.push(`${name}'s people were waiting on the road home and took a third of what the squad was carrying.`);
       raiseFeud(s, ms.ambush, 3);
     }
@@ -459,11 +466,23 @@ export function settleExpedition(s: GameState, ms: Mission) {
       summary.push(`First to reach ${ZONES[z].name} (+${bonus} renown).`);
     }
   }
-  if ((res.kills.kiln ?? 0) > 0 && !s.delve.kilnBroken) {
-    s.delve.kilnBroken = true;
-    // nobody can break it twice: postings for it come off the board
-    s.board = s.board.filter((x) => !(x.expedition.goal.kind === 'kill' && x.expedition.goal.monster === 'kiln'));
-    summary.push("The college sends a cart for the Kiln Engine's core, and a letter that is mostly about who is going to pay for the cart.");
+  const boss = SITES[c.expedition.site].boss;
+  if (boss && (res.kills[boss.monster] ?? 0) > 0 && !bossBeaten(s, c.expedition.site)) {
+    markBossBeaten(s, c.expedition.site);
+    // nobody can beat it twice: postings for it come off the board
+    s.board = s.board.filter((x) => !(x.expedition.goal.kind === 'kill' && x.expedition.goal.monster === boss.monster));
+    summary.push(res.outcome === 'lost' ? `${cap(MONSTERS[boss.monster].name)} is dead, and nobody who did it came home to say so.` : boss.report);
+  }
+  // killing the bank's customs men or the watch is noticed
+  const tw = Math.min(3, res.kills.tidewaiter ?? 0);
+  if (tw) {
+    applyStanding(s, 'ostranders', -tw);
+    summary.push(`Ostrander's has heard about its tidewaiters on the Strand (standing −${tw}).`);
+  }
+  const ws = Math.min(3, res.kills.watch_sergeant ?? 0);
+  if (ws) {
+    s.heat = clamp(s.heat + ws * 2, 0, 100);
+    summary.push(`The watch wants to know who hurt its sergeants (Heat +${ws * 2}).`);
   }
 
   // the contract
@@ -509,7 +528,12 @@ export function settleExpedition(s: GameState, ms: Mission) {
     }
   }
   if (c.op) resolveOperation(s, c, rewardMult > 0, summary);
-  else if (c.contestedBy && rewardMult > 0) raiseFeud(s, c.contestedBy, 3);
+  else if (c.contestedBy && rewardMult > 0) {
+    const before = s.rivals[c.contestedBy].feud ?? 0;
+    raiseFeud(s, c.contestedBy, FEUD_CONTESTED);
+    const rise = Math.round((s.rivals[c.contestedBy].feud ?? 0) - before);
+    summary.push(`${RIVALS[c.contestedBy].name} wanted this job and lost it to you.${rise > 0 ? ` Feud +${rise}` : ''}`);
+  }
   const tpl = TEMPLATE_BY_ID[c.templateId];
   const outcomeFlag = rewardMult > 0 ? tpl?.successFlag : tpl?.failFlag;
   if (outcomeFlag) s.flags[outcomeFlag] = true;

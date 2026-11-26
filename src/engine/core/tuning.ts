@@ -28,13 +28,36 @@ export const HEAT_COST = 4;
 /** Fame needed for each tier (Known, Renowned, Legendary). */
 export const FAME_KNOWN = 20;
 export const FAME_RENOWNED = 75;
-export const FAME_LEGENDARY = 120;
+export const FAME_LEGENDARY = 105;
 /** A Legend also needs a long record, not just one lucky year. */
-export const LEGEND_NEEDS = { level: 5, missions: 25 };
+export const LEGEND_NEEDS = { level: 5, missions: 23 };
 
 // ---- Guild wars ----
 /** Feud level at which a rivalry becomes a feud, and then open war. */
 export const FEUD_AT = 25;
 export const WAR_AT = 60;
+/**
+ * How a feud moves on its own each week (see weeklyWar in rivals/war.ts).
+ * A rival resents a guild that is catching up with it (FEUD_RESENT × its
+ * aggression), and every grudge cools a little (FEUD_COOL) and fades in
+ * proportion to its size (FEUD_DECAY). Left alone, a fully aggressive rival
+ * settles at (FEUD_RESENT − FEUD_COOL) / FEUD_DECAY, about 17: below a feud.
+ * What tips a rivalry into a feud, and a feud into war, is what the guild
+ * does: contested jobs, operations, and the story.
+ */
+export const FEUD_RESENT = 1;
+export const FEUD_COOL = 0.3;
+export const FEUD_DECAY = 0.04;
+/**
+ * A stage, once reached, holds until the feud falls this far below its line, so
+ * one contested job doesn't flip a rival into a feud and out again a week later.
+ * A truce or tribute ends the stage at once.
+ */
+export const FEUD_HOLD = 6;
+export const WAR_HOLD = 8;
+/** Feud from each move a rival makes against you. Kept small so a feud can't feed itself into war. */
+export const FEUD_THEIR_MOVE = 1;
+/** Feud from beating a rival to a contested job. */
+export const FEUD_CONTESTED = 9;
 /** Intel to search the hall for spies. */
 export const SWEEP_COST = 3;

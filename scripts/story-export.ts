@@ -22,9 +22,10 @@ import { EXCLUSIVE_FACTS, FACTS, NPCS } from '../src/engine/data/facts';
 import { CONTRACT_TEMPLATES } from '../src/engine/data/contracts';
 import { TAGS } from '../src/engine/data/tags';
 import { PROFESSIONS } from '../src/engine/data/professions';
-import { CHANGES, DELVER_PROFS, GOODS, HABITS, LENGTHS, MONSTERS, PELLAM_GOALS, SCARS, SITES, SUPPLIES, TAG_DIVE, ZONES, ZONE_ORDER } from '../src/engine/expeditions/data/content';
+import { CHANGES, DELVER_PROFS, GOODS, HABITS, LENGTHS, MONSTERS, SCARS, SITES, SUPPLIES, TAG_DIVE, ZONES, ZONE_ORDER } from '../src/engine/expeditions/data/content';
 import { LINES as PELLAM_LINES } from '../src/engine/expeditions/data/lines';
 import { SITE_LINES } from '../src/engine/expeditions/data/lines-sites';
+import { DEEP_LINES } from '../src/engine/expeditions/data/lines-deep';
 
 const ROOT = new URL('..', import.meta.url).pathname;
 const rel = (p: string) => relative(ROOT, p);
@@ -725,7 +726,7 @@ function sceneRef(id: string) {
 }
 
 // generic content
-const CONTRACTS = collectItems('src/engine/data/contracts.ts', () => 'contracts');
+const CONTRACTS = [...collectItems('src/engine/data/contracts.ts', () => 'contracts'), ...collectItems('src/engine/data/contracts-sites.ts', () => 'contracts')];
 const CODEX = collectItems('src/engine/data/codex.ts', (_id, _o, top) => (top === 'CODEX' ? 'codex' : top === 'CRIER' ? 'crier' : top === 'JORY' ? 'jory' : undefined));
 const DATES = collectItems('src/engine/data/dates.ts', (_id, _o, top) => (top === 'DATES' ? 'dates' : undefined));
 const TUTORIAL = collectItems('src/engine/data/tutorial.ts', () => 'tutorial');
@@ -830,7 +831,9 @@ const SITES_FILE = 'src/engine/expeditions/data/lines-sites.ts';
 const CONTENT_FILE = 'src/engine/expeditions/data/content.ts';
 const EXP_PELLAM = lineGroups(PELLAM_FILE, 'LINES', PELLAM_LINES);
 const EXP_SITES = lineGroups(SITES_FILE, 'SITE_LINES', SITE_LINES);
-const EXP_LINE_COUNT = [...EXP_PELLAM, ...EXP_SITES].reduce((n, g) => n + g.keys.reduce((m, k) => m + k.lines.length, 0), 0);
+const DEEP_FILE = 'src/engine/expeditions/data/lines-deep.ts';
+const EXP_DEEP = lineGroups(DEEP_FILE, 'DEEP_LINES', DEEP_LINES);
+const EXP_LINE_COUNT = [...EXP_PELLAM, ...EXP_SITES, ...EXP_DEEP].reduce((n, g) => n + g.keys.reduce((m, k) => m + k.lines.length, 0), 0);
 const EXP_ITEM_COUNT = [SITES, ZONES, MONSTERS, DELVER_PROFS, SUPPLIES, GOODS, SCARS, HABITS, CHANGES].reduce((n, r) => n + Object.keys(r).length, 0);
 
 // fact index: who sets and who reads each fact
@@ -1244,12 +1247,11 @@ function expSections(): Section[] {
   const metIn: Record<string, string[]> = {};
   for (const z of Object.values(ZONES)) for (const g of z.fights) for (const m of g) (metIn[m] ??= []).push(z.name);
   for (const [tag, d] of Object.entries(TAG_DIVE)) for (const g of d.groups ?? []) for (const m of g) (metIn[m] ??= []).push(`contracts with ${TAG_NAME(tag)}`);
-  if (metIn.kiln) metIn.kiln.push('the bottom of the College Sink');
-  else metIn.kiln = ['the bottom of the College Sink'];
+  for (const s of Object.values(SITES)) if (s.boss) (metIn[s.boss.monster] ??= []).push(`the boss room of ${s.name} (${ZONES[s.boss.zone].name})`);
 
   // the places, the people and the things in them
   {
-    const L = ['## Expeditions: places, monsters and people', '', "Every contract is walked as an expedition to a site. Old Pellam has three zones and the Kiln Engine; the other sites have one zone each for now. Door scenes (news brought to the yard as a squad sets out for a distant site) are in the thread On the road, in the Story threads. The story bible's account of all this is `docs/STORY.md` §5d.", ''];
+    const L = ['## Expeditions: places, monsters and people', '', "Every contract is walked as an expedition to a site. Every site has three zones and a boss at the bottom of its long route, beaten once. Door scenes (news brought to the yard as a squad sets out for a distant site) are in the thread On the road, in the Story threads. The story bible's account of all this is `docs/STORY.md` §5d.", ''];
     L.push('### Sites', '', '| ID | Site | Zones | Text |', '|---|---|---|---|');
     for (const s of Object.values(SITES)) L.push(`| \`site:${s.id}\` | ${s.name} | ${s.zones.map((z) => ZONES[z].name).join(', ')} | ${tableEsc(s.text)} |`);
     L.push('', `_Source: ${at(CONTENT_FILE, sl.get('pellam'))}._`, '');
@@ -1262,8 +1264,13 @@ function expSections(): Section[] {
       L.push(`- _found here:_ ${uniq(z.finds.map((f) => goodName(f.good))).join(', ')}`);
       L.push(`- _curiosities:_ ${z.curios.join(', ')} · _traps:_ ${z.traps.join(', ')}`, '');
     }
-    L.push("### Old Pellam's goals", '', 'The room at the end of each route length. Other sites use their goalroom lines (see the log lines).', '', '| ID | Length | Goal |', '|---|---|---|');
-    for (const [k, v] of Object.entries(PELLAM_GOALS)) L.push(`| \`pellam_goal:${k}\` | ${LENGTHS[k as keyof typeof LENGTHS].name} | ${tableEsc(v)} |`);
+    L.push('### Goals', '', 'What each route length is for, as the board says it. A plain job on a long route stops short of the boss (_deep_).', '', '| ID | Site | Length | Goal |', '|---|---|---|---|');
+    for (const s of Object.values(SITES)) {
+      for (const [k, v] of Object.entries(s.goals ?? {})) L.push(`| \`${s.id === 'pellam' ? 'pellam_goal' : `site_goal:${s.id}`}:${k}\` | ${s.name} | ${LENGTHS[k as keyof typeof LENGTHS].name} | ${tableEsc(v)} |`);
+      if (s.deep) L.push(`| \`site_goal:${s.id}:deep\` | ${s.name} | Long, a plain job | ${tableEsc(s.deep)} |`);
+    }
+    L.push('', '### Bosses', '', 'Each is beaten once. After that, long routes end in its room with a lesser fight.', '', '| ID | Site | Boss | Deed | First beaten (report) | Posting goal |', '|---|---|---|---|---|---|');
+    for (const s of Object.values(SITES)) if (s.boss) L.push(`| \`boss:${s.id}\` | ${s.name} | ${monsterName(s.boss.monster)} | ${tableEsc(s.boss.deed)} | ${tableEsc(s.boss.report)} | ${tableEsc(s.boss.goalText)} |`);
     L.push('');
     L.push('### Monsters and people', '', '_Met in_ lists the zones where they turn up, and the contract dangers that bring them anywhere. People can be talked to by an Envoy.', '', '| ID | Name | Met in | Text |', '|---|---|---|---|');
     for (const m of Object.values(MONSTERS)) L.push(`| \`monster:${m.id}\` | ${m.name}${m.people ? ' (people)' : m.construct ? ' (engine)' : ''} | ${uniq(metIn[m.id] ?? []).join(', ')} | ${tableEsc(m.text)} |`);
@@ -1310,7 +1317,13 @@ function expSections(): Section[] {
     'The dive picks one version of a line for each situation, and uses every version before it repeats one. In curly braces: `{a}` and `{b}` are members, `{t}` is the member being attacked, `{m}` is a monster or cause (it already has "the"), `{g}` is goods, `{w}` a weapon, `{s}` a scar, `{el}` an element, `{n}` a count and `{p}` the site\'s name.',
   ];
   S.push({ key: 'exp-pellam', md: logMd('Expedition log: Old Pellam', ['The lines for Old Pellam, and the defaults every site falls back on: fighting, going down, camps, traps, Sink changes, coming home. The ID is `line:` and the situation, then the version.', ...howTo], PELLAM_FILE, EXP_PELLAM) });
-  S.push({ key: 'exp-sites', md: logMd('Expedition log: the other sites', ["Lines for Varrow's streets and the overland sites, the monsters met there, and the Envoy's and Infiltrator's moves. A line keyed `situation:anselm` (a site) or `situation:town` / `situation:overland` (a kind of site) replaces the Old Pellam line of the same situation there."], SITES_FILE, EXP_SITES) });
+  S.push({
+    key: 'exp-sites',
+    md: [
+      logMd('Expedition log: the other sites', ["Lines for the first zone of Varrow and the overland sites, the monsters met there, and the Envoy's and Infiltrator's moves. A line keyed `situation:anselm` (a site) or `situation:town` / `situation:overland` (a kind of site) replaces the Old Pellam line of the same situation there."], SITES_FILE, EXP_SITES),
+      logMd('Expedition log: the deeper zones and the bosses', ["Lines for each site's second and third zones, the monsters and people met there, and its boss: the boss's room, its blows, its fall, and its room once it is gone. `boss_sight:<site>` and `boss_won:<site>` replace the Kiln Engine's lines there."], DEEP_FILE, EXP_DEEP),
+    ].join('\n'),
+  });
   // the reports
   {
     const L = ['## Down below and expedition reports', '', 'Lines the expedition rules write: the Down below row in the week report, squad cards, the report when a squad comes home, the prep sheet\'s warnings and the save migration. IDs are `file#function.n`.', ''];

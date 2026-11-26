@@ -6,10 +6,11 @@ import type { GameState } from './types';
 import { freshNpcs } from '../data/facts';
 import { freshFactions } from '../politics/factions';
 import { freshRivals } from '../rivals/rival';
+import { stageOfFeud } from '../rivals/war';
 import { freshDates, scheduleDates } from '../story/dates';
 import { migrateToExpeditions } from '../expeditions/migrate';
 
-export const SAVE_VERSION = 13;
+export const SAVE_VERSION = 15;
 
 /** Upgrade older saves in place. Returns null if the save can't be used. */
 export function migrateSave(g: GameState): GameState | null {
@@ -75,6 +76,20 @@ export function migrateSave(g: GameState): GameState | null {
     // expeditions: contracts are walked as trips to real sites (docs/EXPEDITIONS-API.md)
     migrateToExpeditions(g);
     g.version = 13;
+  }
+  if (g.version === 13) {
+    // bosses on every site: "the Kiln Engine is broken" becomes a list of sites whose boss is beaten
+    const d = g.delve as typeof g.delve & { kilnBroken?: boolean };
+    d.bossesBeaten = d.kilnBroken ? ['pellam'] : [];
+    delete d.kilnBroken;
+    // trips already sealed walked one zone outside Old Pellam: keep their logs matching their stored outcomes
+    for (const ms of [...g.missions, ...g.history]) if (ms.setup && ms.setup.site !== 'pellam') ms.setup.oneZone = true;
+    g.version = 14;
+  }
+  if (g.version === 14) {
+    // feud stages hold a little below their lines: start each rival at the stage its feud shows
+    for (const r of Object.values(g.rivals)) r.stage = stageOfFeud(r.feud ?? 0);
+    g.version = 15;
   }
   return g.version === SAVE_VERSION ? g : null;
 }

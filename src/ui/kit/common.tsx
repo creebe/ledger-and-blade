@@ -12,27 +12,31 @@ export const SheetDepth = React.createContext(0);
 
 /**
  * Every panel opens the same way: full height, the screen behind dimmed.
- * A panel opened from another panel gets "Back"; ✕ always closes everything.
+ * A panel opened from another panel keeps its level: it shows only "Back",
+ * which returns to the panel underneath. Only the bottom panel has ✕.
+ * (The owner lost a whole week report by tapping ✕ on a squad's log.)
  */
 export function Sheet({ title, children, onClose, footer }: { title: ReactNode; children: ReactNode; onClose?: () => void; footer?: ReactNode }) {
   const close = useStore((s) => s.close);
-  const closeAll = useStore((s) => s.closeAll);
   const depth = React.useContext(SheetDepth);
+  const nested = depth > 0 && !onClose;
   // the toast shows inside the topmost sheet, just above its footer
   const isTop = useStore((s) => s.sheets.filter((x) => x.kind !== 'confirm').length - 1 === depth);
   return (
     <div className="sheet-backdrop" onClick={onClose ?? close}>
       <div className="sheet" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
-        <div className="sheet-head">
-          {depth > 0 && !onClose && (
+        <div className={`sheet-head ${nested ? 'sheet-head-nested' : ''}`}>
+          {nested && (
             <button className="back-btn" onClick={close} aria-label="Back">
               <Icon name="chevron" size={18} style={{ transform: 'rotate(180deg)' }} /> Back
             </button>
           )}
           <h2>{title}</h2>
-          <button className="icon-btn" onClick={onClose ?? (depth > 0 ? closeAll : close)} aria-label="Close">
-            <Icon name="x" size={18} />
-          </button>
+          {!nested && (
+            <button className="icon-btn" onClick={onClose ?? close} aria-label="Close">
+              <Icon name="x" size={18} />
+            </button>
+          )}
         </div>
         <div className="sheet-body">{children}</div>
         {isTop && (
