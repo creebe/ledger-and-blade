@@ -16,8 +16,7 @@ function costParts(e: Effects | undefined): string[] {
   const out: string[] = [];
   const take = (n: number | undefined, what: string) => n && n < 0 && out.push(`${-n} ${what}`);
   take(e.crowns, 'crowns');
-  take(e.supplies, 'supplies');
-  take(e.mission?.supplies, 'supplies');
+  take((e.supplies ?? 0) + (e.mission?.supplies ?? 0), 'supplies');
   take(e.intel, 'Intel');
   take(e.influence, 'Influence');
   take(e.renown, 'Renown');
@@ -25,6 +24,9 @@ function costParts(e: Effects | undefined): string[] {
   if (goods) out.push('goods from the stores');
   return out;
 }
+
+/** "a", "a and b", "a, b and c" */
+const joinParts = (parts: string[]) => (parts.length < 3 ? parts.join(' and ') : `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`);
 
 function ExchangeLines({ t, last }: { t: Exchange; last?: boolean }) {
   return (
@@ -63,11 +65,11 @@ export function EventCard({ ev, done }: { ev: GameEvent; done?: boolean }) {
     const cost = costParts(c.effects);
     const failCost = c.check ? costParts(c.failEffects) : [];
     if (!cost.length && !failCost.length) return choose(i);
-    const lines = [c.detail, failCost.length && !cost.length ? `If the check fails, it costs ${failCost.join(' and ')}.` : ''].filter(Boolean) as string[];
+    const lines = [c.detail, failCost.length && !cost.length ? `If the check fails, it costs ${joinParts(failCost)}.` : ''].filter(Boolean) as string[];
     useStore.getState().confirm({
       title: `${c.label.replace(/[.!?…]+$/, '')}?`,
       body: lines.length ? lines : ['This choice spends from the guild.'],
-      cost: cost.length ? `Costs ${cost.join(' and ')}${c.effects.crowns && c.effects.crowns < 0 ? ` · treasury ${g.crowns} → ${g.crowns + c.effects.crowns}` : ''}` : undefined,
+      cost: cost.length ? `Costs ${joinParts(cost)}${c.effects.crowns && c.effects.crowns < 0 ? ` · treasury ${g.crowns} → ${g.crowns + c.effects.crowns}` : ''}` : undefined,
       confirmLabel: c.label.length <= 22 ? c.label : 'Go ahead',
       onConfirm: () => choose(i),
     });
