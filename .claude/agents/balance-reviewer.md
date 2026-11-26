@@ -10,7 +10,7 @@ You check that Ledger & Blade stays "hard but fair": a careful, calculating play
 
 - **Overall:** the careful bot's (`minChance 0.65`) first-year survival should be about 65–75%.
 - **Starts:** each backer and each start circumstance should be within about ±8 points of the overall rate. Use `runSim(...).byStart` in `scripts/sim.ts`.
-- **Legends:** one or two Legends per game by the end of year two (week 96), and rarely before week 50 (the owner's target; v0.14.1 measures about 1.45 per game).
+- **Legends:** one or two Legends per game by the end of year two (week 96), and rarely before week 50 (the owner's target; v0.14.2, at FAME_LEGENDARY 115 by the owner's choice, measures about 1.04 per game started).
 - **Guild wars:** about a third of passive games (the bot never runs hostile operations) reach a feud in year one. Open war is rare unless the player escalates: under about 15% of passive games ever at open war by week 96. With `provoke: true` in `BotOpts` (smears, contested jobs, every operation it can), open war should still be the usual outcome.
 - **Overall check:** the bot doesn't go bankrupt in the first eight weeks, and nothing is a guaranteed win.
 

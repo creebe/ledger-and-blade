@@ -5,10 +5,10 @@ What's next, what's open, and what to watch after each release. Main keeps this 
 ## Expeditions: progress
 Done: engine and Field UI (v0.13.0), story bible and export (v0.13.1), Act I payoffs (v0.13.2), six full sites (v0.14.0), feud and Legend balance (v0.14.1). Remaining items are under "Expeditions: still to do" below; the safe-short-trip income loop is still worth watching in the economy workstream.
 
-## To watch from v0.14.1 (live since 2026-11-26)
+## To watch from v0.14.2 / v0.14.1 (live since 2026-11-26)
 - Do feuds feel like a reaction to what the guild did? Is the "rising/cooling" note on the Realm card enough?
 - Bosses: does each one feel like an event, and is the long return job worth taking?
-- Legends: about 1.4 per game by week 96 (counted per game started). If the owner means per surviving guild, raise FAME_LEGENDARY to about 112–120.
+- Legends: the owner set 115 fame in v0.14.2, about 1.0 per game started by week 96 (about 1.6 per guild that lasts). Does that feel right in play?
 - War after killing a rival's leader now ends after about 23 weeks. Options if that feels wrong: keep aggression at maximum, slow the fade above the War line, or a cooling dispatch for the successor.
 - iPhone: does the top bar now clear the clock? Do nested panels keep their place?
 
