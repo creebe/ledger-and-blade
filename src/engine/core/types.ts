@@ -266,6 +266,7 @@ export interface Rival {
   contractsWon: number;
   active: boolean; // rivals met during the story start inactive
   feud?: number; // 0-100: competition, feud (25+), open war (60+). See war.ts
+  stage?: 0 | 1 | 2; // the stage last reached; it holds a little below its line (FEUD_HOLD, WAR_HOLD)
   ourSpy?: boolean; // the guild has someone inside
   theirSpy?: boolean; // they have someone inside the guild (hidden until caught)
   truceUntil?: number;

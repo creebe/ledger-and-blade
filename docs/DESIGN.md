@@ -91,11 +91,11 @@ Individuals you recruit, gear and send on missions. Target roster: 6–20.
 - **Permadeath.** Injuries can become permanent *scars* (stat loss or new traits).
 
 > **Implemented (v0.10): Legends.** Members earn **fame** from deeds rather than experience: leading phases well (more for a strong result), flawless jobs, story contracts, beating dangerous foes, and coming home from disasters. The deeds people talk about are kept as feats.
-> - **Tiers:** Known (20), Renowned (75; wage +2, rivals start making offers) and Legendary (120 fame, level 5 and 23 missions; wage +3, Renown +4).
+> - **Tiers:** Known (20), Renowned (75; wage +2, rivals start making offers) and Legendary (105 fame, level 5 and 23 missions; wage +3, Renown +4).
 > - **Naming:** a new Legend is named by the street. You choose between a nickname from how they work ("Quiet Maud", "Honest Godwin", "Lucky" for surviving two disasters) and a place from their best deed ("Maud of the Saltfens").
 > - **Signature ability:** you choose between their approach's squad aura (+1.5 to everyone at that approach) and a general ability: a quarter less harm to the squad, +10% pay, or Renown on every success.
 > - **Elsewhere:** Legends feature in street talk. A Renowned or Legendary member's death costs the whole guild morale.
-> - **Rarity:** in tests, about one Legend per campaign by the end of year two.
+> - **Rarity:** the owner's target is one or two Legends per campaign by the end of year two (week 96), and rarely before week 50. In tests (v0.14.1) it is about 1.45 per game, the first in about week 65.
 
 ### 5.2 Companies (macro: the rank and file)
 Generic units counted by headcount, not individually managed:
@@ -228,7 +228,7 @@ Three AI rivals with distinct personalities and goals, each running a simplified
 
 > **Implemented (v0.10): guild wars.** Each rival has a **feud** level (0–100) with three stages: Competition, Feud (25+) and Open war (60+).
 >
-> **How feuds grow:** a feud rises when either side hurts the other, or when you complete a job a rival wanted. It creeps up when an aggressive rival sees your renown catching up with theirs, and cools slowly otherwise. In tests about a third of games reach a feud in year one without provocation. Open war almost always needs the player to push.
+> **How feuds grow:** a feud rises when either side hurts the other, or when you complete a job a rival wanted. It creeps up when an aggressive rival sees your renown catching up with theirs, and every grudge fades week by week in proportion to its size, so left alone a rivalry settles short of a feud (the `FEUD_*` numbers in `core/tuning.ts`). A rival's own moves against you add only a little, so a feud can't feed itself into war. A stage once reached holds until the feud is clearly below its line (6 below for a feud, 8 for open war), so one job doesn't flip a rival in and out; a truce or a payment ends it at once. The Realm card shows whether each feud is rising or cooling, and a contested job's preparation warns that getting it done raises the feud by 9. In tests (v0.14.1) about 31% of games without hostile operations reach a feud in year one, all of them from contested jobs, and about 9% ever reach open war by week 96; a feud lasts about 13 weeks. A player who runs operations reaches open war in every game that lasts.
 >
 > **Your operations:**
 > - *Any stage:* plant a spy (their plans every week, plus Intel), or smear them.

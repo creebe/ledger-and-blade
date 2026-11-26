@@ -325,7 +325,7 @@ export const CRIER: CrierLine[] = [
   { id: 'loaves', text: 'Bakers have shortened their loaves by a finger to cover the grain levy. Customers have noticed.', when: (s) => decree(s, 'grain_levy'), weight: 3 },
   { id: 'searches', text: 'Soldiers at the river chain are searching every barge twice. The queue of barges reaches back past the bend.', when: (s) => decree(s, 'martial_law'), weight: 3 },
   { id: 'dole', text: 'The bread dole queue in the Lower Town starts before dawn. It is the quietest the streets have been in a year.', when: (s) => decree(s, 'bread_dole'), weight: 3 },
-  { id: 'isbet', text: 'Isbet Hobb was seen in the Exchequer gallery again, taking notes.', when: (s) => s.eventWeeks.hobbs_arrive !== undefined },
+  { id: 'isbet', text: 'Isbet Hobb was seen in the Exchequer gallery again, taking notes.', when: (s) => s.eventWeeks.hobbs_arrive !== undefined && s.npcs.isbet?.status === 'alive' },
   { id: 'ship', text: "A ship from Ostrander's home port is overdue. The bank's factors are short-tempered this week." },
   { id: 'pensions', text: "Old soldiers' pensions are three quarters late. The Crown says next quarter. It said that last quarter." },
   { id: 'ice', text: 'Ice has formed on the river chain. The toll-men are chipping it off with axes and swearing at the cold.', when: (s) => ((s.week - 1) % 48) >= 36 },
@@ -363,6 +363,6 @@ export const JORY: HallLine[] = [
   { id: 'j_back_door', text: 'Jory has put a second bolt on the back door of the stores, and a bell on the first one.', when: (s) => (s.factions.mudlarks?.standing ?? 0) <= -25, weight: 2 },
   { id: 'j_lines', text: 'Jory spent the morning re-ruling the ledger. He says the old lines were crooked, and that he drew them himself when he was young.' },
   { id: 'j_stove', text: 'Jory says this is the coldest the hall has been since the second guildmaster, who sold the stove.', when: (s) => (s.week - 1) % 48 >= 36 },
-  { id: 'j_hobbs', text: "Jory says one of the Hobb girls has been sitting in the window of the Copper Kettle all week, and that she's very good at not looking at the hall.", when: (s) => s.rivals.hobbs.aggression >= 0.6 },
-  { id: 'j_mayne', text: 'Jory says Captain Mayne bought him a drink, and that he has never been recruited so pleasantly in his life.', when: (s) => !!s.flags.ninth_active },
+  { id: 'j_hobbs', text: "Jory says one of the Hobb girls has been sitting in the window of the Copper Kettle all week, and that she's very good at not looking at the hall.", when: (s) => s.rivals.hobbs.active && s.rivals.hobbs.aggression >= 0.6 },
+  { id: 'j_mayne', text: 'Jory says Captain Mayne bought him a drink, and that he has never been recruited so pleasantly in his life.', when: (s) => !!s.flags.ninth_active && s.npcs.mayne?.status === 'alive' },
 ];

@@ -2929,6 +2929,10 @@ details summary {
 .feud {
   margin: 6px 0;
 }
+.feud-reading {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
 .ops {
   margin-top: 6px;
 }

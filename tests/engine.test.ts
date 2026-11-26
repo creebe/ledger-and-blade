@@ -19,7 +19,7 @@ import { runSim } from '../scripts/sim';
 import { FIELD_EVENTS } from '../src/engine/data/field';
 import { STORY_EVENTS } from '../src/engine/data/events';
 import { currentDate, datesPhase, dateTargets, nextDate, scheduleDates, DATE_BY_ID } from '../src/engine';
-import { afterLeaderDies, executeHostile, feudStage, hallDefense, operationOptions, raiseFeud, resolveOperation, runOperation, earnFame, fameTier, triggerEvents, SAVE_VERSION, BACKERS, CIRCUMSTANCE_BY_ID, claimNote, buySupplies, supplyCost, buyMaterial, cancelDispatch, discoverLore, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
+import { afterLeaderDies, executeHostile, feudStage, hallDefense, operationOptions, raiseFeud, resolveOperation, runOperation, weeklyWar, FAME_LEGENDARY, FEUD_AT, WAR_AT, WAR_HOLD, FEUD_CONTESTED, planWarnings, earnFame, fameTier, triggerEvents, SAVE_VERSION, BACKERS, CIRCUMSTANCE_BY_ID, claimNote, buySupplies, supplyCost, buyMaterial, cancelDispatch, discoverLore, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
 
 /** Send a squad with a little food and nothing else, so nothing has to be bought. */
 const send = (s: GameState, c: GameState['board'][number], team: { id: string }[]) =>
@@ -435,11 +435,70 @@ describe('engine', () => {
     expect(g.craftQueue).toEqual([]);
   });
 
+  it('a feud left alone settles below a feud, and an open war cools with a dispatch', () => {
+    const s = newGame(43);
+    const r = s.rivals.hobbs;
+    // the most aggressive rival, with a guild that has caught up, still settles short of a feud
+    r.aggression = 1;
+    s.renown = r.renown + 50;
+    for (let w = 0; w < 200; w++) weeklyWar(s);
+    expect(r.feud ?? 0).toBeGreaterThan(5);
+    expect(r.feud ?? 0).toBeLessThan(FEUD_AT);
+    // an open war nobody keeps fighting cools to a feud, and the player is told
+    r.feud = WAR_AT + 5;
+    s.dispatches = [];
+    for (let w = 0; w < 30 && feudStage(s, 'hobbs') === 2; w++) weeklyWar(s);
+    expect(feudStage(s, 'hobbs')).toBe(1);
+    expect(s.dispatches.some((d) => d.title.includes('things have cooled'))).toBe(true);
+  });
+
+  it('a stage once reached holds for a while, and a payment ends it at once', () => {
+    const s = newGame(44);
+    const r = s.rivals.hobbs;
+    r.aggression = 0.5;
+    r.feud = WAR_AT - 1;
+    raiseFeud(s, 'hobbs', 2); // just over the line
+    expect(feudStage(s, 'hobbs')).toBe(2);
+    s.dispatches = [];
+    weeklyWar(s);
+    weeklyWar(s);
+    // decay has taken it back under the line, but not past the hold: still open war, and no whiplash dispatch
+    expect(r.feud ?? 0).toBeLessThan(WAR_AT);
+    expect(r.feud ?? 0).toBeGreaterThanOrEqual(WAR_AT - WAR_HOLD);
+    expect(feudStage(s, 'hobbs')).toBe(2);
+    expect(s.dispatches.some((d) => d.title.includes('cooled'))).toBe(false);
+    // paying them off drops the feud below the line, and the war ends straight away
+    s.crowns = 1000;
+    expect(runOperation(s, 'hobbs', 'tribute')).toBeUndefined();
+    expect(feudStage(s, 'hobbs')).toBe(1);
+  });
+
+  it('a contested job warns about the feud before the squad leaves', () => {
+    const s = newGame(45);
+    const c = s.board[0];
+    c.contestedBy = 'hobbs';
+    const w = planWarnings(s, c, suggestPlan(s, c));
+    expect(w.some((x) => x.includes(`rises by ${FEUD_CONTESTED}`))).toBe(true);
+  });
+
+  it('version 14 saves give each rival the stage its feud shows', () => {
+    const s = newGame(46) as unknown as { version: number; rivals: Record<string, { feud?: number; stage?: number }> };
+    s.rivals.hobbs.feud = 70;
+    s.rivals.ninth.feud = 30;
+    for (const r of Object.values(s.rivals)) delete r.stage;
+    s.version = 14;
+    const g = migrateSave(s as never)!;
+    expect(g.version).toBe(SAVE_VERSION);
+    expect(g.rivals.hobbs.stage).toBe(2);
+    expect(g.rivals.ninth.stage).toBe(1);
+    expect(g.rivals.assay.stage).toBe(0);
+  });
+
   it('a member who earns enough fame becomes a Legend, is named by the street and gets a signature', () => {
     const s = newGame(41);
     s.pendingEvents = [];
     const m = s.members[0];
-    Object.assign(m, { fame: 118, level: 5, missions: 25 });
+    Object.assign(m, { fame: FAME_LEGENDARY - 2, level: 5, missions: 25 });
     const c = s.board[0];
     earnFame(s, m, { contract: { ...c, threat: 5 }, tier: 'Triumph', tags: c.tags, led: [{ approach: 'guile', result: 'strong', danger: 1 }] });
     expect(fameTier(m)).toBe(3);

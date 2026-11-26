@@ -222,7 +222,6 @@ export function PrepSheet({ contractId }: { contractId: string }) {
               A dashed “?” is a danger nobody has confirmed. Tap one to learn which it is for {revealCost(g)} Intel (you have {g.intel}), or give a member the Scout order on the Roster and they'll report back at the end of the week.
             </span>
           )}
-          {c.contestedBy && <span className="tiny muted">{RIVALS[c.contestedBy].name} want this job too.</span>}
         </div>
       </Section>
 

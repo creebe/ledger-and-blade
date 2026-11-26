@@ -1,7 +1,8 @@
 // Preparing an expedition: the squad and its ranks, the pack and the standing
 // orders. Blocks say why a plan can't go; warnings say what will hurt.
 import { PROFESSIONS } from '../data/professions';
-import { REGIONS } from '../data/factions';
+import { REGIONS, RIVALS } from '../data/factions';
+import { FEUD_CONTESTED } from '../core/tuning';
 import { level, tripWeeks } from '../economy/buildings';
 import { supplyPrice } from '../economy/market';
 import type { Contract, GameState, Member } from '../core/types';
@@ -134,7 +135,8 @@ export function planWarnings(s: GameState, c: Contract, plan: ExpPlan): string[]
     const boss = SITES[c.expedition.site].boss;
     if (boss) w.push(`This route ends with ${MONSTERS[boss.monster].name}, and nobody in this squad is past level 2. Squads this green often don't come back.`);
   }
-  if (c.contestedBy) w.push(`A rival wants this job too. If their crew goes in first, there will be fewer fights at the start and thinner finds.`);
+  if (c.contestedBy)
+    w.push(`${RIVALS[c.contestedBy].name} want this job too. If their crew goes in first, there will be fewer fights at the start and thinner finds. They'll take it badly if your squad finishes the job, and the feud with them rises by ${FEUD_CONTESTED}.`);
   return w;
 }
 
