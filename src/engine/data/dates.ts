@@ -72,7 +72,7 @@ export const DATES: DateDef[] = [
     targets: (s) => [{ kind: 'loanPaid' }, { kind: 'crowns', at: round10(weeklyCosts(s)) }],
     reward: { standing: { weighhouse: 4 }, influence: 1 },
     cost: { renown: -2 }, // a missed payment already costs Weighhouse standing
-    met: 'The clerk counted the payment twice and initialled the receipt in two places. Coster sends word that the sum was correct to the penny, and that he has noted the date.',
+    met: 'The clerk counted the payment twice and initialed the receipt in two places. Coster sends word that the sum was correct to the penny, and that he has noted the date.',
     missed: 'The clerk went back to the Weighhouse with less than he came for. Coster has written the guild into his book in red ink, which he keeps for this.',
     gone: "Coster's clerk did not come. The Weighhouse masters are going through Coster's own books, and the guild's payment goes to them as usual.",
   },

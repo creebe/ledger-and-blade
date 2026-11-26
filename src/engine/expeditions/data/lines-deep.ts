@@ -26,7 +26,7 @@ export const DEEP_LINES: Record<string, string[]> = {
     "{a} steps over a sleeping porter who is holding an empty bottle tight against his chest.",
   ],
   room_quays: [
-    "They come into a warehouse with its doors propped open, full of crates stencilled for Port Anselm.",
+    "They come into a warehouse with its doors propped open, full of crates stenciled for Port Anselm.",
     "The quay opens out into a timber yard, with stacks of planks higher than a house and paths between them.",
     "There is a weighbridge here, and a hut beside it with a light on and nobody inside.",
   ],
@@ -77,7 +77,7 @@ export const DEEP_LINES: Record<string, string[]> = {
     "A surge comes up the steps and drags {a} down two of them before letting go.",
   ],
   'enter_rookeries': [
-    "They climb into the Rookeries by a back stair behind the tanneries. The courts are six storeys deep, and every window has somebody in it.",
+    "They climb into the Rookeries by a back stair behind the tanneries. The courts are six stories deep, and every window has somebody in it.",
     "The Rookeries start where the street gives up. It is all washing lines and rented rooms, and people stop talking when the squad comes past.",
     "{a} leads them in under an archway into the Rookeries. It is noisy, and it gets quiet in front of them as they go.",
   ],
@@ -175,7 +175,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   ],
   sight_pit_pony: [
     "{m} comes out of the dark with its ears back and its teeth showing. It has not seen daylight in years, and it hasn't missed it.",
-    "There is a pony down here, shaggy and grey with dust. {m} looks at the squad's packs, and then at the squad, and charges.",
+    "There is a pony down here, shaggy and gray with dust. {m} looks at the squad's packs, and then at the squad, and charges.",
   ],
   sight_powder_man: [
     "{m} lights a fuse off a candle, looks up and sees them, and thinks about it.",
@@ -184,7 +184,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   enter_trevick: [
     "They climb up into the Trevick level, the old silver gallery. The walls shine where the lamps catch them.",
     "The Trevick level was cut by a mine captain who died rich. The vein runs along the wall at shoulder height, and it is still there.",
-    "{a} puts a hand on the wall of the Trevick level and it comes away grey and glittering.",
+    "{a} puts a hand on the wall of the Trevick level and it comes away gray and glittering.",
   ],
   passage_trevick: [
     "They walk along the silver gallery past fresh pick marks. Somebody has been working this vein all week.",
@@ -275,7 +275,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   ],
   goalroom_pans: [
     "They reach the old boiling house the job named, at the far end of the Pans. The fires under its pans are lit, and somebody is feeding them.",
-    "The boiling house is at the end of the last pan wall. People are standing in its door, and they have the look the fever gives them.",
+    "The boiling house is at the end of the last pan wall. People are standing in its door. Some of them have the violet skin the pans give anyone who stays out long enough, and all of them want to know what the squad is doing here.",
   ],
   goal_pans: [
     "In the drying loft of the boiling house {a} finds {g}, stacked to the rafters.",
@@ -350,7 +350,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   ],
   dean_miss: [
     "The Dean charges at {t} and goes past into the willows, taking three of them with it.",
-    "{t} jumps aside, and the Dean ploughs into the mud where they were standing.",
+    "{t} jumps aside, and the Dean plows into the mud where they were standing.",
   ],
   dean_crit: ["The Dean tramples {t} into the mud and stands on them for a while."],
   kill_dean: [
@@ -438,7 +438,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   ],
   enter_skell: [
     "The road goes up into Skell Gap between two scree slopes, and at the narrowest point there is the old Crown toll house with smoke coming out of it.",
-    "They climb into the pass. The wind comes through it hard, and the slopes on either side are grey and loose.",
+    "They climb into the pass. The wind comes through it hard, and the slopes on either side are gray and loose.",
     "Skell Gap is the top of the Drover's Road. {a} looks back over the moor and says it was further than it looked.",
   ],
   passage_skell: [
@@ -450,7 +450,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   room_skell: [
     "They come to a stretch of the road where the slopes close in. Somebody has piled stones across it to make a wall.",
     "The road opens into a hollow where the drovers used to rest their herds. There are tents in it.",
-    "They reach an old Crown milestone with the distances to Varrow chiselled off and something else written over them.",
+    "They reach an old Crown milestone with the distances to Varrow chiseled off and something else written over them.",
   ],
   find_skell: [
     "{a} finds {g} in a soldier's pack left by the road.",
@@ -470,7 +470,7 @@ export const DEEP_LINES: Record<string, string[]> = {
     "They make camp in the old sentry post with the NINTH over the door. {a} sleeps with a hand on their weapon.",
   ],
   'boss_sight:drovers': [
-    "The old toll house at Skell Gap has the Ninth's colours over the door. Sergeant Abner Crewe comes out under them with his men and asks for the toll.",
+    "The old toll house at Skell Gap has the Ninth's colors over the door. Sergeant Abner Crewe comes out under them with his men and asks for the toll.",
     "Sergeant Crewe is waiting at the toll house with a pike and twenty years in the Ninth. \"Toll's a crown a head,\" he says. \"Or you can turn round.\"",
   ],
   crewe_hit: [
@@ -484,11 +484,11 @@ export const DEEP_LINES: Record<string, string[]> = {
   ],
   crewe_crit: ["Sergeant Crewe drives his pike into {t} with all twenty years of the Ninth behind it."],
   kill_crewe: [
-    "Sergeant Crewe goes down under the colours he carried away. His men put their spears on the ground.",
+    "Sergeant Crewe goes down under the colors he carried away. His men put their spears on the ground.",
     "Sergeant Crewe drops his pike and sits on the toll house step. \"That's that, then,\" he says, and he doesn't get up.",
   ],
   'boss_won:drovers': [
-    "The toll house at Skell Gap is taken. The colours are still over the door, torn and faded, and {a} takes them down.",
+    "The toll house at Skell Gap is taken. The colors are still over the door, torn and faded, and {a} takes them down.",
     "It is over. The deserters are walking down the far side of the pass, and none of them looks back.",
   ],
   crewe_after: [
@@ -497,7 +497,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   ],
 
   // ===================================================================
-  // Harrowmere: the bridge houses and the Holms, and the Bailiff
+  // Harrowmere: the bridge houses and the Holms, and Old Gullet
   // ===================================================================
   enter_bridge: [
     "They go out along the old bridge, between the houses built on it. The middle span fell twenty years ago, and when the road was carried over on timber the houses were left as they stood.",
@@ -534,7 +534,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   ],
   'trap_floor_disarm:harrowmere': [
     "{a} tests the floor ahead and finds it rotten through. They lay a plank across before anyone steps on it.",
-    "{a} notices the boards are soft and grey and gets everyone to walk on the joists.",
+    "{a} notices the boards are soft and gray and gets everyone to walk on the joists.",
   ],
   'trap_floor_around:harrowmere': [
     "The floor ahead is rotten. With nothing to bridge it, they go back and find another way round, through the house next door.",
@@ -551,7 +551,7 @@ export const DEEP_LINES: Record<string, string[]> = {
   ],
   sight_crayfish: [
     "Something clicks in the dark under the bridge. {m} comes up out of the water, claws first.",
-    "{m} crawls out of a drain, the size of a cat and the colour of mud.",
+    "{m} crawls out of a drain, the size of a cat and the color of mud.",
   ],
   enter_holms: [
     "They take a punt out to the Holms, the islands in the middle of the mere. The water around them is the deepest anyone has sounded.",
@@ -587,30 +587,30 @@ export const DEEP_LINES: Record<string, string[]> = {
     "They make camp on the largest island, under the alders. {a} keeps watch on the water. Twice in the night something turns over out there, close to the shore.",
   ],
   'boss_sight:harrowmere': [
-    "The water off the far Holms goes very still, and then something comes up under it, longer than the punt. The Bailiff has come for its share.",
+    "The water off the far Holms goes very still, and then something comes up under it, longer than the punt. It is Old Gullet, and it is hungry, which it always is.",
     "A shape moves in the deep water off the island, as long as a boat. The fishermen said it would come, and it has.",
   ],
   bailiff_hit: [
-    "The Bailiff comes out of the water and takes {t} by the leg.",
-    "The Bailiff hits {t} with its tail and knocks them flat on the shingle.",
-    "The Bailiff gets its teeth into {t} and drags them toward the water.",
+    "Old Gullet comes out of the water and takes {t} by the leg.",
+    "Old Gullet hits {t} with its tail and knocks them flat on the shingle.",
+    "Old Gullet gets its teeth into {t} and drags them toward the water.",
   ],
   bailiff_miss: [
-    "The Bailiff lunges at {t} and gets a mouthful of shingle instead.",
-    "{t} jumps back, and the Bailiff's jaws close on nothing.",
+    "Old Gullet lunges at {t} and gets a mouthful of shingle instead.",
+    "{t} jumps back, and Old Gullet's jaws close on nothing.",
   ],
-  bailiff_crit: ["The Bailiff gets {t} in its jaws and shakes them hard."],
+  bailiff_crit: ["Old Gullet gets {t} in its jaws and shakes them hard."],
   kill_bailiff: [
-    "The Bailiff thrashes in the shallows and then lies still, half out of the water. It is longer than anybody's boat.",
-    "The Bailiff rolls over and shows its white belly to the sky. Harrowmere will be talking about this for a hundred years.",
+    "Old Gullet thrashes in the shallows and then lies still, half out of the water. It is longer than anybody's boat.",
+    "Old Gullet rolls over and shows its white belly to the sky. Harrowmere will be talking about this for a hundred years.",
   ],
   'boss_won:harrowmere': [
-    "The Bailiff is landed. It takes all of them to drag it up onto the island, and {a} has to sit down afterwards.",
+    "Old Gullet is landed. It takes all of them to drag it up onto the island, and {a} has to sit down afterwards.",
     "It is over. The mere is calm, and for the first time in living memory nothing is taking its share.",
   ],
   bailiff_after: [
     "The water off the far Holms is still deep, and the pike in it are getting bigger. One of them is already taking a share.",
-    "Something else has moved into the Bailiff's water. It is not as big yet, and it is working on it.",
+    "Something else has moved into Old Gullet's water. It is not as big yet, and it is working on it.",
   ],
 
   // ===================================================================

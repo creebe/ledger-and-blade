@@ -49,13 +49,13 @@ _Same choices as the opening (one shared menu)._
 
 #### Story contract: Salts for Saint Oda's
 
-`contract:fever_salts` · data/contracts.ts:687
+`contract:fever_salts` · data/contracts.ts:692
 
 - _type:_ “Story”
 - _titles[1]:_ “Salts for Saint Oda's”
 - _description:_
 
-  > The almshouse needs fen salts for the fever, and the apothecaries want more than the Sisters can pay. The salt pans are out past the last causeway in the Saltfens. Sister Brune will pay what she can, which is not much.
+  > The almshouse needs fen salts for the fever, and the apothecaries want more than the Sisters can pay. The salts grow along the reed paths past the last causeway in the Saltfens. Sister Brune will pay what she can, which is not much.
 
 - _phases[1]:_ “The Causeway: Two days on planks across the marsh.”
 - _phases[2]:_ “The Salt Pans: Scrape the good salt and leave the poisoned beds alone.”

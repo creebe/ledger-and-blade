@@ -170,7 +170,7 @@ export const SITE_LINES: Record<string, string[]> = {
     "{a} loads {g} into the packs while the props groan overhead.",
   ],
   camp_workings: [
-    "They camp in a dry gallery near the adit, where they can see a little grey daylight at the end.",
+    "They camp in a dry gallery near the adit, where they can see a little gray daylight at the end.",
     "They make camp in the old powder store, because it is dry and has a door. Nobody lights a pipe.",
   ],
 
@@ -246,7 +246,7 @@ export const SITE_LINES: Record<string, string[]> = {
 
   // ---- the lake shore (Harrowmere) ----
   enter_shore: [
-    "The road comes down to the shore at Harrowmere. The lake is grey and very big, and the old bridge walks out into it on stone legs.",
+    "The road comes down to the shore at Harrowmere. The lake is gray and very big, and the old bridge walks out into it on stone legs.",
     "They come down to the water between boathouses and nets hung up to dry. The mere is cold even to look at.",
     "They reach the lake shore. The shingle crunches under their boots, and out on the water the old bridge has lost two of its arches.",
   ],
@@ -324,8 +324,8 @@ export const SITE_LINES: Record<string, string[]> = {
     "The water on the gallery floor moves, and {m} climbs out of it claws first.",
   ],
   sight_salt_cutter: [
-    "People come out of the reeds with salt rakes in their hands. They have been out on the pans too long, and they do not look well.",
-    "{m} is standing on the path with a cutter's blade and a fever flush, talking to somebody who is not there.",
+    "People come out of the reeds with salt rakes in their hands. Most of them are violet to the elbow from the pans, and none of them asked for visitors.",
+    "{m} is standing on the path with a cutter's blade, violet to the wrists, and shows no sign of moving out of the way.",
   ],
   sight_marsh_hog: [
     "The reeds shake, and a black hog comes through them at a run.",
@@ -340,7 +340,7 @@ export const SITE_LINES: Record<string, string[]> = {
     "{m} still has the regiment's spear and has mislaid the rest of the regiment. They want what the squad is carrying.",
   ],
   sight_wolf: [
-    "Grey shapes keep pace with them along the wall. The wolves have been following since the last farm.",
+    "Gray shapes keep pace with them along the wall. The wolves have been following since the last farm.",
     "{m} trots out onto the road ahead, thin as a rake, and the rest of the pack comes after it.",
   ],
   sight_pike: [
@@ -368,7 +368,7 @@ export const SITE_LINES: Record<string, string[]> = {
     "{m} raises a hand, and the air in front of it goes hot. That working is not licensed.",
   ],
   sight_troll: [
-    "A grey boulder by the path stands up. It is a troll, and it has been waiting a long time for something to walk past.",
+    "A gray boulder by the path stands up. It is a troll, and it has been waiting a long time for something to walk past.",
     "{m} steps out of the hillside, huge and slow, and looks at them the way a farmer looks at a field.",
   ],
   sight_salamander: [
@@ -494,7 +494,7 @@ export const SITE_LINES: Record<string, string[]> = {
   regen: [
     "The cuts on {m} close up while they watch. It is a horrible thing to see.",
     "{m} shrugs, and the wound in its side knits shut.",
-    "{m}'s grey hide creeps back over the cut. Somebody shouts for fire.",
+    "{m}'s gray hide creeps back over the cut. Somebody shouts for fire.",
   ],
   strongbox_pick: [
     "{a} kneels by a strongbox, listens to the lock and has it open before the others have put their packs down.",
@@ -685,7 +685,7 @@ export const SITE_LINES: Record<string, string[]> = {
   'fever_start:saltfens': [
     "The fen gets into {a} all at once. They go hot, then cold, and their hands won't keep still. It's the marsh fever, and it has to run its course.",
     "{a} starts sweating and says they're fine. They are running the marsh fever, and everyone can see it.",
-    "{a} goes grey and shivery out on the planks. The fever has started, and they'll fight worse until it breaks.",
+    "{a} goes gray and shivery out on the planks. The fever has started, and they'll fight worse until it breaks.",
   ],
   'change_take:saltfens': [
     "{a} is too tired to fight what the fen is doing to them, so it simply happens.",
@@ -705,7 +705,7 @@ export const SITE_LINES: Record<string, string[]> = {
   'fever_start:overland': [
     "Whatever was in the air out here gets into {a} all at once. They go hot, then cold, and their hands won't keep still. The Lower Town would call it the Sink fever, and it has to run its course.",
     "{a} starts sweating and says they're fine. They are running a fever, and everyone can see it.",
-    "{a} goes grey and shivery halfway through the day. The fever has started, and they'll fight worse until it breaks.",
+    "{a} goes gray and shivery halfway through the day. The fever has started, and they'll fight worse until it breaks.",
   ],
   'change_take:overland': [
     "{a} is too tired to fight what got into them out here, so it simply happens.",
@@ -724,7 +724,7 @@ export const SITE_LINES: Record<string, string[]> = {
   'fever_start:town': [
     "Something in the Lower Town's water gets into {a} all at once. They go hot, then cold, and their hands won't keep still. It's the Sink fever, the street says, and it has to run its course.",
     "{a} starts sweating and says they're fine. They drank from a well down the hill, and the street knows what fine looks like after that.",
-    "{a} goes grey and shivery on a back stair. The fever has started, and they'll fight worse until it breaks.",
+    "{a} goes gray and shivery on a back stair. The fever has started, and they'll fight worse until it breaks.",
   ],
   'change_take:town': [
     "{a} is too tired to fight what the Lower Town's water is doing to them, so it simply happens.",
@@ -749,7 +749,7 @@ export const SITE_LINES: Record<string, string[]> = {
   ],
   'dark_room:overland': [
     "In the dark, {a} keeps hearing something keep pace with them.",
-    "{a} walks into something hard in the dark and apologises to it.",
+    "{a} walks into something hard in the dark and apologizes to it.",
     "Without the lamps they walk with a hand on the shoulder in front. {a} counts steps to stay calm.",
   ],
   'meal:town': [

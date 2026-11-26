@@ -426,7 +426,7 @@ export const CAST_STORY: EventDef[] = [
     speaker: 'Master Assayer Corwin Plaice',
     text: (s) =>
       (s.facilities.stillroom
-        ? 'A thin man with a leather satchel is standing in your stillroom when you come down in the morning. He has already taken the lids off three jars.\n\n"Corwin Plaice, Master Assayer. Your door was open, which under section four of the Reagents Charter counts as an invitation." He holds up a jar. "None of these are labelled to standard."'
+        ? 'A thin man with a leather satchel is standing in your stillroom when you come down in the morning. He has already taken the lids off three jars.\n\n"Corwin Plaice, Master Assayer. Your door was open, which under section four of the Reagents Charter counts as an invitation." He holds up a jar. "None of these are labeled to standard."'
         : s.start?.backer === 'college'
           ? 'A thin man with a leather satchel is waiting in your yard, reading the sign over your door.\n\n"Corwin Plaice, Master Assayer. I knew your founders at the college. I wrote the report on the fire." He looks over your hall. "I\'ve kept your guild on my list since the day you were chartered."'
           : 'A thin man with a leather satchel is waiting in your yard, reading the sign over your door.\n\n"Corwin Plaice, Master Assayer. I\'m making a list of the guilds in Varrow that use licensed magic." He looks over your hall. "You aren\'t on it yet. Everyone is, sooner or later."') +
@@ -783,30 +783,30 @@ export const CAST_RANDOM: EventDef[] = [
 
 export const QUEUED_EVENTS: EventDef[] = [
   {
-    // queued by triggerEvents the week a squad brings the Ninth's colours home from Skell Gap
+    // queued by triggerEvents the week a squad brings the Ninth's colors home from Skell Gap
     id: 'ninth_colours',
     npcs: ['mayne'],
-    title: "The Ninth's Colours",
+    title: "The Ninth's Colors",
     speaker: 'Captain Rufus Mayne',
     text:
       "Captain Mayne is at the hall before the squad has finished unpacking. He has heard, and so has half the Copper Kettle, because he told them on the way.\n\n" +
-      '"Abner Crewe!" he says. "I stood next to that man for twenty years. He could drill a goat to march in step, and he walked off with the colours, the daft sod." He looks at the bundle on the table and lowers his voice, which for Mayne means people in the yard can no longer hear him. "They were at Cassel Ford. What do you want for them?"',
+      '"Abner Crewe!" he says. "I stood next to that man for twenty years. He could drill a goat to march in step, and he walked off with the colors, the daft sod." He looks at the bundle on the table and lowers his voice, which for Mayne means people in the yard can no longer hear him. "They were at Cassel Ford. What do you want for them?"',
     choices: [
       {
         label: 'Give them back to the Ninth',
-        detail: "The colours go. Renown +2, Mayne +20, the Ninth's renown +3",
+        detail: "The colors go. Renown +2, Mayne +20, the Ninth's renown +3",
         effects: { goods: { colours: -1 }, renown: 2, npc: { id: 'mayne', attitude: 20 }, rival: 'ninth', rivalRenown: 3 },
         resultText: 'Mayne carries them out of the hall himself and down Tallow Street at the slow march, with nobody following. By evening the whole Ninth is drunk, and three of them have asked Jory whether the guild is hiring.',
       },
       {
         label: 'Sell them to him',
-        detail: 'The colours go. +200 crowns, Mayne −5',
+        detail: 'The colors go. +200 crowns, Mayne −5',
         effects: { goods: { colours: -1 }, crowns: 200, npc: { id: 'mayne', attitude: -5 } },
         resultText: 'Mayne pays in Crown Pennies and counts them out on the table one at a time. "Worth every one," he says. "I\'ll be telling the lads what it cost, mind."',
       },
       {
         label: 'Hang them in the hall',
-        detail: 'The colours stay and are not for sale. Renown +3, Mayne −15, the Ninth grow more aggressive',
+        detail: 'The colors stay and are not for sale. Renown +3, Mayne −15, the Ninth grow more aggressive',
         effects: { goods: { colours: -1 }, renown: 3, npc: { id: 'mayne', attitude: -15 }, rival: 'ninth', rivalAggression: 0.1 },
         resultText: 'Jory has them hung over the hall door, a little crooked. Mayne stands under them for some time, says the guild has a nerve, and then asks two of your people whether they have ever thought of soldiering.',
       },

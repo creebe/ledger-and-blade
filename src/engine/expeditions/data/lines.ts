@@ -29,7 +29,7 @@ export const LINES: Record<string, string[]> = {
 
   // ---- zones ----
   enter_culverts: [
-    'The Culverts are old brick, and wet. Daylight comes down through the grates in grey squares.',
+    'The Culverts are old brick, and wet. Daylight comes down through the grates in gray squares.',
     'They are in the Culverts now. Water runs ankle deep over the brick, and somewhere ahead something drops into it.',
     'The Culverts begin under the chandler\'s cellar. Everything the Lower Town throws away ends up down here, sooner or later.',
   ],
@@ -51,7 +51,7 @@ export const LINES: Record<string, string[]> = {
 
   // ---- passages ----
   passage_culverts: [
-    'The drain here is so low that everyone stoops. {a} hits their head twice and stops apologising to the ceiling.',
+    'The drain here is so low that everyone stoops. {a} hits their head twice and stops apologizing to the ceiling.',
     'They wade through a junction where four drains meet. One of them is warm, and nobody asks why.',
     'They pass through a cellar whose stairs were bricked up from above. Someone has carved a list of names into the wall, and the most recent is from last spring.',
     'The drain narrows to a pipe they have to crawl through. {a} goes first and reports that it gets better, which is a lie.',
@@ -156,7 +156,7 @@ export const LINES: Record<string, string[]> = {
   ],
   sight_eel: [
     'The flooded cellar is too still. Then the water stands up.',
-    'Something long and grey turns over in the water beside the path, and it is longer than the path.',
+    'Something long and gray turns over in the water beside the path, and it is longer than the path.',
   ],
   sight_spider: [
     'There are webs across the doorway, thick enough to hold a dog. Whatever made them is coming down the wall.',
@@ -291,7 +291,7 @@ export const LINES: Record<string, string[]> = {
   ],
   blood_cast: [
     'There are no doses left, so {a} cuts their own palm and casts from that.',
-    '{a} has run out of reagents. They spend their own blood instead, and go grey.',
+    '{a} has run out of reagents. They spend their own blood instead, and go gray.',
     "{a} casts dry. It comes out of them instead of the doses, and it hurts.",
     '{a} opens the cut on their palm again and casts from that.',
     '{a} pays for the next working in blood. Their lips have gone blue.',
@@ -644,7 +644,7 @@ export const LINES: Record<string, string[]> = {
   fever_start: [
     "The Sink gets into {a} all at once. They go hot, then cold, and their hands won't keep still. It's the Sink fever, and it has to run its course.",
     "{a} starts sweating violet. They say they're fine. They are running the Sink fever, and everyone can see it.",
-    "{a} goes grey and shivery in the middle of the Sink. The fever has started, and they'll fight worse until it breaks.",
+    "{a} goes gray and shivery in the middle of the Sink. The fever has started, and they'll fight worse until it breaks.",
   ],
   fever_room: [
     "{a} is burning up and keeps having to stop.",

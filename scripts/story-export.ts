@@ -815,10 +815,13 @@ function lineGroups(path: string, name: string, table: Record<string, string[]>)
   const text = src.sf.getFullText();
   for (const p of o.properties) {
     if (!p.name) continue;
-    const comments = ts.getLeadingCommentRanges(text, p.getFullStart()) ?? [];
+    const comments = (ts.getLeadingCommentRanges(text, p.getFullStart()) ?? []).map((c) => text.slice(c.pos, c.end));
+    // a heading is `// ---- title ----`, or the `// title` line inside a `// ====` banner
+    const rule = (c: string) => /^\/\/\s*={4,}\s*$/.test(c);
+    const banner = comments.some(rule);
     for (const c of comments) {
-      const m = /^\/\/\s*-+\s*(.+?)\s*-+\s*$/.exec(text.slice(c.pos, c.end));
-      if (m) groups.push({ title: m[1][0].toUpperCase() + m[1].slice(1), keys: [] });
+      const m = /^\/\/\s*-{2,}\s*(.+?)\s*-{2,}\s*$/.exec(c) ?? (banner && !rule(c) ? /^\/\/\s*(.+?)\s*$/.exec(c) : null);
+      if (m) groups.push({ title: (m[1][0].toUpperCase() + m[1].slice(1)).replace(/\s*\(.*\)$/, ""), keys: [] });
     }
     if (!groups.length) groups.push({ title: 'Lines', keys: [] });
     const key = propName(p.name);
@@ -1247,7 +1250,7 @@ function expSections(): Section[] {
   const metIn: Record<string, string[]> = {};
   for (const z of Object.values(ZONES)) for (const g of z.fights) for (const m of g) (metIn[m] ??= []).push(z.name);
   for (const [tag, d] of Object.entries(TAG_DIVE)) for (const g of d.groups ?? []) for (const m of g) (metIn[m] ??= []).push(`contracts with ${TAG_NAME(tag)}`);
-  for (const s of Object.values(SITES)) if (s.boss) (metIn[s.boss.monster] ??= []).push(`the boss room of ${s.name} (${ZONES[s.boss.zone].name})`);
+  for (const s of Object.values(SITES)) if (s.boss) (metIn[s.boss.monster] ??= []).push(`the boss room of ${s.name.replace(/^The /, "the ")} (${ZONES[s.boss.zone].name})`);
 
   // the places, the people and the things in them
   {

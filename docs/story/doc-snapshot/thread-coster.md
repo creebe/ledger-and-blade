@@ -64,7 +64,7 @@ _Speaker: Alderman Piet Coster_
 
 #### Story contract: Short Weight at Hesketh's
 
-`contract:false_weights` · data/contracts.ts:659
+`contract:false_weights` · data/contracts.ts:664
 
 - _type:_ “Story”
 - _titles[1]:_ “Short Weight at Hesketh's”

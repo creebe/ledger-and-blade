@@ -1,6 +1,6 @@
 ## Thread map
 
-The game has 17 Act I story beats across 11 character threads, plus 32 follow-ups, world events and road decisions. Acts II to IV are planned in the story bible but have no text yet.
+The game has 17 Act I story beats across 11 character threads, plus 33 follow-ups, world events and road decisions. Acts II to IV are planned in the story bible but have no text yet.
 
 | Thread | Who | Scenes in order |
 |---|---|---|
@@ -15,7 +15,7 @@ The game has 17 Act I story beats across 11 character threads, plus 32 follow-up
 | The Assay Office | Master Assayer Corwin Plaice | 14. Clause Eleven (wk 12–18) → An Assay-Peddler (follow-up) |
 | The Fourteen | Lady Honora Aske | 16. The Family Silver (wk 17–22) |
 | The hall | Jory Abbot and the members | A Tavern Brawl (follow-up) → A Matter of Wages (follow-up) → A Letter from Home (follow-up) → Bad Nights (follow-up) → A Volunteer (follow-up) → A Page in the Roll (follow-up) → A Name in the Streets (queued) |
-| Varrow at large | No fixed character | A Whisper in the Taverns (world) → A Petition at the Gate (world) |
+| Varrow at large | No fixed character | A Whisper in the Taverns (world) → A Petition at the Gate (world) → The Ninth's Colors (queued) |
 | On the road | The squad in the yard | The Bridge Is Out (road) → A Deserter at the Door (road) → Watched (road) → A Local Guide (road) → A Wounded Carter (road) → Hobb's People Are Packing (road) → The Weather Turns (road) → Fresh Tracks (road) → The Crown's Wagons (road) → An Exchequer Writ (road) |
 
 ### Where threads cross

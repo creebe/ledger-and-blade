@@ -1,5 +1,5 @@
 // The dashed "?" tag: a hidden danger on a contract. Tapping it spends Intel
-// to learn which of the rumoured dangers is the real one (engine `revealTag`).
+// to learn which of the rumored dangers is the real one (engine `revealTag`).
 import { revealCost, revealTag, TAGS, type Contract } from '../../engine';
 import { useStore } from '../../store';
 import { Btn } from './common';
@@ -30,7 +30,7 @@ export function askReveal(c: Contract, i: number) {
 
 /**
  * One unrevealed hidden danger as a tappable dashed tag. `long` spells out the
- * rumoured candidates (the prep sheet); the short form is a bare "?" (a card).
+ * rumored candidates (the prep sheet); the short form is a bare "?" (a card).
  * It stops the tap from reaching a tappable card around it.
  */
 export function HiddenTag({ c, i, long }: { c: Contract; i: number; long?: boolean }) {

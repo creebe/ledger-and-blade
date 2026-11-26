@@ -26,7 +26,7 @@ _Source: expeditions/data/lines.ts:9._
 
 | ID | Line |
 |---|---|
-| `line:enter_culverts.1` | The Culverts are old brick, and wet. Daylight comes down through the grates in grey squares. |
+| `line:enter_culverts.1` | The Culverts are old brick, and wet. Daylight comes down through the grates in gray squares. |
 | `line:enter_culverts.2` | They are in the Culverts now. Water runs ankle deep over the brick, and somewhere ahead something drops into it. |
 | `line:enter_culverts.3` | The Culverts begin under the chandler's cellar. Everything the Lower Town throws away ends up down here, sooner or later. |
 | `line:enter_streets.1` | The drain opens out into a street. It has a gutter and a name painted on a corner, and Varrow's foundations sit on its roofs like a lid. |
@@ -45,7 +45,7 @@ _Source: expeditions/data/lines.ts:31._
 
 | ID | Line |
 |---|---|
-| `line:passage_culverts.1` | The drain here is so low that everyone stoops. {a} hits their head twice and stops apologising to the ceiling. |
+| `line:passage_culverts.1` | The drain here is so low that everyone stoops. {a} hits their head twice and stops apologizing to the ceiling. |
 | `line:passage_culverts.2` | They wade through a junction where four drains meet. One of them is warm, and nobody asks why. |
 | `line:passage_culverts.3` | They pass through a cellar whose stairs were bricked up from above. Someone has carved a list of names into the wall, and the most recent is from last spring. |
 | `line:passage_culverts.4` | The drain narrows to a pipe they have to crawl through. {a} goes first and reports that it gets better, which is a lie. |
@@ -122,7 +122,7 @@ _Source: expeditions/data/lines.ts:83._
 | `line:sight_grubber.3` | These are grubbers. They have been digging here a long time, and they do not want to share it. |
 | `line:sight_grubber.4` | Someone throws a stone, and then the grubbers come at them out of a side tunnel. |
 | `line:sight_eel.1` | The flooded cellar is too still. Then the water stands up. |
-| `line:sight_eel.2` | Something long and grey turns over in the water beside the path, and it is longer than the path. |
+| `line:sight_eel.2` | Something long and gray turns over in the water beside the path, and it is longer than the path. |
 | `line:sight_spider.1` | There are webs across the doorway, thick enough to hold a dog. Whatever made them is coming down the wall. |
 | `line:sight_spider.2` | A spider the color of wet plaster unfolds from the ceiling. Its legs keep unfolding for some time. |
 | `line:sight_spider.3` | Somebody brushes a thread, and the room starts moving. |
@@ -214,7 +214,7 @@ _Source: expeditions/data/lines.ts:142._
 | `line:burst.2` | {a} spends two doses at once. The {el} burst fills the room. |
 | `line:burst.3` | {a} shouts for everyone to get their heads down, and lets the {el} working go wide. |
 | `line:blood_cast.1` | There are no doses left, so {a} cuts their own palm and casts from that. |
-| `line:blood_cast.2` | {a} has run out of reagents. They spend their own blood instead, and go grey. |
+| `line:blood_cast.2` | {a} has run out of reagents. They spend their own blood instead, and go gray. |
 | `line:blood_cast.3` | {a} casts dry. It comes out of them instead of the doses, and it hurts. |
 | `line:blood_cast.4` | {a} opens the cut on their palm again and casts from that. |
 | `line:blood_cast.5` | {a} pays for the next working in blood. Their lips have gone blue. |
@@ -362,7 +362,7 @@ _Source: expeditions/data/lines.ts:329._
 | `line:poisoned.4` | {a} is sick against the wall and wipes their mouth and carries on. |
 | `line:poisoned.5` | {a}'s arm has swollen up tight inside the sleeve. |
 | `line:bleeds.1` | {m} is bleeding badly. |
-| `line:bleeds.2` | {m} leaves a trail behind it now. |
+| `line:bleeds.2` | {m} is leaving a trail of blood. |
 
 _Source: expeditions/data/lines.ts:376._
 
@@ -608,7 +608,7 @@ _Source: expeditions/data/lines.ts:559._
 | `line:kiln_yard.2` | Where the Kiln Engine stood there is only a scorched floor and two of the college's lesser engines, going about their business. |
 | `line:fever_start.1` | The Sink gets into {a} all at once. They go hot, then cold, and their hands won't keep still. It's the Sink fever, and it has to run its course. |
 | `line:fever_start.2` | {a} starts sweating violet. They say they're fine. They are running the Sink fever, and everyone can see it. |
-| `line:fever_start.3` | {a} goes grey and shivery in the middle of the Sink. The fever has started, and they'll fight worse until it breaks. |
+| `line:fever_start.3` | {a} goes gray and shivery in the middle of the Sink. The fever has started, and they'll fight worse until it breaks. |
 | `line:fever_room.1` | {a} is burning up and keeps having to stop. |
 | `line:fever_room.2` | The fever has {a} talking to people who aren't there. |
 | `line:fever_room.3` | {a} shivers through another room, teeth chattering. |

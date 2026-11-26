@@ -12,7 +12,7 @@ The owner's brief: "make our game feel a lot more like Darkest Dungeon. More abo
   - Kell Mines: the upper workings, the Sump, the Trevick level; Gaffer Moyle.
   - The Saltfens: the reed paths, the Pans, the Withies; the Dean.
   - Drover's Road: the hill road, Brannock Moor, Skell Gap; Sergeant Crewe.
-  - Harrowmere: the lake shore, the bridge houses, the Holms; the Bailiff.
+  - Harrowmere: the lake shore, the bridge houses, the Holms; Old Gullet.
   - Port Anselm: the Wenmouth road, the Burrows, the Strand; Mags Tull.
 - **Bosses are beaten once, one squad at a time.** Only one squad can be on its way to a boss; beyond Old Pellam a boss is posted once a squad has reached the site's second zone. Each site's boss falls once (`delve.bossesBeaten`); its posting comes off the board, and long routes there end in its room with a lesser fight. Each site has two or three postings of its own (`data/contracts-sites.ts`): reach a zone, bring a find, kill something, and the boss.
 - **Depth carries the danger beyond Old Pellam.** A classic contract's threat now counts from what is usual for its route length (3 short, 5 medium, 8 long), because the deeper zones already make the trip harder.
@@ -140,7 +140,7 @@ v0.14.0, with every site at full depth, 1000 games (main at v0.13 in brackets, a
 | Cautious, good prep | 64% (61%) | 0.07 | 4% | 18 | 1.2 |
 | Careful, poor prep | 1% (1%) | 0.73 | 24% | 4 | 3.2 |
 
-Careful bot, deaths per expedition by site: Old Pellam 0.19, Varrow 0.09, Kell Mines 0.14, the Saltfens 0.14, Drover's Road 0.09, Harrowmere 0.13, Port Anselm 0.07. The site postings are contested like other work (a quarter of the time, never for a boss), the medium ones are posted less often than Old Pellam's, and the bosses carry threat 8 (Moyle 7) and pay for their road weeks: Rudd 480, Moyle 650, Crewe 620, the Bailiff 600, the Dean and Tull 700. The bot now reads every site's own postings (a goal other than "see it through") the way it reads Old Pellam's, and keeps pairs out of them; without that it took the long boss jobs with green squads and survived 40%. It still underrates the medium site postings, which play like easy classic work, so it seldom takes them.
+Careful bot, deaths per expedition by site: Old Pellam 0.19, Varrow 0.09, Kell Mines 0.14, the Saltfens 0.14, Drover's Road 0.09, Harrowmere 0.13, Port Anselm 0.07. The site postings are contested like other work (a quarter of the time, never for a boss), the medium ones are posted less often than Old Pellam's, and the bosses carry threat 8 (Moyle 7) and pay for their road weeks: Rudd 480, Moyle 650, Crewe 620, Old Gullet 600, the Dean and Tull 700. The bot now reads every site's own postings (a goal other than "see it through") the way it reads Old Pellam's, and keeps pairs out of them; without that it took the long boss jobs with green squads and survived 40%. It still underrates the medium site postings, which play like easy classic work, so it seldom takes them.
 
 A fresh guild's starting squad on a long boss trip (`suggestPlan`, no dangers, 120 seeds) loses the whole squad 16–29% of the time, against 54% for the Kiln Engine.
 

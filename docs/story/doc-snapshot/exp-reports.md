@@ -7,21 +7,21 @@ Lines the expedition rules write: the Down below row in the week report, squad c
 | ID | Line |
 |---|---|
 | `engine/expeditions/dive.ts#snapSquad.1` | [IF a.state is 'dead'] dead [ELSE IF a.state is 'down'] down [ELSE IF a.fatigue >= 100] out [ELSE IF a.fatigue >= T.fatigue.spent] spent [ELSE] ok [END] |
-| `engine/expeditions/dive.ts#makeFoes.1` | [IF id is 'kiln'] the Kiln Engine [ELSE IF counts[id] > 1] the {nth} {def.one} [ELSE] the {def.one} [END] |
 | `engine/expeditions/dive.ts#strike.1` | {dmg}[IF weak] , it hates that [ELSE IF strong] , it shrugs [END] |
-| `engine/expeditions/dive.ts#foeTurn.1` | [IF f.def.id is 'kiln'] the Kiln Engine [ELSE] a {f.def.one} [END] |
 | `engine/expeditions/dive.ts#fight.1` | [IF o.boss] boss_sight [ELSE IF resolve(`sight_${lead.id}`)] sight_{lead.id} [ELSE] sight_{lead.voice ?? 'beast'} [END] |
 | `engine/expeditions/dive.ts#trap.1` | no tools: the long way |
-| `engine/expeditions/dive.ts#trap.2` | [IF k is 'gas'] bad air [ELSE IF k is 'collapse'] a fall of rock [ELSE IF k is 'bog'] the bog [ELSE] a trap [END] |
 | `engine/expeditions/dive.ts#curio.1` | [IF pellam] an Assay seal, 2 purses of coin [ELSE] 3 purses of coin [END] |
+| `engine/expeditions/dive.ts#curio.2` | a lump of ambergris, a purse of coin |
+| `engine/expeditions/dive.ts#curio.3` | a purse of coin, 1 food |
 | `engine/expeditions/dive.ts#runExpedition.1` | [IF n is 0] masks_none [ELSE IF n < standing().length] masks_some [ELSE] masks_all [END] |
-| `engine/expeditions/dive.ts#runExpedition.2` | [IF last] [IF outcome is 'complete'] road_home [ELSE IF outcome is 'lost'] road_home_lost [ELSE] home_retreat [END] [ELSE] road_back [END] |
-| `engine/expeditions/dive.ts#runExpedition.3` | Completed a {L.name.toLowerCase()} expedition |
-| `engine/expeditions/dive.ts#runExpedition.4` | Fought off [IF wanderersWon is 1] a wandering pack [ELSE] {wanderersWon} wandering packs [END] |
-| `engine/expeditions/dive.ts#runExpedition.5` | Brought [IF carriedHome is 1] a fallen member [ELSE] {carriedHome} fallen members [END] home |
-| `engine/expeditions/dive.ts#runExpedition.6` | Hurt [IF kills.rioter is 1] a rioter [ELSE] {kills.rioter} rioters [END] in the street |
-| `engine/expeditions/dive.ts#runExpedition.7` | Talked their way past {parleys} fights |
-| `engine/expeditions/dive.ts#runExpedition.8` | killed {a.kills} things on one trip |
+| `engine/expeditions/dive.ts#runExpedition.2` | [IF survivors.length] [IF A.some((a) => a.state is 'dead')] lost_crawl [ELSE] lost_crawl_all [END] [ELSE] lost_all [END] |
+| `engine/expeditions/dive.ts#runExpedition.3` | [IF last] [IF outcome is 'complete'] road_home [ELSE IF outcome is 'lost'] [IF A.some((a) => a.state is 'dead')] road_home_lost [ELSE] road_home_beaten [END] [ELSE] home_retreat [END] [ELSE] road_back [END] |
+| `engine/expeditions/dive.ts#runExpedition.4` | Completed a {L.name.toLowerCase()} expedition |
+| `engine/expeditions/dive.ts#runExpedition.5` | Fought off [IF wanderersWon is 1] a wandering pack [ELSE] {wanderersWon} wandering packs [END] |
+| `engine/expeditions/dive.ts#runExpedition.6` | Brought [IF carriedHome is 1] a fallen member [ELSE] {carriedHome} fallen members [END] home |
+| `engine/expeditions/dive.ts#runExpedition.7` | Hurt [IF kills.rioter is 1] a rioter [ELSE] {kills.rioter} rioters [END] in the street |
+| `engine/expeditions/dive.ts#runExpedition.8` | Talked their way past {parleys} fights |
+| `engine/expeditions/dive.ts#runExpedition.9` | killed {a.kills} things on one trip |
 
 ### expeditions/migrate.ts
 
@@ -44,8 +44,9 @@ Lines the expedition rules write: the Down below row in the week report, squad c
 | `engine/expeditions/prep.ts#planBlocked.5` | This job takes at most {size.max} people. |
 | `engine/expeditions/prep.ts#planBlocked.6` | Each member can only take one rank. |
 | `engine/expeditions/prep.ts#planBlocked.7` | One of the squad is no longer with the guild. |
-| `engine/expeditions/prep.ts#planBlocked.8` | The pack holds {T.packSlots} slots. |
-| `engine/expeditions/prep.ts#planBlocked.9` | Packing this means buying {cost} crowns of supplies, and the guild has {crowns}. |
+| `engine/expeditions/prep.ts#planBlocked.8` | A squad is already on its way to {MONSTERS[boss.monster].name}. |
+| `engine/expeditions/prep.ts#planBlocked.9` | The pack holds {T.packSlots} slots. |
+| `engine/expeditions/prep.ts#planBlocked.10` | Packing this means buying {cost} crowns of supplies, and the guild has {crowns}. |
 | `engine/expeditions/prep.ts#planWarnings.1` | About {meals} meals on this route, and {plan.pack.food ?? 0} packed. |
 | `engine/expeditions/prep.ts#planWarnings.2` | About {dark} dark rooms, and oil for {plan.pack.oil ?? 0}. |
 | `engine/expeditions/prep.ts#planWarnings.3` | No tools and no Infiltrator: traps and strongboxes will be a problem. |
@@ -59,9 +60,10 @@ Lines the expedition rules write: the Down below row in the week report, squad c
 | `engine/expeditions/prep.ts#planWarnings.11` | A Weighhouse payment of {loan.paymentDue} falls due while they're away. If the money at home is short, the Weighhouse waits for the squad. |
 | `engine/expeditions/prep.ts#planWarnings.12` | This is story work. If the squad turns back or is lost, the job fails, and the story goes on without it. |
 | `engine/expeditions/prep.ts#planWarnings.13` | This is the deepest route in Old Pellam, and nobody in this squad is past level 2. Squads this green often don't come back from the College Sink. |
-| `engine/expeditions/prep.ts#planWarnings.14` | A rival wants this job too. If their crew goes in first, there will be fewer fights at the start and thinner finds. |
+| `engine/expeditions/prep.ts#planWarnings.14` | This route ends with {MONSTERS[boss.monster].name}, and nobody in this squad is past level 2. Squads this green often don't come back. |
+| `engine/expeditions/prep.ts#planWarnings.15` | {RIVALS[c.contestedBy].name} want this job too. If their crew goes in first, there will be fewer fights at the start and thinner finds. They'll take it badly if your squad finishes the job, and the feud with them rises by {FEUD_CONTESTED}. |
 | `engine/expeditions/prep.ts#goalText.1` | Reach {ZONES[g.zone].name} and come back |
-| `engine/expeditions/prep.ts#goalText.2` | [IF g.monster is 'kiln'] Break the Kiln Engine [ELSE] Kill [IF g.count is 1] a {MONSTERS[g.monster].name.toLowerCase()} [ELSE] {g.count} {MONSTERS[g.monster].plural} [END] [END] |
+| `engine/expeditions/prep.ts#goalText.2` | [IF MONSTERS[g.monster].boss] [IF site.boss.monster is g.monster] {site.boss.goalText} [ELSE] Kill {MONSTERS[g.monster].name} [END] [ELSE] Kill [IF g.count is 1] a {MONSTERS[g.monster].name.toLowerCase()} [ELSE] {g.count} {MONSTERS[g.monster].plural} [END] [END] |
 
 ### expeditions/run.ts
 
@@ -92,15 +94,18 @@ Lines the expedition rules write: the Down below row in the week report, squad c
 | `engine/expeditions/run.ts#settleExpedition.9` | Brought back {goodsHome.map((g) => (loot[g] is 1 ? GOODS[g].one : `${loot[g]} ${G…}, to sell at the market. |
 | `engine/expeditions/run.ts#settleExpedition.10` | Found {res.crownsFound} crowns in loose coin. |
 | `engine/expeditions/run.ts#settleExpedition.11` | First to reach {ZONES[z].name} (+{bonus} renown). |
-| `engine/expeditions/run.ts#settleExpedition.12` | The college sends a cart for the Kiln Engine's core, and a letter that is mostly about who is going to pay for the cart. |
-| `engine/expeditions/run.ts#settleExpedition.13` | Hobb & Daughters took their quarter share: {cut} crowns. |
-| `engine/expeditions/run.ts#settleExpedition.14` | The patron adds {ms2.join(', ')}. |
-| `engine/expeditions/run.ts#settleExpedition.15` | Renown +2 for a flawless job |
-| `engine/expeditions/run.ts#settleExpedition.16` | Renown +1: people came out to watch |
-| `engine/expeditions/run.ts#settleExpedition.17` | [IF res.outcome is 'lost'] The squad was lost, and the job with it. [ELSE] The job was not done: {goalText(c).charAt(0).toLowerCase()}{goalText(c).slice(1)}. [END] |
-| `engine/expeditions/run.ts#settleExpedition.18` | {factionName(c.patron)} is furious. Renown −2 |
-| `engine/expeditions/run.ts#settleExpedition.19` | [IF res.outcome is 'lost'] was lost [ELSE IF res.goalMet] [IF res.outcome is 'complete'] came back with the job done [ELSE] turned back early, with the job done [END] [ELSE IF res.outcome is 'complete'] walked the whole route without getting what the job needed [ELSE] turned back early [END] |
-| `engine/expeditions/run.ts#settleExpedition.20` | Squad {ms.number} {verdict}. {site.name}, {res.roomsCleared} of {res.roomsPlanned} rooms. |
-| `engine/expeditions/run.ts#settleExpedition.21` | Did not come home: {deadNames.join(', ')}. |
+| `engine/expeditions/run.ts#settleExpedition.12` | [IF res.outcome is 'lost'] {cap(MONSTERS[boss.monster].name)} is dead, and nobody who did it came home to say so. [ELSE] {boss.report} [END] |
+| `engine/expeditions/run.ts#settleExpedition.13` | Ostrander's has heard about its tidewaiters on the Strand (standing −{tw}). |
+| `engine/expeditions/run.ts#settleExpedition.14` | The watch wants to know who hurt its sergeants (Heat +{ws * 2}). |
+| `engine/expeditions/run.ts#settleExpedition.15` | Hobb & Daughters took their quarter share: {cut} crowns. |
+| `engine/expeditions/run.ts#settleExpedition.16` | The patron adds {ms2.join(', ')}. |
+| `engine/expeditions/run.ts#settleExpedition.17` | Renown +2 for a flawless job |
+| `engine/expeditions/run.ts#settleExpedition.18` | Renown +1: people came out to watch |
+| `engine/expeditions/run.ts#settleExpedition.19` | [IF res.outcome is 'lost'] The squad was lost, and the job with it. [ELSE] The job was not done: {goalText(c).charAt(0).toLowerCase()}{goalText(c).slice(1)}. [END] |
+| `engine/expeditions/run.ts#settleExpedition.20` | {factionName(c.patron)} is furious. Renown −2 |
+| `engine/expeditions/run.ts#settleExpedition.21` | {RIVALS[c.contestedBy].name} wanted this job and lost it to you.[IF rise > 0]  Feud +{rise} [END] |
+| `engine/expeditions/run.ts#settleExpedition.22` | [IF res.outcome is 'lost'] was lost [ELSE IF res.goalMet] [IF res.outcome is 'complete'] came back with the job done [ELSE] turned back early, with the job done [END] [ELSE IF res.outcome is 'complete'] walked the whole route without getting what the job needed [ELSE] turned back early [END] |
+| `engine/expeditions/run.ts#settleExpedition.23` | Squad {ms.number} {verdict}. {site.name}, {res.roomsCleared} of {res.roomsPlanned} rooms. |
+| `engine/expeditions/run.ts#settleExpedition.24` | Did not come home: {deadNames.join(', ')}. |
 | `engine/expeditions/run.ts#withdrawAtDoor.1` | Week {week} · "{c.title}": called off at the door. |
 | `engine/expeditions/run.ts#withdrawAtDoor.2` | [IF c.op] Called off at the door. The operation is off. [ELSE] Called off at the door. −3 standing with {factionName(c.patron)}. [END] |

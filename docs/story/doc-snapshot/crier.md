@@ -22,7 +22,7 @@ One line a week in the week report.
 | `crier:loaves` | Bakers have shortened their loaves by a finger to cover the grain levy. Customers have noticed. | when decree grain_levy in force |
 | `crier:searches` | Soldiers at the river chain are searching every barge twice. The queue of barges reaches back past the bend. | when decree martial_law in force |
 | `crier:dole` | The bread dole queue in the Lower Town starts before dawn. It is the quietest the streets have been in a year. | when decree bread_dole in force |
-| `crier:isbet` | Isbet Hobb was seen in the Exchequer gallery again, taking notes. | when scene hobbs_arrive has happened |
+| `crier:isbet` | Isbet Hobb was seen in the Exchequer gallery again, taking notes. | when scene hobbs_arrive has happened and isbet status is 'alive' |
 | `crier:ship` | A ship from Ostrander's home port is overdue. The bank's factors are short-tempered this week. |  |
 | `crier:pensions` | Old soldiers' pensions are three quarters late. The Crown says next quarter. It said that last quarter. |  |
 | `crier:ice` | Ice has formed on the river chain. The toll-men are chipping it off with axes and swearing at the cold. | when ((week - 1) % 48) >= 36 |

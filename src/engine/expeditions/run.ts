@@ -300,7 +300,7 @@ export const goodsValue = (s: GameState) => (Object.keys(s.goods ?? {}) as GoodI
 /** Sell loot at the market: all of it, or one kind. Returns the crowns earned. */
 export function sellGoods(s: GameState, good?: GoodId): number {
   let total = 0;
-  // the Ninth's colours wait while Captain Mayne is at the door about them
+  // the Ninth's colors wait while Captain Mayne is at the door about them
   const held = s.pendingEvents.some((e) => e.defId === 'ninth_colours');
   for (const k of Object.keys(s.goods) as GoodId[]) {
     if (good && k !== good) continue;
