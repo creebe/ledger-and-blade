@@ -9,9 +9,18 @@ v0.13.0 brought expeditions into the full game (engine and Field UI done, 2026-1
 5. **Economy.** Trim the book-keeping toward "combat prep, the riches, and growing the guild's reputation by heroic deeds".
 6. **Balance.** Watch that repeating one short safe trip doesn't become a free income loop; recheck the bots after workstreams 4 and 5.
 
-## To fix next (owner's playtest, 2026-11-25)
-- **Week report loses its place.** ✕ on a panel opened from the week report closes every panel, so the owner lost the report. Panels opened from another panel should keep their level.
-- **The Intel "?" is gone.** v0.13.0 removed the Planner, and with it the dashed "?" tags that spend Intel to reveal a hidden danger. The Guidemaster objective "Uncover a hidden danger" still asks for it.
+## To watch from v0.14.1 (live since 2026-11-26)
+- Do feuds feel like a reaction to what the guild did? Is the "rising/cooling" note on the Realm card enough?
+- Bosses: does each one feel like an event, and is the long return job worth taking?
+- Legends: about 1.4 per game by week 96 (counted per game started). If the owner means per surviving guild, raise FAME_LEGENDARY to about 112–120.
+- War after killing a rival's leader now ends after about 23 weeks. Options if that feels wrong: keep aggression at maximum, slow the fade above the War line, or a cooling dispatch for the successor.
+- iPhone: does the top bar now clear the clock? Do nested panels keep their place?
+
+## Expeditions: still to do
+- Story: the Claude Doc needs a sync for v0.14 (sites, colours, feud lines).
+- Economy (workstream 5): trim the book-keeping toward "combat prep, the riches, and growing the guild's reputation by heroic deeds".
+- Dive lines that read story facts (deferred by the owner).
+- Housekeeping from the balance reviewer: recruit names include Jory and Fenn; the sim calls caution 0.5 "careful" while the brief calls 0.65 careful.
 
 ## To watch from v0.13.0 (live since 2026-11-25)
 - Does reading a trip week by week feel "live", or does the wait between End Weeks drag?

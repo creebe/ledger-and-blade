@@ -2,6 +2,33 @@
 
 Newest first. Each entry says what changed for a player, why (quoting the owner's feedback where it came from playtesting), and what was and wasn't checked. The live site is https://creebe.github.io/ledger-and-blade/ and is only republished on the owner's word; each entry notes whether it is live.
 
+## v0.14.1 (2026-11-26): Feuds that settle, and more Legends
+Rival feuds now rise and fall with what the guild does, and Legends come a little more often. The balance brief asked for about a third of passive games to reach a feud in year one, with open war rare unless the player escalates; the owner set the Legend target at one or two per game by the end of year two.
+- **Feuds fade.** Every week a feud cools in proportion to its size. Left alone, a rivalry settles short of a feud. A rival's own moves against you add less (+1, was +3), so a feud no longer feeds itself into war.
+- **Contested jobs matter.** Beating a rival to a job they wanted raises the feud by 9 (was 3). The prep sheet warns you first, and the report says so.
+- **Stages hold.** A feud or war, once reached, lasts until the feud is clearly below its line. A truce or payment ends it at once. Each rival card on the Realm screen shows whether its feud is rising or cooling, and a feud that cools on its own is announced.
+- **Story.** Humiliating Marta makes it a feud if it lands. The new Master Assayer starts at feud 40. Street talk no longer names the dead. A war started by killing a rival's leader now ends after about 23 weeks of open war, then a long feud.
+- **Legends** need 105 fame (was 120).
+- **Saves:** version 15; older saves are upgraded.
+- **Checked:** 1000 games each. Passive feuds in year one went from 3% to 31%; open war by week 96 from 61% to 9%. A bot that provokes rivals still reaches war in every game that lasts. Legends per game went from 0.77 to 1.44, none before week 58. Careful first-year survival 69.5% (was 71.1%); main's own 100-game check 67%. `npm run check` (72 tests) passed; balance, systems, engine, writing, story and UI reviewers ran.
+- **Not checked:** iOS Safari.
+- **Live** (deployed on the owner's word, 2026-11-26).
+
+## v0.14.0 (2026-11-26): Every site at full depth
+Each of the six thin sites now goes as deep as Old Pellam, with the names the owner approved. Shipped together with the owner's playtest fixes (v0.13.3 and v0.13.4 were never released on their own).
+- **Six full sites.** Varrow, Kell Mines, the Saltfens, Drover's Road, Harrowmere and Port Anselm each have three zones and a boss: Lew Rudd, Gaffer Moyle, the Dean, Sergeant Crewe, the Bailiff and Mags Tull. There are 16 new postings and about 300 new log lines. Each boss is beaten once; after that a long return job ends in the boss's old room with a lesser fight.
+- **The Ninth's colours.** Bring them home from Skell Gap and Mayne comes to the hall: give them back, sell them to him, or hang them in the hall.
+- **Fixes.** A squad beaten with nobody dead no longer gets the "short of people" line. The tutorial note on hidden dangers no longer mentions odds.
+- **Playtest fixes (owner's reports).**
+  - "Pressing the X from a details view closes the entire weekly results view": a panel opened from another panel now has only Back, and the ✕ is on the bottom panel only.
+  - "There's no ? to tap for intel anymore": the dashed "?" tags are back on posting cards and the prep sheet, with a confirmation before spending Intel.
+  - "Lower the very top HUD info": the top bar, panel tops, toasts and story scenes now clear the iPhone status bar.
+  - A garbled sentence in The Crown's Wagons is fixed.
+- **Saves:** version 14 (bosses beaten per site); trips already out replay as before.
+- **Checked:** `npm run check` (68 tests, story checker clean); sim careful 74%, cautious 70%, bold 58% on main's check; engine, story, writing, balance, systems and UI reviewers; phone screenshots at 360/390 px and a simulated iPhone 15 inset.
+- **Not checked:** iOS Safari on a real device.
+- **Live** (deployed on the owner's word, 2026-11-26).
+
 ## v0.13.2 (2026-11-25): Loose ends from Act I
 The owner chose which of the proposed payoffs to build: Half a Year lines for every Act I outcome, two door scenes and a colder Isbet. Site lines that read story facts are on the backlog.
 - **Half a Year remembers more.** Abandoning the Crown's silver, taking a seat at the Exchequer's table, failing to prove Hesketh's short weights, telling Marta about Isbet, and the fate of the Siege of Carrow and the Aske silver all get a line.
