@@ -5,10 +5,15 @@ What's next, what's open, and what to watch after each release. Main keeps this 
 ## Expeditions: progress
 Done: engine and Field UI (v0.13.0), story bible and export (v0.13.1), Act I payoffs (v0.13.2), six full sites (v0.14.0), feud and Legend balance (v0.14.1). Remaining items are under "Expeditions: still to do" below; the safe-short-trip income loop is still worth watching in the economy workstream.
 
+## To watch from v0.15.1 (live since 2026-11-26)
+- Swipe-down on a real iPhone: does it fight with scrolling, especially a momentum scroll coasting to the top? Does it ever close a panel by accident?
+- Do the cost confirmations on scene choices feel helpful or nagging?
+- UI/UX Part 2 continues. Open from batch 1: the ledger forecast is pessimistic (it charges for supplies the game never buys, subtracts a loan payment the Weighhouse agreed to wait for, and counts squad pay by planned weeks); a new game's first Date shows a negative "about … by then" from week 1; the loan target and the crowns target in one Date forecast from different numbers.
+
 ## To watch from v0.15.0 (live since 2026-11-26)
 - Does the prologue and hall tour make the start clear, without slowing a returning player down?
 - Do scene endings, resting badges and loan credit read clearly on the phone?
-- UI/UX Part 2 (session ui-ux is continuing): small buttons at 34px across the app; the Date "crowns after the bills" target shows as met before its week while the projection says otherwise; backers' "The money came from…" lines read as clashing with the Weighhouse loan; "Hire an Arcanist" offered when the college backer already gave Arcanists.
+- UI/UX Part 2 (small buttons and the Date crowns target fixed in v0.15.1). Still open: backers' "The money came from…" lines read as clashing with the Weighhouse loan; "Hire an Arcanist" offered when the college backer already gave Arcanists.
 
 ## To watch from v0.14.2 / v0.14.1 (live since 2026-11-26)
 - Do feuds feel like a reaction to what the guild did? Is the "rising/cooling" note on the Realm card enough?

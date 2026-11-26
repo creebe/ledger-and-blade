@@ -2,6 +2,18 @@
 
 Newest first. Each entry says what changed for a player, why (quoting the owner's feedback where it came from playtesting), and what was and wasn't checked. The live site is https://creebe.github.io/ledger-and-blade/ and is only republished on the owner's word; each entry notes whether it is live.
 
+## v0.15.1 (2026-11-26): Easier to tap, safer to choose
+The first batch of UI/UX Part 2, plus two choices the owner made: confirmation on story choices that cost something (A), and keeping ✕/Back while adding swipe-down to close (A).
+- **Scene choices that cost anything ask first.** A choice that spends crowns, supplies, Intel, Influence, Renown or goods now asks you to confirm. On a check, a cost that only applies if you fail also counts.
+- **Swipe a panel down to close it.** It closes one level, like ✕ or Back. It only starts from the header, or from the body when it's scrolled to the top. It never starts on the footer, so End Week's press-and-hold is safe. Confirmations and scenes can't be swiped away.
+- **Bigger touch areas.** Small buttons, the date pill, icon buttons and segmented controls are now about 44px to the finger. Rows of small buttons that wrap are spaced so a tap lands on the one you meant.
+- **Roster.** A long status like "Away · due back in 2 wk" drops below the name instead of squeezing it onto two lines.
+- **Date crowns target.** "Have N crowns ... after the bills" now uses the same forecast as the ledger, so it can't show a tick while the ledger says you'll fall short. It reads "about N by then".
+- **Prologue dots** are readable in light mode.
+- **Checked:** main re-ran `npm run check` (79 tests, story checker clean) and the build on the PR head. The fingerprint matches v0.15.0, so the rules are unchanged. UI reviewer (360/390 px, both themes, touch tests of the swipe), engine reviewer and writing reviewer.
+- **Not checked:** a real iPhone. Rubber-band and momentum scrolling can't be emulated, so swipe-down needs trying by hand.
+- **Live** (deployed on the owner's word, 2026-11-26).
+
 ## v0.15.0 (2026-11-26): The opening
 The owner: "We should begin a new guild with more of a story and setting intro. It's confusing to begin the way we do now." They chose a prologue plus a guided first scene, shown on the first new guild only, with a button to read it again.
 - **A prologue.** Four short pages before your first start screen: the Debt, Varrow, the guilds and your guild. Skip is top right, and Back and Next stay at the bottom. Read it again from the title screen ("Read the prologue") or the start screen.
