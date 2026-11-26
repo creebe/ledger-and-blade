@@ -67,7 +67,7 @@ _Source: expeditions/data/content.ts:667._
 
 `zone:rookeries` · expeditions/data/content.ts:343 · depth 3
 
-- _text:_ “Tenement courts behind the tanneries, six storeys of rented rooms leaning on each other, with washing across every gap and a way over the roofs for anyone who knows it.”
+- _text:_ “Tenement courts behind the tanneries, six stories of rented rooms leaning on each other, with washing across every gap and a way over the roofs for anyone who knows it.”
 - _met here:_ Footpad, Hired thug, Watch sergeant, Yard dog, Lighterman
 - _found here:_ Old coin, Bonded brandy, Pellam silver
 - _curiosities:_ strongbox, shrine · _traps:_ floor, snare
@@ -234,7 +234,7 @@ What each route length is for, as the board says it. A plain job on a long route
 | `site_goal:drovers:deep` | Drover's Road | Long, a plain job | Up to Skell Gap |
 | `site_goal:harrowmere:short` | Harrowmere | Short | Along the shore to the boathouses |
 | `site_goal:harrowmere:medium` | Harrowmere | Medium | Out along the bridge houses to the timber span |
-| `site_goal:harrowmere:long` | Harrowmere | Long | Out to the Holms, where the Bailiff feeds |
+| `site_goal:harrowmere:long` | Harrowmere | Long | Out to the Holms, where Old Gullet feeds |
 | `site_goal:harrowmere:deep` | Harrowmere | Long, a plain job | Out to the far Holms |
 | `site_goal:anselm:short` | Port Anselm | Short | Along the Wenmouth road to the ford |
 | `site_goal:anselm:medium` | Port Anselm | Medium | Into the Burrows, to the wreck on the point |
@@ -252,8 +252,8 @@ Each is beaten once. After that, long routes end in its room with a lesser fight
 | `boss:kell` | Kell Mines | Gaffer Moyle | Threw Gaffer Moyle off the Trevick level | The lease-holders write to say they always knew the Trevick level was theirs, and ask whether the guild could also see about the pumps. | Throw Gaffer Moyle off the Trevick level |
 | `boss:saltfens` | The Saltfens | the Dean | Killed the Dean | The salt-cutters send a ham, which is in poor taste, and a jar of pan salt, which is not. | Kill the Dean |
 | `boss:drovers` | Drover's Road | Sergeant Crewe | Took the toll house at Skell Gap | The drovers bring their herds over the Gap without paying anybody for the first time in two years, and drink to the guild at the inn. | Take the toll house at Skell Gap from Sergeant Crewe |
-| `boss:harrowmere` | Harrowmere | the Bailiff | Landed the Bailiff | Harrowmere hangs the Bailiff from the bridge for a week, and three different families claim the rings in its belly were their grandmother's. | Land the Bailiff |
-| `boss:anselm` | Port Anselm | Mags Tull | Put out Mags Tull's lantern | The harbour master at Port Anselm writes to thank the guild, and to ask it not to mention the wreckers to the bank. | Put out Mags Tull's lantern |
+| `boss:harrowmere` | Harrowmere | Old Gullet | Landed Old Gullet | Harrowmere hangs Old Gullet from the bridge for a week, and three different families claim the rings in its belly were their grandmother's. | Land Old Gullet |
+| `boss:anselm` | Port Anselm | Mags Tull | Put out Mags Tull's lantern | The harbor master at Port Anselm writes to thank the guild, and to ask it not to mention the wreckers to the bank. | Put out Mags Tull's lantern |
 
 ### Monsters and people
 
@@ -264,7 +264,7 @@ _Met in_ lists the zones where they turn up, and the contract dangers that bring
 | `monster:rats` | Culvert rats | the Culverts, the Buried Streets, the upper workings, the Sump, contracts with Swarm | A knot of rats the size of cats, fed on everything that comes down the drains. |
 | `monster:moths` | Tallow moths | the Culverts, the Buried Streets | Pale moths as wide as a hand. They drink lamp oil, and they will drink it out of the lamp. |
 | `monster:grubber` | Grubber (people) | the Culverts, the Buried Streets | People who live down here and dig for what Pellam left behind. They do not like company. |
-| `monster:eel` | Sink eel | the Buried Streets | A grey eel as long as a cart, living in the flooded cellars. It strikes from the water first. |
+| `monster:eel` | Sink eel | the Buried Streets | A gray eel as long as a cart, living in the flooded cellars. It strikes from the water first. |
 | `monster:spider` | Cellar spider | the Buried Streets, the College Sink | A long-legged spider the color of wet plaster. Its bite keeps working after it lets go. |
 | `monster:hog` | Pale hog | the Buried Streets | Pigs got down here a century ago and kept breeding. They are white and blind, and as big as ponies. |
 | `monster:crab` | Sink crab | the Buried Streets, the College Sink | River crabs grown huge on reagent runoff. Blades skid off them. |
@@ -273,11 +273,11 @@ _Met in_ lists the zones where they turn up, and the contract dangers that bring
 | `monster:kiln` | the Kiln Engine (engine) | the boss room of Old Pellam (the College Sink) | The college's great reagent furnace, built to walk the length of the Sink and burn the spill. Nobody told it to stop. |
 | `monster:claim_jumper` | Claim-jumper (people) | the upper workings, the Sump, the Trevick level | Miners working galleries that belong to somebody else. They would rather fight than be written down. |
 | `monster:cave_crab` | Cave crab | the upper workings, the Sump, the Trevick level | Pale crabs that came up the flooded galleries and liked it. Blades skid off them. |
-| `monster:salt_cutter` | Salt-cutter (people) | the reed paths, the Pans, the Withies | Cutters who stayed out on the pans too long. The fever took their manners first. |
+| `monster:salt_cutter` | Salt-cutter (people) | the reed paths, the Pans, the Withies | Cutters who stayed out on the pans long enough to come back changed. They are proud of it, and they do not like visitors. |
 | `monster:marsh_hog` | Marsh hog | the reed paths, the Pans, the Withies | A bristled black hog that lives in the reeds and charges anything that moves in them. |
 | `monster:road_agent` | Road agent (people) | the hill road, Skell Gap, the Wenmouth road, the Burrows | A highwayman with a crossbow and a speech about tolls. |
 | `monster:deserter` | Deserter (people) | the hill road, Brannock Moor, Skell Gap, the Wenmouth road, the Burrows, contracts with Soldiers | A soldier of the Ninth who walked away with his mail and his spear and kept walking. |
-| `monster:wolf` | Hill wolf | the hill road, Brannock Moor, contracts with Beasts, contracts with Trolls | Grey hill wolves, thin from a bad winter and bolder than they should be. |
+| `monster:wolf` | Hill wolf | the hill road, Brannock Moor, contracts with Beasts, contracts with Trolls | Gray hill wolves, thin from a bad winter and bolder than they should be. |
 | `monster:pike` | Mere pike | the lake shore, the bridge houses, the Holms | A pike as long as a man that lies in the shallows and takes ankles. |
 | `monster:smuggler` | Smuggler (people) | the lake shore, the bridge houses, the Holms | Lake people who move cargo at night and do not want to be counted. |
 | `monster:footpad` | Footpad (people) | the Quays, the Rookeries | A quick hand with a short knife, who knows every alley and would rather you never saw their face. |
@@ -293,19 +293,19 @@ _Met in_ lists the zones where they turn up, and the contract dangers that bring
 | `monster:dean` | the Dean | the boss room of the Saltfens (the Withies) | The oldest marsh boar in the fens, the size of a cart, with tusks like hay hooks. The cutters named it after the college's dean, and say the likeness is fair. |
 | `monster:reiver` | Reiver (people) | Brannock Moor, Skell Gap | A cattle thief from the moor farms, who lifts other people's herds in the autumn and calls it a family trade. |
 | `monster:moor_bull` | Moor bull | Brannock Moor, Skell Gap | A shaggy red bull that got away from a drove years ago and has run the moor since. It does not like the look of anybody. |
-| `monster:crewe` | Sergeant Crewe (people) | the boss room of Drover's Road (Skell Gap) | Sergeant Abner Crewe walked out of the Ninth with twenty men and the regiment's colours. He holds the old toll house at Skell Gap, and charges a toll. |
+| `monster:crewe` | Sergeant Crewe (people) | the boss room of Drover's Road (Skell Gap) | Sergeant Abner Crewe walked out of the Ninth with twenty men and the regiment's colors. He holds the old toll house at Skell Gap, and charges a toll. |
 | `monster:night_boatman` | Night boatman (people) | the bridge houses, the Holms | A smuggler's oarsman, with muffled oars and a cudgel under the thwart. |
 | `monster:crayfish` | Crayfish | the bridge houses, the Holms | Lake crayfish the size of a cat, which live under the bridge piers and pinch anything that wades. |
-| `monster:bailiff` | the Bailiff | the boss room of Harrowmere (the Holms) | The biggest pike in the mere, longer than a boat. The fishermen call it the Bailiff, because it takes its share of every catch. |
-| `monster:wrecker` | Wrecker (people) | the Burrows, the Strand | Dune people who hang lanterns where ships will mistake them for the harbour, and are first down the beach in the morning. |
+| `monster:bailiff` | Old Gullet | the boss room of Harrowmere (the Holms) | The biggest pike in the mere, longer than a boat. The fishermen call it Old Gullet, because it takes its share of every catch. |
+| `monster:wrecker` | Wrecker (people) | the Burrows, the Strand | Dune people who hang lanterns where ships will mistake them for the harbor, and are first down the beach in the morning. |
 | `monster:tidewaiter` | Tidewaiter (people) | the Strand | A customs man on Ostrander's books, who guards the sheds on the Strand and does not care whose papers you have. |
-| `monster:gulls` | Herring gulls | the Burrows, the Strand | Big grey gulls that have learned what a pack looks like. They will have whatever is in it. |
-| `monster:tull` | Mags Tull (people) | the boss room of Port Anselm (the Strand) | Mags Tull runs the wreckers of the Burrows from a cove at the end of the Strand. She has lit the false lantern on more nights than the harbour master has lit the real one. |
+| `monster:gulls` | Herring gulls | the Burrows, the Strand | Big gray gulls that have learned what a pack looks like. They will have whatever is in it. |
+| `monster:tull` | Mags Tull (people) | the boss room of Port Anselm (the Strand) | Mags Tull runs the wreckers of the Burrows from a cove at the end of the Strand. She has lit the false lantern on more nights than the harbor master has lit the real one. |
 | `monster:thug` | Hired thug (people) | the Lower Town, the Quays, the Rookeries, contracts with Thugs, contracts with Warded, contracts with Crowds | Muscle hired by the day. They are brave in a crowd and keen on being paid. |
 | `monster:soldier` | Sell-sword (people) | contracts with Soldiers | Soldiers in armor who have been drilled, and are paid to stand still while you try to move them. |
 | `monster:guard` | Guard (people) | the Lower Town, the Quays, the Strand, contracts with Watchful Guards, contracts with Warded | A watchman with a cudgel and a lantern, who will shout for his friends first. |
 | `monster:hedge_wizard` | Hedge-wizard (people) | contracts with Warded | A wizard for hire with no license, hiding behind protective workings the college would never pass. |
-| `monster:troll` | Troll | contracts with Trolls | A big grey troll that is in no hurry about anything. It heals while you watch, unless you burn it. |
+| `monster:troll` | Troll | contracts with Trolls | A big gray troll that is in no hurry about anything. It heals while you watch, unless you burn it. |
 | `monster:salamander` | Salamander | contracts with Fireborn | A lizard the length of a cart, living where the rock is warm. It burns what it bites. |
 | `monster:rioter` | Rioter (people) | contracts with Crowds | Somebody with a grievance and a cobblestone. Hurting them costs the guild its name. |
 
@@ -383,16 +383,16 @@ _Source: expeditions/data/content.ts:164 onward._
 | `good:kiln_core` | Kiln core | The furnace heart of the Kiln Engine. The college would like it back, and will pay. |
 | `good:brandy` | Bonded brandy | Brandy that was waiting on the Quays for the duty to be paid. It still is. |
 | `good:rudd_book` | Rudd's book | Lew Rudd's ledger of who hired whom, for what and when. The watch would pay for it, and so would several people who would rather the watch never saw it. |
-| `good:ore` | Silver ore | Grey rock with a shine in it, from the Kell veins. The Weighhouse assays it and pays by the sack. |
+| `good:ore` | Silver ore | Gray rock with a shine in it, from the Kell veins. The Weighhouse assays it and pays by the sack. |
 | `good:moyle_takings` | Moyle's takings | Six years of silver from a vein Gaffer Moyle never paid for, in a chest he kept under his chair. |
 | `good:pan_salt` | Pan salt | White salt boiled off the Saltfens pans and pressed into cakes. Every kitchen in Varrow uses it, and Saint Oda's uses it on wounds. |
 | `good:tusks` | The Dean's tusks | Two yellow tusks as long as a forearm. The college has asked for them, for reasons it will not put in writing. |
 | `good:fleece` | Fleeces | Moor fleeces, greasy and thick, from sheep that will not miss them for long. |
-| `good:colours` | The Ninth's colours | The regiment's flag, carried at Cassel Ford and carried off by Sergeant Crewe. Somebody in the Ninth will pay a great deal for it, or at least shout a great deal. |
-| `good:bog_oak` | Bog oak | Oak that has lain in the mere for centuries and turned black and hard as iron. The furniture makers on Anvil Row fight over it. |
-| `good:rings` | The Bailiff's rings | Mostly rings and buckles, with a bishop's seal among them, from the belly of the biggest pike in Harrowmere. Some of the owners are still alive. |
-| `good:ambergris` | Ambergris | A grey waxy lump that washes up on the Burrows. It smells odd and the perfumers pay a fortune for it. |
-| `good:salvage` | Tull's salvage | What the wreckers took off a dozen ships: plate and bolts of cloth, and a ship's figurehead with the name chiselled off. |
+| `good:colours` | The Ninth's colors | The regiment's flag, carried at Cassel Ford and carried off by Sergeant Crewe. Somebody in the Ninth will pay a great deal for it, or at least shout a great deal. |
+| `good:bog_oak` | Bog oak | Oak that has lain in the mere for centuries and turned black and hard as iron. The armorers on Anvil Row fight over it for shield rims and sword grips. |
+| `good:rings` | Old Gullet's rings | Mostly rings and buckles, with a bishop's seal among them, from the belly of the biggest pike in Harrowmere. Some of the owners are still alive. |
+| `good:ambergris` | Ambergris | A gray waxy lump that washes up on the Burrows. It smells odd and the perfumers pay a fortune for it. |
+| `good:salvage` | Tull's salvage | What the wreckers took off a dozen ships: plate and bolts of cloth, and a ship's figurehead with the name chiseled off. |
 | `good:iron` | Iron | Ore and old iron. The Forge uses it. |
 | `good:leather` | Leather | Hides for the Forge and the market. |
 | `good:timber` | Timber | Seasoned wood for building and the Forge. |
@@ -421,7 +421,7 @@ Marks a member brings home. Sink changes are tier 1 (amusing), 2 (useful) or 3 (
 | `habit:counts_coin` | Counts the coins | Finds are worth a tenth more with them in the squad. |
 | `habit:rat_hater` | Hates rats | Deals 3 more damage to rats. |
 | `habit:old_hand` | Old hand at camp | Camps heal them a little more. |
-| `change:violet_skin` | Violet skin (tier 1) | Seeps and the Kiln Engine do 2 less damage to them. The colour is lovely and does not wash off. |
+| `change:violet_skin` | Violet skin (tier 1) | Seeps and the Kiln Engine do 2 less damage to them. The color is lovely and does not wash off. |
 | `change:copper_tongue` | A copper tongue (tier 1) | They can taste what a college still holds, so stills never hurt them. Everything else tastes of pennies. |
 | `change:rat_smell` | Smells wrong to rats (tier 1) | Rats aim 12 worse at them. Dogs are not keen either. |
 | `change:slow_stomach` | A slow stomach (tier 1) | A missed meal tires them half as much. They eat once a day at home and nobody likes watching. |

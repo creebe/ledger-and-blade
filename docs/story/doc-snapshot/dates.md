@@ -14,7 +14,7 @@ Dated checkpoints the player prepares for. _met_, _missed_ and _gone_ are the di
 - _available:_ when week <= 2 and loans.length > 0 and loans[0].dueWeek - week >= 3
 - _met:_
 
-  > The clerk counted the payment twice and initialled the receipt in two places. Coster sends word that the sum was correct to the penny, and that he has noted the date.
+  > The clerk counted the payment twice and initialed the receipt in two places. Coster sends word that the sum was correct to the penny, and that he has noted the date.
 
 - _missed:_
 

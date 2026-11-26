@@ -2570,16 +2570,16 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 - _phases[1]:_ “The bridge houses: Out along the old bridge.”
 
-### Contract: The Bailiff
+### Contract: Old Gullet
 
 `contract:mere_bailiff` · data/contracts-sites.ts:221
 
 - _type:_ “Hunt”
-- _titles[1]:_ “The Bailiff”
+- _titles[1]:_ “Old Gullet”
 - _titles[2]:_ “The Big Pike”
 - _description:_
 
-  > The fishermen of Harrowmere have lost two boats and a boy's leg to the pike they call the Bailiff. They have asked the river people in Varrow who might help, and the river people have asked you.
+  > The fishermen of Harrowmere have lost two boats and a boy's leg to the pike they call Old Gullet. They have asked the river people in Varrow who might help, and the river people have asked you.
 
 - _phases[1]:_ “The Holms: Out on the deep water.”
 
@@ -2675,16 +2675,16 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 - _phases[1]:_ “Skell Gap: At the top of the pass.”
 
-### Contract: The Bailiff's Water
+### Contract: Old Gullet's Water
 
 `contract:mere_holms_after` · data/contracts-sites.ts:359
 
 - _type:_ “Hunt”
-- _titles[1]:_ “The Bailiff's Water”
+- _titles[1]:_ “Old Gullet's Water”
 - _titles[2]:_ “Pike off the Holms”
 - _description:_
 
-  > The Bailiff is landed, and the pike in its water off the far Holms are getting bigger. The Harrowmere fishermen have asked the river people again, and the river people have asked you again.
+  > Old Gullet is landed, and the pike in its water off the far Holms are getting bigger. The Harrowmere fishermen have asked the river people again, and the river people have asked you again.
 
 - _phases[1]:_ “The Holms: Out on the deep water.”
 
@@ -4731,7 +4731,7 @@ What each route length is for, as the board says it. A plain job on a long route
 | `site_goal:drovers:deep` | Drover's Road | Long, a plain job | Up to Skell Gap |
 | `site_goal:harrowmere:short` | Harrowmere | Short | Along the shore to the boathouses |
 | `site_goal:harrowmere:medium` | Harrowmere | Medium | Out along the bridge houses to the timber span |
-| `site_goal:harrowmere:long` | Harrowmere | Long | Out to the Holms, where the Bailiff feeds |
+| `site_goal:harrowmere:long` | Harrowmere | Long | Out to the Holms, where Old Gullet feeds |
 | `site_goal:harrowmere:deep` | Harrowmere | Long, a plain job | Out to the far Holms |
 | `site_goal:anselm:short` | Port Anselm | Short | Along the Wenmouth road to the ford |
 | `site_goal:anselm:medium` | Port Anselm | Medium | Into the Burrows, to the wreck on the point |
@@ -4749,7 +4749,7 @@ Each is beaten once. After that, long routes end in its room with a lesser fight
 | `boss:kell` | Kell Mines | Gaffer Moyle | Threw Gaffer Moyle off the Trevick level | The lease-holders write to say they always knew the Trevick level was theirs, and ask whether the guild could also see about the pumps. | Throw Gaffer Moyle off the Trevick level |
 | `boss:saltfens` | The Saltfens | the Dean | Killed the Dean | The salt-cutters send a ham, which is in poor taste, and a jar of pan salt, which is not. | Kill the Dean |
 | `boss:drovers` | Drover's Road | Sergeant Crewe | Took the toll house at Skell Gap | The drovers bring their herds over the Gap without paying anybody for the first time in two years, and drink to the guild at the inn. | Take the toll house at Skell Gap from Sergeant Crewe |
-| `boss:harrowmere` | Harrowmere | the Bailiff | Landed the Bailiff | Harrowmere hangs the Bailiff from the bridge for a week, and three different families claim the rings in its belly were their grandmother's. | Land the Bailiff |
+| `boss:harrowmere` | Harrowmere | Old Gullet | Landed Old Gullet | Harrowmere hangs Old Gullet from the bridge for a week, and three different families claim the rings in its belly were their grandmother's. | Land Old Gullet |
 | `boss:anselm` | Port Anselm | Mags Tull | Put out Mags Tull's lantern | The harbor master at Port Anselm writes to thank the guild, and to ask it not to mention the wreckers to the bank. | Put out Mags Tull's lantern |
 
 ### Monsters and people
@@ -4793,7 +4793,7 @@ _Met in_ lists the zones where they turn up, and the contract dangers that bring
 | `monster:crewe` | Sergeant Crewe (people) | the boss room of Drover's Road (Skell Gap) | Sergeant Abner Crewe walked out of the Ninth with twenty men and the regiment's colors. He holds the old toll house at Skell Gap, and charges a toll. |
 | `monster:night_boatman` | Night boatman (people) | the bridge houses, the Holms | A smuggler's oarsman, with muffled oars and a cudgel under the thwart. |
 | `monster:crayfish` | Crayfish | the bridge houses, the Holms | Lake crayfish the size of a cat, which live under the bridge piers and pinch anything that wades. |
-| `monster:bailiff` | the Bailiff | the boss room of Harrowmere (the Holms) | The biggest pike in the mere, longer than a boat. The fishermen call it the Bailiff, because it takes its share of every catch. |
+| `monster:bailiff` | Old Gullet | the boss room of Harrowmere (the Holms) | The biggest pike in the mere, longer than a boat. The fishermen call it Old Gullet, because it takes its share of every catch. |
 | `monster:wrecker` | Wrecker (people) | the Burrows, the Strand | Dune people who hang lanterns where ships will mistake them for the harbor, and are first down the beach in the morning. |
 | `monster:tidewaiter` | Tidewaiter (people) | the Strand | A customs man on Ostrander's books, who guards the sheds on the Strand and does not care whose papers you have. |
 | `monster:gulls` | Herring gulls | the Burrows, the Strand | Big gray gulls that have learned what a pack looks like. They will have whatever is in it. |
@@ -4887,7 +4887,7 @@ _Source: expeditions/data/content.ts:164 onward._
 | `good:fleece` | Fleeces | Moor fleeces, greasy and thick, from sheep that will not miss them for long. |
 | `good:colours` | The Ninth's colors | The regiment's flag, carried at Cassel Ford and carried off by Sergeant Crewe. Somebody in the Ninth will pay a great deal for it, or at least shout a great deal. |
 | `good:bog_oak` | Bog oak | Oak that has lain in the mere for centuries and turned black and hard as iron. The armorers on Anvil Row fight over it for shield rims and sword grips. |
-| `good:rings` | The Bailiff's rings | Mostly rings and buckles, with a bishop's seal among them, from the belly of the biggest pike in Harrowmere. Some of the owners are still alive. |
+| `good:rings` | Old Gullet's rings | Mostly rings and buckles, with a bishop's seal among them, from the belly of the biggest pike in Harrowmere. Some of the owners are still alive. |
 | `good:ambergris` | Ambergris | A gray waxy lump that washes up on the Burrows. It smells odd and the perfumers pay a fortune for it. |
 | `good:salvage` | Tull's salvage | What the wreckers took off a dozen ships: plate and bolts of cloth, and a ship's figurehead with the name chiseled off. |
 | `good:iron` | Iron | Ore and old iron. The Forge uses it. |
@@ -6344,7 +6344,7 @@ _Source: expeditions/data/lines-deep.ts:143._
 | `line:find_pans.2` | On a cart with a broken wheel, {a} finds {g}. |
 | `line:find_pans.3` | {a} pokes about in the heaps on a raked pan and comes up with {g}. |
 | `line:goalroom_pans.1` | They reach the old boiling house the job named, at the far end of the Pans. The fires under its pans are lit, and somebody is feeding them. |
-| `line:goalroom_pans.2` | The boiling house is at the end of the last pan wall. People are standing in its door, some with the violet skin the pans give anyone who stays out long enough, and they want to know what the squad is doing on their pans. |
+| `line:goalroom_pans.2` | The boiling house is at the end of the last pan wall. People are standing in its door. Some of them have the violet skin the pans give anyone who stays out long enough, and all of them want to know what the squad is doing here. |
 | `line:goal_pans.1` | In the drying loft of the boiling house {a} finds {g}, stacked to the rafters. |
 | `line:goal_pans.2` | {a} loads {g} out of the boiling house while {b} keeps the fire from going out, for no good reason. |
 | `line:camp_pans.1` | They camp in a boiling hut with the fire lit under the pan. It is warm, and everything tastes of salt in the morning. |
@@ -6473,7 +6473,7 @@ _Source: expeditions/data/lines-deep.ts:255._
 
 _Source: expeditions/data/lines-deep.ts:372._
 
-### Harrowmere: the bridge houses and the Holms, and the Bailiff
+### Harrowmere: the bridge houses and the Holms, and Old Gullet
 
 | ID | Line |
 |---|---|
@@ -6526,20 +6526,20 @@ _Source: expeditions/data/lines-deep.ts:372._
 | `line:goal_holms.2` | {a} wades out to a sunken boat off the far Holms and comes back with {g}. |
 | `line:camp_holms.1` | They camp in the ruined chapel, with a fire in the nave. The wind comes through the windows and nobody minds. |
 | `line:camp_holms.2` | They make camp on the largest island, under the alders. {a} keeps watch on the water. Twice in the night something turns over out there, close to the shore. |
-| `line:boss_sight:harrowmere.1` | The water off the far Holms goes very still, and then something comes up under it, longer than the punt. The Bailiff has come for its share. |
+| `line:boss_sight:harrowmere.1` | The water off the far Holms goes very still, and then something comes up under it, longer than the punt. It is Old Gullet, and it is hungry, which it always is. |
 | `line:boss_sight:harrowmere.2` | A shape moves in the deep water off the island, as long as a boat. The fishermen said it would come, and it has. |
-| `line:bailiff_hit.1` | The Bailiff comes out of the water and takes {t} by the leg. |
-| `line:bailiff_hit.2` | The Bailiff hits {t} with its tail and knocks them flat on the shingle. |
-| `line:bailiff_hit.3` | The Bailiff gets its teeth into {t} and drags them toward the water. |
-| `line:bailiff_miss.1` | The Bailiff lunges at {t} and gets a mouthful of shingle instead. |
-| `line:bailiff_miss.2` | {t} jumps back, and the Bailiff's jaws close on nothing. |
-| `line:bailiff_crit.1` | The Bailiff gets {t} in its jaws and shakes them hard. |
-| `line:kill_bailiff.1` | The Bailiff thrashes in the shallows and then lies still, half out of the water. It is longer than anybody's boat. |
-| `line:kill_bailiff.2` | The Bailiff rolls over and shows its white belly to the sky. Harrowmere will be talking about this for a hundred years. |
-| `line:boss_won:harrowmere.1` | The Bailiff is landed. It takes all of them to drag it up onto the island, and {a} has to sit down afterwards. |
+| `line:bailiff_hit.1` | Old Gullet comes out of the water and takes {t} by the leg. |
+| `line:bailiff_hit.2` | Old Gullet hits {t} with its tail and knocks them flat on the shingle. |
+| `line:bailiff_hit.3` | Old Gullet gets its teeth into {t} and drags them toward the water. |
+| `line:bailiff_miss.1` | Old Gullet lunges at {t} and gets a mouthful of shingle instead. |
+| `line:bailiff_miss.2` | {t} jumps back, and Old Gullet's jaws close on nothing. |
+| `line:bailiff_crit.1` | Old Gullet gets {t} in its jaws and shakes them hard. |
+| `line:kill_bailiff.1` | Old Gullet thrashes in the shallows and then lies still, half out of the water. It is longer than anybody's boat. |
+| `line:kill_bailiff.2` | Old Gullet rolls over and shows its white belly to the sky. Harrowmere will be talking about this for a hundred years. |
+| `line:boss_won:harrowmere.1` | Old Gullet is landed. It takes all of them to drag it up onto the island, and {a} has to sit down afterwards. |
 | `line:boss_won:harrowmere.2` | It is over. The mere is calm, and for the first time in living memory nothing is taking its share. |
 | `line:bailiff_after.1` | The water off the far Holms is still deep, and the pike in it are getting bigger. One of them is already taking a share. |
-| `line:bailiff_after.2` | Something else has moved into the Bailiff's water. It is not as big yet, and it is working on it. |
+| `line:bailiff_after.2` | Something else has moved into Old Gullet's water. It is not as big yet, and it is working on it. |
 
 _Source: expeditions/data/lines-deep.ts:502._
 

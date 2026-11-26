@@ -695,20 +695,20 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 - _titles[2]:_ “Black Timber”
 - _description:_
 
-  > A cabinet-maker on Anvil Row has a commission for a table from a man who can afford one, and needs two lengths of bog oak out of Harrowmere to make it.
+  > An armorer on Anvil Row has a commission for a presentation shield from a man who can afford one, and needs two lengths of bog oak out of Harrowmere for its boards.
 
 - _phases[1]:_ “The bridge houses: Out along the old bridge.”
 
-### Contract: The Bailiff
+### Contract: Old Gullet
 
 `contract:mere_bailiff` · data/contracts-sites.ts:221
 
 - _type:_ “Hunt”
-- _titles[1]:_ “The Bailiff”
+- _titles[1]:_ “Old Gullet”
 - _titles[2]:_ “The Big Pike”
 - _description:_
 
-  > The fishermen of Harrowmere have lost two boats and a boy's leg to the pike they call the Bailiff. They have asked the river people in Varrow who might help, and the river people have asked you.
+  > The fishermen of Harrowmere have lost two boats and a boy's leg to the pike they call Old Gullet. They have asked the river people in Varrow who might help, and the river people have asked you.
 
 - _phases[1]:_ “The Holms: Out on the deep water.”
 
@@ -804,16 +804,16 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
 - _phases[1]:_ “Skell Gap: At the top of the pass.”
 
-### Contract: The Bailiff's Water
+### Contract: Old Gullet's Water
 
 `contract:mere_holms_after` · data/contracts-sites.ts:359
 
 - _type:_ “Hunt”
-- _titles[1]:_ “The Bailiff's Water”
+- _titles[1]:_ “Old Gullet's Water”
 - _titles[2]:_ “Pike off the Holms”
 - _description:_
 
-  > The Bailiff is landed, and the pike in its water off the far Holms are getting bigger. The Harrowmere fishermen have asked the river people again, and the river people have asked you again.
+  > Old Gullet is landed, and the pike in its water off the far Holms are getting bigger. The Harrowmere fishermen have asked the river people again, and the river people have asked you again.
 
 - _phases[1]:_ “The Holms: Out on the deep water.”
 

@@ -28,7 +28,7 @@ No fixed character. Random world events that can fire any week.
 - **Turn her away** · _Lower Town −1_ · `petition/root/c2`
   “She goes without arguing. Your gatekeeper watches her all the way down the street.”
 
-### The Ninth's Colours
+### The Ninth's Colors
 
 `ninth_colours` · Queued scene · data/cast.ts:785
 
@@ -38,11 +38,11 @@ _Speaker: Captain Rufus Mayne_
 
 > Captain Mayne is at the hall before the squad has finished unpacking. He has heard, and so has half the Copper Kettle, because he told them on the way.
 >
-> "Abner Crewe!" he says. "I stood next to that man for twenty years. He could drill a goat to march in step, and he walked off with the colours, the daft sod." He looks at the bundle on the table and lowers his voice, which for Mayne means people in the yard can no longer hear him. "They were at Cassel Ford. What do you want for them?"
+> "Abner Crewe!" he says. "I stood next to that man for twenty years. He could drill a goat to march in step, and he walked off with the colors, the daft sod." He looks at the bundle on the table and lowers his voice, which for Mayne means people in the yard can no longer hear him. "They were at Cassel Ford. What do you want for them?"
 
-- **Give them back to the Ninth** · _The colours go. Renown +2, Mayne +20, the Ninth's renown +3_ · `ninth_colours/root/c1`
+- **Give them back to the Ninth** · _The colors go. Renown +2, Mayne +20, the Ninth's renown +3_ · `ninth_colours/root/c1`
   “Mayne carries them out of the hall himself and down Tallow Street at the slow march, with nobody following. By evening the whole Ninth is drunk, and three of them have asked Jory whether the guild is hiring.”
-- **Sell them to him** · _The colours go. +200 crowns, Mayne −5_ · `ninth_colours/root/c2`
+- **Sell them to him** · _The colors go. +200 crowns, Mayne −5_ · `ninth_colours/root/c2`
   “Mayne pays in Crown Pennies and counts them out on the table one at a time. "Worth every one," he says. "I'll be telling the lads what it cost, mind."”
-- **Hang them in the hall** · _The colours stay and are not for sale. Renown +3, Mayne −15, the Ninth grow more aggressive_ · `ninth_colours/root/c3`
+- **Hang them in the hall** · _The colors stay and are not for sale. Renown +3, Mayne −15, the Ninth grow more aggressive_ · `ninth_colours/root/c3`
   “Jory has them hung over the hall door, a little crooked. Mayne stands under them for some time, says the guild has a nerve, and then asks two of your people whether they have ever thought of soldiering.”
