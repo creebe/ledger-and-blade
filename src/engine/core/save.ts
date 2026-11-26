@@ -10,7 +10,7 @@ import { stageOfFeud } from '../rivals/war';
 import { freshDates, scheduleDates } from '../story/dates';
 import { migrateToExpeditions } from '../expeditions/migrate';
 
-export const SAVE_VERSION = 15;
+export const SAVE_VERSION = 16;
 
 /** Upgrade older saves in place. Returns null if the save can't be used. */
 export function migrateSave(g: GameState): GameState | null {
@@ -90,6 +90,11 @@ export function migrateSave(g: GameState): GameState | null {
     // feud stages hold a little below their lines: start each rival at the stage its feud shows
     for (const r of Object.values(g.rivals)) r.stage = stageOfFeud(r.feud ?? 0);
     g.version = 15;
+  }
+  if (g.version === 15) {
+    // early loan repayments now count toward the next collection; older saves start with no credit
+    for (const l of g.loans) l.paidAhead = l.paidAhead ?? 0;
+    g.version = 16;
   }
   return g.version === SAVE_VERSION ? g : null;
 }

@@ -19,7 +19,7 @@ import { runSim } from '../scripts/sim';
 import { FIELD_EVENTS } from '../src/engine/data/field';
 import { STORY_EVENTS } from '../src/engine/data/events';
 import { currentDate, datesPhase, dateTargets, nextDate, scheduleDates, DATE_BY_ID } from '../src/engine';
-import { afterLeaderDies, executeHostile, feudStage, hallDefense, operationOptions, raiseFeud, resolveOperation, runOperation, weeklyWar, FAME_LEGENDARY, FEUD_AT, WAR_AT, WAR_HOLD, FEUD_CONTESTED, planWarnings, earnFame, fameTier, triggerEvents, SAVE_VERSION, BACKERS, CIRCUMSTANCE_BY_ID, claimNote, buySupplies, supplyCost, buyMaterial, cancelDispatch, discoverLore, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, startBuild, tripWeeks, upkeep } from '../src/engine';
+import { afterLeaderDies, executeHostile, feudStage, hallDefense, operationOptions, raiseFeud, resolveOperation, runOperation, weeklyWar, FAME_LEGENDARY, FEUD_AT, WAR_AT, WAR_HOLD, FEUD_CONTESTED, planWarnings, earnFame, fameTier, triggerEvents, SAVE_VERSION, BACKERS, CIRCUMSTANCE_BY_ID, claimNote, buySupplies, supplyCost, buyMaterial, cancelDispatch, discoverLore, checkTutorial, guideView, OBJECTIVES, level, lobby, setPosition, supplyPrice, tally, migrateSave, queueCraft, setAssignment, repayLoan, loanStillDue, laidUp, startBuild, tripWeeks, upkeep } from '../src/engine';
 
 /** Send a squad with a little food and nothing else, so nothing has to be bought. */
 const send = (s: GameState, c: GameState['board'][number], team: { id: string }[]) =>
@@ -336,6 +336,72 @@ describe('engine', () => {
     };
     expect(run(5000)?.outcome).toBe('met');
     expect(run(0)?.outcome).toBe('missed');
+  });
+
+  it('early loan repayments count toward the next collection', () => {
+    const s = newGame(48);
+    clearEvents(s);
+    const loan = s.loans[0];
+    loan.dueWeek = s.week;
+    const due = loanStillDue(loan);
+    s.crowns = 100 + due;
+    expect(repayLoan(s, 100)).toBeUndefined();
+    expect(loanStillDue(loan)).toBe(Math.max(0, due - 100));
+    // the guild can no longer cover a full payment, but it owes nothing on the day
+    s.crowns = 0;
+    s.goods = {};
+    const owedBefore = loan.principal;
+    advanceWeek(s);
+    expect(loan.missed).toBe(0);
+    expect(s.dispatches.some((d) => d.title === 'Loan payment covered')).toBe(true);
+    // the Weighhouse took nothing more than interest
+    expect(loan.principal).toBeGreaterThanOrEqual(owedBefore);
+    expect(loan.paidAhead).toBe(100 - due);
+  });
+
+  it('a partly prepaid collection takes only the rest', () => {
+    const s = newGame(49);
+    clearEvents(s);
+    const loan = s.loans[0];
+    loan.dueWeek = s.week;
+    const full = loanStillDue(loan);
+    s.crowns = 5000;
+    repayLoan(s, 10);
+    const before = loan.principal;
+    advanceWeek(s);
+    expect(loan.missed).toBe(0);
+    expect(loan.paidAhead).toBe(0);
+    // only full - 10 left the principal on the day (interest aside)
+    expect(Math.round(before * (1 + loan.weeklyRate) - (full - 10))).toBe(Math.round(loan.principal));
+  });
+
+  it('a wounded member says how long they rest, and is fit when it says', () => {
+    const s = newGame(51);
+    clearEvents(s);
+    const m = s.members.find((x) => x.status === 'idle')!;
+    m.status = 'recovering';
+    m.health = 22;
+    const lay = laidUp(s, m)!;
+    expect(lay.why).toBe('wounded');
+    s.crowns = 5000;
+    for (let i = 0; i < lay.weeks - 1; i++) {
+      advanceWeek(s);
+      clearEvents(s);
+      expect(laidUp(s, m)).toBeDefined();
+    }
+    advanceWeek(s);
+    expect(laidUp(s, m)).toBeUndefined();
+    expect(m.status).toBe('idle');
+  });
+
+  it('saves from v15 load with no early-repayment credit', () => {
+    const s = newGame(50) as unknown as { version: number; loans: { paidAhead?: number }[] };
+    s.version = 15;
+    delete s.loans[0].paidAhead;
+    const g = migrateSave(s as never)!;
+    expect(g.version).toBe(SAVE_VERSION);
+    expect(g.loans[0].paidAhead).toBe(0);
+    expect(loanStillDue(g.loans[0])).toBe(g.loans[0].paymentDue);
   });
 
   it('Dates: a loan paid off mid-Date counts as paid', () => {

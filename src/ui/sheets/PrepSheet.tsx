@@ -41,6 +41,7 @@ import { short } from '../kit/shortfall';
 import { goTo } from '../kit/navigate';
 import { HiddenTag } from '../kit/reveal';
 import { ProfSilhouette } from '../expeditions/Silhouette';
+import { restingInfo } from '../kit/members';
 import { Marks, Vitals, first } from '../expeditions/xkit';
 
 const ORDER_ROWS: { key: keyof StandingOrders; title: string; options: { value: string; label: string; text: string }[] }[] = [
@@ -279,12 +280,14 @@ export function PrepSheet({ contractId }: { contractId: string }) {
         })}
         {bench.length > 0 && (
           <>
-            <p className="small muted">At home:</p>
+            <p className="small muted">At home. Tap a rank number to put someone in that rank.</p>
             {bench.map((m) => {
               const no = memberBlocked(g, m);
+              const resting = restingInfo(g, m);
+              const ranks = Math.min(size.max, plan.squad.length + 1);
               return (
-                <div key={m.id} className="x-bench row between">
-                  <span className="row gap">
+                <div key={m.id} className="x-bench">
+                  <span className="row gap x-bench-who">
                     <ProfSilhouette prof={m.profession} size={32} />
                     <span>
                       <b>{first(m)}</b>{' '}
@@ -294,8 +297,10 @@ export function PrepSheet({ contractId }: { contractId: string }) {
                       </small>
                     </span>
                   </span>
-                  <span className="row gap x-bench-put">
-                    {Array.from({ length: Math.min(size.max, plan.squad.length + 1) }, (_, r) => (
+                  {/* the rank buttons keep a line of their own, so the row doesn't reflow as the squad fills */}
+                  <span className="x-bench-put">
+                    {resting && <span className="small bad x-bench-why">{resting.chip}</span>}
+                    {Array.from({ length: ranks }, (_, r) => (
                       <Btn key={r} className="btn small" title={`Put ${first(m)} in rank ${r + 1}`} blocked={no} onClick={() => place(m.id, r)}>
                         {r + 1}
                       </Btn>

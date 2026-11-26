@@ -1,4 +1,4 @@
-import { buildersSpeed, dateLabel, endWeekWarnings, living, projectLedger, upkeep, weeklyWages } from '../../engine';
+import { buildersSpeed, dateLabel, endWeekWarnings, living, loanStillDue, projectLedger, upkeep, weeklyWages } from '../../engine';
 import { useStore } from '../../store';
 import { Sheet } from '../kit/common';
 import { crowns, plural, wk } from '../kit/format';
@@ -127,7 +127,7 @@ export function EndWeekSheet() {
         <li>
           <Icon name="coin" size={14} />
           <span>
-            Bills: {crowns(bills)} in wages and upkeep{loanDue ? `, plus the loan payment of ${crowns(loanDue.paymentDue)}` : ''}. The treasury should close the week at about {crowns(after ?? g.crowns)}.
+            Bills: {crowns(bills)} in wages and upkeep{loanDue ? (loanStillDue(loanDue) > 0 ? `, plus the loan payment of ${crowns(loanStillDue(loanDue))}` : '. The loan payment due this week was paid early') : ''}. The treasury should close the week at about {crowns(after ?? g.crowns)}.
           </span>
         </li>
       </ul>

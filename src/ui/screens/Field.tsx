@@ -109,7 +109,7 @@ export function FieldScreen() {
         ))}
       </Section>
       {home.length > 0 && (
-        <Section title="Home lately">
+        <Section title="Contracts recently completed">
           {home.map((m) => (
             <button key={m.id} className="tappable x-home-row" onClick={() => open({ kind: 'mission', id: m.id })}>
               <span className="x-field-title">

@@ -292,6 +292,7 @@ export interface Loan {
   dueWeek: number;
   missed: number;
   waited?: number; // weeks this payment has been put off for a squad that's away
+  paidAhead?: number; // early repayments not yet counted against a collection
 }
 
 export interface EventChoice {

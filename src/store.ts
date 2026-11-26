@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { produce } from 'immer';
-import { advanceWeek, checkTutorial, discoverLore, migrateSave, newGame, type GameState, type Objective } from './engine';
+import { advanceWeek, checkTutorial, discoverLore, migrateSave, newGame, type GameEvent, type GameState, type Objective } from './engine';
 
 export type Tab = 'hall' | 'field' | 'contracts' | 'roster' | 'armory' | 'realm';
 export type Sheet =
@@ -99,6 +99,9 @@ interface Store {
   subTabs: { realm?: string; armory?: string };
   setSubTab: (screen: 'realm' | 'armory', v: string) => void;
   guideTarget?: string;
+  /** a scene the player has just finished, kept on screen until they read its last exchange and press Continue */
+  closingEvent?: GameEvent;
+  setClosingEvent: (ev?: GameEvent) => void;
   showMe: (o: Objective) => void;
   act: (fn: (g: GameState) => string | undefined | void) => boolean;
   startNew: (seed?: number) => void;
@@ -124,6 +127,7 @@ export const useStore = create<Store>((set, get) => ({
   sheets: [],
   subTabs: {},
   setSubTab: (screen, v) => set({ subTabs: { ...get().subTabs, [screen]: v } }),
+  setClosingEvent: (ev) => set({ closingEvent: ev }),
   act: (fn) => {
     const g = get().game;
     if (!g) return false;
@@ -151,15 +155,15 @@ export const useStore = create<Store>((set, get) => ({
   startNew: (seed) => {
     const g = newGame(seed);
     safeSet(AUTOSAVE, JSON.stringify(g));
-    set({ game: g, tab: 'hall', sheets: [] });
+    set({ game: g, tab: 'hall', sheets: [], closingEvent: undefined });
   },
   continueGame: () => {
     const g = parseSave(safeGet(AUTOSAVE));
-    if (g) set({ game: g, tab: 'hall', sheets: [] });
+    if (g) set({ game: g, tab: 'hall', sheets: [], closingEvent: undefined });
   },
   loadGame: (g) => {
     safeSet(AUTOSAVE, JSON.stringify(g));
-    set({ game: g, tab: 'hall', sheets: [] });
+    set({ game: g, tab: 'hall', sheets: [], closingEvent: undefined });
   },
   saveSlot: (n) => {
     const g = get().game;
@@ -173,7 +177,7 @@ export const useStore = create<Store>((set, get) => ({
     get().loadGame(g);
     return true;
   },
-  quit: () => set({ game: null, sheets: [] }),
+  quit: () => set({ game: null, sheets: [], closingEvent: undefined }),
   endWeek: () => {
     const g = get().game;
     if (!g) return;

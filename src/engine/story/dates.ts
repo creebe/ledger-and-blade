@@ -6,7 +6,7 @@ import { DATE_BY_ID, DATES, type DateDef } from '../data/dates';
 import { FACTIONS, RIVALS } from '../data/factions';
 import { randInt, weighted } from '../core/rng';
 import type { ActiveDate, DateStakes, DateTarget, DatesState, GameState } from '../core/types';
-import { addDispatch, clamp, living } from '../core/util';
+import { addDispatch, clamp, living, loanStillDue } from '../core/util';
 import { applyStanding, earn, spend } from '../core/effects';
 import { tally } from '../politics/council';
 import { upkeep } from '../economy/buildings';
@@ -118,7 +118,7 @@ function paidSince(s: GameState, week: number) {
 
 const weeklyCosts = (s: GameState) => living(s).reduce((n, m) => n + m.wage, 0) + upkeep(s);
 /** What the end of this week will take from the treasury: wages, upkeep and any loan payment due. */
-const billsThisWeek = (s: GameState) => weeklyCosts(s) + s.loans.reduce((n, l) => n + (l.dueWeek === s.week ? l.paymentDue : 0), 0);
+const billsThisWeek = (s: GameState) => weeklyCosts(s) + s.loans.reduce((n, l) => n + (l.dueWeek === s.week ? loanStillDue(l) : 0), 0);
 
 /** Targets of the current Date not met yet, for the end-week warnings on the day it arrives. */
 export function dateWarning(s: GameState): string | undefined {
@@ -147,7 +147,7 @@ function targetMet(s: GameState, a: ActiveDate, t: DateTarget, final: boolean): 
       // a payment the Weighhouse waited for wasn't paid on the day
       if (final) return loan.missed === a.base.missed && !loan.waited;
       // wages and upkeep are paid before the loan, so count them first
-      return loan.missed === a.base.missed && (loan.dueWeek > a.dueWeek || s.crowns - weeklyCosts(s) >= loan.paymentDue);
+      return loan.missed === a.base.missed && (loan.dueWeek > a.dueWeek || s.crowns - weeklyCosts(s) >= loanStillDue(loan));
     case 'crowns':
       // on the day itself, forecast what's left after this week's bills
       return (final || s.week < a.dueWeek ? s.crowns : s.crowns - billsThisWeek(s)) >= t.at;
@@ -195,7 +195,9 @@ export function dateTargets(s: GameState, a: ActiveDate = s.dates.current!): Dat
     switch (t.kind) {
       case 'loanPaid':
         return loan
-          ? { label: `Pay the Weighhouse ${loan.paymentDue} crowns on the day`, now: `${s.crowns} in the treasury`, met, frac: f(s.crowns, loan.paymentDue), resource: 'crowns' }
+          ? loanStillDue(loan) === 0
+            ? { label: 'Pay the Weighhouse on the day', now: 'Already paid early', met, frac: 1 }
+            : { label: `Pay the Weighhouse ${loanStillDue(loan)} crowns on the day`, now: `${s.crowns} in the treasury`, met, frac: f(s.crowns, loanStillDue(loan)), resource: 'crowns' }
           : { label: 'Pay the Weighhouse on the day', now: 'The loan is paid off', met: true, frac: 1 };
       case 'crowns':
         return { label: `Have ${t.at} crowns when the week closes, after the bills`, now: `${s.crowns} now`, met, frac: f(s.crowns, t.at), resource: 'crowns' };

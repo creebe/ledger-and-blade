@@ -190,6 +190,8 @@ export function repayLoan(s: GameState, amount: number): string | undefined {
   spend(s, 'Loan repayment', amt);
   track(s, 'repay');
   loan.principal -= amt;
+  // early money counts toward the next collection
+  loan.paidAhead = (loan.paidAhead ?? 0) + amt;
   if (loan.principal <= 0.5) {
     s.loans = [];
     addDispatch(s, 'economy', 'Loan repaid in full', ['The Weighhouse returns your note. The guild owes nothing.']);
