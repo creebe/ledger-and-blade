@@ -34,6 +34,7 @@ Every story change goes through these checks. None of them are optional.
 - **Varrow (Canon):** the capital. A river port with a chain across the river where tolls are collected. The **Lower Town** lies below the walls: docks, porters, small trades. **Anvil Row** has the armorers, **Tallow Street** has the guild's hall, and the **Copper Kettle** is a tavern.
 - **Places (Canon):** Old Pellam (the buried first town under the Lower Town, §5d), Drover's Road (cattle road, hills east), Harrowmere (lake town with an old bridge), Kell Mines (silver, partly flooded), the Saltfens (estuary marshes, reagents, fever), Port Anselm (coast; Ostrander's ships take the Crown's silver here), Wenmouth ford (on the road to Anselm), and **the green** below the walls, where fairs and the Crown's muster are held.
 - **Magic (Canon):** common, and practiced like a science or trade. It is studied at **the college**, licensed by the **Assay Office**, sold by the dose (reagents), and keyed to elements: fire, frost, storm, radiant, shadow. It is powerful but never free. **There is no supernatural plot.** Magic is part of the economy, not a mystery.
+- **Chartered guilds (Canon, from the prologue):** the treaty also cut the Crown's regiments to almost nothing (the Ninth were disbanded under its article nine). The work soldiers used to do is let out by the job to anyone holding an Exchequer charter: chasing debts, guarding the Crown's silver, clearing Old Pellam, and whatever the bank, the Crown, the Weighhouse or the Lower Town will pay for. Most new guilds fold before their first loan is paid off.
 - **Tone (Canon):** in between. Grounded, human-scale politics and money; morally gray choices; dry humor. Nobody is purely evil. The bank is doing what banks do.
 
 ## 3. Factions and their positions on the Debt (Canon)
@@ -81,7 +82,7 @@ Every faction and rival has a face. Each character has a want that is reasonable
 | `mayne` | **Captain Rufus Mayne**, the Ninth | Was a sergeant at Cassel Ford | Loud, friendly, always recruiting | Tries to hire your best fighter. Knows any Cassel Ford veteran in your roster. Comes to the hall for the Ninth's colors if a squad brings them home (*The Ninth's Colors*, §5d). |
 | `plaice` | **Master Assayer Corwin Plaice**, Assay Office | Licenses all magic in Varrow | Pedantic and patient; quotes clauses | Inspects the guild and offers a license. |
 | `aske` | **Lady Honora Aske**, the Fourteen | Head of a founding family; castle pledged to the bank | Charming and careless with money | Asks you to move the family silver before the assessors arrive. |
-| `jory` | **Jory Abbot**, the guild | The hall's clerk through three guildmasters | Dry; gives advice only as remarks | Remarks in the week report ("In the hall"). Asks how to record the dead. |
+| `jory` | **Jory Abbot**, the guild | The hall's clerk through three guildmasters | Dry; gives advice only as remarks | Shows a new guildmaster round the hall in `charter` (wages, the loan, the empty notice board). Remarks in the week report ("In the hall"). Asks how to record the dead. |
 
 
 ---
@@ -112,9 +113,11 @@ Weeks are windows. A beat fires on a random week inside its window, or at the en
 
 Only one beat fires a week. Beats whose window closes first are checked first (`STORY_EVENTS` is sorted by window end).
 
+**The opening (Canon from v0.15.0).** Before the first new guild on a device, the player reads the **prologue** (`data/prologue.ts`, four pages: the Debt, Varrow, the guilds, your guild). It is the narrator's, so it may say what any Varrow resident knows (§6b); it can be skipped and read again from the title and start screens. Beat 1, `charter`, is then a short walk round the hall with Jory: the people and their wages, the strongbox and the loan, the empty notice board, and the last of the coin (the original three starting choices). Each step can be cut short, and every step but the last says in its detail line which tab holds what was just shown. Jory's lines stay remarks, not instructions; the narrator carries the few lines of how-to.
+
 ### Branches and the facts they set
 
-- **1. Charter.** No exposition (any guildmaster knows the city's situation; that lives in the Codex as common knowledge). Choose: arm the guild (`start_arms`), a free Arcanist, or +80 crowns.
+- **1. Charter.** No exposition about the world (the prologue and the Codex carry that). Jory offers a walk round the hall (`people` → `loan` → `board` → `start`), or the player skips to `start`; each step can be cut short to `start`, and the walk sets no facts. Jory's lines read the guild's own numbers (the living members, their weekly wages, the loan's principal, first payment and due week) so they are right for every backer. In `start`, choose: arm the guild (`start_arms`), a free Arcanist, or +80 crowns.
 - **2. Vorn.** Show her the door (bank −10, Lower Town +6, Vorn −15), or hear her out. You can ask about the people collected from (`vorn_q_people`, Lower Town +2), about the Hobbs (`vorn_q_hobbs`, +1 Intel), and what the bank wants (Guile check: `vorn_slip` on success, `vorn_q_want` on failure). Then the terms: work for the bank (`ostranders_open`, Vorn +15), case by case (`ostranders_open`, Vorn +5), or not today (Vorn −5). Not today can be undone later by courting Ostrander's from the Realm screen, which also sets `ostranders_open`.
 - **4. Marta.** Her greeting changes if bank standing ≥ 8. Choices: refuse; or ask the terms, then sell the share (`hobbs_share`: 25% of contract pay goes to her, the Hobbs compete far less, Marta +15), refuse, or humiliate her (Guile check; Hobbs grow more aggressive either way. If it lands, the feud rises by 25, which is enough to make it a feud at once; if Marta laughs it off, it rises by 15).
 - **5. Riot.** Feed them (8 supplies) or pay the bakers (35 crowns) → meet Dagny → her ears (`dagny_contact`: occasional Intel tips) or nothing (`dagny_friend`, Lower Town +4). Or take the Exchequer's purse → hold the line without blood (Endurance check) or break the crowd. Or bar the doors.
@@ -305,7 +308,7 @@ The distant sites add road weeks there and back (`road_out`, `road_on`, `road_ba
 
 ## 6b. How lore reaches the player (Canon)
 
-- **No lectures.** Characters never explain what any Varrow resident would know. Common knowledge sits in the **Codex** from the start, as reference.
+- **No lectures.** Characters never explain what any Varrow resident would know. The prologue is the one place the narrator sets out the world directly, before play starts. Common knowledge sits in the **Codex** from the start, as reference.
 - **The Codex** (`src/engine/data/codex.ts`) unlocks entries from play: places your squads visit, enemies they face, people you meet, members' own pasts (a veteran in the roster tells you about Cassel Ford), and street talk. Every entry records how the guild learned it.
 - **In the hall:** about one week in four, Jory Abbot remarks on the state of the guild (low funds, Heat, a death, a crowded hall). Lines are in `JORY` in `codex.ts` and never explain the world.
 - **Expeditions** unlock Codex entries the way contracts always did: a squad home from a region unlocks that place, and the dangers it faced unlock their entries. Old Pellam, its zones, the other sites' deeper zones and bosses, and the dive's own monsters have no entries yet (a Pellam job counts as Varrow); they are described only in their own text (the site and zone cards, and the log). *(Open: Codex entries for Old Pellam.)*

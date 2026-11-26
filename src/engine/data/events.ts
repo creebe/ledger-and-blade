@@ -1,5 +1,6 @@
 import { seasonOf } from '../core/calendar';
 import type { EventChoice, GameState, Member, NpcId } from '../core/types';
+import { PROFESSIONS } from './professions';
 import { CAST_RANDOM, CAST_STORY } from './cast';
 
 type Txt = string | ((s: GameState, m?: Member) => string);
@@ -87,29 +88,78 @@ const CORE_STORY: EventDef[] = [
     text: (s) =>
       `The Exchequer's seal is still warm on your charter. As of this morning, Ledger & Blade may take paid work anywhere in the realm. It is also ${s.loans[0]?.principal ?? 800} crowns in debt to the Weighhouse, which paid for the hall, the first wages and the sign over the door.\n\n` +
       `${BACKER_LINE[s.start?.backer ?? 'merchant']}\n\n` +
-      'The hall came with a clerk, Jory Abbot, who has kept its books through three guildmasters and has already found the leak in the roof.\n\n' +
       "The Exchequer man who brought the charter glances at the empty weapon racks. \"Quarter-day's in a few weeks,\" he says, as everyone in Varrow does lately. \"Good luck.\"\n\n" +
-      'You have a little coin left over. How do you start?',
+      'The hall came with a clerk, Jory Abbot, who has kept its books through three guildmasters and has already found the leak in the roof. He offers to show you round.',
     choices: [
-      {
-        label: 'Arm the guild',
-        detail: 'Gain a Mail Hauberk and 2 Fire Oils',
-        effects: { flag: 'start_arms' },
-        resultText: 'You visit the armorers on Anvil Row. Your people will at least look the part.',
-      },
-      {
-        label: 'Hire an Arcanist',
-        detail: 'A college-trained Arcanist joins for free',
-        effects: { freeRecruit: true },
-        resultText: 'A young Arcanist from the college, short of fees, signs on for the work and the wage.',
-      },
-      {
-        label: 'Keep the coin',
-        detail: '+80 crowns',
-        effects: { crowns: 80 },
-        resultText: 'You put it in the strongbox under the stairs. Eighty crowns is eighty crowns.',
-      },
+      { label: 'Let Jory show you round', effects: {}, next: 'people', resultText: '' },
+      { label: 'Skip the tour', detail: 'Go straight to spending the last of the coin', effects: {}, next: 'start', resultText: '' },
     ],
+    nodes: {
+      people: {
+        speaker: 'Jory Abbot',
+        text: (s) => {
+          const crew = living(s);
+          const names = crew.map((m) => `${first(m)} the ${PROFESSIONS[m.profession].name}`);
+          const list = names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}` : names[0] ?? 'nobody yet';
+          return (
+            `Jory starts in the common room, since the people cost the most. Your people are there, and have clearly been waiting: ${list}.\n\n` +
+            `"${crew.reduce((n, m) => n + m.wage, 0)} crowns a week in wages, whether there's work or not," Jory says. "I'd find them work."\n\n` +
+            'Each week, anyone at the hall can be given an order: rest, train, gather rumors, work the docks. Anyone badly hurt rests whatever you tell them.'
+          );
+        },
+        choices: [
+          { label: 'On to the strongbox', detail: 'Your people and their weekly orders are on the Roster', effects: {}, next: 'loan', resultText: '' },
+          { label: "That's enough for now", effects: {}, next: 'start', resultText: '' },
+        ],
+      },
+      loan: {
+        speaker: 'Jory Abbot',
+        text: (s) => {
+          const l = s.loans[0];
+          return (
+            `The strongbox is under the stairs, and the ledger sits on top of it, open to a page that is mostly one number. "${l?.principal ?? 800} to the Weighhouse," Jory says. "The first payment is ${l?.paymentDue ?? 48} crowns, in week ${l?.dueWeek ?? 6}, then one every four weeks after that."\n\n` +
+            'He turns the page back. "Miss three and they take the hall. I\'ve seen it done. They took the chairs first."\n\n' +
+            'Paying early cuts the interest, and the Weighhouse counts it toward the next payment.'
+          );
+        },
+        choices: [
+          { label: 'On to the notice board', detail: 'The treasury and the loan are on the Hall', effects: {}, next: 'board', resultText: '' },
+          { label: "That's enough for now", effects: {}, next: 'start', resultText: '' },
+        ],
+      },
+      board: {
+        speaker: 'Jory Abbot',
+        text:
+          'By the door there is a notice board with nothing on it but a nail. "Work gets pinned there," Jory says. "Debts to chase and wagons to guard, mostly. Now and then something in the tunnels under the Lower Town that wants clearing out."\n\n' +
+          'You pick a job and the people for it, and they bring the pay home. Squads on the road can be followed week by week until they are back.\n\n' +
+          'Jory looks at the nail. "Most of them come home."',
+        choices: [{ label: "That's the hall, then", detail: 'Jobs are on Contracts, and squads that are out are on the Field', effects: {}, next: 'start', resultText: '' }],
+      },
+      start: {
+        speaker: 'Jory Abbot',
+        text: '"There\'s a little left over from the Weighhouse money," Jory says. "I\'d spend it before the roof does."\n\nHow do you start?',
+        choices: [
+          {
+            label: 'Arm the guild',
+            detail: 'Gain a Mail Hauberk and 2 Fire Oils',
+            effects: { flag: 'start_arms' },
+            resultText: 'You visit the armorers on Anvil Row. Your people will at least look the part.',
+          },
+          {
+            label: 'Hire an Arcanist',
+            detail: 'A college-trained Arcanist joins for free',
+            effects: { freeRecruit: true },
+            resultText: 'A young Arcanist from the college, short of fees, signs on for the work and the wage.',
+          },
+          {
+            label: 'Keep the coin',
+            detail: '+80 crowns',
+            effects: { crowns: 80 },
+            resultText: 'You put it in the strongbox under the stairs. Eighty crowns is eighty crowns.',
+          },
+        ],
+      },
+    },
   },
   {
     id: 'ostrander_agent',
