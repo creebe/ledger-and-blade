@@ -4945,12 +4945,17 @@ details summary {
 .x-odds-foot {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 4px 10px;
+  gap: 10px;
   margin-bottom: 8px;
+}
+/* on a narrow phone the deaths line wraps inside its own space, so Why? never drops to a row of its own */
+.x-odds-foot-death {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 .x-odds-foot-why {
   margin-left: auto;
+  flex: none;
 }
 .x-odds-pill-wrap {
   display: inline-flex;

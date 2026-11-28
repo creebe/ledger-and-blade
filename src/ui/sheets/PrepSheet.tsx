@@ -183,9 +183,9 @@ export function PrepSheet({ contractId }: { contractId: string }) {
             <div className="x-odds-foot">
               <ExpOddsPill odds={odds} label="Job done" updating={updating} />
               {odds && <small className={`x-odds-foot-death ${deathTone(death)}`}>Deaths: {oneInShort(death)}</small>}
-              <button className="btn ghost small x-odds-foot-why" onClick={showWhy} disabled={!odds}>
+              <Btn className="btn ghost small x-odds-foot-why" blocked={!odds && 'The odds are still being worked out.'} onClick={showWhy}>
                 Why?
-              </button>
+              </Btn>
             </div>
           )}
           <Btn className="btn primary block x-setout" blocked={blocked} onClick={setOut}>
