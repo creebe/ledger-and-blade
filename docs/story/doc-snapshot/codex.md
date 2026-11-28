@@ -200,7 +200,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 - _text:_
 
-  > The hall's clerk. He came with the building, along with the leak in the roof, and has kept its books through three guildmasters. He doesn't give advice unless you ask for it, and then only in the form of a remark about the weather.
+  > The hall's clerk. He came with the building and has kept its books through three guildmasters. He doesn't give advice unless you ask for it, and then only in the form of a remark about the weather.
 
 - _source:_ “He came with the hall.”
 - _unlock:_ when true

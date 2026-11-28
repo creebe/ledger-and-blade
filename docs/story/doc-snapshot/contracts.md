@@ -526,7 +526,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 - _titles[1]:_ “The Crown's Last Silver”
 - _description:_
 
-  > The Exchequer has scraped together the realm's overdue payment: three wagons of silver bound for Port Anselm and Ostrander's ships. Someone does not want it to arrive. If it fails, the Crown defaults.
+  > The Exchequer has scraped together the realm's overdue payment: three wagons of silver bound for Port Anselm and Ostrander's ships. If delivery fails, the Crown defaults.
 
 - _phases[1]:_ “Muster at the Vault: Sort the Exchequer's honest clerks from the bought ones.”
 - _phases[2]:_ “The King's Road: Two weeks of road with a fortune in the wagons.”
@@ -534,7 +534,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
   > Ambush at the Ford: Someone will be waiting. Fight them, or take the wagons the long way round.
 
-- _phases[4]:_ “The Harbor: Hand the silver to the bank's factor, and count every coin twice.”
+- _phases[4]:_ “The Harbor: Hand the silver to the bank's factor, and watch who else is on the quay.”
 - _expire.title:_ “The escort never came”
 - _expire.text:_
 

@@ -6,6 +6,7 @@ Lines the expedition rules write: the Down below row in the week report, squad c
 
 | ID | Line |
 |---|---|
+| `engine/expeditions/dive.ts#fill.1` | [IF quiet]  [ELSE] {t.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? ''))} [END] |
 | `engine/expeditions/dive.ts#snapSquad.1` | [IF a.state is 'dead'] dead [ELSE IF a.state is 'down'] down [ELSE IF a.fatigue >= 100] out [ELSE IF a.fatigue >= T.fatigue.spent] spent [ELSE] ok [END] |
 | `engine/expeditions/dive.ts#strike.1` | {dmg}[IF weak] , it hates that [ELSE IF strong] , it shrugs [END] |
 | `engine/expeditions/dive.ts#fight.1` | [IF o.boss] boss_sight [ELSE IF resolve(`sight_${lead.id}`)] sight_{lead.id} [ELSE] sight_{lead.voice ?? 'beast'} [END] |

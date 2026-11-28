@@ -8,13 +8,13 @@ Lord Treasurer Fenn, the Exchequer. The act's spine: the charter, the commission
 
 **When:** Week 1.
 
-> The Exchequer's seal is still warm on your charter. As of this morning, Ledger & Blade may take paid work anywhere in the realm. It is also {loans[0].principal ?? 800} crowns in debt to the Weighhouse, which paid for the hall, the first wages and the sign over the door.
+> The Exchequer's seal is still warm on your charter. As of this morning, Ledger & Blade may take paid work anywhere in the realm. It is also {loans[0].principal ?? 800} crowns in debt to the Weighhouse.
 >
-> [DEPENDS ON start.backer ?? 'merchant'] veterans: Four old soldiers paid for the charter out of their back pay. Two of them have already argued about where the weapon racks should go. [OR] merchant: A wool merchant on the Weighhouse paid for the charter. He has already sent a list of his wagons and the dates they leave. [OR] coop: The porters and small trades of the Lower Town paid for the charter, in coins so small that the Exchequer's clerk spent a morning counting them. [OR] college: Two Arcanists who were thrown out of the college after the fire paid for the charter with what they had left. One of them still smells faintly of smoke. [END]
+> [DEPENDS ON start.backer ?? 'merchant'] veterans: Four old soldiers paid for the charter out of their back pay. [OR] merchant: A wool merchant on the Weighhouse paid for the charter. [OR] coop: The porters and small trades of the Lower Town paid for the charter, in coins so small that the Exchequer's clerk spent a morning counting them. [OR] college: Two Arcanists who were thrown out of the college after the fire paid for the charter with what they had left. [END]
 >
 > The Exchequer man who brought the charter glances at the empty weapon racks. "Quarter-day's in a few weeks," he says, as everyone in Varrow does lately. "Good luck."
 >
-> The hall came with a clerk, Jory Abbot, who has kept its books through three guildmasters and has already found the leak in the roof. He offers to show you round.
+> The hall came with a clerk, Jory Abbot, who has kept its books through three guildmasters. He offers to show you round.
 
 - **Let Jory show you round** · `charter/root/c1`
   → goes to node `people`
@@ -23,11 +23,11 @@ Lord Treasurer Fenn, the Exchequer. The act's spine: the charter, the commission
 
 **Node `people`**, Jory Abbot
 
-> Jory starts in the common room, since the people cost the most. Your people are there, and have clearly been waiting: [IF names.length > 1] {names.slice(0, -1).join(', ')} and {names[names.length - 1]} [ELSE] {names[0] ?? 'nobody yet'} [END].
+> Jory starts in the common room. Your people are there, and have clearly been waiting: [IF names.length > 1] {names.slice(0, -1).join(', ')} and {names[names.length - 1]} [ELSE] {names[0] ?? 'nobody yet'} [END].
 >
-> "{crew.reduce((n, m) => n + m.wage, 0)} crowns a week in wages, whether there's work or not," Jory says. "I'd find them work."
+> "{crew.reduce((n, m) => n + m.wage, 0)} crowns a week in wages, whether there's work or not," Jory says.
 >
-> Each week, anyone at the hall can be given an order: rest, train, gather rumors, work the docks. Anyone badly hurt rests whatever you tell them.
+> Each week, anyone at the hall can be given an order: rest, train, gather rumors, work the docks. Anyone badly hurt must rest.
 
 - **On to the strongbox** · _Your people and their weekly orders are on the Roster_ · `charter/people/c1`
   → goes to node `loan`
@@ -36,9 +36,9 @@ Lord Treasurer Fenn, the Exchequer. The act's spine: the charter, the commission
 
 **Node `loan`**, Jory Abbot
 
-> The strongbox is under the stairs, and the ledger sits on top of it, open to a page that is mostly one number. "{l.principal ?? 800} to the Weighhouse," Jory says. "The first payment is {l.paymentDue ?? 48} crowns, in week {l.dueWeek ?? 6}, then one every four weeks after that."
+> The strongbox is under the stairs, and the ledger sits on top of it, open to a page with a large number, underlined twice. "{l.principal ?? 800} to the Weighhouse," Jory says. "The first payment is {l.paymentDue ?? 48} crowns, in week {l.dueWeek ?? 6}, then one every four weeks after that."
 >
-> He turns the page back. "Miss three and they take the hall. I've seen it done. They took the chairs first."
+> He turns the page back. "Miss three and they take the hall. I've seen it done."
 >
 > Paying early cuts the interest, and the Weighhouse counts it toward the next payment.
 
@@ -49,18 +49,18 @@ Lord Treasurer Fenn, the Exchequer. The act's spine: the charter, the commission
 
 **Node `board`**, Jory Abbot
 
-> By the door there is a notice board with nothing on it but a nail. "Work gets pinned there," Jory says. "Debts to chase and wagons to guard, mostly. Now and then something in the tunnels under the Lower Town that wants clearing out."
+> By the door there is a notice board with nothing on it but a nail. "Work gets pinned there," Jory says. "Debts to chase and wagons to guard, mostly. Now and then something in the tunnels under the Lower Town that needs clearing out."
 >
-> You pick a job and the people for it, and they bring the pay home. Squads on the road can be followed week by week until they are back.
+> You pick a job and the people for it.
 >
-> Jory looks at the nail. "Most of them come home."
+> "Try to get them ready so they all make it back home." He looks at the empty board, and then goes on.
 
 - **That's the hall, then** · _Jobs are on Contracts, and squads that are out are on the Field_ · `charter/board/c1`
   → goes to node `start`
 
 **Node `start`**, Jory Abbot
 
-> "There's a little left over from the Weighhouse money," Jory says. "I'd spend it before the roof does."
+> "There's a little left over from the Weighhouse money," Jory says.
 >
 > How do you start?
 
@@ -69,10 +69,10 @@ Lord Treasurer Fenn, the Exchequer. The act's spine: the charter, the commission
   Sets `start_arms`.
 - **Hire a second Arcanist** · _Another college-trained Arcanist joins for free_ · `charter/start/c2`
   Shown only if: backer is college.
-  “Word gets round the college that one of its own is hiring. A second Arcanist turns up the next morning with a sack of books and no questions about the fire.”
+  “Word gets round the college that one of its own is hiring. A second Arcanist turns up the next morning with a sack of books.”
 - **Hire an Arcanist** · _A college-trained Arcanist joins for free_ · `charter/start/c3`
   Shown only if: not (backer is college).
-  “A young Arcanist from the college, short of fees, signs on for the work and the wage.”
+  “A young Arcanist from the college signs on for the work and the wage.”
 - **Keep the coin** · _+80 crowns_ · `charter/start/c4`
   “You put it in the strongbox under the stairs. Eighty crowns is eighty crowns.”
 
@@ -90,9 +90,9 @@ Lord Treasurer Fenn, the Exchequer. The act's spine: the charter, the commission
 
 _Speaker: Lord Treasurer Aubrey Fenn_
 
-> Lord Treasurer Aubrey Fenn sees you in an office with pale squares on the walls where the tapestries used to hang. He apologizes for the cold.
+> Lord Treasurer Aubrey Fenn sees you in a cold and bare office.
 >
-> "The quarter payment is due, and for once we have it: three wagons of silver, most of what's left of the Crown plate. It has to reach Port Anselm and the bank's ships. I'd send my own guard, but half of them are owed back pay by the sort of people who'd like to see it stolen."
+> "The quarter payment is due, and for once we have it: three wagons of silver, most of what's left of the Crown plate. I'm sorry to ask, but I need someone to see it safely to Port Anselm and the bank's ships."
 
 - **"Who knows the route?"** · `silver_summons/root/c1`
   Shown only if: not fenn_route.
@@ -115,12 +115,12 @@ _Speaker: Lord Treasurer Aubrey Fenn_
   Sets `silver_accepted`.
   Adds story contract **The Crown's Last Silver** (`silver_convoy`).
 - **Decline** · _Exchequer −12. The Crown will find someone else, probably Hobb & Daughters._ · `silver_summons/root/c6`
-  “Fenn nods. "I understand." By evening the commission has gone to Hobb & Daughters.”
+  “Fenn nods. "I understand." By evening the commission will have gone to Hobb & Daughters.”
   Sets `silver_declined`.
 
 **Node `route`**, Lord Treasurer Fenn
 
-> "My clerks know the route. So does the guard captain, and so does Vorn, because the bank insists on knowing everything." He rubs his eyes. "If I wanted to rob it, I'd try the ford at Wenmouth. You can't see that stretch of road from either side."
+> "My clerks know the route. So does the guard captain, and so does Vorn, because the bank insists on knowing everything." He rubs his eyes. "If someone wanted to rob it, they'd try the ford at Wenmouth. You can't see that stretch of road from either bank."
 
 - **"Who knows the route?"** · `silver_summons/route/c1`
   Shown only if: not fenn_route.
@@ -143,14 +143,14 @@ _Speaker: Lord Treasurer Aubrey Fenn_
   Sets `silver_accepted`.
   Adds story contract **The Crown's Last Silver** (`silver_convoy`).
 - **Decline** · _Exchequer −12. The Crown will find someone else, probably Hobb & Daughters._ · `silver_summons/route/c6`
-  “Fenn nods. "I understand." By evening the commission has gone to Hobb & Daughters.”
+  “Fenn nods. "I understand." By evening the commission will have gone to Hobb & Daughters.”
   Sets `silver_declined`.
 
 **Node `stakes`**, Lord Treasurer Fenn
 
 > You tell him what Vorn said about the bank writing the next treaty. Fenn puts his pen down.
 >
-> "So they'd rather we missed it. That explains a few things." He looks at you properly for the first time. "Thank you. I won't forget that."
+> "That explains a few things." He looks at you properly for the first time. "Thank you. I won't forget that."
 
 - **"Who knows the route?"** · `silver_summons/stakes/c1`
   Shown only if: not fenn_route.
@@ -173,7 +173,7 @@ _Speaker: Lord Treasurer Aubrey Fenn_
   Sets `silver_accepted`.
   Adds story contract **The Crown's Last Silver** (`silver_convoy`).
 - **Decline** · _Exchequer −12. The Crown will find someone else, probably Hobb & Daughters._ · `silver_summons/stakes/c6`
-  “Fenn nods. "I understand." By evening the commission has gone to Hobb & Daughters.”
+  “Fenn nods. "I understand." By evening the commission will have gone to Hobb & Daughters.”
   Sets `silver_declined`.
 
 **Node `pay`**, Lord Treasurer Fenn
@@ -201,7 +201,7 @@ _Speaker: Lord Treasurer Aubrey Fenn_
   Sets `silver_accepted`.
   Adds story contract **The Crown's Last Silver** (`silver_convoy`).
 - **Decline** · _Exchequer −12. The Crown will find someone else, probably Hobb & Daughters._ · `silver_summons/pay/c6`
-  “Fenn nods. "I understand." By evening the commission has gone to Hobb & Daughters.”
+  “Fenn nods. "I understand." By evening the commission will have gone to Hobb & Daughters.”
   Sets `silver_declined`.
 
 **Node `pay_ok`**, Lord Treasurer Fenn
@@ -229,7 +229,7 @@ _Speaker: Lord Treasurer Aubrey Fenn_
   Sets `silver_accepted`.
   Adds story contract **The Crown's Last Silver** (`silver_convoy`).
 - **Decline** · _Exchequer −12. The Crown will find someone else, probably Hobb & Daughters._ · `silver_summons/pay_ok/c6`
-  “Fenn nods. "I understand." By evening the commission has gone to Hobb & Daughters.”
+  “Fenn nods. "I understand." By evening the commission will have gone to Hobb & Daughters.”
   Sets `silver_declined`.
 
 **Node `pay_fail`**, Lord Treasurer Fenn
@@ -257,7 +257,7 @@ _Speaker: Lord Treasurer Aubrey Fenn_
   Sets `silver_accepted`.
   Adds story contract **The Crown's Last Silver** (`silver_convoy`).
 - **Decline** · _Exchequer −12. The Crown will find someone else, probably Hobb & Daughters._ · `silver_summons/pay_fail/c6`
-  “Fenn nods. "I understand." By evening the commission has gone to Hobb & Daughters.”
+  “Fenn nods. "I understand." By evening the commission will have gone to Hobb & Daughters.”
   Sets `silver_declined`.
 
 **Leads to:**
@@ -278,7 +278,7 @@ _Speaker: Lord Treasurer Aubrey Fenn_
 - _titles[1]:_ “The Crown's Last Silver”
 - _description:_
 
-  > The Exchequer has scraped together the realm's overdue payment: three wagons of silver bound for Port Anselm and Ostrander's ships. Someone does not want it to arrive. If it fails, the Crown defaults.
+  > The Exchequer has scraped together the realm's overdue payment: three wagons of silver bound for Port Anselm and Ostrander's ships. If delivery fails, the Crown defaults.
 
 - _phases[1]:_ “Muster at the Vault: Sort the Exchequer's honest clerks from the bought ones.”
 - _phases[2]:_ “The King's Road: Two weeks of road with a fortune in the wagons.”
@@ -286,7 +286,7 @@ _Speaker: Lord Treasurer Aubrey Fenn_
 
   > Ambush at the Ford: Someone will be waiting. Fight them, or take the wagons the long way round.
 
-- _phases[4]:_ “The Harbor: Hand the silver to the bank's factor, and count every coin twice.”
+- _phases[4]:_ “The Harbor: Hand the silver to the bank's factor, and watch who else is on the quay.”
 - _expire.title:_ “The escort never came”
 - _expire.text:_
 

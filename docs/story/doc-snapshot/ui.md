@@ -50,6 +50,20 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 | `ui/kit/members.tsx#choose.2` | {m.name.split(' ')[0]}: {a.label} this week. [IF a.id is 'train'] Pick what to train below. [ELSE] {a.blurb} [END] |
 | `ui/kit/members.tsx#OrderPicker.1` | [IF a.id is 'train'] +1 to an attribute every {trainWeeks(game)} weeks. Costs {crowns(trainCost(game))} a week and adds fatigue. [ELSE] {a.blurb} [END] |
 
+### ui/kit/odds.tsx
+
+| ID | Line |
+|---|---|
+| `ui/kit/odds.tsx#deathTone.1` | [IF p >= 0.25] bad [ELSE IF p >= 0.1] warn [ELSE] muted [END] |
+| `ui/kit/odds.tsx#OddsWhy.1` | The guild walked this trip |
+| `ui/kit/odds.tsx#OddsWhy.2` | times on paper with exactly this plan, down to who walks where. The job got done on |
+| `ui/kit/odds.tsx#OddsWhy.3` | The squad turned back on {pc(f.turnedBack)} of the walks. |
+| `ui/kit/odds.tsx#OddsWhy.4` | Nobody came home on {pc(f.lost)}. |
+| `ui/kit/odds.tsx#OddsWhy.5` | On {pc(f.shortOfGoal)} it came home without what the job asked for. |
+| `ui/kit/odds.tsx#OddsWhy.6` | The chance of a death is |
+| `ui/kit/odds.tsx#OddsWhy.7` |  {atRisk.slice(0, 2).map(([id, p], i) => `${names[id] ?? (i ? 'one of…} [IF atRisk.length > 1] were [ELSE] was [END] most at risk. |
+| `ui/kit/odds.tsx#OddsWhy.8` | This is an estimate, so the odds shown never go above 97% or below 3%. A scene at the door or an ambush on the road can still change things. Any danger nobody has confirmed is tried each way it could turn out. |
+
 ### ui/kit/reveal.tsx
 
 | ID | Line |
@@ -160,7 +174,8 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 | `ui/screens/Contracts.tsx#ContractsScreen.1` | out. Follow them in the Field. |
 | `ui/screens/Contracts.tsx#ContractsScreen.2` | No contracts this week. |
 | `ui/screens/Contracts.tsx#ContractCard.1` | Your operation against |
-| `ui/screens/Contracts.tsx#ContractCard.2` | [IF expiring] Expires this week [ELSE] {wk(c.expiresWeek - g.week + 1)} left [END] |
+| `ui/screens/Contracts.tsx#ContractCard.2` | Not enough people free to send |
+| `ui/screens/Contracts.tsx#ContractCard.3` | [IF expiring] Expires this week [ELSE] {wk(c.expiresWeek - g.week + 1)} left [END] |
 
 ### ui/screens/Field.tsx
 
@@ -366,16 +381,14 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 | `ui/sheets/HelpSheet.tsx#HelpSheet.5` | Tags: what you'll face. Dashed “?” tags are unknown. |
 | `ui/sheets/HelpSheet.tsx#HelpSheet.6` | Good, uncertain, poor odds. |
 | `ui/sheets/HelpSheet.tsx#HelpSheet.7` | Wages, hall upkeep and supplies are due every week, and your Weighhouse loan wants a payment every four. Four weeks in the red, or three missed loan payments, and the guild is finished. The Hall shows a four-week projection. |
-| `ui/sheets/HelpSheet.tsx#HelpSheet.8` | Pick a contract and choose a squad. Each mission is a series of |
-| `ui/sheets/HelpSheet.tsx#HelpSheet.9` | , and each phase can be tackled with an |
-| `ui/sheets/HelpSheet.tsx#HelpSheet.10` | : Assault, Stealth, Guile, Endurance or Arcana. Every approach uses different attributes and adds up the squad differently. Stealth is only as good as your clumsiest member, while Assault counts everyone's blades. |
-| `ui/sheets/HelpSheet.tsx#HelpSheet.11` | Phase odds come from your squad's score against the phase's difficulty. Tap |
-| `ui/sheets/HelpSheet.tsx#HelpSheet.12` | to see every number. The final phase is the objective. Strong results make the next phase easier, and failures make it harder and hurt people. |
-| `ui/sheets/HelpSheet.tsx#HelpSheet.13` | Tags and preparation |
-| `ui/sheets/HelpSheet.tsx#HelpSheet.14` | Enemies and environments have |
-| `ui/sheets/HelpSheet.tsx#HelpSheet.15` | . Armored enemies laugh at swords but fear hammers, Fireborn shrug off fire but dread frost, and Cold saps endurance unless someone packs furs. Weapons, oils, salts and kit counter tags. Unknown tags (“?”) are dangers you don't know about yet. Spend Intel or send a Scout ahead to find out, so you know what to pack and who to send. |
-| `ui/sheets/HelpSheet.tsx#HelpSheet.16` | Members tire, bleed, level up and can die for good. Wounded and exhausted members perform badly, so rest them. Idle members can train, gather rumors (Intel), work the docks, or scout a contract. Unpaid or unhappy members lose loyalty, and Hobb & Daughters will poach the disloyal. |
-| `ui/sheets/HelpSheet.tsx#HelpSheet.17` | Every contract pleases someone and annoys someone else. Watch your standing with the Exchequer (who holds your charter), the Weighhouse, Ostrander's and the Lower Town, and keep your Heat low. The Debt clocks show where the realm is heading. |
+| `ui/sheets/HelpSheet.tsx#HelpSheet.8` | Each contract on the board is a trip to a real place, with a route to walk and a goal at the end of it. Open one to plan it. You choose who goes and where each of them walks, and what goes in the pack. You also set the standing orders they follow once they've left, because nobody can send them new ones. |
+| `ui/sheets/HelpSheet.tsx#HelpSheet.9` | The odds come from walking that exact plan a few hundred times on paper with the dangers you know about. Change the squad, a position, the pack or an order and they change with it. Tap |
+| `ui/sheets/HelpSheet.tsx#HelpSheet.10` | to see how the walks went and who was most likely to die. A “?” danger is tried each way it could turn out, which is why some odds are a range. The board shows the odds for the squad the plan would start with. They are a good guess and never go above 97%, because something can still go wrong at the door. |
+| `ui/sheets/HelpSheet.tsx#HelpSheet.11` | Tags and preparation |
+| `ui/sheets/HelpSheet.tsx#HelpSheet.12` | Enemies and environments have |
+| `ui/sheets/HelpSheet.tsx#HelpSheet.13` | . Armored enemies laugh at swords but fear hammers, Fireborn shrug off fire but dread frost, and Cold saps endurance unless someone packs furs. Weapons, oils, salts and kit counter tags. Unknown tags (“?”) are dangers you don't know about yet. Spend Intel or send a Scout ahead to find out, so you know what to pack and who to send. |
+| `ui/sheets/HelpSheet.tsx#HelpSheet.14` | Members tire, bleed, level up and can die for good. Wounded and exhausted members perform badly, so rest them. Idle members can train, gather rumors (Intel), work the docks, or scout a contract. Unpaid or unhappy members lose loyalty, and Hobb & Daughters will poach the disloyal. |
+| `ui/sheets/HelpSheet.tsx#HelpSheet.15` | Every contract pleases someone and annoys someone else. Watch your standing with the Exchequer (who holds your charter), the Weighhouse, Ostrander's and the Lower Town, and keep your Heat low. The Debt clocks show where the realm is heading. |
 
 ### ui/sheets/Journal.tsx
 
@@ -465,28 +478,32 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 | `ui/sheets/PrepSheet.tsx#setOut.4` | Once they leave, nobody can send them orders. The standing orders are all they have. |
 | `ui/sheets/PrepSheet.tsx#setOut.5` | [IF cost] {cost} crowns of supplies to buy · treasury {g.crowns} → {g.crowns - cost} [END] |
 | `ui/sheets/PrepSheet.tsx#setOut.6` | The squad is getting ready in the yard. They leave for {info.siteName} at the end of the week. |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.2` | [IF atLimit] {squadsOut(g)} of {squadLimit(g)} squads are out, so this one can't leave until one is home or called off. [ELSE] {squadsOut(g)} of {squadLimit(g)} squads out. The hall can send [IF squadLimit(g) - squadsOut(g) is 1] one more [ELSE] {squadLimit(g) - squadsOut(g)} more [END]. [END] |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.3` | Your operation against |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.4` | [IF camps] , with [IF camps is 1] a camp site [ELSE] {camps} camp sites [END] on the way [END] |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.5` | . Away for about |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.6` | [IF info.weeks is 1] a week [ELSE] {info.weeks} weeks [END] |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.7` | , road included. |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.8` | A dashed “?” is a danger nobody has confirmed. Tap one to learn which it is for |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.9` | Intel (you have |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.10` | ), or give a member the Scout order on the Roster and they'll report back at the end of the week. |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.11` | The squad, front to back ([IF size.min is size.max] {size.max} [ELSE] {size.min} to {size.max} [END]) |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.12` | Positions 1 and 2 are in front: they can reach with a blade, and most enemies hit them. Bows and spells work from further back. Tap a member to change their gear. |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.13` | · best in position |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.14` | [IF i < size.min] Empty. Choose someone from the bench. [ELSE] Empty. Optional. [END] |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.15` | Move [IF m] {member} [ELSE] position [END] forward |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.16` | Move [IF m] {member} [ELSE] position [END] back |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.17` | Leave [IF m] {member} [ELSE] position [END] at home |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.18` | These are your people at home. Tap a number beside someone to put them in that position. |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.19` | a slot · |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.20` | [IF k is 'food'] in the guild supplies [ELSE] in the stores [END] |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.21` | Buying what the stores don't have: |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.22` | Nobody can send orders once they've gone. These are what the squad will do. |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.23` | Start again from a suggested plan |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.2` | The odds show once the squad has at least |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.3` | Chance of a death |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.4` | The odds are still being worked out. |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.5` | [IF atLimit] {squadsOut(g)} of {squadLimit(g)} squads are out, so this one can't leave until one is home or called off. [ELSE] {squadsOut(g)} of {squadLimit(g)} squads out. The hall can send [IF squadLimit(g) - squadsOut(g) is 1] one more [ELSE] {squadLimit(g) - squadsOut(g)} more [END]. [END] |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.6` | Your operation against |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.7` | [IF camps] , with [IF camps is 1] a camp site [ELSE] {camps} camp sites [END] on the way [END] |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.8` | . Away for about |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.9` | [IF info.weeks is 1] a week [ELSE] {info.weeks} weeks [END] |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.10` | , road included. |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.11` | A dashed “?” is a danger nobody has confirmed. Tap one to learn which it is for |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.12` | Intel (you have |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.13` | ), or give a member the Scout order on the Roster and they'll report back at the end of the week. |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.14` | The squad, front to back ([IF size.min is size.max] {size.max} [ELSE] {size.min} to {size.max} [END]) |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.15` | Positions 1 and 2 are in front: they can reach with a blade, and most enemies hit them. Bows and spells work from further back. Tap a member to change their gear. |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.16` | · best in position |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.17` | [IF i < size.min] Empty. Choose someone from the bench. [ELSE] Empty. Optional. [END] |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.18` | Move [IF m] {member} [ELSE] position [END] forward |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.19` | Move [IF m] {member} [ELSE] position [END] back |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.20` | Leave [IF m] {member} [ELSE] position [END] at home |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.21` | These are your people at home. Tap a number beside someone to put them in that position. |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.22` | a slot · |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.23` | [IF k is 'food'] in the guild supplies [ELSE] in the stores [END] |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.24` | Buying what the stores don't have: |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.25` | Nobody can send orders once they've gone. These are what the squad will do. |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.26` | Working out the odds… |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.27` | Start again from a suggested plan |
 
 ### ui/sheets/WatchSheet.tsx
 
