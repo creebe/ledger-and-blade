@@ -2,6 +2,15 @@
 
 Newest first. Each entry says what changed for a player, why (quoting the owner's feedback where it came from playtesting), and what was and wasn't checked. The live site is https://creebe.github.io/ledger-and-blade/ and is only republished on the owner's word; each entry notes whether it is live.
 
+## v0.16.1 (2026-11-28): The owner's edits to the opening and the silver
+The owner edited the story document by hand, rewriting lines in the opening walk round the hall and in the Crown's silver. Their wording goes in as written.
+- **A Charter and a Debt is shorter.** The opening no longer says what the Weighhouse loan paid for, and each backer's line stops after who paid for the charter. Jory's tour drops several of his asides (the leak in the roof, "I'd find them work", the chairs, the roof eating the money), says "show you around", and ends the notice board with "Try to prep them so they all make it back home." The narrator's how-to lines are shorter: badly hurt people "must rest", and the board says only that you pick a job and the people for it. The two free-Arcanist results are shorter as well.
+- **Summoned to the Exchequer.** Fenn sees you "in a cold and bare office" and asks for your help getting the silver to Port Anselm, without the aside about his unpaid guard. On the route he says "If someone wanted to rob it, they'd try the ford". When you pass on what Vorn let slip, he opens with "That explains a few things." If you decline, the commission "will have gone" to Hobb & Daughters.
+- **The Crown's Last Silver.** The description drops "Someone does not want it to arrive" and reads "If delivery fails, the Crown defaults." The last phase is now just "Hand the silver to the bank's factor."
+- **Checked:** `npm run check` (87 tests; story checker: 0 violations, 0 unreached, no unused facts; style flags unchanged at 40). Re-exported the story document and compared it with the owner's copy: every owner edit is now in the code. The only exception is a curly apostrophe in "they'd", which is straight to match the rest of the code. Story and writing reviewers were told that the owner's wording stands. The story bible notes that the scene no longer spells out what the loan bought, though the canon is unchanged. Text only, so the sim and fingerprint weren't run.
+- **Not checked:** a playthrough on a phone.
+- **Not live.**
+
 ## v0.16.0 (2026-11-28): The odds are back
 The owner: "I'd like you to bring back the success odds based on party composition in the contracts/expeditions." They asked for the death risk to show as well.
 - **Odds that follow the plan.** The prep sheet's footer shows "Job done NN%" and "Chance of a death NN%" above Set out. Both change as you change the squad, the positions, the pack or the standing orders. They come from walking the trip a few hundred times on paper with the real rules and only the dangers you know about. A "?" danger is tried each way it could turn out, so some odds show as a range. Shown odds stay between 3% and 97%, because a scene at the door can still change things.

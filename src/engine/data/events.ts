@@ -35,12 +35,12 @@ export interface EventDef {
 }
 
 /** One line in the charter scene about who put up the money. */
-// who paid for the charter; the Weighhouse loan paid for everything else (the scene says so just before)
+// who paid for the charter; the scene has just said the guild owes the Weighhouse
 const BACKER_LINE: Record<string, string> = {
-  veterans: 'Four old soldiers paid for the charter out of their back pay. Two of them have already argued about where the weapon racks should go.',
-  merchant: 'A wool merchant on the Weighhouse paid for the charter. He has already sent a list of his wagons and the dates they leave.',
+  veterans: 'Four old soldiers paid for the charter out of their back pay.',
+  merchant: 'A wool merchant on the Weighhouse paid for the charter.',
   coop: "The porters and small trades of the Lower Town paid for the charter, in coins so small that the Exchequer's clerk spent a morning counting them.",
-  college: 'Two Arcanists who were thrown out of the college after the fire paid for the charter with what they had left. One of them still smells faintly of smoke.',
+  college: 'Two Arcanists who were thrown out of the college after the fire paid for the charter with what they had left.',
 };
 
 const living = (s: GameState) => s.members.filter((m) => m.status !== 'dead' && m.status !== 'left');
@@ -87,12 +87,12 @@ const CORE_STORY: EventDef[] = [
     window: [1, 1],
     title: 'A Charter and a Debt',
     text: (s) =>
-      `The Exchequer's seal is still warm on your charter. As of this morning, Ledger & Blade may take paid work anywhere in the realm. It is also ${s.loans[0]?.principal ?? 800} crowns in debt to the Weighhouse, which paid for the hall, the first wages and the sign over the door.\n\n` +
+      `The Exchequer's seal is still warm on your charter. As of this morning, Ledger & Blade may take paid work anywhere in the realm. It is also ${s.loans[0]?.principal ?? 800} crowns in debt to the Weighhouse.\n\n` +
       `${BACKER_LINE[s.start?.backer ?? 'merchant']}\n\n` +
       "The Exchequer man who brought the charter glances at the empty weapon racks. \"Quarter-day's in a few weeks,\" he says, as everyone in Varrow does lately. \"Good luck.\"\n\n" +
-      'The hall came with a clerk, Jory Abbot, who has kept its books through three guildmasters and has already found the leak in the roof. He offers to show you round.',
+      'The hall came with a clerk, Jory Abbot, who has kept its books through three guildmasters. He offers to show you around.',
     choices: [
-      { label: 'Let Jory show you round', effects: {}, next: 'people', resultText: '' },
+      { label: 'Let Jory show you around', effects: {}, next: 'people', resultText: '' },
       { label: 'Skip the tour', detail: 'Go straight to spending the last of the coin', effects: {}, next: 'start', resultText: '' },
     ],
     nodes: {
@@ -103,9 +103,9 @@ const CORE_STORY: EventDef[] = [
           const names = crew.map((m) => `${first(m)} the ${PROFESSIONS[m.profession].name}`);
           const list = names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}` : names[0] ?? 'nobody yet';
           return (
-            `Jory starts in the common room, since the people cost the most. Your people are there, and have clearly been waiting: ${list}.\n\n` +
-            `"${crew.reduce((n, m) => n + m.wage, 0)} crowns a week in wages, whether there's work or not," Jory says. "I'd find them work."\n\n` +
-            'Each week, anyone at the hall can be given an order: rest, train, gather rumors, work the docks. Anyone badly hurt rests whatever you tell them.'
+            `Jory starts in the common room. Your people are there, and have clearly been waiting: ${list}.\n\n` +
+            `"${crew.reduce((n, m) => n + m.wage, 0)} crowns a week in wages, whether there's work or not," Jory says.\n\n` +
+            'Each week, anyone at the hall can be given an order: rest, train, gather rumors, work the docks. Anyone badly hurt must rest.'
           );
         },
         choices: [
@@ -118,8 +118,8 @@ const CORE_STORY: EventDef[] = [
         text: (s) => {
           const l = s.loans[0];
           return (
-            `The strongbox is under the stairs, and the ledger sits on top of it, open to a page that is mostly one number. "${l?.principal ?? 800} to the Weighhouse," Jory says. "The first payment is ${l?.paymentDue ?? 48} crowns, in week ${l?.dueWeek ?? 6}, then one every four weeks after that."\n\n` +
-            'He turns the page back. "Miss three and they take the hall. I\'ve seen it done. They took the chairs first."\n\n' +
+            `The strongbox is under the stairs, and the ledger sits on top of it, open to a page with a big, bold number. "${l?.principal ?? 800} to the Weighhouse," Jory says. "The first payment is ${l?.paymentDue ?? 48} crowns, in week ${l?.dueWeek ?? 6}, then one every four weeks after that."\n\n` +
+            'He turns the page back. "Miss three and they take the hall. I\'ve seen it done."\n\n' +
             'Paying early cuts the interest, and the Weighhouse counts it toward the next payment.'
           );
         },
@@ -131,14 +131,14 @@ const CORE_STORY: EventDef[] = [
       board: {
         speaker: 'Jory Abbot',
         text:
-          'By the door there is a notice board with nothing on it but a nail. "Work gets pinned there," Jory says. "Debts to chase and wagons to guard, mostly. Now and then something in the tunnels under the Lower Town that wants clearing out."\n\n' +
-          'You pick a job and the people for it, and they bring the pay home. Squads on the road can be followed week by week until they are back.\n\n' +
-          'Jory looks at the nail. "Most of them come home."',
+          'By the door there is a notice board with nothing on it but a nail. "Work gets pinned there," Jory says. "Debts to chase and wagons to guard, mostly. Now and then something in the tunnels under the Lower Town that needs clearing out."\n\n' +
+          'You pick a job and the people for it.\n\n' +
+          '"Try to prep them so they all make it back home." He looks at the empty board, and then continues on.',
         choices: [{ label: "That's the hall, then", detail: 'Jobs are on Contracts, and squads that are out are on the Field', effects: {}, next: 'start', resultText: '' }],
       },
       start: {
         speaker: 'Jory Abbot',
-        text: '"There\'s a little left over from the Weighhouse money," Jory says. "I\'d spend it before the roof does."\n\nHow do you start?',
+        text: '"There\'s a little left over from the Weighhouse money," Jory says.\n\nHow do you start?',
         choices: (s) => [
           {
             label: 'Arm the guild',
@@ -152,13 +152,13 @@ const CORE_STORY: EventDef[] = [
                 label: 'Hire a second Arcanist',
                 detail: 'Another college-trained Arcanist joins for free',
                 effects: { freeRecruit: true },
-                resultText: 'Word gets round the college that one of its own is hiring. A second Arcanist turns up the next morning with a sack of books and no questions about the fire.',
+                resultText: 'Word gets round the college that one of its own is hiring. A second Arcanist turns up the next morning with a sack of books.',
               }
             : {
                 label: 'Hire an Arcanist',
                 detail: 'A college-trained Arcanist joins for free',
                 effects: { freeRecruit: true },
-                resultText: 'A young Arcanist from the college, short of fees, signs on for the work and the wage.',
+                resultText: 'A young Arcanist from the college signs on for the work and the wage.',
               },
           {
             label: 'Keep the coin',
@@ -394,21 +394,21 @@ const CORE_STORY: EventDef[] = [
     title: 'Summoned to the Exchequer',
     speaker: 'Lord Treasurer Aubrey Fenn',
     text:
-      'Lord Treasurer Aubrey Fenn sees you in an office with pale squares on the walls where the tapestries used to hang. He apologizes for the cold.\n\n' +
-      '"The quarter payment is due, and for once we have it: three wagons of silver, most of what\'s left of the Crown plate. It has to reach Port Anselm and the bank\'s ships. I\'d send my own guard, but half of them are owed back pay by the sort of people who\'d like to see it stolen."',
+      'Lord Treasurer Aubrey Fenn sees you in a cold and bare office.\n\n' +
+      '"The quarter payment is due, and for once we have it: three wagons of silver, most of what\'s left of the Crown plate. We need your help to make sure it reaches Port Anselm and the bank\'s ships."',
     choices: (s) => summonsChoices(s),
     nodes: {
       route: {
         speaker: 'Lord Treasurer Fenn',
         text:
-          '"My clerks know the route. So does the guard captain, and so does Vorn, because the bank insists on knowing everything." He rubs his eyes. "If I wanted to rob it, I\'d try the ford at Wenmouth. You can\'t see that stretch of road from either side."',
+          '"My clerks know the route. So does the guard captain, and so does Vorn, because the bank insists on knowing everything." He rubs his eyes. "If someone wanted to rob it, they\'d try the ford at Wenmouth. You can\'t see that stretch of road from either side there."',
         choices: (s) => summonsChoices(s),
       },
       stakes: {
         speaker: 'Lord Treasurer Fenn',
         text:
           'You tell him what Vorn said about the bank writing the next treaty. Fenn puts his pen down.\n\n' +
-          '"So they\'d rather we missed it. That explains a few things." He looks at you properly for the first time. "Thank you. I won\'t forget that."',
+          '"That explains a few things." He looks at you properly for the first time. "Thank you. I won\'t forget that."',
         choices: (s) => summonsChoices(s),
       },
       pay: {
@@ -562,7 +562,7 @@ function summonsChoices(s: GameState): EventChoice[] {
       label: 'Decline',
       detail: 'Exchequer −12. The Crown will find someone else, probably Hobb & Daughters.',
       effects: { standing: { exchequer: -12 }, rivalRenown: 4, flag: 'silver_declined', clocks: { arrears: 4 }, npc: { id: 'fenn', attitude: -15 } },
-      resultText: 'Fenn nods. "I understand." By evening the commission has gone to Hobb & Daughters.',
+      resultText: 'Fenn nods. "I understand." By evening the commission will have gone to Hobb & Daughters.',
     },
   ];
   return c.filter(Boolean) as EventChoice[];
