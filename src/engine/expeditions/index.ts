@@ -3,6 +3,8 @@ export * from './types';
 export { runExpedition, delverMaxHp, delverStats, diveWeeks } from './dive';
 export { diveGear, delverOf } from './gear';
 export * from './prep';
+export { expeditionOdds, oddsRunner, ODDS_RUNS } from './odds';
+export type { ExpOdds, OddsCase, OddsRunner } from './odds';
 export {
   buildSetup,
   sealExpedition,

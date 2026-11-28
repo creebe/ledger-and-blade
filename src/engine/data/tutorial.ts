@@ -37,7 +37,7 @@ export const OBJECTIVES: Objective[] = [
     id: 'read_odds',
     chapter: 'First steps',
     title: 'Plan an expedition',
-    how: 'Open a contract on the board and read its plan: the squad in position order, the pack, the standing orders and “Before you go”.',
+    how: 'Open a contract on the board and look over its plan. Then put someone else in the squad and watch the odds move.',
     why: 'Nobody can send orders once a squad has left. Everything that happens down there follows from the plan.',
     tab: 'contracts',
     guide: 'board',

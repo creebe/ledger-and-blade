@@ -26,11 +26,10 @@ import {
   squadSize,
   stockOf,
   suggestPlan,
+  openingPlan,
   revealCost,
   track,
-  type Contract,
   type ExpPlan,
-  type GameState,
   type StandingOrders,
   type SupplyId,
 } from '../../engine';
@@ -43,6 +42,7 @@ import { HiddenTag } from '../kit/reveal';
 import { ProfSilhouette } from '../expeditions/Silhouette';
 import { restingInfo } from '../kit/members';
 import { Marks, Vitals, first } from '../expeditions/xkit';
+import { ExpOddsPill, OddsWhy, deathPct, deathTone, useExpOdds } from '../kit/odds';
 
 const ORDER_ROWS: { key: keyof StandingOrders; title: string; options: { value: string; label: string; text: string }[] }[] = [
   {
@@ -90,15 +90,6 @@ const ORDER_ROWS: { key: keyof StandingOrders; title: string; options: { value: 
   },
 ];
 
-function startingPlan(g: GameState, c: Contract): ExpPlan {
-  const sug = suggestPlan(g, c);
-  const lp = g.delve?.lastPlan;
-  const size = squadSize(c);
-  if (lp && lp.squad.length >= size.min && lp.squad.length <= size.max && lp.squad.every((id) => { const m = g.members.find((x) => x.id === id); return m && !memberBlocked(g, m); }))
-    return { squad: [...lp.squad], pack: sug.pack, orders: { ...lp.orders } };
-  return sug;
-}
-
 export function PrepSheet({ contractId }: { contractId: string }) {
   const g = useStore((s) => s.game)!;
   const act = useStore((s) => s.act);
@@ -107,7 +98,9 @@ export function PrepSheet({ contractId }: { contractId: string }) {
   const notify = useStore((s) => s.notify);
   const open = useStore((s) => s.open);
   const c = g.board.find((x) => x.id === contractId);
-  const [plan, setPlan] = useState<ExpPlan | undefined>(() => (c ? startingPlan(g, c) : undefined));
+  const [plan, setPlan] = useState<ExpPlan | undefined>(() => (c ? openingPlan(g, c) : undefined));
+  // the odds follow the plan as it changes: squad, positions, pack and orders
+  const est = useExpOdds(g, c, plan);
   // opening a plan counts for the Guildmaster's Notes
   useEffect(() => {
     useStore.getState().act((s) => track(s, 'why'));
@@ -135,6 +128,10 @@ export function PrepSheet({ contractId }: { contractId: string }) {
         ? { text: why, action: { label: 'See the Field', run: () => goTo({ tab: 'field' }) } }
         : why;
   const warnings = planWarnings(g, c, plan);
+  const { odds, updating } = est;
+  const death = odds ? (odds.death.min + odds.death.max) / 2 : 0;
+  const names = Object.fromEntries(squad.map((m) => [m.id, first(m)]));
+  const showWhy = () => document.getElementById('x-odds-why')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   const steps = contractRoute(c);
   const camps = steps.filter((x) => x === 'camp').length;
 
@@ -181,9 +178,21 @@ export function PrepSheet({ contractId }: { contractId: string }) {
     <Sheet
       title={c.title}
       footer={
-        <Btn className="btn primary block x-setout" blocked={blocked} onClick={setOut}>
-          Set out{cost ? <> · <Price n={cost} /></> : null}
-        </Btn>
+        <>
+          {squad.length > 0 && squad.length < size.min && <p className="small muted x-odds-foot">The odds show once the squad has at least {size.min}.</p>}
+          {squad.length >= size.min && (
+            <div className="x-odds-foot">
+              <ExpOddsPill odds={odds} label="Job done" updating={updating} />
+              {odds && <small className={`x-odds-foot-death ${deathTone(death)}`}>Chance of a death <span className="x-odds-foot-pct">{deathPct(odds.death.min, odds.death.max)}</span></small>}
+              <Btn className="btn ghost small x-odds-foot-why" blocked={!odds && 'The odds are still being worked out.'} onClick={showWhy}>
+                Why?
+              </Btn>
+            </div>
+          )}
+          <Btn className="btn primary block x-setout" blocked={blocked} onClick={setOut}>
+            Set out{cost ? <> · <Price n={cost} /></> : null}
+          </Btn>
+        </>
       }
     >
       <div className="x-sheet">
@@ -369,6 +378,14 @@ export function PrepSheet({ contractId }: { contractId: string }) {
           );
         })}
       </Section>
+
+      {squad.length >= size.min && (
+        <div id="x-odds-why">
+          <Section title="The odds" right={<ExpOddsPill odds={odds} updating={updating} />}>
+            {odds ? <OddsWhy odds={odds} names={names} /> : <p className="small muted">Working out the odds…</p>}
+          </Section>
+        </div>
+      )}
 
       {warnings.length > 0 && (
         <Section title="Before you go">

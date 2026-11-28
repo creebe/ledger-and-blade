@@ -1,13 +1,9 @@
 // Shared visual building blocks: approach colors, portraits, strength bars,
 // item icons, odds pills. The same color always means the same thing.
-import { useMemo } from 'react';
 import {
   APPROACH_INFO,
-  bestApproaches,
-  living,
   memberScore,
   PROFESSIONS,
-  previewMission,
   TAGS,
   type Approach,
   type Contract,
@@ -191,29 +187,3 @@ export function PhaseStrip({ c, chosen }: { c: Contract; chosen?: Approach[] }) 
     </span>
   );
 }
-
-/**
- * The best odds the guild could get on this contract right now with idle
- * members, using a quick greedy squad pick. A scanning aid, not a promise.
- */
-function bestSquadOdds(g: GameState, c: Contract): { min: number; max: number; size: number; ids: string[] } | null {
-  const idle = living(g).filter((m) => m.status === 'idle' && m.health >= 40);
-  if (idle.length < c.minSquad) return null;
-  const solo = (m: Member) => previewMission(g, c, [m], bestApproaches(g, c, [m])).phases.reduce((s, p) => s + p.chance, 0);
-  const ranked = [...idle].sort((a, b) => solo(b) - solo(a));
-  let best: { min: number; max: number; size: number; ids: string[] } | null = null;
-  for (let n = c.minSquad; n <= Math.min(c.maxSquad, ranked.length); n++) {
-    const team = ranked.slice(0, n);
-    const pv = previewMission(g, c, team, bestApproaches(g, c, team));
-    const min = Math.min(...pv.phases.map((p) => p.min));
-    const max = Math.min(...pv.phases.map((p) => p.max));
-    if (!best || min > best.min + 0.02) best = { min, max, size: n, ids: team.map((m) => m.id) };
-  }
-  return best;
-}
-
-export function useBestOdds(g: GameState, c?: Contract) {
-  // recompute when the roster or the contract changes
-  return useMemo(() => (c ? bestSquadOdds(g, c) : null), [g.members, g.items, c]); // eslint-disable-line react-hooks/exhaustive-deps
-}
-

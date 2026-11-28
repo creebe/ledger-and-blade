@@ -182,6 +182,16 @@ export function suggestPlan(s: GameState, c: Contract, orders: StandingOrders = 
   return { squad: picked.map((m) => m.id), pack, orders: { ...orders } };
 }
 
+/** The plan the prep sheet opens with: the last squad sent, if they can all go again, or else a suggested one. */
+export function openingPlan(s: GameState, c: Contract): ExpPlan {
+  const sug = suggestPlan(s, c);
+  const lp = s.delve?.lastPlan;
+  const size = squadSize(c);
+  if (lp && lp.squad.length >= size.min && lp.squad.length <= size.max && lp.squad.every((id) => { const m = s.members.find((x) => x.id === id); return m && !memberBlocked(s, m); }))
+    return { squad: [...lp.squad], pack: sug.pack, orders: { ...lp.orders } };
+  return sug;
+}
+
 export { delverMaxHp };
 
 /** What the job asks, in a line: "Bring back 2 Assay seals". */

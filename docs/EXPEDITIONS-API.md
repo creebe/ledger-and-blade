@@ -76,7 +76,12 @@ A squad out on a contract. These live in `state.missions` while out, and in `sta
 | `dispatchExpedition(s, contractId, plan)` | Buys the pack's shortfall, takes the pack from the stores, seals a first simulation, and may open a door scene (`pendingEvents`). Returns an error string or undefined. |
 | `cancelDispatch(s, missionId)` | Calls off a squad still in the yard: the pack goes back and the contract returns to the board. A squad whose door scene has fired can't be called off. |
 | `buyStores(s, id, n)` | Buy pack supplies ahead of time. |
+| `openingPlan(s, contract)` | The plan the prep sheet opens with: the last squad sent if they can all go again, or else `suggestPlan`. The board's odds use it too. |
+| `expeditionOdds(s, contract, plan)` | The odds of a plan (`ExpOdds`): `goal` and `death` as `{ min, max }` across what the unconfirmed dangers might be, `tiers`, `failed` (turned back, lost, short of the goal), `memberDeath` by id, and `cases` (one per way the hidden dangers might turn out). It walks the trip many times with a fixed run of seeds, never reads `state.rng` or the trip's real seed, and uses only the dangers the player knows. Door scenes and road ambushes aren't counted. Cached by plan and squad. |
+| `oddsRunner(s, contract, plan)` | The same estimate a slice at a time, for screens: call `step(n)` until it returns true, then `result()`. `key` names what went into it. The UI hook is `useExpOdds` in `ui/kit/odds.tsx`. |
 | `postingInfo(s, contract)`, `goalText(contract)`, `contractRoute(contract)`, `plannedWeeks(s, contract)` | What the board shows: site name, zones, length, weeks and the goal in words. |
+
+`runExpedition(setup, { quiet: true })` gives the same outcome without writing the log's words. The odds use it; nothing that shows a log should.
 
 ## At home
 
