@@ -11,7 +11,7 @@ for (let g = 0; g < 40; g++) {
       const c = snap.board.find((x) => x.id === ms.contract.id); if (!c) continue;
       if (!['What the Sea Brings'].includes(c.title)) continue;
       const o = expeditionOdds(s, c, ms.plan, 120)!;
-      if (!o || o.cases.length !== 1 || o.goal.min < 0.3) continue;
+      if (!o || o.cases.length !== 1 || o.goal.min < 0.3 || o.goal.min > 0.4) continue;
       const a = JSON.parse(JSON.stringify(ms.setup));
       const fresh = buildSetup(s, ms);
       const diff = (x: any, y: any, p = ''): void => { if (typeof x !== 'object' || x === null) { if (JSON.stringify(x) !== JSON.stringify(y)) console.log('  ', p, JSON.stringify(x), '->', JSON.stringify(y)); return; } for (const k of new Set([...Object.keys(x), ...Object.keys(y ?? {})])) diff(x[k], y?.[k], p + '.' + k); };
