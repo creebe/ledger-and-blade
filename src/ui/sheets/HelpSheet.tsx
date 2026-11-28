@@ -42,13 +42,13 @@ export function HelpSheet() {
         </p>
         <h4>Contracts</h4>
         <p>
-          Each contract on the board is a trip to a real place, with a route to walk and a goal at the end of it. Open one to plan it. You choose who goes and in which position, what goes in the pack, and the standing orders they follow once
-          they've gone, because nobody can send them new ones.
+          Each contract on the board is a trip to a real place, with a route to walk and a goal at the end of it. Open one to plan it. You choose who goes and where each of them walks, and what goes in the pack. You also set the standing orders they
+          follow once they've left, because nobody can send them new ones.
         </p>
         <p>
           The odds come from walking that exact plan a few hundred times on paper with the dangers you know about. Change the squad, a position, the pack or an order and they change with it. Tap <b>Why?</b> to see how the
-          walks went, how often someone died and who was most at risk. A “?” danger is tried each way it could turn out, which is why some odds are a range. The board shows the odds for the squad the plan would start
-          with. Treat them as a good guess, not a promise: they never go above 97%, because something can always go wrong at the door.
+          walks went and who was most likely to die. A “?” danger is tried each way it could turn out, which is why some odds are a range. The board shows the odds for the squad the plan would start
+          with. They are a good guess and never go above 97%, because something can still go wrong at the door.
         </p>
         <h4>Tags and preparation</h4>
         <p>

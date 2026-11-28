@@ -113,7 +113,7 @@ export function OddsWhy({ odds, names }: { odds: ExpOdds; names: Record<string, 
   return (
     <div className="x-odds-why">
       <p className="small">
-        The guild walked this trip {odds.runs} times on paper, with this squad in these positions, this pack and these orders. The job got done on {doneOn(odds.goal.min, odds.goal.max)}.
+        The guild walked this trip {odds.runs} times on paper with exactly this plan, down to who walks where. The job got done on {doneOn(odds.goal.min, odds.goal.max)}.
       </p>
       {odds.cases.length > 1 && (
         <ul className="x-odds-cases">
@@ -141,8 +141,8 @@ export function OddsWhy({ odds, names }: { odds: ExpOdds; names: Record<string, 
         <p className="small">
           {[
             f.turnedBack >= 0.01 && `The squad turned back on ${pc(f.turnedBack)} of the walks.`,
-            f.lost >= 0.01 && `It was lost with nobody coming home on ${pc(f.lost)}.`,
-            f.shortOfGoal >= 0.01 && `On ${pc(f.shortOfGoal)} it came home whole but without what the job asks for.`,
+            f.lost >= 0.01 && `Nobody came home on ${pc(f.lost)}.`,
+            f.shortOfGoal >= 0.01 && `On ${pc(f.shortOfGoal)} it came home without what the job asked for.`,
           ]
             .filter(Boolean)
             .join(' ')}
@@ -150,10 +150,10 @@ export function OddsWhy({ odds, names }: { odds: ExpOdds; names: Record<string, 
       )}
       <p className={`small x-odds-death ${deathTone(death)}`}>
         Someone died on {oneIn(death)}.
-        {atRisk.length > 0 && ` Most at risk: ${atRisk.slice(0, 2).map(([id, p]) => `${names[id] ?? 'one of them'} (${pc(p)})`).join(' and ')}.`}
+        {atRisk.length > 0 && ` ${atRisk.slice(0, 2).map(([id, p], i) => `${names[id] ?? (i ? 'one of the others' : 'One of them')} (${pc(p)})`).join(' and ')} ${atRisk.length > 1 ? 'were' : 'was'} most at risk.`}
       </p>
       <p className="tiny muted">
-        It's an estimate, not a promise, so the odds shown never go above 97%. A scene at the door can still change things, and the dangers nobody has confirmed are tried each way they could turn out.
+        This is an estimate, so the odds shown never go above 97% or below 3%. A scene at the door or an ambush on the road can still change things. Any danger nobody has confirmed is tried each way it could turn out.
       </p>
     </div>
   );
