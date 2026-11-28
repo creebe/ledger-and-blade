@@ -11,7 +11,6 @@
 //   confirmed is tried as every one of its candidates, and the odds are given
 //   as a range across them, so a hidden danger can't leak through the numbers.
 import type { Contract, GameState, Member, OutcomeTier, TagId } from '../core/types';
-import { RIVALS } from '../data/factions';
 import { runExpedition } from './dive';
 import { delverOf } from './gear';
 import { roadWeeks } from './prep';
@@ -87,7 +86,7 @@ function oddsSetup(s: GameState, c: Contract, squad: Member[], plan: ExpPlan, ta
     roadOut: road.out,
     roadBack: road.back,
     // the board shows a rival wants the job, so the estimate may know it too
-    rivalAhead: c.contestedBy && s.rivals[c.contestedBy]?.active && RIVALS[c.contestedBy] ? c.contestedBy : undefined,
+    rivalAhead: c.contestedBy && s.rivals[c.contestedBy]?.active ? c.contestedBy : undefined,
     bossBeaten: bossBeaten(s, c.expedition.site) || undefined,
     foeScale: 1,
     fieldLog: [],
@@ -123,9 +122,12 @@ export function oddsRunner(s: GameState, c: Contract, plan: ExpPlan, runs = ODDS
   const squad = plan.squad.map((id) => s.members.find((m) => m.id === id)).filter((m): m is Member => !!m && m.status !== 'dead' && m.status !== 'left');
   const cases = knownCases(c);
   const per = Math.max(Math.min(runs, MIN_RUNS), Math.min(runs, Math.floor(ODDS_BUDGET / cases.length)));
-  // the frozen squad doesn't depend on the seed: build each case's setup once
-  const bases = squad.length ? cases.map((k) => oddsSetup(s, c, squad, plan, k.tags, 1)) : [];
-  const key = JSON.stringify([per, bases]);
+  // the frozen squad doesn't depend on the seed: build each case's setup once,
+  // on a copy of the plan so a caller changing theirs mid-estimate can't mix two plans
+  const frozen = JSON.parse(JSON.stringify(plan)) as ExpPlan;
+  const bases = squad.length ? cases.map((k) => oddsSetup(s, c, squad, frozen, k.tags, 1)) : [];
+  // the assumed tags go in too: two contracts can face the same tags while labelling the cases differently
+  const key = JSON.stringify([per, cases.map((k) => k.assumed), bases]);
   const cached = CACHE.get(key);
   if (!squad.length || cached) return { key, done: true, step: () => true, result: () => cached };
 
@@ -149,7 +151,7 @@ export function oddsRunner(s: GameState, c: Contract, plan: ExpPlan, runs = ODDS
     const span = (f: (x: OddsCase) => number) => ({ min: Math.min(...out.map(f)), max: Math.max(...out.map(f)) });
     odds = { goal: span((x) => x.goal), death: span((x) => x.death), tiers, failed, memberDeath, cases: out, runs: total };
     if (CACHE.size >= CACHE_MAX) CACHE.delete(CACHE.keys().next().value as string);
-    CACHE.set(key, odds);
+    CACHE.set(key, Object.freeze(odds));
   };
 
   const runner: OddsRunner = {

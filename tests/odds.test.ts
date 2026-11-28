@@ -25,6 +25,33 @@ describe('expedition odds', () => {
     }
   });
 
+  it("a walk never changes its setup (the estimate shares one across many walks)", () => {
+    const deepFreeze = <T,>(o: T): T => {
+      if (o && typeof o === 'object' && !Object.isFrozen(o)) {
+        Object.freeze(o);
+        for (const v of Object.values(o)) deepFreeze(v);
+      }
+      return o;
+    };
+    for (const site of SITE_IDS) {
+      const tpl = CONTRACT_TEMPLATES.find((t) => (t.expedition?.site ?? t.regions[0]) === site && !t.story) ?? CONTRACT_TEMPLATES[0];
+      for (let seed = 0; seed < 3; seed++) {
+        const s = newGame(500 + seed);
+        const c = generateContract(s, tpl);
+        c.expedition = { ...c.expedition, site, length: (['short', 'medium', 'long'] as const)[seed % 3] };
+        const ms = { contract: c, plan: suggestPlan(s, c), plannedWeeks: 3, setup: { seed: 300 + seed } } as unknown as Mission;
+        const setup = buildSetup(s, ms);
+        const before = JSON.stringify(setup);
+        deepFreeze(setup);
+        for (let k = 1; k <= 3; k++) {
+          runExpedition({ ...setup, seed: k * 97 }, { quiet: true });
+          runExpedition({ ...setup, seed: k * 97 });
+        }
+        expect(JSON.stringify(setup)).toBe(before);
+      }
+    }
+  });
+
   it('works the odds out without touching the game', () => {
     const s = newGame(77);
     const c = post(s, 'pellam_plate');
