@@ -5,6 +5,12 @@ What's next, what's open, and what to watch after each release. Main keeps this 
 ## Expeditions: progress
 Done: engine and Field UI (v0.13.0), story bible and export (v0.13.1), Act I payoffs (v0.13.2), six full sites (v0.14.0), feud and Legend balance (v0.14.1). Remaining items are under "Expeditions: still to do" below; the safe-short-trip income loop is still worth watching in the economy workstream.
 
+## To watch from v0.16.0 (live since 2026-11-28)
+- Do the odds feel right in play, and do they update smoothly on the iPhone while you change the plan?
+- Door scenes aren't in the estimate. Follow-up: recompute the odds after a door scene, while the player can still withdraw.
+- The tier bar in "The odds" uses the same color for neighbours (Triumph and Success; Costly Success and Failure).
+- Early board odds sit at 92–97% because the early jobs are easy. Is that fine, or does it make the odds feel pointless at first?
+
 ## To watch from v0.15.1 (live since 2026-11-26)
 - Swipe-down on a real iPhone: does it fight with scrolling, especially a momentum scroll coasting to the top? Does it ever close a panel by accident?
 - Do the cost confirmations on scene choices feel helpful or nagging?

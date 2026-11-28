@@ -2,6 +2,16 @@
 
 Newest first. Each entry says what changed for a player, why (quoting the owner's feedback where it came from playtesting), and what was and wasn't checked. The live site is https://creebe.github.io/ledger-and-blade/ and is only republished on the owner's word; each entry notes whether it is live.
 
+## v0.16.0 (2026-11-28): The odds are back
+The owner: "I'd like you to bring back the success odds based on party composition in the contracts/expeditions." They asked for the death risk to show as well.
+- **Odds that follow the plan.** The prep sheet's footer shows "Job done NN%" and "Chance of a death NN%" above Set out. Both change as you change the squad, the positions, the pack or the standing orders. They come from walking the trip a few hundred times on paper with the real rules and only the dangers you know about. A "?" danger is tried each way it could turn out, so some odds show as a range. Shown odds stay between 3% and 97%, because a scene at the door can still change things.
+- **Why?** opens "The odds": the odds for each thing a "?" could be, how the walks ended (Triumph through Disaster), how often the squad turned back or was lost, and who was most likely to die.
+- **On the board.** Each posting shows the odds for the squad the plan would start with ("Suggested squad NN%"), or says there aren't enough people free.
+- **How to play** and the tutorial note on planning now describe expeditions and the odds instead of the old phases.
+- **Checked:** main re-ran `npm run check` (87 tests, story checker clean) and the build, merged with the latest main. The fingerprint matches v0.15.2, so the rules are unchanged; careful first-year survival 67%. The balance reviewer compared the estimate with 1744 real trips: job 90% estimated against 91% real, death 7% against 6%, with every band within a few points. Engine (no hidden dangers leak), UI (360/390 px, both themes), writing and balance reviewers.
+- **Not checked:** a real phone. On desktop an estimate takes about 50 ms, spread over frames.
+- **Live** (deployed on the owner's word, 2026-11-28).
+
 ## v0.15.2 (2026-11-26): A ledger you can trust
 The Hall's money forecast now matches what the week will actually do, and the Date targets read from it. This is UI/UX Part 2, batch 2.
 - **The forecast follows the Weighhouse.** When the coin will be short on the day, the forecast does what the Weighhouse does. It sells goods first, then waits if a squad is still away (up to three weeks). Otherwise the payment is missed and no coin leaves; before, it always subtracted the payment. The Loan column shows "waits" or "missed", with a short note under the table.
