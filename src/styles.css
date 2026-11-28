@@ -4940,3 +4940,90 @@ details summary {
 .event-backdrop.confirm-backdrop {
   z-index: 80;
 }
+
+/* expedition odds: the prep sheet's footer row, its breakdown, and the board's pill */
+.x-odds-foot {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin-bottom: 8px;
+}
+.x-odds-foot-why {
+  margin-left: auto;
+}
+.x-odds-pill-wrap {
+  display: inline-flex;
+  transition: opacity 0.15s;
+}
+.x-odds-updating {
+  opacity: 0.5;
+}
+.odds-pill.x-odds-wait {
+  color: var(--muted);
+}
+.x-odds-why {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.x-odds-why p {
+  margin: 0;
+}
+.x-odds-cases {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.x-odds-cases li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.x-odds-tiers {
+  display: flex;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  gap: 2px;
+  background: var(--paper-2);
+}
+.x-odds-tier {
+  flex-basis: 0;
+  min-width: 2px;
+}
+.x-odds-tier.good,
+.x-odds-dot.good {
+  background: var(--good);
+}
+.x-odds-tier.warn,
+.x-odds-dot.warn {
+  background: var(--mid);
+}
+.x-odds-tier.bad,
+.x-odds-dot.bad {
+  background: var(--bad);
+}
+.x-odds-tier-key {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 12px;
+  color: var(--ink-2);
+}
+.x-odds-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  vertical-align: baseline;
+}
+.x-board-odds {
+  margin-top: 6px;
+}

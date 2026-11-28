@@ -42,12 +42,13 @@ export function HelpSheet() {
         </p>
         <h4>Contracts</h4>
         <p>
-          Pick a contract and choose a squad. Each mission is a series of <b>phases</b>, and each phase can be tackled with an <b>approach</b>: Assault, Stealth, Guile, Endurance or Arcana. Every approach uses
-          different attributes and adds up the squad differently. Stealth is only as good as your clumsiest member, while Assault counts everyone's blades.
+          Each contract on the board is a trip to a real place, with a route to walk and a goal at the end of it. Open one to plan it. You choose who goes and in which position, what goes in the pack, and the standing orders they follow once
+          they've gone, because nobody can send them new ones.
         </p>
         <p>
-          Phase odds come from your squad's score against the phase's difficulty. Tap <b>Why?</b> to see every number. The final phase is the objective. Strong results make the next phase easier, and failures make
-          it harder and hurt people.
+          The odds come from walking that exact plan a few hundred times on paper with the dangers you know about. Change the squad, a position, the pack or an order and they change with it. Tap <b>Why?</b> to see how the
+          walks went, how often someone died and who was most at risk. A “?” danger is tried each way it could turn out, which is why some odds are a range. The board shows the odds for the squad the plan would start
+          with. Treat them as a good guess, not a promise: they never go above 97%, because something can always go wrong at the door.
         </p>
         <h4>Tags and preparation</h4>
         <p>

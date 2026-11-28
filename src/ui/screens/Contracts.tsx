@@ -1,4 +1,6 @@
-import { FACTIONS, RIVALS, postingInfo, squadLimit, squadsOut, type Contract, type GameState } from '../../engine';
+import { useMemo } from 'react';
+import { FACTIONS, RIVALS, openingPlan, postingInfo, squadLimit, squadSize, squadsOut, type Contract, type GameState } from '../../engine';
+import { ExpOddsPill, useExpOdds } from '../kit/odds';
 import { Icon } from '../kit/icons';
 import { CONTRACT_TYPE_ICON } from '../kit/visual';
 import { useStore } from '../../store';
@@ -53,6 +55,10 @@ export function ContractsScreen() {
 function ContractCard({ c, g, onOpen }: { c: Contract; g: GameState; onOpen: () => void }) {
   const info = postingInfo(g, c);
   const expiring = c.expiresWeek <= g.week;
+  // the plan the prep sheet would open with, so the card and the sheet show the same odds
+  const plan = useMemo(() => openingPlan(g, c), [g.members, g.items, g.delve, c]); // eslint-disable-line react-hooks/exhaustive-deps
+  const enough = plan.squad.length >= squadSize(c).min;
+  const { odds, updating } = useExpOdds(g, c, enough ? plan : undefined, 300);
   return (
     // a div, not a button, so the "?" tags inside it can be buttons of their own
     <div
@@ -117,6 +123,9 @@ function ContractCard({ c, g, onOpen }: { c: Contract; g: GameState; onOpen: () 
             <Icon name="quest" size={14} /> Story
           </span>
         )}
+      </div>
+      <div className="row between small x-board-odds">
+        {enough ? <ExpOddsPill odds={odds} label="Suggested squad" updating={updating} /> : <span className="muted">Not enough people free to send</span>}
       </div>
       <div className="row between small">
         <ThreatPips value={c.threat} />

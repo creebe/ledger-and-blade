@@ -99,6 +99,8 @@ interface Foe {
 /** what a member who goes down to a trap went down to */
 const TRAP_CAUSE: Partial<Record<TrapKind, string>> = { gas: 'bad air', collapse: 'a fall of rock', bog: 'the bog', tide: 'the tide', stampede: 'a stampede', brine: 'the brine' };
 
+const NO_SNAP: SquadSnap = { hp: [], maxHp: [], fatigue: [], exposure: [], state: [] };
+
 type Room = { kind: 'passage' | 'fight' | 'trap' | 'find' | 'curio' | 'camp' | 'boss' | 'goal'; zone: ZoneId };
 
 const mark = (d: Pick<Delver, 'scars' | 'changes' | 'habits'>): MarkDef[] => [...d.scars.map((x) => SCARS[x]), ...(d.changes ?? []).map((c) => CHANGES[c]), ...d.habits.map((h) => HABITS[h])].filter(Boolean);
@@ -155,8 +157,13 @@ function buildRoute(r: Rng, steps: RouteStep[], rivalZone: ZoneId | undefined, b
   return rooms;
 }
 
-/** Play a whole trip. The same setup always gives the same result. */
-export function runExpedition(setup: DiveSetup): ExpeditionResult {
+/**
+ * Play a whole trip. The same setup always gives the same result. `quiet`
+ * skips writing the log's words (the odds estimate walks a trip many times and
+ * never reads them): every roll is the same, so the outcome is too.
+ */
+export function runExpedition(setup: DiveSetup, opts: { quiet?: boolean } = {}): ExpeditionResult {
+  const quiet = !!opts.quiet;
   const r: Rng = { rng: setup.seed | 0 || 1 };
   const plan = setup.plan;
   const site = SITES[setup.site];
@@ -261,7 +268,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
   // ---- narration ----
   const usedLines: Record<string, number> = {};
   const order: Record<string, number[]> = {};
-  const fill = (t: string, v: Record<string, string | number | undefined>) => t.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? ''));
+  const fill = (t: string, v: Record<string, string | number | undefined>) => quiet ? '' : t.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? ''));
   /** pick a line for this situation, cycling through its variants before repeating any */
   /** a site's own lines first, then its kind of place (underground, town, overland), then everyone's */
   const resolve = (key: string) => [`${key}:${site.id}`, `${key}:${site.group}`, key].find((k) => LINES[k]?.length);
@@ -282,6 +289,7 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
     }
     usedLines[key] = n + 1;
     const out = fill(opts[order[key][n % opts.length]], v);
+    if (quiet) return out;
     // a placeholder can start a sentence: give it a capital
     return out.replace(/(^|[.!?]["”]?\s+)([a-z])/g, (_, p: string, c: string) => p + c.toUpperCase());
   };
@@ -296,7 +304,8 @@ export function runExpedition(setup: DiveSetup): ExpeditionResult {
   const snapFoes = (): EnemySnap[] | undefined =>
     foes.length ? foes.map((f) => ({ monster: f.def.id, name: f.label, hp: Math.max(0, Math.round(f.hp)), maxHp: f.maxHp })) : undefined;
   const put = (kind: LogKind, text: string, extra: Partial<LogLine> = {}) => {
-    log.push({ kind, text, squad: snapSquad(), enemies: snapFoes(), week, t: 0, room: roomNo, zone, ...extra });
+    if (quiet) log.push({ kind, text: '', squad: NO_SNAP, week, t: 0 });
+    else log.push({ kind, text, squad: snapSquad(), enemies: snapFoes(), week, t: 0, room: roomNo, zone, ...extra });
   };
 
   // ---- fatigue and exposure ----
