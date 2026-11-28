@@ -16,7 +16,8 @@ export type Sheet =
   | { kind: 'menu' }
   | { kind: 'guide' }
   | { kind: 'journal'; tab?: 'notes' | 'codex' | 'chronicle' }
-  | { kind: 'help' };
+  | { kind: 'help' }
+  | { kind: 'playtest' };
 
 /** A toast can offer one step to fix what it reports, such as "Buy iron". */
 export interface ToastAction {

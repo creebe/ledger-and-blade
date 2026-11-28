@@ -42,6 +42,7 @@ import { HiddenTag } from '../kit/reveal';
 import { ProfSilhouette } from '../expeditions/Silhouette';
 import { restingInfo } from '../kit/members';
 import { Marks, Vitals, first } from '../expeditions/xkit';
+import { livePlans } from '../playtest/context';
 import { ExpOddsPill, OddsWhy, deathPct, deathTone, useExpOdds } from '../kit/odds';
 
 const ORDER_ROWS: { key: keyof StandingOrders; title: string; options: { value: string; label: string; text: string }[] }[] = [
@@ -105,6 +106,12 @@ export function PrepSheet({ contractId }: { contractId: string }) {
   useEffect(() => {
     useStore.getState().act((s) => track(s, 'why'));
   }, []);
+  // a playtest note records the plan as it stands
+  useEffect(() => {
+    if (!plan) return;
+    livePlans.set(contractId, plan);
+    return () => void livePlans.delete(contractId);
+  }, [contractId, plan]);
   if (!c || !plan) {
     return (
       <Sheet title="Contract">

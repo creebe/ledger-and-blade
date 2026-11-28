@@ -4,6 +4,7 @@ import { dateLabel } from '../../engine';
 import { Btn, Sheet } from '../kit/common';
 import { crowns } from '../kit/format';
 import { useTheme } from '../kit/theme';
+import { useNotes } from '../playtest/notes';
 
 export function MenuSheet() {
   const g = useStore((s) => s.game);
@@ -81,6 +82,7 @@ export function MenuSheet() {
           </button>
         </div>
       )}
+      <PlaytestRow />
       <h3 className="subhead">Game</h3>
       <div className="row wrap gap">
         <button className="btn ghost small" onClick={() => open({ kind: 'help' })}>
@@ -105,5 +107,27 @@ function ThemeRow() {
         Switch to {theme === 'dark' ? 'light' : 'dark'}
       </button>
     </div>
+  );
+}
+
+/** The playtest notes switch, and the way into the notes list. */
+function PlaytestRow() {
+  const on = useNotes((s) => s.on);
+  const count = useNotes((s) => s.notes.length);
+  const open = useStore((s) => s.open);
+  return (
+    <>
+      <div className="row between slot-row">
+        <span className="small">Playtest notes: {on ? 'on, with a Note button at the screen edge' : 'off'}</span>
+        <button className="btn ghost small" onClick={() => useNotes.getState().setOn(!on)}>
+          {on ? 'Turn off' : 'Turn on'}
+        </button>
+      </div>
+      {(on || count > 0) && (
+        <button className="btn ghost small pt-open-list" onClick={() => open({ kind: 'playtest' })}>
+          Read, copy or share the notes ({count})
+        </button>
+      )}
+    </>
   );
 }

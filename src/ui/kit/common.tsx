@@ -16,10 +16,12 @@ export const SheetDepth = React.createContext(0);
  * which returns to the panel underneath. Only the bottom panel has ✕.
  * (The owner lost a whole week report by tapping ✕ on a squad's log.)
  */
-export function Sheet({ title, children, onClose, footer }: { title: ReactNode; children: ReactNode; onClose?: () => void; footer?: ReactNode }) {
-  const close = useStore((s) => s.close);
+export function Sheet({ title, children, onClose, onBack, footer }: { title: ReactNode; children: ReactNode; onClose?: () => void; onBack?: () => void; footer?: ReactNode }) {
+  const storeClose = useStore((s) => s.close);
+  // a panel outside the stack (the playtest note) brings its own Back
+  const close = onBack ?? storeClose;
   const depth = React.useContext(SheetDepth);
-  const nested = depth > 0 && !onClose;
+  const nested = (depth > 0 && !onClose) || !!onBack;
   // the toast shows inside the topmost sheet, just above its footer
   const isTop = useStore((s) => s.sheets.filter((x) => x.kind !== 'confirm').length - 1 === depth);
   const sheetRef = React.useRef<HTMLDivElement>(null);

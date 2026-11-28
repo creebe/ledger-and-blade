@@ -4,6 +4,8 @@ import { hasAutosave, slotInfo, useStore } from '../../store';
 import { HelpSheet } from '../sheets/HelpSheet';
 import { MenuSheet } from '../sheets/MenuSheet';
 import { ConfirmSheet } from '../sheets/Dialogs';
+import { PlaytestSheet } from '../sheets/PlaytestSheet';
+import { SheetDepth } from '../kit/common';
 import { useTheme } from '../kit/theme';
 import { Icon } from '../kit/icons';
 import { VERSION } from '../../version';
@@ -128,7 +130,12 @@ export function Title() {
         )}
       </div>
       <p className="tiny muted title-footnote">Prototype build {VERSION} · progress is saved on this device</p>
-      {sheets.map((s, i) => (s.kind === 'menu' ? <MenuSheet key={i} /> : s.kind === 'help' ? <HelpSheet key={i} /> : s.kind === 'confirm' ? <ConfirmSheet key={i} {...s} /> : null))}
+      {sheets.map((s, i) => (
+        // a panel opened from the menu shows Back, as in the game
+        <SheetDepth.Provider key={i} value={sheets.slice(0, i).filter((x) => x.kind !== 'confirm').length}>
+          {s.kind === 'menu' ? <MenuSheet /> : s.kind === 'help' ? <HelpSheet /> : s.kind === 'playtest' ? <PlaytestSheet /> : s.kind === 'confirm' ? <ConfirmSheet {...s} /> : null}
+        </SheetDepth.Provider>
+      ))}
     </div>
   );
 }

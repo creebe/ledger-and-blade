@@ -5035,3 +5035,93 @@ details summary {
 .x-odds-foot-pct {
   white-space: nowrap;
 }
+
+/* ---------- playtest notes ---------- */
+/* the Note button: a small tab on the left edge, above panels, scenes and confirmations.
+   It is kept between 24% and 72% of the screen height, clear of the top bar, End Week and panel footers */
+.pt-note-btn {
+  position: fixed;
+  left: env(safe-area-inset-left);
+  transform: translateY(-50%); /* top is set inline: the player can drag the tab up or down */
+  z-index: 85;
+  touch-action: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 30px;
+  padding: 8px 0;
+  border: 1px solid var(--line);
+  border-left: none;
+  border-radius: 0 10px 10px 0;
+  background: var(--paper);
+  color: var(--ink-2);
+  box-shadow: var(--shadow);
+  opacity: 0.92;
+  cursor: pointer;
+}
+.pt-note-btn:active {
+  background: var(--paper-2);
+}
+.pt-note-btn-l {
+  font-size: var(--fs-xs);
+  line-height: 1.1;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+/* the note sheet covers everything, confirmations included */
+.pt-layer .sheet-backdrop {
+  z-index: 90;
+}
+.pt-where {
+  margin: 2px 0 6px;
+}
+.textarea.pt-text {
+  min-height: 9em;
+  font-family: inherit;
+  font-size: var(--fs-body);
+  line-height: 1.4;
+}
+.pt-ctx summary {
+  cursor: pointer;
+  color: var(--ink-2);
+  padding: 4px 0;
+}
+.pt-ctx-list {
+  margin: 4px 0 8px;
+  padding-left: 18px;
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+}
+.pt-ctx-list li {
+  margin: 2px 0;
+}
+.pt-open-list {
+  margin: 6px 0 2px;
+}
+.pt-actions {
+  margin: 10px 0 12px;
+}
+.pt-note-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  margin: 8px 0;
+}
+.pt-note-head {
+  gap: 8px;
+  align-items: baseline;
+}
+.pt-note-where {
+  margin: 2px 0 6px;
+  overflow-wrap: anywhere;
+}
+.pt-note-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 4px 0 8px;
+}
+.pt-note-actions {
+  justify-content: flex-end;
+}

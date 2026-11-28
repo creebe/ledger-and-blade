@@ -28,6 +28,9 @@ import { RosterScreen } from './ui/screens/Roster';
 import { GameOver, Title } from './ui/screens/Title';
 import { alerts } from './ui/screens/Hall';
 import { OrdersSheet } from './ui/sheets/OrdersSheet';
+import { PlaytestSheet } from './ui/sheets/PlaytestSheet';
+import { PlaytestLayer } from './ui/playtest/PlaytestLayer';
+import { useNotes } from './ui/playtest/notes';
 
 const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: 'hall', label: 'Hall', icon: 'hall' },
@@ -207,16 +210,24 @@ export default function App() {
     return () => window.clearTimeout(t);
   }, [guideTarget]);
   const closingEvent = useStore((s) => s.closingEvent);
-  useScrollLock(sheets.length > 0 || (!!game && !game.gameOver && (game.pendingEvents.length > 0 || !!closingEvent)));
+  const writingNote = useNotes((s) => s.writing);
+  useScrollLock(writingNote || sheets.length > 0 || (!!game && !game.gameOver && (game.pendingEvents.length > 0 || !!closingEvent)));
 
   if (!game)
     return (
       <>
         <Title />
         {toast && <div className="toast">{toast.text}</div>}
+        <PlaytestLayer />
       </>
     );
-  if (game.gameOver) return <GameOver />;
+  if (game.gameOver)
+    return (
+      <>
+        <GameOver />
+        <PlaytestLayer />
+      </>
+    );
 
   const reportOpen = sheets.some((s) => s.kind === 'report' || s.kind === 'mission' || s.kind === 'watch');
   const event = !reportOpen ? game.pendingEvents[0] : undefined;
@@ -270,6 +281,8 @@ export default function App() {
             return <JournalSheet key={i} tab="notes" />;
           case 'journal':
             return <JournalSheet key={i} tab={s.tab} />;
+          case 'playtest':
+            return <PlaytestSheet key={i} />;
         }
         })();
         return (
@@ -280,6 +293,7 @@ export default function App() {
       })}
       {closingEvent ? <EventCard key={`done-${closingEvent.uid}`} ev={closingEvent} done /> : event && <EventCard key={event.uid} ev={event} />}
       {toast && !sheets.some((x) => x.kind !== 'confirm') && <Toast />}
+      <PlaytestLayer />
       {guideTarget && <style>{`[data-guide="${guideTarget}"] { animation: guidepulse 1.1s ease-in-out 4; border-radius: 12px; }`}</style>}
     </div>
   );
