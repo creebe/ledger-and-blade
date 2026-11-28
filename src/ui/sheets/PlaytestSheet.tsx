@@ -60,22 +60,22 @@ export function PlaytestSheet() {
   const storageFull = useNotes((s) => s.storageFull);
   const { setOn, setAttachSave, clearAll } = useNotes.getState();
   const { notify, confirm } = useStore.getState();
-  const none = notes.length ? undefined : 'There are no notes yet. Turn the notes on and tap Note during play.';
+  const none = notes.length ? undefined : 'There are no notes yet. Turn on the Note button, then tap it during play.';
   const withSaves = notes.filter((n) => n.save).length;
 
-  const copyAll = async () => notify((await copyText(allMarkdown(notes))) ? `Copied ${notes.length} note${notes.length === 1 ? '' : 's'} as Markdown` : 'This browser would not copy. Try Share instead.');
+  const copyAll = async () => notify((await copyText(allMarkdown(notes))) ? `Copied ${notes.length} note${notes.length === 1 ? '' : 's'} as Markdown.` : 'This browser would not copy the notes. Save them as a .md file instead.');
   const shareText = async () => {
     try {
       await navigator.share({ title: 'Playtest notes', text: allMarkdown(notes) });
     } catch (e) {
-      if (!cancelled(e)) notify('The share menu could not send the notes. Try Copy all.');
+      if (!cancelled(e)) notify('The share menu could not send the notes. Try Copy all instead.');
     }
   };
   const shareFile = async () => {
     const text = allMarkdown(notes);
     if (!canShareFile()) {
       download(text);
-      return notify('Saved the notes as a .md file');
+      return notify('The notes were saved as a .md file.');
     }
     try {
       await navigator.share({ title: 'Playtest notes', files: [new File([text], fileName(), { type: 'text/markdown' })] });
@@ -87,7 +87,7 @@ export function PlaytestSheet() {
   return (
     <Sheet title="Playtest notes">
       <div className="row between slot-row">
-        <span className="small">Note button during play</span>
+        <span className="small">Show the Note button during play</span>
         <button className="btn ghost small" onClick={() => setOn(!on)}>
           {on ? 'Turn off' : 'Turn on'}
         </button>
@@ -118,18 +118,18 @@ export function PlaytestSheet() {
           onClick={() =>
             confirm({
               title: `Delete all ${notes.length} note${notes.length === 1 ? '' : 's'}?`,
-              body: 'They are gone for good once deleted. Copy or share them first if main hasn’t had them.',
+              body: 'Deleted notes can’t be brought back. Copy or share them first if main hasn’t seen them yet.',
               confirmLabel: 'Delete all',
               danger: true,
               onConfirm: clearAll,
             })
           }
         >
-          Clear all
+          Delete all
         </Btn>
       </div>
       {notes.length === 0 ? (
-        <Empty>No notes yet. With the Note button on, tap it whenever something strikes you, and the note keeps the moment it was written in.</Empty>
+        <Empty>There are no notes yet. Turn on the Note button, then tap it during play whenever something catches your eye. Each note records the moment it was written in.</Empty>
       ) : (
         [...notes].reverse().map((n) => <NoteCard key={n.id} n={n} i={notes.indexOf(n)} />)
       )}

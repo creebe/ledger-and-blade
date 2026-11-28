@@ -52,6 +52,6 @@ describe('playtest notes', () => {
   it('works on the title screen, with no game', () => {
     const ctx = captureContext(state({ sheets: [{ kind: 'menu' }] }));
     expect(ctx.week).toBeUndefined();
-    expect(ctx.lines[0][1]).toBe('Title › menu');
+    expect(ctx.lines[0][1]).toBe('Title › Menu');
   });
 });

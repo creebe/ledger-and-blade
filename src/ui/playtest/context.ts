@@ -19,18 +19,18 @@ const TAB_NAMES: Record<string, string> = { hall: 'Hall', field: 'Field', contra
 
 const memberName = (g: GameState, id: string) => g.members.find((m) => m.id === id)?.name ?? id;
 
-function sheetLabel(g: GameState, s: Sheet): string {
+function sheetLabel(g: GameState | null, s: Sheet): string {
   switch (s.kind) {
     case 'planner': {
-      const c = g.board.find((x) => x.id === s.contractId);
+      const c = g?.board.find((x) => x.id === s.contractId);
       return c ? `Prep: \`contract:${c.templateId}\` “${c.title}”` : `Prep: ${s.contractId} (no longer on the board)`;
     }
     case 'member':
-      return `Member: ${memberName(g, s.id)}`;
+      return `Member: ${g ? memberName(g, s.id) : s.id}`;
     case 'orders':
-      return `Orders: ${memberName(g, s.id)}`;
+      return `Orders: ${g ? memberName(g, s.id) : s.id}`;
     case 'mission': {
-      const m = g.missions.find((x) => x.id === s.id) ?? g.history.find((x) => x.id === s.id);
+      const m = g?.missions.find((x) => x.id === s.id) ?? g?.history.find((x) => x.id === s.id);
       return m ? `Expedition log: \`contract:${m.contract.templateId}\` “${m.contract.title}”` : `Expedition log: ${s.id}`;
     }
     case 'watch':
@@ -42,7 +42,7 @@ function sheetLabel(g: GameState, s: Sheet): string {
     case 'journal':
       return `Journal: ${s.tab ?? 'notes'}`;
     case 'guide':
-      return 'Journal: notes';
+      return "Guildmaster's Notes";
     case 'endweek':
       return 'End Week';
     case 'date':
@@ -91,7 +91,7 @@ export function captureContext(st: StoreState): NoteContext {
   const g = st.game;
   const at = localStamp(new Date());
   if (!g) {
-    const stack = st.sheets.map((s) => (s.kind === 'confirm' ? `Confirm: “${s.title}”` : s.kind)).join(' › ');
+    const stack = st.sheets.map((s) => sheetLabel(null, s)).join(' › ');
     return { version: VERSION, at, lines: [['Screen', `Title${stack ? ` › ${stack}` : ''}`]] };
   }
   const lines: CtxLine[] = [];
@@ -114,10 +114,10 @@ export function captureContext(st: StoreState): NoteContext {
   }
 
   const burn = weeklyWages(g) + upkeep(g);
-  lines.push(['Treasury', `${g.crowns} crowns, weekly costs ${burn}; supplies ${g.supplies}, Intel ${g.intel}, Influence ${g.influence}, Renown ${g.renown}, Heat ${g.heat}`]);
+  lines.push(['Treasury', `${g.crowns} crowns, weekly costs ${burn}; Supplies ${g.supplies}, Intel ${g.intel}, Influence ${g.influence}, Renown ${g.renown}, Heat ${g.heat}`]);
   const loans = g.loans.filter((l) => l.principal > 0 || loanStillDue(l) > 0);
   if (loans.length)
-    lines.push(['Loan', loans.map((l) => `${loanStillDue(l)} due week ${l.dueWeek} (in ${Math.max(0, l.dueWeek - g.week)}) to ${l.lender}, ${l.principal} owed${l.missed ? `, ${l.missed} missed` : ''}`).join('; ')]);
+    lines.push(['Loan', loans.map((l) => `${loanStillDue(l)} due week ${l.dueWeek} (in ${Math.max(0, l.dueWeek - g.week)} wk) to ${l.lender}, ${l.principal} owed${l.missed ? `, ${l.missed} missed` : ''}`).join('; ')]);
   const d = currentDate(g);
   if (d) lines.push(['Next Date', `\`date:${d.def.id}\`, in ${d.weeksLeft} week${d.weeksLeft === 1 ? '' : 's'}`]);
   if (g.missions.length) lines.push(['Away', g.missions.map((m) => `squad ${m.number} on \`contract:${m.contract.templateId}\`, home week ${m.returnWeek}`).join('; ')]);

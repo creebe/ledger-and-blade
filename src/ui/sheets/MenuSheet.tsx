@@ -125,7 +125,7 @@ function PlaytestRow() {
       </div>
       {(on || count > 0) && (
         <button className="btn ghost small pt-open-list" onClick={() => open({ kind: 'playtest' })}>
-          Read, copy or share the notes ({count})
+          Open the notes ({count})
         </button>
       )}
     </>

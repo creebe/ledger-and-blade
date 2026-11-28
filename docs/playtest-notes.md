@@ -6,7 +6,7 @@ The owner leaves notes during play with the in-game Note button and sends them t
 
 - **Menu › Display › Playtest notes** turns the Note button on. It's off by default, and nothing shows while it's off.
 - The Note button is a small tab on the left edge of the screen. It sits above every screen, panel, scene and confirmation, and can be dragged up or down. Tapping it opens a note over whatever is on screen, so the game waits. Save keeps the note, Cancel throws it away, and Back keeps the draft for later.
-- **Menu › Read, copy or share the notes** lists them. Each can be edited or deleted. Copy all puts every note on the clipboard as Markdown; Share sends the same text through the phone's share menu; the third button shares it as a `.md` file, or saves the file where the browser can't share one.
+- **Menu › Open the notes** lists them. Each can be edited or deleted. Copy all puts every note on the clipboard as Markdown, and Share sends the same text through the phone's share menu. The third button shares it as a `.md` file, or saves the file where the browser can't share one. Delete all asks first.
 - The notes live in `localStorage` under `lab.playtest`, apart from the game and its saves. No save bump was needed, and clearing notes never touches a game.
 - Code: `src/ui/playtest/` (`notes.ts` for storage and the Markdown, `context.ts` for what a note records, `PlaytestLayer.tsx` for the button and the note sheet) and `src/ui/sheets/PlaytestSheet.tsx` for the list.
 
@@ -21,8 +21,8 @@ The owner leaves notes during play with the in-game Note button and sends them t
 - **Open:** Prep: `contract:varrow_dogs` “The Warehouse Dogs” › Member: Hild Mercer
 - **Contract:** `contract:varrow_dogs` “The Warehouse Dogs”, 305 crowns, threat 4, `site:varrow` medium, squad 2–4, expires week 16
 - **Plan:** squad 1. Garrick Gant (Vanguard), 2. Hild Mercer (Skirmisher); pack food 4, oil 6; orders retreat steady, heal worst, wanderers avoid, camp sites, supplies sparingly
-- **Treasury:** 412 crowns, weekly costs 61; supplies 40, Intel 3, Influence 5, Renown 9, Heat 12
-- **Loan:** 45 due week 18 (in 4) to weighhouse, 610 owed
+- **Treasury:** 412 crowns, weekly costs 61; Supplies 40, Intel 3, Influence 5, Renown 9, Heat 12
+- **Loan:** 45 due week 18 (in 4 wk) to weighhouse, 610 owed
 - **Next Date:** `date:exchequer_list`, in 4 weeks
 - **Away:** squad 1 on `contract:tax_escort`, home week 15
 - **Roster:** 5 (3 home, 1 away, 1 recovering): Garrick Gant (Vanguard 2, 100%, home); …

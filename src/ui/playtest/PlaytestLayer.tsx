@@ -100,8 +100,8 @@ function NoteSheet() {
                 blocked={empty ? 'Write the note first. Cancel closes it without saving.' : undefined}
                 onClick={() => {
                   saveNote();
-                  if (useNotes.getState().storageFull) useStore.getState().notify('Storage is full, so this note is kept only until the page reloads. Copy your notes from the menu.');
-                  else useStore.getState().notify('Note saved');
+                  if (useNotes.getState().storageFull) useStore.getState().notify('Storage is full, so this note lasts only until the page reloads. Copy your notes from the menu before then.');
+                  else useStore.getState().notify('Note saved.');
                 }}
               >
                 Save
@@ -123,7 +123,7 @@ function NoteSheet() {
             onChange={(e) => setDraft(e.target.value)}
           />
           <details className="pt-ctx">
-            <summary className="small">What the note records with it</summary>
+            <summary className="small">What is saved with this note</summary>
             <ul className="pt-ctx-list tiny">
               <li>
                 {ctx.version}, written {ctx.at}
