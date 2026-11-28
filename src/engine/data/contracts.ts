@@ -892,7 +892,7 @@ export const CONTRACT_TEMPLATES: ContractTemplate[] = [
       P('Muster at the Vault', ['guile'], 0.6, 0.1, "Sort the Exchequer's honest clerks from the bought ones."),
       P("The King's Road", ['endurance'], 0.9, 0.4, 'Two weeks of road with a fortune in the wagons.'),
       P('Ambush at the Ford', ['assault', 'stealth'], 1.2, 1.2, 'Someone will be waiting. Fight them, or take the wagons the long way round.'),
-      P('The Harbor', ['guile', 'endurance'], 0.8, 0.3, "Hand the silver to the bank's factor."),
+      P('The Harbor', ['guile', 'endurance'], 0.8, 0.3, "Hand the silver to the bank's factor, and watch who else is on the quay."),
     ],
     baseReward: 220,
     perThreat: 0,

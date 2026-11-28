@@ -202,9 +202,9 @@ Lord Treasurer Fenn, the Exchequer. The act's spine: the charter, the commission
 >
 > The Exchequer man who brought the charter glances at the empty weapon racks. "Quarter-day's in a few weeks," he says, as everyone in Varrow does lately. "Good luck."
 >
-> The hall came with a clerk, Jory Abbot, who has kept its books through three guildmasters. He offers to show you around.
+> The hall came with a clerk, Jory Abbot, who has kept its books through three guildmasters. He offers to show you round.
 
-- **Let Jory show you around** · `charter/root/c1`
+- **Let Jory show you round** · `charter/root/c1`
   → goes to node `people`
 - **Skip the tour** · _Go straight to spending the last of the coin_ · `charter/root/c2`
   → goes to node `start`
@@ -224,7 +224,7 @@ Lord Treasurer Fenn, the Exchequer. The act's spine: the charter, the commission
 
 **Node `loan`**, Jory Abbot
 
-> The strongbox is under the stairs, and the ledger sits on top of it, open to a page with a big, bold number. "{l.principal ?? 800} to the Weighhouse," Jory says. "The first payment is {l.paymentDue ?? 48} crowns, in week {l.dueWeek ?? 6}, then one every four weeks after that."
+> The strongbox is under the stairs, and the ledger sits on top of it, open to a page with a large number, underlined twice. "{l.principal ?? 800} to the Weighhouse," Jory says. "The first payment is {l.paymentDue ?? 48} crowns, in week {l.dueWeek ?? 6}, then one every four weeks after that."
 >
 > He turns the page back. "Miss three and they take the hall. I've seen it done."
 >
@@ -241,7 +241,7 @@ Lord Treasurer Fenn, the Exchequer. The act's spine: the charter, the commission
 >
 > You pick a job and the people for it.
 >
-> "Try to prep them so they all make it back home." He looks at the empty board, and then continues on.
+> "Try to get them ready so they all make it back home." He looks at the empty board, and then goes on.
 
 - **That's the hall, then** · _Jobs are on Contracts, and squads that are out are on the Field_ · `charter/board/c1`
   → goes to node `start`
@@ -280,7 +280,7 @@ _Speaker: Lord Treasurer Aubrey Fenn_
 
 > Lord Treasurer Aubrey Fenn sees you in a cold and bare office.
 >
-> "The quarter payment is due, and for once we have it: three wagons of silver, most of what's left of the Crown plate. We need your help to make sure it reaches Port Anselm and the bank's ships."
+> "The quarter payment is due, and for once we have it: three wagons of silver, most of what's left of the Crown plate. I'm sorry to ask, but I need someone to see it safely to Port Anselm and the bank's ships."
 
 - **"Who knows the route?"** · `silver_summons/root/c1`
   Shown only if: not fenn_route.
@@ -308,7 +308,7 @@ _Speaker: Lord Treasurer Aubrey Fenn_
 
 **Node `route`**, Lord Treasurer Fenn
 
-> "My clerks know the route. So does the guard captain, and so does Vorn, because the bank insists on knowing everything." He rubs his eyes. "If someone wanted to rob it, they'd try the ford at Wenmouth. You can't see that stretch of road from either side there."
+> "My clerks know the route. So does the guard captain, and so does Vorn, because the bank insists on knowing everything." He rubs his eyes. "If someone wanted to rob it, they'd try the ford at Wenmouth. You can't see that stretch of road from either bank."
 
 - **"Who knows the route?"** · `silver_summons/route/c1`
   Shown only if: not fenn_route.
@@ -474,7 +474,7 @@ _Speaker: Lord Treasurer Aubrey Fenn_
 
   > Ambush at the Ford: Someone will be waiting. Fight them, or take the wagons the long way round.
 
-- _phases[4]:_ “The Harbor: Hand the silver to the bank's factor.”
+- _phases[4]:_ “The Harbor: Hand the silver to the bank's factor, and watch who else is on the quay.”
 - _expire.title:_ “The escort never came”
 - _expire.text:_
 
@@ -2455,7 +2455,7 @@ Job templates on the board. A contract takes one of its titles at random. Story 
 
   > Ambush at the Ford: Someone will be waiting. Fight them, or take the wagons the long way round.
 
-- _phases[4]:_ “The Harbor: Hand the silver to the bank's factor.”
+- _phases[4]:_ “The Harbor: Hand the silver to the bank's factor, and watch who else is on the quay.”
 - _expire.title:_ “The escort never came”
 - _expire.text:_
 

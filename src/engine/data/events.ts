@@ -90,9 +90,9 @@ const CORE_STORY: EventDef[] = [
       `The Exchequer's seal is still warm on your charter. As of this morning, Ledger & Blade may take paid work anywhere in the realm. It is also ${s.loans[0]?.principal ?? 800} crowns in debt to the Weighhouse.\n\n` +
       `${BACKER_LINE[s.start?.backer ?? 'merchant']}\n\n` +
       "The Exchequer man who brought the charter glances at the empty weapon racks. \"Quarter-day's in a few weeks,\" he says, as everyone in Varrow does lately. \"Good luck.\"\n\n" +
-      'The hall came with a clerk, Jory Abbot, who has kept its books through three guildmasters. He offers to show you around.',
+      'The hall came with a clerk, Jory Abbot, who has kept its books through three guildmasters. He offers to show you round.',
     choices: [
-      { label: 'Let Jory show you around', effects: {}, next: 'people', resultText: '' },
+      { label: 'Let Jory show you round', effects: {}, next: 'people', resultText: '' },
       { label: 'Skip the tour', detail: 'Go straight to spending the last of the coin', effects: {}, next: 'start', resultText: '' },
     ],
     nodes: {
@@ -118,7 +118,7 @@ const CORE_STORY: EventDef[] = [
         text: (s) => {
           const l = s.loans[0];
           return (
-            `The strongbox is under the stairs, and the ledger sits on top of it, open to a page with a big, bold number. "${l?.principal ?? 800} to the Weighhouse," Jory says. "The first payment is ${l?.paymentDue ?? 48} crowns, in week ${l?.dueWeek ?? 6}, then one every four weeks after that."\n\n` +
+            `The strongbox is under the stairs, and the ledger sits on top of it, open to a page with a large number, underlined twice. "${l?.principal ?? 800} to the Weighhouse," Jory says. "The first payment is ${l?.paymentDue ?? 48} crowns, in week ${l?.dueWeek ?? 6}, then one every four weeks after that."\n\n` +
             'He turns the page back. "Miss three and they take the hall. I\'ve seen it done."\n\n' +
             'Paying early cuts the interest, and the Weighhouse counts it toward the next payment.'
           );
@@ -133,7 +133,7 @@ const CORE_STORY: EventDef[] = [
         text:
           'By the door there is a notice board with nothing on it but a nail. "Work gets pinned there," Jory says. "Debts to chase and wagons to guard, mostly. Now and then something in the tunnels under the Lower Town that needs clearing out."\n\n' +
           'You pick a job and the people for it.\n\n' +
-          '"Try to prep them so they all make it back home." He looks at the empty board, and then continues on.',
+          '"Try to get them ready so they all make it back home." He looks at the empty board, and then goes on.',
         choices: [{ label: "That's the hall, then", detail: 'Jobs are on Contracts, and squads that are out are on the Field', effects: {}, next: 'start', resultText: '' }],
       },
       start: {
@@ -395,13 +395,13 @@ const CORE_STORY: EventDef[] = [
     speaker: 'Lord Treasurer Aubrey Fenn',
     text:
       'Lord Treasurer Aubrey Fenn sees you in a cold and bare office.\n\n' +
-      '"The quarter payment is due, and for once we have it: three wagons of silver, most of what\'s left of the Crown plate. We need your help to make sure it reaches Port Anselm and the bank\'s ships."',
+      '"The quarter payment is due, and for once we have it: three wagons of silver, most of what\'s left of the Crown plate. I\'m sorry to ask, but I need someone to see it safely to Port Anselm and the bank\'s ships."',
     choices: (s) => summonsChoices(s),
     nodes: {
       route: {
         speaker: 'Lord Treasurer Fenn',
         text:
-          '"My clerks know the route. So does the guard captain, and so does Vorn, because the bank insists on knowing everything." He rubs his eyes. "If someone wanted to rob it, they\'d try the ford at Wenmouth. You can\'t see that stretch of road from either side there."',
+          '"My clerks know the route. So does the guard captain, and so does Vorn, because the bank insists on knowing everything." He rubs his eyes. "If someone wanted to rob it, they\'d try the ford at Wenmouth. You can\'t see that stretch of road from either bank."',
         choices: (s) => summonsChoices(s),
       },
       stakes: {
