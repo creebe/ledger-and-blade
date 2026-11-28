@@ -4,7 +4,7 @@ Dagny Fell, Porters' Fraternity. The bread riot, the dock tips and Dagny's broth
 
 ### Bread and Stones
 
-`bread_riot` · Story beat 5 · data/events.ts:244
+`bread_riot` · Story beat 5 · data/events.ts:303
 
 **When:** Weeks 5–7; when unrest clock >= 31 or week >= 7; needs alive: Dagny Fell; 45% a week inside the window.
 
@@ -112,7 +112,7 @@ _Speaker: Dagny Fell_
 
 ### Word from the Docks
 
-`dagny_tip` · Follow-up · data/events.ts:602
+`dagny_tip` · Follow-up · data/events.ts:661
 
 **When:** when dagny_contact; needs alive: Dagny Fell; random draw, weight 2; not again for 6 weeks.
 

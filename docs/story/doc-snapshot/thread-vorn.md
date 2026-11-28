@@ -4,7 +4,7 @@ Factor Maelis Vorn. The bank's office on Quay Street: work offers, the notice bo
 
 ### A Visitor from Ostrander's
 
-`ostrander_agent` · Story beat 2 · data/events.ts:114
+`ostrander_agent` · Story beat 2 · data/events.ts:173
 
 **When:** Weeks 2–3; needs alive: Factor Maelis Vorn; 60% a week inside the window.
 
@@ -139,7 +139,7 @@ _Speaker: Factor Vorn_
 
 ### An Offer from the Bank
 
-`bank_offer` · Follow-up · data/events.ts:691
+`bank_offer` · Follow-up · data/events.ts:750
 
 **When:** when ostranders standing >= 15 and loans.length > 0; needs alive: Factor Maelis Vorn; random draw, weight 1.5; not again for 12 weeks.
 

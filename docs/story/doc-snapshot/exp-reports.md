@@ -35,14 +35,14 @@ Lines the expedition rules write: the Down below row in the week report, squad c
 |---|---|
 | `engine/expeditions/prep.ts#memberBlocked.1` | {first} is already away. |
 | `engine/expeditions/prep.ts#memberBlocked.2` | {first} is not with the guild. |
-| `engine/expeditions/prep.ts#memberBlocked.3` | {first} is too badly hurt to go (health {m.health}). |
-| `engine/expeditions/prep.ts#memberBlocked.4` | {first} is in bed with the Sink fever for [IF m.fever.weeks is 1] another week [ELSE] {m.fever.weeks} more weeks [END]. |
+| `engine/expeditions/prep.ts#memberBlocked.3` | {first} is in bed with the Sink fever for [IF m.fever.weeks is 1] another week [ELSE] {m.fever.weeks} more weeks [END]. |
+| `engine/expeditions/prep.ts#memberBlocked.4` | {first} is too badly hurt to go (health {m.health}) and is resting. They'll be fit [IF lay.weeks is 1] next week [ELSE] in {lay.weeks} weeks [END]. |
 | `engine/expeditions/prep.ts#planBlocked.1` | The guild is closed. |
 | `engine/expeditions/prep.ts#planBlocked.2` | That contract is no longer on the board. |
 | `engine/expeditions/prep.ts#planBlocked.3` | [IF squadLimit(s) < T.squadsMuster] {out} squads are already out, and the hall can send no more. A Muster room would let a third go. [ELSE] {out} squads are already out, which is all the hall can send. [END] |
 | `engine/expeditions/prep.ts#planBlocked.4` | This job needs at least {size.min} people. |
 | `engine/expeditions/prep.ts#planBlocked.5` | This job takes at most {size.max} people. |
-| `engine/expeditions/prep.ts#planBlocked.6` | Each member can only take one rank. |
+| `engine/expeditions/prep.ts#planBlocked.6` | Each member can only take one position. |
 | `engine/expeditions/prep.ts#planBlocked.7` | One of the squad is no longer with the guild. |
 | `engine/expeditions/prep.ts#planBlocked.8` | A squad is already on its way to {MONSTERS[boss.monster].name}. |
 | `engine/expeditions/prep.ts#planBlocked.9` | The pack holds {T.packSlots} slots. |
@@ -51,13 +51,13 @@ Lines the expedition rules write: the Down below row in the week report, squad c
 | `engine/expeditions/prep.ts#planWarnings.2` | About {dark} dark rooms, and oil for {plan.pack.oil ?? 0}. |
 | `engine/expeditions/prep.ts#planWarnings.3` | No tools and no Infiltrator: traps and strongboxes will be a problem. |
 | `engine/expeditions/prep.ts#planWarnings.4` | No reagents: the Arcanist will cast from their own blood. |
-| `engine/expeditions/prep.ts#planWarnings.5` | {first} is [IF /^[AEIOU]/.test(PROFESSIONS[m.profession].name)] an [ELSE] a [END] {PROFESSIONS[m.profession].name} in rank {i}{1}. They work best from rank {ranks.join(' or ')}. |
+| `engine/expeditions/prep.ts#planWarnings.5` | {first} is [IF /^[AEIOU]/.test(PROFESSIONS[m.profession].name)] an [ELSE] a [END] {PROFESSIONS[m.profession].name} in position {i}{1}. They work best from position {ranks.join(' or ')}. |
 | `engine/expeditions/prep.ts#planWarnings.6` | {first} is still hurt (health {m.health}). |
 | `engine/expeditions/prep.ts#planWarnings.7` | {first} is [IF m.fatigue >= T.fatigue.spent] worn out [ELSE] tired [END] before they start (fatigue {m.fatigue}). If they go down tired, they're likelier to die. |
 | `engine/expeditions/prep.ts#planWarnings.8` | {first} is close to a Sink change (Exposure {m.exposure} of {nextTh}). If they're rested they'll run the Sink fever first. If they're worn out, it takes at once. |
 | `engine/expeditions/prep.ts#planWarnings.9` | There is no Chaplain in the squad and no bandages in the pack. |
 | `engine/expeditions/prep.ts#planWarnings.10` | The Sink is on the route, and there are {plan.pack.masks ?? 0} wet masks for {squad.length} people. |
-| `engine/expeditions/prep.ts#planWarnings.11` | A Weighhouse payment of {loan.paymentDue} falls due while they're away. If the money at home is short, the Weighhouse waits for the squad. |
+| `engine/expeditions/prep.ts#planWarnings.11` | A Weighhouse payment of {loanStillDue(loan)} falls due while they're away. If the money at home is short, the Weighhouse waits for the squad. |
 | `engine/expeditions/prep.ts#planWarnings.12` | This is story work. If the squad turns back or is lost, the job fails, and the story goes on without it. |
 | `engine/expeditions/prep.ts#planWarnings.13` | This is the deepest route in Old Pellam, and nobody in this squad is past level 2. Squads this green often don't come back from the College Sink. |
 | `engine/expeditions/prep.ts#planWarnings.14` | This route ends with {MONSTERS[boss.monster].name}, and nobody in this squad is past level 2. Squads this green often don't come back. |

@@ -4,26 +4,76 @@ Lord Treasurer Fenn, the Exchequer. The act's spine: the charter, the commission
 
 ### A Charter and a Debt
 
-`charter` · Story beat 1 · data/events.ts:82
+`charter` · Story beat 1 · data/events.ts:84
 
 **When:** Week 1.
 
 > The Exchequer's seal is still warm on your charter. As of this morning, Ledger & Blade may take paid work anywhere in the realm. It is also {loans[0].principal ?? 800} crowns in debt to the Weighhouse, which paid for the hall, the first wages and the sign over the door.
 >
-> [DEPENDS ON start.backer ?? 'merchant'] veterans: The money came from four old soldiers and their back pay. Two of them have already argued about where the weapon racks should go. [OR] merchant: The money came from a wool merchant on the Weighhouse, who has sent a list of his wagons and the dates they leave. [OR] coop: The money came from the porters and small trades of the Lower Town, in coins so small that it took Jory two days to count them. [OR] college: The money came from two Arcanists who left the college after the fire. One of them still smells faintly of smoke. [END]
->
-> The hall came with a clerk, Jory Abbot, who has kept its books through three guildmasters and has already found the leak in the roof.
+> [DEPENDS ON start.backer ?? 'merchant'] veterans: Four old soldiers paid for the charter out of their back pay. Two of them have already argued about where the weapon racks should go. [OR] merchant: A wool merchant on the Weighhouse paid for the charter. He has already sent a list of his wagons and the dates they leave. [OR] coop: The porters and small trades of the Lower Town paid for the charter, in coins so small that the Exchequer's clerk spent a morning counting them. [OR] college: Two Arcanists who were thrown out of the college after the fire paid for the charter with what they had left. One of them still smells faintly of smoke. [END]
 >
 > The Exchequer man who brought the charter glances at the empty weapon racks. "Quarter-day's in a few weeks," he says, as everyone in Varrow does lately. "Good luck."
 >
-> You have a little coin left over. How do you start?
+> The hall came with a clerk, Jory Abbot, who has kept its books through three guildmasters and has already found the leak in the roof. He offers to show you round.
 
-- **Arm the guild** · _Gain a Mail Hauberk and 2 Fire Oils_ · `charter/root/c1`
+- **Let Jory show you round** · `charter/root/c1`
+  → goes to node `people`
+- **Skip the tour** · _Go straight to spending the last of the coin_ · `charter/root/c2`
+  → goes to node `start`
+
+**Node `people`**, Jory Abbot
+
+> Jory starts in the common room, since the people cost the most. Your people are there, and have clearly been waiting: [IF names.length > 1] {names.slice(0, -1).join(', ')} and {names[names.length - 1]} [ELSE] {names[0] ?? 'nobody yet'} [END].
+>
+> "{crew.reduce((n, m) => n + m.wage, 0)} crowns a week in wages, whether there's work or not," Jory says. "I'd find them work."
+>
+> Each week, anyone at the hall can be given an order: rest, train, gather rumors, work the docks. Anyone badly hurt rests whatever you tell them.
+
+- **On to the strongbox** · _Your people and their weekly orders are on the Roster_ · `charter/people/c1`
+  → goes to node `loan`
+- **That's enough for now** · `charter/people/c2`
+  → goes to node `start`
+
+**Node `loan`**, Jory Abbot
+
+> The strongbox is under the stairs, and the ledger sits on top of it, open to a page that is mostly one number. "{l.principal ?? 800} to the Weighhouse," Jory says. "The first payment is {l.paymentDue ?? 48} crowns, in week {l.dueWeek ?? 6}, then one every four weeks after that."
+>
+> He turns the page back. "Miss three and they take the hall. I've seen it done. They took the chairs first."
+>
+> Paying early cuts the interest, and the Weighhouse counts it toward the next payment.
+
+- **On to the notice board** · _The treasury and the loan are on the Hall_ · `charter/loan/c1`
+  → goes to node `board`
+- **That's enough for now** · `charter/loan/c2`
+  → goes to node `start`
+
+**Node `board`**, Jory Abbot
+
+> By the door there is a notice board with nothing on it but a nail. "Work gets pinned there," Jory says. "Debts to chase and wagons to guard, mostly. Now and then something in the tunnels under the Lower Town that wants clearing out."
+>
+> You pick a job and the people for it, and they bring the pay home. Squads on the road can be followed week by week until they are back.
+>
+> Jory looks at the nail. "Most of them come home."
+
+- **That's the hall, then** · _Jobs are on Contracts, and squads that are out are on the Field_ · `charter/board/c1`
+  → goes to node `start`
+
+**Node `start`**, Jory Abbot
+
+> "There's a little left over from the Weighhouse money," Jory says. "I'd spend it before the roof does."
+>
+> How do you start?
+
+- **Arm the guild** · _Gain a Mail Hauberk and 2 Fire Oils_ · `charter/start/c1`
   “You visit the armorers on Anvil Row. Your people will at least look the part.”
   Sets `start_arms`.
-- **Hire an Arcanist** · _A college-trained Arcanist joins for free_ · `charter/root/c2`
+- **Hire a second Arcanist** · _Another college-trained Arcanist joins for free_ · `charter/start/c2`
+  Shown only if: backer is college.
+  “Word gets round the college that one of its own is hiring. A second Arcanist turns up the next morning with a sack of books and no questions about the fire.”
+- **Hire an Arcanist** · _A college-trained Arcanist joins for free_ · `charter/start/c3`
+  Shown only if: not (backer is college).
   “A young Arcanist from the college, short of fees, signs on for the work and the wage.”
-- **Keep the coin** · _+80 crowns_ · `charter/root/c3`
+- **Keep the coin** · _+80 crowns_ · `charter/start/c4`
   “You put it in the strongbox under the stairs. Eighty crowns is eighty crowns.”
 
 **Leads to:**
@@ -32,7 +82,7 @@ Lord Treasurer Fenn, the Exchequer. The act's spine: the charter, the commission
 
 ### Summoned to the Exchequer
 
-`silver_summons` · Story beat 6 · data/events.ts:328
+`silver_summons` · Story beat 6 · data/events.ts:387
 
 **When:** Weeks 7–9; after A Visitor from Ostrander's (`ostrander_agent`); needs alive: Lord Treasurer Aubrey Fenn; 50% a week inside the window.
 
@@ -246,7 +296,7 @@ _Speaker: Lord Treasurer Aubrey Fenn_
 
 ### Quarter Day
 
-`quarter_day` · Story beat 13 · data/events.ts:372
+`quarter_day` · Story beat 13 · data/events.ts:431
 
 **When:** Weeks 9–18; after Summoned to the Exchequer (`silver_summons`); when (silver_delivered or silver_lost or silver_declined); 70% a week inside the window.
 
@@ -343,7 +393,7 @@ _Speaker: Lord Treasurer Fenn_
 
 ### Half a Year
 
-`act1_slice_end` · Story beat 17 · data/events.ts:423
+`act1_slice_end` · Story beat 17 · data/events.ts:482
 
 **When:** Weeks 22–26; after Quarter Day (`quarter_day`), The Last Tapestry (`fenn_tapestry`), The Family Silver (`aske_plate`); 60% a week inside the window.
 
@@ -360,7 +410,7 @@ _Speaker: Lord Treasurer Fenn_
 
 ### The Exchequer Audits
 
-`audit` · Follow-up · data/events.ts:635
+`audit` · Follow-up · data/events.ts:694
 
 **When:** when heat >= 30; random draw, weight 4; not again for 6 weeks.
 

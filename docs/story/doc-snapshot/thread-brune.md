@@ -69,7 +69,7 @@ _Same choices as the opening (one shared menu)._
 
 ### Saint Oda's Feast
 
-`festival` · Follow-up · data/events.ts:679
+`festival` · Follow-up · data/events.ts:738
 
 **When:** when seasonOf(week) is 'Summer'; random draw, weight 3; not again for 40 weeks.
 

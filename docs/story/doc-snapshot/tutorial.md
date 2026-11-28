@@ -7,7 +7,7 @@ _how_ is the instruction; _why_ is the reason given; _available_ is the message 
 | ID | title | how | why | available |
 |---|---|---|---|---|
 | `tutorial:first_contract` | Take your first contract | Open Contracts, tap a job, select a few members and press Dispatch. | Contracts are how the guild earns. Every week costs wages and upkeep. |  |
-| `tutorial:read_odds` | Plan an expedition | Open a contract on the board and read its plan: the squad in ranks, the pack, the standing orders and “Before you go”. | Nobody can send orders once a squad has left. Everything that happens down there follows from the plan. |  |
+| `tutorial:read_odds` | Plan an expedition | Open a contract on the board and read its plan: the squad in position order, the pack, the standing orders and “Before you go”. | Nobody can send orders once a squad has left. Everything that happens down there follows from the plan. |  |
 | `tutorial:look_ahead` | Look at the next Date | Tap the Date under the week in the top bar to see what it asks for and what it pays. | A Date is a few weeks off. Meeting its targets pays, and missing one costs. |  |
 | `tutorial:end_week` | End the week | Press End Week to see what's about to happen, then hold the button at the bottom to confirm. Everything you set in motion resolves at once. | The game moves a week at a time. Squads travel, wages are paid, the world changes. |  |
 

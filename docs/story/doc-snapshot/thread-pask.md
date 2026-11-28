@@ -58,7 +58,7 @@ _Same choices as node `why` (one shared menu)._
 
 ### A Mudlark Informant
 
-`informant` · Follow-up · data/events.ts:613
+`informant` · Follow-up · data/events.ts:672
 
 **When:** random draw, weight 2; not again for 4 weeks.
 

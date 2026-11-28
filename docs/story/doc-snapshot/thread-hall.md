@@ -4,7 +4,7 @@ Jory Abbot and the members. The guild's own people: Jory, the dead, wages, Legen
 
 ### A Tavern Brawl
 
-`brawl` · Follow-up · data/events.ts:517
+`brawl` · Follow-up · data/events.ts:576
 
 **When:** picks a member where m.status is 'idle'; random draw, weight 2; not again for 6 weeks.
 
@@ -19,7 +19,7 @@ Jory Abbot and the members. The guild's own people: Jory, the dead, wages, Legen
 
 ### A Matter of Wages
 
-`raise` · Follow-up · data/events.ts:531
+`raise` · Follow-up · data/events.ts:590
 
 **When:** picks a member where m.status is 'idle' and (m.traits.includes('greedy') or m.level >= 3); random draw, weight 1.5; not again for 10 weeks.
 
@@ -37,7 +37,7 @@ _Speaker: Your member_
 
 ### A Letter from Home
 
-`homesick` · Follow-up · data/events.ts:554
+`homesick` · Follow-up · data/events.ts:613
 
 **When:** picks a member where m.status is 'idle'; random draw, weight 1.2; not again for 12 weeks.
 
@@ -52,7 +52,7 @@ _Speaker: Your member_
 
 ### Bad Nights
 
-`nightmares` · Follow-up · data/events.ts:567
+`nightmares` · Follow-up · data/events.ts:626
 
 **When:** when members.some((m) => m.status is 'dead' and (m.diedWeek ?? -99) >= week - 6); picks a member where m.status is 'idle' and m.missions > 0 and members.some((d) => d.status is 'dead' and (d.diedWeek ?? -99) >= week - 6); random draw, weight 3; not again for 8 weeks.
 
@@ -68,7 +68,7 @@ _Speaker: Your member_
 
 ### A Volunteer
 
-`volunteer` · Follow-up · data/events.ts:667
+`volunteer` · Follow-up · data/events.ts:726
 
 **When:** when lowertown standing >= 10; random draw, weight 1.2; not again for 10 weeks.
 
@@ -128,7 +128,7 @@ One line about one week in four, in the week report.
 | ID | text | when |
 |---|---|---|
 | `jory:j_candles` | Jory has started weighing the candles before he lights them. | when crowns < 60 |
-| `jory:j_loan` | Jory reminds you that the Weighhouse payment is due this week, and that he reminded you last week too. | when loans.some((l) => l.dueWeek - week <= 1) |
+| `jory:j_loan` | Jory reminds you that the Weighhouse payment is due this week, and that he reminded you last week too. | when loans.some((l) => l.dueWeek - week <= 1 and loanStillDue(l) > 0) |
 | `jory:j_watch` | Jory says a man from the watch has walked past the hall four times today, and he's starting to recognize the hat. | when heat >= 40 |
 | `jory:j_renown` | Jory says people have started spelling the guild's name right in their letters. He thinks this is a good sign. | when renown >= 15 |
 | `jory:j_candle` | Jory has left a candle burning in the hall. He doesn't say who it's for. | when members.some((m) => m.status is 'dead' and (m.diedWeek ?? -99) >= week - 1) |

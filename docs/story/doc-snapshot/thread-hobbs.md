@@ -4,7 +4,7 @@ Marta and Isbet Hobb. The rival debt collectors: a share offer, a split behind M
 
 ### Hobb & Daughters
 
-`hobbs_arrive` · Story beat 4 · data/events.ts:193
+`hobbs_arrive` · Story beat 4 · data/events.ts:252
 
 **When:** Weeks 4–6; after A Visitor from Ostrander's (`ostrander_agent`); needs alive: Marta Hobb, Isbet Hobb; 50% a week inside the window.
 

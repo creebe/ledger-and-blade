@@ -34,7 +34,7 @@ Text the rules write into the week report, dispatches, mission journals and warn
 |---|---|
 | `engine/core/turn.ts#endWeekWarnings.1` | [IF idle.length is 1] 1 rested member is doing nothing. [ELSE] {idle.length} rested members are doing nothing. [END] |
 | `engine/core/turn.ts#endWeekWarnings.2` | Supplies will run short: {supplies} for {home} mouths. |
-| `engine/core/turn.ts#endWeekWarnings.3` | You can't cover this week's loan payment of {due.paymentDue} crowns. |
+| `engine/core/turn.ts#endWeekWarnings.3` | You can't cover this week's loan payment of {loanStillDue(due)} crowns. |
 | `engine/core/turn.ts#endWeekWarnings.4` | Wages and upkeep will put you in the red. |
 | `engine/core/turn.ts#endWeekWarnings.5` | [IF expiring.length is 1] 1 contract expires this week. [ELSE] {expiring.length} contracts expire this week. [END] |
 | `engine/core/turn.ts#homePhase.1` | {member full name} is over the fever |
@@ -43,16 +43,30 @@ Text the rules write into the week report, dispatches, mission journals and warn
 | `engine/core/turn.ts#economyPhase.2` | [IF hungry is 1] 1 member went hungry this week. Morale suffers. [ELSE] {hungry} members went hungry this week. Morale suffers. [END] |
 | `engine/core/turn.ts#economyPhase.3` | The coin at home fell short, so the guild sold its goods for {got} crowns to make the payment. |
 | `engine/core/turn.ts#economyPhase.4` | The payment of {due} crowns is due, and a squad is still away. The Weighhouse agrees to wait a week for them, and writes to say so. It wants paying in week {loan.dueWeek}, and [IF loan.waited is 3] it will not wait again [ELSE] it will wait at most three weeks in all [END]. |
-| `engine/core/turn.ts#economyPhase.5` | Paid {due} crowns to the Weighhouse. {Math.ceil(loan.principal)} still owed. The next payment is due in week {nextDue}. |
-| `engine/core/turn.ts#economyPhase.6` | Missed loan payment! |
-| `engine/core/turn.ts#economyPhase.7` | You could not pay the {due} crowns due. A 20-crown penalty was added, and the Weighhouse is displeased. |
-| `engine/core/turn.ts#economyPhase.8` | Missed payments: {loan.missed} of 3. At 3, your assets will be seized. The next payment is due in week {nextDue}. |
-| `engine/core/turn.ts#economyPhase.9` | Your coffers are empty and wages went unpaid. Loyalty is falling. Weeks in the red: {insolventWeeks} of 4. |
+| `engine/core/turn.ts#economyPhase.5` | The {full} crowns due this week were paid early, so the Weighhouse takes nothing. You still owe {Math.ceil(loan.principal)} crowns.[IF left > 0]  The other {left} crowns you paid early count toward the next payment, due in week {nextDue}. [ELSE]  The next payment is due in week {nextDue}. [END] |
+| `engine/core/turn.ts#economyPhase.6` | You paid the Weighhouse [IF credit] the last {due} of the {full} crowns due, since {credit} were paid early [ELSE] {due} crowns [END]. You still owe {Math.ceil(loan.principal)} crowns. The next payment is due in week {nextDue}. |
+| `engine/core/turn.ts#economyPhase.7` | Missed loan payment! |
+| `engine/core/turn.ts#economyPhase.8` | You could not pay the {due} crowns [IF credit] still due ({credit} of the {full} were paid early) [ELSE] due [END]. A 20-crown penalty was added, and the Weighhouse is displeased. |
+| `engine/core/turn.ts#economyPhase.9` | Missed payments: {loan.missed} of 3. At 3, your assets will be seized. The next payment is due in week {nextDue}. |
+| `engine/core/turn.ts#economyPhase.10` | Your coffers are empty and wages went unpaid. Loyalty is falling. Weeks in the red: {insolventWeeks} of 4. |
 | `engine/core/turn.ts#memberPhase.1` | They left in the night. |
 | `engine/core/turn.ts#politicsPhase.1` | The Exchequer is preparing to revoke your charter. Weeks remaining: {6 - charterWeeks}. Raise Exchequer standing above −60 and keep Heat below 100. |
 | `engine/core/turn.ts#checkGameOver.1` | The Weighhouse bailiffs arrive at dawn with a writ. The hall, the armory and the sign over the door are seized. Ledger & Blade is finished. |
 | `engine/core/turn.ts#checkGameOver.2` | A herald nails the Exchequer's writ to your door: your charter is revoked. Without it, every contract is a crime. The guild disbands. |
 | `engine/core/turn.ts#checkGameOver.3` | No one is left to answer the door. The guild is a name on an old ledger. |
+
+### data/prologue.ts
+
+| ID | Line |
+|---|---|
+| `engine/data/prologue.ts#PROLOGUE.1` | Twenty-two years ago, King Aldric lost a war at Cassel Ford. The treaty that ended it binds the realm to repay about four million crowns to Ostrander's, the foreign bank that paid for the other side's army, one quarter at a time, for as long as it takes. |
+| `engine/data/prologue.ts#PROLOGUE.2` | If the Crown misses a payment, the bank may collect however it likes. To make sure it never misses one, the Crown has sold the royal forests, the river tolls, half the royal plate and most of the Exchequer's tapestries. Quarter-day comes round again in a few weeks. |
+| `engine/data/prologue.ts#PROLOGUE.3` | Varrow is the capital, a port on the river with a chain across it. The tolls taken at the chain go to the bank now. Below the walls lies the Lower Town, home to the porters and small trades. They pay the taxes that pay the bank, and they are not in a patient mood. |
+| `engine/data/prologue.ts#PROLOGUE.4` | Everyone in Varrow owes someone. That makes for a great deal of work, and a fair amount of it needs a blade. |
+| `engine/data/prologue.ts#PROLOGUE.5` | The treaty also cut the Crown's regiments down to almost nothing. The work soldiers used to do is let out by the job now, to anyone holding a charter from the Exchequer: chasing debts, guarding the Crown's silver on the road, clearing the old town buried under the Lower Town, and whatever else the bank, the Crown, the Weighhouse or the Lower Town will pay for this week. |
+| `engine/data/prologue.ts#PROLOGUE.6` | A chartered guild takes the work, sends its people out in squads and splits the pay. Some guilds last for years, but most fold before their first loan is paid off. |
+| `engine/data/prologue.ts#PROLOGUE.7` | This morning the Exchequer sealed your charter. You have a drafty hall on Tallow Street and a handful of people who expect to be paid every week. The Weighhouse lent you the money for both, and it will want it back on time. |
+| `engine/data/prologue.ts#PROLOGUE.8` | Your work is to keep the books balanced and as many of your people alive as you can manage. First, though, someone had to back you, and Varrow has its own troubles this season. |
 
 ### economy/board.ts
 
@@ -346,15 +360,18 @@ Text the rules write into the week report, dispatches, mission journals and warn
 |---|---|
 | `engine/story/dates.ts#datesPhase.1` | {d.who} will not be coming after all. |
 | `engine/story/dates.ts#dateWarning.1` | {d.title} arrives at the end of this week, and [IF short is 1] one target is [ELSE] {short} targets are [END] not met yet. |
-| `engine/story/dates.ts#dateTargets.1` | Pay the Weighhouse {loan.paymentDue} crowns on the day |
+| `engine/story/dates.ts#dateTargets.1` | Pay the Weighhouse {loanStillDue(loan)} crowns on the day |
 | `engine/story/dates.ts#dateTargets.2` | {crowns} in the treasury |
-| `engine/story/dates.ts#dateTargets.3` | Have {t.at} crowns when the week closes, after the bills |
-| `engine/story/dates.ts#dateTargets.4` | Keep {t.at} supplies in store |
-| `engine/story/dates.ts#dateTargets.5` | Bring [IF t.count is 1] a successful contract [ELSE] {t.count} successful contracts [END] home |
-| `engine/story/dates.ts#dateTargets.6` | Muster {t.count} members, {t.seniors} of them at level 3 or higher |
-| `engine/story/dates.ts#dateTargets.7` | {crew.length} members, {seniors} at level 3+ |
-| `engine/story/dates.ts#dateTargets.8` | Pay the Weighhouse {t.amount} crowns, due payments included |
-| `engine/story/dates.ts#dateTargets.9` | [IF backed] [IF met] Your side is winning a vote [ELSE] Your side is losing every vote [END] [ELSE] No stance taken yet [END] |
+| `engine/story/dates.ts#dateTargets.3` | Pay the Weighhouse {loanStillDue(loan)} crowns on the day |
+| `engine/story/dates.ts#dateTargets.4` | [IF day.onHand >= loanStillDue(loan)] about {day.onHand} on hand that day [ELSE] about {loanStillDue(loan) - day.onHand} short that day [END] |
+| `engine/story/dates.ts#dateTargets.5` | [IF by >= t.at] about {by} by then [ELSE] about {t.at - by} short by then, if no new pay comes in [END] |
+| `engine/story/dates.ts#dateTargets.6` | Have {t.at} crowns when the week closes, after the bills |
+| `engine/story/dates.ts#dateTargets.7` | Keep {t.at} supplies in store |
+| `engine/story/dates.ts#dateTargets.8` | Bring [IF t.count is 1] a successful contract [ELSE] {t.count} successful contracts [END] home |
+| `engine/story/dates.ts#dateTargets.9` | Muster {t.count} members, {t.seniors} of them at level 3 or higher |
+| `engine/story/dates.ts#dateTargets.10` | {crew.length} members, {seniors} at level 3+ |
+| `engine/story/dates.ts#dateTargets.11` | Pay the Weighhouse {t.amount} crowns, due payments included |
+| `engine/story/dates.ts#dateTargets.12` | [IF backed] [IF met] Your side is winning a vote [ELSE] Your side is losing every vote [END] [ELSE] No stance taken yet [END] |
 | `engine/story/dates.ts#stakesLines.1` | {sign(st.morale)} morale for everyone at home |
 | `engine/story/dates.ts#stakesLines.2` | [IF st.loanRate < 0] a lower rate on the loan [ELSE] a higher rate on the loan [END] |
 

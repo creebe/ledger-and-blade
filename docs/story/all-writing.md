@@ -4038,8 +4038,8 @@ Text the rules write into the week report, dispatches, mission journals and warn
 | `engine/story/dates.ts#dateTargets.1` | Pay the Weighhouse {loanStillDue(loan)} crowns on the day |
 | `engine/story/dates.ts#dateTargets.2` | {crowns} in the treasury |
 | `engine/story/dates.ts#dateTargets.3` | Pay the Weighhouse {loanStillDue(loan)} crowns on the day |
-| `engine/story/dates.ts#dateTargets.4` | about {day.onHand} on hand that day |
-| `engine/story/dates.ts#dateTargets.5` | [IF by >= t.at] about {by} by then [ELSE] about {by} by then, if no new pay comes in [END] |
+| `engine/story/dates.ts#dateTargets.4` | [IF day.onHand >= loanStillDue(loan)] about {day.onHand} on hand that day [ELSE] about {loanStillDue(loan) - day.onHand} short that day [END] |
+| `engine/story/dates.ts#dateTargets.5` | [IF by >= t.at] about {by} by then [ELSE] about {t.at - by} short by then, if no new pay comes in [END] |
 | `engine/story/dates.ts#dateTargets.6` | Have {t.at} crowns when the week closes, after the bills |
 | `engine/story/dates.ts#dateTargets.7` | Keep {t.at} supplies in store |
 | `engine/story/dates.ts#dateTargets.8` | Bring [IF t.count is 1] a successful contract [ELSE] {t.count} successful contracts [END] home |

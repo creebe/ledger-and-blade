@@ -26,6 +26,10 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 
 | ID | Line |
 |---|---|
+| `ui/kit/common.tsx#set.1` | [IF animate] transform 0.2s ease-out [ELSE] none [END] |
+| `ui/kit/common.tsx#set.2` | [IF animate] background-color 0.2s ease-out [ELSE] none [END] |
+| `ui/kit/common.tsx#set.3` | [IF animate] background-color 0.2s ease-out [ELSE] none [END] |
+| `ui/kit/common.tsx#onStart.1` | input, textarea, select, [data-no-swipe], .sheet-foot |
 | `ui/kit/common.tsx#ChanceBar.1` | [IF min >= 0.7] good [ELSE IF max < 0.4] bad [ELSE] mid [END] |
 
 ### ui/kit/members.tsx
@@ -39,6 +43,9 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 | `ui/kit/members.tsx#ASSIGNMENTS.5` | Stay home and watch the doors. Each guard makes theft, arson and worse less likely to succeed, and helps catch spies. Mildly tiring. |
 | `ui/kit/members.tsx#ASSIGNMENTS.6` | Help with construction: each builder adds half a week of progress. Tiring. |
 | `ui/kit/members.tsx#ASSIGNMENTS.7` | Reveal a contract's hidden tags by week's end. Scouts, Skirmishers and Infiltrators reveal all of them; others reveal one. |
+| `ui/kit/members.tsx#restingInfo.1` | [IF lay.weeks is 1] next week [ELSE] in {lay.weeks} weeks [END] |
+| `ui/kit/members.tsx#restingInfo.2` | {first} is in bed with the Sink fever, so they can't take orders or go out. They'll be up {when}. |
+| `ui/kit/members.tsx#restingInfo.3` | {first} is resting while their wounds heal, so they can't take orders or go out. Their health is {m.health}, and they need {FIT_HEALTH} to work again. They'll be fit {when}.[IF level(g, 'infirmary') < 1]  An Infirmary in the Hall would heal them faster. [END] |
 | `ui/kit/members.tsx#choose.1` | No contract has anything left to scout. |
 | `ui/kit/members.tsx#choose.2` | {m.name.split(' ')[0]}: {a.label} this week. [IF a.id is 'train'] Pick what to train below. [ELSE] {a.blurb} [END] |
 | `ui/kit/members.tsx#OrderPicker.1` | [IF a.id is 'train'] +1 to an attribute every {trainWeeks(game)} weeks. Costs {crowns(trainCost(game))} a week and adds fatigue. [ELSE] {a.blurb} [END] |
@@ -175,7 +182,7 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 | ID | Line |
 |---|---|
 | `ui/screens/Hall.tsx#alerts.1` | {plural(g.pendingEvents.length, 'dispatch', 'dispatches')} [IF g.pendingEvents.length is 1] awaits [ELSE] await [END] your decision. |
-| `ui/screens/Hall.tsx#alerts.2` | Loan payment of {crowns(l.paymentDue)} due [IF inWeeks <= 0] this week [ELSE] next week [END]. |
+| `ui/screens/Hall.tsx#alerts.2` | Loan payment of {crowns(owed)} due [IF inWeeks <= 0] this week [ELSE] next week [END]. |
 | `ui/screens/Hall.tsx#alerts.3` | Missed loan payments: {l.missed} of 3. |
 | `ui/screens/Hall.tsx#alerts.4` | In the red for {plural(g.insolventWeeks, 'week')}. At 4, the guild is bankrupt. |
 | `ui/screens/Hall.tsx#alerts.5` | Charter in danger: {plural(6 - g.charterWeeks, 'week')} left to fix it. |
@@ -183,22 +190,38 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 | `ui/screens/Hall.tsx#alerts.7` | {plural(back.length, 'squad')} [IF back.length is 1] is [ELSE] are [END] due home at the end of this week. |
 | `ui/screens/Hall.tsx#alerts.8` | Supplies are low ({g.supplies}). Buy more at the Armory. |
 | `ui/screens/Hall.tsx#alerts.9` | Story contract available: "{story.title}". |
+| `ui/screens/Hall.tsx#dueWhen.1` | [IF l.dueWeek <= week] this week [ELSE IF l.dueWeek is week + 1] next week [ELSE] in {weeks(l.dueWeek - week)} [END] |
+| `ui/screens/Hall.tsx#aheadLine.1` | The next payment is already covered, so this counts toward the one after. |
+| `ui/screens/Hall.tsx#aheadLine.2` | [IF left is 0] This covers the next payment of {crowns(now)}, so the Weighhouse takes nothing on the day. [ELSE] The next payment falls from {crowns(now)} to {crowns(left)}. [END] |
 | `ui/screens/Hall.tsx#HallScreen.1` | This week so far |
-| `ui/screens/Hall.tsx#HallScreen.2` | [IF loan.dueWeek <= g.week] this week [ELSE IF loan.dueWeek is g.week + 1] next week [ELSE] in {weeks(loan.dueWeek - g.week)} [END] |
-| `ui/screens/Hall.tsx#HallScreen.3` | The projection counts known costs and the listed pay of squads already in the field. Supplies are bought separately. |
-| `ui/screens/Hall.tsx#HallScreen.4` | Last week in detail |
-| `ui/screens/Hall.tsx#HallScreen.5` | You owe the Weighhouse |
-| `ui/screens/Hall.tsx#HallScreen.6` | % interest per week. Next payment: |
-| `ui/screens/Hall.tsx#HallScreen.7` | [IF loan.dueWeek is g.week] at the end of this week [ELSE IF loan.dueWeek is g.week + 1] next week [ELSE] in {weeks(loan.dueWeek - g.week)} [END] |
-| `ui/screens/Hall.tsx#HallScreen.8` | Repay {n} crowns early? |
-| `ui/screens/Hall.tsx#HallScreen.9` | Your debt falls from {Math.ceil(loan.principal)} to {Math.ceil(loan.principal - n)}, saving about {crowns(Math.round(n * loan.weeklyRate * 10) / 10)} interest every week. |
-| `ui/screens/Hall.tsx#HallScreen.10` | Make sure you can still cover weekly costs: {crowns(weeklyWages(g) + upkeep(g))}. |
-| `ui/screens/Hall.tsx#HallScreen.11` | [IF g.crowns < loan.principal] Need {Math.ceil(loan.principal)} crowns to clear the debt [END] |
-| `ui/screens/Hall.tsx#HallScreen.12` | Clear the whole debt? |
-| `ui/screens/Hall.tsx#HallScreen.13` | The Weighhouse returns your note, and the guild owes nothing. |
-| `ui/screens/Hall.tsx#HallScreen.14` | Paying early reduces the interest that piles up each week. Missing 3 payments means ruin. |
-| `ui/screens/Hall.tsx#HallScreen.15` | The guild is debt-free. |
-| `ui/screens/Hall.tsx#HallScreen.16` | Show older dispatches |
+| `ui/screens/Hall.tsx#HallScreen.2` | [IF loanStillDue(loan) > 0] {crowns(loanStillDue(loan))} due [ELSE] nothing due [END] |
+| `ui/screens/Hall.tsx#HallScreen.3` | The projection counts known costs and the listed pay of squads already in the field, as if every job succeeds. Supplies are bought separately. |
+| `ui/screens/Hall.tsx#HallScreen.4` | "Waits": the coin will be short on the day, but a squad is still away, so the Weighhouse holds off until it's home, for up to three weeks. |
+| `ui/screens/Hall.tsx#HallScreen.5` | "Missed": the coin will be short on the day. A missed payment adds 20 crowns to the debt, and a third missed payment means ruin. |
+| `ui/screens/Hall.tsx#HallScreen.6` | Supplies run out |
+| `ui/screens/Hall.tsx#HallScreen.7` | [IF proj.find((p) => p.hungry)!.week is g.week] this week [ELSE] in {weeks(proj.find((p) => p.hungry)!.week - g.week)} [END] |
+| `ui/screens/Hall.tsx#HallScreen.8` | , and anyone at home without them goes hungry. Buy more at the Armory. |
+| `ui/screens/Hall.tsx#HallScreen.9` | Last week in detail |
+| `ui/screens/Hall.tsx#HallScreen.10` | You owe the Weighhouse |
+| `ui/screens/Hall.tsx#HallScreen.11` | % interest per week. |
+| `ui/screens/Hall.tsx#HallScreen.12` | [IF loan.dueWeek <= g.week] at the end of this week [ELSE] {dueWhen(loan, g.week)} [END] |
+| `ui/screens/Hall.tsx#HallScreen.13` | The payment due |
+| `ui/screens/Hall.tsx#HallScreen.14` | [IF loanStillDue(loan) > 0] You've paid {crowns(Math.floor(loan.paidAhead!))} early, which comes off the {crowns(Math.min(loan.paymentDue, Math.ceil(loan.principal)))} due. [ELSE] You've paid {crowns(Math.floor(loan.paidAhead!))} early. The Weighhouse counts it toward the next payment, so nothing is owed on the day. [END] |
+| `ui/screens/Hall.tsx#HallScreen.15` | Repay {n} crowns early? |
+| `ui/screens/Hall.tsx#HallScreen.16` | Your debt falls from {Math.ceil(loan.principal)} to {Math.ceil(loan.principal - n)}, saving about {crowns(Math.round(n * loan.weeklyRate * 10) / 10)} interest every week. |
+| `ui/screens/Hall.tsx#HallScreen.17` | Make sure you can still cover weekly costs: {crowns(weeklyWages(g) + upkeep(g))}. |
+| `ui/screens/Hall.tsx#HallScreen.18` | [IF g.crowns < loan.principal] Need {Math.ceil(loan.principal)} crowns to clear the debt [END] |
+| `ui/screens/Hall.tsx#HallScreen.19` | Clear the whole debt? |
+| `ui/screens/Hall.tsx#HallScreen.20` | The Weighhouse returns your note, and the guild owes nothing. |
+| `ui/screens/Hall.tsx#HallScreen.21` | Paying early cuts the interest that piles up each week, and it counts toward the next payment. Missing 3 payments means ruin. |
+| `ui/screens/Hall.tsx#HallScreen.22` | The guild is debt-free. |
+| `ui/screens/Hall.tsx#HallScreen.23` | Show older dispatches |
+
+### ui/screens/Prologue.tsx
+
+| ID | Line |
+|---|---|
+| `ui/screens/Prologue.tsx#Prologue.1` | Ledger &amp; Blade |
 
 ### ui/screens/Realm.tsx
 
@@ -265,13 +288,17 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 | `ui/screens/Title.tsx#NewGuild.5` | The state of Varrow |
 | `ui/screens/Title.tsx#NewGuild.6` | Found the guild |
 | `ui/screens/Title.tsx#NewGuild.7` | Roll a different start |
+| `ui/screens/Title.tsx#NewGuild.8` | Read the prologue again |
+| `ui/screens/Title.tsx#setChoosing.1` | [IF v] [IF prologueSeen()] new [ELSE] prologue-new [END] [ELSE] title [END] |
 | `ui/screens/Title.tsx#Title.1` | Switch to [IF theme is 'dark'] light [ELSE] dark [END] mode |
 | `ui/screens/Title.tsx#Title.2` | Ledger &amp; Blade |
 | `ui/screens/Title.tsx#Title.3` | The realm owes a fortune. Everyone needs a blade. Keep your books balanced. |
-| `ui/screens/Title.tsx#Title.4` | Start a new guild? Your autosave will be replaced. |
-| `ui/screens/Title.tsx#Title.5` | Import a save |
-| `ui/screens/Title.tsx#Title.6` | How to play |
-| `ui/screens/Title.tsx#Title.7` | · progress is saved on this device |
+| `ui/screens/Title.tsx#Title.4` | Start a new guild? |
+| `ui/screens/Title.tsx#Title.5` | The guild you are playing now is lost when you found the new one, unless you have saved it to a slot from the menu. Saves already in slots are kept. |
+| `ui/screens/Title.tsx#Title.6` | Import a save |
+| `ui/screens/Title.tsx#Title.7` | How to play |
+| `ui/screens/Title.tsx#Title.8` | Read the prologue |
+| `ui/screens/Title.tsx#Title.9` | · progress is saved on this device |
 | `ui/screens/Title.tsx#GameOver.1` | The Ledger Closes |
 | `ui/screens/Title.tsx#GameOver.2` | Your guild lasted until |
 | `ui/screens/Title.tsx#GameOver.3` | fell in your service. |
@@ -306,13 +333,15 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 | `ui/sheets/EndWeekSheet.tsx#EndWeekSheet.9` | The workshop works through its queue of |
 | `ui/sheets/EndWeekSheet.tsx#EndWeekSheet.10` | The Council votes. |
 | `ui/sheets/EndWeekSheet.tsx#EndWeekSheet.11` | in wages and upkeep |
-| `ui/sheets/EndWeekSheet.tsx#EndWeekSheet.12` | [IF loanDue] , plus the loan payment of {crowns(loanDue.paymentDue)} [END] |
+| `ui/sheets/EndWeekSheet.tsx#EndWeekSheet.12` | [IF loanDue] [IF loanStillDue(loanDue) > 0] , plus the loan payment of {crowns(loanStillDue(loanDue))} [ELSE] . The loan payment due this week was paid early [END] [END] |
 | `ui/sheets/EndWeekSheet.tsx#EndWeekSheet.13` | . The treasury should close the week at about |
 
 ### ui/sheets/EventCard.tsx
 
 | ID | Line |
 |---|---|
+| `ui/sheets/EventCard.tsx#pick.1` | [IF failCost.length and not cost.length] If the check fails, it costs {joinParts(failCost)}. [END] |
+| `ui/sheets/EventCard.tsx#pick.2` | This choice spends from the guild. |
 | `ui/sheets/EventCard.tsx#EventCard.1` | · setting out for |
 | `ui/sheets/EventCard.tsx#EventCard.2` | [IF chk.who]  ({chk.who.split(' ')[0]} tries) [ELSE IF mission]  [ELSE]  (no one at home to try: your people are away) [END] |
 
@@ -364,6 +393,8 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 | ID | Line |
 |---|---|
 | `ui/sheets/MemberSheet.tsx#statusLine.1` | On "{ms.contract.title}", back [IF left <= 0] at the end of this week [ELSE] in {left}{1} weeks [END] |
+| `ui/sheets/MemberSheet.tsx#statusLine.2` | [IF lay.weeks is 1] next week [ELSE] in {lay.weeks} weeks [END] |
+| `ui/sheets/MemberSheet.tsx#statusLine.3` | [IF lay.why is 'fever'] In bed with the Sink fever, up {when} [ELSE] Resting with wounds, fit {when} [END] |
 | `ui/sheets/MemberSheet.tsx#MemberSheet.1` | [IF m.status is 'dead' or m.status is 'left'] {m.name.split(' ')[0]} is no longer with the guild. [ELSE] {awayReason(game, m)} [END] |
 | `ui/sheets/MemberSheet.tsx#MemberSheet.2` | {m.xp}/{xpToLevel(m.level)} xp to next level |
 | `ui/sheets/MemberSheet.tsx#MemberSheet.3` | Leaving at the end of this week. You can still change their gear, or cancel the dispatch from Contracts. |
@@ -417,7 +448,7 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 | `ui/sheets/PrepSheet.tsx#ORDER_ROWS.2` | Turn back when two are badly hurt or worn out, or anyone dies. |
 | `ui/sheets/PrepSheet.tsx#ORDER_ROWS.3` | Keep going until half the squad is dead or close to it. |
 | `ui/sheets/PrepSheet.tsx#ORDER_ROWS.4` | Bandages and dressings go to whoever is worst off. |
-| `ui/sheets/PrepSheet.tsx#ORDER_ROWS.5` | Keep the front rank standing, and the rest wait. |
+| `ui/sheets/PrepSheet.tsx#ORDER_ROWS.5` | Keep the people in front standing, and the rest wait. |
 | `ui/sheets/PrepSheet.tsx#ORDER_ROWS.6` | Keep the casters and shooters up, and the front looks after itself. |
 | `ui/sheets/PrepSheet.tsx#ORDER_ROWS.7` | Hide and let them pass. A Scout, an Infiltrator and soft boots help; plate and the dark do not. Fail and they ambush you. |
 | `ui/sheets/PrepSheet.tsx#ORDER_ROWS.8` | Go and meet them. More loot, experience and renown, and more wounds. |
@@ -444,17 +475,18 @@ Labels, help, confirmations and empty states in the screens and sheets (lines of
 | `ui/sheets/PrepSheet.tsx#PrepSheet.9` | Intel (you have |
 | `ui/sheets/PrepSheet.tsx#PrepSheet.10` | ), or give a member the Scout order on the Roster and they'll report back at the end of the week. |
 | `ui/sheets/PrepSheet.tsx#PrepSheet.11` | The squad, front to back ([IF size.min is size.max] {size.max} [ELSE] {size.min} to {size.max} [END]) |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.12` | Ranks 1 and 2 are in front: they can reach with a blade, and most enemies hit them. Bows and spells work from further back. Tap a member to change their gear. |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.13` | · best in rank |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.12` | Positions 1 and 2 are in front: they can reach with a blade, and most enemies hit them. Bows and spells work from further back. Tap a member to change their gear. |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.13` | · best in position |
 | `ui/sheets/PrepSheet.tsx#PrepSheet.14` | [IF i < size.min] Empty. Choose someone from the bench. [ELSE] Empty. Optional. [END] |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.15` | Move [IF m] {member} [ELSE] rank [END] forward |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.16` | Move [IF m] {member} [ELSE] rank [END] back |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.17` | Leave [IF m] {member} [ELSE] rank [END] at home |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.18` | a slot · |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.19` | [IF k is 'food'] in the guild supplies [ELSE] in the stores [END] |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.20` | Buying what the stores don't have: |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.21` | Nobody can send orders once they've gone. These are what the squad will do. |
-| `ui/sheets/PrepSheet.tsx#PrepSheet.22` | Start again from a suggested plan |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.15` | Move [IF m] {member} [ELSE] position [END] forward |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.16` | Move [IF m] {member} [ELSE] position [END] back |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.17` | Leave [IF m] {member} [ELSE] position [END] at home |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.18` | These are your people at home. Tap a number beside someone to put them in that position. |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.19` | a slot · |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.20` | [IF k is 'food'] in the guild supplies [ELSE] in the stores [END] |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.21` | Buying what the stores don't have: |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.22` | Nobody can send orders once they've gone. These are what the squad will do. |
+| `ui/sheets/PrepSheet.tsx#PrepSheet.23` | Start again from a suggested plan |
 
 ### ui/sheets/WatchSheet.tsx
 

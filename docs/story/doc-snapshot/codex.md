@@ -6,7 +6,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Varrow
 
-`codex:varrow` · data/codex.ts:29
+`codex:varrow` · data/codex.ts:30
 
 - _text:_
 
@@ -17,7 +17,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### The Debt
 
-`codex:the_debt` · data/codex.ts:37
+`codex:the_debt` · data/codex.ts:38
 
 - _text:_
 
@@ -28,7 +28,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Guild charters
 
-`codex:charters` · data/codex.ts:45
+`codex:charters` · data/codex.ts:46
 
 - _text:_
 
@@ -41,7 +41,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Cassel Ford
 
-`codex:cassel_ford` · data/codex.ts:54
+`codex:cassel_ford` · data/codex.ts:55
 
 - _text:_
 
@@ -55,7 +55,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### The Treaty of Cassel
 
-`codex:the_treaty` · data/codex.ts:65
+`codex:the_treaty` · data/codex.ts:66
 
 - _text:_
 
@@ -70,7 +70,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### The Crown plate
 
-`codex:crown_plate` · data/codex.ts:73
+`codex:crown_plate` · data/codex.ts:74
 
 - _text:_
 
@@ -83,7 +83,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### The Lower Town
 
-`codex:lower_town` · data/codex.ts:82
+`codex:lower_town` · data/codex.ts:83
 
 - _text:_
 
@@ -94,7 +94,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Drover's Road
 
-`codex:drovers` · data/codex.ts:90
+`codex:drovers` · data/codex.ts:91
 
 - _text:_
 
@@ -105,7 +105,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Harrowmere
 
-`codex:harrowmere` · data/codex.ts:98
+`codex:harrowmere` · data/codex.ts:99
 
 - _text:_
 
@@ -116,7 +116,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Kell Mines
 
-`codex:kell` · data/codex.ts:106
+`codex:kell` · data/codex.ts:107
 
 - _text:_
 
@@ -127,7 +127,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### The Saltfens
 
-`codex:saltfens` · data/codex.ts:114
+`codex:saltfens` · data/codex.ts:115
 
 - _text:_
 
@@ -138,7 +138,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Port Anselm
 
-`codex:anselm` · data/codex.ts:122
+`codex:anselm` · data/codex.ts:123
 
 - _text:_
 
@@ -151,7 +151,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Factor Maelis Vorn
 
-`codex:vorn` · data/codex.ts:131
+`codex:vorn` · data/codex.ts:132
 
 - _text:_
 
@@ -162,7 +162,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Marta Hobb
 
-`codex:marta` · data/codex.ts:139
+`codex:marta` · data/codex.ts:140
 
 - _text:_
 
@@ -173,7 +173,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Dagny Fell
 
-`codex:dagny` · data/codex.ts:147
+`codex:dagny` · data/codex.ts:148
 
 - _text:_
 
@@ -185,7 +185,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Lord Treasurer Aubrey Fenn
 
-`codex:fenn` · data/codex.ts:155
+`codex:fenn` · data/codex.ts:156
 
 - _text:_
 
@@ -196,7 +196,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Jory Abbot
 
-`codex:jory` · data/codex.ts:163
+`codex:jory` · data/codex.ts:164
 
 - _text:_
 
@@ -207,7 +207,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Alderman Piet Coster
 
-`codex:coster` · data/codex.ts:171
+`codex:coster` · data/codex.ts:172
 
 - _text:_
 
@@ -218,7 +218,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Sister Agathe Brune
 
-`codex:brune` · data/codex.ts:179
+`codex:brune` · data/codex.ts:180
 
 - _text:_
 
@@ -230,7 +230,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Wenna Pask
 
-`codex:pask` · data/codex.ts:187
+`codex:pask` · data/codex.ts:188
 
 - _text:_
 
@@ -242,7 +242,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Captain Rufus Mayne
 
-`codex:mayne` · data/codex.ts:195
+`codex:mayne` · data/codex.ts:196
 
 - _text:_
 
@@ -254,7 +254,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Master Assayer Corwin Plaice
 
-`codex:plaice` · data/codex.ts:203
+`codex:plaice` · data/codex.ts:204
 
 - _text:_
 
@@ -266,7 +266,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Lady Honora Aske
 
-`codex:aske` · data/codex.ts:211
+`codex:aske` · data/codex.ts:212
 
 - _text:_
 
@@ -280,7 +280,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Hill trolls
 
-`codex:foe_trolls` · data/codex.ts:220
+`codex:foe_trolls` · data/codex.ts:221
 
 - _text:_
 
@@ -291,7 +291,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Fireborn
 
-`codex:foe_fireborn` · data/codex.ts:228
+`codex:foe_fireborn` · data/codex.ts:229
 
 - _text:_
 
@@ -302,7 +302,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Hedge-wards
 
-`codex:foe_warded` · data/codex.ts:236
+`codex:foe_warded` · data/codex.ts:237
 
 - _text:_
 
@@ -313,7 +313,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Swarms
 
-`codex:foe_swarm` · data/codex.ts:244
+`codex:foe_swarm` · data/codex.ts:245
 
 - _text:_
 
@@ -324,7 +324,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Sell-swords
 
-`codex:foe_soldiers` · data/codex.ts:252
+`codex:foe_soldiers` · data/codex.ts:253
 
 - _text:_
 
@@ -337,7 +337,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### The Assay Office
 
-`codex:assay_office` · data/codex.ts:261
+`codex:assay_office` · data/codex.ts:262
 
 - _text:_
 
@@ -351,7 +351,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### Saint Oda's
 
-`codex:saint_oda` · data/codex.ts:269
+`codex:saint_oda` · data/codex.ts:270
 
 - _text:_
 
@@ -365,7 +365,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### The Mudlarks
 
-`codex:mudlarks` · data/codex.ts:277
+`codex:mudlarks` · data/codex.ts:278
 
 - _text:_
 
@@ -376,7 +376,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 #### The Council of Varrow
 
-`codex:council` · data/codex.ts:285
+`codex:council` · data/codex.ts:286
 
 - _text:_
 
