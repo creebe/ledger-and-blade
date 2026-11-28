@@ -116,5 +116,13 @@ if (nz.length) {
   const capped = nz.filter((x) => x.noise! >= 0.97);
   console.log(`trips whose 1000-seed odds are >=97%: ${capped.length}, their real goal rate ${pct(capped.filter((x) => x.met).length / Math.max(1, capped.length))}`);
 }
+const doors = done.filter((x) => x.door);
+if (doors.length) {
+  const gap = doors.map((x) => x.oracleGoal - x.mid).sort((a, b) => a - b);
+  console.log(`door scenes, oracle minus estimate: mean ${(gap.reduce((t, x) => t + x, 0) / gap.length * 100).toFixed(1)} pts, worst ${(gap[0] * 100).toFixed(0)} pts, ${gap.filter((x) => x < -0.15).length}/${gap.length} dropped by more than 15 pts`);
+}
+const top = done.filter((x) => x.mid >= 0.97);
+const miss = top.filter((x) => !x.met);
+console.log(`estimate >=97%: ${top.length} trips, mean estimate ${(top.reduce((t, x) => t + x.mid, 0) / Math.max(1, top.length) * 100).toFixed(1)}%, ${miss.length} failed (${miss.filter((x) => x.door).length} after a door scene); real ${(100 - (miss.length / Math.max(1, top.length)) * 100).toFixed(1)}%`);
 const t = rows.map((x) => x.ms).sort((a, b) => a - b);
 console.log(`time per estimate: median ${t[Math.floor(t.length / 2)].toFixed(1)} ms, 90th ${t[Math.floor(t.length * 0.9)].toFixed(1)} ms, max ${t[t.length - 1].toFixed(1)} ms`);

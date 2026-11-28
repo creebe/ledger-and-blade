@@ -179,7 +179,8 @@ export function PrepSheet({ contractId }: { contractId: string }) {
       title={c.title}
       footer={
         <>
-          {squad.length > 0 && (
+          {squad.length > 0 && squad.length < size.min && <p className="small muted x-odds-foot">The odds show once the squad has at least {size.min}.</p>}
+          {squad.length >= size.min && (
             <div className="x-odds-foot">
               <ExpOddsPill odds={odds} label="Job done" updating={updating} />
               {odds && <small className={`x-odds-foot-death ${deathTone(death)}`}>Chance of a death {deathPct(odds.death.min, odds.death.max)}</small>}
@@ -378,7 +379,7 @@ export function PrepSheet({ contractId }: { contractId: string }) {
         })}
       </Section>
 
-      {squad.length > 0 && (
+      {squad.length >= size.min && (
         <div id="x-odds-why">
           <Section title="The odds" right={<ExpOddsPill odds={odds} updating={updating} />}>
             {odds ? <OddsWhy odds={odds} names={names} /> : <p className="small muted">Working out the odds…</p>}

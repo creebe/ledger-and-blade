@@ -86,7 +86,8 @@ function caseLabel(names: string[]): string {
 function doneOn(min: number, max: number): string {
   if (min >= 0.995) return 'all of them';
   if (max < 0.005) return 'none of them';
-  return `${chanceText(min, max)} of them`;
+  // the same cap as the pill beside it
+  return `${chanceText(shown(min), shown(max))} of them`;
 }
 
 const TIER_ORDER: OutcomeTier[] = ['Triumph', 'Success', 'Costly Success', 'Failure', 'Disaster'];
