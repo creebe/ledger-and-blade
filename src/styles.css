@@ -5038,11 +5038,14 @@ details summary {
 
 /* ---------- playtest notes ---------- */
 /* the Note button: a small tab on the left edge, above panels, scenes and confirmations.
-   It is kept between 24% and 72% of the screen height, clear of the top bar, End Week and panel footers */
+   It is kept between 24% and 72% of the screen height, clear of the top bar, End Week and panel footers;
+   the pixel bounds keep it clear of a notched phone's taller top bar and home bar */
 .pt-note-btn {
   position: fixed;
   left: env(safe-area-inset-left);
-  transform: translateY(-50%); /* top is set inline: the player can drag the tab up or down */
+  /* --pt-y is set inline: the player can drag the tab up or down */
+  top: clamp(calc(var(--safe-top) + 150px), var(--pt-y, 50%), calc(100% - var(--nav-h) - env(safe-area-inset-bottom) - 100px));
+  transform: translateY(-50%);
   z-index: 85;
   touch-action: none;
   display: flex;
@@ -5072,6 +5075,10 @@ details summary {
 /* the note sheet covers everything, confirmations included */
 .pt-layer .sheet-backdrop {
   z-index: 90;
+}
+/* "Note saved" over a scene or a confirmation, which cover the game's own toast */
+.pt-toast .toast {
+  z-index: 86;
 }
 .pt-where {
   margin: 2px 0 6px;

@@ -57,7 +57,7 @@ function sheetLabel(g: GameState | null, s: Sheet): string {
 }
 
 /** The scene on screen, if any, as App shows it: a finished one waiting for Continue first. */
-function sceneOnScreen(st: StoreState): { ev: GameEvent; done: boolean } | undefined {
+export function sceneOnScreen(st: StoreState): { ev: GameEvent; done: boolean } | undefined {
   const g = st.game;
   if (!g || g.gameOver) return undefined;
   if (st.closingEvent) return { ev: st.closingEvent, done: true };

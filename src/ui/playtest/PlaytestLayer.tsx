@@ -1,18 +1,35 @@
 // The floating Note button and the note sheet it opens. Both sit above
 // everything else (panels, scenes, confirmations), so a note can be written
 // at any moment and the player lands back exactly where they were.
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { exportSave, useStore } from '../../store';
 import { Btn, Sheet, SheetDepth } from '../kit/common';
 import { Icon } from '../kit/icons';
-import { captureContext } from './context';
+import { Toast } from '../kit/Toast';
+import { captureContext, sceneOnScreen } from './context';
 import { useNotes } from './notes';
+
+/** What Save said, so its toast can show above a scene or confirmation. */
+const SAVED = 'Note saved.';
+const SAVED_NO_ROOM = 'Storage is full, so this note lasts only until the page reloads. Copy your notes from the menu before then.';
 
 export function PlaytestLayer() {
   const on = useNotes((s) => s.on);
   const writing = useNotes((s) => s.writing);
-  if (!on && !writing) return null;
-  return writing ? <NoteSheet /> : <NoteButton />;
+  // the notes list has nothing to add a note about, and the tab would cover its text
+  const onList = useStore((s) => s.sheets.at(-1)?.kind === 'playtest');
+  // the game's toasts sit under scenes and confirmations, so "Note saved" shows here when one is up
+  const raiseToast = useStore((s) => (s.toast?.text === SAVED || s.toast?.text === SAVED_NO_ROOM) && (s.sheets.some((x) => x.kind === 'confirm') || !!sceneOnScreen(s)));
+  return (
+    <>
+      {writing ? <NoteSheet /> : on && !onList && <NoteButton />}
+      {!writing && raiseToast && (
+        <div className="pt-toast">
+          <Toast />
+        </div>
+      )}
+    </>
+  );
 }
 
 /** The tab stays between the top bar and End Week, however far it is dragged. */
@@ -31,7 +48,7 @@ function NoteButton() {
   return (
     <button
       className="pt-note-btn"
-      style={{ top: `${(y * 100).toFixed(2)}%` }}
+      style={{ '--pt-y': `${(y * 100).toFixed(2)}%` } as React.CSSProperties}
       aria-label="Write a playtest note"
       title="Tap to write a note. Drag up or down to move it."
       onPointerDown={(e) => {
@@ -100,8 +117,7 @@ function NoteSheet() {
                 blocked={empty ? 'Write the note first. Cancel closes it without saving.' : undefined}
                 onClick={() => {
                   saveNote();
-                  if (useNotes.getState().storageFull) useStore.getState().notify('Storage is full, so this note lasts only until the page reloads. Copy your notes from the menu before then.');
-                  else useStore.getState().notify('Note saved.');
+                  useStore.getState().notify(useNotes.getState().storageFull ? SAVED_NO_ROOM : SAVED);
                 }}
               >
                 Save
