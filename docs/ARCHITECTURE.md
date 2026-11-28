@@ -22,6 +22,7 @@ src/
     screens/         the five tabs, plus the title and new-guild screens
     sheets/          full-height sheets: planner, member, journal, scenes, reports, menus
     panels/          panels embedded in screens: buildings, Council, notes
+    playtest/        playtest notes: the Note button, what a note records, storage (docs/playtest-notes.md)
   App.tsx            the shell: top bar, tabs, End Week, which sheet is open
   store.ts           Zustand store: holds the game, wraps every action, autosaves
   version.ts         the version shown on the title screen
