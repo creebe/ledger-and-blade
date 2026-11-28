@@ -2953,7 +2953,7 @@ Reference entries the guild unlocks through play. _source_ is the line saying ho
 
 - _text:_
 
-  > The hall's clerk. He came with the building, along with the leak in the roof, and has kept its books through three guildmasters. He doesn't give advice unless you ask for it, and then only in the form of a remark about the weather.
+  > The hall's clerk. He came with the building and has kept its books through three guildmasters. He doesn't give advice unless you ask for it, and then only in the form of a remark about the weather.
 
 - _source:_ “He came with the hall.”
 - _unlock:_ when true
@@ -3148,7 +3148,7 @@ One line a week in the week report.
 | `crier:start_reagents` | Apothecaries on Still Lane are selling fen salts by the bucket, and complaining about it. | when start includes reagent_glut |
 | `crier:start_timber` | Barges of fresh-cut oak go past the chain every morning, every log stamped with Ostrander's mark. | when start includes timber_cheap |
 | `crier:start_bread` | A baker on Fish Quay has started selling half-loaves, and charging three quarters for them. | when start includes grain_dear |
-| `crier:start_coop` | Porters on the river steps point out your hall to strangers and tell them who paid for it. | when backer is coop |
+| `crier:start_coop` | Porters on the river steps point out your hall to strangers and tell them who paid for your charter. | when backer is coop |
 | `crier:start_college` | Students at the college have a song about the fire. Your founders have asked them not to sing it near the hall. | when backer is college |
 | `crier:start_veterans` | Old soldiers drink to your guild at the Copper Kettle, mostly because your founders are buying. | when backer is veterans |
 | `crier:veteran_song` | A one-legged veteran outside the Copper Kettle sings about Cassel Ford for coppers. Nobody joins in on the chorus. |  |
