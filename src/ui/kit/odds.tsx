@@ -49,9 +49,10 @@ export function useExpOdds(g: GameState, c: Contract | undefined, plan: ExpPlan 
   return { odds: runner ? (ready ?? last) : undefined, updating: !!runner && !runner.done };
 }
 
-/** The chance of a death as a percentage: "12%", "8–15%" across unconfirmed dangers, or "under 1%". */
+/** The chance of a death as a percentage: "12%", "8–15%" across unconfirmed dangers, "up to 3%", or "under 1%". */
 export function deathPct(min: number, max: number): string {
   if (max < 0.005) return 'under 1%';
+  if (min < 0.005) return `up to ${chanceText(max, max)}`;
   return chanceText(min, max);
 }
 

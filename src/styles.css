@@ -5032,3 +5032,6 @@ details summary {
 .x-board-odds {
   margin-top: 6px;
 }
+.x-odds-foot-pct {
+  white-space: nowrap;
+}

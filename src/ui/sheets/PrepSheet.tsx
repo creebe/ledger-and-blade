@@ -183,7 +183,7 @@ export function PrepSheet({ contractId }: { contractId: string }) {
           {squad.length >= size.min && (
             <div className="x-odds-foot">
               <ExpOddsPill odds={odds} label="Job done" updating={updating} />
-              {odds && <small className={`x-odds-foot-death ${deathTone(death)}`}>Chance of a death {deathPct(odds.death.min, odds.death.max)}</small>}
+              {odds && <small className={`x-odds-foot-death ${deathTone(death)}`}>Chance of a death <span className="x-odds-foot-pct">{deathPct(odds.death.min, odds.death.max)}</span></small>}
               <Btn className="btn ghost small x-odds-foot-why" blocked={!odds && 'The odds are still being worked out.'} onClick={showWhy}>
                 Why?
               </Btn>
