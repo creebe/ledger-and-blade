@@ -98,8 +98,8 @@ function NoteSheet() {
   }, []);
   if (!draft) return null;
   const ctx = draft.ctx;
-  const where = ctx.lines.find((l) => l[0] === 'Screen')?.[1];
-  const open = ctx.lines.find((l) => l[0] === 'Open')?.[1];
+  const where = ctx.lines.find((l) => l[0] === 'Screen')?.[1]?.replace(/`/g, '');
+  const open = ctx.lines.find((l) => l[0] === 'Open')?.[1]?.replace(/`/g, '');
   const empty = !draft.text.trim();
   return (
     <SheetDepth.Provider value={depth}>
