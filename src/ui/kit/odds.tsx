@@ -49,20 +49,10 @@ export function useExpOdds(g: GameState, c: Contract | undefined, plan: ExpPlan 
   return { odds: runner ? (ready ?? last) : undefined, updating: !!runner && !runner.done };
 }
 
-/** A chance as trips: "about 1 trip in 8", "about half the trips", "fewer than 1 trip in 100". */
-export function oneIn(p: number): string {
-  if (p < 0.01) return 'fewer than 1 trip in 100';
-  if (p >= 0.45 && p <= 0.55) return 'about half the trips';
-  if (p > 0.55) return `${Math.round(p * 10)} trips in 10`;
-  return `about 1 trip in ${Math.max(2, Math.round(1 / p))}`;
-}
-
-/** The same, short enough for the footer: "1 in 8", "half", "under 1 in 100". */
-export function oneInShort(p: number): string {
-  if (p < 0.01) return 'under 1 in 100';
-  if (p >= 0.45 && p <= 0.55) return 'half';
-  if (p > 0.55) return `${Math.round(p * 10)} in 10`;
-  return `1 in ${Math.max(2, Math.round(1 / p))}`;
+/** The chance of a death as a percentage: "12%", "8–15%" across unconfirmed dangers, or "under 1%". */
+export function deathPct(min: number, max: number): string {
+  if (max < 0.005) return 'under 1%';
+  return chanceText(min, max);
 }
 
 /**
@@ -149,7 +139,7 @@ export function OddsWhy({ odds, names }: { odds: ExpOdds; names: Record<string, 
         </p>
       )}
       <p className={`small x-odds-death ${deathTone(death)}`}>
-        Someone died on {oneIn(death)}.
+        The chance of a death is {deathPct(odds.death.min, odds.death.max)}.
         {atRisk.length > 0 && ` ${atRisk.slice(0, 2).map(([id, p], i) => `${names[id] ?? (i ? 'one of the others' : 'One of them')} (${pc(p)})`).join(' and ')} ${atRisk.length > 1 ? 'were' : 'was'} most at risk.`}
       </p>
       <p className="tiny muted">

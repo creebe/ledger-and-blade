@@ -42,7 +42,7 @@ import { HiddenTag } from '../kit/reveal';
 import { ProfSilhouette } from '../expeditions/Silhouette';
 import { restingInfo } from '../kit/members';
 import { Marks, Vitals, first } from '../expeditions/xkit';
-import { ExpOddsPill, OddsWhy, deathTone, oneInShort, useExpOdds } from '../kit/odds';
+import { ExpOddsPill, OddsWhy, deathPct, deathTone, useExpOdds } from '../kit/odds';
 
 const ORDER_ROWS: { key: keyof StandingOrders; title: string; options: { value: string; label: string; text: string }[] }[] = [
   {
@@ -182,7 +182,7 @@ export function PrepSheet({ contractId }: { contractId: string }) {
           {squad.length > 0 && (
             <div className="x-odds-foot">
               <ExpOddsPill odds={odds} label="Job done" updating={updating} />
-              {odds && <small className={`x-odds-foot-death ${deathTone(death)}`}>Deaths: {oneInShort(death)}</small>}
+              {odds && <small className={`x-odds-foot-death ${deathTone(death)}`}>Chance of a death {deathPct(odds.death.min, odds.death.max)}</small>}
               <Btn className="btn ghost small x-odds-foot-why" blocked={!odds && 'The odds are still being worked out.'} onClick={showWhy}>
                 Why?
               </Btn>
